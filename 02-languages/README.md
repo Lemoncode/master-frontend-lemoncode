@@ -21,7 +21,7 @@ JavaScript has evolved as a language since it was released for the first time an
 
 We will discover all the main features of the language, from fundamentals (ES5) to advance (ES6+), using code snippets and examples.
 
-### Table of contents
+### Table of Contents
 
 - Introduction.
 - JavaScript Fundamentals.
@@ -49,7 +49,17 @@ We will discover all the main features of the language, from fundamentals (ES5) 
   - Map and Set.
   - Symbol.
   - Modules.
-  - Introduction to Promises.
+
+### Extra content
+
+- Introduction to Promises.
+- JavaScript Functional Approach.
+  - Array Methods.
+  - Recursion.
+  - Composition.
+  - Curry.
+  - Partial Application.
+- Lodash.
 
 ## TypeScript
 
@@ -65,7 +75,7 @@ Typescript adds static types to JavaScript. Imagine a JavaScript on steroids tha
 
 In this sessions we will focus on exploring each topic of Typescript, its syntax and usage through concise examples, from the basics to advanced types.
 
-### Table of contents
+### Table of Contents
 
 - Introduction.
 - Basics.
@@ -107,6 +117,9 @@ In this sessions we will focus on exploring each topic of Typescript, its syntax
   - Generic functions.
   - Generic interfaces.
   - Generic classes.
+
+### Extra Content
+
 - Advanced types.
   - Intersection.
   - Union.

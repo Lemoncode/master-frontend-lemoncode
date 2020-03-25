@@ -1,9 +1,9 @@
-# 11 CSS Modules
+# 12 CSS Modules
 
 In this demo we are going to isolate different scss files using same css class names.
 We will learn how to configure it and how to deal with external css class provided by third libraries like Bootstrap.
 
-We will start from sample _10-images_.
+We will start from sample _11-react_.
 
 Summary steps:
 
@@ -16,7 +16,7 @@ Summary steps:
 
 ## Prerequisites
 
-Prerequisites, you will need to have nodejs installed in your computer. If you want to follow this step guides you will need to take as starting point sample _01 linting_.
+Prerequisites, you will need to have nodejs installed in your computer. If you want to follow this step guides you will need to take as starting point sample _11 react_.
 
 ## steps
 
@@ -38,7 +38,7 @@ $background: teal;
 }
 ```
 
-- Let's go to use this style in `AverageComponent`:
+- Let's go and use this style in `AverageComponent`:
 
 _./src/averageComponent.tsx_
 
@@ -94,28 +94,28 @@ npm start
 _./src/averageService.ts_
 
 ```diff
-- function getTotalScore(scores: number[]): number {
-+ export function getTotalScore(scores: number[]): number {
+- function getTotalScore(scores) {
++ export function getTotalScore(scores) {
   return scores.reduce((score, count) => score + count);
 }
 
-export function getAvg(scores: number[]): number {
+export function getAvg(scores) {
   return getTotalScore(scores) / scores.length;
 }
 
 ```
 
-_./src/totalScoreComponent.tsx_
+_./src/totalScoreComponent.jsx_
 
 ```javascript
 import React from "react";
 import { getTotalScore } from "./averageService";
 
-export const TotalScoreComponent: React.FunctionComponent = () => {
-  const [totalScore, setTotalScore] = React.useState < number > 0;
+export const TotalScoreComponent = () => {
+  const [totalScore, setTotalScore] = React.useState(0);
 
   React.useEffect(() => {
-    const scores: number[] = [10, 20, 30, 40, 50];
+    const scores = [10, 20, 30, 40, 50];
     setTotalScore(getTotalScore(scores));
   }, []);
 
@@ -139,11 +139,11 @@ $background: indianred;
 }
 ```
 
-> NOTE: we declare same class name for TotalScoreComponent
+> NOTE: we are declaring same class name for TotalScoreComponent on purpose
 
 - Using `TotalScoreComponent`:
 
-_./src/students.tsx_
+_./src/index.jsx_
 
 ```diff
 import React from 'react';
@@ -243,8 +243,9 @@ _./webpack.config.js_
   },
   ...
 };
-
 ```
+
+> **IMPORTANT** Remember to stop and start your lite server in order to get the udpates introduced in the _webpack.config.js_ file.
 
 - Updating `AverageComponent`:
 
@@ -331,8 +332,9 @@ _./webpack.config.js_
   },
   ...
 };
-
 ```
+
+> **IMPORTANT** Remember to stop and start your lite server in order to get the udpates introduced in the _webpack.config.js_ file.
 
 - Updating components:
 

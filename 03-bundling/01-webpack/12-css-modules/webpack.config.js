@@ -6,8 +6,11 @@ const basePath = __dirname;
 
 module.exports = {
   context: path.join(basePath, "src"),
+  resolve: {
+    extensions: [".js", ".jsx"]
+  },
   entry: {
-    app: "./index.js",
+    app: "./index.jsx",
     appStyles: ["./mystyles.scss"],
     vendorStyles: ["../node_modules/bootstrap/dist/css/bootstrap.css"]
   },
@@ -18,7 +21,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: "babel-loader"
       },
@@ -27,7 +30,15 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           MiniCssExtractPlugin.loader,
-          "css-loader",
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "[name]__[local]__[hash:base64:5]"
+              },
+              localsConvention: "camelCase"
+            }
+          },
           {
             loader: "sass-loader",
             options: {

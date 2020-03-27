@@ -14,9 +14,7 @@ module.exports = {
     appStyles: ["./mystyles.scss"],
     vendorStyles: ["../node_modules/bootstrap/dist/css/bootstrap.css"]
   },
-  devServer: {
-    stats: "minimal"
-  },
+  stats: "errors-only",
   output: {
     filename: "[name].[chunkhash].js"
   },

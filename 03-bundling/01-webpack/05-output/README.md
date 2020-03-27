@@ -8,16 +8,16 @@ copy our main HTML page to that distribution path.
 We will start from sample _04 Server_,
 
 Summary steps:
- - Redirect output (`bundle.js`) to "dist" folder.
- - Include into the build proccess: copying the `index.html` file to "dist" folder
- - Let webpack include the `bundle.js` script into the `index.html` file.
- - Add map support in order to enable ES6 files to be debugged directly on the browser.
- - Generate a minified version of the `bundle.js`.
 
- ## Prerequisites
+- Redirect output (`bundle.js`) to "dist" folder.
+- Include into the build proccess: copying the `index.html` file to "dist" folder
+- Let webpack include the `bundle.js` script into the `index.html` file.
+- Add map support in order to enable ES6 files to be debugged directly on the browser.
+- Generate a minified version of the `bundle.js`.
+
+## Prerequisites
 
 You will need to have nodejs installed in your computer (at least 8.9.2). If you want to follow this step-by-step guide you will need to take as starting point sample _00 Intro/03 Server_.
-
 
 ## steps
 
@@ -28,16 +28,16 @@ npm install
 ```
 
 - If we run an npm build we will see that automatically the generated bundle is copied under the
-_dist_ folder (we can add plumbing into our webpack.config to change this folder if needed).
+  _dist_ folder (we can add plumbing into our webpack.config to change this folder if needed).
 
 ```bash
 npm run build
 ```
 
-- That's fine, but we need to copy as well the HTML to the dist folder, and... wouldn't it 
-be nice that webpack could be able to automatically inject the bundle script into the dist
-copy of the HTML file? There's a plugin that will do that for you _html-webpack-plugin_, let's
-start by installing it.
+- That's fine, but we need to copy as well the HTML to the dist folder, and... wouldn't it
+  be nice that webpack could be able to automatically inject the bundle script into the dist
+  copy of the HTML file? There's a plugin that will do that for you _html-webpack-plugin_, let's
+  start by installing it.
 
 ```bash
 npm install html-webpack-plugin --save-dev
@@ -46,6 +46,7 @@ npm install html-webpack-plugin --save-dev
 - Let's remove from our base `index.html` the script tag:
 
 _./index.html_
+
 ```diff
 <!DOCTYPE html>
 <html lang="en">
@@ -76,7 +77,7 @@ module.exports = {
 ```
 
 - In order to configure it we have to add the following section
-on our `webpack.config.js` (right after modules definition).
+  on our `webpack.config.js` (right after modules definition).
 
 _webpack.config.js_
 
@@ -119,3 +120,13 @@ npm run build
 ```
 
 - Let's run the build and check that now we get a hash on our script.
+
+# About Basefactor + Lemoncode
+
+We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
+
+[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
+
+[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
+
+For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend

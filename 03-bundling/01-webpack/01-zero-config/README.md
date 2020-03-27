@@ -78,3 +78,13 @@ We will get the bundle under the _./dist_ path.
 
 So far so good, in this version, this feature is nice for quick demos, but not to be used in real world
 scenarios, is expected that in further versions this zero config will be enhanced.
+
+# About Basefactor + Lemoncode
+
+We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
+
+[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
+
+[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
+
+For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend

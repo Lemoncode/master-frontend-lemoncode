@@ -86,7 +86,6 @@ _./tsconfig.json_
     "sourceMap": true,
     "jsx": "react",
     "noLib": false,
-    "allowJs": true,
     "suppressImplicitAnyIndexErrors": true,
     "skipLibCheck": true,
     "esModuleInterop": true,

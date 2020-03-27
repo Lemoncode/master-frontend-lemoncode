@@ -47,7 +47,7 @@ npm install
 - Let's install _typescript_
 
 ```bash
-npm install
+npm install typescript --save-dev
 ```
 
 - Let's instal babel preset typescript
@@ -72,6 +72,8 @@ _./.babelrc_
 
 - Let's create a _tsconfig_ file (Typescript configuration for this project)
 
+_./tsconfig.json_
+
 ```json
 {
   "compilerOptions": {
@@ -80,6 +82,7 @@ _./.babelrc_
     "moduleResolution": "node",
     "declaration": false,
     "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "jsx": "react",
     "noLib": false,
@@ -92,7 +95,28 @@ _./.babelrc_
 }
 ```
 
+- Let's update the entry point extension to _tsx_, plus resolve extensions
+
+_./webpack.config.js_
+
+```diff
+module.exports = {
+  context: path.join(basePath, "src"),
+  resolve: {
+-    extensions: [".js", ".jsx"]
++    extensions: [".ts", ".tsx"]
+  },
+  entry: {
+-    app: "./index.jsx",
++    app: "./index.tsx",
+    appStyles: ["./mystyles.scss"],
+    vendorStyles: ["../node_modules/bootstrap/dist/css/bootstrap.css"]
+  },
+```
+
 - Update webpackconfig to process the _ts/tsx_ extension.
+
+_./webpack.config.js_
 
 ```diff
   module: {
@@ -107,6 +131,28 @@ _./.babelrc_
         test: /\.scss$/,
 ```
 
+- Now that we are upadting our webpack config, and taking into account that in this
+  example we will introduce compile errors on purpose, let's reduce the verbosity of
+  webpack output just to quick find that errors:
+
+```diff
+module.exports = {
+  context: path.join(basePath, "src"),
+  resolve: {
+    extensions: [".js", ".ts", ".tsx"]
+  },
+  entry: {
+    app: "./index.tsx",
+    appStyles: ["./mystyles.scss"],
+    vendorStyles: ["../node_modules/bootstrap/dist/css/bootstrap.css"]
+  },
++  devServer: {
++    stats: 'minimal',
++  },
+```
+
+stats: 'minimal',
+
 - Install React and React DOM typings
 
 ```bash
@@ -120,11 +166,54 @@ npm install @types/react @types/react-dom --save-dev
   - index.jsx >> index.tsx
   - totalScoreComponent.jsx >> totalScoreComponent.tsx
 
-* Start using some typing (basic variables etc...).
+- Now we can make use of Typescript goodies, e.g.
 
-* Use some React Built in typing.
+_./src/averageService.ts_
 
-* Now all this look great but what happens if we introduce an ts error in our code
+```diff
+- export function getAvg(scores) {
++ export function getAvg(scores : number[]) {
+
+  return getTotalScore(scores) / scores.length;
+}
+
+- export function getTotalScore(scores) {
++ export function getTotalScore(scores : number[]) {
+  return scores.reduce((score, count) => score + count);
+}
+```
+
+- Even use some React Built in typing.
+
+_./src/totalScoreComponent.tsx_
+
+```diff
+- export const TotalScoreComponent : React.FC = () => {
++ export const TotalScoreComponent : React.FC = () => {
+  const [totalScore, setTotalScore] = React.useState(0);
+```
+
+- Let's give a try:
+
+```bash
+npm start
+```
+
+- Now all this look great but what happens if we introduce an ts error in our code
+
+_./src/averageService.ts_
+
+```diff
+export function getAvg(scores: number[]) {
+  return getTotalScore(scores) / scores.length;
+}
+
+export function getTotalScore(scores: number[]) {
+  return scores.reduce((score, count) => score + count);
+}
+
++ const a : number = "this is a string";
+```
 
 - Ooops the compiler does not identify, for the sake of performance Babel doesn't
   perform the type checking it just removes all the TS stuff, What can we do?
@@ -147,6 +236,7 @@ _./package.json_
   "scripts": {
 -    "start": "webpack-dev-server --mode development --open",
 +    "start": "run-p -l type-check:watch start:dev",
++    "type-check": "tsc --noEmit",
 +    "type-check:watch": "npm run type-check -- --watch",
 +    "start:dev": "webpack-dev-server --mode development --open",
     "build": "rimraf dist && webpack --mode development"

@@ -98,11 +98,10 @@ _./package.json_
 
 ```diff
   "scripts": {
--    "start": "run-p -l type-check:watch start:dev",
-+    "start": "webpack-dev-server --mode development --open --config dev.webpack.dev.js
+    "start": "run-p -l type-check:watch start:dev",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
-    "start:dev": "webpack-dev-server --mode development --open",
++    "start:dev": "webpack-dev-server --mode development --open --config webpack.dev.js",
 -    "build": "rimraf dist && webpack --mode development"
 +    "build:dev": "rimraf dist && webpack --config webpack.dev.js",
 +    "build:prod": "rimraf dist && webpack --config webpack.prod.js"
@@ -112,11 +111,11 @@ _./package.json_
 - If you want to give a try to the dev build just run
 
 ```bash
-
+npm run build:dev
 ```
 
 - If you want to give a try to the production build just run:
 
 ```bash
-
+npm run build:prod
 ```

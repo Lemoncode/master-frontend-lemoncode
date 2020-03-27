@@ -7,8 +7,9 @@
     "start": "run-p -l type-check:watch start:dev",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
-    "start:dev": "webpack-dev-server --mode development --open",
-    "build": "rimraf dist && webpack --mode development"
+    "start:dev": "webpack-dev-server --mode development --open --config webpack.dev.js",
+    "build:dev": "rimraf dist && webpack --config webpack.dev.js",
+    "build:prod": "rimraf dist && webpack --config webpack.prod.js"
   },
   "keywords": [],
   "author": "",
@@ -36,7 +37,8 @@
     "url-loader": "^4.0.0",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.3",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "bootstrap": "^4.4.1",

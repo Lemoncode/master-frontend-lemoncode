@@ -50,7 +50,7 @@ We will discover all the main features of the language, from fundamentals (ES5) 
   - Symbol.
   - Modules.
 
-### Extra content
+### Extra Content
 
 - Introduction to Promises.
 - JavaScript Functional Approach.
@@ -60,6 +60,22 @@ We will discover all the main features of the language, from fundamentals (ES5) 
   - Curry.
   - Partial Application.
 - Lodash.
+
+### Video Index
+
+- Basics I - Data Types
+- Basics II - Operators
+- Basics III - Flow Control
+- Objects
+- Arrays
+- Hoisting & Scope
+- Closure
+- Function Misc
+- Let & Const
+- Arrow Functions
+- Destructuring
+- Spread & Rest
+- Default Arguments
 
 ## TypeScript
 
@@ -140,3 +156,10 @@ In this sessions we will focus on exploring each topic of Typescript, its syntax
   - Pick.
   - Omit.
   - Return type.
+
+### Video Index
+
+- Type Annotation
+- Typing Interfaces
+- Typing Functions
+- Typing Generics

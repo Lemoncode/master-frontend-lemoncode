@@ -130,7 +130,7 @@ _./webpack.config.js_
         test: /\.scss$/,
 ```
 
-- Now that we are upadting our webpack config, and taking into account that in this
+- Now that we are updating our webpack config, and taking into account that in this
   example we will introduce compile errors on purpose, let's reduce the verbosity of
   webpack output just to quick find that errors:
 
@@ -147,8 +147,6 @@ module.exports = {
   },
 +  stats: "errors-only",
 ```
-
-stats: 'minimal',
 
 - Install React and React DOM typings
 

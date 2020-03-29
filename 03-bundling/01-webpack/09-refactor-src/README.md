@@ -8,10 +8,8 @@ We will start from sample _08-sass_.
 
 Summary steps:
 
-- Rename `mystyles.css` to scss.
-- Add some SASS specific code.
-- Install a SASS preprocessor loader.
-- Add this preprocessor to the pipe (update `webpack.config.js`).
+- Move _js_ and _css_ file under a new folder called _src_
+- Configure _webpack.config_ to set _src_ as working folder.
 
 # Steps to build it
 

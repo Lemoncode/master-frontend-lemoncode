@@ -17,7 +17,7 @@ Summary steps:
 
 ## Prerequisites
 
-You will need to have nodejs installed in your computer (at least v 8.9.2). If you want to follow the steps of this guide you must take as starting point the sample _03 SASS_.
+You will need to have nodejs installed in your computer (at least v 8.9.2). If you want to follow the steps of this guide you must take as starting point the sample _09-refactor-src_.
 
 ## Steps
 

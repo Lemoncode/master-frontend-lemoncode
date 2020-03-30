@@ -1,0 +1,22 @@
+body {
+    background-color: #1f1f1f;
+    color: #bfbfbf;
+    height: 2000px;
+}
+
+.box {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.blue-box {
+    background-color: lightblue;
+    position: fixed;
+    top: 150px;
+    left: 150px;
+}
+
+.green-box {
+    background-color: lightgreen;
+}

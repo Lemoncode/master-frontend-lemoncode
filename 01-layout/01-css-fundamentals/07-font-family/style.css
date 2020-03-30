@@ -1,0 +1,48 @@
+/* body {
+    font-family: sans-serif;
+    font-size: 1.1em;
+    font-style: italic;
+    font-weight: bold;
+    font-variant: small-caps; 
+} */
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: sans-serif;
+  background: #ccff99;
+}
+
+.copyright {
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+.code {
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+h1 {
+  font-family: noexists, "Times New Roman", serif;
+  font-size: 1.2em;
+  /* letter-spacing: 2em; */
+  /* word-spacing: 2em; */
+  text-decoration: underline;
+  text-align: center;
+}
+
+ol {
+  font-style: italic;
+  font-size: 0.9em;
+}
+
+.content {
+  background: #eeeecc;
+  padding: 7px;
+  line-height: 1.2em;
+  text-align: justify;
+}

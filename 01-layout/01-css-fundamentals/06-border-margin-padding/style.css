@@ -1,0 +1,32 @@
+@import "https://fonts.googleapis.com/css?family=Raleway";
+
+body {
+  font-family: "Raleway", sans-serif;
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.menu {
+  list-style-type: none;
+  text-align: center;
+}
+
+.menu li:hover {
+  background-color: #ffb380;
+}
+
+.menu li {
+  display: inline-block;
+  width: 150px;
+  background-color: rgba(200, 200, 100, 0.5);
+  border-bottom: 3px solid black;
+  border-left: 15px solid black;
+}

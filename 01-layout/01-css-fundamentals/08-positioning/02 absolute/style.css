@@ -1,0 +1,33 @@
+body {
+    font-family: sans-serif;
+    background-color: darkgrey;
+    color: #00bb00;
+    height: 2000px;
+}
+
+.box {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.blue-box {
+    background: lightblue;
+    position: absolute;
+    /* bottom: 50px; */
+    top: 50px;
+    left: 100px;
+}
+
+.green-box {
+    background-color: green;
+}
+
+.container {
+    width: 200px;
+    height: 200px;
+    background:  rgba(0,0,0, 0.4);
+    margin-top: 150px;
+    /* position: absolute;
+    top: 100px; */
+}

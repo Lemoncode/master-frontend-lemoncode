@@ -1,0 +1,48 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Using the cascade</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Using FileVersionInfo</h1>
+    <div class="content">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+            esse cillum dolore eu fugiat nulla pariatur
+        </p>
+        <p>
+            I just discover the FileVersionInfo class from System.Diagnostics
+        </p>
+        <!--we tell the browser that this is preprocessed code and do not touch it-->
+        <pre class="code">
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+            totam rem aperiam,
+            eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+        </pre>
+        <p>To use the class then, all you need is</p>
+        <ol>
+            <li>Invoke the static GetVersionInfo method</li>
+            <li>Start using the properties of the resulting object</li>
+        </ol>
+        <p>
+            File version is a 64 bit number
+            <ul>
+                <li>The first 16 bit are the major number</li>
+                <li>The next 16 are the minor number</li>
+                <li>The third set of 16 bits are the build number</li>
+                <li>The last 16 bits are the private build number</li>
+            </ul>
+        </p>
+    </div>
+    <div class="copyright">
+        Include icon using UTF-8
+        Copyright
+        &copy
+    </div>
+</body>
+</html>

@@ -29,7 +29,7 @@
 
 ### 2. Now lets define our grid and its children.
 
-```css site.css
+```css style.css
 .container {
   display: grid;
   height: 50vh;

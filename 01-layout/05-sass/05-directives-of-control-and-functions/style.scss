@@ -1,0 +1,30 @@
+@import "mixins.scss";
+
+.container {
+  padding-left: 1em;
+  padding-right: 1em;
+
+  div:nth-of-type(2n + 1) {
+    background-color: lighten(yellow, 25%);
+  }
+
+  div:nth-of-type(2n) {
+    background-color: lighten(cyan, 25%);
+  }
+}
+
+[class^="col-"] {
+  height: 12em;
+}
+
+@media (min-width: 250px) {
+  @include calculate-columns(1);
+}
+
+@media (min-width: 500px) {
+  @include calculate-columns(2);
+}
+
+@media (min-width: 1200px) {
+  @include calculate-columns(6);
+}

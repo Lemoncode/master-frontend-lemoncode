@@ -1,0 +1,36 @@
+body {
+  font-size: 80%;
+  font-family: "Raleway", sans-serif;
+  background-color: yellowgreen;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+a:hover {
+  color: white;
+}
+
+h1,
+h2 {
+  background-color: yellow;
+}
+
+div {
+  background-color: red;
+}
+
+p {
+  background-color: aqua;
+}
+
+#content {
+  background-color: green;
+}
+
+.quotation {
+  background-color: blueviolet;
+}

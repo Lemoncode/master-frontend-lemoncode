@@ -1,0 +1,30 @@
+body {
+  font-family: monospace;
+  font-size: 3rem;
+}
+
+* {
+  color: deeppink;
+}
+
+p {
+  color: white;
+}
+
+div p {
+  color: darkblue;
+}
+
+.red {
+  color: red;
+}
+
+#lemoncode {
+  color: greenyellow;
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+  background: lightslategray;
+}

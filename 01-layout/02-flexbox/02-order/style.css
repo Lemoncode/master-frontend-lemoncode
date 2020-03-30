@@ -1,0 +1,42 @@
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2 {
+  text-align: center;
+  font-family: Roboto, Helvetica, serif;
+}
+h2 {
+  color: white;
+}
+
+.contenedor {
+  background-color: white;
+  height: calc(100vh - 20px);
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px 30px 0 30px;
+}
+
+.contenedor-flex {
+  border: 3px solid black;
+  display: flex;
+  flex-direction: row wrap;
+}
+
+.elemento-flex {
+  padding: 10px;
+  background-color: #9e3332;
+}
+
+.elemento-flex:nth-child(2) {
+  background-color: #ae42cc;
+  order: -1;
+}
+
+.elemento-flex:nth-child(3) {
+  background-color: #b5b33f;
+}

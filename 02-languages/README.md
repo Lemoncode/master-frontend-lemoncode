@@ -63,19 +63,19 @@ We will discover all the main features of the language, from fundamentals (ES5) 
 
 ### Video Index
 
-- Basics I - Data Types
-- Basics II - Operators
-- Basics III - Flow Control
-- Objects
-- Arrays
-- Hoisting & Scope
-- Closure
-- Function Misc
-- Let & Const
-- Arrow Functions
-- Destructuring
-- Spread & Rest
-- Default Arguments
+- Basics I - Data Types (7')
+- Basics II - Operators (18')
+- Basics III - Flow Control (9')
+- Objects (8')
+- Arrays (10')
+- Hoisting & Scope (9.5')
+- Closure (7')
+- Function Misc (4')
+- Let & Const (5')
+- Arrow Functions (9')
+- Destructuring (10')
+- Spread & Rest (7')
+- Default Arguments (5')
 
 ## TypeScript
 
@@ -159,10 +159,10 @@ In this sessions we will focus on exploring each topic of Typescript, its syntax
 
 ### Video Index
 
-- Type Annotation
-- Typing Interfaces
-- Typing Functions
-- Typing Generics
+- Type Annotation (15')
+- Typing Interfaces (7')
+- Typing Functions (8')
+- Typing Generics (9')
 
 # About Basefactor + Lemoncode
 

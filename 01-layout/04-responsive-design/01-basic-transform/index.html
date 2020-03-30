@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <style type="text/css">
+    body {
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    .span-1,
+    .span-2,
+    .span-3 {
+      min-height: 100px;
+      float: left;
+      /* margin-right: 10px; */
+      margin-right: 1%; /*10 + 10 + 10 = 30 (30 / 300) = 0.1 */
+      margin-bottom: 10px;
+    }
+
+    .span-1 {
+      /* width: 90px;     */
+      width: 32.33%; /* totalColumn = 100 -> 100 / 300 = 0.3333333 totalColumnPercentage - totalMarginPercentage*/
+      background-color: red;
+    }
+
+    .span-2 {
+      /* width: 190px; */
+      width: 65.67%; /* totalColumn = 200 -> 200 / 300 = 0.6667 totalColumnPercentage - totalMarginPercentage*/
+      background-color: blue;
+    }
+
+    .span-3 {
+      /* width: 290px; */
+      width: 99%; /* totalColumn = 300 / 300 = 1 totalColumnPercentage - totalMarginPercentage*/
+      background-color: lightgreen;
+    }
+  </style>
+  <body>
+    <div class="span-3">
+      <p>Spanning three columns</p>
+    </div>
+    <div class="span-1">
+      <p>Spanning one column</p>
+    </div>
+    <div class="span-2">
+      <p>Spanning two columns</p>
+    </div>
+    <div class="span-1">
+      <p>Spanning one column</p>
+    </div>
+    <div class="span-1">
+      <p>Spanning one column</p>
+    </div>
+    <div class="span-1">
+      <p>Spanning one column</p>
+    </div>
+  </body>
+</html>

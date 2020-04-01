@@ -304,7 +304,7 @@ Y ahora lo importaremos en el fichero `style.scss`
 
 Si guardamos los cambios y vemos el fichero css generado, vemos que se han agregado las reglas del fichero `init.scss`
 
-Ahora vamos a crear un fichero de colores llamado `colors.scss`
+Ahora vamos a crear un fichero de colores llamado `_colors.scss`
 
 ```scss
 $backgroundMainColor: #f2f2f2;
@@ -344,3 +344,5 @@ body {
   }
 }
 ```
+
+Una vez hemos guardado todos los ficheros, si nos fijamos en la carpeta css generada, vemos como para el fichero `init.scss` se ha generado un fichero `init.css` y para el fichero `_colors.scss` no. Ha sido integrado en el fichero `style.css`. Los partials no generan sus propios ficheros.

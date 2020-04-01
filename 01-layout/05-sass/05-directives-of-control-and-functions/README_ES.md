@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./css/style.css" type="text/css" />
   </head>
   <body>
-    <div>
+    <div class="container">
       <div class="col-1"></div>
       <div class="col-1"></div>
       <div class="col-2"></div>
@@ -41,13 +41,24 @@ Una vez hecho esto, ya tenemos todo listo.
 
 ### 2. Nuestro objetivo es crear un sistema de cuadrícula dinámica, donde podrá ser definido automáticamente el número de columnas, no estando sujeto a un número rígido de columnas como ocurre en otros sistemas de rejilla como Bootstrap donde estamos atados a 12 columnas.
 
+_./\_functions.scss_
+
+```scss
+@function calculate-width($colNumber, $numberOfColumns) {
+  $result: 100% * ($colNumber / $numberOfColumns);
+  @return $result;
+}
+```
+
 _./\_mixins.scss_
 
 ```scss
+@import "functions.scss";
+
 @mixin calculate-columns($numberOfColumns: 1) {
   @for $colNumber from 1 through $numberOfColumns {
     .col-#{$colNumber} {
-      width: 100% * ($colNumber / $numberOfColumns);
+      width: calculate-width($colNumber, $numberOfColumns);
       float: left;
       box-sizing: border-box;
       border: 0.3em solid black;

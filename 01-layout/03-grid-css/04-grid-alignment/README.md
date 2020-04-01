@@ -68,7 +68,7 @@
 
 ### 1. Now with this on place lets start to use aligning properties. The first one that we are going to use is `justify-items`.
 
-- `justify-items`: Aligns grid items along the inline (row) axis.This value applies to all grid items inside the container.
+- `justify-items`: Aligns grid items along the inline (row) axis. This value applies to all grid items inside the container.
 
 - `start`: aligns items to be flush with the start edge of their cell
 - `end`: aligns items to be flush with the end edge of their cell
@@ -161,7 +161,7 @@
 }
 ```
 
-- We can change to `end`, `center` and `strech` to watch different results.
+- We can change to `end`, `center` and `stretch` to watch different results.
 
 - If we want to change the alignment of a single element or a set of elements instead of overall behavior, we have two properties:
 

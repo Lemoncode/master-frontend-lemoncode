@@ -149,10 +149,10 @@
 .item-a {
     grid-column-start: 1;
 -   grid-column-end: 2;
-+   grid-column-end: 2;
++   grid-column-end: 4;
     grid-row-start: 1;
 -   grid-row-end: 4;
-+   grid-row-end: 4;
++   grid-row-end: 2;
     background-color: crimson;
 }
 

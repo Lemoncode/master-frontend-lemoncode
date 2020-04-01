@@ -1,6 +1,6 @@
 # In this demo we are going to build a semantic grid.
 
-- One of the most interesting properties of a grid container is the chance to describe `areas`. We can use `grid-template-areas` on conatiner in combination with `grid-area`property on grid items to get a semantic grid.
+- One of the most interesting properties of a grid container is the chance to describe `areas`. We can use `grid-template-areas` on container in combination with `grid-area` property on grid items to get a semantic grid.
 
 - The idea is that the structure itself describe the grid layout. This is great because just in a glance we can understand how the space is going to be managed.
 
@@ -70,7 +70,7 @@
 
 4. We define the styles that are related with the area.
 
-### 2. Another property that is intesting and we can play with is the gap between rows and colimns.
+### 2. Another property that is interesting and we can play with is the gap between rows and columns.
 
 - `grid-column-gap/grip-row-gap`: Specifies the size of the grid lines. You can think of it like setting the width of the gutters between the columns/rows.
 

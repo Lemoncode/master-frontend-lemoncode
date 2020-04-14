@@ -35,11 +35,11 @@ npm install webpack-bundle-analyzer --save-dev
 
 _./webpack.perf.config.js_
 
-We will use `webpack-merge` to combine `webpack.prod.config.js` with performance specific config settings.
+We will use `webpack-merge` to combine `webpack.prod.js` with performance specific config settings.
 
 - Our performance config file look like:
 
-_./webpack.perf.config.js_
+_./webpack.perf.js_
 
 ```javascript
 const merge = require("webpack-merge");
@@ -47,7 +47,7 @@ const prod = require("./webpack.prod.js");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 module.exports = merge(prod, {
-  plugins: [new BundleAnalyzerPlugin()]
+  plugins: [new BundleAnalyzerPlugin()],
 });
 ```
 

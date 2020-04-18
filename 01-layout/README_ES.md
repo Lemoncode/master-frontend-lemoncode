@@ -23,7 +23,6 @@
   - Atajos básicos
   - Grid semántico
   - Alineación
-  - Proyecto final
 - Diseño responsivo
   - Transformaciones básicas
   - Transformaciones con imágenes
@@ -46,6 +45,13 @@
 - Flexbox I (11')
 - Flexbox II (9')
 - Flexbox III (9')
+- Grid I (3')
+- Grid II (7')
+- Grid III (8')
+- Media Queries (5')
+- Sass I (13')
+- Sass II (9')
+- Sass III (10')
 
 ## Antes de comenzar
 

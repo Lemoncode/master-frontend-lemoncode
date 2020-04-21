@@ -1,9 +1,9 @@
 # Máster Front End Lemoncode
 
 Modules demos source code:
-  - Building layouts with HMTL / CSS 3.
-  - Languages: Javascript ES5, ES6, Typescript.
-  - Bundling: Webpack / Parcel.
+  - **Layout:** Building layouts with HMTL / CSS 3, SASS...
+  - **Languages:** Javascript ES5, ES6, Typescript.
+  - **Bundling:** Webpack / Parcel.
  
 # About Basefactor + Lemoncode
 

@@ -2,7 +2,7 @@
 
 ## Resumen
 
-En este ejemplo vamos a crear un proyecto desde cero utilizando en cli del equipo de FaceBook **create-react-app**
+En este ejemplo vamos a crear un proyecto desde cero utilizando en cli que ofrece el equipo de FaceBook **create-react-app**
 
 ## Paso a paso
 

@@ -101,3 +101,9 @@ _.babelrc_
 - Nos podemos asegurar de que tenemos como extension valida _ts_ y _tsx_
 - También que en el loader aceptamos tanto _ts_ como _tsx_
 - Y en el app tenemos como punto de entrada _index.tsx_
+
+* Vamos a comprobar que hemos dejado todo funcionando:
+
+```bash
+npm start
+```

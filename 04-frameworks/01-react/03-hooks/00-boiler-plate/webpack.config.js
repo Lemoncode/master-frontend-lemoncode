@@ -7,10 +7,10 @@ module.exports = {
   resolve: {
     extensions: [".js", ".ts", ".tsx"],
   },
+  devtool: "eval-source-map",
   entry: {
     app: ["./index.tsx"],
   },
-  devtool: "eval-source-map",
   stats: "errors-only",
   output: {
     filename: "[name].[chunkhash].js",

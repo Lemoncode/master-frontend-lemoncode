@@ -12,6 +12,17 @@ Este ejemplo toma como punto de partida el ejemplo _04-list-users_.
 npm install
 ```
 
+- Antes de seguir vamos a arreglar un pequeño bug que dejamos en el ejemplo
+  anterior, se nos olvido poner la key en el map don de generamos dinámicamente
+  la files con los miembros que pertenecen a una organizacion.
+
+```diff
+<tbody>
+  {members.map((member) => (
+-    <tr>
++    <tr key={member.id}>
+```
+
 - Lo segundo, ahora mismo no estamos tipando la lista de miembros que recibimos de
   github, ¿ No estaría bien tiparla para evitar así cometer fallos tontos al, por ejemplo,
   escribir lo nombres de los campos?, vamos a ello:

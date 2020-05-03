@@ -1,4 +1,4 @@
-# 02 Component DOM on load
+# 03 Component DOM on load
 
 ## Resumen
 

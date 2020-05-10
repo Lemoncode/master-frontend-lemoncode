@@ -78,8 +78,7 @@ const MyChildComponent = () => {
 
 - Si ejecutamos podemos ver que este código se ejecuta después de cada renderizado del componente.
 
-- También podemos añadir una función para liberar recursos después de cada
-  render.
+- También podemos añadir una función para liberar recursos justo antes de que se ejecute el siguiente render.
 
 ```diff
 React.useEffect(() => {

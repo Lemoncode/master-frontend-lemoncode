@@ -87,6 +87,8 @@ npm install use-debounce --save
 ```
 
 ```diff
++ import { useDebounce } from 'use-debounce';
+
 export const MyComponent = () => {
   const [filter, setFilter] = React.useState("");
 + const [debouncedFilter] =   useDebounce(filter, 500);

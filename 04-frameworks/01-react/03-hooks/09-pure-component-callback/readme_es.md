@@ -21,6 +21,18 @@ _./src/demo.js_
 ```jsx
 import React from "react";
 
+interface Props {
+  onReset: () => void;
+}
+
+const ResetValue: React.FC<Props> = React.memo((props) => {
+  console.log(
+    "Hey I'm only rendered the first time, check React.memo + callback"
+  );
+
+  return <button onClick={props.onReset}>Reset value</button>;
+});
+
 export const MyComponent = () => {
   const [username, setUsername] = React.useState("John");
   const [lastname, setLastname] = React.useState("Doe");
@@ -40,14 +52,6 @@ export const MyComponent = () => {
     </>
   );
 };
-
-const ResetValue = React.memo((props) => {
-  console.log(
-    "Hey I'm only rendered the first time, check React.memo + callback"
-  );
-
-  return <button onClick={props.onReset}>Reset value</button>;
-});
 ```
 
 - Si ejecutamos el ejemplo, podemos ver que el render del componente

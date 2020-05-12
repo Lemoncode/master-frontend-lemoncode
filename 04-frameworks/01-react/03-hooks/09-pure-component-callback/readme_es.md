@@ -1,14 +1,8 @@
-# 08 Pure component
+# 09 Pure component callback
 
 ## Resumen
 
-Este ejemplo toma como punto de partida el ejemplo _07-custom-hook_.
-
-Hay veces en las que nos hace falta hilar fino y sólo voler a repintar un componente si sus propiedades
-han cambiado, si trabajamos con estructuras inmutables sólo tenemos que hacer un shallow compare.
-
-Esto lo podíamos hacer facilmente con componentes de clase ¿ Cómo podemos hacerlo en componente de tipo función?
-Vamos a ello.
+Este ejemplo toma como punto de partida el ejemplo _08-pure-component_.
 
 ## Paso a Paso
 
@@ -18,91 +12,99 @@ Vamos a ello.
 npm install
 ```
 
-- Vamos a pegar un ejemplo en _demo.js_, este código va tener dos
-  valores editables: _name_ y _lastname_ y vamos a tener un control
-  hijo que sólo va a mostrar el _name_ (de hecho este componente
-  sólo pedirá el campo nombre en las propiedades).
+- Vamos a añadir como punto de partida un componente padre
+  que nos permite editar un nombre y apellido y un componente
+  hijo que sirve para poner los valores de nombre y apellido a blanco.
 
-_./src_/demo.tsx\_
+_./src/demo.js_
 
-```tsx
+```jsx
 import React from "react";
 
 export const MyComponent = () => {
-  const [userInfo, setUserInfo] = React.useState({
-    name: " John ",
-    lastname: "Doe",
-  });
+  const [username, setUsername] = React.useState("John");
+  const [lastname, setLastname] = React.useState("Doe");
+
+  const resetNameCallback = () => {
+    setUsername("");
+  };
 
   return (
     <>
-      <DisplayUsername name={userInfo.name} />
-      <input
-        value={userInfo.name}
-        onChange={(e) =>
-          setUserInfo({
-            ...userInfo,
-            name: e.target.value,
-          })
-        }
-      />
-      <input
-        value={userInfo.lastname}
-        onChange={(e) =>
-          setUserInfo({
-            ...userInfo,
-            lastname: e.target.value,
-          })
-        }
-      />
+      <h3>
+        {username} {lastname}
+      </h3>
+      <input value={username} onChange={(e) => setUsername(e.target.value)} />
+      <input value={lastname} onChange={(e) => setLastname(e.target.value)} />
+      <ResetValue onReset={resetNameCallback}>Reset name</ResetValue>
     </>
   );
 };
 
-interface Props {
-  name: string;
-}
-
-export const DisplayUsername = (props: Props) => {
+const ResetValue = React.memo((props) => {
   console.log(
-    "Hey I'm only rerendered when name gets updated, check React.memo"
+    "Hey I'm only rendered the first time, check React.memo + callback"
   );
 
-  return <h3>{props.name}</h3>;
-};
+  return <button onClick={props.onReset}>Reset value</button>;
+});
 ```
 
-- Para ver cuando se repinta hemos metido un _console.log_ en el componente hijo (DisplayUsername).
+- Si ejecutamos el ejemplo, podemos ver que el render del componente
+  _ResetValue_ se lanza cuando modificamos el campo nombre o el de apellido
+  ¿ Cómo puede ser esto posible si sólo le pasamos como propiedad _resetNameCallback_
+  y tenemos el componente envuelto en un _React.memo_.
 
-- Si lanzamos el ejemplo y probamos, veremos que da igual si cambio nombre o apellido el componente
-  se repinta, y sólo queremos que se repinte cuando cambie el campo nombre, ¿Qué podemos hacer?
-  **React.memo** al rescate, vamos a envolver el componente:
+Si pusiermoas el modo detective y utilizaramos el hook de ayuda _whyDidYouUpdate_
+nos daríamos cuenta que el culpable es la funcióna: _resetNameCallback_
+¿Por que? porque se crea una nueva en cada render... así _React.memo_ dispara el
+render porque el puntero a la propiedad cambia.
 
-_./src/demo.tsx_
+¿ Qué podemos hacer para solucionar esto? Utilizar el hook _React.useCallback_
+y tal como en _React.useEffect_ pasarle como segundo parametro un array vacio.
 
 ```diff
-- export const DisplayUsername = (props: Props) => {
-+ export const DisplayUsername = React.memo((props: Props) => {
+import React from "react";
 
+export const MyComponent = () => {
+  const [username, setUsername] = React.useState("John");
+  const [lastname, setLastname] = React.useState("Doe");
+
+
+-  const resetNameCallback = () => {setUsername('');}
++  const resetNameCallback = React.useCallback(() => setUsername(''), []);
+
+  return (
+    <>
+      <h3>
+        {username} {lastname}
+      </h3>
+      <input value={username} onChange={e => setUsername(e.target.value)} />
+      <input value={lastname} onChange={e => setLastname(e.target.value)} />
+      <ResetValue onReset={resetNameCallback}>Reset name</ResetValue>
+    </>
+  );
+};
+
+const ResetValue = React.memo(props => {
   console.log(
-    "Hey I'm only rerendered when name gets updated, check React.memo"
+    "Hey I'm only rendered the first time, check React.memo + callback"
   );
 
-  return <h3>{props.name}</h3>;
-- };
-+ });
+  return (
+    <button onClick={props.onReset}>Reset value</button>
+  );
+});
 ```
 
-- Si ejecutamos el ejemplo, podemos ver que ahora sólo se repinta el componente cuando
-  cambia la propiedad nombre:
+- Si ejecutamos el ejemplo, podemos ver que ya no se lanza el rerender en el componente _ResetValue_
 
-```bash
-npm start
-```
-
-¿ Qué es lo que está haciendo _React.memo_? Esta aplicando el patrón memoize, recuerda
-para la propiedad name el puntero del último render, cuando llega el siguiente los compara
-y si son iguales devuelve el render del componente cacheado.
+¿ Cómo funciona esto? _useCallback_ guarda la función que se creo originalmente,
+y devuelve esta en vez de crear una nueva en cada render, esto lo conseguimos
+pasandole un array vacio como segundo parametro (como hacíamos con _React.useEffect_)
+si queremos que se reevalue dependiendo del valor de una propiedad o estado, podemos
+añadirlas al segundo aprametro de este callbakc (al igual que con useEffect), y si
+omitimos el segundo parametro, esta función se reevaluara después de cada render.
 
 # ¿Te apuntas a nuestro máster?
 

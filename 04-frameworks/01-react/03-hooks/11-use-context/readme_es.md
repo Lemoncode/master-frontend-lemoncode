@@ -13,10 +13,10 @@ que pasa con los típicos datos comunes como el nombre y los roles que tiene el 
 ventana a otra, si seguimos los principios de React tendríamos esa información en el
 componente padre de la aplicación e iríamos pasando de padre a hijo la propiedad, esto es malo por varios motivos;:
 
-  - Sufrimos el drill prop hell, es decir si un componente nieto necesita una propiedad tenemos que pasarle desde abuelo, padre, hijo, nieto... y a cada nivel
+- Sufrimos el prop drill hell, es decir si un componente nieto necesita una propiedad tenemos que pasarle desde abuelo, padre, hijo, nieto... y a cada nivel
   que vaya bajando voy engordando la lista de propiedades de cada control.
 
-  - Acabo arrastrando propiedades que en ciertos componentes no tiene ni sentido
+- Acabo arrastrando propiedades que en ciertos componentes no tiene ni sentido
   que las tenga, pero un componento hijo.
 
 ¿ No habría una forma de compartir datos globales?
@@ -28,52 +28,52 @@ _./src/bad-approach.tsx_
 
 ```typescript
 export let userGlobalData = {
-  login: '',
+  login: "",
   roles: [],
-}
+};
 ```
+
 Y donde me haga falta sólo tendría que hacer algo así como:
 
 ```typescript
-userGlobalData.login
+userGlobalData.login;
 
 userGlobalDAta.login = "john";
 ```
 
-Esta aproximación que de primeras podríamos intentar defender (es ES6 plano, a fin 
+Esta aproximación que de primeras podríamos intentar defender (es ES6 plano, a fin
 de cuentas React sólo se encarga del UI...), nos trae varios problemas:
 
 - ¿Qué pasa si cambia el valor de _userGlobalData.login_ y tengo varias partes de
-la aplicación que lo están usando? ¿Cómo le notifico el cambio? Tendría que jugar
-tirando y recogiendo eventos globales para ir repintando.
+  la aplicación que lo están usando? ¿Cómo le notifico el cambio? Tendría que jugar
+  tirando y recogiendo eventos globales para ir repintando.
 
-- ¿Y si sólo quiero que este dato sea visible a un nivel de aplicación? Por 
-ejemplo tengo datos de nuevo pedido en un wizard y quiero que sólo esten visible
-al nivel del wizard que estoy editando, es más cuando cierre el wizard quiero
-liberar el espacio de memoria. Esto que nos hemos creado es global.
+- ¿Y si sólo quiero que este dato sea visible a un nivel de aplicación? Por
+  ejemplo tengo datos de nuevo pedido en un wizard y quiero que sólo esten visible
+  al nivel del wizard que estoy editando, es más cuando cierre el wizard quiero
+  liberar el espacio de memoria. Esto que nos hemos creado es global.
 
 - Y ya para terminar, si quiero usar Server Side Rendering (es decir pregenerar
-las páginas en el servidor para servir HTML, esto es bueno por ejemplo para 
-tener un buen SEO), tendríamos un problema gordo... vasos comunicantes, todas
-las peticiones compartirían las mismas variables estáticas.
+  las páginas en el servidor para servir HTML, esto es bueno por ejemplo para
+  tener un buen SEO), tendríamos un problema gordo... vasos comunicantes, todas
+  las peticiones compartirían las mismas variables estáticas.
 
 React incorpora un mecanismo muy potente, se llama **Context**
 
 - El **Context** me permite compartir datos entre componentes sin pasar por las props.
 
-- El Contexto vive dentro de un componente React, con lo que se integra en el 
-flujo undireccional de React, es decir cualquier cambio que haga en él hace
-que se disparen actualizaciones de manera automática.
+- El Contexto vive dentro de un componente React, con lo que se integra en el
+  flujo undireccional de React, es decir cualquier cambio que haga en él hace
+  que se disparen actualizaciones de manera automática.
 
 - El Contexto lo puedo colocar al nivel que quiera del arbol de componentes,
-es decir puedo poner disponibles esos datos a nivel de aplicacion completa
-o de por ejemplo una ventana que contenga varios tabs.
+  es decir puedo poner disponibles esos datos a nivel de aplicacion completa
+  o de por ejemplo una ventana que contenga varios tabs.
 
 Y a todo esto tenemos que añadirle que React incorpora un hook que se llama
 _useContext_ que hace que usarlo sea muy facil.
 
 Vamos a ver como funciona esto.
-
 
 ## Paso a Paso
 
@@ -83,9 +83,9 @@ Vamos a ver como funciona esto.
 npm install
 ```
 
-- Vamos a crear un context que me permita almacenar el nombre del usuario 
-que se ha logado, nos hará falta un entrada para poder leer el dato
-y otra para escribirlo.
+- Vamos a crear un context que me permita almacenar el nombre del usuario
+  que se ha logado, nos hará falta un entrada para poder leer el dato
+  y otra para escribirlo.
 
 Borramos todos lo que hay en _demo.tsx_ y nos ponemos manos a la obra
 
@@ -95,21 +95,21 @@ _./src/demo.tsx_
 import React from "react";
 
 interface UserContext {
-  username : string;
-  setUsername : (value: string) => void;
+  username: string;
+  setUsername: (value: string) => void;
 }
 
 const MyContext = React.createContext({
   username: "",
-  setUsername: (value) => {}
+  setUsername: (value) => {},
 });
 ```
 
-- El contexto necesita vivir dentro de un componente especial que llamamos 
-provider, este el que le alimenta y le da cobijo, podemos pensar de esta combinación
-como en la pelicula de Alien, el contexto es el Alien y el provider es el pobre
-humano, vamos a crear un habitat a nuestro Alien que almacena el nombre del usuario:
- 
+- El contexto necesita vivir dentro de un componente especial que llamamos
+  provider, este el que le alimenta y le da cobijo, podemos pensar de esta combinación
+  como en la pelicula de Alien, el contexto es el Alien y el provider es el pobre
+  humano, vamos a crear un habitat a nuestro Alien que almacena el nombre del usuario:
+
 _./src/demo.tsx_
 
 ```diff
@@ -130,10 +130,12 @@ const MyContext = React.createContext({
 +  );
 + };
 ```
+
 Fijate lo que tenemos aqui:
-  - Tenemos un componente que provee de estado a nuestro contexto.
-  - Alimentamos al contexto con esos datos.
-  - Metemos la propiedad children para pintar lo que tuviera por debajo
+
+- Tenemos un componente que provee de estado a nuestro contexto.
+- Alimentamos al contexto con esos datos.
+- Metemos la propiedad children para pintar lo que tuviera por debajo
   ese componente (es decir como en la película de Alien, nadie se cuenta
   de que el humano lleva "un bichito" dentro).
 
@@ -143,13 +145,12 @@ _./src/demo.tsx_
 
 ```tsx
 export const MyComponent = () => {
-
   return (
     <>
       <h3>Hello</h3>
     </>
-  )
-}
+  );
+};
 ```
 
 Vamos ahora a colocar a el provider a nivel global de la aplicación.
@@ -175,9 +176,8 @@ function App() {
 De esta manera dejo la puerta abierta que cualquier componente que este debajo
 de ese provider (en este caso la aplicación entera pueda acceder al context).
 
-Si te fijas, aquí aplica lo que comentamos de la propiedad _children_ todo lo que 
+Si te fijas, aquí aplica lo que comentamos de la propiedad _children_ todo lo que
 hay debajo del contextprovider lo pinta tal cual ese componente.
-
 
 - Y ahora vamos a acceder a los datos del contexto sin tener que pasar por las props:
 
@@ -194,12 +194,12 @@ export const MyComponent = () => {
   )
 }
 ```
+
 - Si ejecutamos el ejemplo podemos verlo funcionando:
 
 ```bash
 npm start
 ```
-
 
 # ¿Te apuntas a nuestro máster?
 

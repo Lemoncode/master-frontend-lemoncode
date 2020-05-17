@@ -10,7 +10,7 @@ the past:
 - The ideal scenario was to pass from TS to ES6 using tsc (Typescript) and then
   letting Babel do his transpile thing.
 
-Right now there a very interesting solution:
+Right now there is a very interesting solution:
 
 - You can use Babel to transpile from TS all the way to ES5: it won't do error
   checking but it will run fast as hell.
@@ -25,7 +25,7 @@ Summary steps:
 - Install npm-run-all (run commands in parallel).
 - Create a tsconfig (in order to configure our Typescript).
 - Update .babelrc in order to add Typescript presets.
-- Update webpackconfig to process the _ts/tsx_ extension.
+- Update webpack.config to process the _ts/tsx_ extension.
 - Update the start command to provide typescript support.
 - Rename all files to ts/tsx.
 - Install React and React DOM typings
@@ -88,9 +88,10 @@ _./tsconfig.json_
     "noLib": false,
     "suppressImplicitAnyIndexErrors": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
-    "baseUrl": "./src/"
-  }
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
 ```
 
@@ -103,7 +104,7 @@ module.exports = {
   context: path.join(basePath, "src"),
   resolve: {
 -    extensions: [".js", ".jsx"]
-+    extensions: [".ts", ".tsx"]
++    extensions: [".js",".ts", ".tsx"]
   },
   entry: {
 -    app: "./index.jsx",
@@ -113,7 +114,7 @@ module.exports = {
   },
 ```
 
-- Update webpackconfig to process the _ts/tsx_ extension.
+- Update webpack.config to process the _ts/tsx_ extension.
 
 _./webpack.config.js_
 
@@ -183,7 +184,7 @@ _./src/averageService.ts_
 _./src/totalScoreComponent.tsx_
 
 ```diff
-- export const TotalScoreComponent : React.FC = () => {
+- export const TotalScoreComponent = () => {
 + export const TotalScoreComponent : React.FC = () => {
   const [totalScore, setTotalScore] = React.useState(0);
 ```
@@ -194,7 +195,7 @@ _./src/totalScoreComponent.tsx_
 npm start
 ```
 
-- Now all this look great but what happens if we introduce an ts error in our code
+- Now all this look great but what happens if we introduce a ts error in our code
 
 _./src/averageService.ts_
 
@@ -222,7 +223,7 @@ export function getTotalScore(scores: number[]) {
 npm install npm-run-all --save-dev
 ```
 
-- Now let's ellaborate a bit more our package section, we will create a new
+- Now let's elaborate a bit more our package section, we will create a new
   command just to transpile our babel,
 
 _./package.json_

@@ -61,7 +61,7 @@ module.exports = {
 ```
 
 - Now it's time to create our webpack config dev version, we will start by merging
-  it form the base config, and then add / overwrrite the setting specific for development.
+  it form the base config, and then add / overwrite the setting specific for development.
 
 _webpack.dev.js_
 
@@ -100,6 +100,7 @@ _./package.json_
     "start": "run-p -l type-check:watch start:dev",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
+-    "start:dev": "webpack-dev-server --mode development --open",
 +    "start:dev": "webpack-dev-server --mode development --open --config webpack.dev.js",
 -    "build": "rimraf dist && webpack --mode development"
 +    "build:dev": "rimraf dist && webpack --config webpack.dev.js",

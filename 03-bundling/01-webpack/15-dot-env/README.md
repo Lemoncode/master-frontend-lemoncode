@@ -74,7 +74,7 @@ module.exports = merge(common, {
 
 - Let's setup the plugin prod config.
 
-_./webpack.prod.config.js_
+_./webpack.prod.js_
 
 ```diff
 const merge = require("webpack-merge");
@@ -82,7 +82,7 @@ const common = require("./webpack.common.js");
 + const Dotenv = require('dotenv-webpack');
 ```
 
-_./webpack.prod.config.js_
+_./webpack.prod.js_
 
 ```diff
 const merge = require("webpack-merge");

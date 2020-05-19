@@ -9,9 +9,11 @@
     "sourceMap": true,
     "jsx": "react",
     "noLib": false,
+    "allowJs": true,
     "suppressImplicitAnyIndexErrors": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
-    "baseUrl": "./src/"
-  }
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

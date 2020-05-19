@@ -1,6 +1,6 @@
-# 15 Enviroment variables
+# 15 Environment variables
 
-In this demo we are going to setup enviroment variable each type of build
+In this demo we are going to setup environment variable each type of build
 (e.g. rest api base url), we will make use of _dotenv_
 
 We will start from sample _14-production_.
@@ -11,13 +11,13 @@ Summary steps:
 - Generate env files.
 - Add base config.
 - Add dev config.
-- Add prod config
+- Add prod config.
 
 # Steps to build it
 
 ## Prerequisites
 
-Prerequisites, you will need to have nodejs installed in your computer. If you want to follow this step guides you will need to take as starting point sample _04 production_.
+Prerequisites, you will need to have nodejs installed in your computer. If you want to follow this step guides you will need to take as starting point sample _14 production config_.
 
 ## steps
 
@@ -74,7 +74,7 @@ module.exports = merge(common, {
 
 - Let's setup the plugin prod config.
 
-_./webpack.prod.config.js_
+_./webpack.prod.js_
 
 ```diff
 const merge = require("webpack-merge");
@@ -82,7 +82,7 @@ const common = require("./webpack.common.js");
 + const Dotenv = require('dotenv-webpack');
 ```
 
-_./webpack.prod.config.js_
+_./webpack.prod.js_
 
 ```diff
 const merge = require("webpack-merge");
@@ -125,7 +125,7 @@ _./package.json_
   },
 ```
 
-- Let test dev config, run the following command from terminal and open your browser
+- Let's test dev config, run the following command from terminal and open your browser
   console:
 
 ```bash

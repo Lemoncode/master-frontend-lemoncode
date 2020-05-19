@@ -4,6 +4,13 @@
 
 Este ejemplo toma como punto de partida el ejemplo _01-routing_.
 
+Vamos a montar una formulario de login, en el que el usuario introduce
+su id y clave y al pulsar el botón de login se valida, si introduce
+la combinación "admin" "test" puede pasar a la ventana de listado.
+
+El objetivo de este ejemplo es cubrir un escenario muy básico que te
+permita ver como funciona react manejando informacíon como esta.
+
 ## Paso a Paso
 
 - Primero copiamos el ejemplo anterior, y hacemos un _npm install_

@@ -19,6 +19,93 @@ permita ver como funciona react manejando informacíon como esta.
 npm install
 ```
 
+- Vamos a maquetar un formulario simple de login:
+
+_./src/login.tsx_
+
+```diff
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
+
+export const LoginPage: React.FC = () => {
+  const history = useHistory();
+
+  const handleNavigation = () => {
+    history.push("/list");
+  };
+
+  return (
+    <>
+      <h2>Hello from login page</h2>
++      <div>
++        <div>
++          <label>Username: </label>
++          <input value="" />
++        </div>
++        <div>
++          <label>Password: </label>
++          <input type="password" value="" />
++        </div>
++      </div>
+      <button onClick={handleNavigation}>Login</button>
+    </>
+  );
+};
+```
+
+- Ahora vamos a guardar en el estado el valor de username y de la clave
+
+_./src/login.tsx_
+
+```diff
+export const LoginPage: React.FC = () => {
+  const history = useHistory();
++ const [username, setUsername] = React.useState('');
++ const [password, setPassword] = React.useState('');
+
+  const handleNavigation = () => {
+    history.push("/list");
+  };
+
+  return (
+    <>
+      <h2>Hello from login page</h2>
+      <div>
+        <div>
+          <label>Username: </label>
+-          <input value="" />
++          <input value={username} onChange={e => setUsername(e.target.value)} />
+
+        </div>
+        <div>
+          <label>Password: </label>
+          <input type="password" value="" />
++         <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+        </div>
+      </div>
+```
+
+- Y ahora vamos al click de login, cuando se pulsa comprobamos si el usuario
+  y la clave son (admin / test) si es correcto navegamos a listado, si no
+  mostramos un mensaje.
+
+_./src/login.tsx_
+
+```diff
+export const LoginPage: React.FC = () => {
+  const history = useHistory();
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const handleNavigation = () => {
++   if(username === 'admin' && password === 'test') {
+      history.push("/list");
++   } else {
++     alert("User / password not valid, psst... admin / test")
++   }
+  };
+```
+
 # ¿Te apuntas a nuestro máster?
 
 Si te ha gustado este ejemplo y tienes ganas de aprender Front End

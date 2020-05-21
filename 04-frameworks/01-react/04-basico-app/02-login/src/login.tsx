@@ -6,7 +6,8 @@ export const LoginPage: React.FC = () => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const handleNavigation = () => {
+  const handleNavigation = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (username === "admin" && password === "test") {
       history.push("/list");
     } else {
@@ -15,7 +16,7 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <>
+    <form onSubmit={handleNavigation}>
       <h2>Hello from login page</h2>
       <div>
         <div>
@@ -35,7 +36,7 @@ export const LoginPage: React.FC = () => {
         </div>
       </div>
 
-      <button onClick={handleNavigation}>Login</button>
-    </>
+      <button type="submit">login</button>
+    </form>
   );
 };

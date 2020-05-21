@@ -106,6 +106,56 @@ export const LoginPage: React.FC = () => {
   };
 ```
 
+- Para terminar vamos a hace run refactor con el formulario de login,
+  vamos a meterlo dentro de un formulario, ¿ Por qué, así lo hacemos
+  más accesible y por ejeemplo el botón de envío se ejecuta al pulsar enter.
+
+```diff
+  return (
+-    <>
++    <form onSubmit={handleNavigation}>
+      <h2>Hello from login page</h2>
+      <div>
+        <div>
+          <label>Username: </label>
+          <input
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Password: </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+      </div>
+
+-      <button onClick={handleNavigation}>Login</button>
++      <button type="submit">login</button>
+-    </>
++    </form>
+```
+
+- Esto parece que funciona... pero si nos fijamos el submit del
+  formulario está haciendo un post a servidor, tenemos decirle
+  que no realizar ese coportamiento por defecto.
+
+```diff
+-  const handleNavigation = () => {
++  const handleNavigation = (e: React.FormEvent<HTMLFormElement>) => {
++    e.preventDefault();
+
+    if (username === "admin" && password === "test") {
+      history.push("/list");
+    } else {
+      alert("User / password not valid, psst... admin / test");
+    }
+  };
+```
+
 # ¿Te apuntas a nuestro máster?
 
 Si te ha gustado este ejemplo y tienes ganas de aprender Front End

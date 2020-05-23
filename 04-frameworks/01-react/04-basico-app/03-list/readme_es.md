@@ -6,9 +6,9 @@ Este ejemplo toma como punto de partida el ejemplo _02-login_.
 
 Vamos a implementar una página de listado y enlazarla con una de detalle.
 
-Es decir mostraremos una lista de usuarios que pertenecen a una organización
+Es decir mostraremos una lista de miembros que pertenecen a una organización
 de Github y cuando pinchemos en el nombre de un usuario navegaremos a la
-página de detalle pasando en la URL el id del usuario.
+página de detalle pasando en la URL el id del miembro seleccionado.
 
 En este ejemplo haremos una implementación directa del listado, si
 quieres ver una paso a paso puede consultar otro ejemplo previo que tenemos

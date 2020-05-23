@@ -2,7 +2,7 @@
 
 ## Resumen
 
-Este ejemplo toma como punto de partida el ejemplo \_02-login.
+Este ejemplo toma como punto de partida el ejemplo _02-login_.
 
 Vamos a implementar una página de listado y enlazarla con una de detalle.
 

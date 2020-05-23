@@ -14,7 +14,7 @@ export const App = () => {
         <Route path="/list">
           <ListPage />
         </Route>
-        <Route path="/detail">
+        <Route path="/detail/:id">
           <DetailPage />
         </Route>
       </Switch>

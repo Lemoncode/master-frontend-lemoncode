@@ -7,16 +7,6 @@ module.exports = merge(
   {
     context: helpers.resolveFromRootPath('src'),
     resolve: {
-      alias: {
-        '@material-ui/core': '@material-ui/core/es',
-        assets: helpers.resolveFromRootPath('src/assets'),
-        'common-app': helpers.resolveFromRootPath('src/common-app'),
-        common: helpers.resolveFromRootPath('src/common'),
-        core: helpers.resolveFromRootPath('src/core'),
-        layouts: helpers.resolveFromRootPath('src/layouts'),
-        pods: helpers.resolveFromRootPath('src/pods'),
-        scenes: helpers.resolveFromRootPath('src/scenes'),
-      },
       extensions: ['.js', '.ts', '.tsx'],
     },
     entry: {

@@ -4,8 +4,10 @@
 
 Este ejemplo toma como punto de partida el ejemplo _03-list_.
 
-Vamos a mostrar el detalle de un usuario de Github: desde la página
-de
+Vamos a mostrar el detalle de un usuario de Github: para ellos
+nos quedamos con el id del usuario que elejimos en la lista,
+llamamos a la API de Github para obtener sus detalles, y los
+mostramos en un componente.
 
 ## Paso a Paso
 

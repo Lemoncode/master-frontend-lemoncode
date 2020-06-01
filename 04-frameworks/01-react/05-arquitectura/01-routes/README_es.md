@@ -366,9 +366,17 @@ _./src/scenes/submodule-list.scene.tsx_
 
 ```diff
 import React from 'react';
++ import { Link } from 'react-router-dom';
++ import { routes } from 'core/router';
 
 export const SubmoduleListScene: React.FC = () => {
-  return <h1>Submodule list Scene!</h1>;
+-  return <h1>Submodule list Scene!</h1>;
++  return (
++    <>
++      <h1>Submodule list Scene!</h1>
++      <Link to={routes.employees}>Navigate employee list</Link>
++    </>
++  );
 };
 ```
 
@@ -376,9 +384,17 @@ _./src/scenes/employee-list.scene.tsx_
 
 ```diff
 import React from 'react';
++ import { Link } from 'react-router-dom';
++ import { routes } from 'core/router';
 
 export const EmployeeListScene: React.FC = () => {
-  return <h1>Employee list Scene!</h1>;
+-  return <h1>Employee list Scene!</h1>;
++  return (
++    <>
++      <h1>Employee list Scene!</h1>
++      <Link to={routes.editEmployee('232')}>Navigate ti edit employee 232</Link>
++    </>
++  );
 };
 ```
 
@@ -386,9 +402,17 @@ _./src/scenes/employee.scene.tsx_
 
 ```diff
 import React from 'react';
++ import { Link } from 'react-router-dom';
++ import { routes } from 'core/router';
 
 export const EmployeeScene: React.FC = () => {
-  return <h1>Employee Scene!</h1>;
+-  return <h1>Employee Scene!</h1>;
++  return (
++    <>
++      <h1>Employee Scene!</h1>
++      <Link to={routes.employees}>Back to employee list</Link>
++    </>
++  );
 };
 ```
 

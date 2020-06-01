@@ -7,6 +7,10 @@ module.exports = merge(
   {
     context: helpers.resolveFromRootPath('src'),
     resolve: {
+      alias: {
+        core: helpers.resolveFromRootPath('src/core'),
+        scenes: helpers.resolveFromRootPath('src/scenes'),
+      },
       extensions: ['.js', '.ts', '.tsx'],
     },
     entry: {

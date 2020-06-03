@@ -117,10 +117,14 @@ npm start
   para tener una aspecto profesional, lo instalamos así como su colección iconos:
 
 ```bash
-
+npm install @material-ui/core @material-ui/icons --save
 ```
 
 - Para estilar usaremos Emotion (CSS in JS), vamos a instalarlo:
+
+```bash
+npm install emotion --save
+```
 
 - Montemos el diálgo básico de login:
 

@@ -4,13 +4,26 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { Login, createEmptyLogin } from './login.vm';
 
-export const LoginComponent: React.FunctionComponent = () => {
+interface Props {
+  onLogin: (login: Login) => void;
+}
+
+export const LoginComponent: React.FunctionComponent<Props> = props => {
+  const { onLogin } = props;
+  const [login, setLogin] = React.useState<Login>(createEmptyLogin());
+
   return (
     <Card>
       <CardHeader title="Login" />
       <CardContent>
-        <form>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            onLogin(login);
+          }}
+        >
           <div
             style={{
               display: 'flex',
@@ -18,8 +31,19 @@ export const LoginComponent: React.FunctionComponent = () => {
               justifyContent: 'center',
             }}
           >
-            <TextField label="Name" margin="normal" />
-            <TextField label="Password" type="password" margin="normal" />
+            <TextField
+              label="Name"
+              margin="normal"
+              value={login.user}
+              onChange={e => setLogin({ ...login, user: e.target.value })}
+            />
+            <TextField
+              label="Password"
+              type="password"
+              margin="normal"
+              value={login.password}
+              onChange={e => setLogin({ ...login, password: e.target.value })}
+            />
             <Button type="submit" variant="contained" color="primary">
               Login
             </Button>

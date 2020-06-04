@@ -126,13 +126,159 @@ npm install @material-ui/core @material-ui/icons --save
 npm install emotion --save
 ```
 
-- Montemos el diálgo básico de login:
+- Montemos el diálgo básico de login, de momento no nos centramos
+  demasiado en estilado (material-ui trae un montón de ejemplos en vivo, por
+  ejemplo los del componente card: https://material-ui.com/components/cards/), ya que estamos a la espera del diseño
+  final del creativo:
+
+_./src/pods/login/login.component.tsx_
+
+```diff
+import React from 'react';
++ import Card from '@material-ui/core/Card';
++ import CardHeader from '@material-ui/core/CardHeader';
++ import CardContent from '@material-ui/core/CardContent';
++ import TextField from '@material-ui/core/TextField';
++ import Button from '@material-ui/core/Button';
+
+export const LoginComponent: React.FunctionComponent = () => {
+-  return <h2>Hello from Login Component</h2>;
++  return (
++  <Card>
++      <CardHeader title="Login" />
++      <CardContent>
++        <form>
++          <div style={{display: 'flex',flexDirection: 'column', justifyContent:'center',}}>
++            <TextField label="Name" margin="normal" />
++            <TextField label="Password" type="password" margin="normal" />
++            <Button type="submit" variant="contained" color="primary">
++              Login
++            </Button>
++          </div>
++        </form>
++      </CardContent>
++  </Card>
++  );
+};
+```
+
+- Vamos a quitar el texto de login container:
+
+_./src/pods/login/login.container.tsx_
+
+```diff
+export const LoginContainer: React.FunctionComponent = () => {
+  return (
+    <>
+-      <h1>Hello from Login Container</h1>
+      <LoginComponent />
+    </>
+  );
+};
+```
 
 - No esta mal el aspecto, pero se ve raro pegado a la izquierda, ¿ No podríamos
   centrarlo? Correcto vamos a generar un layout que centre el diálogo:
 
-Acabamos de ver como se definen los layouts, estos son genérios para cualquier ventana, también podríamos definir ese layout a nivel de router (ventaja no
+Primero lo definimos en la zona de layouts, aquí usaremos emotion y las medidas que trae el tema de Material:
+
+Estilos
+
+_./src/layouts/centered.layout.styles.ts_
+
+```ts
+import { css } from 'emotion';
+
+export const root = css`
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  margin-top: 2rem;
+  @media (min-width: 800px) {
+    justify-items: center;
+  }
+`;
+```
+
+> Si te fijas hemos dejado harcodead un punto de de corte de la media query, más adelante pasaremos esa información a un tema
+> para que sea homogeneo en toda la aplicación.
+
+Código
+
+_./src/layouts/centered.layout.tsx_
+
+```tsx
+import React from 'react';
+import * as classes from './centered.layout.styles';
+
+export const CenteredLayout: React.FunctionComponent = props => {
+  const { children } = props;
+  return <div className={classes.root}>{children}</div>;
+};
+```
+
+Y vamos a crear el barrel para layout:
+
+_./src/layouts/index.ts_
+
+```ts
+export * from './centered.layout';
+```
+
+Y añadirlo en los alias:
+
+_./tsconfig.json_
+
+```diff
+    "paths": {
++     "layout": ["layout"],
+      "core": ["core"],
+      "scenes": ["scenes"],
+      "pods": ["pods"]
+    }
+```
+
+_./config/base.config.js_
+
+```diff
+    resolve: {
+      alias: {
++       layout: helpers.resolveFromRootPath('src/layout'),
+        core: helpers.resolveFromRootPath('src/core'),
+        scenes: helpers.resolveFromRootPath('src/scenes'),
+        pods: helpers.resolveFromRootPath('src/pods'),
+      },
+```
+
+> Acuerdate de parar webpack-dev-server si esta arrancado para actualizar los cambios.
+
+Después se lo asignamos en la escena:
+
+_./src/scenes/login.scene.tsx_
+
+```diff
+import React from 'react';
+import { LoginContainer } from 'pods/login';
++ import { CenteredLayout } from 'layout';
+
+export const LoginScene: React.FC = () => {
+-  return <LoginContainer />;
++  return (
++     <CenteredLayout>
++        <LoginContainer/>
++     </CenteredLayout>
++  )
+};
+```
+
+Acabamos de ver como se definen los layouts, estos son genéricos para cualquier ventana, también podríamos definir ese layout a nivel de router (ventaja no
 redibujamos al cambiar de página).
+
+- Si ejecutamos podemos ver como aparece nuestro formulario de login centrado, y responsivo:
+
+```bash
+npm start
+```
 
 - Vamos a añadir la funcionalidad básica para hacer el login (nuestro primero objetivo es completar el caso), creamos un estado para almacenar usuario y clave
   y lo asociamos a los _TextField_

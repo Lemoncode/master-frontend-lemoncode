@@ -15,7 +15,7 @@
     "baseUrl": "./src/",
     "paths": {
       "common": ["common"],
-      "layout": ["layout"],
+      "layouts": ["layouts"],
       "core": ["core"],
       "scenes": ["scenes"],
       "pods": ["pods"]

@@ -8,6 +8,7 @@ module.exports = merge(
     context: helpers.resolveFromRootPath('src'),
     resolve: {
       alias: {
+        'common-app': helpers.resolveFromRootPath('src/common-app'),
         common: helpers.resolveFromRootPath('src/common'),
         layouts: helpers.resolveFromRootPath('src/layouts'),
         core: helpers.resolveFromRootPath('src/core'),

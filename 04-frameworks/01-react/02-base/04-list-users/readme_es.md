@@ -149,7 +149,7 @@ export const App = () => {
 +           {members.map((member) => (
 +              <tr>
 +                <td>
-+                  <img src={member.avatar_url} style ={{Width: '5rem'}}/>
++                  <img src={member.avatar_url} style ={{width: '5rem'}}/>
 +                </td>
 +                <td>
 +                  <span>{member.id}</span>

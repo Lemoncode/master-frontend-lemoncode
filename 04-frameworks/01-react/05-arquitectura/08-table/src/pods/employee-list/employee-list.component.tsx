@@ -1,57 +1,60 @@
 import React from 'react';
+import {
+  TableContainer,
+  RowRendererProps,
+  useSearchBar,
+} from 'common/components';
 import { Employee } from './employee-list.vm';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { EmployeeRowComponent } from './components';
 
 interface Props {
-  employees: Employee[];
+  employeeList: Employee[];
+  onCreate: () => void;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
 export const EmployeeListComponent: React.FunctionComponent<Props> = ({
-  employees,
+  employeeList,
+  onCreate,
+  onEdit,
+  onDelete,
 }) => {
+  const { filteredList, onSearch, search } = useSearchBar(employeeList, [
+    'name',
+  ]);
+
+  const contentRender = ({ itemName }) => {
+    return (
+      <>
+        ¿Seguro que quiere borrar a <strong>{itemName}</strong>?
+      </>
+    );
+  };
+
   return (
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell align="right">Activo</TableCell>
-            <TableCell align="right">Id</TableCell>
-            <TableCell align="right">Nombre</TableCell>
-            <TableCell align="right">Email</TableCell>
-            <TableCell align="right">Fecha último incurrido</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {employees.map(row => (
-            <TableRow key={row.id}>
-              <TableCell component="th" scope="row">
-                <Checkbox checked={row.isActive} disabled />
-              </TableCell>
-              <TableCell align="right">{row.id}</TableCell>
-              <TableCell align="right">{row.name}</TableCell>
-              <TableCell align="right">{row.email}</TableCell>
-              <TableCell align="right">
-                {row.lastDateIncurred}
-                <IconButton onClick={() => console.log('on Edit: ${row.id}')}>
-                  <EditIcon />
-                </IconButton>
-                <IconButton onClick={() => console.log('on Delete: ${row.id}')}>
-                  <DeleteIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <TableContainer
+      columns={['Activo', 'Id', 'Nombre', 'Email', 'Fecha último incurrido']}
+      rows={filteredList}
+      rowRenderer={(rowProps: RowRendererProps<Employee>) => (
+        <EmployeeRowComponent {...rowProps} />
+      )}
+      onCreate={onCreate}
+      onEdit={onEdit}
+      onDelete={onDelete}
+      labels={{
+        searchPlaceholder: 'Buscar empleado',
+        createButton: 'Nuevo empleado',
+        deleteTitle: 'Eliminar Empleado',
+        deleteContent: props => contentRender(props),
+        closeButton: 'Cancelar',
+        acceptButton: 'Aceptar',
+      }}
+      enableSearch={true}
+      search={search}
+      onSearch={onSearch}
+      enablePagination={true}
+      pageSize={5}
+    />
   );
 };

@@ -373,9 +373,232 @@ export const EmployeeListComponent: React.FunctionComponent<Props> = ({
   - ...
 
 Además todo esto se va a repetir en varias ventanas, así que hemos
-construido un asset de arquitectura:
+construido un wrapper de tabla que implementa el caso común
+que vamos a tener en nuestra aplicación:
 
-Veamos como usar esto:
+- Para tener paginación custom nos instalamos los laboratorios
+  de material-ui (un componente de UI).
+
+```bash
+npm install @material-ui/lab --save
+```
+
+- Para tener algoritmos y ayudas de filtrado, paginación.. vamos a usar
+  _react-table_
+
+```bash
+npm install react-table --save
+```
+
+- Para no llevarnos mucho tiempo vamos a copiar los fichero comunes
+  de tabla que usamos (en el proyecto original debajo de common/table).Este asset es candidato a ser promovido a librería (tableCrud).
+
+Veamos el contrato que expone el contenedor:
+
+```ts
+interface Props<T = {}> {
+  columns: string[];
+  rows: T[];
+  rowRenderer: (props: RowRendererProps<T>) => React.ReactNode;
+  enableSearch?: boolean;
+  search?: string;
+  onSearch?: (search: string) => void;
+  enablePagination?: boolean;
+  pageSize?: number;
+  onCreate?: () => void;
+  onEdit?: (id: string) => void;
+  onDelete?: (id: string) => void;
+  labels?: LabelProps;
+  className?: string;
+}
+```
+
+Nos permite definir:
+
+- Los nombres de cada columna.
+- Las filas así como definir como pintar cada file.
+- Una caja de filtrado por texto libre.
+- Paginación.
+- Puntos de entrada para comandos CRUD (editar, crear, borrar).
+- Un punto de entrada (className) para poder estilar el componente.
+
+- Vamos a verlo en uso, como se nos queda nuestro componente tabla:
+
+- Primero vamos a añadir los comandos de Add / Delete / Update
+  en el container:
+
+_./src/pods/employee-list/employee.list.container.tsx_
+
+```diff
+import React from 'react';
+import { EmployeeListComponent } from './employee-list.component';
+import { Employee } from './employee-list.vm';
+import { mapEmployeeListFromApiToVm } from './employee-list.mapper';
+import { getEmployeeList } from './api';
++ import { useHistory } from 'react-router-dom';
++ import { routes } from 'core/router';
+
+export const EmployeeListContainer: React.FunctionComponent = () => {
+  const [employees, setEmployees] = React.useState<Employee[]>([]);
++  const history = useHistory();
+
+
+  const onLoadEmployeeList = async () => {
+    const apiEmployeeList = await getEmployeeList();
+    const viewModelEmployeeList = mapEmployeeListFromApiToVm(apiEmployeeList);
+    setEmployees(viewModelEmployeeList);
+  };
+
+  React.useEffect(() => {
+    onLoadEmployeeList();
+  }, []);
+
++  const handleCreate = () => {
++    history.push(routes.editEmployee(null));
++  };
++
++  const handleEdit = (id: string) => {
++    history.push(routes.editEmployee(id));
++  };
++
++  const handleDelete = async (id: string) => {
++   console.log(`Delete: ${id}`)
++  };
+
+  return (
+    <>
+      <h1>Hello from Employee list POD Container</h1>
+      <EmployeeListComponent
+        employees={employees}
++        onCreate={handleCreate}
++        onEdit={handleEdit}
++        onDelete={handleDelete}
+      />
+    </>
+  );
+};
+```
+
+- Vamos ahora a extraer a un componente el pintado de una fila:
+
+_./src/pods/employee-list/components/employee-row.component.tsx_
+
+```tsx
+import React from 'react';
+import {
+  RowRendererProps,
+  RowComponent,
+  CellComponent,
+} from 'common/components';
+import Checkbox from '@material-ui/core/Checkbox';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { Employee } from '../employee-list.vm';
+
+type Props = RowRendererProps<Employee>;
+
+export const EmployeeRowComponent: React.FunctionComponent<Props> = ({
+  row,
+  onEdit,
+  onDelete,
+}) => {
+  return (
+    <RowComponent>
+      <CellComponent>
+        <Checkbox checked={row.isActive} disabled />
+      </CellComponent>
+      <CellComponent>{row.id}</CellComponent>
+      <CellComponent>{row.name}</CellComponent>
+      <CellComponent>{row.email}</CellComponent>
+      <CellComponent>
+        {row.lastDateIncurred}
+        <IconButton onClick={() => onEdit(row.id)}>
+          <EditIcon />
+        </IconButton>
+        <IconButton onClick={() => onDelete(row)}>
+          <DeleteIcon />
+        </IconButton>
+      </CellComponent>
+    </RowComponent>
+  );
+};
+```
+
+_./src/pods/employee-list/components/index.ts_
+
+```ts
+export * from './employee-row.component';
+```
+
+Y vamos refactorizar employee-list
+
+_./src/pods/employee-list/employee-list.component.tsx_
+
+```tsx
+import React from 'react';
+import {
+  TableContainer,
+  RowRendererProps,
+  useSearchBar,
+} from 'common/components';
+import { Employee } from './employee-list.vm';
+import { EmployeeRowComponent } from './components';
+
+interface Props {
+  employeeList: Employee[];
+  onCreate: () => void;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
+}
+
+export const EmployeeListComponent: React.FunctionComponent<Props> = ({
+  employeeList,
+  onCreate,
+  onEdit,
+  onDelete,
+}) => {
+  const { filteredList, onSearch, search } = useSearchBar(employeeList, [
+    'name',
+  ]);
+
+  const contentRender = ({ itemName }) => {
+    return (
+      <>
+        ¿Seguro que quiere borrar a <strong>{itemName}</strong>?
+      </>
+    );
+  };
+
+  return (
+    <TableContainer
+      columns={['Activo', 'Id', 'Nombre', 'Email', 'Fecha último incurrido']}
+      rows={filteredList}
+      rowRenderer={(rowProps: RowRendererProps<Employee>) => (
+        <EmployeeRowComponent {...rowProps} />
+      )}
+      onCreate={onCreate}
+      onEdit={onEdit}
+      onDelete={onDelete}
+      labels={{
+        searchPlaceholder: 'Buscar empleado',
+        createButton: 'Nuevo empleado',
+        deleteTitle: 'Eliminar Empleado',
+        deleteContent: props => contentRender(props),
+        closeButton: 'Cancelar',
+        acceptButton: 'Aceptar',
+      }}
+      enableSearch={true}
+      search={search}
+      onSearch={onSearch}
+      enablePagination={true}
+      pageSize={5}
+    />
+  );
+};
+```
+
+\*\*\* Ejemplo separado
 
 - Un tema que hemos pasado por alto al trabajar con datos mock, las
   llamadas asíncronas pueden tardar y hay casos en los que no queremos

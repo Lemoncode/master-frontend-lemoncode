@@ -1,5 +1,7 @@
 import React from 'react';
 import { Employee } from './employee-list.vm';
+import { useHistory } from 'react-router-dom';
+import { routes } from 'core/router';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,10 +15,12 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 interface Props {
   employees: Employee[];
+  onEditEmployee: (id: string) => void;
 }
 
 export const EmployeeListComponent: React.FunctionComponent<Props> = ({
   employees,
+  onEditEmployee,
 }) => {
   return (
     <TableContainer>
@@ -28,6 +32,7 @@ export const EmployeeListComponent: React.FunctionComponent<Props> = ({
             <TableCell align="right">Nombre</TableCell>
             <TableCell align="right">Email</TableCell>
             <TableCell align="right">Fecha último incurrido</TableCell>
+            <TableCell align="right">Comandos</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -39,9 +44,9 @@ export const EmployeeListComponent: React.FunctionComponent<Props> = ({
               <TableCell align="right">{row.id}</TableCell>
               <TableCell align="right">{row.name}</TableCell>
               <TableCell align="right">{row.email}</TableCell>
+              <TableCell align="right">{row.lastDateIncurred}</TableCell>
               <TableCell align="right">
-                {row.lastDateIncurred}
-                <IconButton onClick={() => console.log('on Edit: ${row.id}')}>
+                <IconButton onClick={() => onEditEmployee(row.id)}>
                   <EditIcon />
                 </IconButton>
                 <IconButton onClick={() => console.log('on Delete: ${row.id}')}>

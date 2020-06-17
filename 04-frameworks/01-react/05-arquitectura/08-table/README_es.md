@@ -337,6 +337,7 @@ export const EmployeeListComponent: React.FunctionComponent<Props> = ({
 +            <TableCell align="right">Nombre</TableCell>
 +            <TableCell align="right">Email</TableCell>
 +            <TableCell align="right">Fecha último incurrido</TableCell>
++            <TableCell align="right">Comandos</TableCell>
 +          </TableRow>
 +        </TableHead>
 +        <TableBody>
@@ -350,6 +351,8 @@ export const EmployeeListComponent: React.FunctionComponent<Props> = ({
 +              <TableCell align="right">{row.email}</TableCell>
 +              <TableCell align="right">
 +                {row.lastDateIncurred}
++              </TableCell>
++              <TableCell align="right">
 +                <IconButton onClick={() => console.log('on Edit: ${row.id}')}>
 +                  <EditIcon />
 +                </IconButton>
@@ -366,44 +369,84 @@ export const EmployeeListComponent: React.FunctionComponent<Props> = ({
 };
 ```
 
+- Al pinchar en Edit queremos navegar a la página de edición de ese usuario:
+
+- Vamonos al container y definir esta lógica:
+
+_./src/pods/employee-list/employee-list.container.tsx_
+
+```diff
+import React from 'react';
+import { EmployeeListComponent } from './employee-list.component';
+import { Employee } from './employee-list.vm';
+import { mapEmployeeListFromApiToVm } from './employee-list.mapper';
+import { getEmployeeList } from './api';
++ import { useHistory } from 'react-router-dom';
++ import { routes } from 'core/router';
+
+export const EmployeeListContainer: React.FunctionComponent = () => {
+  const [employees, setEmployees] = React.useState<Employee[]>([]);
++ const history = useHistory();
+
+  const onLoadEmployeeList = async () => {
+    const apiEmployeeList = await getEmployeeList();
+    const viewModelEmployeeList = mapEmployeeListFromApiToVm(apiEmployeeList);
+    setEmployees(viewModelEmployeeList);
+  };
+
+  React.useEffect(() => {
+    onLoadEmployeeList();
+  }, []);
+
++ const handleEditEmployee = (id : string) => {
++  history.push(routes.editEmployee(id));
++ }
+
+  return (
+    <>
+      <h1>Hello from Employee list POD Container</h1>
+-      <EmployeeListComponent employees={employees} />
++      <EmployeeListComponent employees={employees} onEditEmployee={handleEditEmployee} />
+    </>
+  );
+```
+
+- Vamos al componente:
+
+_./src/pods/employee-list/employee-list.component.tsx_
+
+```diff
+interface Props {
+  employees: Employee[];
++ onEditEmployee : (id : string) => void;
+}
+
+export const EmployeeListComponent: React.FunctionComponent<Props> = ({
+  employees,
++ onEditEmployee
+}) => {
+
+```
+
+- Invocarlo en el click:
+
+```diff
+-  <IconButton onClick={() => console.log('on Edit: ${row.id}')}>
++  <IconButton onClick={() => onEditEmployee(row.id)}>
+
+    <EditIcon />
+  </IconButton>
+```
+
 - Hasta aquí bien, pero queremos añadir una sería de cosas:
   - Comandos.
   - Paginación.
   - Filtrado...
   - ...
 
-Además todo esto se va a repetir en varias ventanas, así que hemos
-construido un asset de arquitectura:
-
-Veamos como usar esto:
-
-- Un tema que hemos pasado por alto al trabajar con datos mock, las
-  llamadas asíncronas pueden tardar y hay casos en los que no queremos
-  que bloqueen el interfaz de usuario y otros que si, tambié tendremos
-  casos en los que lanzaremos varias llamadas en paralelo, para controlar
-  esto hemos hecho un tracker de promesas, veamos como añadirlo.
-
-- Primero vamos a añadir un delay a nuestra petición de datos:
-
-- Si probamos, nos damos cuenta de que la experiencia de usuario es un poco rara
-
-- Vamos a instalarnos react-promise-tracker y una animación de carga:
-
-- Configuramos React-Promise-tracker
-
-- Creamos un componente de spinner
-
-- Donde queramos mostrar el spinner de carga le indicamos a la llamada
-  que trackee la promesa
-
-- Vamos a probar:
-
-- Un tema interesante es que podemos indicar que espera unos milisegundos a
-  mostrar el spinner, así con conexiones muy rápidas evitamos que haga un
-  parpadeo el spinner.
-
-  - Ahora si bajamos a 400 milisegundos la llamada veremos que el spinner
-    no se llega a mostrar.
+Además todo esto se va a repetir en varias ventanas, así que en el
+proyecto de admin origin hemos construido un asset de arquitectura:
+https://github.com/Lemoncode/origin-front-admin
 
 # ¿Te apuntas a nuestro máster?
 

@@ -138,7 +138,7 @@ export const isLowerThanFive = value => {
 ### ./src/calculator.ts
 
 ```diff
-+ import { isLowerThanFive } from './business'
++ import { isLowerThanFive } from './business';
 
 - export const add = (a, b, isLowerThanFive) => {
 + export const add = (a, b) => {
@@ -158,8 +158,8 @@ export const isLowerThanFive = value => {
 ### ./src/calculator.spec.ts
 
 ```diff
-import * as calculator from './calculator'
-+ import * as business from './business'
+import * as calculator from './calculator';
++ import * as business from './business';
 
 describe('Calculator tests', () => {
   describe('add', () => {

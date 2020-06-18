@@ -31,6 +31,8 @@ npm install
 npm install jest @types/jest ts-jest --save-dev
 ```
 
+> NOTE: [Since jest v26.x it drops support for Node 8](https://github.com/facebook/jest/releases/tag/v26.0.0)
+
 # Config
 
 - Jest test commands:
@@ -56,8 +58,8 @@ npm install jest @types/jest ts-jest --save-dev
   ...
   "scripts": {
     ...
--   "build": "npm run clean && webpack --config ./config/webpack/prod.js"
-+   "build": "npm run clean && webpack --config ./config/webpack/prod.js",
+-   "clean": "rimraf dist"
++   "clean": "rimraf dist",
 +   "test": "jest --verbose",
 +   "test:watch": "npm run test -- --watchAll -i"
   },
@@ -167,25 +169,27 @@ describe('dummy specs', () => {
 
 ```
 
-### ./config/test/jest.json
+### ./config/test/jest.js
 
-```json
-{
-  "preset": "ts-jest",
-  "restoreMocks": true
-}
+```js
+module.exports = {
+  preset: 'ts-jest',
+  restoreMocks: true,
+};
 ```
 
 - We only need a detail to keep working with this Jest config, we need to use `rootDir`:
 
-### ./config/test/jest.json
+### ./config/test/jest.js
 
 ```diff
-{
-+ "rootDir": "../../",
-  "preset": "ts-jest",
-  "restoreMocks": true
-}
+module.exports = {
++ rootDir: '../../',
+  preset: 'ts-jest',
+  restoreMocks: true,
+};
+
+
 ```
 
 - And use that file:
@@ -198,7 +202,7 @@ describe('dummy specs', () => {
   "scripts": {
     ...
 -   "test": "jest --verbose",
-+   "test": "jest -c ./config/test/jest.json --verbose",
++   "test": "jest -c ./config/test/jest.js --verbose",
     "test:watch": "npm run test -- --watchAll -i"
   },
   ...

@@ -65,6 +65,19 @@ export const MyComponent = () => {
   return (
 ```
 
+**OJO !!! Typicode** corre en un heroku gratuito que se duerme cada X tiempo :)
+Vamos a probar con otra API
+
+https://swapi.dev/documentation#auth
+
+```jsx
+React.useEffect(() => {
+  fetch(`https://swapi.dev/api/people?search=${filter}`)
+    .then((response) => response.json())
+    .then((json) => setUserCollection(json.results));
+}, [filter]);
+```
+
 - Si ejecutamos este código podemos ver que la opcíon de filtrado funciona.
 
 ```bash

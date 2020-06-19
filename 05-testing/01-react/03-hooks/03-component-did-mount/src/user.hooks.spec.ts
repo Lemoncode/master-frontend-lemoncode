@@ -3,7 +3,7 @@ import { User } from './model';
 import { useUser } from './user.hooks';
 
 describe('useUser specs', () => {
-  it('should return user with initial values and setUser method when it calls it', () => {
+  it('should return user with initial values and setUser method when it calls it', async () => {
     // Arrange
     const initialUser: User = {
       name: 'John',
@@ -11,14 +11,23 @@ describe('useUser specs', () => {
     };
 
     // Act
-    const { result } = renderHook(() => useUser(initialUser));
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useUser(initialUser)
+    );
 
     // Assert
     expect(result.current.user).toEqual(initialUser);
     expect(result.current.setUser).toEqual(expect.any(Function));
+
+    await waitForNextUpdate();
+    const updatedUser: User = {
+      name: 'Jane',
+      surname: 'Smith',
+    };
+    expect(result.current.user).toEqual(updatedUser);
   });
 
-  it('should update user when it calls setUser', () => {
+  it('should update user when it calls setUser', async () => {
     // Arrange
     const initialUser: User = {
       name: 'John',
@@ -26,7 +35,9 @@ describe('useUser specs', () => {
     };
 
     // Act
-    const { result } = renderHook(() => useUser(initialUser));
+    const { result, waitForNextUpdate } = renderHook(() => useUser(initialUser));
+
+    await waitForNextUpdate();
 
     act(() => {
       result.current.setUser({

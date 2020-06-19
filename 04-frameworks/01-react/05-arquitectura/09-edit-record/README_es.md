@@ -304,6 +304,33 @@ export const EmployeeComponent: React.FunctionComponent = () => {
 };
 ```
 
+- Vamos a crearnos el tab de datos del empleado:
+
+Aquí vamos a ver los fichero que están envueltos en la creación, para desarrollarlos
+desde cero el flujo sería:
+  - Creo el componente.
+  - Maqueto el componente.
+  - Defino las validaciones.
+  - Las ensamblo en el componente.
+
+_./src/pods/data.component.tsx_
+
+```tsx
+import React from 'react';
+import { Formik, Form } from 'formik';
+import { TextFieldComponent, CheckboxComponent } from 'common/components';
+import { cx } from 'emotion';
+import { Employee } from '../employee.vm';
+
+interface Props {
+  employee: Employee;
+  className?: string;
+  onSave: (employee: Employee) => void;
+  onCancel: () => void;
+}
+
+```
+
 # ¿Te apuntas a nuestro máster?
 
 Si te ha gustado este ejemplo y tienes ganas de aprender Front End

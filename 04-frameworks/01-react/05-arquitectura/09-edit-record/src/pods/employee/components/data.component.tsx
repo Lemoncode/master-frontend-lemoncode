@@ -3,6 +3,8 @@ import { Formik, Form } from 'formik';
 import { TextFieldComponent, CheckboxComponent } from 'common/components';
 import { cx } from 'emotion';
 import { Employee } from '../employee.vm';
+import { CommandFooterComponent } from '../../../common-app/command-footer';
+import { formValidation } from './data.validations';
 
 interface Props {
   employee: Employee;
@@ -20,6 +22,7 @@ export const DataComponent: React.FunctionComponent<Props> = ({
       initialValues={employee}
       enableReinitialize={true}
       onSubmit={onSave}
+      validate={formValidation.validateForm}
     >
       {() => (
         <Form>
@@ -33,6 +36,7 @@ export const DataComponent: React.FunctionComponent<Props> = ({
           <TextFieldComponent label="Nombre" name="name" />
           <TextFieldComponent label="Email" name="email" />
           <CheckboxComponent name="isActive" label="Activo" color="primary" />
+          <CommandFooterComponent onCancel={onCancel} />
         </Form>
       )}
     </Formik>

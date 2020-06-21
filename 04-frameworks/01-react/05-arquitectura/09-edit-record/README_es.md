@@ -676,7 +676,17 @@ export * from './command-footer.component';
 _./src/pods/employee/components/data.component.tsx_
 
 ```diff
+import { Employee } from '../employee.vm';
++ import { CommandFooterComponent } from '../../../common-app/command-footer';
+```
 
+```diff
+    <TextFieldComponent label="Email" name="email" />
+    <CheckboxComponent name="isActive" label="Activo" color="primary" />
++    <CommandFooterComponent
++      onCancel={onCancel}
++    />
+  </Form>
 ```
 
 - Probamos que el tab se ve correctamente
@@ -685,8 +695,6 @@ _./src/pods/employee/components/data.component.tsx_
 npm start
 ```
 
----
-
 - Vamos ahora a definir las validaciones:
 
 _./src/pods/employee/components/data.validation.ts_
@@ -694,7 +702,6 @@ _./src/pods/employee/components/data.validation.ts_
 ```tsx
 import { ValidationSchema, Validators } from '@lemoncode/fonk';
 import { createFormikValidation } from '@lemoncode/fonk-formik';
-import { requiredByField } from '@lemoncode/fonk-required-by-field-validator';
 
 export const validationSchema: ValidationSchema = {
   field: {
@@ -712,6 +719,27 @@ export const validationSchema: ValidationSchema = {
 
 export const formValidation = createFormikValidation(validationSchema);
 ```
+
+- Y a darle uso:
+
+_./src/pods/employee/components/data.component.tsx_
+
+```diff
+import { Employee } from '../employee.vm';
++ import { formValidation } from './data.validations';
+
+```
+
+_./src/pods/employee/components/data.component.tsx_
+
+```diff
+  <Form
+      initialValues={employee}
+      onSubmit={onSave}
++      validate={formValidation.validateForm}
+  >
+```
+
 
 # ¿Te apuntas a nuestro máster?
 

@@ -5,8 +5,20 @@ import {
   TabPanelComponent,
 } from 'common/components';
 import AppBar from '@material-ui/core/AppBar';
+import { DataComponent } from './components';
+import { Employee } from './employee.vm';
 
-export const EmployeeComponent: React.FunctionComponent = () => {
+interface Props {
+  employee: Employee;
+  onSave: (employee: Employee) => void;
+  onCancel: () => void;
+}
+
+export const EmployeeComponent: React.FunctionComponent<Props> = ({
+  employee,
+  onSave,
+  onCancel,
+}) => {
   const [tab, setTab] = React.useState(0);
   return (
     <>
@@ -18,7 +30,11 @@ export const EmployeeComponent: React.FunctionComponent = () => {
         </TabListComponent>
       </AppBar>
       <TabPanelComponent value={tab} index={0}>
-        <h3>Hello from Data tab</h3>
+        <DataComponent
+          employee={employee}
+          onSave={onSave}
+          onCancel={onCancel}
+        />
       </TabPanelComponent>
       <TabPanelComponent value={tab} index={1}>
         <h3>Hello from projects tab</h3>

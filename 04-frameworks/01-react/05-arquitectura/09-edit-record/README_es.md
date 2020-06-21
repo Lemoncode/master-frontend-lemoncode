@@ -308,12 +308,102 @@ export const EmployeeComponent: React.FunctionComponent = () => {
 
 Aquí vamos a ver los fichero que están envueltos en la creación, para desarrollarlos
 desde cero el flujo sería:
-  - Creo el componente.
-  - Maqueto el componente.
-  - Defino las validaciones.
-  - Las ensamblo en el componente.
 
-_./src/pods/data.component.tsx_
+- Creo el componente.
+- Maqueto el componente.
+- Defino las validaciones.
+- Las ensamblo en el componente.
+
+- A este componente le va a hacer falta un checkbox wrapeado
+  con validación vamos a crear el componente común
+
+_./src/common/components/form/checkbox.styles.ts_
+
+```ts
+import { css } from 'emotion';
+import { theme } from 'core/theme';
+
+export const root = css`
+  justify-content: flex-end;
+`;
+```
+
+_./src/common/components/form/checkbox.component.tsx_
+
+```tsx
+import React from 'react';
+import { useField } from 'formik';
+import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import * as classes from './checkbox.styles';
+
+interface Props extends CheckboxProps {
+  label?: string;
+  labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
+  error?: boolean;
+  helperText?: string;
+}
+
+export const CheckboxComponent: React.FunctionComponent<Props> = props => {
+  const {
+    label,
+    labelPlacement,
+    error,
+    name,
+    checked,
+    onChange,
+    onBlur,
+    ...checkboxProps
+  } = props;
+  const [field, meta] = Boolean(name) ? useField(name) : [];
+  const hasError = error || Boolean(meta && meta.touched && meta.error);
+  const helperText = Boolean(field) ? meta?.error : props.helperText;
+
+  return (
+    <FormControl
+      className={classes.root}
+      error={hasError}
+      fullWidth={true}
+      margin="normal"
+    >
+      <FormControlLabel
+        control={
+          <Checkbox
+            {...checkboxProps}
+            name={name}
+            checked={checked || field?.value}
+            onChange={onChange || field?.onChange}
+            onBlur={onBlur || field?.onBlur}
+          />
+        }
+        label={label}
+        labelPlacement={labelPlacement}
+      />
+
+      {hasError && <FormHelperText>{helperText}</FormHelperText>}
+    </FormControl>
+  );
+};
+```
+
+_./src/common/components/form/index.ts_
+
+```ts
+export * from './checkbox';
+```
+
+_./src/common/components/form/index.ts_
+
+```diff
+export * from './text-field.component';
++ export * from './checkbox';
+```
+
+Ahora si vampos a por el tab de data
+
+_./src/pods/employee/components/data.component.tsx_
 
 ```tsx
 import React from 'react';
@@ -324,11 +414,303 @@ import { Employee } from '../employee.vm';
 
 interface Props {
   employee: Employee;
-  className?: string;
   onSave: (employee: Employee) => void;
   onCancel: () => void;
 }
 
+export const DataComponent: React.FunctionComponent<Props> = ({
+  employee,
+  onSave,
+  onCancel,
+}) => {
+  return (
+    <Formik
+      initialValues={employee}
+      enableReinitialize={true}
+      onSubmit={onSave}
+    >
+      {() => (
+        <Form>
+          <TextFieldComponent
+            label="Id"
+            name="id"
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+          <TextFieldComponent label="Nombre" name="name" />
+          <TextFieldComponent label="Email" name="email" />
+          <CheckboxComponent name="isActive" label="Activo" color="primary" />
+        </Form>
+      )}
+    </Formik>
+  );
+};
+```
+
+- Creamos un barrel
+
+_./src/pods/employee/components/index.ts_
+
+```ts
+export * from './data.component';
+```
+
+- Vamos a usar este data component en el tab:
+
+_./src/pods/employee/components/employee.component.tsx_
+
+```diff
+import React from 'react';
+import {
+  TabComponent,
+  TabListComponent,
+  TabPanelComponent,
+} from 'common/components';
+import AppBar from '@material-ui/core/AppBar';
++ import { DataComponent } from './components';
+```
+
+```diff
+      <TabPanelComponent value={tab} index={0}>
++        <DataComponent/>
+-        <h3>Hello from Data tab</h3>
+      </TabPanelComponent>
+```
+
+- Necesitamos alimentar a DataComponent las siguientes propiedades:
+
+  - Los datos del empleado.
+  - El comando Save y el cancel.
+
+- Vamos a ello:
+
+_./src/pods/employee/components/employee.component.tsx_
+
+```diff
+import { DataComponent } from './components';
++ import { Employee } from './employee.vm';
+
++ interface Props {
++  employee: Employee;
++  onSave: (employee: Employee) => void;
++  onCancel: () => void;
++ }
+
+- export const EmployeeComponent: React.FunctionComponent = () => {
++ export const EmployeeComponent: React.FunctionComponent<Props> = ({
++ employee,
++ onSave,
++ onCancel
++ }) => {
+```
+
+```diff
+      <TabPanelComponent value={tab} index={0}>
+-        <DataComponent />
++        <DataComponent
++          employee={employee}
++          onSave={onSave}
++          onCancel={onCancel}
++        />
+      </TabPanelComponent>
+```
+
+- Ahora tenemos que añadir la lógica en el container.
+
+- Antes de meternos con el container, nos hace falta
+  un mapeador para convertir de modelo de api a vm:
+
+_./src/pods/employee/components/employee.mapper.ts_
+
+```ts
+import * as apiModel from './api/employee.api.model';
+import * as viewModel from './employee.vm';
+
+const mapProjectSummaryFromApiToVm = (
+  projectSummary: apiModel.ProjectSummary
+): viewModel.ProjectSummary => ({
+  ...projectSummary,
+});
+
+const mapProjectSummaryListFromApiToVm = (
+  projectSummaryCollection: apiModel.ProjectSummary[]
+): viewModel.ProjectSummary[] =>
+  projectSummaryCollection.map(mapProjectSummaryFromApiToVm);
+
+export const mapEmployeeFromApiToVm = (
+  employee: apiModel.Employee
+): viewModel.Employee => {
+  return Boolean(employee)
+    ? {
+        ...employee,
+        projects: mapProjectSummaryListFromApiToVm(employee.projects),
+      }
+    : viewModel.createEmptyEmployee();
+};
+```
+
+_./src/pods/employee/components/employee.container.tsx_
+
+```diff
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import { EmployeeComponent } from './employee.component';
++ import {
++  Employee,
++  createEmptyEmployee,
++ } from './employee.vm';
++ import { getEmployeeById } from './api';
++ import { mapEmployeeFromApiToVm } from './employee.mappers';
+
+
+export const EmployeeContainer: React.FunctionComponent = () => {
+  const { id } = useParams();
++  const [employee, setEmployee] = React.useState<Employee>(
++    createEmptyEmployee()
++  );
+
++  const onLoadEmployee = async () => {
++      const apiEmployee = await getEmployeeById(id);
++      const viewModelEmployee = mapEmployeeFromApiToVm(apiEmployee)
++      setEmployee(viewModelEmployee);
++  };
+
++  React.useEffect(() => {
++    onLoadEmployee();
++  }, []);
+
++  const handleSave = (employee: Employee) => {
++    console.log('Guardado');
++  };
++
++  const handleCancel = () => {
++    history.back();
++  };
+
+  return (
+    <>
+      <h1>{id}</h1>
+      <EmployeeComponent
++        employee={employee}
++        onSave={handleSave}
++        onCancel={handleCancel}
+      />
+    </>
+  );
+};
+```
+
+- Vamos a definir un componente footer que usaremos en otros componentes
+  de edición:
+
+_./src/common-app/command-footer/command-footer.style.ts_
+
+```tsx
+import { css } from 'emotion';
+
+export const footerButtonsContainer = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1rem;
+`;
+```
+
+_./src/common-app/command-footer/command-footer.component.tsx_
+
+```tsx
+import * as React from 'react';
+import { cx } from 'emotion';
+import Button from '@material-ui/core/Button';
+import * as classes from './command-footer.style';
+
+interface LabelProps {
+  cancelButton?: string;
+  saveButton?: string;
+}
+
+interface Props {
+  onCancel: () => void;
+  onSave?: () => void;
+  labels?: LabelProps;
+  className?: string;
+}
+
+export const CommandFooterComponent: React.FunctionComponent<Props> = props => {
+  const { onCancel, onSave, className } = props;
+  const labels: LabelProps = {
+    cancelButton: 'Cancelar',
+    saveButton: 'Guardar',
+    ...props.labels,
+  };
+
+  return (
+    <div className={cx(classes.footerButtonsContainer, className)}>
+      <Button variant="contained" color="primary" onClick={onCancel}>
+        {labels.cancelButton}
+      </Button>
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          if (onSave) onSave();
+        }}
+      >
+        {labels.saveButton}
+      </Button>
+    </div>
+  );
+};
+```
+
+_./src/common-app/command-footer/index.ts_
+
+```tsx
+export * from './command-footer.component';
+```
+
+- Y Vamos a darle uso en este tab:
+
+_./src/pods/employee/components/data.component.tsx_
+
+```diff
+
+```
+
+- Probamos que el tab se ve correctamente
+
+```bash
+npm start
+```
+
+---
+
+- Vamos ahora a definir las validaciones:
+
+_./src/pods/employee/components/data.validation.ts_
+
+```tsx
+import { ValidationSchema, Validators } from '@lemoncode/fonk';
+import { createFormikValidation } from '@lemoncode/fonk-formik';
+import { requiredByField } from '@lemoncode/fonk-required-by-field-validator';
+
+export const validationSchema: ValidationSchema = {
+  field: {
+    name: [Validators.required],
+    email: [
+      {
+        validator: Validators.required,
+      },
+      {
+        validator: Validators.email,
+      },
+    ],
+  },
+};
+
+export const formValidation = createFormikValidation(validationSchema);
 ```
 
 # ¿Te apuntas a nuestro máster?

@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SayHello component specs should display the person name using snapshot testing 1`] = `
+<DocumentFragment>
+  <h1>
+    Hello 
+    <strong>
+      John
+    </strong>
+  </h1>
+</DocumentFragment>
+`;

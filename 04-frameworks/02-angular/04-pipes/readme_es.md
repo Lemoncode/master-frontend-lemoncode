@@ -68,7 +68,34 @@ _src/app/user/user-list/user-list.component.html_
 ng generate pipe pipes/searchBy
 ```
 
-- Aplicamos la pipe sobre la lista de miembros, indicando el campo por el que hacer la búsqueda y el valor buscado.
+- Programamos la pipe
+
+La función transform de la pipe recibirá la lista de miembros sobre la que realizar la búsqueda y el valor por el que buscar. Devolverá una lista con los miembros cuyo campo contenga el valor buscado.
+
+_src/app/pipes/search-by-login.pipe.ts_
+
+```diff
+import { Pipe, PipeTransform } from '@angular/core';
++import { MemberEntity } from '../model/MemberEntity';
+
+@Pipe({
+  name: 'searchByLogin'
+})
+export class SearchByLoginPipe implements PipeTransform {
+
+-  transform(value: unknown, ...args: unknown[]): unknown {
+-    return null;
+-  }
++  transform(members: MemberEntity[], value: string): MemberEntity[] {
++    return members.filter(
++      member => member.login.toLowerCase().includes(value.toLowerCase())
++    );
++  }
+
+}
+```
+
+- Aplicamos la pipe sobre la lista de miembros.
 
 El valor buscado lo obtenemos con una variable de plantilla declarada en el input de búsqueda.
 

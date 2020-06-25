@@ -12,6 +12,8 @@ Qué vamos a aprender en este ejemplo:
 - La directiva ngModel
 - Directivas de atributo para validaciones
 - Variables de plantilla
+- Resaltar con CSS los campos no válidos
+- Mostrar mensajes de error
 
 Pasos:
 

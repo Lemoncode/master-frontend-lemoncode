@@ -189,174 +189,41 @@ export * from './employee.api.model';
   hemos creado unos wrappers del componente de tab de material ui,
   vamos a hacer uso de ellos.
 
-- Vamos a definir el pod de _employee_
-
 _./src/pods/employee/employee.component.tsx_
-
-```tsx
-import React from 'react';
-
-export const EmployeeComponent: React.FunctionComponent = () => {
-  return <h2>Hello from Employee Component</h2>;
-};
-```
-
-_./src/pods/employee/employee.container.tsx_
-
-```tsx
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { EmployeeComponent } from './employee.component';
-
-export const EmployeeContainer: React.FunctionComponent = () => {
-  const { id } = useParams();
-
-  return (
-    <>
-      <h1>{id}</h1>
-      <EmployeeComponent />
-    </>
-  );
-};
-```
-
-_./src/pods/employee/index.ts_
-
-```tsx
-export * from './employee.container';
-```
-
-_./src/scenes/employee.scene.tsx_
 
 ```diff
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { routes } from 'core/router';
-import { AppLayout } from 'layouts';
-+ import { EmployeeContainer } from 'pods/employee';
++ import {
++  TabComponent,
++  TabListComponent,
++  TabPanelComponent,
++ } from 'common/components';
++ import AppBar from '@material-ui/core/AppBar';
 
-export const EmployeeScene: React.FC = () => {
-  return (
-    <AppLayout>
--      <h1>Employee Scene!</h1>
--      <Link to={routes.employees}>Back to employee list</Link>
-+      <EmployeeContainer/>
-    </AppLayout>
-  );
+export const EmployeeComponent: React.FunctionComponent = () => {
+-  return <h2>Hello from Employee Component</h2>;
++  const [tab, setTab] = React.useState(0);
++  return (
++    <>
++      <AppBar position="static">
++         <TabListComponent value={tab} onChange={setTab}>
++          <TabComponent label="Datos" />
++          <TabComponent label="Proyectos" />
++          <TabComponent label="Informes" />
++        </TabListComponent>
++      </AppBar>
++      <TabPanelComponent value={tab} index={0}>
++         <h3>Hello from Data tab</h3>
++      </TabPanelComponent>
++      <TabPanelComponent value={tab} index={1}>
++         <h3>Hello from projects tab</h3>
++      </TabPanelComponent>
++      <TabPanelComponent value={tab} index={2}>
++         <h3>Hello from report tab</h3>
++      </TabPanelComponent>
++    </>
++  );
 };
-```
-
-- Vamos arrancar y ver que se muestra el pod:
-
-```bash
-npm start
-```
-
-- Ahora toca montarnos la definicion de datos para la vista:
-
-_./src/pods/employee/employee.vm.ts_
-
-```ts
-export interface Employee {
-  id: string;
-  name: string;
-  email: string;
-  isActive: boolean;
-  temporalPassword?: string;
-  projects: ProjectSummary[];
-}
-
-export interface ProjectSummary {
-  id: string;
-  isAssigned?: boolean;
-  projectName: string;
-}
-
-export const createEmptyEmployee = (): Employee => ({
-  id: '',
-  name: '',
-  email: '',
-  isActive: false,
-  temporalPassword: '',
-  projects: [],
-});
-```
-
-- Y vamos a definir una API mock:
-
-_./api/employee.api.model.ts_
-
-```ts
-export interface Employee {
-  id: string;
-  name: string;
-  email: string;
-  isActive: boolean;
-  temporalPassword?: string;
-  projects?: ProjectSummary[];
-}
-
-export interface ProjectSummary {
-  id: string;
-  isAssigned?: boolean;
-  projectName: string;
-}
-```
-
-_./api/employee.mock-data.ts_
-
-```ts
-import { Employee, ProjectSummary } from './employee.api.model';
-
-const mockProjectSummaryList: ProjectSummary[] = [
-  {
-    id: '1',
-    isAssigned: true,
-    projectName: 'Mapfre',
-  },
-  {
-    id: '2',
-    isAssigned: false,
-    projectName: 'Bankia',
-  },
-  {
-    id: '3',
-    isAssigned: false,
-    projectName: 'Vacaciones',
-  },
-  {
-    id: '4',
-    isAssigned: true,
-    projectName: 'Baja',
-  },
-];
-
-export const mockEmployee: Employee = {
-  id: '1',
-  name: 'Prueba Nombre',
-  email: 'prueba@email.com',
-  isActive: true,
-  temporalPassword: 'admin',
-  projects: mockProjectSummaryList,
-};
-```
-
-_./api/employee.api.ts_
-
-```ts
-import { Employee } from './employee.api.model';
-import { mockEmployee } from './employee.mock-data';
-
-export const getEmployeeById = async (id: string): Promise<Employee> => {
-  return mockEmployee;
-};
-```
-
-_./api/index.ts_
-
-```ts
-export * from './employee.api';
-export * from './employee.api.model';
 ```
 
 vampos a por el tab de data
@@ -368,19 +235,8 @@ import React from 'react';
 import { Formik, Form } from 'formik';
 import { TextFieldComponent, CheckboxComponent } from 'common/components';
 import { cx } from 'emotion';
-import { Employee } from '../employee.vm';
 
-interface Props {
-  employee: Employee;
-  onSave: (employee: Employee) => void;
-  onCancel: () => void;
-}
-
-export const DataComponent: React.FunctionComponent<Props> = ({
-  employee,
-  onSave,
-  onCancel,
-}) => {
+export const DataComponent: React.FunctionComponent = () => {
   return (
     <Formik
       initialValues={employee}
@@ -479,7 +335,7 @@ import { DataComponent } from './components';
 - Antes de meternos con el container, nos hace falta
   un mapeador para convertir de modelo de api a vm:
 
-_./src/pods/employee/components/employee.mapper.ts_
+_./src/pods/employee/employee.mapper.ts_
 
 ```ts
 import * as apiModel from './api/employee.api.model';
@@ -519,7 +375,7 @@ import { EmployeeComponent } from './employee.component';
 +  createEmptyEmployee,
 + } from './employee.vm';
 + import { getEmployeeById } from './api';
-+ import { mapEmployeeFromApiToVm } from './employee.mappers';
++ import { mapEmployeeFromApiToVm } from './employee.mapper';
 
 
 export const EmployeeContainer: React.FunctionComponent = () => {
@@ -566,7 +422,7 @@ _./src/pods/employee/components/data.component.tsx_
 
 ```diff
 import { Employee } from '../employee.vm';
-+ import { CommandFooterComponent } from '../../../common-app/command-footer';
++ import { CommandFooterComponent } from 'common-app/command-footer';
 ```
 
 ```diff
@@ -615,7 +471,7 @@ _./src/pods/employee/components/data.component.tsx_
 
 ```diff
 import { Employee } from '../employee.vm';
-+ import { formValidation } from './data.validations';
++ import { formValidation } from './data.validation';
 
 ```
 

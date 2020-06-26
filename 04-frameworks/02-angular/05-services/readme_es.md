@@ -37,7 +37,7 @@ ng generate service services/members
 
 Creamos un método que nos devuelva una promesa de la lista de miembros.
 
-_src/app/services/members.service..ts_
+_src/app/services/members.service.ts_
 
 ```diff
 import { Injectable } from '@angular/core';
@@ -58,6 +58,8 @@ export class MembersService {
 ```
 
 - Inyectamos el servicio en el componente
+
+_src/app/user/user-list/user-list.component.ts_
 
 ```diff
 import { Component, OnInit } from '@angular/core';
@@ -89,6 +91,8 @@ export class UserListComponent implements OnInit {
 ```
 
 - Pedimos los usuarios al servicio en vez de cogerlos directamente en el componente:
+
+_src/app/user/user-list/user-list.component.ts_
 
 ```diff
   constructor(private membersService: MembersService) {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MemberEntity } from 'src/app/model/MemberEntity';
+import { MembersService } from 'src/app/services/members.service';
 
 @Component({
   selector: 'app-user-list',
@@ -11,10 +12,10 @@ export class UserListComponent implements OnInit {
   members: MemberEntity[] = [];
   newMember: MemberEntity;
 
-  constructor() {
-    fetch(`https://api.github.com/orgs/lemoncode/members`)
-      .then((response) => response.json())
-      .then((json) => this.members = json);
+  constructor(private membersService: MembersService) {
+    this.membersService.getAll().then(
+      members => this.members = members
+    );
 
     this.newMember = {
       id: '',
@@ -42,4 +43,5 @@ export class UserListComponent implements OnInit {
       this.newMember.avatar_url = reader.result as string;
     };
   }
+
 }

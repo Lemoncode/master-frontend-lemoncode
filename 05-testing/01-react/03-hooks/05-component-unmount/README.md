@@ -148,19 +148,16 @@ describe('usePolling specs', () => {
 
 ```diff
 ...
-+ it('should call clearInterval when it unmounts the component', async () => {
++ it('should call clearInterval when it unmounts the component', () => {
 +   // Arrange
 +   const clearIntervalStub = jest.spyOn(window, 'clearInterval');
 
 +   // Act
-+   const { result, waitForNextUpdate, unmount } = renderHook(() =>
++   const { result, unmount } = renderHook(() =>
 +     usePolling()
 +   );
 
-+   await waitForNextUpdate();
-
 +   // Assert
-+   expect(result.current.count).toEqual(1);
 +   expect(clearIntervalStub).not.toHaveBeenCalled();
 
 +   unmount();

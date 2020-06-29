@@ -65,7 +65,7 @@ _src/app/user/user-list/user-list.component.html_
 - Creamos una pipe utilizando el CLI
 
 ```bash
-ng generate pipe pipes/searchBy
+ng generate pipe pipes/searchByLogin
 ```
 
 - Programamos la pipe

@@ -42,5 +42,4 @@ export class UserListComponent implements OnInit {
       this.newMember.avatar_url = reader.result as string;
     };
   }
-
 }

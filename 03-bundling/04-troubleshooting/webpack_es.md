@@ -236,7 +236,7 @@ module.exports = {
 
 Los errores de este tipo en el archivo webpack pueden ser muy comunes y diversos. Revisa bien cómo se escribe todo el contenido. Aquí tienes un enlace a la [documentación de webpack](https://webpack.js.org/concepts/). No obstante, si sigues correctamente todos los pasos de la guía no deberías tener ningún problema a este respecto.
 
-#### ERROR 05 ~ No aparecen los archivos en la carpeta dist
+# ERROR 05 ~ No aparecen los archivos en la carpeta dist
 
 La consola no avisa de ningún error. Sin embargo, a pesar de introducir el comando 'npm start' en la consola la carpeta dist permanece vacía.
 

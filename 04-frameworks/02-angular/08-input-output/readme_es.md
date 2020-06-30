@@ -2,7 +2,7 @@
 
 ## Resumen
 
-Este ejemplo toma como punto de partida el ejemplo 06.
+Este ejemplo toma como punto de partida el ejemplo 07.
 
 Vamos a llevarnos el formulario de edición a otro componente distinto. Esto nos obligará a que el componente del listado y el del formulario de edición tengan que comunicarse entre ellos.
 

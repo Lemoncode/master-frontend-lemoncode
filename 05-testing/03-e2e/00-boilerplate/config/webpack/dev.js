@@ -28,21 +28,29 @@ module.exports = merge.strategy({
     port: 8080,
     stats: 'minimal',
     hot: true,
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
   },
-  plugins: [
-    new Dotenv({
-      path: 'dev.env',
-    }),
-  ],
   module: {
     rules: [
       {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
-          name: 'assets/img/[name].[ext]',
+          name: 'img/[name].[ext]',
+          esModule: false,
         },
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
+  plugins: [
+    new Dotenv({
+      path: 'dev.env',
+    }),
+  ],
 });

@@ -1,7 +1,29 @@
 {
+  "cities": [
+    {
+      "id": "Seattle",
+      "name": "Seattle"
+    },
+    {
+      "id": "Chicago",
+      "name": "Chicago"
+    },
+    {
+      "id": "New York",
+      "name": "New York"
+    },
+    {
+      "id": "California",
+      "name": "California"
+    },
+    {
+      "id": "Burlingame",
+      "name": "Burlingame"
+    }
+  ],
   "hotels": [
     {
-      "id": "0248058a-27e4-11e6-ace6-a9876eff01b3",
+      "id": "1",
       "type": "hotel",
       "name": "Motif Seattle",
       "created": 1464777092568,
@@ -24,7 +46,7 @@
       "locationDescription": "Near Pike Place Market",
       "lowRate": 259,
       "metadata": {
-        "path": "/hotels/0248058a-27e4-11e6-ace6-a9876eff01b3"
+        "path": "/hotels/1"
       },
       "postalCode": 98101,
       "propertyCategory": 1,
@@ -38,7 +60,7 @@
       "tripAdvisorRatingUrl": "http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/3.5-12345-4.gif"
     },
     {
-      "id": "024bd61a-27e4-11e6-ad95-35ed01160e57",
+      "id": "2",
       "type": "hotel",
       "name": "The Westin Seattle",
       "created": 1464777092593,
@@ -61,7 +83,7 @@
       "locationDescription": "Near Pike Place Market",
       "lowRate": 209,
       "metadata": {
-        "path": "/hotels/024bd61a-27e4-11e6-ad95-35ed01160e57"
+        "path": "/hotels/2"
       },
       "postalCode": 98101,
       "propertyCategory": 1,
@@ -75,7 +97,7 @@
       "tripAdvisorRatingUrl": "http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.0-12345-4.gif"
     },
     {
-      "id": "024fcdba-27e4-11e6-af44-cd4c8e537e9c",
+      "id": "3",
       "type": "hotel",
       "name": "Sheraton Seattle Hotel",
       "created": 1464777092619,
@@ -98,7 +120,7 @@
       "locationDescription": "Near Pike Place Market",
       "lowRate": 205,
       "metadata": {
-        "path": "/hotels/024fcdba-27e4-11e6-af44-cd4c8e537e9c"
+        "path": "/hotels/3"
       },
       "postalCode": 98101,
       "propertyCategory": 1,
@@ -112,7 +134,7 @@
       "tripAdvisorRatingUrl": "http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.0-12345-4.gif"
     },
     {
-      "id": "0253773a-27e4-11e6-8ffe-278d3b0d044c",
+      "id": "4",
       "type": "hotel",
       "name": "The Edgewater - A Noble House Hotel",
       "created": 1464777092643,
@@ -135,7 +157,7 @@
       "locationDescription": "Near Pike Place Market",
       "lowRate": 179,
       "metadata": {
-        "path": "/hotels/0253773a-27e4-11e6-8ffe-278d3b0d044c"
+        "path": "/hotels/4"
       },
       "postalCode": 98121,
       "propertyCategory": 1,
@@ -149,7 +171,7 @@
       "tripAdvisorRatingUrl": "http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.0-12345-4.gif"
     },
     {
-      "id": "025720ba-27e4-11e6-8744-efc6f2251051",
+      "id": "5",
       "type": "hotel",
       "name": "Hotel Max, a Provenance Hotel",
       "created": 1464777092667,
@@ -172,7 +194,7 @@
       "locationDescription": "Near Pike Place Market",
       "lowRate": 187.202,
       "metadata": {
-        "path": "/hotels/025720ba-27e4-11e6-8744-efc6f2251051"
+        "path": "/hotels/5"
       },
       "postalCode": 98101,
       "propertyCategory": 1,
@@ -186,7 +208,7 @@
       "tripAdvisorRatingUrl": "http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.0-12345-4.gif"
     },
     {
-      "id": "025b3f6a-27e4-11e6-80d7-1ba3f907ab71",
+      "id": "6",
       "type": "hotel",
       "name": "Hotel Monaco Seattle, a Kimpton Hotel",
       "created": 1464777092694,
@@ -209,7 +231,7 @@
       "locationDescription": "Near Pike Place Market",
       "lowRate": 189,
       "metadata": {
-        "path": "/hotels/025b3f6a-27e4-11e6-80d7-1ba3f907ab71"
+        "path": "/hotels/6"
       },
       "postalCode": 98101,
       "propertyCategory": 1,
@@ -223,7 +245,7 @@
       "tripAdvisorRatingUrl": "http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.5-12345-4.gif"
     },
     {
-      "id": "025f5e1a-27e4-11e6-a36c-9fede5552112",
+      "id": "7",
       "type": "hotel",
       "name": "Hotel Deca - A Noble House Hotel",
       "created": 1464777092721,
@@ -246,7 +268,7 @@
       "locationDescription": "In Seattle (University District)",
       "lowRate": 119,
       "metadata": {
-        "path": "/hotels/025f5e1a-27e4-11e6-a36c-9fede5552112"
+        "path": "/hotels/7"
       },
       "postalCode": 98105,
       "propertyCategory": 1,
@@ -260,7 +282,7 @@
       "tripAdvisorRatingUrl": "http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.0-12345-4.gif"
     },
     {
-      "id": "026355c4-27e4-11e6-b3f9-09f86925339f",
+      "id": "8",
       "type": "hotel",
       "name": "W Seattle",
       "created": 1464777092747,
@@ -283,7 +305,7 @@
       "locationDescription": "Near Pike Place Market",
       "lowRate": 175,
       "metadata": {
-        "path": "/hotels/026355c4-27e4-11e6-b3f9-09f86925339f"
+        "path": "/hotels/8"
       },
       "postalCode": 98101,
       "propertyCategory": 1,
@@ -297,7 +319,7 @@
       "tripAdvisorRatingUrl": "http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.0-12345-4.gif"
     },
     {
-      "id": "0267c28a-27e4-11e6-ab3b-5f1a4c39ef62",
+      "id": "9",
       "type": "hotel",
       "name": "Hotel Andra",
       "created": 1464777092776,
@@ -320,7 +342,7 @@
       "locationDescription": "Near Pike Place Market",
       "lowRate": 189.4252,
       "metadata": {
-        "path": "/hotels/0267c28a-27e4-11e6-ab3b-5f1a4c39ef62"
+        "path": "/hotels/9"
       },
       "postalCode": 98121,
       "propertyCategory": 1,
@@ -334,7 +356,7 @@
       "tripAdvisorRatingUrl": "http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.5-12345-4.gif"
     },
     {
-      "id": "026ccbae-27e4-11e6-afa7-536abd83599c",
+      "id": "10",
       "type": "hotel",
       "name": "The Maxwell Hotel - Pineapple Hospitality",
       "created": 1464777092809,
@@ -357,7 +379,7 @@
       "locationDescription": "Near Pacific Northwest Ballet",
       "lowRate": 229,
       "metadata": {
-        "path": "/hotels/026ccbae-27e4-11e6-afa7-536abd83599c"
+        "path": "/hotels/10"
       },
       "postalCode": 98109,
       "propertyCategory": 1,

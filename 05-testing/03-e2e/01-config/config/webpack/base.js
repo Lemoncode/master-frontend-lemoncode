@@ -15,21 +15,22 @@ module.exports = merge(
         scenes: helpers.resolveFromRootPath('src/scenes'),
         'common-app': helpers.resolveFromRootPath('src/common-app'),
       },
-      extensions: ['.js', '.jsx'],
+      extensions: ['.js', '.ts', '.tsx'],
     },
     entry: {
-      app: ['./index.jsx'],
+      app: ['regenerator-runtime/runtime', './index.tsx'],
     },
     module: {
       rules: [
         {
-          test: /\.jsx?$/,
+          test: /\.tsx?$/,
           exclude: /node_modules/,
           loader: 'babel-loader',
         },
       ],
     },
     optimization: {
+      runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
           vendor: {

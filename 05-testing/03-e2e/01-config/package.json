@@ -12,7 +12,9 @@
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
     "clean": "rimraf dist",
-    "postinstall": "cd ./server && npm install"
+    "postinstall": "cd ./server && npm install",
+    "test:e2e": "npm run start -- start:e2e",
+    "start:e2e": "cypress open"
   },
   "author": "Lemoncode",
   "license": "MIT",
@@ -44,6 +46,7 @@
     "@types/react-router-dom": "^5.1.5",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.6.0",
+    "cypress": "^4.9.0",
     "dotenv-webpack": "^1.8.0",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",

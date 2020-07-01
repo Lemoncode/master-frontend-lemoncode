@@ -11,7 +11,9 @@
     "clean": "rimraf dist",
     "build": "npm run clean && webpack --config ./config/webpack/prod.js",
     "build:dev": "npm run clean && webpack --config ./config/webpack/dev.js",
-    "postinstall": "cd ./server && npm install"
+    "postinstall": "cd ./server && npm install",
+    "test:e2e": "npm-run-all -p -l start:dev start:e2e",
+    "start:e2e": "cypress open"
   },
   "license": "MIT",
   "dependencies": {
@@ -37,6 +39,7 @@
     "@babel/preset-react": "^7.0.0",
     "@hot-loader/react-dom": "^16.8.6",
     "babel-loader": "^8.0.6",
+    "cypress": "^4.9.0",
     "dotenv-webpack": "^1.7.0",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",

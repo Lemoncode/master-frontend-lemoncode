@@ -48,6 +48,7 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
       </CardContent>
       <CardActions>
         <IconButton
+          aria-label="Edit hotel"
           onClick={() => history.push(linkRoutes.hotelEdit(hotel.id))}
         >
           <EditIcon />

@@ -144,7 +144,7 @@ describe('Login specs', () => {
 +   cy.get('input[name="name"]').click();
 
 +   // Assert
-+   cy.get('input').should('have.focus');
++   cy.get('input[name="name"]').should('have.focus');
 + });
 });
 

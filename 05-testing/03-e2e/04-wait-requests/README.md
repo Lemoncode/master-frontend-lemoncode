@@ -1,8 +1,8 @@
-# 03 Stub requests
+# 04 Wait requests
 
-In this example we are going to stub hotel request.
+In this example we are going to use real hotel request.
 
-We will start from `02-selectors`.
+We will start from `03-stub-requests`.
 
 # Steps to build it
 
@@ -12,176 +12,29 @@ We will start from `02-selectors`.
 npm install
 ```
 
-- We will create `hotel-collection` specs:
+- Maybe some times we need to use real backend server for some reason, we have a spec check hotel collection from "real backend" (it's a mock backend). It looks like it's working, but what's happend if we add some delay?:
 
-### ./cypress/integration/hotel-collection.spec.ts
-
-```javascript
-describe('Hotel collection specs', () => {
-  it('should fetch hotel list and show it in screen when visit /hotel-collection url', () => {
-    // Arrange
-
-    // Act
-
-    // Assert
-  });
-});
-
-
-```
-
-- Update spec:
-
-### ./cypress/integration/hotel-collection.spec.ts
+### ./src/pods/hotel-collection/hotel-collection.api.ts
 
 ```diff
-describe('Hotel collection specs', () => {
-  it('should fetch hotel list and show it in screen when visit /hotel-collection url', () => {
-    // Arrange
+import Axios from 'axios';
+import { HotelEntityApi } from './hotel-collection.api-model';
 
-    // Act
-+   cy.visit('/hotel-collection');
+const url = '/api/hotels';
 
-    // Assert
-+   cy.findAllByRole('listitem').should('have.length', 10);
-  });
-});
-
-```
-
-- Maybe we could expect `have length greater than`:
-
-```diff
-+ it('should fetch hotel list greater than 0 when visit /hotel-collection url', () => {
-+   // Arrange
-
-+   // Act
-+   cy.visit('/hotel-collection');
-
-+   // Assert
-+   cy.findAllByRole('listitem').should('have.length.greaterThan', 0);
+export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
+- const { data } = await Axios.get<HotelEntityApi[]>(url);
+- return data;
++ const promise = new Promise<HotelEntityApi[]>((resolve) => {
++   Axios.get(url).then(({ data }) => setTimeout(() => resolve(data), 4000));
 + });
-```
 
-- But in some scenarios, maybe we need to simulate this fetch. How can we simulate, fetching 2 hotels?:
-
-### ./cypress/integration/hotel-collection.spec.ts
-
-```diff
-+ import { HotelEntityApi } from '../../src/pods/hotel-collection/api';
-
-describe('Hotel collection specs', () => {
-  ...
-+ it('should fetch two hotels when visit /hotel-collection url', () => {
-+   // Arrange
-+   const hotels = [
-+     {
-+       id: 'id-1',
-+       thumbNailUrl: 'test-picture-1',
-+       name: 'test-name-1',
-+       shortDescription: 'test-description-1',
-+       address1: 'test-address-1',
-+       hotelRating: 1,
-+       city: 'test-city-1',
-+     },
-+     {
-+       id: 'id-2',
-+       thumbNailUrl: 'test-picture-2',
-+       name: 'test-name-2',
-+       shortDescription: 'test-description-2',
-+       address1: 'test-address-2',
-+       hotelRating: 2,
-+       city: 'test-city-2',
-+     },
-+   ] as HotelEntityApi[];
-+   cy.server(); // Start the server to change request behaviour
-+   cy.route('GET', '/api/hotels', hotels);
-
-+   // Act
-+   cy.visit('/hotel-collection');
-
-+   // Assert
-+   cy.findAllByRole('listitem').should('have.length', 2);
-+ });
-});
++ return promise;
+};
 
 ```
 
-> [server method](https://docs.cypress.io/api/commands/server.html#Syntax)
-> Mock data, 404 responses, etc
-
-- This is a common task that we will have to do, so cypress provide the `fixtures` approach:
-
-### ./cypress/fixtures/hotels.json
-
-```json
-[
-  {
-    "id": "id-1",
-    "thumbNailUrl": "test-picture-1",
-    "name": "test-name-1",
-    "shortDescription": "test-description-1",
-    "address1": "test-address-1",
-    "hotelRating": 1,
-    "city": "test-city-1"
-  },
-  {
-    "id": "id-2",
-    "thumbNailUrl": "test-picture-2",
-    "name": "test-name-2",
-    "shortDescription": "test-description-2",
-    "address1": "test-address-2",
-    "hotelRating": 2,
-    "city": "test-city-2"
-  }
-]
-```
-
-- Update spec:
-
-### ./cypress/integration/hotel-collection.spec.ts
-
-```diff
-- import { HotelEntityApi } from '../../src/pods/hotel-collection/api';
-
-...
-  it('should fetch two hotels when visit /hotel-collection url', () => {
-    // Arrange
--   const hotels = [
--     {
--       id: 'id-1',
--       thumbNailUrl: 'test-picture-1',
--       name: 'test-name-1',
--       shortDescription: 'test-description-1',
--       address1: 'test-address-1',
--       hotelRating: 1,
--       city: 'test-city-1',
--     },
--     {
--       id: 'id-2',
--       thumbNailUrl: 'test-picture-2',
--       name: 'test-name-2',
--       shortDescription: 'test-description-2',
--       address1: 'test-address-2',
--       hotelRating: 2,
--       city: 'test-city-2',
--     },
--   ] as HotelEntityApi[];
-    cy.server(); // Start the server to change request behaviour
-+   cy.fixture('hotels').then((hotels) => {
-      cy.route('GET', '/api/hotels', hotels);
-+   });
-
-    // Act
-    cy.visit('/hotel-collection');
-
-    // Assert
-    cy.findAllByRole('listitem').should('have.length', 2);
-  });
-
-```
-
-- Or a shorted way:
+- Now, it's failing due to cypress timeout, so we need to refactor it:
 
 ### ./cypress/integration/hotel-collection.spec.ts
 
@@ -189,17 +42,70 @@ describe('Hotel collection specs', () => {
   it('should fetch two hotels when visit /hotel-collection url', () => {
     // Arrange
     cy.server(); // Start the server to change request behaviour
--   cy.fixture('hotels').then((hotels) => {
--     cy.route('GET', '/api/hotels', hotels);
--   });
-+   cy.route('GET', '/api/hotels', 'fixture:hotels');
+-   cy.route('GET', '/api/hotels', 'fixture:hotels');
++   cy.route('GET', '/api/hotels', 'fixture:hotels').as('fetchHotels');
 
     // Act
     cy.visit('/hotel-collection');
 
     // Assert
++   cy.wait('@fetchHotels');
     cy.findAllByRole('listitem').should('have.length', 2);
   });
+
+```
+
+- Apply same changes in other specs:
+
+### ./cypress/integration/hotel-collection.spec.ts
+
+```diff
+  it('should fetch hotel list and show it in screen when visit /hotel-collection url', () => {
+    // Arrange
++   cy.server();
++   cy.route('GET', '/api/hotels').as('fetchHotels');
+
+    // Act
+    cy.visit('/hotel-collection');
+
+    // Assert
++   cy.wait('@fetchHotels');
+    cy.findAllByRole('listitem').should('have.length', 10);
+  });
+
+  it('should fetch hotel list greater than 0 when visit /hotel-collection url', () => {
+    // Arrange
++   cy.server();
++   cy.route('GET', '/api/hotels').as('fetchHotels');
+
+    // Act
+    cy.visit('/hotel-collection');
+
+    // Assert
++   cy.wait('@fetchHotels');
+    cy.findAllByRole('listitem').should('have.length.greaterThan', 0);
+  });
+```
+
+- So, we need to take care with this stuff, let's restore the api request:
+
+### ./src/pods/hotel-collection/hotel-collection.api.ts
+
+```diff
+import Axios from 'axios';
+import { HotelEntityApi } from './hotel-collection.api-model';
+
+const url = '/api/hotels';
+
+export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
+- const promise = new Promise<HotelEntityApi[]>((resolve) => {
+-   Axios.get(url).then(({ data }) => setTimeout(() => resolve(data), 4000));
+- });
+- return promise;
++ const { data } = await Axios.get<HotelEntityApi[]>(url);
+
++ return data;
+};
 
 ```
 

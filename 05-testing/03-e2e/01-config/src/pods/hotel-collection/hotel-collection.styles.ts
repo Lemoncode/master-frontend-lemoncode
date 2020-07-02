@@ -6,6 +6,9 @@ export const root = css`
   grid-template-columns: repeat(1, 1fr);
   grid-row-gap: 2rem;
   grid-column-gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 
   @media (min-width: ${theme.breakpoints.values.sm}px) {
     grid-template-columns: repeat(2, 1fr);

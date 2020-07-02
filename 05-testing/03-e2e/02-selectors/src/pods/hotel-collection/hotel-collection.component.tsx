@@ -13,10 +13,12 @@ export const HotelCollectionComponent: React.FunctionComponent<Props> = (
   const { hotelCollection } = props;
 
   return (
-    <div className={classes.root}>
+    <ul className={classes.root}>
       {hotelCollection.map((hotel) => (
-        <HotelCard key={hotel.id} hotel={hotel} />
+        <li key={hotel.id}>
+          <HotelCard hotel={hotel} />
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };

@@ -1,8 +1,8 @@
-# 01 Config
+# 02 Selectors
 
-In this example we are going to add a basic setup needed to support end to end testing with Cypress.
+In this example we are going to add some specs to login page.
 
-We will start from `00-boilerplate`.
+We will start from `01-config`.
 
 # Steps to build it
 
@@ -12,121 +12,128 @@ We will start from `00-boilerplate`.
 npm install
 ```
 
-# Libraries
+- Let's add some specs to login page:
 
-- We are going to install the main library which we base all our unit tests, [Cypress](https://www.cypress.io/).
-
-```bash
-npm install cypress --save-dev
-```
-
-# Config
-
-- We can just add cypress command to scripts and running it:
-
-### ./package.json
+### ./cypress/integration/login.spec.ts
 
 ```diff
-"scripts": {
 ...
-    "postinstall": "cd ./server && npm install",
-+   "test:e2e": "cypress open"
-  },
-```
++ it('should show an alert with a message when type invalid credentials', () => {
++   // Arrange
++   const user = 'admin';
++   const password = '1234';
 
-- Run it:
-
-```bash
-npm run test:e2e
-```
-
-- Cypress creates for us a folder `cypress` and `cypress.json`:
-
-  - **fixtures**
-  - **integration**
-  - **plugins**
-  - **screenshots**
-  - **support**
-
-- And a `cypress.json` for configuration.
-
-- Let's remove all folders, and add our first test:
-
-### ./cypress/integration/login.spec.js
-
-```javascript
-describe('Login specs', () => {
-  it('visit the login page', () => {
-    cy.visit('http://localhost:8080');
-  });
-});
-```
-
-- An important note is that we need to running the app to execute the e2e tests:
-
-### ./package.json
-
-```diff
-"scripts": {
-...
--   "test:e2e": "cypress open"
-+   "test:e2e": "npm run start -- start:e2e",
-+   "start:e2e": "cypress open"
-  },
-```
-
-- So far so good, we can add the base app url in `cypress.json` to avoid repeat it in whole tests:
-
-### ./cypress.json
-
-```diff
-- {}
-+ {
-+   "baseUrl": "http://localhost:8080"
-+ }
-```
-
-> You can see more info [here](https://docs.cypress.io/guides/references/configuration.html#Options)
-
-### ./cypress/integration/login.spec.js
-
-```diff
-describe('Login specs', () => {
-  it('visit the login page', () => {
--   cy.visit('http://localhost:8080');
++   // Act
 +   cy.visit('/');
-  });
-});
++   cy.get('input[name="name"]').type(user);
++   cy.get('input[name="password"]').type(password);
+
++   // Assert
++   cy.get('input[name="name"]').should('have.value', user);
++   cy.get('input[name="password"]').should('have.value', password);
++ });
 
 ```
 
-- Could we work with Typescript? If we rename spec to `.ts`:
+- Notice that we are using selectors like css selectors, the first refactor that we could think is assign selectors to a variable like:
 
-_./cypress/integration/login.spec.js_ -> _./cypress/integration/login.spec.ts_
+### ./cypress/integration/login.spec.ts
 
-- Let's add a `tsconfig.json` file to support it:
+```diff
+...
+  it('should show an alert with a message when type invalid credentials', () => {
+    // Arrange
+    const user = 'admin';
+    const password = '1234';
+
+    // Act
+    cy.visit('/');
+-   cy.get('input[name="name"]').type(user);
+-   cy.get('input[name="password"]').type(password);
++   const userInput = cy.get('input[name="name"]');
++   const passwordInput = cy.get('input[name="password"]');
+
++   userInput.type(user);
++   passwordInput.type(password);
+
+    // Assert
+-   cy.get('input[name="name"]').should('have.value', user);
+-   cy.get('input[name="password"]').should('have.value', password);
++   userInput.should('have.value', user);
++   passwordInput.should('have.value', password);
+  });
+...
+
+```
+
+- This doesn't work, because `cypress commands` are enqueued and run it in async way. Let's refator it:
+
+### ./cypress/integration/login.spec.ts
+
+```diff
+...
+  it('should show an alert with a message when type invalid credentials', () => {
+    // Arrange
+    const user = 'admin';
+    const password = '1234';
+
+    // Act
+    cy.visit('/');
+-   const userInput = cy.get('input[name="name"]');
++   cy.get('input[name="name"]').as('userInput');
+-   const passwordInput = cy.get('input[name="password"]');
++   cy.get('input[name="password"]').as('passwordInput');
+
+-   userInput.type(user);
++   cy.get('@userInput').type(user);
+-   passwordInput.type(password);
++   cy.get('@passwordInput').type(password);
+
+    // Assert
+-   userInput.should('have.value', user);
++   cy.get('@userInput').should('have.value', user);
+-   passwordInput.should('have.value', password);
++   cy.get('@passwordInput').should('have.value', password);
+  });
+
+...
+
+```
+
+> More info [here](https://docs.cypress.io/guides/core-concepts/variables-and-aliases.html#Return-Values)
+
+- The [get](https://docs.cypress.io/api/commands/get.html) return DOM element by selector or alias. But we want to write maintainable tests with same syntax like unit tests. We can use [cypress-testing-library](https://github.com/testing-library/cypress-testing-library):
+
+```bash
+npm install @testing-library/cypress --save-dev
+```
+
+- Let's configure it for typescript:
 
 ### ./cypress/tsconfig.json
 
-```json
+```diff
 {
   "compilerOptions": {
     "strict": true,
     "baseUrl": "../node_modules",
     "target": "es5",
     "lib": ["es5", "dom"],
-    "types": ["cypress"]
+-   "types": ["cypress"]
++   "types": ["cypress", "@types/testing-library__cypress"]
   },
-  "include": [
-    "**/*.ts"
-  ]
+  "include": ["**/*.ts"]
 }
 
 ```
 
-> You can see more info [here](https://docs.cypress.io/guides/tooling/typescript-support.html#Install-TypeScript)
+### ./cypress/support/index.js
 
-- Now it's fully supported. Let's try another spec:
+```javascript
+import '@testing-library/cypress/add-commands';
+```
+
+- Update specs:
 
 ### ./cypress/integration/login.spec.ts
 
@@ -136,17 +143,103 @@ describe('Login specs', () => {
     cy.visit('/');
   });
 
-+ it('should name input has the focus when it clicks on it', () => {
+  it('should name input has the focus when it clicks on it', () => {
+    // Arrange
+
+    // Act
+    cy.visit('/');
+-   cy.get('input[name="name"]').click();
++   cy.findByLabelText('Name').click();
+
+    // Assert
+-   cy.get('input[name="name"]').should('have.focus');
++   cy.findByLabelText('Name').should('have.focus');
+  });
+
+  it('should show an alert with a message when type invalid credentials', () => {
+    // Arrange
+    const user = 'admin';
+    const password = '1234';
+
+    // Act
+    cy.visit('/');
+-   cy.get('input[name="name"]').as('userInput');
++   cy.findByLabelText('Name').as('userInput');
+-   cy.get('input[name="password"]').as('passwordInput');
++   cy.findByLabelText('Password').as('passwordInput');
+
+    cy.get('@userInput').type(user);
+    cy.get('@passwordInput').type(password);
+
+    // Assert
+    cy.get('@userInput').should('have.value', user);
+    cy.get('@passwordInput').should('have.value', password);
+  });
+});
+
+```
+
+> NOTE: we have only the `find` methods available due to cypress async way.
+> [Which query should I use?](https://testing-library.com/docs/guide-which-query)
+
+- Checking modal error message when click on button with invalid credentials:
+
+### ./cypress/integration/login.spec.ts
+
+```diff
+...
+ it('should show an alert with a message when type invalid credentials', () => {
+    // Arrange
+    const user = 'admin';
+    const password = '1234';
++   cy.on('window:alert', cy.stub().as('alertStub'));
+
+    // Act
+    cy.visit('/');
+    cy.findByLabelText('Name').as('userInput');
+    cy.findByLabelText('Password').as('passwordInput');
+
+    cy.get('@userInput').type(user);
+    cy.get('@passwordInput').type(password);
++   cy.findByRole('button', { name: 'Login' }).click();
+
+    // Assert
+    cy.get('@userInput').should('have.value', user);
+    cy.get('@passwordInput').should('have.value', password);
++   cy.get('@alertStub').should(
++     'have.been.calledWith',
++     'invalid credentials, use admin/test, excercise: display a mui snackbar instead of this alert.'
++   );
+  });
+
+...
+```
+
+> More info in [event-types](https://docs.cypress.io/api/events/catalog-of-events.html#Event-Types)
+
+- Now, we could test when it's a succeded login:
+
+### ./cypress/integration/login.spec.ts
+
+```diff
+...
++ it('should navigate to hotels url when type valid credentials', () => {
 +   // Arrange
++   const user = 'admin';
++   const password = 'test';
 
 +   // Act
 +   cy.visit('/');
-+   cy.get('input[name="name"]').click();
++   cy.findByLabelText('Name').as('userInput');
++   cy.findByLabelText('Password').as('passwordInput');
+
++   cy.get('@userInput').type(user);
++   cy.get('@passwordInput').type(password);
++   cy.findByRole('button', { name: 'Login' }).click();
 
 +   // Assert
-+   cy.get('input[name="name"]').should('have.focus');
++   cy.url().should('eq', 'http://localhost:8080/#/hotel-collection');
 + });
-});
 
 ```
 

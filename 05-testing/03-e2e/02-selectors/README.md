@@ -127,7 +127,7 @@ npm install @testing-library/cypress --save-dev
 
 ```
 
-### ./cypress/support/index.js
+### ./cypress/support/index.ts
 
 ```javascript
 import '@testing-library/cypress/add-commands';

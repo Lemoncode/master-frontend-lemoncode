@@ -12,3 +12,17 @@ export const mapHotelFromApiToVm = (
   address: hotel.address1,
   city: hotel.city,
 });
+
+export const mapHotelFromVmToApi = (hotel: viewModel.Hotel): apiModel.Hotel =>
+  ({
+    id: hotel.id,
+    thumbNailUrl: hotel.picture.replace(
+      `${process.env.BASE_PICTURES_URL}/`,
+      ''
+    ),
+    name: hotel.name,
+    shortDescription: hotel.description,
+    hotelRating: hotel.rating,
+    address1: hotel.address,
+    city: hotel.city,
+  } as apiModel.Hotel);

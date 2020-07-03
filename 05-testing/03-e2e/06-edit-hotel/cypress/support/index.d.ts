@@ -1,9 +1,15 @@
 declare namespace Cypress {
+  interface Resource {
+    path: string;
+    fixture?: string;
+    alias?: string;
+  }
+
   interface Chainable {
     loadAndVisit(
-      apiPath: string,
-      routePath: string,
-      fixture?: string
+      visitUrl: string,
+      resources: Resource[],
+      callbackAfterVisit?: () => void
     ): Chainable<Element>;
   }
 }

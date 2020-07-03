@@ -1,12 +1,29 @@
+interface Resource {
+  path: string;
+  fixture?: string;
+  alias?: string;
+}
+
 Cypress.Commands.add(
   'loadAndVisit',
-  (apiPath: string, routePath: string, fixture?: string) => {
+  (visitUrl: string, resources: Resource[], callbackAfterVisit?: () => void) => {
     cy.server();
-    Boolean(fixture)
-      ? cy.route('GET', apiPath, fixture).as('load')
-      : cy.route('GET', apiPath).as('load');
-    cy.visit(routePath);
+    const aliasList = resources.map((resource, index) => {
+      const alias = resource.alias || `load-${index}`;
+      Boolean(resource.fixture)
+        ? cy.route('GET', resource.path, resource.fixture).as(alias)
+        : cy.route('GET', resource.path).as(alias);
 
-    return cy.wait('@load');
+      return alias;
+    });
+
+    cy.visit(visitUrl);
+    if (callbackAfterVisit) {
+      callbackAfterVisit();
+    }
+
+    aliasList.forEach((alias) => {
+      cy.wait(`@${alias}`);
+    });
   }
 );

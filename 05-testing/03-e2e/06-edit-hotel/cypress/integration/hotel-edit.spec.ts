@@ -3,7 +3,7 @@ describe('Hotel edit specs', () => {
     // Arrange
 
     // Act
-    cy.loadAndVisit('/api/hotels', '/hotel-collection');
+    cy.loadAndVisit('/hotel-collection', [{ path: '/api/hotels' }]);
 
     cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {
       buttons[1].click();
@@ -17,17 +17,22 @@ describe('Hotel edit specs', () => {
     // Arrange
 
     // Act
-    cy.loadAndVisit('/api/hotels', '/hotel-collection');
-
-    cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {
-      buttons[1].click();
-    });
+    cy.loadAndVisit(
+      '/hotel-collection',
+      [{ path: '/api/hotels', alias: 'loadHotels' }, { path: '/api/hotels/2' }],
+      () => {
+        cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {
+          buttons[1].click();
+        });
+      }
+    );
 
     cy.findByLabelText('Name').clear().type('Updated hotel two');
 
     cy.findByRole('button', { name: 'Save' }).click();
 
     // Assert
+    cy.wait('@loadHotels');
     cy.findByText('Updated hotel two');
   });
 });

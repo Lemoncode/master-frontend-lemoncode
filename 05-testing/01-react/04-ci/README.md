@@ -22,7 +22,7 @@ git commit -m "add project with tests"
 git push --set-upstream origin master
 ```
 
-- Next step, is create a new `branch` in this repository and add the [Github workflow](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow):
+- Create new branch on repository `feature/add-ci-file` and add ci config [Github workflow](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow):
 
 ### ./.github/workflows/ci.yml
 

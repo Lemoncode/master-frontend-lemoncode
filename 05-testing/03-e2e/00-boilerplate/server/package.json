@@ -1,0 +1,14 @@
+{
+  "name": "hotel-api",
+  "version": "1.0.0",
+  "description": "Hotel API",
+  "main": "index.js",
+  "scripts": {
+    "mock-server": "json-server --routes ./config/routes.json --watch mock-data/hotels-data.json"
+  },
+  "author": "Lemoncode",
+  "license": "MIT",
+  "devDependencies": {
+    "json-server": "^0.14.0"
+  }
+}

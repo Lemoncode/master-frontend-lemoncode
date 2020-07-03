@@ -19,7 +19,13 @@ describe('Hotel edit specs', () => {
     // Act
     cy.loadAndVisit(
       '/hotel-collection',
-      [{ path: '/api/hotels', alias: 'loadHotels' }, { path: '/api/hotels/2' }],
+      [
+        { path: '/api/hotels', alias: 'loadHotels' },
+        { path: '/api/hotels/2' },
+        {
+          path: '/api/cities',
+        },
+      ],
       () => {
         cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {
           buttons[1].click();

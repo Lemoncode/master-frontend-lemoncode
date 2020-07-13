@@ -127,8 +127,9 @@ npm install vue-loader vue-template-compiler --save-dev
     "noImplicitAny": false,
     "sourceMap": true,
     "noLib": false,
--   "suppressImplicitAnyIndexErrors": true
-+   "suppressImplicitAnyIndexErrors": true,
+    "suppressImplicitAnyIndexErrors": true
+-   "importsNotUsedAsValues": "preserve"
++   "importsNotUsedAsValues": "preserve",
 +   "strict": true
   },
   "compileOnSave": false
@@ -192,8 +193,13 @@ module.exports = {
   plugins: [
 ···
     new ForkTsCheckerWebpackPlugin({
+        typescript: {
++         extensions: {
++           vue: true,
++         },
+          configFile: path.join(basePath, "./tsconfig.json"),
+        },
       tsconfig: path.join(__dirname, './tsconfig.json'),
-+     vue: true,
     }),
 +   new VueLoaderPlugin(),
   ],
@@ -253,13 +259,13 @@ module.exports = {
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 
 export default Vue.extend({
-  name: 'App',
+  name: "App",
   data() {
     return {
-      message: 'Hello from App',
+      message: "Hello from App",
     };
   },
 });

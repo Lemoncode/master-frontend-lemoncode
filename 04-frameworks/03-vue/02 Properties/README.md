@@ -100,7 +100,7 @@ export default Vue.extend({
     <input
       :value="message"
 -      @input="message = $event.target.value"
-+      @input="onChange"
++      @input="onChange($event.target.value)"
     />
   </div>
 </template>
@@ -116,8 +116,8 @@ export default Vue.extend({
     };
   },
 + methods: {
-+   onChange(event) {
-+     this.message = event.target.value;
++   onChange(value: string) {
++     this.message = value;
 +   },
 + },
 };
@@ -173,10 +173,10 @@ export default Vue.extend({
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 
 export default Vue.extend({
-  name: 'HelloComponent',
+  name: "HelloComponent",
   props: {
     message: String,
   },
@@ -273,8 +273,8 @@ export default {
     };
   },
 + methods: {
-+   onChange(event) {
-+     this.message = event.target.value;
++   onChange(value: string)  {
++     this.message = value;
 +   },
 + },
 };
@@ -326,9 +326,9 @@ export default {
 ```diff
 <template>
   <input
--   :value="message"
-+   :value="value"
-    @input="onChange"
+    :value="message"
+-    @input="onChange($event.target.value)"
++    @input="$emit('input', event.target.value)"
   />
 </template>
 
@@ -338,15 +338,9 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'HelloComponent',
   props: {
--   message: String,
+    message: String,
 -   onChange: Function
-+   value: String,
   },
-+ methods: {
-+   onChange(event) {
-+     this.$emit('input', event.target.value);
-+   },
-+ },
 });
 </script>
 

@@ -1,14 +1,14 @@
-import { ValidationConstraints, Validators, createFormValidation } from 'lc-form-validation';
+import {
+  Validators,
+  createFormValidation,
+  ValidationSchema,
+} from "@lemoncode/fonk";
 
-const validationConstraints: ValidationConstraints = {
-  fields: {
-    name: [
-      { validator: Validators.required },
-    ],
-    password: [
-      { validator: Validators.required },
-    ],
+const validationSchema: ValidationSchema = {
+  field: {
+    name: [Validators.required],
+    password: [Validators.required],
   },
 };
 
-export const validations = createFormValidation(validationConstraints);
+export const validations = createFormValidation(validationSchema);

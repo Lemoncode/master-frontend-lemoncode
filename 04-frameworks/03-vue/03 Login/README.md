@@ -62,8 +62,8 @@ export default Vue.extend({
     };
   },
 - methods: {
--   onChange(event) {
--     this.message = event.target.value;
+-   onChange(value: string) {
+-     this.message = value;
 -   }
 - },
 });
@@ -74,7 +74,13 @@ export default Vue.extend({
 - To build a nice layout, we will install [vuetify](https://vuetifyjs.com/):
 
 ```bash
-npm install vuetify@1 --save
+npm install vuetify --save
+```
+
+And we will install `sass` and `sass-loader` as devDependencies:
+
+```bash
+npm install sass sass-loader --save-dev
 ```
 
 > Note: this lib has their own typings, so we don't need to install any more.
@@ -92,23 +98,70 @@ npm install vuetify@1 --save
 +   vendorStyles: ['../node_modules/vuetify/dist/vuetify.min.css'],
   },
 ...
+
+        {
+          test: /\.css$/,
+          use: [isDev ? "vue-style-loader" : MiniCssExtractPlugin.loader, "css-loader"],
+        },
++        {
++          test: /\.s(c|a)ss$/,
++          use: [
++            isDev ? "vue-style-loader" : MiniCssExtractPlugin.+loader,
++            "css-loader",
++            {
++              loader: "sass-loader",
++              options: {
++                implementation: require("sass"),
++                sassOptions: {
++                  indentedSyntax: true,
++                },
++              },
++            },
++          ],
++        },
+···
+
 ```
 
-- Config `vuetify`:
+- Update the `index.html`:
+
+### ./src/index.html
+
+```diff
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vue.js by sample</title>
++    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
++    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+
+```
+
+- Config `vuetify` plugin:
 
 ### ./src/main.ts
 
 ```diff
-import Vue from 'vue';
-import App from './App.vue';
-+ import Vuetify from 'vuetify';
-+ import 'vuetify/dist/vuetify.min.css';
+import Vue from "vue";
++ import Vuetify from "vuetify";
+import App from "./App.vue";
++ import "vuetify/dist/vuetify.min.css";
 
 + Vue.use(Vuetify);
++ const vuetify = new Vuetify();
 
 new Vue({
-  render: (h) => h(App),
-}).$mount('#root');
++  vuetify,
+  render: h => h(App),
+}).$mount("#root");
 
 ```
 
@@ -142,7 +195,7 @@ export default Vue.extend({
 
 With `Vue.component`, we create global components, that is, something like:
 
-```javascript
+```typescript
 Vue.component('my-component', {
   // options...
   render: h => h('h1', 'Hi from MyComponent!'),
@@ -161,38 +214,36 @@ With `Vue.extends`, we create components that it needs to be imported in other f
 
 ```vue
 <template>
-  <form>
+  <v-form>
     <v-layout column justify-center>
       <v-text-field label="Name" />
       <v-text-field label="Password" type="password" />
       <v-btn type="submit" color="info">Login</v-btn>
     </v-layout>
-  </form>
+  </v-form>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 
 export default Vue.extend({
-  name: 'FormComponent',
+  name: "FormComponent",
 });
 </script>
 ```
 
 ### ./src/pages/login/components/index.ts
 
-```javascript
-import FormComponent from './Form.vue';
-
-export { FormComponent };
+```typescript
+export { default as FormComponent } from "./Form.vue";
 ```
 
 ### ./src/pages/login/Page.vue
 
 ```vue
 <template>
-  <v-layout>
-    <v-flex xs12 sm6 offset-sm3>
+  <v-layout justify-center>
+    <v-flex xs12 sm6>
       <v-card>
         <v-card-title primary-title>
           <h3 class="headline">Login</h3>
@@ -206,11 +257,11 @@ export { FormComponent };
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { FormComponent } from './components';
+import Vue from "vue";
+import { FormComponent } from "./components";
 
 export default Vue.extend({
-  name: 'LoginPage',
+  name: "LoginPage",
   components: { FormComponent },
 });
 </script>
@@ -218,10 +269,8 @@ export default Vue.extend({
 
 ### ./src/pages/login/index.ts
 
-```javascript
-import LoginPage from './Page.vue';
-
-export { LoginPage };
+```typescript
+export { default as LoginPage } from "./Page.vue";
 ```
 
 - The official router for `Vue.js` is [`vue-router`](https://github.com/vuejs/vue-router) and it has TypeScript typings:
@@ -247,18 +296,20 @@ npm install vue-router --save
 ### ./src/main.ts
 
 ```diff
-import Vue from 'vue';
-import Vuetify from 'vuetify';
-import 'vuetify/dist/vuetify.min.css';
-+ import VueRouter from 'vue-router';
-import App from './App.vue';
+import Vue from "vue";
++ import VueRouter from "vue-router";
+import Vuetify from "vuetify";
+import App from "./App.vue";
+import "vuetify/dist/vuetify.min.css";
 
-Vue.use(Vuetify);
 + Vue.use(VueRouter);
+Vue.use(Vuetify);
+const vuetify = new Vuetify();
 
 new Vue({
+  vuetify,
   render: h => h(App),
-}).$mount('#root');
+}).$mount("#root");
 
 ```
 
@@ -266,13 +317,13 @@ new Vue({
 
 ### ./src/router.ts
 
-```javascript
-import Router, { RouteConfig } from 'vue-router';
-import { LoginPage } from './pages/login';
+```typescript
+import Router, { RouteConfig } from "vue-router";
+import { LoginPage } from "./pages/login";
 
 const routes: RouteConfig[] = [
-  { path: '/', redirect: '/login' },
-  { path: '/login', component: LoginPage },
+  { path: "/", redirect: "/login" },
+  { path: "/login", component: LoginPage },
 ];
 
 export const router = new Router({
@@ -285,20 +336,23 @@ export const router = new Router({
 ### ./src/main.ts
 
 ```diff
-import Vue from 'vue';
-import Vuetify from 'vuetify';
-import 'vuetify/dist/vuetify.min.css';
-import VueRouter from 'vue-router';
-+ import { router } from './router';
-import App from './App.vue';
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Vuetify from "vuetify";
+import App from "./App.vue";
++ import { router } from "./router";
+import "vuetify/dist/vuetify.min.css";
 
-Vue.use(Vuetify);
 Vue.use(VueRouter);
+Vue.use(Vuetify);
+const vuetify = new Vuetify();
 
 new Vue({
+  vuetify,
 +  router,
   render: h => h(App),
-}).$mount('#root');
+}).$mount("#root");
+
 
 ```
 
@@ -312,7 +366,11 @@ new Vue({
 -   <div>
 -     <h1>{{message}}</h1>
 -   </div>
-+   <router-view />
++    <v-main>
++      <v-container>
++        <router-view/>
++      </v-container>
++    </v-main>
   </v-app>
 </template>
 
@@ -347,20 +405,18 @@ npm start
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 
 export default Vue.extend({
-  name: 'RecipeListPage',
+  name: "RecipeListPage",
 });
 </script>
 ```
 
 ### ./src/pages/recipe/list/index.ts
 
-```javascript
-import RecipeListPage from './Page.vue';
-
-export { RecipeListPage };
+```typescript
+export { default as RecipeListPage } from "./Page.vue";
 ```
 
 - Create route for `RecipeListPage`:
@@ -392,14 +448,14 @@ export const router = new Router({
 
 ```diff
 <template>
-  <form>
+  <v-form>
     <v-layout column justify-center>
       <v-text-field label="Name"></v-text-field>
       <v-text-field label="Password" type="password"></v-text-field>
 -     <v-btn type="submit" color="info">Login</v-btn>
 +     <v-btn type="submit" color="info" to="/recipe">Login</v-btn>
     </v-layout>
-  </form>
+  </v-form>
 </template>
 
 ```
@@ -408,7 +464,7 @@ export const router = new Router({
 
 ### ./src/rest-api/model/login.ts
 
-```javascript
+```typescript
 export interface Login {
   name: string;
   password: string;
@@ -417,42 +473,45 @@ export interface Login {
 
 ### ./src/rest-api/model/index.ts
 
-```javascript
-export * from './login';
+```typescript
+export * from "./login";
 ```
 
 - Create fake `login` API.
 
 ### ./src/rest-api/api/login/login.ts
 
-```javascript
-import { Login } from '../../model';
+```typescript
+import { Login } from "../../model";
 
 export const loginRequest = (login: Login): Promise<boolean> =>
-  isValidLogin(login) ? Promise.resolve(true) : Promise.reject('Not valid login');
+  isValidLogin(login)
+    ? Promise.resolve(true)
+    : Promise.reject("Not valid login");
 
-const isValidLogin = (login: Login) => login.name === 'admin' && login.password === 'test';
+const isValidLogin = (login: Login) =>
+  login.name === "admin" && login.password === "test";
 ```
 
 ### ./src/rest-api/api/login/index.ts
 
-```javascript
-export * from './login';
+```typescript
+export * from "./login";
 ```
 
 - Create login page `viewModel`:
 
 ### ./src/pages/login/viewModel.ts
 
-```javascript
+```typescript
 interface Login {
   name: string;
   password: string;
 }
 
 const createEmptyLogin = (): Login => ({
-  name: '',
-  password: '',
+  name: "",
+  password: "",
 });
 
 export { Login, createEmptyLogin };
@@ -462,9 +521,9 @@ export { Login, createEmptyLogin };
 
 ### ./src/pages/login/mappers.ts
 
-```javascript
-import * as model from '../../rest-api/model';
-import * as vm from './viewModel';
+```typescript
+import * as model from "../../rest-api/model";
+import * as vm from "./viewModel";
 
 export const mapLoginVmToModel = (login: vm.Login): model.Login => ({
   ...login,
@@ -505,11 +564,12 @@ export const mapLoginVmToModel = (login: vm.Login): model.Login => ({
 
 - export default Vue.extend();
 + export default Vue.extend({
-+   props: {
-+     login: {} as PropOptions<Login>,
-+     updateLogin: {} as PropOptions<(name: string, password: string) => void>,
-+     loginRequest: {} as PropOptions<() => void>,
-+   },
++  name: "FormComponent",
++  props: {
++    login: { required: true } as PropOptions<Login>,
++    updateLogin: { required: true } as PropOptions<(name: Login["name"], password: Login["password"]) => void>,
++    loginRequest: { required: true } as PropOptions<() => void>,
++  },
 + });
 </script>
 
@@ -550,9 +610,9 @@ export default Vue.extend({
   name: "LoginPage",
   components: { FormComponent }
 + props: {
-+   login: {} as PropOptions<Login>,
-+   updateLogin: {} as PropOptions<(name: string, password: string) => void>,
-+   loginRequest: {} as PropOptions<() => void>,
++   login: { required: true } as PropOptions<Login>,
++   updateLogin: { required: true } as PropOptions<(name: Login["name"], password: Login["password"]) => void>,
++   loginRequest: { required: true } as PropOptions<() => void>,
 + },
 });
 </script>
@@ -569,12 +629,12 @@ export default Vue.extend({
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import LoginPage from './Page.vue';
-import { createEmptyLogin } from './viewModel';
+import Vue from "vue";
+import LoginPage from "./Page.vue";
+import { createEmptyLogin } from "./viewModel";
 
 export default Vue.extend({
-  name: 'LoginPageContainer',
+  name: "LoginPageContainer",
   components: { LoginPage },
   data() {
     return {
@@ -596,7 +656,8 @@ export default Vue.extend({
 <script lang="ts">
 import Vue from 'vue';
 import LoginPage from './Page.vue';
-import { createEmptyLogin } from './viewModel';
+- import { createEmptyLogin } from './viewModel';
++ import { createEmptyLogin, Login } from "./viewModel";
 + import { loginRequest } from '../../rest-api/api/login';
 + import { mapLoginVmToModel } from './mapper';
 
@@ -609,7 +670,7 @@ export default Vue.extend({
     };
   },
 + methods: {
-+   updateLogin(name, password) {
++   updateLogin(name: Login["name"], password: Login["password"]) {
 +     this.login = {
 +       name,
 +       password
@@ -636,10 +697,8 @@ export default Vue.extend({
 ### ./src/pages/login/index.ts
 
 ```diff
-- import LoginPage from './Page.vue';
-- export { LoginPage };
-+ import LoginPageContainer from './PageContainer.vue';
-+ export { LoginPageContainer };
+- export { default as LoginPage } from "./Page.vue";
++ export { default as LoginPageContainer } from "./PageContainer.vue";
 
 ```
 
@@ -670,13 +729,15 @@ export const router = new Router({
 
 ### ./src/pages/login/formProps.ts
 
-```javascript
-import { PropOptions } from 'vue';
-import { Login } from './viewModel';
+```typescript
+import { PropOptions } from "vue";
+import { Login } from "./viewModel";
 
 export interface FormProps {
   login: PropOptions<Login>;
-  updateLogin: PropOptions<(name: string, password: string) => void>;
+  updateLogin: PropOptions<
+    (name: Login["name"], password: Login["password"]) => void
+  >;
   loginRequest: PropOptions<() => void>;
 }
 ```
@@ -697,12 +758,12 @@ export interface FormProps {
 export default Vue.extend({
   name: 'FormComponent',
   props: {
--   login: {} as PropOptions<Login>,
-+   login: {},
--   updateLogin: {} as PropOptions<(name: string, password: string) => void>,
-+   updateLogin: {},
--   loginRequest: {} as PropOptions<() => void>,
-+   loginRequest: {},
+-   login: { required: true } as PropOptions<Login>,
++   login: { required: true },
+-   updateLogin: { required: true } as PropOptions<(name: Login["name"], password: Login["password"]) => void>,
++   updateLogin: { required: true },
+-   loginRequest: { required: true } as PropOptions<() => void>,
++   loginRequest: { required: true },
 - },
 + } as FormProps,
 });
@@ -726,12 +787,12 @@ export default Vue.extend({
   name: 'LoginPage',
   components: { FormComponent },
   props: {
--   login: {} as PropOptions<Login>,
-+   login: {},
--   updateLogin: {} as PropOptions<(name: string, password: string) => void>,
-+   updateLogin: {},
--   loginRequest: {} as PropOptions<() => void>,
-+   loginRequest: {},
+-   login: { required: true } as PropOptions<Login>,
++   login: { required: true },
+-   updateLogin: { required: true } as PropOptions<(name: Login["name"], password: Login["password"]) => void>,
++   updateLogin: { required: true },
+-   loginRequest: { required: true } as PropOptions<() => void>,
++   loginRequest: { required: true },
 - },
 + } as FormProps,
 });
@@ -743,8 +804,8 @@ export default Vue.extend({
 
 ### ./src/state.ts
 
-```javascript
-import { createEmptyLogin } from './pages/login/viewModel';
+```typescript
+import { createEmptyLogin } from "./pages/login/viewModel";
 
 export const state = {
   login: createEmptyLogin(),
@@ -801,10 +862,10 @@ export default Vue.extend({
 
 - Finally, we are going to add `form validations`.
 
-- First we're going to install [`lc-form-validation`](https://github.com/Lemoncode/lcFormValidation):
+- First we're going to install [`@lemoncode/fonk`](https://github.com/Lemoncode/fonk):
 
 ```
-npm install lc-form-validation --save
+npm install @lemoncode/fonk --save
 ```
 
 - Add it as `vendor`:
@@ -814,7 +875,7 @@ npm install lc-form-validation --save
 ```diff
 ...
 - vendor: ['vue', 'vue-router', 'vuetify'],
-+ vendor: ['lc-form-validation', 'vue', 'vue-router', 'vuetify'],
++ vendor: ['@lemoncode/fonk', 'vue', 'vue-router', 'vuetify'],
 ...
 
 ```
@@ -823,17 +884,21 @@ npm install lc-form-validation --save
 
 ### ./src/pages/login/validations.ts
 
-```javascript
-import { ValidationConstraints, Validators, createFormValidation } from 'lc-form-validation';
+```typescript
+import {
+  Validators,
+  createFormValidation,
+  ValidationSchema,
+} from "@lemoncode/fonk";
 
-const validationConstraints: ValidationConstraints = {
-  fields: {
-    name: [{ validator: Validators.required }],
-    password: [{ validator: Validators.required }],
+const validationSchema: ValidationSchema = {
+  field: {
+    name: [Validators.required],
+    password: [Validators.required],
   },
 };
 
-export const validations = createFormValidation(validationConstraints);
+export const validations = createFormValidation(validationSchema);
 ```
 
 - Create `LoginError` model:
@@ -841,7 +906,7 @@ export const validations = createFormValidation(validationConstraints);
 ### ./src/pages/login/viewModel.ts
 
 ```diff
-+ import { FieldValidationResult } from 'lc-form-validation';
++ import { createDefaultValidationResult, ValidationResult } from "@lemoncode/fonk";
 
 interface Login {
   name: string;
@@ -854,25 +919,15 @@ const createEmptyLogin = (): Login => ({
 });
 
 + interface LoginError {
-+   name: FieldValidationResult;
-+   password: FieldValidationResult;
++   name: ValidationResult;
++   password: ValidationResult;
 + };
 
 + type ResultLoginError = Record<keyof LoginError, boolean | string>;
 
-+ const createEmptyLoginError = (): LoginError => ({
-+   name: {
-+     key: 'name',
-+     succeeded: true,
-+     errorMessage: '',
-+     type: '',
-+   },
-+   password: {
-+     key: 'password',
-+     succeeded: true,
-+     errorMessage: '',
-+     type: '',
-+   },
++ const createEmptyLoginError = () => ({
++   name: createDefaultValidationResult(),
++   password: createDefaultValidationResult(),
 + });
 
 - export { Login, createEmptyLogin };
@@ -892,7 +947,7 @@ import { PropOptions } from 'vue';
 export interface FormProps {
   login: PropOptions<Login>,
 + loginError: PropOptions<LoginError>,
-  updateLogin: PropOptions<(name: string, password: string) => void>,
+  updateLogin: PropOptions<(name: Login["name"], password: Login["password"]) => void>,
   loginRequest: PropOptions<() => void>,
 }
 
@@ -912,16 +967,16 @@ export interface FormProps {
       <v-text-field
         label="Name"
         :value="login.name"
--       @input="(name) => updateLogin(name, login.password)"
 +       :rules="[resultLoginError.name]"
+-       @input="(name) => updateLogin(name, login.password)"
 +       @input="(name) => updateLogin('name', name)"
       />
       <v-text-field
         label="Password"
         type="password"
         :value="login.password"
--       @input="(password) => updateLogin(login.name, password)"
 +       :rules="[resultLoginError.password]"
+-       @input="(password) => updateLogin(login.name, password)"
 +       @input="(password) => updateLogin('password', password)"
       />
 -      <v-btn type="submit" color="info" @click.prevent="loginRequest">Login</v-btn>
@@ -945,10 +1000,10 @@ import { FormProps } from "../formProps";
 - export default Vue.extend({
 + export default (Vue as VueConstructor<Vue & Refs>).extend({
   props: {
-    login: {},
-+   loginError: {},
-    updateLogin: {},
-    loginRequest: {}
+    login: { required: true },
++   loginError: { required: true },
+    updateLogin: { required: true },
+    loginRequest: { required: true }
   } as FormProps,
 +  data() {
 +    return {
@@ -962,7 +1017,7 @@ import { FormProps } from "../formProps";
 +            ...acc,
 +            [item]:
 +              this.loginError[item as keyof ResultLoginError].succeeded ||
-+              this.loginError[item as keyof ResultLoginError].errorMessage,
++              this.loginError[item as keyof ResultLoginError].message,
 +          }),
 +          {} as ResultLoginError
 +        );
@@ -998,10 +1053,10 @@ import { FormProps } from "../formProps";
 <script lang="ts">
 ...
   props: {
-    login: {},
-+   loginError: {},
-    updateLogin: {},
-    loginRequest: {},
+    login: { required: true },
++   loginError: { required: true },
+    updateLogin: { required: true },
+    loginRequest: { required: true },
   } as FormProps,
 });
 </script>
@@ -1052,7 +1107,7 @@ export default Vue.extend({
 +       [field]: value,
 +     };
 
-+    validations.validateField(this.login, field, value)
++    validations.validateField(field, value)
 +     .then(fieldValidationResult => {
 +       this.loginError = {
 +         ...this.loginError,

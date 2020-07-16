@@ -1,11 +1,11 @@
-import { FieldValidationResult } from 'lc-form-validation';
+import { FieldValidationFunctionSync } from "@lemoncode/fonk";
 
-const hasItems = (value: any[]): FieldValidationResult => {
-  const isValid = value.length > 0;
+const hasItems: FieldValidationFunctionSync = ({ value }) => {
+  const isValid = Array.isArray(value) && value.length > 0;
   return {
-    type: 'ARRAY_HAS_ITEMS',
+    type: "ARRAY_HAS_ITEMS",
     succeeded: isValid,
-    errorMessage: isValid ? '' : 'Should has one or more ingredients',
+    message: isValid ? "" : "Should has one or more ingredients",
   };
 };
 

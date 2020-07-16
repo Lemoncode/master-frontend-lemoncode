@@ -1,6 +1,6 @@
 <template>
-  <v-layout>
-    <v-flex xs12 sm6 offset-sm3>
+  <v-layout justify-center>
+    <v-flex xs12 sm6>
       <v-card>
         <v-card-title primary-title>
           <h3 class="headline">Login</h3>
@@ -19,18 +19,18 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue';
-import { FormProps } from './formProps';
-import { FormComponent } from './components';
+import Vue, { PropOptions } from "vue";
+import { FormProps } from "./formProps";
+import { FormComponent } from "./components";
 
 export default Vue.extend({
-  name: 'LoginPage',
+  name: "LoginPage",
   components: { FormComponent },
   props: {
-    login: {},
-    loginError: {},
-    updateLogin: {},
-    loginRequest: {},
+    login: { required: true },
+    loginError: { required: true },
+    updateLogin: { required: true },
+    loginRequest: { required: true },
   } as FormProps,
 });
 </script>

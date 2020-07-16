@@ -18,12 +18,12 @@ export default Vue.extend({
   name: "RecipeEditPage",
   components: { FormComponent },
   props: {
-    recipe: {},
-    recipeError: {},
-    onUpdateRecipe: {},
-    onAddIngredient: {},
-    onRemoveIngredient: {},
-    onSave: {}
-  } as FormProps
+    recipe: { required: true },
+    recipeError: { required: true },
+    onUpdateRecipe: { required: true },
+    onSave: { required: true },
+    onRemoveIngredient: { required: true },
+    onAddIngredient: { required: true },
+  } as FormProps,
 });
 </script>

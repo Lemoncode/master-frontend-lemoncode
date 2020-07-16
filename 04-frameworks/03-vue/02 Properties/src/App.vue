@@ -1,30 +1,27 @@
 <template>
   <div>
-    <h1>{{message}}</h1>
-    <hello-component
-      :message="message"
-      :on-change="onChange"
-    />
+    <h1>{{ message }}</h1>
+    <hello-component :message="message" :on-change="onChange" />
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import HelloComponent from './Hello.vue';
+import Vue from "vue";
+import HelloComponent from "./Hello.vue";
 
 export default Vue.extend({
-  name: 'App',
+  name: "App",
   components: {
     HelloComponent,
   },
   data() {
     return {
-      message: 'Hello from App',
+      message: "Hello from App",
     };
   },
   methods: {
-    onChange(event) {
-      this.message = event.target.value;
+    onChange(value: string) {
+      this.message = value;
     },
   },
 });

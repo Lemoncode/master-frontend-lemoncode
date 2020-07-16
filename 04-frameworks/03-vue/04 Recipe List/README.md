@@ -30,7 +30,7 @@ npm install
 
 ### ./src/rest-api/model/recipe.ts
 
-```javascript
+```typescript
 export interface Recipe {
   id: number;
   name: string;
@@ -51,57 +51,57 @@ export * from './login';
 
 ### ./src/rest-api/api/recipe/mockData.ts
 
-```javascript
-import { Recipe } from '../../model';
+```typescript
+import { Recipe } from "../../model";
 
 export const mockRecipes: Recipe[] = [
   {
     id: 1,
-    name: 'Omelette',
+    name: "Omelette",
     description: `
      1. For a basic omelette, crack the eggs into a mixing bowl with a pinch of sea salt and black pepper. Beat well with a fork.
      2. Heat a small knob of butter in a small frying pan on a low heat, and once melted and bubbling, add the eggs and move the pan around to spread them out evenly.
      3. When the omelette begins to cook and firm up, but still has a little raw egg on top, sprinkle over the cheese (if using).
      4. Using a spatula, ease around the edges of the omelette, then fold it over in half. When it starts to turn golden brown underneath, remove the pan from the heat and slide the omelette on to a plate.
     `,
-    ingredients: ['2 eggs', 'cheese', 'salt', 'black pepper'],
+    ingredients: ["2 eggs", "cheese", "salt", "black pepper"],
   },
   {
     id: 2,
-    name: 'Salad with tomatoes',
+    name: "Salad with tomatoes",
     description: `
      1. Combine salad, tomatoes, avocados, garlic and onion in a large bowl.
      2. Sprinkle with lemon juice, and season with salt and pepper.
      3. Garnish salad with thin lemon slices.
     `,
     ingredients: [
-      'salad',
-      '2 tomatoes',
-      '2 avocados',
-      '1 tooth garlic',
-      '1 onion',
-      'lemon juice',
-      'salt',
-      'pepper',
+      "salad",
+      "2 tomatoes",
+      "2 avocados",
+      "1 tooth garlic",
+      "1 onion",
+      "lemon juice",
+      "salt",
+      "pepper",
     ],
   },
   {
     id: 3,
-    name: 'Spaghetti with tomato sauce',
+    name: "Spaghetti with tomato sauce",
     description: `
      1. Brown beef over medium heat. Drain off fat.
      2. In a large pot, combine beef, salt, oregano, pepper, garlic powder, onion flakes, diced tomatoes, tomato sauce, and mushrooms. Simmer at a low heat setting for 2 hours, stirring occasionally
      3. Cook pasta according to package directions. Drain. Serve sauce over spaghetti.
     `,
     ingredients: [
-      'spaghetti',
-      '1 beef',
-      '1/4 teaspoon garlic powder',
-      '1 onion',
-      '3 tomatoes',
-      '4 mushrooms',
-      'oregano',
-      'salt',
+      "spaghetti",
+      "1 beef",
+      "1/4 teaspoon garlic powder",
+      "1 onion",
+      "3 tomatoes",
+      "4 mushrooms",
+      "oregano",
+      "salt",
     ],
   },
 ];
@@ -109,9 +109,9 @@ export const mockRecipes: Recipe[] = [
 
 ### ./src/rest-api/api/recipe/recipe.ts
 
-```javascript
-import { Recipe } from '../../model';
-import { mockRecipes } from './mockData';
+```typescript
+import { Recipe } from "../../model";
+import { mockRecipes } from "./mockData";
 
 export const fetchRecipes = (): Promise<Recipe[]> => {
   return Promise.resolve(mockRecipes);
@@ -120,15 +120,15 @@ export const fetchRecipes = (): Promise<Recipe[]> => {
 
 ### ./src/rest-api/api/recipe/index.ts
 
-```javascript
-export * from './recipe';
+```typescript
+export * from "./recipe";
 ```
 
 - Create `recipe` viewModel:
 
 ### ./src/pages/recipe/list/viewModel.ts
 
-```javascript
+```typescript
 export interface Recipe {
   id: number;
   name: string;
@@ -141,9 +141,9 @@ export interface Recipe {
 
 ### ./src/pages/recipe/list/mappers.ts
 
-```javascript
-import * as model from '../../../rest-api/model';
-import * as vm from './viewModel';
+```typescript
+import * as model from "../../../rest-api/model";
+import * as vm from "./viewModel";
 
 export const mapRecipeListModelToVm = (recipes: model.Recipe[]): vm.Recipe[] =>
   recipes.map(mapRecipeModelToVm);
@@ -167,10 +167,10 @@ const mapRecipeModelToVm = (recipe: model.Recipe): vm.Recipe => ({
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 
 export default Vue.extend({
-  name: 'HeaderComponent',
+  name: "HeaderComponent",
 });
 </script>
 ```
@@ -189,7 +189,7 @@ export default Vue.extend({
       <span>{{ recipe.description }}</span>
     </td>
     <td>
-      <v-btn flat icon>
+      <v-btn text icon>
         <v-icon>edit</v-icon>
       </v-btn>
     </td>
@@ -197,13 +197,13 @@ export default Vue.extend({
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue';
-import { Recipe } from '../viewModel';
+import Vue, { PropOptions } from "vue";
+import { Recipe } from "../viewModel";
 
 export default Vue.extend({
-  name: 'RowComponent',
+  name: "RowComponent",
   props: {
-    recipe: {} as PropOptions<Recipe>,
+    recipe: { required: true } as PropOptions<Recipe>,
   },
 });
 </script>
@@ -226,16 +226,16 @@ export default Vue.extend({
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue';
-import { Recipe } from '../viewModel';
-import HeaderComponent from './Header.vue';
-import RowComponent from './Row.vue';
+import Vue, { PropOptions } from "vue";
+import { Recipe } from "../viewModel";
+import HeaderComponent from "./Header.vue";
+import RowComponent from "./Row.vue";
 
 export default Vue.extend({
-  name: 'TableComponent',
+  name: "TableComponent",
   components: { HeaderComponent, RowComponent },
   props: {
-    recipes: {} as PropOptions<Recipe[]>,
+    recipes: { required: true } as PropOptions<Recipe[]>,
   },
 });
 </script>
@@ -245,8 +245,8 @@ export default Vue.extend({
 
 ### ./src/pages/recipe/list/components/index.ts
 
-```javascript
-export { default as TableComponent } from './Table.vue';
+```typescript
+export { default as TableComponent } from "./Table.vue";
 ```
 
 - Update `recipe list` page:
@@ -272,7 +272,7 @@ export default Vue.extend({
   name: 'RecipeListPage',
 + components: { TableComponent },
 + props: {
-+   recipes: {} as PropOptions<Recipe[]>,
++   recipes: { required: true } as PropOptions<Recipe[]>,
 + },
 });
 </script>
@@ -289,14 +289,14 @@ export default Vue.extend({
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Recipe } from './viewModel';
-import { mapRecipeListModelToVm } from './mappers';
-import { fetchRecipes } from '../../../rest-api/api/recipe';
-import RecipeListPage from './Page.vue';
+import Vue from "vue";
+import { Recipe } from "./viewModel";
+import { mapRecipeListModelToVm } from "./mappers";
+import { fetchRecipes } from "../../../rest-api/api/recipe";
+import RecipeListPage from "./Page.vue";
 
 export default Vue.extend({
-  name: 'RecipeListPageContainer',
+  name: "RecipeListPageContainer",
   components: {
     RecipeListPage,
   },
@@ -307,10 +307,10 @@ export default Vue.extend({
   },
   created() {
     fetchRecipes()
-      .then(recipes => {
+      .then((recipes) => {
         this.recipes = mapRecipeListModelToVm(recipes);
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   },
 });
 </script>
@@ -321,10 +321,8 @@ export default Vue.extend({
 ### ./src/pages/recipe/list/index.ts
 
 ```diff
-- import RecipeListPage from './Page.vue';
-- export { RecipeListPage };
-+ import RecipeListPageContainer from './PageContainer.vue';
-+ export { RecipeListPageContainer };
+- export { default as RecipeListPage } from "./Page.vue";
++ export { default as RecipeListPageContainer } from "./PageContainer.vue";
 
 ```
 
@@ -432,7 +430,7 @@ export const router = new Router({
     </td>
 -   <td>
 +   <td :class="$style.editButton">
-      <v-btn flat icon>
+      <v-btn text icon>
         <v-icon>edit</v-icon>
       </v-btn>
     </td>
@@ -440,13 +438,15 @@ export const router = new Router({
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from "vue";
+- import Vue, { PropOptions } from "vue";
++ import Vue, { PropOptions, VueConstructor } from "vue";
 import { Recipe } from "../viewModel";
 
-export default Vue.extend({
+- export default Vue.extend({
++ export default (Vue as VueConstructor<Vue & { $style }>).extend({
   name: "RowComponent",
   props: {
-    recipe: {} as PropOptions<Recipe>
+    recipe: {required: true } as PropOptions<Recipe>
   }
 });
 </script>
@@ -475,14 +475,14 @@ export default Vue.extend({
 
 ```
 
-- We will update `table` styles:
+- We will update `table` with scoped styles:
 
 ### ./src/pages/recipe/list/components/Table.vue
 
 ```diff
 <template>
 - <table>
-+ <table :class="$style.table">
++ <table class="table">
     <header-component/>
     <tbody>
       <template v-for="recipe in recipes">
@@ -494,7 +494,7 @@ export default Vue.extend({
 
 ...
 
-+ <style module>
++ <style scope>
 +   .table {
 +     border-collapse: collapse;
 +     width: 100%;
@@ -521,13 +521,13 @@ export default Vue.extend({
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue';
+import Vue, { PropOptions } from "vue";
 
 export default Vue.extend({
-  name: 'SearchBarComponent',
+  name: "SearchBarComponent",
   props: {
     searchText: String,
-    onSearch: {} as PropOptions<(value: string) => void>,
+    onSearch: { required: true } as PropOptions<(value: string) => void>,
   },
 });
 </script>
@@ -547,19 +547,19 @@ export { default as TableComponent } from './Table.vue';
 
 ### ./src/pages/recipe/list/business/filterRecipeBusiness.ts
 
-```javascript
-import { Recipe } from '../viewModel';
+```typescript
+import { Recipe } from "../viewModel";
 
 export const filterRecipesByCommaSeparatedText = (recipes, searchText) => {
   const searchedIngredients = getSearchedIngredientList(searchText);
 
-  return searchText === ''
+  return searchText === ""
     ? recipes
     : filterRecipesBySearchedIngredients(recipes, searchedIngredients);
 };
 
 const getSearchedIngredientList = (searchText: string) => {
-  return searchText.split(',');
+  return searchText.split(",");
 };
 
 const filterRecipesBySearchedIngredients = (recipes, searchedIngredients) => {
@@ -569,13 +569,18 @@ const filterRecipesBySearchedIngredients = (recipes, searchedIngredients) => {
 };
 
 const matchAllSearchedIngredients = (ingredients, searchedIngredients) => {
-  return searchedIngredients.every(searchedIngredient =>
+  return searchedIngredients.every((searchedIngredient) =>
     matchSearchedIngredient(searchedIngredient, ingredients)
   );
 };
 
-const matchSearchedIngredient = (searchedIngredient: string, ingredients: string[]) => {
-  return ingredients.some(ingredient => matchIngredient(ingredient, searchedIngredient));
+const matchSearchedIngredient = (
+  searchedIngredient: string,
+  ingredients: string[]
+) => {
+  return ingredients.some((ingredient) =>
+    matchIngredient(ingredient, searchedIngredient)
+  );
 };
 
 const matchIngredient = (ingredient, searchedIngredient) => {
@@ -597,8 +602,7 @@ const matchIngredient = (ingredient, searchedIngredient) => {
   <v-container>
     <h2>Recipes</h2>
 +    <search-bar-component :search-text="searchText" :on-search="onSearch"/>
--   <table-component :recipes="recipes"/>
-+   <table-component :recipes="filteredRecipes"/>
+     <table-component :recipes="recipes"/>
   </v-container>
 </template>
 
@@ -607,29 +611,66 @@ import Vue, { PropOptions } from "vue";
 import { Recipe } from "./viewModel";
 - import { TableComponent } from "./components";
 + import { TableComponent, SearchBarComponent } from "./components";
-+ import { filterRecipesByCommaSeparatedText } from "./business/filterRecipeBusiness";
 
 export default Vue.extend({
   name: "RecipeListPage",
 - components: { TableComponent },
 + components: { TableComponent, SearchBarComponent },
   props: {
-    recipes: {} as PropOptions<Recipe[]>
+    recipes: { required: true } as PropOptions<Recipe[]>,
++   searchText: String,
++   onSearch: { required: true } as PropOptions<(value: string) => void>,
 - }
 + },
-+ data() {
-+    return {
+});
+</script>
+
+```
+
+- Update `recipe List` container:
+
+### ./src/pages/recipe/list/PageContainer.vue
+
+````diff
+<template>
+-  <recipe-list-page :recipes="recipes" />
++  <recipe-list-page :search-text="searchText" :on-search="onSearch" :recipes="filteredRecipes" />
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+import { fetchRecipes } from "../../../rest-api/api/recipe";
+import { mapRecipeListModelToVm } from "./mappers";
+import { Recipe } from "./viewModel";
+import RecipeListPage from "./Page.vue";
++ import { filterRecipesByCommaSeparatedText } from "./business/filterRecipeBusiness";
+
+export default Vue.extend({
+  name: "RecipeListPageContainer",
+  components: {
+    RecipeListPage,
+  },
+  data() {
+    return {
+      recipes: [] as Recipe[],
 +      searchText: "",
-+    };
-+  },
-+ methods: {
-+   onSearch(value: string) {
-+     this.searchText = value;
-+   },
-+ },
+    };
+  },
 + computed: {
 +   filteredRecipes(): Recipe[] {
 +     return filterRecipesByCommaSeparatedText(this.recipes, this.searchText);
++   },
++ },
+  created() {
+    fetchRecipes()
+      .then(recipes => {
+        this.recipes = mapRecipeListModelToVm(recipes);
+      })
+      .catch(error => console.log(error));
+  },
++ methods: {
++   onSearch(value: string) {
++     this.searchText = value;
 +   },
 + },
 });
@@ -647,23 +688,23 @@ export default Vue.extend({
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 
 export default Vue.extend({
-  name: 'RecipeEditPage',
+  name: "RecipeEditPage",
   props: {
     id: String,
   },
 });
 </script>
-```
+````
 
 - Create `index.ts`:
 
 ### ./src/pages/recipe/edit/index.ts
 
-```javascript
-export { default as EditRecipePage } from './Page.vue';
+```typescript
+export { default as EditRecipePage } from "./Page.vue";
 ```
 
 - Update `router.ts`:
@@ -703,8 +744,8 @@ export const router = new Router({
       <span>{{recipe.description}}</span>
     </td>
     <td :class="$style.editButton">
--     <v-btn flat icon>
-+     <v-btn flat icon :to="`recipe/${recipe.id}`">
+-     <v-btn text icon>
++     <v-btn text icon :to="`recipe/${recipe.id}`">
         <v-icon>edit</v-icon>
       </v-btn>
     </td>

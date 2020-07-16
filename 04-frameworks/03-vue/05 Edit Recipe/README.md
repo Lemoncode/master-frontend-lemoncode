@@ -81,8 +81,8 @@ export interface Recipe {
 
 export const createEmptyRecipe = (): Recipe => ({
   id: 0,
-  name: '',
-  description: '',
+  name: "",
+  description: "",
   ingredients: [],
 });
 ```
@@ -90,8 +90,8 @@ export const createEmptyRecipe = (): Recipe => ({
 ### ./src/pages/recipe/edit/mappers.ts
 
 ```javascript
-import * as model from '../../../rest-api/model';
-import * as vm from './viewModel';
+import * as model from "../../../rest-api/model";
+import * as vm from "./viewModel";
 
 export const mapRecipeModelToVm = (recipe: model.Recipe): vm.Recipe => ({
   ...recipe,
@@ -105,8 +105,8 @@ export const mapRecipeVmToModel = (recipe: vm.Recipe): model.Recipe => ({
 ### ./src/pages/recipe/edit/formProps.ts
 
 ```javascript
-import { PropOptions } from 'vue';
-import { Recipe } from './viewModel';
+import { PropOptions } from "vue";
+import { Recipe } from "./viewModel";
 
 export interface FormProps {
   recipe: PropOptions<Recipe>;
@@ -121,33 +121,35 @@ export interface FormProps {
 
 ```vue
 <template>
-  <form>
+  <v-form>
     <v-container>
       <v-layout row>
         <v-text-field
           label="Name"
           :value="recipe.name"
           :rules="[() => true || 'Test error message']"
-          @input="name => onUpdateRecipe('name', name)"
+          @input="(name) => onUpdateRecipe('name', name)"
         />
       </v-layout>
       <v-layout row justify-end>
-        <v-btn type="button" color="success" @click.prevent="onSave">Save</v-btn>
+        <v-btn type="button" color="success" @click.prevent="onSave"
+          >Save</v-btn
+        >
       </v-layout>
     </v-container>
-  </form>
+  </v-form>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { FormProps } from '../formProps';
+import Vue from "vue";
+import { FormProps } from "../formProps";
 
 export default Vue.extend({
-  name: 'FormComponent',
+  name: "FormComponent",
   props: {
-    recipe: {},
-    onUpdateRecipe: {},
-    onSave: {},
+    recipe: { required: true },
+    onUpdateRecipe: { required: true },
+    onSave: { required: true },
   } as FormProps,
 });
 </script>
@@ -156,7 +158,7 @@ export default Vue.extend({
 ### ./src/pages/recipe/edit/components/index.ts
 
 ```javascript
-export { default as FormComponent } from './Form.vue';
+export { default as FormComponent } from "./Form.vue";
 ```
 
 - Update `page`:
@@ -180,9 +182,9 @@ export default Vue.extend({
   props: {
 -   id: String,
 - },
-+   recipe: {},
-+   onUpdateRecipe: {},
-+   onSave: {},
++   recipe: { require: true },
++   onUpdateRecipe: { require: true },
++   onSave: { require: true },
 + } as FormProps,
 });
 </script>
@@ -195,19 +197,23 @@ export default Vue.extend({
 
 ```vue
 <template>
-  <recipe-edit-page :recipe="recipe" :on-update-recipe="onUpdateRecipe" :on-save="onSave" />
+  <recipe-edit-page
+    :recipe="recipe"
+    :on-update-recipe="onUpdateRecipe"
+    :on-save="onSave"
+  />
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { router } from '../../../router';
-import { fetchRecipeById, save } from '../../../rest-api/api/recipe';
-import { Recipe, createEmptyRecipe } from './viewModel';
-import { mapRecipeModelToVm, mapRecipeVmToModel } from './mappers';
-import RecipeEditPage from './Page.vue';
+import Vue from "vue";
+import { router } from "../../../router";
+import { fetchRecipeById, save } from "../../../rest-api/api/recipe";
+import { Recipe, createEmptyRecipe } from "./viewModel";
+import { mapRecipeModelToVm, mapRecipeVmToModel } from "./mappers";
+import RecipeEditPage from "./Page.vue";
 
 export default Vue.extend({
-  name: 'RecipeEditPageContainer',
+  name: "RecipeEditPageContainer",
   components: { RecipeEditPage },
   props: { id: String },
   data() {
@@ -218,10 +224,10 @@ export default Vue.extend({
   beforeMount() {
     const id = Number(this.id || 0);
     fetchRecipeById(id)
-      .then(recipe => {
+      .then((recipe) => {
         this.recipe = mapRecipeModelToVm(recipe);
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   },
   methods: {
     onUpdateRecipe(field: string, value: string) {
@@ -233,11 +239,11 @@ export default Vue.extend({
     onSave() {
       const recipe = mapRecipeVmToModel(this.recipe);
       save(recipe)
-        .then(message => {
+        .then((message) => {
           console.log(message);
           this.$router.back();
         })
-        .catch(error => console.log(error));
+        .catch((error) => console.log(error));
     },
   },
 });
@@ -294,13 +300,15 @@ export const router = new Router({
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue';
+import Vue, { PropOptions } from "vue";
 
 export default Vue.extend({
-  name: 'IngredientRowComponent',
+  name: "IngredientRowComponent",
   props: {
     ingredient: String,
-    onRemoveIngredient: {} as PropOptions<(ingredient: string) => void>,
+    onRemoveIngredient: { required: true } as PropOptions<
+      (ingredient: string) => void
+    >,
   },
 });
 </script>
@@ -322,15 +330,17 @@ export default Vue.extend({
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue';
-import IngredientRowComponent from './IngredientRow.vue';
+import Vue, { PropOptions } from "vue";
+import IngredientRowComponent from "./IngredientRow.vue";
 
 export default Vue.extend({
-  name: 'IngredientListComponent',
+  name: "IngredientListComponent",
   components: { IngredientRowComponent },
   props: {
-    ingredients: {} as PropOptions<string[]>,
-    onRemoveIngredient: {} as PropOptions<(ingredient: string) => void>,
+    ingredients: { required: true } as PropOptions<string[]>,
+    onRemoveIngredient: { required: true } as PropOptions<
+      (ingredient: string) => void
+    >,
   },
 });
 </script>
@@ -383,10 +393,10 @@ export default Vue.extend({
 + components: { IngredientListComponent },
   props: {
     recipe: {},
-    onUpdateRecipe: {},
-+   onAddIngredient: {},
-+   onRemoveIngredient: {},
-    onSave: {}
+    onUpdateRecipe: { required: true },
++   onAddIngredient: { required: true },
++   onRemoveIngredient: { required: true },
+    onSave: { required: true }
 - } as FormProps
 + } as FormProps,
 + data() {
@@ -447,11 +457,11 @@ export default Vue.extend({
   name: "RecipeEditPage",
   components: { FormComponent },
   props: {
-    recipe: {},
-    onUpdateRecipe: {},
-+   onAddIngredient: {},
-+   onRemoveIngredient: {},
-    onSave: {}
+    recipe: { required: true },
+    onUpdateRecipe: { required: true },
++   onAddIngredient: { required: true },
++   onRemoveIngredient: { required: true },
+    onSave: { required: true }
   } as FormProps
 });
 </script>
@@ -555,30 +565,34 @@ export default Vue.extend({
 ### ./src/pages/recipe/edit/validations.ts
 
 ```javascript
-import { ValidationConstraints, createFormValidation, Validators } from 'lc-form-validation';
+import {
+  createFormValidation,
+  Validators,
+  ValidationSchema,
+} from "@lemoncode/fonk";
 
-const constraints: ValidationConstraints = {
-  fields: {
-    name: [{ validator: Validators.required }],
+const validationSchema: ValidationSchema = {
+  field: {
+    name: [Validators.required],
   },
 };
 
-export const validations = createFormValidation(constraints);
+export const validations = createFormValidation(validationSchema);
 ```
 
 - Create custom `validator`:
 
 ### ./src/common/validations/hasItems.ts
 
-```javascript
-import { FieldValidationResult } from 'lc-form-validation';
+```typescript
+import { FieldValidationFunctionSync } from "@lemoncode/fonk";
 
-const hasItems = (value: any[]): FieldValidationResult => {
-  const isValid = value.length > 0;
+const hasItems: FieldValidationFunctionSync = ({ value }) => {
+  const isValid = Array.isArray(value) && value.length > 0;
   return {
-    type: 'ARRAY_HAS_ITEMS',
+    type: "ARRAY_HAS_ITEMS",
     succeeded: isValid,
-    errorMessage: isValid ? '' : 'Should has one or more ingredients',
+    message: isValid ? "" : "Should has one or more ingredients",
   };
 };
 
@@ -590,15 +604,13 @@ export { hasItems };
 ### ./src/pages/recipe/edit/validations.ts
 
 ```diff
-import { ValidationConstraints, createFormValidation, Validators } from 'lc-form-validation';
+import { createFormValidation, Validators, ValidationSchema } from "@lemoncode/fonk";
 + import { hasItems } from '../../../common/validations/hasItems';
 
-const constraints: ValidationConstraints = {
-  fields: {
-    name: [
-      { validator: Validators.required }
-    ],
-+   ingredients: [{ validator: hasItems }],
+const validationSchema: ValidationSchema = {
+  field: {
+    name: [Validators.required],
++   ingredients: [hasItems],
   },
 };
 
@@ -611,7 +623,7 @@ export const validations = createFormValidation(constraints);
 ### ./src/pages/recipe/edit/viewModel.ts
 
 ```diff
-+ import { FieldValidationResult } from 'lc-form-validation';
++ import { ValidationResult } from '@lemoncode/fonk';
 
 export interface Recipe {
   id: number;
@@ -628,23 +640,13 @@ export const createEmptyRecipe = (): Recipe => ({
 });
 
 + export interface RecipeError {
-+   name: FieldValidationResult;
-+   ingredients: FieldValidationResult;
++   name: ValidationResult;
++   ingredients: ValidationResult;
 + };
 
 + export const createEmptyRecipeError = (): RecipeError => ({
-+   name: {
-+     key: 'name',
-+     succeeded: true,
-+     errorMessage: '',
-+     type: '',
-+   },
-+   ingredients: {
-+     key: 'ingredients',
-+     succeeded: true,
-+     errorMessage: '',
-+     type: '',
-+   },
++   name: createDefaultValidationResult(),
++   ingredients: createDefaultValidationResult(),
 + });
 
 ```
@@ -741,7 +743,7 @@ export default Vue.extend({
       });
     },
 +   validateRecipeField(field, value) {
-+     validations.validateField(this.recipe, field, value)
++     validations.validateField(field, value)
 +       .then(result => this.updateRecipeError(field, result));
 +   },
 +   updateRecipeError(field, result) {
@@ -798,12 +800,12 @@ export default Vue.extend({
   name: "RecipeEditPage",
   components: { FormComponent },
   props: {
-    recipe: {},
-+   recipeError: {},
-    onUpdateRecipe: {},
-    onAddIngredient: {},
-    onRemoveIngredient: {},
-    onSave: {}
+    recipe: { required: true },
++   recipeError: { required: true },
+    onUpdateRecipe: { required: true },
+    onAddIngredient: { required: true },
+    onRemoveIngredient: { required: true },
+    onSave: { required: true }
   } as FormProps
 });
 </script>
@@ -844,7 +846,7 @@ export default Vue.extend({
 +     <v-alert
 +       :value="!recipeError.ingredients.succeeded"
 +       color="error"
-+       outline
++       outlined
 +     >{{recipeError.ingredients.errorMessage}}</v-alert>
       <v-layout row>
         <v-textarea
@@ -871,12 +873,12 @@ export default Vue.extend({
   name: "FormComponent",
   components: { IngredientListComponent },
   props: {
-    recipe: {},
-+   recipeError: {},
-    onUpdateRecipe: {},
-    onAddIngredient: {},
-    onRemoveIngredient: {},
-    onSave: {}
+    recipe: { required: true },
++   recipeError: { required: true },
+    onUpdateRecipe: { required: true },
+    onAddIngredient: { required: true },
+    onRemoveIngredient: { required: true },
+    onSave: { required: true }
   } as FormProps,
   data() {
     return {
@@ -885,7 +887,7 @@ export default Vue.extend({
   },
 +  computed: {
 +    resultRecipeError(): boolean | string {
-+      return this.recipeError.name.succeeded || this.recipeError.name.errorMessage;
++      return this.recipeError.name.succeeded || this.recipeError.name.message;
 +    },
 +  },
   methods: {

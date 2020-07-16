@@ -13,7 +13,7 @@ export default Vue.extend({
   name: "SearchBarComponent",
   props: {
     searchText: String,
-    onSearch: {} as PropOptions<(value: string) => void>
-  }
+    onSearch: { required: true } as PropOptions<(value: string) => void>,
+  },
 });
 </script>

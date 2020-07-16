@@ -1,6 +1,10 @@
 <template>
   <v-app>
-    <router-view/>
+    <v-main>
+      <v-container>
+        <router-view />
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 

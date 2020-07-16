@@ -1,12 +1,12 @@
 <template>
-  <form>
+  <v-form>
     <v-container>
       <v-layout row>
         <v-text-field
           label="Name"
           :value="recipe.name"
           :rules="[resultRecipeError]"
-          @input="name => onUpdateRecipe('name', name)"
+          @input="(name) => onUpdateRecipe('name', name)"
         />
       </v-layout>
       <v-layout column>
@@ -23,49 +23,54 @@
           :on-remove-ingredient="onRemoveIngredient"
         />
       </v-layout>
-      <v-alert :value="!recipeError.ingredients.succeeded" color="error" outline>{{
-        recipeError.ingredients.errorMessage
-      }}</v-alert>
+      <v-alert
+        :value="!recipeError.ingredients.succeeded"
+        color="error"
+        outlined
+        >{{ recipeError.ingredients.message }}</v-alert
+      >
       <v-layout row>
         <v-textarea
           placeholder="Description...."
           rows="10"
           :value="recipe.description"
           :no-resize="true"
-          @input="value => onUpdateRecipe('description', value)"
+          @input="(value) => onUpdateRecipe('description', value)"
         ></v-textarea>
       </v-layout>
       <v-layout row justify-end>
-        <v-btn type="button" color="success" @click.prevent="onSave">Save</v-btn>
+        <v-btn type="button" color="success" @click.prevent="onSave"
+          >Save</v-btn
+        >
       </v-layout>
     </v-container>
-  </form>
+  </v-form>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { FormProps } from '../formProps';
-import IngredientListComponent from './IngredientList.vue';
+import Vue from "vue";
+import { FormProps } from "../formProps";
+import IngredientListComponent from "./IngredientList.vue";
 
 export default Vue.extend({
-  name: 'FormComponent',
+  name: "FormComponent",
   components: { IngredientListComponent },
   props: {
-    recipe: {},
-    recipeError: {},
-    onUpdateRecipe: {},
-    onAddIngredient: {},
-    onRemoveIngredient: {},
-    onSave: {},
+    recipe: { required: true },
+    recipeError: { required: true },
+    onUpdateRecipe: { required: true },
+    onSave: { required: true },
+    onRemoveIngredient: { required: true },
+    onAddIngredient: { required: true },
   } as FormProps,
   data() {
     return {
-      ingredient: '',
+      ingredient: "",
     };
   },
   computed: {
     resultRecipeError(): boolean | string {
-      return this.recipeError.name.succeeded || this.recipeError.name.errorMessage;
+      return this.recipeError.name.succeeded || this.recipeError.name.message;
     },
   },
   methods: {

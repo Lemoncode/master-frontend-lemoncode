@@ -1,4 +1,7 @@
-import { FieldValidationResult } from 'lc-form-validation';
+import {
+  createDefaultValidationResult,
+  ValidationResult,
+} from "@lemoncode/fonk";
 
 interface Login {
   name: string;
@@ -6,30 +9,26 @@ interface Login {
 }
 
 const createEmptyLogin = (): Login => ({
-  name: '',
-  password: '',
+  name: "",
+  password: "",
 });
 
 interface LoginError {
-  name: FieldValidationResult;
-  password: FieldValidationResult;
+  name: ValidationResult;
+  password: ValidationResult;
 }
+
+const createEmptyLoginError = () => ({
+  name: createDefaultValidationResult(),
+  password: createDefaultValidationResult(),
+});
 
 type ResultLoginError = Record<keyof LoginError, boolean | string>;
 
-const createEmptyLoginError = (): LoginError => ({
-  name: {
-    key: 'name',
-    succeeded: true,
-    errorMessage: '',
-    type: '',
-  },
-  password: {
-    key: 'password',
-    succeeded: true,
-    errorMessage: '',
-    type: '',
-  },
-});
-
-export { Login, createEmptyLogin, LoginError, ResultLoginError, createEmptyLoginError };
+export {
+  Login,
+  createEmptyLogin,
+  LoginError,
+  ResultLoginError,
+  createEmptyLoginError,
+};

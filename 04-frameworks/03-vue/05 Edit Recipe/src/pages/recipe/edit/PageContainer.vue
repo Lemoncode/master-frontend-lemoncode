@@ -10,16 +10,21 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { router } from '../../../router';
-import { fetchRecipeById, save } from '../../../rest-api/api/recipe';
-import { Recipe, createEmptyRecipe, RecipeError, createEmptyRecipeError } from './viewModel';
-import { mapRecipeModelToVm, mapRecipeVmToModel } from './mappers';
-import RecipeEditPage from './Page.vue';
-import { validations } from './validations';
+import Vue from "vue";
+import { router } from "../../../router";
+import { fetchRecipeById, save } from "../../../rest-api/api/recipe";
+import {
+  Recipe,
+  createEmptyRecipe,
+  RecipeError,
+  createEmptyRecipeError,
+} from "./viewModel";
+import { mapRecipeModelToVm, mapRecipeVmToModel } from "./mappers";
+import { validations } from "./validations";
+import RecipeEditPage from "./Page.vue";
 
 export default Vue.extend({
-  name: 'RecipeEditPageContainer',
+  name: "RecipeEditPageContainer",
   components: { RecipeEditPage },
   props: { id: String },
   data() {
@@ -31,10 +36,10 @@ export default Vue.extend({
   beforeMount() {
     const id = Number(this.id || 0);
     fetchRecipeById(id)
-      .then(recipe => {
+      .then((recipe) => {
         this.recipe = mapRecipeModelToVm(recipe);
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   },
   methods: {
     onUpdateRecipe(field: string, value: string) {
@@ -45,31 +50,33 @@ export default Vue.extend({
       this.validateRecipeField(field, value);
     },
     onAddIngredient(ingredient: string) {
-      this.recipe = {
-        ...this.recipe,
-        ingredients: [...this.recipe.ingredients, ingredient],
-      };
-      this.validateRecipeField('ingredients', this.recipe.ingredients);
+      if (ingredient.length > 0) {
+        this.recipe = {
+          ...this.recipe,
+          ingredients: [...this.recipe.ingredients, ingredient],
+        };
+        this.validateRecipeField("ingredients", this.recipe.ingredients);
+      }
     },
     onRemoveIngredient(ingredient: string) {
       this.recipe = {
         ...this.recipe,
-        ingredients: this.recipe.ingredients.filter(i => {
-          return i !== ingredient;
-        }),
+        ingredients: this.recipe.ingredients.filter(
+          (item) => item !== ingredient
+        ),
       };
-      this.validateRecipeField('ingredients', this.recipe.ingredients);
+      this.validateRecipeField("ingredients", this.recipe.ingredients);
     },
     onSave() {
-      validations.validateForm(this.recipe).then(result => {
+      validations.validateForm(this.recipe).then((result) => {
         if (result.succeeded) {
           const recipe = mapRecipeVmToModel(this.recipe);
           save(recipe)
-            .then(message => {
+            .then((message) => {
               console.log(message);
               this.$router.back();
             })
-            .catch(error => console.log(error));
+            .catch((error) => console.log(error));
         } else {
           this.recipeError = {
             ...this.recipeError,
@@ -79,9 +86,9 @@ export default Vue.extend({
       });
     },
     validateRecipeField(field, value) {
-      validations
-        .validateField(this.recipe, field, value)
-        .then(result => this.updateRecipeError(field, result));
+      validations.validateField(field, value).then((result) => {
+        this.updateRecipeError(field, result);
+      });
     },
     updateRecipeError(field, result) {
       this.recipeError = {

@@ -1,13 +1,13 @@
 <template>
   <tr>
     <td :class="$style.name">
-      <span>{{recipe.name}}</span>
+      <span>{{ recipe.name }}</span>
     </td>
     <td :class="$style.description">
-      <span>{{recipe.description}}</span>
+      <span>{{ recipe.description }}</span>
     </td>
     <td :class="$style.editButton">
-      <v-btn flat icon :to="`recipe/${recipe.id}`">
+      <v-btn text icon :to="`recipe/${recipe.id}`">
         <v-icon>edit</v-icon>
       </v-btn>
     </td>
@@ -15,14 +15,14 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from "vue";
+import Vue, { PropOptions, VueConstructor } from "vue";
 import { Recipe } from "../viewModel";
 
-export default Vue.extend({
+export default (Vue as VueConstructor<Vue & { $style }>).extend({
   name: "RowComponent",
   props: {
-    recipe: {} as PropOptions<Recipe>
-  }
+    recipe: { required: true } as PropOptions<Recipe>,
+  },
 });
 </script>
 

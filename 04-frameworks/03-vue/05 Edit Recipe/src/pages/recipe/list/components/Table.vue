@@ -1,9 +1,9 @@
 <template>
-  <table :class="$style.table">
-    <header-component/>
+  <table class="table">
+    <header-component />
     <tbody>
       <template v-for="recipe in recipes">
-        <row-component :key="recipe.id" :recipe="recipe"/>
+        <row-component :key="recipe.id" :recipe="recipe" />
       </template>
     </tbody>
   </table>
@@ -19,12 +19,12 @@ export default Vue.extend({
   name: "TableComponent",
   components: { HeaderComponent, RowComponent },
   props: {
-    recipes: {} as PropOptions<Recipe[]>
-  }
+    recipes: { required: true } as PropOptions<Recipe[]>,
+  },
 });
 </script>
 
-<style module>
+<style scoped>
 .table {
   border-collapse: collapse;
   width: 100%;

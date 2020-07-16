@@ -1,4 +1,7 @@
-import { FieldValidationResult } from 'lc-form-validation';
+import {
+  ValidationResult,
+  createDefaultValidationResult,
+} from "@lemoncode/fonk";
 
 export interface Recipe {
   id: number;
@@ -9,27 +12,17 @@ export interface Recipe {
 
 export const createEmptyRecipe = (): Recipe => ({
   id: 0,
-  name: '',
-  description: '',
+  name: "",
+  description: "",
   ingredients: [],
 });
 
 export interface RecipeError {
-  name: FieldValidationResult;
-  ingredients: FieldValidationResult;
+  name: ValidationResult;
+  ingredients: ValidationResult;
 }
 
 export const createEmptyRecipeError = (): RecipeError => ({
-  name: {
-    key: 'name',
-    succeeded: true,
-    errorMessage: '',
-    type: '',
-  },
-  ingredients: {
-    key: 'ingredients',
-    succeeded: true,
-    errorMessage: '',
-    type: '',
-  },
+  name: createDefaultValidationResult(),
+  ingredients: createDefaultValidationResult(),
 });

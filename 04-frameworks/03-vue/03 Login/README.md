@@ -153,6 +153,7 @@ npm install sass sass-loader --save-dev
 import Vue from "vue";
 + import Vuetify from "vuetify";
 import App from "./App.vue";
++ import "vuetify/dist/vuetify.min.css";
 
 + Vue.use(Vuetify);
 + const vuetify = new Vuetify();
@@ -299,6 +300,7 @@ import Vue from "vue";
 + import VueRouter from "vue-router";
 import Vuetify from "vuetify";
 import App from "./App.vue";
+import "vuetify/dist/vuetify.min.css";
 
 + Vue.use(VueRouter);
 Vue.use(Vuetify);
@@ -339,6 +341,7 @@ import VueRouter from "vue-router";
 import Vuetify from "vuetify";
 import App from "./App.vue";
 + import { router } from "./router";
+import "vuetify/dist/vuetify.min.css";
 
 Vue.use(VueRouter);
 Vue.use(Vuetify);

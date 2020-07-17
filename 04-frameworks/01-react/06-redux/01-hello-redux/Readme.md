@@ -45,6 +45,8 @@ export const userProfileReducer = (state = defaultUserState(), action) => {
 
 - Now that we got the reducer, we will wire it up using _combineReducers_
 
+_./src/reducer/index.ts_
+
 ```typescript
 import { combineReducers } from "redux";
 import { userProfileReducer, UserProfileState } from "./user-profile.reducer";
@@ -69,9 +71,10 @@ import * as ReactDOM from "react-dom";
 + import { Provider } from 'react-redux';
 + import {reducers } from './reducer';
 
+import { HelloComponent } from "./hello";
+
 + const store = createStore(reducers);
 
-import { HelloComponent } from "./hello";
 
 ReactDOM.render(
 + <Provider store={store}>

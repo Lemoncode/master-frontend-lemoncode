@@ -4,7 +4,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import reduxThunk from "redux-thunk";
 import { Provider } from "react-redux";
 import { reducers } from "./reducer";
-import { MemberCollectionContainer } from "./components/member-collection.container";
+import { MemberCollectionComponent } from "./components/member-collection.component";
 
 import { HelloComponent } from "./hello";
 
@@ -20,7 +20,7 @@ ReactDOM.render(
   <Provider store={store}>
     <>
       <HelloComponent />
-      <MemberCollectionContainer />
+      <MemberCollectionComponent />
     </>
   </Provider>,
   document.getElementById("root")

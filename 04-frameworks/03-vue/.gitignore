@@ -1,0 +1,9 @@
+node_modules
+.DS_Store
+dist/
+*.orig
+.idea/
+bundle.js
+package-lock.json
+.awcache/
+*.notes.md

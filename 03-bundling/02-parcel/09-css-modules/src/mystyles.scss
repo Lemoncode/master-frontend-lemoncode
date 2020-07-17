@@ -1,0 +1,9 @@
+$blue-color: teal;
+
+.hello {
+  background-color: $blue-color;
+
+  .logo{
+    width:150px;
+  }
+}

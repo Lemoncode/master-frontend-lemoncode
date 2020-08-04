@@ -1,0 +1,54 @@
+<h2>Alta</h2>
+<div>
+  <form #addForm="ngForm">
+    <div>
+        <label>Id </label>
+        <input name="id" [(ngModel)]="newMember.id" required #id="ngModel"/>
+        <div *ngIf="id.invalid && id.touched">El id es obligatorio</div>
+    </div>
+    <div>
+        <label>Name </label>
+        <input name="name" [(ngModel)]="newMember.login" required minlength="6" #name="ngModel"/>
+        <div *ngIf="name.invalid && name.touched">
+          <div *ngIf="name.errors.required">El nombre es obligatorio</div>
+          <div *ngIf="name.errors.minlength">El nombre debe tener {{ name.errors.minlength.requiredLength }} caracteres mínimo. Tiene sólamente {{ name.errors.minlength.actualLength }}</div>
+        </div>
+    </div>
+    <div>
+        <label>Avatar </label>
+        <input name="avatar" (change)="handleFileInput($event.target.files)" type="file" accept="image/*"/>
+        <div><img [src]="newMember.avatar_url" width="50" /></div>
+    </div>
+    <button [disabled]="addForm.invalid" (click)="add()">Añadir</button>
+  </form>
+</div>
+
+<h2>Listado</h2>
+<div>
+  <label>Buscar por nombre: </label>
+  <input #search (keyup)="0"/>
+  <table>
+    <thead>
+      <tr>
+        <th appHighlight>Avatar</th>
+        <th>Id</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let member of members | searchByLogin:search.value" (click)="select(member)">
+          <td>
+            <img [src]="member.avatar_url" width="30" />
+          </td>
+          <td>
+            <span>{{ member.id }}</span>
+          </td>
+          <td>
+            <span>{{ member.login }}</span>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+</div>
+
+<app-user-edit *ngIf="memberSelected" [member]="memberSelected" (saveEvent)="save($event)"></app-user-edit>

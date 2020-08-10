@@ -63,7 +63,7 @@ export const HelloContainer = connect(
 )(HelloComponent);
 ```
 
-- Now let's update our main index.ts file.
+- Now let's update our main index.tsx file.
 
 ```diff
 import * as React from "react";

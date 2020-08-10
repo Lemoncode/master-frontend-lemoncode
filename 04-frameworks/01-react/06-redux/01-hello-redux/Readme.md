@@ -81,7 +81,7 @@ ReactDOM.render(
 +   <>
     <HelloComponent />
 +   </>
-+ </Provider>,
++ </Provider>
   , document.getElementById("root"));
 ```
 

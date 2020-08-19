@@ -132,7 +132,7 @@ describe('Hotel edit specs', () => {
 Cypress.Commands.add(
   'loadAndVisit',
 - (apiPath: string, routePath: string, fixture?: string) => {
-+ (visitUrl: string, resources: Resource[], , callbackAfterVisit?: () => void) => {
++ (visitUrl: string, resources: Resource[], callbackAfterVisit?: () => void) => {
     cy.server();
 -   Boolean(fixture)
 -     ? cy.route('GET', apiPath, fixture).as('load')
@@ -156,6 +156,8 @@ Cypress.Commands.add(
 +   aliasList.forEach((alias) => {
 +     cy.wait(`@${alias}`);
 +   });
+
++   return cy;
   }
 );
 

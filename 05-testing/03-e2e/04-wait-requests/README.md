@@ -14,7 +14,7 @@ npm install
 
 - Maybe some times we need to use real backend server for some reason, we have a spec check hotel collection from "real backend" (it's a mock backend). It looks like it's working, but what's happend if we add some delay?:
 
-### ./src/pods/hotel-collection/hotel-collection.api.ts
+### ./src/pods/hotel-collection/api/hotel-collection.api.ts
 
 ```diff
 import Axios from 'axios';

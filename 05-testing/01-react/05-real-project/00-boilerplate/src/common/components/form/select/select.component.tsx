@@ -21,7 +21,6 @@ export const SelectComponent: React.FunctionComponent<Props> = props => {
     error,
     onChange,
     onBlur,
-    value,
     className,
     ...otherProps
   } = props;
@@ -29,6 +28,7 @@ export const SelectComponent: React.FunctionComponent<Props> = props => {
   const hasError = error || Boolean(meta && meta.touched && meta.error);
   const helperText = Boolean(field) ? meta?.error : props.helperText;
   const labelId = `${name}-label`;
+  const value = props.value !== undefined ? props.value : field?.value;
 
   return (
     <FormControl
@@ -50,7 +50,7 @@ export const SelectComponent: React.FunctionComponent<Props> = props => {
         name={name}
         onChange={onChange || field?.onChange}
         onBlur={onBlur || field?.onBlur}
-        value={value || field?.value}
+        value={value}
       >
         {items.map(item => (
           <MenuItem key={item.id} value={item.id}>

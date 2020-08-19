@@ -206,6 +206,7 @@ describe('SayHello component specs', () => {
 - Using `getByRole`:
 
 > [ARIA roles](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles)
+> [Which query should I use?](https://testing-library.com/docs/guide-which-query)
 
 ### ./src/say-hello.tsx
 

@@ -66,13 +66,13 @@ module.exports = {
 _webpack.dev.js_
 
 ```javascript
-const merge = require("webpack-merge");
+const { merge } = require("webpack-merge");
 const common = require("./webpack.common.js");
 
 module.exports = merge(common, {
   mode: "development",
   devtool: "inline-source-map",
-  stats: "errors-only"
+  stats: "errors-only",
 });
 ```
 
@@ -82,12 +82,12 @@ module.exports = merge(common, {
 _webpack.prod.js_
 
 ```javascript
-const merge = require("webpack-merge");
+const { merge } = require("webpack-merge");
 const common = require("./webpack.common.js");
 
 module.exports = merge(common, {
   mode: "production",
-  stats: "verbose"
+  stats: "verbose",
 });
 ```
 

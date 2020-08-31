@@ -258,6 +258,7 @@ _webpack.config.js_
 +        options: {
 +          limit: 5000,
 +          name: './img/[hash].[name].[ext]',
++          esModule: false,
 +        },
 +      },
       },

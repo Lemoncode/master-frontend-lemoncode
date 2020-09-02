@@ -6,6 +6,7 @@ export const App = () => {
   const [nickname, setNickName] = React.useState("");
   const [message, setMessage] = React.useState("");
   const [chatlog, setChatlog] = React.useState("");
+  const chatlogRef = React.useRef("");
   const [isConnected, setIsConnected] = React.useState(false);
   const [socket, setSocket] = React.useState<Socket>(null);
 
@@ -20,7 +21,8 @@ export const App = () => {
             break;
           case "CHAT_MESSAGE":
             if (body.payload.nickname !== nickname) {
-              const newChatlog = chatlog + body.payload.content;
+              const newChatlog = `${chatlogRef.current}\n${body.payload.content}`;
+              chatlogRef.current = newChatlog;
               setChatlog(newChatlog);
             }
             break;

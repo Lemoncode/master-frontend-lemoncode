@@ -27,6 +27,33 @@ npm start
 
 - Update `getHotelCollection` api method:
 
+### Fetch version
+
+_./src/pods/hotel-collection/api/hotel-collection.api.ts_
+
+```diff
+import { HotelEntityApi } from './hotel-collection.api-model';
+import { mockHotelCollection } from './hotel-collection.mock-data';
+
+let hotelCollection = [...mockHotelCollection];
++ const url = '/api/hotels';
+
+export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
+- return hotelCollection;
++ const response = await fetch(url);
++ if (response.ok) {
++   return await response.json();
++ } else {
++   throw Error(response.statusText);
++ }
+};
+
+...
+
+```
+
+### Axios version
+
 _./src/pods/hotel-collection/api/hotel-collection.api.ts_
 
 ```diff
@@ -52,6 +79,32 @@ export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
 > NOTE: There is an issue with delete method
 > Check [issue](https://github.com/typicode/json-server/issues/760)
 
+### Fetch version
+
+_./src/pods/hotel-collection/api/hotel-collection.api.ts_
+
+```diff
+import { HotelEntityApi } from './hotel-collection.api-model';
+- import { mockHotelCollection } from './hotel-collection.mock-data';
+
+- let hotelCollection = [...mockHotelCollection];
+const url = '/api/hotels';
+
+...
+
++ // json-server delete issue: It deletes all collection instead of single one.
++ // https://github.com/typicode/json-server/issues/760
+export const deleteHotel = async (id: string): Promise<boolean> => {
+- hotelCollection = hotelCollection.filter((h) => h.id !== id);
+- return true;
++ const response = await fetch(`${url}/${id}`, { method: 'DELETE' });
++ return response.ok;
+};
+
+```
+
+### Axios version
+
 _./src/pods/hotel-collection/api/hotel-collection.api.ts_
 
 ```diff
@@ -62,17 +115,13 @@ import { HotelEntityApi } from './hotel-collection.api-model';
 - let hotelCollection = [...mockHotelCollection];
 const url = '/api/hotels';
 
-export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
-  const { data } = await Axios.get<HotelEntityApi[]>(url);
-
-  return data;
-};
+...
 
 + // json-server delete issue: It deletes all collection instead of single one.
 + // https://github.com/typicode/json-server/issues/760
 export const deleteHotel = async (id: string): Promise<boolean> => {
 - hotelCollection = hotelCollection.filter((h) => h.id !== id);
-- await Axios.delete(`${url}/${id}`);
++ await Axios.delete(`${url}/${id}`);
   return true;
 };
 
@@ -81,6 +130,34 @@ export const deleteHotel = async (id: string): Promise<boolean> => {
 - Delete `./src/pods/hotel-collection/api/hotel-collection.mock-data.ts`, not used.
 
 - Update `getHotel` api method:
+
+### Fetch version
+
+_./src/pods/hotel/api/hotel.api.ts_
+
+```diff
+import { Hotel } from './hotel.api-model';
+import { Lookup } from 'common/models';
+- import { mockCities, mockHotelCollection } from './hotel.mock-data';
++ import { mockCities } from './hotel.mock-data';
+
++ const hotelListUrl = '/api/hotels';
+
+export const getHotel = async (id: string): Promise<Hotel> => {
+- return mockHotelCollection.find((h) => h.id === id);
++ const response = await fetch(`${hotelListUrl}/${id}`);
++ if (response.ok) {
++   return await response.json();
++ } else {
++   throw Error(response.statusText);
++ }
+};
+
+...
+
+```
+
+### Axios version
 
 _./src/pods/hotel/api/hotel.api.ts_
 
@@ -105,6 +182,36 @@ export const getHotel = async (id: string): Promise<Hotel> => {
 ```
 
 - Update `getCities` api method:
+
+### Fetch version
+
+_./src/pods/hotel/api/hotel.api.ts_
+
+```diff
+import { Hotel } from './hotel.api-model';
+import { Lookup } from 'common/models';
+- import { mockCities } from './hotel.mock-data';
+
+const hotelListUrl = '/api/hotels';
++ const cityListUrl = '/api/cities';
+
+...
+
+export const getCities = async (): Promise<Lookup[]> => {
+- return mockCities;
++ const response = await fetch(cityListUrl);
++ if (response.ok) {
++   return await response.json();
++ } else {
++   throw Error(response.statusText);
++ }
+};
+
+...
+
+```
+
+### Axios version
 
 _./src/pods/hotel/api/hotel.api.ts_
 
@@ -131,6 +238,38 @@ export const getCities = async (): Promise<Lookup[]> => {
 ```
 
 - Update `saveHotel` api method:
+
+### Fetch version
+
+_./src/pods/hotel/api/hotel.api.ts_
+
+```diff
+...
+
+export const saveHotel = async (hotel: Hotel): Promise<boolean> => {
++ if (hotel.id) {
++   await fetch(`${hotelListUrl}/${hotel.id}`, {
++     method: 'PUT',
++     headers: {
++       'Content-Type': 'application/json',
++     },
++     body: JSON.stringify(hotel),
++   });
++ } else {
++   await fetch(hotelListUrl, {
++     method: 'POST',
++     headers: {
++       'Content-Type': 'application/json',
++     },
++     body: JSON.stringify(hotel),
++   });
++ }
+  return true;
+};
+
+```
+
+### Axios version
 
 _./src/pods/hotel/api/hotel.api.ts_
 

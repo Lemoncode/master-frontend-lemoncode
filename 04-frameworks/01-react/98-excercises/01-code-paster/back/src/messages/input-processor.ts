@@ -3,7 +3,6 @@ import {
   Action,
   InputEstablishConnectionMaster,
   InputEstablishConnectionPlayer,
-  InputTrainerAppendText,
   SocketInfo,
 } from './model';
 import {

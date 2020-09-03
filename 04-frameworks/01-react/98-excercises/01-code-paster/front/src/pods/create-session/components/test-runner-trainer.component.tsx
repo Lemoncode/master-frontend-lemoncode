@@ -72,7 +72,11 @@ export const TestRunnerTrainerComponent = () => {
       <button onClick={fireTestRunner}>Create Connection Trainer</button>
       <button onClick={handleAppendRandomText}>Append Random Text</button>
       <div>
-        <textarea value={log} style={{ height: '200px', width: '100%' }} />
+        <textarea
+          value={log}
+          readOnly
+          style={{ height: '200px', width: '100%' }}
+        />
       </div>
     </>
   );

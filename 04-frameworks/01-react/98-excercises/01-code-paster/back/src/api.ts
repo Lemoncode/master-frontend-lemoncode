@@ -6,7 +6,7 @@ export const api = Router();
 api.get('/create-room', async (req, res) => {
   const roomName = generateNewRoomName();
   const trainerToken = generateNewTrainerToken();
-  res.send({ name: roomName, trainerToken: trainerToken });
+  res.send({ room: roomName, trainerToken: trainerToken });
 });
 
 api.post('/enroll-room', async (req, res) => {

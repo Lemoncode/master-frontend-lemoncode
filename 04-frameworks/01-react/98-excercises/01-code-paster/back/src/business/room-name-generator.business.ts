@@ -54,7 +54,7 @@ const generateRandomRoomSuffix = (): string => {
 };
 
 export const generateNewRoomName = () =>
-  `{$chooseRandomStringFromArray(baseNames)}-${generateRandomRoomSuffix}`;
+  `${chooseRandomStringFromArray(baseNames)}-${generateRandomRoomSuffix()}`;
 
 export const generateNewTrainerToken = () =>
   `${chooseRandomStringFromArray(

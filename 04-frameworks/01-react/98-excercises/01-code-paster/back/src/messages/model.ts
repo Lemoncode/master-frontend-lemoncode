@@ -23,37 +23,3 @@ export interface InputEstablishConnectionPlayer {
   nickname: string;
   room: string;
 }
-
-export interface InputCreateStoryPayload {
-  content: string;
-}
-
-export interface OutputUserJoined {
-  name: string;
-}
-
-export interface OutputConnectionEstablishedMaster {
-  newUser: string;
-}
-
-export interface OutputConnectionEstablishedPlayer {
-  newUser: string;
-}
-
-export interface OutputMasterUserVoted {
-  vote: string;
-}
-
-interface UserVote {
-  nickname: string;
-  hasVoted: boolean;
-  vote: string;
-}
-
-export interface OutputShowResults {
-  userVoteCollection: UserVote[];
-}
-
-export interface OutputNewStory {
-  content: string;
-}

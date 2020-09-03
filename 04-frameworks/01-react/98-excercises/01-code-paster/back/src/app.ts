@@ -71,13 +71,12 @@ io.on('connection', function (socket: Socket) {
       },
     });
   } else {
-    /*outputMessageCollection = processInputMessage(socketInfo, {
-      type: InputMessageTypes.ESTABLISH_CONNECTION_PLAYER,
+    outputMessageCollection = processInputMessage(socketInfo, {
+      type: InputMessageTypes.ESTABLISH_CONNECTION_STUDENT,
       payload: {
-        nickname: user,
         room,
       },
-    });*/
+    });
   }
 
   processOutputMessageCollection(socketInfo, outputMessageCollection);

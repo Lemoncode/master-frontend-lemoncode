@@ -38,6 +38,11 @@ export const isTrainerUser = (connectionId: string) => {
   return session;
 };
 
+export const isExistingConnection = (connectionId: string) =>
+  userCollectionSession.findIndex(
+    (session) => session.connectionId === connectionId
+  ) !== -1;
+
 export const getRoomFromConnectionId = (connectionId: string) => {
   const session = userCollectionSession.find(
     (session) => session.connectionId === connectionId

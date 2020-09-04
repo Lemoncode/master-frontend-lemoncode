@@ -1,10 +1,11 @@
 import Axios from 'axios';
+import { setHeader, headerConstants } from 'core/api';
 
 const url = '/api/security/logout';
 
 export const logout = async (): Promise<boolean> => {
-  // const { data } = await Axios.post(url);
-  // return data;
-  // TODO: Remove header
+  await Axios.post(url);
+  setHeader(headerConstants.authorization, '');
+
   return true;
 };

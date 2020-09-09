@@ -1,6 +1,6 @@
 # 04 Boilerplate
 
-This is the boilerplate project for next examples:`05-login-app-headers` and `06-login-app-cookies`.
+This is the boilerplate project for next example: `05-login-app-headers`.
 
 
 # About Basefactor + Lemoncode

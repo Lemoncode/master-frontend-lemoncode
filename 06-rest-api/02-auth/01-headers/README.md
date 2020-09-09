@@ -10,13 +10,6 @@ In this example we will login an user using a JWT token in Http Headers and load
 npm install
 ```
 
-- Start `front` app:
-
-```bash
-cd ./front
-npm start
-```
-
 - Start `back` app:
 
 ```bash
@@ -24,6 +17,14 @@ cd ./back
 npm start
 ```
 
+> NOTE: We added `.env` file only for demo purpose. We should ignore this one and add a `.env.example` as example.
+
+- Start `front` app:
+
+```bash
+cd ./front
+npm start
+```
 
 # About Basefactor + Lemoncode
 

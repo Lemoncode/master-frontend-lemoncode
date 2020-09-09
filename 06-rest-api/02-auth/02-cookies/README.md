@@ -1,6 +1,6 @@
-# 01 Headers
+# 02 Cookies
 
-In this example we will login an user using a JWT token in Http Headers and load client and order collections.
+In this example we will login an user using a JWT token in Cookies and load client and order collections.
 
 # Steps to build it
 

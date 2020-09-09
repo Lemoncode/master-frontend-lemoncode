@@ -11,6 +11,7 @@ interface Props {
 export const useLogin = (props: Props) => {
   const { onChangeUserSession } = React.useContext(AuthContext);
   const { showMessage } = useSnackbarContext();
+
   const handleLogin = React.useCallback(async (login: Login) => {
     try {
       const apiUserSession = await api.isValidLogin(login.user, login.password);

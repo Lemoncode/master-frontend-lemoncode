@@ -41,7 +41,7 @@ securityApi
   })
   .post('/logout', jwtMiddleware, async (req, res) => {
     // NOTE: We cannot invalidate token using jwt libraries.
-    // Different approachs:
+    // Different approaches:
     // - Short expiration times in token
     // - Black list tokens on DB
     res.sendStatus(200);

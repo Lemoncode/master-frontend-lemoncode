@@ -1,4 +1,5 @@
 import React from 'react';
+import { useAuthRequest } from 'common-app/auth';
 import * as api from './api';
 import { mapItemListFromApiToVm } from './list.mappers';
 import { ListComponent } from './list.component';
@@ -11,6 +12,10 @@ interface Props {
 
 export const ListContainer: React.FunctionComponent<Props> = (props) => {
   const { className } = props;
+  const [getClientList, getOrderList] = useAuthRequest(
+    api.getClientList,
+    api.getOrderList
+  );
   const [clientList, setClientList] = React.useState<Item[]>(
     createEmptyItemList()
   );
@@ -20,7 +25,7 @@ export const ListContainer: React.FunctionComponent<Props> = (props) => {
 
   const handleLoadClientList = async () => {
     try {
-      const apiClientList = await api.getClientList();
+      const apiClientList = await getClientList();
       const vmClientList = mapItemListFromApiToVm(apiClientList);
       setClientList(vmClientList);
     } catch {
@@ -30,7 +35,7 @@ export const ListContainer: React.FunctionComponent<Props> = (props) => {
 
   const handleLoadOrderList = async () => {
     try {
-      const apiOrderList = await api.getOrderList();
+      const apiOrderList = await getOrderList();
       const vmOrderList = mapItemListFromApiToVm(apiOrderList);
       setOrderList(vmOrderList);
     } catch {

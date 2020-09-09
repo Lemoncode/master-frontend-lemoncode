@@ -1,0 +1,32 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-typescript",
+    [
+      {
+        "env": {
+          "development": {
+            "sourceMaps": true,
+            "retainLines": true
+          }
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-optional-chaining",
+    [
+      "module-resolver",
+      {
+        "root": ["."],
+        "alias": {
+          "common": "./src/common",
+          "common-app": "./src/common-app",
+          "core": "./src/core",
+          "dals": "./src/dals",
+          "pods": "./src/pods"
+        }
+      }
+    ]
+  ]
+}

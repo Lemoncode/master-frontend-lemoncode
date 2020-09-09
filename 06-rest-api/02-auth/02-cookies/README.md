@@ -73,6 +73,65 @@ Frontend:
   - `front/src/common-app/app-bar/app-bar.component.tsx`
   - `front/src/common-app/app-bar/app-bar.api.tsx`
 
+## Cookie expiration
+
+Right now, cookie expires when users close the browser. We could add some expiration time:
+
+_./back/src/pods/security/security.constants.ts_
+
+```diff
+import { CookieOptions } from 'express';
+import { envConstants } from 'core/constants';
+
+export const jwtSignAlgorithm = 'HS256';
+
+- export const cookieOptions: CookieOptions = {
+-   httpOnly: true,
+-   secure: envConstants.isProduction
+- };
+
++ export const getCookieOptions = (expires: Date): CookieOptions => ({
++   httpOnly: true,
++   secure: envConstants.isProduction,
++   expires,
++ });
+
+```
+
+_./back/src/pods/security/security.api.ts_
+
+```diff
+...
+- import { jwtSignAlgorithm, cookieOptions } from './security.constants';
++ import { jwtSignAlgorithm, getCookieOptions } from './security.constants';
+
+...
+
+.post('/login', async (req, res) => {
+    const { user, password } = req.body;
+    const currentUser = userList.find(
+      (u) => u.userName == user && u.password === password
+    );
+
+    if (currentUser) {
+      const userSession = createUserSession(currentUser);
+      const token = createToken(currentUser);
++     const expires = new Date();
++     expires.setDate(new Date().getDate() + 1); // Add one day
+
+      res.cookie(
+        headerConstants.authorization,
+        token,
+-       cookieOptions
++       getCookieOptions(expires)
+      );
+      res.send(userSession);
+    } else {
+      res.sendStatus(401);
+    }
+  })
+
+```
 
 # About Basefactor + Lemoncode
 

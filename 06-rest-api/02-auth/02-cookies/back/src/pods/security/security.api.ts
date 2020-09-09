@@ -35,6 +35,7 @@ securityApi
     if (currentUser) {
       const userSession = createUserSession(currentUser);
       const token = createToken(currentUser);
+
       res.cookie(headerConstants.authorization, token, cookieOptions);
       res.send(userSession);
     } else {
@@ -46,7 +47,7 @@ securityApi
     // Different approachs:
     // - Short expiration times in token
     // - Black list tokens on DB
-    res.clearCookie(headerConstants.authorization, cookieOptions);
+    res.clearCookie(headerConstants.authorization);
     res.sendStatus(200);
   });
 

@@ -73,6 +73,25 @@ Frontend:
   - `front/src/common-app/app-bar/app-bar.component.tsx`
   - `front/src/common-app/app-bar/app-bar.api.tsx`: clear header.
 
+## Session Storage
+
+We can use session storage for auto-clean this one when users will close browsers:
+
+_./front/src/core/api/api.helpers.ts_
+
+```diff
+export const setHeader = (header: string, value: string) => {
+- localStorage.setItem(header, value);
++ sessionStorage.setItem(header, value);
+};
+
+- export const getHeader = (header: string) => localStorage.getItem(header);
++ export const getHeader = (header: string) => sessionStorage.getItem(header);
+
+```
+
+> NOTE: Session storage is not loaded in other tabs.
+> https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage
 
 # About Basefactor + Lemoncode
 

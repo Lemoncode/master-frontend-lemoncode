@@ -48,15 +48,20 @@ securityApi
   });
 
 const createUserSession = (user: User): UserSession => {
+  return {
+    firstname: user.firstname,
+    lastname: user.lastname,
+    token: createToken(user),
+  };
+};
+
+const createToken = (user: User): string => {
   const tokenPayload = { userId: user.id };
   const token = jwt.sign(tokenPayload, envConstants.TOKEN_AUTH_SECRET, {
     expiresIn: envConstants.ACCESS_TOKEN_EXPIRES_IN,
     algorithm: jwtSignAlgorithm,
   });
 
-  return {
-    firstname: user.firstname,
-    lastname: user.lastname,
-    token: `${headerConstants.bearer} ${token}`, // https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication
-  };
+  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication
+  return `${headerConstants.bearer} ${token}`;
 };

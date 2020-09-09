@@ -42,6 +42,7 @@ Frontend:
   - `front/src/pods/login/login.container.tsx`
   - `front/src/pods/login/login.hooks.ts`
   - `front/src/pods/login/api/login.api.ts`
+  - `front/src/core/api/api/api.client.ts`
   - `front/src/core/api/api/api.helpers.ts`
   - `front/src/common-app/auth/auth.context.ts`
   - `front/src/common-app/app-abr/app-bar.component.tsx`

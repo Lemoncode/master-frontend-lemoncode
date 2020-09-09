@@ -7,8 +7,8 @@ export const jwtMiddleware = expressJwt({
   secret: envConstants.TOKEN_AUTH_SECRET,
   algorithms: [jwtSignAlgorithm],
   getToken: (req: Request) => {
-    const tokenWithBearer = req.headers
-      ? (req.headers[headerConstants.authorization] as string)
+    const tokenWithBearer = req.cookies
+      ? (req.cookies[headerConstants.authorization] as string)
       : '';
 
     const [, token] = tokenWithBearer.split(`${headerConstants.bearer} `) || [];

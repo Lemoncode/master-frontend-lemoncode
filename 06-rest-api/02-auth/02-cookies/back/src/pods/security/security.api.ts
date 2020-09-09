@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { User, UserSession } from './security.api-model';
 import { envConstants, headerConstants } from 'core/constants';
 import { jwtMiddleware } from './security.middlewares';
-import { jwtSignAlgorithm } from './security.constants';
+import { jwtSignAlgorithm, cookieOptions } from './security.constants';
 
 export const securityApi = Router();
 
@@ -34,6 +34,8 @@ securityApi
 
     if (currentUser) {
       const userSession = createUserSession(currentUser);
+      const token = createToken(currentUser);
+      res.cookie(headerConstants.authorization, token, cookieOptions);
       res.send(userSession);
     } else {
       res.sendStatus(401);
@@ -44,19 +46,24 @@ securityApi
     // Different approachs:
     // - Short expiration times in token
     // - Black list tokens on DB
+    res.clearCookie(headerConstants.authorization, cookieOptions);
     res.sendStatus(200);
   });
 
 const createUserSession = (user: User): UserSession => {
+  return {
+    firstname: user.firstname,
+    lastname: user.lastname,
+  };
+};
+
+const createToken = (user: User): string => {
   const tokenPayload = { userId: user.id };
   const token = jwt.sign(tokenPayload, envConstants.TOKEN_AUTH_SECRET, {
     expiresIn: envConstants.ACCESS_TOKEN_EXPIRES_IN,
     algorithm: jwtSignAlgorithm,
   });
 
-  return {
-    firstname: user.firstname,
-    lastname: user.lastname,
-    token: `${headerConstants.bearer} ${token}`, // https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication
-  };
+  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication
+  return `${headerConstants.bearer} ${token}`;
 };

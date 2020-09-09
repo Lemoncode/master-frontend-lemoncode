@@ -30,17 +30,20 @@ npm start
 
 Backend:
 
+  - `back/src/core/servers/express.server.ts`
+  - `back/src/app.ts`
   - `back/src/pods/security/security.api.ts`
+  - `back/src/pods/security/security.constants.ts`
   - Check user credentials.
   - Create `jwt` by user credentials.
-  - Return token in body.
+  - Return token in cookie httpOnly.
 
 Frontend:
 
   - `front/src/pods/login/login.container.tsx`
   - `front/src/pods/login/login.hooks.ts`
   - `front/src/pods/login/api/login.api.ts`
-  - `front/src/core/api/api/api.helpers.ts`
+  - `front/src/core/api/api/api.helpers.ts`: Deleted
   - `front/src/common-app/auth/auth.context.ts`
   - `front/src/common-app/app-abr/app-bar.component.tsx`
 
@@ -49,7 +52,7 @@ Frontend:
 Backend:
 
   - `back/src/app.ts`
-  - `back/src/pods/security/security.middlewares.ts`
+  - `back/src/pods/security/security.middlewares.ts`: `req.cookies`.
   - `back/src/pods/client/client.api.ts`
   - `back/src/pods/order/order.api.ts`
 
@@ -63,7 +66,7 @@ Frontend:
 Backend:
 
   - `back/src/app.ts`: We are not using `jwtMiddleware` on root security api.
-  - `back/src/pods/security/security.api.ts`
+  - `back/src/pods/security/security.api.ts`: clear cookie
 
 Frontend: 
 

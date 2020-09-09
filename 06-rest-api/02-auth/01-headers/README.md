@@ -30,6 +30,8 @@ npm start
 
 Backend:
 
+  - `back/src/core/servers/express.server.ts`
+  - `back/src/app.ts`
   - `back/src/pods/security/security.api.ts`
   - Check user credentials.
   - Create `jwt` by user credentials.
@@ -68,7 +70,7 @@ Backend:
 Frontend: 
 
   - `front/src/common-app/app-bar/app-bar.component.tsx`
-  - `front/src/common-app/app-bar/app-bar.api.tsx`
+  - `front/src/common-app/app-bar/app-bar.api.tsx`: clear header.
 
 
 # About Basefactor + Lemoncode

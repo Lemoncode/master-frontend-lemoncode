@@ -9,5 +9,4 @@ export interface User {
 export interface UserSession {
   firstname: string;
   lastname: string;
-  token: string;
 }

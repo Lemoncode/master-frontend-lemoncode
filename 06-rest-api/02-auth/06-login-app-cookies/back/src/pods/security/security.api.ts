@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { User, UserSession } from './security.api-model';
 import { envConstants, headerConstants } from 'core/constants';
 import { jwtMiddleware } from './security.middlewares';
-import { jwtSignAlgorithm } from './security.constants';
+import { jwtSignAlgorithm, cookieOptions } from './security.constants';
 
 export const securityApi = Router();
 
@@ -34,6 +34,9 @@ securityApi
 
     if (currentUser) {
       const userSession = createUserSession(currentUser);
+      const token = createToken(currentUser);
+
+      res.cookie(headerConstants.authorization, token, cookieOptions);
       res.send(userSession);
     } else {
       res.sendStatus(401);
@@ -41,9 +44,10 @@ securityApi
   })
   .post('/logout', jwtMiddleware, async (req, res) => {
     // NOTE: We cannot invalidate token using jwt libraries.
-    // Different approaches:
+    // Different approachs:
     // - Short expiration times in token
     // - Black list tokens on DB
+    res.clearCookie(headerConstants.authorization);
     res.sendStatus(200);
   });
 
@@ -51,7 +55,6 @@ const createUserSession = (user: User): UserSession => {
   return {
     firstname: user.firstname,
     lastname: user.lastname,
-    token: createToken(user),
   };
 };
 

@@ -11,7 +11,7 @@ export const jwtMiddleware = expressJwt({
       ? (req.headers[headerConstants.authorization] as string)
       : '';
 
-    const [, token] = tokenWithBearer.split(`${headerConstants.bearer} `) || [];
+    const [, token] = tokenWithBearer?.split(`${headerConstants.bearer} `) || [];
 
     return token;
   },

@@ -30,48 +30,74 @@ npm start
 
 Backend:
 
-  - `back/src/core/servers/express.server.ts`
-  - `back/src/app.ts`
-  - `back/src/pods/security/security.api.ts`
-  - `back/src/pods/security/security.constants.ts`
-  - Check user credentials.
-  - Create `jwt` by user credentials.
-  - Return token in cookie httpOnly.
+- `back/src/core/servers/express.server.ts`
+- `back/src/app.ts`
+- `back/src/pods/security/security.api.ts`
+- `back/src/pods/security/security.constants.ts`
+- Check user credentials.
+- Create `jwt` by user credentials.
+- Return token in cookie httpOnly.
 
 Frontend:
 
-  - `front/src/pods/login/login.container.tsx`
-  - `front/src/pods/login/login.hooks.ts`
-  - `front/src/pods/login/api/login.api.ts`
-  - `front/src/core/api/api/api.helpers.ts`: Deleted
-  - `front/src/common-app/auth/auth.context.ts`
-  - `front/src/common-app/app-abr/app-bar.component.tsx`
+- `front/src/pods/login/login.container.tsx`
+- `front/src/pods/login/login.hooks.ts`
+- `front/src/pods/login/api/login.api.ts`
+- `front/src/core/api/api/api.helpers.ts`: Deleted
+- `front/src/common-app/auth/auth.context.ts`
+- `front/src/common-app/app-abr/app-bar.component.tsx`
 
 ## Load list flow
 
 Backend:
 
-  - `back/src/app.ts`
-  - `back/src/pods/security/security.middlewares.ts`: `req.cookies`.
-  - `back/src/pods/client/client.api.ts`
-  - `back/src/pods/order/order.api.ts`
+- `back/src/app.ts`
+- `back/src/pods/security/security.middlewares.ts`: `req.cookies`.
+- `back/src/pods/client/client.api.ts`
+- `back/src/pods/order/order.api.ts`
 
-Frontend: 
+Frontend:
 
-  - `front/src/pods/list/list.container.tsx`
-  - `front/src/pods/list/api/list.api.tsx`
+- `front/src/pods/list/list.container.tsx`
+- `front/src/pods/list/api/list.api.tsx`
 
 ## Logout flow
 
 Backend:
 
-  - `back/src/app.ts`: We are not using `jwtMiddleware` on root security api.
-  - `back/src/pods/security/security.api.ts`: clear cookie
+- `back/src/app.ts`: We are not using `jwtMiddleware` on root security api.
+- `back/src/pods/security/security.api.ts`: clear cookie
 
-Frontend: 
+Frontend:
 
-  - `front/src/common-app/app-bar/app-bar.component.tsx`
-  - `front/src/common-app/app-bar/app-bar.api.tsx`
+- `front/src/common-app/app-bar/app-bar.component.tsx`
+- `front/src/common-app/app-bar/app-bar.api.tsx`
+
+## Cookie without httpOnly
+
+If we want to access a cookie's value from JavaScript, we have to:
+
+_./back/src/pods/security/security.constants.ts_
+
+```diff
+import { CookieOptions } from 'express';
+import { envConstants } from 'core/constants';
+
+export const jwtSignAlgorithm = 'HS256';
+
+export const cookieOptions: CookieOptions = {
+- httpOnly: true,
++ httpOnly: false,
+  secure: envConstants.isProduction,
+};
+
+```
+
+- Now we could write this code in browser console:
+
+```
+document.cookie
+```
 
 ## Cookie expiration
 

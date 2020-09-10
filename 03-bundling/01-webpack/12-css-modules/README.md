@@ -319,9 +319,9 @@ _./webpack.config.js_
             loader: 'css-loader',
             options: {
               modules: {
++               exportLocalsConvention: "camelCase",
                 localIdentName: '[name]__[local]__[hash:base64:5]',
               },
-+             localsConvention: 'camelCase',
             },
           },
           ...

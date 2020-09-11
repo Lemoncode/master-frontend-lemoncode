@@ -1,0 +1,27 @@
+<div>
+  <h2>Datos de {{ member?.login }}</h2>
+  <br/>{{ editForm.value | json }}
+  <br/>{{ editForm.valid }}
+  <form [formGroup]="editForm">
+    <div>
+        <label>Id</label>
+    </div>
+    <div>
+        <label>Name </label>
+        <input name="name" [formControl]="loginControl"/>
+        <div *ngIf="loginControl.invalid">
+          <div *ngIf="loginControl.errors.required">El nombre es obligatorio</div>
+          <div *ngIf="loginControl.errors.minlength">
+            El nombre debe tener {{ loginControl.errors.minlength.requiredLength }} caracteres mínimo.
+            Tiene sólamente {{ loginControl.errors.minlength.actualLength }}
+          </div>
+        </div>
+    </div>
+    <div>
+        <label>Avatar </label>
+        <input name="avatar" type="file" (change)="handleEditFileInput($event.target.files)" accept="image/*"/>
+        <div><img [src]="avatarControl.value" width="50" /></div>
+    </div>
+    <button [disabled]="editForm.invalid" (click)="save()">Guardar</button>
+  </form>
+</div>

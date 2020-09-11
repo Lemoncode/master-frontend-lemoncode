@@ -5,6 +5,6 @@ import { By } from '@angular/platform-browser';
 
 
 
-describe('HighlightDirective', () => {
-
+xdescribe('HighlightDirective', () => {
+  it('test', () => {});
 });

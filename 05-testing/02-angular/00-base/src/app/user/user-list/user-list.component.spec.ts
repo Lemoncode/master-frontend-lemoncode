@@ -1,4 +1,4 @@
 
-describe('Tests unitarios de la clase', () => {
-
+xdescribe('Tests unitarios de la clase', () => {
+  it('test', () => {});
 });

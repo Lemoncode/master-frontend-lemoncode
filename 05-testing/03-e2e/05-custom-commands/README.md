@@ -78,7 +78,7 @@ declare namespace Cypress {
     "lib": ["es5", "dom"],
     "types": [
       "cypress",
-      "@types/testing-library__cypress",
+      "@testing-library/cypress",
 +     "./support"
     ]
   },

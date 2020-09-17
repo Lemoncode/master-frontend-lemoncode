@@ -120,7 +120,7 @@ npm install @testing-library/cypress --save-dev
     "target": "es5",
     "lib": ["es5", "dom"],
 -   "types": ["cypress"]
-+   "types": ["cypress", "@types/testing-library__cypress"]
++   "types": ["cypress", "@testing-library/cypress"]
   },
   "include": ["**/*.ts"]
 }

@@ -2,8 +2,7 @@ import React from 'react';
 import * as api from './api';
 import { mapItemListFromApiToVm } from './list.mappers';
 import { ListComponent } from './list.component';
-import { Item } from './api/list.api-model';
-import { createEmptyItemList, createNoTokenItemList } from './list.vm';
+import { Item, createEmptyItemList, createNoTokenItemList } from './list.vm';
 
 interface Props {
   className?: string;

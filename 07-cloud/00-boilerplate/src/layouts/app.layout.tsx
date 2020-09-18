@@ -15,6 +15,7 @@ export const AppLayout: React.FunctionComponent<Props> = (props) => {
 
   return (
     <>
+      <AppBarComponent />
       <main>{children({ className: classes.content })}</main>
     </>
   );

@@ -5,6 +5,6 @@ export const root = css`
   flex-direction: row;
 `;
 
-export const logout = css`
-  margin-left: auto;
+export const logo = css`
+  width: 3rem;
 `;

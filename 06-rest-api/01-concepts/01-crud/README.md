@@ -4,13 +4,6 @@ In this example we are going to replace mock API with real api requests, using j
 
 We will start from `00-boilerplate`.
 
-Summary steps:
-
-- Install `jest`.
-- Add configuration.
-- Add dummy spec.
-- External jest config file.
-
 # Steps to build it
 
 - `npm install` to install previous sample packages:

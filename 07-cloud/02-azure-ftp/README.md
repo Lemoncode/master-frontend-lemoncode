@@ -12,7 +12,20 @@ We will start from `01-production-bundle`.
 npm install
 ```
 
-- 
+- We are always using the `webpack-dev-server` as the website frontend server for development. But, we need a real website server for production environment, for example in nodejs. Let's implement it.
+
+- Let's install [express](https://github.com/expressjs/express) as simple nodejs server:
+
+```bash
+npm install express --save
+```
+
+- We will configure in `server` folder:
+
+_./server/index.js_
+
+```javascript
+```
 
 # About Basefactor + Lemoncode
 

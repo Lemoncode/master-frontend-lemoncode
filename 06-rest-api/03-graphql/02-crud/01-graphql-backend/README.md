@@ -105,7 +105,7 @@ import { gql } from 'apollo-server-express';
 
 export const typeDefs = gql`
   type Hotel {
-    id: String!
+    id: ID!
     type: String!
     name: String!
     address1: String!
@@ -130,11 +130,11 @@ export const typeDefs = gql`
 ### ./server/src/graphql/resolvers.ts
 
 ```javascript
-import { getHotelList } from '../db';
+import { getHotelList, Hotel } from '../db';
 
 export const resolvers = {
   Query: {
-    hotels: async () => {
+    hotels: async (): Promise<Hotel[]> => {
       const hotels = await getHotelList();
       return hotels;
     },

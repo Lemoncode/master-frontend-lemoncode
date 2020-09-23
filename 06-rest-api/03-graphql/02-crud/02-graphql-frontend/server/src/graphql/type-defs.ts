@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export const typeDefs = gql`
   type Hotel {
-    id: String!
+    id: ID!
     type: String!
     name: String!
     address1: String!

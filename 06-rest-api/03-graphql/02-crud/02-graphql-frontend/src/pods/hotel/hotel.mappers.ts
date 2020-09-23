@@ -4,7 +4,6 @@ import * as viewModel from './hotel.vm';
 export const mapHotelFromApiToVm = (
   hotel: apiModel.Hotel
 ): viewModel.Hotel => ({
-  ...hotel,
   id: hotel.id,
   name: hotel.name,
   description: hotel.shortDescription,
@@ -15,7 +14,6 @@ export const mapHotelFromApiToVm = (
 
 export const mapHotelFromVmToApi = (hotel: viewModel.Hotel): apiModel.Hotel =>
   (({
-    ...hotel,
     id: hotel.id,
     name: hotel.name,
     shortDescription: hotel.description,

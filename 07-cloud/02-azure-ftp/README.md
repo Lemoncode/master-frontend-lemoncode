@@ -14,7 +14,31 @@ npm install
 
 - We are always using the `webpack-dev-server` as the website frontend server for development. But, we need a real website server for production environment, for example in nodejs. Let's implement it.
 
+- Run build command:
+
+```bash
+npm run build
+```
+
+- Add new `package.json` in server folder:
+
+_./server/package.json_
+
+```json
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  }
+}
+
+```
+
 - Let's install [express](https://github.com/expressjs/express) as simple nodejs server:
+
 
 ```bash
 npm install express --save
@@ -29,20 +53,22 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
-const frontDistPath = path.resolve(__dirname, '../dist');
-app.use('/', express.static(frontDistPath));
+const publicPath = path.resolve(__dirname, './public');
+app.use('/', express.static(publicPath));
 
 const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {
   console.log(`App running on http://localhost:${PORT}`);
 });
+
 ```
+
+- Copy `./dist` files to `./server/public` folder.
 
 - Run production server:
 
 ```bash
-npm run build
-node server
+npm start
 ```
 
 > NOTE: we can execute noder server/index.js too.
@@ -59,7 +85,7 @@ node server
 
 ![use-ftp](./readme-resources/03-use-ftp.png)
 
-- We can use whatever ftp client to connect to our server:
+- We can use whatever ftp client to connect to our server and copy all files inside `./server`:
 
 ![upload-files](./readme-resources/04-upload-files.png)
 

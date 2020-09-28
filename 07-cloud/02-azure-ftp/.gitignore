@@ -11,3 +11,6 @@ yarn.lock
 .awcache
 public
 .env
+.vs
+bin
+obj

@@ -6,96 +6,36 @@ We will start from `01-production-bundle`.
 
 # Steps to build it
 
-- `npm install` to install previous sample packages:
+- Open `./app/app.sln` with Visual Studio 2019
 
-```bash
-npm install
-```
+- Select `Release`:
 
-- We are always using the `webpack-dev-server` as the website frontend server for development. But, we need a real website server for production environment, for example in nodejs. Let's implement it.
+![01-select-release](./readme-resources/01-select-release.png)
 
-- Run build command:
+- Build solution:
 
-```bash
-npm run build
-```
+![02-build-solution](./readme-resources/02-build-solution.png)
 
-- Add new `package.json` in server folder:
+- Now, we can configure a web server in `Azure` to upload files via FTP.
 
-_./server/package.json_
-
-```json
-{
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  }
-}
-
-```
-
-- Let's install [express](https://github.com/expressjs/express) as simple nodejs server:
-
-
-```bash
-npm install express --save
-```
-
-- We will configure in `server` folder:
-
-_./server/index.js_
-
-```javascript
-const express = require('express');
-const path = require('path');
-
-const app = express();
-const publicPath = path.resolve(__dirname, './public');
-app.use('/', express.static(publicPath));
-
-const PORT = process.env.PORT || 8081;
-app.listen(PORT, () => {
-  console.log(`App running on http://localhost:${PORT}`);
-});
-
-```
-
-- Copy `./dist` files to `./server/public` folder.
-
-- Run production server:
-
-```bash
-npm start
-```
-
-> NOTE: we can execute noder server/index.js too.
-
-- Now, we can configure a web server, for example in `Azure` to upload files via FTP.
-
-![create-app-service](./readme-resources/01-create-app-service.png)
+![03-create-app-service](./readme-resources/03-create-app-service.png)
 
 - Navigate to deploy center.
 
-![navigate-deploy-center](./readme-resources/02-navigate-deploy-center.png)
+![04-navigate-deploy-center](./readme-resources/04-navigate-deploy-center.png)
 
 - And click on FTP:
 
-![use-ftp](./readme-resources/03-use-ftp.png)
+![05-use-ftp](./readme-resources/05-use-ftp.png)
 
-- We can use whatever ftp client to connect to our server and copy all files inside `./server`:
+- We can use whatever ftp client to connect to our server and copy all files from 
 
-![upload-files](./readme-resources/04-upload-files.png)
+- `./app/mvc-app/bin/Release/netcoreapp3.1`: the mvc backend code.
+- `./app/mvc-app/wwwroot`: the static files from client side. 
+
+![06-upload-files](./readme-resources/06-upload-files.png)
 
 > NOTE: Here we are using [Filezilla](https://filezilla-project.org/)
-> We need to upload `dist`, `server` and `node_modules` folders.
-> The `node_modules` has only the production dependencies using the command `npm install --only=production`
-
-- As we did in local environment, we need execute same command on production:
-
-![execute-start-command](./readme-resources/05-execute-start-command.png)
 
 # About Basefactor + Lemoncode
 

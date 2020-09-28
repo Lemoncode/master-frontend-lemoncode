@@ -1,6 +1,6 @@
-# 03 Github branch
+# 04 Heroku branch
 
-In this example we are going to create a production server using Github pages.
+In this example we are going to create a production server using Heroku.
 
 We will start from `03-github-branch`.
 

@@ -147,6 +147,17 @@ git commit -m "add nodejs + express server"
 git push
 ```
 
+- If you want to see logs:
+
+```bash
+npx heroku login
+npx heroku logs -a <heroku-app-name>
+```
+
+> NOTE: [Download heroku cli](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
+> Use `npm install -g heroku`
+> Or using [npx](https://github.com/npm/npx)
+
 # About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.

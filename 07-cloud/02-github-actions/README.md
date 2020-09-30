@@ -12,7 +12,7 @@ We will start from `03-github-branch`.
 npm install
 ```
 
-- We will use same approach as `gh-pages` example, but we sill use [Github Actions](https://docs.github.com/en/free-pro-team@latest/actions) for automatic deploys.
+- We will use same approach as `gh-pages` example, but we will use [Github Actions](https://docs.github.com/en/free-pro-team@latest/actions) for automatic deploys.
 
 - Upload files:
 
@@ -44,7 +44,7 @@ _./package.json_
     "type-check:watch": "npm run type-check -- --watch",
     "clean": "rimraf dist",
     "test": "jest -c ./config/test/jest.js --verbose",
-    "test:watch": "npm run test -- --watchAll -i --no-cache"
+    "test:watch": "npm run test -- --watchAll -i --no-cache",
 +   "deploy": "gh-pages -d dist"
   },
 ```

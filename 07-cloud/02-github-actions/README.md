@@ -90,6 +90,8 @@ ssh-keygen -m PEM -t rsa -C "cd-user@my-app.com"
 ```
 
 > NOTES
+> -m PEM: Format to apply. PEM is a common public/private key certificate format.
+> rsa: RSA is the crypto algorithm.
 > Enter `./id_rsa` to save files in currect directory
 > You can leave empty the passphrasse field.
 

@@ -1,4 +1,4 @@
-# 01 Use docker image
+# 02 Use docker image
 
 In this example we are going to create and run Docker images.
 

@@ -27,8 +27,12 @@ npm install
 - We need `git` to clone the Heroku app repository and works on it. Check `Delpoy` tab too:
 
 ```bash
+npx heroku login
 git clone https://git.heroku.com/<heroku-app-name>.git
 ```
+> NOTE: [Download heroku cli](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
+> Use `npm install -g heroku`
+> Or using [npx](https://github.com/npm/npx)
 
 - Copy `./dist` files to new repository.
 

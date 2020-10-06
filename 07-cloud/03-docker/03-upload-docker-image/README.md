@@ -2,7 +2,7 @@
 
 In this example we are going to upload Docker images to Dockerhub.
 
-We will start from `01-production-bundle`.
+We will start from `02-docker-image`.
 
 # Steps to build it
 

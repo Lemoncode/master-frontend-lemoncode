@@ -20,10 +20,10 @@ jobs:
           curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
           heroku container:login
       - name: Build docker image
-        run: docker build -t ${{ secrets.HEROKU_APP_NAME }}:${{ github.sha }} .
+        run: docker build -t ${{ secrets.HEROKU_APP_NAME }}:${{ github.run_id }} .
       - name: Deploy docker image
         run: |
-          docker tag ${{ secrets.HEROKU_APP_NAME }}:${{ github.sha }} registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+          docker tag ${{ secrets.HEROKU_APP_NAME }}:${{ github.run_id }} registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
           docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
       - name: Release
         run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}

@@ -14,7 +14,7 @@ npm install
 
 - We will use same approach as `gh-pages` example, but we will use [Github Actions](https://docs.github.com/en/free-pro-team@latest/actions) for automatic deploys.
 
-- Upload files:
+- Create new repository and upload files:
 
 ```bash
 git init

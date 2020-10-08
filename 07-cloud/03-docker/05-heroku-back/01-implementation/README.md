@@ -19,7 +19,7 @@ _./.env_
 ```
 NODE_ENV=development
 PORT=8081
-CORS_ORIGIN=localhost:8080
+CORS_ORIGIN=http://localhost:8080
 MONGODB_URI=mongodb://localhost:27017/demo-cloud
 
 ```
@@ -206,7 +206,7 @@ _./.env_
 - NODE_ENV=development
 + NODE_ENV=production
 PORT=8081
-CORS_ORIGIN=localhost:8080
+CORS_ORIGIN=http://localhost:8080
 - MONGODB_URI=mongodb://localhost:27017/demo-cloud
 + MONGODB_URI=...
 
@@ -236,15 +236,63 @@ _./.env_
 - NODE_ENV=production
 + NODE_ENV=development
 PORT=8081
-CORS_ORIGIN=localhost:8080
+CORS_ORIGIN=http://localhost:8080
 - MONGODB_URI=...
 + MONGODB_URI=mongodb://localhost:27017/demo-cloud
 
 ```
 
-- Update front project:
+# Update front project
 
+- Update env variables:
 
+_./dev.env_
+
+```diff
+NODE_ENV=development
+ORGANIZATION=lemoncode
++ BASE_API_URL=localhost:8081
+
+```
+
+_./prod.env_
+
+```diff
+NODE_ENV=development
+ORGANIZATION=lemoncode
++ BASE_API_URL=...herokuapp.com
+
+```
+
+- Update `api`:
+
+_./src/pods/list/api/list.api.ts_
+
+```diff
+import Axios from 'axios';
+import { Member } from './list.api-model';
+
++ const url = `${process.env.BASE_API_URL}/members`;
+
+export const getMemberList = async (
+  organization: string
+): Promise<Member[]> => {
+- const { data } = await Axios.get(
+-   `https://api.github.com/orgs/${organization}/members`
+- );
++ const { data } = await Axios.get(`${url}/${organization}`, {
++   headers: {
++     'Access-Control-Allow-Origin': '*',
++   },
++ });
+  return data;
+};
+
+```
+
+- Run backend and frontend.
+
+- Commit push `frontend repository`.
 
 # About Basefactor + Lemoncode
 

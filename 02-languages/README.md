@@ -36,8 +36,9 @@ We will discover all the main features of the language, from fundamentals (ES5) 
   - Hoisting.
   - Variable Scope.
   - Closure.
-  - Prototype Model.
   - JSON.
+  - Error Handling.
+  - Prototype Model.
 - JavaScript ESNext.
   - Let and Const.
   - Arrow Functions.

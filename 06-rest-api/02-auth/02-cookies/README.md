@@ -73,6 +73,32 @@ Frontend:
   - `front/src/common-app/app-bar/app-bar.component.tsx`
   - `front/src/common-app/app-bar/app-bar.api.tsx`
 
+## Cookie without httpOnly
+
+If we want to access a cookie's value from JavaScript, we have to:
+
+_./back/src/pods/security/security.constants.ts_
+
+```diff
+import { CookieOptions } from 'express';
+import { envConstants } from 'core/constants';
+
+export const jwtSignAlgorithm = 'HS256';
+
+export const cookieOptions: CookieOptions = {
+- httpOnly: true,
++ httpOnly: false,
+  secure: envConstants.isProduction,
+};
+
+```
+
+- Now we could write this code in browser console:
+
+```
+document.cookie
+```
+
 ## Cookie expiration
 
 Right now, cookie expires when users close the browser. We could add some expiration time:

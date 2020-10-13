@@ -48,7 +48,7 @@ sudo service docker start
 sudo usermod -a -G docker ec2-user
 ```
 
-- Execute Docker image uploaded to Docker Hub in example `03-uplpaod-docker-image`:
+- Execute Docker image uploaded to Docker Hub in example `03-upload-docker-image`:
 
 ```bash
 sudo docker run --rm -d -p 80:8000 <user-name>/<app-name>:<tag>

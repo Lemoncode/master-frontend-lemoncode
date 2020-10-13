@@ -1,0 +1,7 @@
+version: '3'
+services:
+  mongo-demo-cloud:
+    container_name: mongo-demo-cloud
+    image: mongo:4.2.10
+    ports:
+      - '27017:27017'

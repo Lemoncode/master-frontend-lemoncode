@@ -19,108 +19,41 @@ npm start
 
 > NOTE: We added `.env` file only for demo purpose. We should ignore this one and add a `.env.example` as example.
 
-- Start `front` app:
+- Let's install `cookie-parser` to save token in a cookie (backend project):
 
 ```bash
-cd ./front
-npm start
+npm install cookie-parser --save
 ```
 
-## Login flow
+- Configure it:
 
-Backend:
-
-- `back/src/core/servers/express.server.ts`
-- `back/src/app.ts`
-- `back/src/pods/security/security.api.ts`
-- `back/src/pods/security/security.constants.ts`
-- Check user credentials.
-- Create `jwt` by user credentials.
-- Return token in cookie httpOnly.
-
-Frontend:
-
-- `front/src/pods/login/login.container.tsx`
-- `front/src/pods/login/login.hooks.ts`
-- `front/src/pods/login/api/login.api.ts`
-- `front/src/core/api/api/api.helpers.ts`: Deleted
-- `front/src/common-app/auth/auth.context.ts`
-- `front/src/common-app/app-abr/app-bar.component.tsx`
-
-## Load list flow
-
-Backend:
-
-- `back/src/app.ts`
-- `back/src/pods/security/security.middlewares.ts`: `req.cookies`.
-- `back/src/pods/client/client.api.ts`
-- `back/src/pods/order/order.api.ts`
-
-Frontend:
-
-- `front/src/pods/list/list.container.tsx`
-- `front/src/pods/list/api/list.api.tsx`
-
-## Logout flow
-
-Backend:
-
-- `back/src/app.ts`: We are not using `jwtMiddleware` on root security api.
-- `back/src/pods/security/security.api.ts`: clear cookie
-
-Frontend:
-
-- `front/src/common-app/app-bar/app-bar.component.tsx`
-- `front/src/common-app/app-bar/app-bar.api.tsx`
-
-## Cookie without httpOnly
-
-If we want to access a cookie's value from JavaScript, we have to:
-
-_./back/src/pods/security/security.constants.ts_
+_./back/src/core/servers/express.server.ts_
 
 ```diff
-import { CookieOptions } from 'express';
-import { envConstants } from 'core/constants';
+import express from 'express';
++ import cookieParser from 'cookie-parser';
 
-export const jwtSignAlgorithm = 'HS256';
+export const createApp = () => {
+  const app = express();
 
-export const cookieOptions: CookieOptions = {
-- httpOnly: true,
-+ httpOnly: false,
-  secure: envConstants.isProduction,
+  app.use(express.json());
++ app.use(cookieParser());
+  return app;
 };
 
 ```
 
-- Now we could write this code in browser console:
+- Remove `token` from body:
 
-```
-document.cookie
-```
-
-## Cookie expiration
-
-Right now, cookie expires when users close the browser. We could add some expiration time:
-
-_./back/src/pods/security/security.constants.ts_
+_./back/src/pods/security/security.api-model.ts_
 
 ```diff
-import { CookieOptions } from 'express';
-import { envConstants } from 'core/constants';
-
-export const jwtSignAlgorithm = 'HS256';
-
-- export const cookieOptions: CookieOptions = {
--   httpOnly: true,
--   secure: envConstants.isProduction
-- };
-
-+ export const getCookieOptions = (expires: Date): CookieOptions => ({
-+   httpOnly: true,
-+   secure: envConstants.isProduction,
-+   expires,
-+ });
+...
+export interface UserSession {
+  firstname: string;
+  lastname: string;
+- token: string;
+}
 
 ```
 
@@ -128,12 +61,45 @@ _./back/src/pods/security/security.api.ts_
 
 ```diff
 ...
-- import { jwtSignAlgorithm, cookieOptions } from './security.constants';
-+ import { jwtSignAlgorithm, getCookieOptions } from './security.constants';
+const createUserSession = (user: User): UserSession => {
+  return {
+    firstname: user.firstname,
+    lastname: user.lastname,
+-   token: createToken(user),
+  };
+};
 
+```
+
+- Add cookie options:
+
+_./back/src/pods/security/security.constants.ts_
+
+```diff
++ import { CookieOptions } from 'express';
++ import { envConstants } from 'core/constants';
+
+export const jwtSignAlgorithm = 'HS256';
+
++ export const cookieOptions: CookieOptions = {
++   httpOnly: true,
++   secure: envConstants.isProduction,
++ };
+
+```
+
+- Update login method:
+
+_./back/src/pods/security/security.api.ts_
+
+```diff
+...
+import { jwtMiddleware } from './security.middlewares';
+- import { jwtSignAlgorithm } from './security.constants';
++ import { jwtSignAlgorithm, cookieOptions } from './security.constants';
 ...
 
-.post('/login', async (req, res) => {
+  .post('/login', async (req, res) => {
     const { user, password } = req.body;
     const currentUser = userList.find(
       (u) => u.userName == user && u.password === password
@@ -141,16 +107,9 @@ _./back/src/pods/security/security.api.ts_
 
     if (currentUser) {
       const userSession = createUserSession(currentUser);
-      const token = createToken(currentUser);
-+     const expires = new Date();
-+     expires.setDate(new Date().getDate() + 1); // Add one day
++     const token = createToken(currentUser);
 
-      res.cookie(
-        headerConstants.authorization,
-        token,
--       cookieOptions
-+       getCookieOptions(expires)
-      );
++     res.cookie(headerConstants.authorization, token, cookieOptions);
       res.send(userSession);
     } else {
       res.sendStatus(401);
@@ -158,6 +117,52 @@ _./back/src/pods/security/security.api.ts_
   })
 
 ```
+
+- Implement logout method:
+
+_./back/src/pods/security/security.api.ts_
+
+```diff
+...
+  .post('/logout', jwtMiddleware, async (req, res) => {
+    // NOTE: We cannot invalidate token using jwt libraries.
+    // Different approaches:
+    // - Short expiration times in token
+    // - Black list tokens on DB
++   res.clearCookie(headerConstants.authorization);
+    res.sendStatus(200);
+  });
+```
+
+- Update security middleware to read cookies:
+
+_./back/src/pods/security/security.middlewares.ts_
+
+```diff
+import { Request } from 'express';
+import expressJwt from 'express-jwt';
+import { envConstants, headerConstants } from 'core/constants';
+import { jwtSignAlgorithm } from './security.constants';
+
+export const jwtMiddleware = expressJwt({
+  secret: envConstants.TOKEN_AUTH_SECRET,
+  algorithms: [jwtSignAlgorithm],
+  getToken: (req: Request) => {
+-   const tokenWithBearer = req.headers
++   const tokenWithBearer = req.cookies
+-     ? (req.headers[headerConstants.authorization] as string)
++     ? (req.cookies[headerConstants.authorization] as string)
+      : '';
+
+    const [, token] = tokenWithBearer.split(`${headerConstants.bearer} `) || [];
+
+    return token;
+  },
+});
+
+```
+
+- Notice that we don't need to update the front code to run example.
 
 # About Basefactor + Lemoncode
 

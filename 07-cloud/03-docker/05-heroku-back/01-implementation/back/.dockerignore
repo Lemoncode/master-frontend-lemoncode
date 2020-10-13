@@ -1,0 +1,10 @@
+.vscode
+dist
+node_modules
+.editorconfig
+.env
+.env.example
+.gitignore
+package-lock.json
+README.md
+seed-data

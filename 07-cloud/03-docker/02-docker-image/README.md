@@ -1,4 +1,4 @@
-# 01 Use docker image
+# 02 Use docker image
 
 In this example we are going to create and run Docker images.
 
@@ -275,6 +275,16 @@ docker run --rm -p 8080:8083 my-app:2
 ```bash
 docker images
 ```
+
+- We can run it, in background:
+
+```bash
+docker stop <Container ID>
+docker run -d --rm -p 8080:8083 my-app:2
+
+```
+
+> `-d`: To start a container in detached mode
 
 # About Basefactor + Lemoncode
 

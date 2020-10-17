@@ -115,6 +115,9 @@ _./cypress/integration/login.spec.js_ -> _./cypress/integration/login.spec.ts_
     "baseUrl": "../node_modules",
     "target": "es5",
     "lib": ["es5", "dom"],
+    "esModuleInterop": true,
+    "noImplicitAny": false,
+    "allowJs": true,
     "types": ["cypress"]
   },
   "include": [

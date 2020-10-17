@@ -58,6 +58,9 @@ As we know, VS Code provides by default a [node debugger](https://code.visualstu
 }
 ```
 
+> Maybe you have to disable `usePreview` flag on VSCode settings.
+> `"debug.javascript.usePreview": false`
+
 - Now we could run specs in debugging mode.
 
 ![02-debug](./readme-resources/02-debug.gif)

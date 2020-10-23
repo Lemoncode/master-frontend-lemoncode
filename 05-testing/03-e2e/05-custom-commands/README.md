@@ -76,11 +76,11 @@ declare namespace Cypress {
     "baseUrl": "../node_modules",
     "target": "es5",
     "lib": ["es5", "dom"],
-    "types": [
-      "cypress",
-      "@testing-library/cypress",
-+     "./support"
-    ]
+    "esModuleInterop": true,
+    "noImplicitAny": false,
+    "allowJs": true,
+-   "types": ["cypress", "@testing-library/cypress"]
++   "types": ["cypress", "@testing-library/cypress", "./support"]
   },
   "include": ["**/*.ts"]
 }

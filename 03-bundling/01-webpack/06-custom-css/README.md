@@ -50,11 +50,11 @@ _./index.html_
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Webpack 4.x by sample</title>
+  <title>Webpack by sample</title>
 </head>
 
 <body>
-  Hello Webpack 4!
+  Hello Webpack!
 +  <div class="red-background">
 +   RedBackground stuff
 +  </div>
@@ -153,11 +153,13 @@ module.exports = {
 _webpack.config.json_
 
 ```diff
-output: {
--   filename: 'bundle.js',
+  entry: {
+    app: "./students.js",
+    appStyles: ["./mystyles.css"],
+  },
++ output: {
 +   filename: '[name].[chunkhash].js',
-},
-
++},
 ```
 
 - As we notice, we don't need to use `hash` flag from `HtmlWebpackPlugin` because all chunks has same value, the `chunkhash` is the best due to it changes when content does it.
@@ -185,19 +187,34 @@ npm run build
 - Before running a build let's ensure we clear the dist folder.
 
 ```bash
-npm install rimraf --save-dev
+npm install clean-webpack-plugin --save-dev
 ```
 
-- Let's add the following command to our build:
+- Let's add this webpack plugin in it's config section
 
-_./package.json_
+_webpack.config.json_
 
 ```diff
-  "scripts": {
-    "start": "webpack-dev-server --mode development --open",
--    "build": "webpack --mode development"
-+    "build": "rimraf dist && webpack --mode development"
+const HtmlWebpackPlugin = require("html-webpack-plugin");
++ const {CleanWebpackPlugin} = require('clean-webpack-plugin')
++ const path = require('path')
+```
+
+```diff
+  output: {
+    filename: "[name].[chunkhash].js",
++    path: path.resolve(process.cwd(), 'dist'),
   },
+```
+
+```diff
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: "index.html", //Name of file in ./dist/
+      template: "index.html", //Name of template in ./src
+    }),
++    new CleanWebpackPlugin(),
+  ],
 ```
 
 - Now if we run a build
@@ -225,8 +242,11 @@ npm install mini-css-extract-plugin --save-dev
 _webpack.config.js_
 
 ```diff
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 + const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
+
 const webpack = require('webpack');
 
 module.exports = {
@@ -270,10 +290,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html', //Name of file in ./dist/
       template: 'index.html', //Name of template in ./src
-    }),
-    new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery"
     }),
 +   new MiniCssExtractPlugin({
 +     filename: "[name].css",

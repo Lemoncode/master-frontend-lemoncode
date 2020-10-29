@@ -85,12 +85,12 @@ _./package.json_
 {
 ...
   "devDependencies": {
-+   "@babel/cli": "^7.1.2",
-+   "@babel/core": "^7.1.2",
-+   "@babel/preset-env": "^7.1.0",
-+   "babel-loader": "^8.0.4",
-+   "webpack": "^4.23.1",
-+   "webpack-cli": "^3.1.2"
++    "@babel/cli": "^7.12.1",
++    "@babel/core": "^7.12.3",
++    "@babel/preset-env": "^7.12.1",
++    "babel-loader": "^8.1.0",
++    "webpack": "^5.3.1",
++    "webpack-cli": "^4.1.0"
   }
 }
 ```
@@ -127,9 +127,6 @@ _./webpack.config.js_
 ```javascript
 module.exports = {
   entry: ["./students.js"],
-  output: {
-    filename: "bundle.js"
-  }
 };
 ```
 
@@ -140,9 +137,6 @@ _./webpack.config.js_
 ```diff
 module.exports = {
   entry: ['./students.js'],
-  output: {
-    filename: 'bundle.js',
-  },
 + module: {
 +   rules: [
 +     {

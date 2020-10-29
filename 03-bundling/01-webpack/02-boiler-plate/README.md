@@ -191,10 +191,13 @@ _./index.html_
   </head>
   <body>
     Hello Webpack 4!
-    <script src="./dist/bundle.js"></script>
+    <script src="./dist/main.js"></script>
   </body>
 </html>
 ```
+
+> IMPORTANT: This is not the best way to include an HTML file and link it with webpack,
+> we will learn how to do this in a proper way later on.
 
 - Now we can click on the html file and see our small piece of code up and running.
 

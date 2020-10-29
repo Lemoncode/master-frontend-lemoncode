@@ -190,7 +190,7 @@ _./index.html_
     <title>Webpack 4.x by sample</title>
   </head>
   <body>
-    Hello Webpack 4!
+    Hello Webpack!
     <script src="./dist/main.js"></script>
   </body>
 </html>

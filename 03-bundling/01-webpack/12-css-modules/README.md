@@ -381,6 +381,23 @@ _./src/totalScoreComponent.tsx_
 npm start
 ```
 
+- That was look but we are getting weird class names, how can we indentify that in a more friendly way?
+
+```diff
+  {
+    loader: "css-loader",
+    options: {
+      import: false,
+      modules: {
+        exportLocalsConvention: "camelCase",
++        localIdentName: '[path][name]__[local]--[hash:base64:5]',
++        localIdentContext: path.resolve(__dirname, 'src'),
++        localIdentHashPrefix: 'my-custom-hash',
+      },
+    },
+  },
+```
+
 - If we take a look to the browser console, we can see how webpack transform css class names, adding prefixes (inspect element).
 
 - Finally, let's do an example where we need to add styles to element that has a Bootstrap class:

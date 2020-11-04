@@ -223,13 +223,12 @@ _./webpack.config.js_
           MiniCssExtractPlugin.loader,
 -         'css-loader',
 +         {
-+           loader: 'css-loader',
-+           options: {
-+             modules: {
-+               localIdentName: '[name]__[local]__[hash:base64:5]',
-+             },
-+           },
-+         },
++            loader: "css-loader",
++            options: {
++              import: false,
++              modules: true,
++            },
++          },
           {
             loader: 'sass-loader',
             options: {
@@ -249,7 +248,7 @@ _./webpack.config.js_
 
 - Updating `AverageComponent`:
 
-_./src/averageComponent.tsx_
+_./src/averageComponent.jsx_
 
 ```diff
 import React from 'react';
@@ -316,12 +315,12 @@ _./webpack.config.js_
         use: [
           MiniCssExtractPlugin.loader,
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
-              modules: {
-+               exportLocalsConvention: "camelCase",
-                localIdentName: '[name]__[local]__[hash:base64:5]',
-              },
+              import: false,
++              modules: {
++                exportLocalsConvention: "camelCase",
++              },
             },
           },
           ...
@@ -341,6 +340,9 @@ _./webpack.config.js_
 _./src/averageComponent.tsx_
 
 ```diff
+- const classes = require("./averageComponentStyles.scss").default;
++ import classes from "./averageComponentStyles.scss";
+
 ...
   return (
     <div>
@@ -357,6 +359,9 @@ _./src/averageComponent.tsx_
 _./src/totalScoreComponent.tsx_
 
 ```diff
+-const classes = require("./totalScoreComponentStyles.scss").default;
++ import classes from "./totalScoreComponentStyles.scss";
+
 ...
 
   return (

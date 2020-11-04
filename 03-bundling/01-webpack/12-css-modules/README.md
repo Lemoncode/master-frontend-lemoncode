@@ -253,7 +253,7 @@ _./src/averageComponent.jsx_
 ```diff
 import React from 'react';
 import { getAvg } from './averageService';
-+ const classes = require('./averageComponentStyles.scss');
++ const classes = require('./averageComponentStyles.scss').default;
 
 export const AverageComponent: React.FunctionComponent = () => {
   ...
@@ -272,12 +272,12 @@ export const AverageComponent: React.FunctionComponent = () => {
 
 - Updating `TotalScoreComponent`:
 
-_./src/totalScoreComponent.tsx_
+_./src/totalScoreComponent.jsx_
 
 ```diff
 import React from 'react';
 import { getTotalScore } from './averageService';
-+ const classes = require('./totalScoreComponentStyles.scss');
++ const classes = require('./totalScoreComponentStyles.scss').default;
 
 export const TotalScoreComponent: React.FunctionComponent = () => {
   ...
@@ -318,6 +318,7 @@ _./webpack.config.js_
             loader: "css-loader",
             options: {
               import: false,
+-                            modules: true,
 +              modules: {
 +                exportLocalsConvention: "camelCase",
 +              },

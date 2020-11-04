@@ -15,7 +15,7 @@ Summary steps:
 
 ## Prerequisites
 
-You need to have [Node.js](https://nodejs.org/en/) installed in your computer. If you want to follow this step guide you need to take sample _04 Images_ as starting point.
+You need to have [Node.js](https://nodejs.org/en/) installed in your computer. If you want to follow this step guide you need to take sample _10 Images_ as starting point.
 
 ## Steps
 
@@ -28,7 +28,7 @@ _./index.html_
 ```diff
   <body>
 -    <div id="imgContainer"></div>
-    Hello Webpack 4!
+    Hello Webpack!
 -    <img src="./content/logo_2.png" />
 -    <div class="red-background">
 -      RedBackground stuff

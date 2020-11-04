@@ -402,7 +402,7 @@ npm start
 
 - Finally, let's do an example where we need to add styles to element that has a Bootstrap class:
 
-_./src/averageComponent.tsx_
+_./src/averageComponent.jsx_
 
 ```diff
 ...

@@ -52,12 +52,15 @@ module.exports = {
   resolve: {
     extensions: [".js", ".ts", ".tsx"]
   },
+- devtool: "eval-source-map",
   entry: {
     app: "./index.tsx",
     appStyles: ["./mystyles.scss"],
     vendorStyles: ["../node_modules/bootstrap/dist/css/bootstrap.css"]
   },
--  stats: "errors-only",
+-  devServer: {
+-    stats: "errors-only",
+-  },
 ```
 
 - Now it's time to create our webpack config dev version, we will start by merging
@@ -72,7 +75,9 @@ const common = require("./webpack.common.js");
 module.exports = merge(common, {
   mode: "development",
   devtool: "inline-source-map",
-  stats: "errors-only",
+  devServer: {
+    stats: "errors-only",
+  },
 });
 ```
 
@@ -101,7 +106,7 @@ _./package.json_
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
 -    "start:dev": "webpack-dev-server --mode development --open",
-+    "start:dev": "webpack-dev-server --mode development --open --config webpack.dev.js",
++        "start:dev": "webpack serve --mode development --config webpack.dev.js",
 -    "build": "rimraf dist && webpack --mode development"
 +    "build:dev": "rimraf dist && webpack --config webpack.dev.js",
 +    "build:prod": "rimraf dist && webpack --config webpack.prod.js"

@@ -1,6 +1,6 @@
 import React from "react";
 import { getTotalScore } from "./averageService";
-const classes = require("./totalScoreComponentStyles.scss");
+import classes from "./totalScoreComponentStyles.scss";
 
 export const TotalScoreComponent: React.FC = () => {
   const [totalScore, setTotalScore] = React.useState(0);

@@ -38,7 +38,6 @@ npm install
 
 ```diff
 ...
-+ const path = require('path');
 
 + const basePath = __dirname;
 

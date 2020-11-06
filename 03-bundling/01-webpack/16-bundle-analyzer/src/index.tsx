@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { AverageComponent } from "./averageComponent";
-import { TotalScoreComponent } from "./totalScoreComponent";
+import { TotalScoreComponent } from './totalScoreComponent';
 
 ReactDOM.render(
   <div>

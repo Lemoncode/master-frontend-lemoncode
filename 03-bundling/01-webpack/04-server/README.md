@@ -44,7 +44,7 @@ npm install webpack-dev-server --save-dev
 ```diff
   "scripts": {
 -   "start": "webpack --mode development"
-+   "start": "webpack-dev-server --mode development --open",
++   "start": "webpack serve",
 +   "build": "webpack --mode development"
   },
 ```
@@ -52,7 +52,6 @@ npm install webpack-dev-server --save-dev
 - Before running the project, we have to realize that this server runs in memory, and it won't dump info into the
   _dist_ folder, right now we will make a workaround, update the path on the index.html file for the _bundle.js_
   file, in later samples we will learn a better way to reference the bundled files into HTML (using HTMLWebpackPlugin)
-
 
 _index.html_
 
@@ -67,8 +66,8 @@ _index.html_
   </head>
   <body>
     Hello Webpack 4!
--    <script src="./dist/bundle.js"></script>
-+    <script src="bundle.js"></script>
+-    <script src="./dist/main.js"></script>
++    <script src="main.js"></script>
   </body>
 </html>
 

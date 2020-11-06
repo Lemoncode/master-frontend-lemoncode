@@ -14,9 +14,9 @@
   "devDependencies": {
     "parcel-bundler": "^1.12.4",
     "rimraf": "^3.0.2",
-    "sass": "^1.26.3"
+    "sass": "^1.29.0"
   },
   "dependencies": {
-    "bootstrap": "^4.4.1"
+    "bootstrap": "^4.5.3"
   }
 }

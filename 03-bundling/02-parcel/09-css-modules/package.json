@@ -9,27 +9,28 @@
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
     "start:dev": "rimraf dist && parcel ./src/index.html --open",
-    "start": "run-p -l  type-check:watch && start:dev"
+    "start": "run-p -l type-check:watch start:dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.10.4",
-    "@babel/preset-react": "^7.10.4",
-    "@babel/preset-typescript": "^7.10.4",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-react": "^7.12.5",
+    "@babel/preset-typescript": "^7.12.1",
+    "@types/node": "^14.14.6",
     "npm-run-all": "^4.1.5",
     "parcel-bundler": "^1.12.4",
-    "postcss-modules": "^3.2.0",
+    "postcss-modules": "^3.2.2",
     "rimraf": "^3.0.2",
-    "sass": "^1.26.3",
-    "typescript": "^3.8.3"
+    "sass": "^1.29.0",
+    "typescript": "^4.0.5"
   },
   "dependencies": {
-    "@types/react": "^16.9.27",
-    "@types/react-dom": "^16.9.5",
-    "bootstrap": "^4.4.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "@types/react": "^16.9.56",
+    "@types/react-dom": "^16.9.9",
+    "bootstrap": "^4.5.3",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   }
 }

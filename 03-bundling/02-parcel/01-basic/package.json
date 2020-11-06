@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rimraf dist && parcel ./src/index.html",
     "build:prod": "rimraf dist && parcel build ./src/index.html",
-    "start": "rimraf dist && parcel ./src/index.html --open"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",

@@ -1,6 +1,6 @@
 # Zero config
 
-¿ Podemos usar wepbacomo en modo _Zero Config_ (cero configuración) ? Si,
+¿ Podemos usar wepback como en modo _Zero Config_ (cero configuración) ? Si,
 sólo tienes que seguir una serie de convenciones.
 
 Altough this sounds cool, it only won't work for very simple cases (just quick demos or tests), e.g. you can't

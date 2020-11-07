@@ -3,9 +3,6 @@
 ¿ Podemos usar wepbacomo en modo _Zero Config_ (cero configuración) ? Si,
 sólo tienes que seguir una serie de convenciones.
 
-Zero config bundlers webpack is the possibility of using this package with zero configuration,
-just if you follow some conventions you won't need to create a config file.
-
 Altough this sounds cool, it only won't work for very simple cases (just quick demos or tests), e.g. you can't
 transpile using babel with zero config.
 

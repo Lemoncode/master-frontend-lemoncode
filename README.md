@@ -10,9 +10,9 @@ Las áreas que se cubren:
   - **Bundling:** Webpack / Parcel.
   - **Frameworks:** React, Vuejs, Angular.
   - **Testing**: Jest, React Testing Library.
-  - **rest-api**: fetch, axios, graphql.
-  - **cloud**: demos heroku, amazon, azure + docker + github actions.
-  - **mobile**: PWA, React Native.
+  - **Rest-api**: fetch, axios, graphql.
+  - **Cloud**: demos heroku, amazon, azure + docker + github actions.
+  - **Mobile**: PWA, React Native, (proximamente Flutter).
  
 # ¿Te animas a cursar nuestro Máster?
 

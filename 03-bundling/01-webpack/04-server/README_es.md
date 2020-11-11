@@ -151,4 +151,4 @@ Somos un equipo innovador de expertos en Javascript, apasionados por convertir s
 
 [Lemoncode](http://lemoncode.net/services/en/#en-home) proporciona servicios de formación.
 
-Para la audiencia Latino-Americana/Española tenemos un título en Máster Online Front End, mas info: http://lemoncode.net/master-frontend.
+Para la audiencia Latino-Americana/Española tenemos un título en Máster Online Front End, mas info: http://lemoncode.net/master-frontend

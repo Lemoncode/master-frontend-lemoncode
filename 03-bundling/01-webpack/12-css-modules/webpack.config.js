@@ -10,16 +10,15 @@ module.exports = {
   resolve: {
     extensions: [".js", ".jsx"],
   },
-  devtool: "eval-source-map",
   entry: {
-    app: ["./index.jsx"],
+    app: "./index.jsx",
     appStyles: ["./mystyles.scss"],
     vendorStyles: ["../node_modules/bootstrap/dist/css/bootstrap.css"],
   },
   output: {
     filename: "[name].[chunkhash].js",
     path: path.resolve(process.cwd(), "dist"),
-    publicPath: "/",
+    publicPath: "./",
   },
   module: {
     rules: [
@@ -32,18 +31,15 @@ module.exports = {
         test: /\.scss$/,
         exclude: /node_modules/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-          },
+          MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
             options: {
-              import: false,
               modules: {
                 exportLocalsConvention: "camelCase",
-                localIdentName: "[path][name]__[local]--[hash:base64:5]",
-                localIdentContext: path.resolve(__dirname, "src"),
-                localIdentHashPrefix: "my-custom-hash",
+                localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                localIdentContext: path.resolve(__dirname, 'src'),
+                localIdentHashPrefix: 'my-custom-hash',
               },
             },
           },
@@ -69,13 +65,16 @@ module.exports = {
       },
     ],
   },
+  devServer: {
+    port: 8080,
+  },
   plugins: [
-    new CleanWebpackPlugin(),
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: "index.html", //Name of file in ./dist/
       template: "index.html", //Name of template in ./src
     }),
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css",

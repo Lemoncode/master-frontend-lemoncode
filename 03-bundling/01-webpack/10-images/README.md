@@ -99,6 +99,8 @@ _[webpack.config.js](webpack.config.js)_
   },
 ```
 
+> [Reference](https://webpack.js.org/guides/asset-modules/)
+
 - Next, we will add some styles for the images in our CSS file:
 
 _./src/mystyles.scss_
@@ -165,11 +167,7 @@ npm install html-loader --save-dev
 _webpack.config.js_
 
 ```diff
-      {
-        test: /\.(png|jpg)$/,
-        exclude: /node_modules/,
-        loader: 'url-loader?limit=5000',
-      },
+      ...
 +     {
 +      test: /\.html$/,
 +      loader: 'html-loader',
@@ -185,7 +183,7 @@ _webpack.config.js_
   output: {
     filename: "[name].[chunkhash].js",
     path: path.resolve(process.cwd(), "dist"),
-+    publicPath: "/",
++   publicPath: "./",
   },
 ```
 

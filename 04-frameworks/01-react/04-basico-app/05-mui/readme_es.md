@@ -24,7 +24,7 @@ npm install @material-ui/core @material-ui/icons --save
 - Para estilar usaremos Emotion (CSS in JS), vamos a instalarlo:
 
 ```bash
-npm install emotion --save
+npm install --save @emotion/react
 ```
 
 - Montemos el diálgo básico de login, de momento no nos centramos

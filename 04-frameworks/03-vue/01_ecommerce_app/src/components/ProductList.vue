@@ -18,9 +18,7 @@
           </div>
           <div class="flex product-container__aside">
             <p class="text-align-center">{{ product.price }}</p>
-            <button class="button" type="button" @click="addItem(product)">
-              Add to Cart
-            </button>
+            <AddToCartButton />
           </div>
         </article>
       </div>
@@ -30,9 +28,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { productService } from '@/services/productService'
+import { productService } from '@/services/productService.ts'
+import AddToCartButton from '@/components/AddToCartButton.vue'
 
 export default defineComponent({
+  components: { AddToCartButton },
   data() {
     return {
       list: [] as Product[],
@@ -40,11 +40,6 @@ export default defineComponent({
   },
   async created() {
     this.list = await productService.get()
-  },
-  methods: {
-    addItem(product: Product) {
-      console.log({ product })
-    },
   },
 })
 </script>

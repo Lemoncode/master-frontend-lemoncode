@@ -1,8 +1,10 @@
 export const productService = {
   async get() {
-    const books = await import(
-      /* webpackChunkName: "books" */ './books.mock.json'
-    ).then(m => m.default)
+    const books = await fetch('./books.mock.json', {
+      headers: {
+        Accept: 'application/json',
+      },
+    }).then(m => m.json())
     return books
   },
 }

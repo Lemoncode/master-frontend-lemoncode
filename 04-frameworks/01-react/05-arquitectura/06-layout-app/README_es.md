@@ -110,6 +110,30 @@ export const EmployeeScene: React.FC = () => {
 };
 ```
 
+- Alternative en core router
+
+_./src/core/router/router.component.tsx_
+
+```diff
++        <AppLayout>
+          <Route
+            exact={true}
+            path={switchRoutes.submoduleList}
+            component={SubmoduleListScene}
+          />
+          <Route
+            exact={true}
+            path={switchRoutes.employees}
+            component={EmployeeListScene}
+          />
+          <Route
+            exact={true}
+            path={switchRoutes.editEmployee}
+            component={EmployeeScene}
+          />
++        </AppLayout>
+```
+
 - Vamos ahora a almacenar el nombre del usuario que se ha logado,
   para ello haremos uso del context de React:
 

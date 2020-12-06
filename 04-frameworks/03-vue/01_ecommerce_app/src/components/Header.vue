@@ -1,5 +1,5 @@
 <template>
-  <nav class="nav flex container">
+  <nav class="nav flex align-items-center justify-content-between container">
     <span>logo</span>
     <!-- <ul>
       <li><router-link to="/">Home</router-link></li>
@@ -17,8 +17,6 @@ export default defineComponent({})
 <style lang="scss" scoped>
 .nav {
   min-height: 80px;
-  justify-content: space-between;
-  align-items: center;
   background-color: rgb(198, 247, 244);
   position: sticky;
   top: 0;

@@ -1,16 +1,22 @@
 <template>
-  <button class="button" type="button" @click="addItem(product)">
+  <button class="button" type="button" @click="addItem()">
     Add to Cart
   </button>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
+  props: {
+    product: {
+      type: Object as PropType<Product>,
+      required: true,
+    },
+  },
   methods: {
-    addItem(product: Product) {
-      console.log({ product })
+    addItem(): void {
+      this.$emit('add-item', this.product)
     },
   },
 })

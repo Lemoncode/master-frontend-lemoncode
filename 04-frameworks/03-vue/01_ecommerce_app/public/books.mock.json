@@ -6,7 +6,8 @@
     "title": "montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc",
     "category": "Mystery",
     "publisher": "Tellus LLC",
-    "price": "€4,80"
+    "price": "4,80",
+    "discount": "0.0"
   },
   {
     "id": "1",
@@ -15,7 +16,8 @@
     "title": "feugiat. Sed nec",
     "category": "Art",
     "publisher": "Eros Proin Ultrices LLP",
-    "price": "€27,79"
+    "price": "27,79",
+    "discount": "0.0"
   },
   {
     "id": "2",
@@ -24,7 +26,8 @@
     "title": "dapibus rutrum, justo. Praesent luctus.",
     "category": "Fiction",
     "publisher": "Class Ltd",
-    "price": "€42,22"
+    "price": "42,22",
+    "discount": "0.0"
   },
   {
     "id": "3",
@@ -33,7 +36,8 @@
     "title": "adipiscing lobortis risus. In mi pede, nonummy ut, molestie",
     "category": "Fantasy",
     "publisher": "Fusce Fermentum Fermentum Corporation",
-    "price": "€43,75"
+    "price": "43,75",
+    "discount": "0.0"
   },
   {
     "id": "4",
@@ -42,7 +46,8 @@
     "title": "lectus pede, ultrices a,",
     "category": "Dystopian,",
     "publisher": "Non Justo Proin LLC",
-    "price": "€18,07"
+    "price": "18,07",
+    "discount": "0.0"
   },
   {
     "id": "5",
@@ -51,7 +56,8 @@
     "title": "Morbi neque tellus, imperdiet non, vestibulum nec,",
     "category": "Adventure",
     "publisher": "A Foundation",
-    "price": "€1,49"
+    "price": "1,49",
+    "discount": "0.0"
   },
   {
     "id": "6",
@@ -60,7 +66,8 @@
     "title": "arcu eu odio tristique pharetra. Quisque",
     "category": "Travel",
     "publisher": "Ridiculus Mus Donec Incorporated",
-    "price": "€42,37"
+    "price": "42,37",
+    "discount": "0.0"
   },
   {
     "id": "7",
@@ -69,7 +76,8 @@
     "title": "velit justo nec ante. Maecenas mi felis, adipiscing fringilla, porttitor",
     "category": "Cooking",
     "publisher": "Erat Corporation",
-    "price": "€23,50"
+    "price": "23,50",
+    "discount": "0.15"
   },
   {
     "id": "8",
@@ -78,7 +86,8 @@
     "title": "non",
     "category": "Development",
     "publisher": "Duis Limited",
-    "price": "€25,80"
+    "price": "25,80",
+    "discount": "0.0"
   },
   {
     "id": "9",
@@ -87,7 +96,8 @@
     "title": "iaculis nec, eleifend non, dapibus rutrum, justo.",
     "category": "Horror",
     "publisher": "Tempor Erat PC",
-    "price": "€13,90"
+    "price": "13,90",
+    "discount": "0.0"
   },
   {
     "id": "10",
@@ -96,7 +106,8 @@
     "title": "nonummy",
     "category": "imperdiet necMystery",
     "publisher": "Dignissim Consulting",
-    "price": "€1,88"
+    "price": "1,88",
+    "discount": "0.0"
   },
   {
     "id": "11",
@@ -105,7 +116,8 @@
     "title": "orci lobortis augue scelerisque mollis. Phasellus libero mauris,",
     "category": "Art",
     "publisher": "Purus Consulting",
-    "price": "€48,40"
+    "price": "48,40",
+    "discount": "0.0"
   },
   {
     "id": "12",
@@ -114,7 +126,8 @@
     "title": "massa. Suspendisse eleifend. Cras",
     "category": "Fiction",
     "publisher": "Congue Turpis In Corp.",
-    "price": "€49,62"
+    "price": "49,62",
+    "discount": "0.0"
   },
   {
     "id": "13",
@@ -123,7 +136,8 @@
     "title": "Sed et libero. Proin mi. Aliquam",
     "category": "Fantasy",
     "publisher": "Primis In Foundation",
-    "price": "€21,92"
+    "price": "21,92",
+    "discount": "0.0"
   },
   {
     "id": "14",
@@ -132,7 +146,8 @@
     "title": "euismod mauris eu",
     "category": "Dystopian",
     "publisher": "Aliquet Foundation",
-    "price": "€11,42"
+    "price": "11,42",
+    "discount": "0.0"
   },
   {
     "id": "15",
@@ -141,7 +156,8 @@
     "title": "bibendum. Donec felis orci, adipiscing non,",
     "category": "Adventure",
     "publisher": "At LLC",
-    "price": "€11,36"
+    "price": "11,36",
+    "discount": "0.0"
   },
   {
     "id": "16",
@@ -150,7 +166,8 @@
     "title": "Donec porttitor tellus non magna.",
     "category": "Travel",
     "publisher": "Mollis Duis Company",
-    "price": "€21,04"
+    "price": "21,04",
+    "discount": "0.0"
   },
   {
     "id": "17",
@@ -159,7 +176,8 @@
     "title": "blandit at, nisi. Cum sociis natoque",
     "category": "Cooking",
     "publisher": "Gravida Molestie Institute",
-    "price": "€12,40"
+    "price": "12,40",
+    "discount": "0.15"
   },
   {
     "id": "18",
@@ -168,7 +186,8 @@
     "title": "sit",
     "category": "Development",
     "publisher": "Mi Lorem Vehicula Ltd",
-    "price": "€24,69"
+    "price": "24,69",
+    "discount": "0.0"
   },
   {
     "id": "19",
@@ -177,7 +196,8 @@
     "title": "primis in",
     "category": "Horror",
     "publisher": "Pede Et Consulting",
-    "price": "€17,63"
+    "price": "17,63",
+    "discount": "0.0"
   },
   {
     "id": "20",
@@ -186,7 +206,8 @@
     "title": "non leo. Vivamus nibh dolor, nonummy",
     "category": "Mystery",
     "publisher": "Pretium Neque LLP",
-    "price": "€48,26"
+    "price": "48,26",
+    "discount": "0.0"
   },
   {
     "id": "21",
@@ -195,7 +216,8 @@
     "title": "mauris, aliquam eu,",
     "category": "Art",
     "publisher": "Tristique Institute",
-    "price": "€25,14"
+    "price": "25,14",
+    "discount": "0.0"
   },
   {
     "id": "22",
@@ -204,7 +226,8 @@
     "title": "et malesuada fames",
     "category": "Fiction",
     "publisher": "Sollicitudin Orci Sem Company",
-    "price": "€17,01"
+    "price": "17,01",
+    "discount": "0.0"
   },
   {
     "id": "23",
@@ -213,7 +236,8 @@
     "title": "orci. Ut",
     "category": "Fantasy",
     "publisher": "Ante Dictum Mi Associates",
-    "price": "€6,74"
+    "price": "6,74",
+    "discount": "0.0"
   },
   {
     "id": "24",
@@ -222,7 +246,8 @@
     "title": "rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida",
     "category": "Dystopian",
     "publisher": "Libero Proin LLC",
-    "price": "€1,07"
+    "price": "1,07",
+    "discount": "0.0"
   },
   {
     "id": "25",
@@ -231,7 +256,8 @@
     "title": "In",
     "category": "Adventure",
     "publisher": "Eleifend Vitae Erat Associates",
-    "price": "€26,87"
+    "price": "26,87",
+    "discount": "0.0"
   },
   {
     "id": "26",
@@ -240,7 +266,8 @@
     "title": "ligula. Nullam feugiat placerat velit. Quisque varius.",
     "category": "Travel",
     "publisher": "Cras Incorporated",
-    "price": "€41,12"
+    "price": "41,12",
+    "discount": "0.0"
   },
   {
     "id": "27",
@@ -249,7 +276,8 @@
     "title": "cursus. Nunc mauris elit, dictum eu,",
     "category": "Cooking",
     "publisher": "Hendrerit Corporation",
-    "price": "€48,23"
+    "price": "48,23",
+    "discount": "0.15"
   },
   {
     "id": "28",
@@ -258,7 +286,8 @@
     "title": "sit amet, consectetuer adipiscing elit. Etiam laoreet, libero",
     "category": "Development",
     "publisher": "Mauris Foundation",
-    "price": "€45,74"
+    "price": "45,74",
+    "discount": "0.0"
   },
   {
     "id": "29",
@@ -267,7 +296,8 @@
     "title": "risus. Donec egestas.",
     "category": "Horror",
     "publisher": "Sapien Aenean Massa Limited",
-    "price": "€30,11"
+    "price": "30,11",
+    "discount": "0.0"
   },
   {
     "id": "30",
@@ -276,7 +306,8 @@
     "title": "nec, mollis vitae, posuere at, velit. Cras",
     "category": "arcuMystery",
     "publisher": "Faucibus Company",
-    "price": "€14,96"
+    "price": "14,96",
+    "discount": "0.0"
   },
   {
     "id": "31",
@@ -285,7 +316,8 @@
     "title": "Donec sollicitudin adipiscing ligula. Aenean gravida nunc",
     "category": "Art",
     "publisher": "Lobortis Consulting",
-    "price": "€39,54"
+    "price": "39,54",
+    "discount": "0.0"
   },
   {
     "id": "32",
@@ -294,7 +326,8 @@
     "title": "ante ipsum primis",
     "category": "Fiction",
     "publisher": "Lobortis Company",
-    "price": "€41,06"
+    "price": "41,06",
+    "discount": "0.0"
   },
   {
     "id": "33",
@@ -303,7 +336,8 @@
     "title": "egestas blandit. Nam",
     "category": "Fantasy",
     "publisher": "Non Enim Commodo Foundation",
-    "price": "€48,63"
+    "price": "48,63",
+    "discount": "0.0"
   },
   {
     "id": "34",
@@ -312,7 +346,8 @@
     "title": "sodales elit erat vitae",
     "category": "Dystopian,",
     "publisher": "Nibh Institute",
-    "price": "€26,56"
+    "price": "26,56",
+    "discount": "0.0"
   },
   {
     "id": "35",
@@ -321,7 +356,8 @@
     "title": "sem",
     "category": "Adventure",
     "publisher": "Morbi Non Ltd",
-    "price": "€21,23"
+    "price": "21,23",
+    "discount": "0.0"
   },
   {
     "id": "36",
@@ -330,7 +366,8 @@
     "title": "rhoncus. Nullam velit dui, semper",
     "category": "Travel",
     "publisher": "Praesent Interdum Company",
-    "price": "€25,71"
+    "price": "25,71",
+    "discount": "0.0"
   },
   {
     "id": "37",
@@ -339,7 +376,8 @@
     "title": "aptent taciti sociosqu ad litora",
     "category": "Cooking",
     "publisher": "Pharetra Felis Industries",
-    "price": "€38,23"
+    "price": "38,23",
+    "discount": "0.15"
   },
   {
     "id": "38",
@@ -348,7 +386,8 @@
     "title": "vulputate, posuere vulputate, lacus. Cras interdum. Nunc sollicitudin",
     "category": "Development",
     "publisher": "Non Leo Corporation",
-    "price": "€49,58"
+    "price": "49,58",
+    "discount": "0.0"
   },
   {
     "id": "39",
@@ -357,7 +396,8 @@
     "title": "eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur",
     "category": "Horror",
     "publisher": "Phasellus Fermentum Convallis Inc.",
-    "price": "€2,90"
+    "price": "2,90",
+    "discount": "0.0"
   },
   {
     "id": "40",
@@ -366,7 +406,8 @@
     "title": "semper. Nam tempor diam dictum sapien.",
     "category": "sagittis. Mystery",
     "publisher": "Aliquam Erat Volutpat Industries",
-    "price": "€9,43"
+    "price": "9,43",
+    "discount": "0.0"
   },
   {
     "id": "41",
@@ -375,7 +416,8 @@
     "title": "purus,",
     "category": "Art",
     "publisher": "Nec Mollis Vitae Incorporated",
-    "price": "€48,50"
+    "price": "48,50",
+    "discount": "0.0"
   },
   {
     "id": "42",
@@ -384,7 +426,8 @@
     "title": "Etiam vestibulum massa rutrum",
     "category": "Fiction",
     "publisher": "Leo Corp.",
-    "price": "€34,60"
+    "price": "34,60",
+    "discount": "0.0"
   },
   {
     "id": "43",
@@ -393,7 +436,8 @@
     "title": "euismod est",
     "category": "Fantasy",
     "publisher": "Aliquet Proin Velit Ltd",
-    "price": "€12,37"
+    "price": "12,37",
+    "discount": "0.0"
   },
   {
     "id": "44",
@@ -402,7 +446,8 @@
     "title": "quis turpis vitae",
     "category": "Dystopian",
     "publisher": "Torquent Per Conubia Corporation",
-    "price": "€43,66"
+    "price": "43,66",
+    "discount": "0.0"
   },
   {
     "id": "45",
@@ -411,7 +456,8 @@
     "title": "magna sed dui. Fusce aliquam, enim nec tempus",
     "category": "Adventure",
     "publisher": "Vivamus Nibh Inc.",
-    "price": "€28,26"
+    "price": "28,26",
+    "discount": "0.0"
   },
   {
     "id": "46",
@@ -420,7 +466,8 @@
     "title": "blandit congue. In scelerisque",
     "category": "Travel",
     "publisher": "Fermentum Risus Inc.",
-    "price": "€23,18"
+    "price": "23,18",
+    "discount": "0.0"
   },
   {
     "id": "47",
@@ -429,7 +476,8 @@
     "title": "Duis a mi fringilla mi lacinia mattis. Integer",
     "category": "Cooking",
     "publisher": "Aliquet Libero Integer PC",
-    "price": "€39,49"
+    "price": "39,49",
+    "discount": "0.15"
   },
   {
     "id": "48",
@@ -438,7 +486,8 @@
     "title": "netus et malesuada fames ac turpis egestas. Aliquam fringilla",
     "category": "Development",
     "publisher": "Neque Sed PC",
-    "price": "€47,90"
+    "price": "47,90",
+    "discount": "0.0"
   },
   {
     "id": "49",
@@ -447,7 +496,8 @@
     "title": "Nunc ullamcorper, velit",
     "category": "Horror",
     "publisher": "Nonummy Ipsum Non Foundation",
-    "price": "€27,38"
+    "price": "27,38",
+    "discount": "0.0"
   },
   {
     "id": "50",
@@ -456,7 +506,8 @@
     "title": "aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus dapibus quam",
     "category": "Mystery",
     "publisher": "Donec Tempus Incorporated",
-    "price": "€9,62"
+    "price": "9,62",
+    "discount": "0.0"
   },
   {
     "id": "51",
@@ -465,7 +516,8 @@
     "title": "neque tellus,",
     "category": "Art",
     "publisher": "At Velit Cras Ltd",
-    "price": "€17,34"
+    "price": "17,34",
+    "discount": "0.0"
   },
   {
     "id": "52",
@@ -474,7 +526,8 @@
     "title": "vestibulum nec, euismod in, dolor. Fusce",
     "category": "Fiction",
     "publisher": "Nulla Corp.",
-    "price": "€47,46"
+    "price": "47,46",
+    "discount": "0.0"
   },
   {
     "id": "53",
@@ -483,7 +536,8 @@
     "title": "odio semper cursus. Integer",
     "category": "Fantasy",
     "publisher": "Vitae Semper Ltd",
-    "price": "€49,31"
+    "price": "49,31",
+    "discount": "0.0"
   },
   {
     "id": "54",
@@ -492,7 +546,8 @@
     "title": "sociis natoque penatibus et magnis dis parturient montes,",
     "category": "Dystopian.",
     "publisher": "Sollicitudin Adipiscing Ligula PC",
-    "price": "€15,54"
+    "price": "15,54",
+    "discount": "0.0"
   },
   {
     "id": "55",
@@ -501,7 +556,8 @@
     "title": "nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet",
     "category": "Adventure",
     "publisher": "Tellus Eu Augue Incorporated",
-    "price": "€41,94"
+    "price": "41,94",
+    "discount": "0.0"
   },
   {
     "id": "56",
@@ -510,7 +566,8 @@
     "title": "porttitor",
     "category": "Travel",
     "publisher": "Eu LLC",
-    "price": "€15,88"
+    "price": "15,88",
+    "discount": "0.0"
   },
   {
     "id": "57",
@@ -519,7 +576,8 @@
     "title": "tincidunt, nunc ac mattis ornare, lectus ante dictum mi,",
     "category": "Cooking",
     "publisher": "Maecenas Libero Incorporated",
-    "price": "€6,82"
+    "price": "6,82",
+    "discount": "0.15"
   },
   {
     "id": "58",
@@ -528,7 +586,8 @@
     "title": "enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec",
     "category": "Development",
     "publisher": "Arcu PC",
-    "price": "€36,47"
+    "price": "36,47",
+    "discount": "0.0"
   },
   {
     "id": "59",
@@ -537,7 +596,8 @@
     "title": "amet ante.",
     "category": "Horror",
     "publisher": "Rutrum Magna Cras PC",
-    "price": "€43,49"
+    "price": "43,49",
+    "discount": "0.0"
   },
   {
     "id": "60",
@@ -546,7 +606,8 @@
     "title": "Nulla",
     "category": "cursus etMystery",
     "publisher": "Lacinia Orci Consectetuer Ltd",
-    "price": "€31,89"
+    "price": "31,89",
+    "discount": "0.0"
   },
   {
     "id": "61",
@@ -555,7 +616,8 @@
     "title": "id, mollis nec, cursus a, enim. Suspendisse aliquet, sem",
     "category": "Art",
     "publisher": "Rutrum Magna Institute",
-    "price": "€19,15"
+    "price": "19,15",
+    "discount": "0.0"
   },
   {
     "id": "62",
@@ -564,7 +626,8 @@
     "title": "eu, accumsan sed, facilisis vitae,",
     "category": "Fiction",
     "publisher": "Metus Inc.",
-    "price": "€4,43"
+    "price": "4,43",
+    "discount": "0.0"
   },
   {
     "id": "63",
@@ -573,7 +636,8 @@
     "title": "consectetuer rhoncus.",
     "category": "Fantasy",
     "publisher": "Nisl Nulla Company",
-    "price": "€19,89"
+    "price": "19,89",
+    "discount": "0.0"
   },
   {
     "id": "64",
@@ -582,7 +646,8 @@
     "title": "Nulla aliquet. Proin",
     "category": "Dystopian",
     "publisher": "Pharetra Ut Pharetra Consulting",
-    "price": "€7,21"
+    "price": "7,21",
+    "discount": "0.0"
   },
   {
     "id": "65",
@@ -591,7 +656,8 @@
     "title": "elit, dictum",
     "category": "Adventure",
     "publisher": "Curabitur Ltd",
-    "price": "€6,40"
+    "price": "6,40",
+    "discount": "0.0"
   },
   {
     "id": "66",
@@ -600,7 +666,8 @@
     "title": "Curabitur massa. Vestibulum accumsan neque et nunc. Quisque ornare",
     "category": "Travel",
     "publisher": "Augue Eu Tempor PC",
-    "price": "€3,93"
+    "price": "3,93",
+    "discount": "0.0"
   },
   {
     "id": "67",
@@ -609,7 +676,8 @@
     "title": "facilisis non, bibendum sed,",
     "category": "Cooking",
     "publisher": "Amet Luctus Company",
-    "price": "€9,09"
+    "price": "9,09",
+    "discount": "0.15"
   },
   {
     "id": "68",
@@ -618,7 +686,8 @@
     "title": "ornare, elit elit fermentum risus, at fringilla",
     "category": "Development",
     "publisher": "Mi Eleifend Incorporated",
-    "price": "€7,24"
+    "price": "7,24",
+    "discount": "0.0"
   },
   {
     "id": "69",
@@ -627,7 +696,8 @@
     "title": "dictum eu, eleifend nec,",
     "category": "Horror",
     "publisher": "Felis Ltd",
-    "price": "€45,86"
+    "price": "45,86",
+    "discount": "0.0"
   },
   {
     "id": "70",
@@ -636,7 +706,8 @@
     "title": "eros turpis",
     "category": "luctus vulputateMystery",
     "publisher": "Suspendisse LLP",
-    "price": "€29,54"
+    "price": "29,54",
+    "discount": "0.0"
   },
   {
     "id": "71",
@@ -645,7 +716,8 @@
     "title": "magna.",
     "category": "Art",
     "publisher": "Posuere Enim Associates",
-    "price": "€20,25"
+    "price": "20,25",
+    "discount": "0.0"
   },
   {
     "id": "72",
@@ -654,7 +726,8 @@
     "title": "sapien. Aenean massa. Integer vitae nibh.",
     "category": "Fiction",
     "publisher": "Neque Non Quam Associates",
-    "price": "€38,21"
+    "price": "38,21",
+    "discount": "0.0"
   },
   {
     "id": "73",
@@ -663,7 +736,8 @@
     "title": "tortor, dictum eu, placerat eget, venenatis",
     "category": "Fantasy",
     "publisher": "Ridiculus Mus Donec Incorporated",
-    "price": "€49,45"
+    "price": "49,45",
+    "discount": "0.0"
   },
   {
     "id": "74",
@@ -672,7 +746,8 @@
     "title": "amet ultricies sem magna nec quam.",
     "category": "Dystopian",
     "publisher": "Ultricies Ornare Elit Consulting",
-    "price": "€22,81"
+    "price": "22,81",
+    "discount": "0.0"
   },
   {
     "id": "75",
@@ -681,7 +756,8 @@
     "title": "Curabitur egestas nunc sed libero. Proin",
     "category": "Adventure",
     "publisher": "Amet Risus Inc.",
-    "price": "€27,28"
+    "price": "27,28",
+    "discount": "0.0"
   },
   {
     "id": "76",
@@ -690,7 +766,8 @@
     "title": "tristique pharetra. Quisque ac libero nec ligula consectetuer rhoncus. Nullam",
     "category": "Travel",
     "publisher": "Sed Dui Fusce Foundation",
-    "price": "€10,50"
+    "price": "10,50",
+    "discount": "0.0"
   },
   {
     "id": "77",
@@ -699,7 +776,8 @@
     "title": "sed pede nec ante blandit viverra.",
     "category": "Cooking",
     "publisher": "Pellentesque Institute",
-    "price": "€42,85"
+    "price": "42,85",
+    "discount": "0.15"
   },
   {
     "id": "78",
@@ -708,7 +786,8 @@
     "title": "iaculis quis,",
     "category": "Development",
     "publisher": "Nulla Industries",
-    "price": "€45,07"
+    "price": "45,07",
+    "discount": "0.0"
   },
   {
     "id": "79",
@@ -717,7 +796,8 @@
     "title": "augue malesuada malesuada. Integer id magna et",
     "category": "Horror",
     "publisher": "Ornare Lectus Ante Foundation",
-    "price": "€28,62"
+    "price": "28,62",
+    "discount": "0.0"
   },
   {
     "id": "80",
@@ -726,7 +806,8 @@
     "title": "accumsan",
     "category": "Mystery",
     "publisher": "Iaculis Quis Foundation",
-    "price": "€8,01"
+    "price": "8,01",
+    "discount": "0.0"
   },
   {
     "id": "81",
@@ -735,7 +816,8 @@
     "title": "Praesent",
     "category": "Art",
     "publisher": "Placerat Foundation",
-    "price": "€33,85"
+    "price": "33,85",
+    "discount": "0.0"
   },
   {
     "id": "82",
@@ -744,7 +826,8 @@
     "title": "consequat enim",
     "category": "Fiction",
     "publisher": "Cras Eget Nisi PC",
-    "price": "€38,27"
+    "price": "38,27",
+    "discount": "0.0"
   },
   {
     "id": "83",
@@ -753,7 +836,8 @@
     "title": "Quisque porttitor eros nec tellus. Nunc lectus",
     "category": "Fantasy",
     "publisher": "Rutrum Non Hendrerit Incorporated",
-    "price": "€34,82"
+    "price": "34,82",
+    "discount": "0.0"
   },
   {
     "id": "84",
@@ -762,7 +846,8 @@
     "title": "Nunc sollicitudin commodo ipsum. Suspendisse",
     "category": "Dystopian,",
     "publisher": "Lectus Rutrum PC",
-    "price": "€10,39"
+    "price": "10,39",
+    "discount": "0.0"
   },
   {
     "id": "85",
@@ -771,7 +856,8 @@
     "title": "lorem eu metus. In lorem. Donec elementum, lorem ut",
     "category": "Adventure",
     "publisher": "Amet Orci PC",
-    "price": "€40,78"
+    "price": "40,78",
+    "discount": "0.0"
   },
   {
     "id": "86",
@@ -780,7 +866,8 @@
     "title": "Nulla eget metus eu erat semper rutrum. Fusce dolor quam,",
     "category": "Travel",
     "publisher": "Elit Incorporated",
-    "price": "€4,01"
+    "price": "4,01",
+    "discount": "0.0"
   },
   {
     "id": "87",
@@ -789,7 +876,8 @@
     "title": "ante dictum cursus. Nunc mauris",
     "category": "Cooking",
     "publisher": "Vehicula Pellentesque Limited",
-    "price": "€49,58"
+    "price": "49,58",
+    "discount": "0.15"
   },
   {
     "id": "88",
@@ -798,7 +886,8 @@
     "title": "nibh. Aliquam ornare, libero at",
     "category": "Development",
     "publisher": "Augue Eu Corp.",
-    "price": "€22,31"
+    "price": "22,31",
+    "discount": "0.0"
   },
   {
     "id": "89",
@@ -807,7 +896,8 @@
     "title": "Phasellus in felis. Nulla",
     "category": "Horror",
     "publisher": "At Ltd",
-    "price": "€38,27"
+    "price": "38,27",
+    "discount": "0.0"
   },
   {
     "id": "90",
@@ -816,7 +906,8 @@
     "title": "feugiat nec, diam. Duis mi enim, condimentum eget,",
     "category": "Mystery",
     "publisher": "Curabitur Massa Vestibulum Institute",
-    "price": "€18,72"
+    "price": "18,72",
+    "discount": "0.0"
   },
   {
     "id": "91",
@@ -825,7 +916,8 @@
     "title": "egestas. Sed pharetra, felis eget",
     "category": "Art",
     "publisher": "Hendrerit Neque Ltd",
-    "price": "€22,97"
+    "price": "22,97",
+    "discount": "0.0"
   },
   {
     "id": "92",
@@ -834,7 +926,8 @@
     "title": "ante dictum cursus. Nunc mauris elit, dictum eu, eleifend",
     "category": "Fiction",
     "publisher": "Augue LLC",
-    "price": "€6,51"
+    "price": "6,51",
+    "discount": "0.0"
   },
   {
     "id": "93",
@@ -843,7 +936,8 @@
     "title": "ipsum",
     "category": "Fantasy",
     "publisher": "A Limited",
-    "price": "€21,93"
+    "price": "21,93",
+    "discount": "0.0"
   },
   {
     "id": "94",
@@ -852,7 +946,8 @@
     "title": "lacinia at, iaculis quis, pede. Praesent eu dui.",
     "category": "Dystopian",
     "publisher": "Et Risus Quisque Inc.",
-    "price": "€6,11"
+    "price": "6,11",
+    "discount": "0.0"
   },
   {
     "id": "95",
@@ -861,7 +956,8 @@
     "title": "ornare. In faucibus. Morbi",
     "category": "Adventure",
     "publisher": "Mauris Corporation",
-    "price": "€20,38"
+    "price": "20,38",
+    "discount": "0.0"
   },
   {
     "id": "96",
@@ -870,7 +966,8 @@
     "title": "non leo. Vivamus nibh",
     "category": "Travel",
     "publisher": "Proin Non Limited",
-    "price": "€21,11"
+    "price": "21,11",
+    "discount": "0.0"
   },
   {
     "id": "97",
@@ -879,7 +976,8 @@
     "title": "Nam nulla magna, malesuada vel, convallis in,",
     "category": "Cooking",
     "publisher": "Dictum Industries",
-    "price": "€22,82"
+    "price": "22,82",
+    "discount": "0.15"
   },
   {
     "id": "98",
@@ -888,7 +986,8 @@
     "title": "tellus id nunc interdum feugiat. Sed",
     "category": "Development",
     "publisher": "Morbi Tristique Consulting",
-    "price": "€37,30"
+    "price": "37,30",
+    "discount": "0.0"
   },
   {
     "id": "99",
@@ -897,6 +996,7 @@
     "title": "magna tellus faucibus leo, in lobortis tellus justo sit amet",
     "category": "Horror",
     "publisher": "Quis Tristique Ac Associates",
-    "price": "€40,27"
+    "price": "40,27",
+    "discount": "0.0"
   }
 ]

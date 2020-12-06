@@ -7,11 +7,12 @@
     "dev": "npm run serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^3.0.0",
+    "vue": "^3.0.4",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },

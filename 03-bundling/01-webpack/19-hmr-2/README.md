@@ -1,4 +1,4 @@
-# 18 Hot Module Replacement with css
+# 19 Hot Module Replacement with css
 
 In this demo we are going to start working with css in hmr modules, when you are working on a page and you change a style, 
 webpack server reloads the whole page and that makes us lose focus or the inputs lose their content, or we lose the console messages, etc. 

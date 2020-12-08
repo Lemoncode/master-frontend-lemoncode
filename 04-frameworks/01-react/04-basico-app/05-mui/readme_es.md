@@ -24,7 +24,7 @@ npm install @material-ui/core @material-ui/icons --save
 - Para estilar usaremos Emotion (CSS in JS), vamos a instalarlo:
 
 ```bash
-npm install emotion --save
+npm install @emotion/css --save
 ```
 
 - Montemos el diálgo básico de login, de momento no nos centramos
@@ -117,7 +117,7 @@ _./src/login.tsx_
 _./src/layouts/login.styles.tsx_
 
 ```ts
-import { css } from "emotion";
+import { css } from "@emotion/css";
 
 export const root = css`
   display: grid;

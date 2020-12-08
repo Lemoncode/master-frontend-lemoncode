@@ -148,12 +148,41 @@ describe('useLanguage specs', () => {
 
 ```
 
-- should return a message with language equals "english" when it call setLanguage with "english":
+- Or using LanguageProvider. We can rename to `.ts` again:
 
 ### ./src/language.hooks.spec.tsx
 
 ```diff
-import * as React from 'react';
+- import * as React from 'react';
+import { renderHook } from '@testing-library/react-hooks';
+import { LanguageProvider } from './language.context';
+import { useLanguage } from './language.hooks';
+
+describe('useLanguage specs', () => {
+  it('should return a message with language equals "es" when it renders the hook', () => {
+    // Arrange
+-   const provider: React.FunctionComponent = props => (
+-     <LanguageProvider>{props.children}</LanguageProvider>
+-   );
+
+    // Act
+-   const { result } = renderHook(() => useLanguage(), { wrapper: provider });
++   const { result } = renderHook(() => useLanguage(), { wrapper: LanguageProvider });
+
+    result.current.setLanguage('es');
+
+    // Assert
+    expect(result.current.message).toEqual('The current language is: es');
+  });
+});
+
+```
+
+- should return a message with language equals "english" when it call setLanguage with "english":
+
+### ./src/language.hooks.spec.ts
+
+```diff
 - import { renderHook } from '@testing-library/react-hooks';
 + import { renderHook, act } from '@testing-library/react-hooks';
 import { LanguageProvider } from './language.context';
@@ -163,12 +192,9 @@ import { useLanguage } from './language.hooks';
 
 + it('should return a message with language equals "english" when it call setLanguage with "english"', () => {
 +   // Arrange
-+   const provider: React.FunctionComponent = props => (
-+     <LanguageProvider>{props.children}</LanguageProvider>
-+   );
 
 +   // Act
-+   const { result } = renderHook(() => useLanguage(), { wrapper: provider });
++   const { result } = renderHook(() => useLanguage(), { wrapper: LanguageProvider });
 
 +   act(() => {
 +     result.current.setLanguage('english');

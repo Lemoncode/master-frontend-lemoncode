@@ -119,6 +119,9 @@ npm install @testing-library/cypress --save-dev
     "baseUrl": "../node_modules",
     "target": "es5",
     "lib": ["es5", "dom"],
+    "esModuleInterop": true,
+    "noImplicitAny": false,
+    "allowJs": true,
 -   "types": ["cypress"]
 +   "types": ["cypress", "@testing-library/cypress"]
   },

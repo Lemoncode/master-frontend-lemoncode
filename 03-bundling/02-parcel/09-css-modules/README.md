@@ -81,6 +81,8 @@ export const HelloComponent: React.FC = () => {
 };
 ```
 
+> If you get a warning about using required, try: npm i @types/node --save-dev
+
 - Let's run the sample.
 
 ```bash

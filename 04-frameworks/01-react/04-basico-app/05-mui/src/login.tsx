@@ -50,7 +50,7 @@ export const LoginPage: React.FC = () => {
               <Button type="submit" variant="contained" color="primary">
                 Login
               </Button>
-            </div>{" "}
+            </div>
           </form>
         </CardContent>
       </Card>

@@ -123,7 +123,7 @@ npm install @material-ui/core @material-ui/icons --save
 - Para estilar usaremos Emotion (CSS in JS), vamos a instalarlo:
 
 ```bash
-npm install emotion --save
+npm install @emotion/css --save
 ```
 
 - Montemos el diálgo básico de login, de momento no nos centramos
@@ -187,7 +187,7 @@ Estilos
 _./src/layouts/centered.layout.styles.ts_
 
 ```ts
-import { css } from 'emotion';
+import { css } from '@emotion/css';
 
 export const root = css`
   display: grid;
@@ -211,7 +211,7 @@ _./src/layouts/centered.layout.tsx_
 import React from 'react';
 import * as classes from './centered.layout.styles';
 
-export const CenteredLayout: React.FunctionComponent = props => {
+export const CenteredLayout: React.FunctionComponent = (props) => {
   const { children } = props;
   return <div className={classes.root}>{children}</div>;
 };

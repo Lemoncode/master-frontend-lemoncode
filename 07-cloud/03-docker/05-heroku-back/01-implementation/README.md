@@ -251,7 +251,7 @@ _./dev.env_
 ```diff
 NODE_ENV=development
 ORGANIZATION=lemoncode
-+ BASE_API_URL=localhost:8081
++ BASE_API_URL=http://localhost:8081
 
 ```
 

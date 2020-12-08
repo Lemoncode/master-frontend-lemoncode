@@ -84,7 +84,7 @@ describe('Hotel collection specs', () => {
 +       id: '2',
 +       thumbNailUrl: '/thumbnails/16673_260_t.jpg',
 +       name: 'The Westin Seattle',
-+       shortDescription: 'With a stay at The Westin Seattle, you'll be centrally laocated in Seattle, steps from Westlake Center and minutes from Pacific Place. This 4-star hotel is close to',
++       shortDescription: 'With a stay at The Westin Seattle, you\'ll be centrally laocated in Seattle, steps from Westlake Center and minutes from Pacific Place. This 4-star hotel is close to',
 +       address1: '1900 5th Ave',
 +       hotelRating: 4,
 +       city: 'Seattle',

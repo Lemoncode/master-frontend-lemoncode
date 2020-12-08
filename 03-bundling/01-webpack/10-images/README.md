@@ -82,14 +82,8 @@ document.write(messageToDisplay);
 + document.getElementById('imgContainer').appendChild(img);
 ```
 
-- Let's install _url-loader_ this will let us include in the bundle or split into a separate file a given file
-  depending on it's size and _file-loader_ this loader will let us manage with raw folder.
-
-```bash
-npm install url-loader file-loader --save-dev
-```
-
-- Now that we have already installed _url-loader_ plugin, we only need to configure the extension png/jpeg in the _`webpack.config.js`_ loaders section. One thing to note down is that we are adding an additional parameter to the url-loader called **limit**. By using this parameter we are telling the loader to encode the image if its size is less than 5KB approx and embed it directly in the HTML file.
+- In webpack 5, now don't need to use loaders to load picture, we can use the build int asset module,
+  let's update our _`webpack.config.js`_ (note down this is a type, not a loader)
 
 _[webpack.config.js](webpack.config.js)_
 
@@ -99,8 +93,7 @@ _[webpack.config.js](webpack.config.js)_
       ...
 +     {
 +       test: /\.(png|jpg)$/,
-+       exclude: /node_modules/,
-+       loader: 'url-loader?limit=5000',
++       type: 'asset/resource',
 +     },
     ],
   },
@@ -144,7 +137,7 @@ npm start
   </head>
   <body>
     <div id="imgContainer"></div>
-    Hello Webpack 4!
+    Hello Webpack!
 +   <img src="./src/content/logo_2.png"/>
     <div class="red-background">
       RedBackground stuff
@@ -182,6 +175,17 @@ _webpack.config.js_
 +      loader: 'html-loader',
 +     },
     ],
+  },
+```
+
+- We need to set an extra step, set the public path (try not to do so and check the error), more info about public path:
+  https://webpack.js.org/guides/public-path/
+
+```diff
+  output: {
+    filename: "[name].[chunkhash].js",
+    path: path.resolve(process.cwd(), "dist"),
++    publicPath: "/",
   },
 ```
 
@@ -236,73 +240,6 @@ cd dist
 
 ```bash
 lite-server
-```
-
-# Appendix - Organize dist folder into subfolders
-
-It will be possible to organize `dist` folder into subfolders.
-
-To do this we will need to modify the _webpack.config.js_ file.
-
-We have to modify the loader for `.png` and `.jpg` files to add a parameter called **name** to especify the subfolder:
-
-_webpack.config.js_
-
-```diff
-      {
-       test: /\.(png|jpg)$/,
-       exclude: /node_modules/,
--      loader: 'url-loader?limit=5000',
-+      use: {
-+        loader: 'url-loader',
-+        options: {
-+          limit: 5000,
-+          name: './img/[hash].[name].[ext]',
-+          esModule: false,
-+        },
-+      },
-      },
-```
-
-It's also possible to organize the `.js` and `.css` files into their own subfolders.
-
-In the case of the `.js` files we will have to add the subfolder name in the **filename** parameter:
-
-```diff
-  output: {
--    filename: '[name].[chunkhash].js',
-+    filename: './js/[name].[chunkhash].js',
-  },
-```
-
-For the `.css` files we need to modify the **filename** parameter in the MiniCssExtractPlugin:
-
-```diff
-new MiniCssExtractPlugin({
-- filename: "[name].[chunkhash].css",
-+ filename: "./css/[name].[chunkhash].css",
-  chunkFilename: "[id].css"
-})
-```
-
-- Important to replace optimization splitChunks by:
-
-```diff
-...
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          chunks: 'all',
-          name: 'vendor',
--         test: /[\\/]node_modules[\\/]$/,
-+         test: /[\\/]node_modules[\\/]((?!s?css).)*$/,
-          enforce: true,
-        },
-      },
-    },
-  },
-...
 ```
 
 # About Basefactor + Lemoncode

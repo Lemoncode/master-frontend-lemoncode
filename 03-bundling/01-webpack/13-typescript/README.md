@@ -146,7 +146,9 @@ module.exports = {
     appStyles: ["./mystyles.scss"],
     vendorStyles: ["../node_modules/bootstrap/dist/css/bootstrap.css"]
   },
-+  stats: "errors-only",
++  devServer: {
++    stats: "errors-only",
++  },
 ```
 
 - Install React and React DOM typings
@@ -195,6 +197,16 @@ _./src/totalScoreComponent.tsx_
 npm start
 ```
 
+- Altough it doesn't complain transpiling, if we take a look to the imports we
+  can see there are marked as error in VSCode, typescript does not know how to
+  import a css file, we can just declare it as a module.
+
+_./src/declaration.d.ts_
+
+```typescript
+declare module "*.scss";
+```
+
 - Now all this look great but what happens if we introduce a ts error in our code
 
 _./src/averageService.ts_
@@ -234,7 +246,7 @@ _./package.json_
 +    "start": "run-p -l type-check:watch start:dev",
 +    "type-check": "tsc --noEmit",
 +    "type-check:watch": "npm run type-check -- --watch",
-+    "start:dev": "webpack-dev-server --mode development --open",
++    "start:dev": "webpack serve --mode development",
     "build": "rimraf dist && webpack --mode development"
   },
 ```

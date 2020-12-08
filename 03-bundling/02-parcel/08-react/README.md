@@ -57,7 +57,7 @@ _./src/index.html_
 </html>
 ```
 
-- Let's create the entry point in the [_index.js_](src/index.js) file (./src/index.js)
+- Let's create the entry point in the [_index.ts_](src/index.ts) file (./src/index.tsx)
 
 _./src/index.tsx_
 

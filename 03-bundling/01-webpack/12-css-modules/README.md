@@ -223,13 +223,12 @@ _./webpack.config.js_
           MiniCssExtractPlugin.loader,
 -         'css-loader',
 +         {
-+           loader: 'css-loader',
-+           options: {
-+             modules: {
-+               localIdentName: '[name]__[local]__[hash:base64:5]',
-+             },
-+           },
-+         },
++            loader: "css-loader",
++            options: {
++              import: false,
++              modules: true,
++            },
++          },
           {
             loader: 'sass-loader',
             options: {
@@ -249,12 +248,12 @@ _./webpack.config.js_
 
 - Updating `AverageComponent`:
 
-_./src/averageComponent.tsx_
+_./src/averageComponent.jsx_
 
 ```diff
 import React from 'react';
 import { getAvg } from './averageService';
-+ const classes = require('./averageComponentStyles.scss');
++ const classes = require('./averageComponentStyles.scss').default;
 
 export const AverageComponent: React.FunctionComponent = () => {
   ...
@@ -273,12 +272,12 @@ export const AverageComponent: React.FunctionComponent = () => {
 
 - Updating `TotalScoreComponent`:
 
-_./src/totalScoreComponent.tsx_
+_./src/totalScoreComponent.jsx_
 
 ```diff
 import React from 'react';
 import { getTotalScore } from './averageService';
-+ const classes = require('./totalScoreComponentStyles.scss');
++ const classes = require('./totalScoreComponentStyles.scss').default;
 
 export const TotalScoreComponent: React.FunctionComponent = () => {
   ...
@@ -316,12 +315,13 @@ _./webpack.config.js_
         use: [
           MiniCssExtractPlugin.loader,
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
-              modules: {
-+               exportLocalsConvention: "camelCase",
-                localIdentName: '[name]__[local]__[hash:base64:5]',
-              },
+              import: false,
+-                            modules: true,
++              modules: {
++                exportLocalsConvention: "camelCase",
++              },
             },
           },
           ...
@@ -341,6 +341,9 @@ _./webpack.config.js_
 _./src/averageComponent.tsx_
 
 ```diff
+- const classes = require("./averageComponentStyles.scss").default;
++ import classes from "./averageComponentStyles.scss";
+
 ...
   return (
     <div>
@@ -357,6 +360,9 @@ _./src/averageComponent.tsx_
 _./src/totalScoreComponent.tsx_
 
 ```diff
+-const classes = require("./totalScoreComponentStyles.scss").default;
++ import classes from "./totalScoreComponentStyles.scss";
+
 ...
 
   return (
@@ -376,11 +382,28 @@ _./src/totalScoreComponent.tsx_
 npm start
 ```
 
+- That was look but we are getting weird class names, how can we indentify that in a more friendly way?
+
+```diff
+  {
+    loader: "css-loader",
+    options: {
+      import: false,
+      modules: {
+        exportLocalsConvention: "camelCase",
++        localIdentName: '[path][name]__[local]--[hash:base64:5]',
++        localIdentContext: path.resolve(__dirname, 'src'),
++        localIdentHashPrefix: 'my-custom-hash',
+      },
+    },
+  },
+```
+
 - If we take a look to the browser console, we can see how webpack transform css class names, adding prefixes (inspect element).
 
 - Finally, let's do an example where we need to add styles to element that has a Bootstrap class:
 
-_./src/averageComponent.tsx_
+_./src/averageComponent.jsx_
 
 ```diff
 ...

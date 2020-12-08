@@ -85,12 +85,12 @@ _./package.json_
 {
 ...
   "devDependencies": {
-+   "@babel/cli": "^7.1.2",
-+   "@babel/core": "^7.1.2",
-+   "@babel/preset-env": "^7.1.0",
-+   "babel-loader": "^8.0.4",
-+   "webpack": "^4.23.1",
-+   "webpack-cli": "^3.1.2"
++    "@babel/cli": "^7.12.1",
++    "@babel/core": "^7.12.3",
++    "@babel/preset-env": "^7.12.1",
++    "babel-loader": "^8.1.0",
++    "webpack": "^5.3.1",
++    "webpack-cli": "^4.1.0"
   }
 }
 ```
@@ -127,9 +127,6 @@ _./webpack.config.js_
 ```javascript
 module.exports = {
   entry: ["./students.js"],
-  output: {
-    filename: "bundle.js"
-  }
 };
 ```
 
@@ -140,9 +137,6 @@ _./webpack.config.js_
 ```diff
 module.exports = {
   entry: ['./students.js'],
-  output: {
-    filename: 'bundle.js',
-  },
 + module: {
 +   rules: [
 +     {
@@ -196,11 +190,14 @@ _./index.html_
     <title>Webpack 4.x by sample</title>
   </head>
   <body>
-    Hello Webpack 4!
-    <script src="./dist/bundle.js"></script>
+    Hello Webpack!
+    <script src="./dist/main.js"></script>
   </body>
 </html>
 ```
+
+> IMPORTANT: This is not the best way to include an HTML file and link it with webpack,
+> we will learn how to do this in a proper way later on.
 
 - Now we can click on the html file and see our small piece of code up and running.
 

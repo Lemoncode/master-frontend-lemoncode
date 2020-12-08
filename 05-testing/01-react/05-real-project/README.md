@@ -32,17 +32,6 @@ describe("common/search-bar/search-bar.component specs", () => {
 
 - Let's render the component and check the input element:
 
-> If we try getByRole, we need something like:
-
-```javascript
-<>
-  <label htmlFor="inputId">Search</label>
-  <input id="inputId" type="text" />
-</>;
-
-screen.getByRole("textbox", { name: /search/i });
-```
-
 ### ./src/common/components/search-bar/search-bar.component.spec.tsx
 
 ```diff
@@ -64,9 +53,7 @@ describe('common/search-bar/search-bar.component specs', () => {
     // Act
 +   render(<SearchBarComponent {...props} />);
 
-+   const inputElement = screen.getByPlaceholderText(
-+     'test placeholder'
-+   ) as HTMLInputElement;
++   const inputElement = screen.getByRole('textbox') as HTMLInputElement;
 
     // Assert
 +   expect(inputElement).toBeInTheDocument();
@@ -75,8 +62,15 @@ describe('common/search-bar/search-bar.component specs', () => {
 });
 
 ```
+> [ARIA roles](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles)
+>
+> [Which query should I use?](https://testing-library.com/docs/guide-which-query)
 
-> [ARIA roles](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles) > [Which query should I use?](https://testing-library.com/docs/guide-which-query)
+- Another option is using:
+
+```javascript
+const inputElement = screen.getByPlaceholderText('test placeholder') as HTMLInputElement;
+```
 
 - Start test watch:
 
@@ -122,9 +116,7 @@ npm run test:watch search-bar
     // Act
     render(<SearchBarComponent {...props} />);
 
-    const inputElement = screen.getByPlaceholderText(
-      'test placeholder'
-    ) as HTMLInputElement;
+    const inputElement = screen.getByRole('textbox') as HTMLInputElement;
 +   const iconElement = screen.getByLabelText('Search icon');
 
     // Assert
@@ -159,7 +151,7 @@ import React from 'react';
 +   // Act
 +   render(<SearchBarComponent {...props} />);
 
-+   const inputElement = screen.getByPlaceholderText('test placeholder');
++   const inputElement = screen.getByRole('textbox');
 +   fireEvent.change(inputElement, { target: { value: 'new text search' } });
 
 +   // Assert
@@ -435,7 +427,7 @@ describe('common/components/form/select/select.component specs', () => {
     // Act
 +   render(<SelectComponent {...props} />);
     
-+   const selectElement = const selectElement = screen.getByLabelText('Test label');
++   const selectElement = screen.getByRole('button', { name: 'Test label' });
     // Assert
 +   expect(selectElement).toBeInTheDocument();
   });
@@ -467,7 +459,7 @@ import React from 'react';
 +   // Act
 +   render(<SelectComponent {...props} />);
 
-+   const selectElement = const selectElement = screen.getByLabelText('Test label');
++   const selectElement = screen.getByRole('button', { name: 'Test label' });
 +   fireEvent.click(selectElement);
 +   const menuElement = screen.getByRole('listbox');
 
@@ -511,7 +503,7 @@ import React from 'react';
     // Act
     render(<SelectComponent {...props} />);
 
-    const selectElement = const selectElement = screen.getByLabelText('Test label');
+    const selectElement = screen.getByRole('button', { name: 'Test label' });
 -   fireEvent.click(selectElement);
 +   expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
     
@@ -548,7 +540,7 @@ import React from 'react';
 +   // Act
 +   render(<SelectComponent {...props} />);
 
-+   const selectElement = const selectElement = screen.getByLabelText('Test label');
++   const selectElement = screen.getByRole('button', { name: 'Test label' });
 
 +   userEvent.click(selectElement);
 +   const itemElementList = screen.getAllByRole('option');
@@ -563,6 +555,29 @@ import React from 'react';
 ```
 
 - Testing should update selected item when it clicks on third item using Formik:
+
+### ./src/common/components/form/select/select.component.spec.tsx
+
+```diff
+...
++ it('should update selected item when it clicks on third item using Formik', () => {
++   // Arrange
++   const props = {
++     items: [
++       { id: '1', name: 'Item 1' },
++       { id: '2', name: 'Item 2' },
++       { id: '3', name: 'Item 3' },
++     ] as Lookup[],
++     label: 'Test label',
++     name: 'selectedItem',
++   };
+
++   // Act
++   render(<SelectComponent {...props} />);
++ });
+```
+
+- Create `renderWithFormik`:
 
 ### ./src/common/components/form/select/select.component.spec.tsx
 
@@ -583,22 +598,13 @@ import { Lookup } from 'common/models';
 + });
 ...
 
-+ it('should update selected item when it clicks on third item using Formik', () => {
-+   // Arrange
-+   const props = {
-+     items: [
-+       { id: '1', name: 'Item 1' },
-+       { id: '2', name: 'Item 2' },
-+       { id: '3', name: 'Item 3' },
-+     ] as Lookup[],
-+     label: 'Test label',
-+     name: 'selectedItem',
-+   };
-
-+   // Act
+  it('should update selected item when it clicks on third item using Formik', () => {
+    ...
+    // Act
+-   render(<SelectComponent {...props} />);
 +   renderWithFormik(<SelectComponent {...props} />, { selectedItem: '1' });
 
-+   const selectElement = screen.getByLabelText('Test label');
++   const selectElement = screen.getByRole('button', { name: /Item 1/i });
 
 +   expect(selectElement.textContent).toEqual('Item 1');
 
@@ -608,7 +614,7 @@ import { Lookup } from 'common/models';
 
 +   // Assert
 +   expect(selectElement.textContent).toEqual('Item 3');
-+ });
+  });
 ```
 
 # About Basefactor + Lemoncode

@@ -171,6 +171,64 @@ export const MyComponent = () => {
 npm start
 ```
 
+- Esto esta muy bien ¿ Pero tenemos forma de evitarlo? Si hubiesemos
+  usado un objeto sí, veamos como funciona el SetState utilizando una
+  función para asignar el valor.
+
+- Primero vamos a encapsular message y seconds en un objeto:
+
+```diff
+export const MyComponent = () => {
+-  const [message, setMessage] = React.useState("initial message");
+-  const [seconds, setSeconds] = React.useState(0);
+-  const secondsRef = React.useRef(seconds);
++  const [info, setInfo] = React.useState({
++    message: 'initial message',
++    seconds: 0,
++ });
+```
+
+- Vamos ahora a cambiar el contenido del useEffect, atentos al setState
+  que lo vamos a usar como fucnión, trayendonos el último valor:
+
+```diff
+  React.useEffect(() => {
+    setTimeout(() => {
+-      console.log(seconds);
+-      setSeconds(1);
+-      secondsRef.current = 1;
++      console.log(info.seconds);
++      setInfo(info => {...info, seconds: 1})
+    }, 1000);
+
+    setTimeout(() => {
+-      setMessage(`Total seconds: ${secondsRef.current}`);
++      setInfo(info => ({...info, message: `Total seconds: ${info.seconds}`}));
+    }, 2000);
+  }, []);
+
+```
+
+- Y actualizamos el render
+
+```diff
+  return (
+    <>
+-      <h3>{message}</h3>
+-      <h4>{seconds}</h4>
++      <h3>{info.message}</h3>
++      <h4>{info.seconds}</h4>
+
+    </>
+  );
+```
+
+- Si ejecutamos veremos como funciona.
+
+```bash
+npm start
+```
+
 # ¿Te apuntas a nuestro máster?
 
 Si te ha gustado este ejemplo y tienes ganas de aprender Front End

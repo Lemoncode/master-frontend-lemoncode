@@ -318,7 +318,7 @@ import Typography from '@material-ui/core/Typography';
 _./src/layout/app.layout.styles.ts_
 
 ```ts
-import { css } from 'emotion';
+import { css } from '@emotion/css';
 import { theme } from 'core/theme';
 
 export const loginText = css`

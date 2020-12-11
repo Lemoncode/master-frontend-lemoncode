@@ -1,5 +1,5 @@
 import React from 'react';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import { ItemComponent, ClassesProps } from './components';
 import { DashboardItemProps } from './dashboard.vm';
 import * as innerClasses from './dashboard.styles';

@@ -37,7 +37,7 @@ export interface DashboardItemProps {
 _./src/common/components/dashboard/components/item.styles.ts_
 
 ```ts
-import { css } from 'emotion';
+import { css } from '@emotion/css';
 
 export const root = css`
   display: flex;
@@ -70,7 +70,7 @@ _./src/common/components/dashboard/components/item.component.tsx_
 
 ```tsx
 import React from 'react';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import { DashboardItemProps } from '../dashboard.vm';
@@ -141,7 +141,7 @@ export * from './item.component';
 _./src/common/components/dashboard/dashboard.styles.ts_
 
 ```ts
-import { css } from 'emotion';
+import { css } from '@emotion/css';
 import { theme } from 'core/theme';
 
 export const root = css`
@@ -168,7 +168,7 @@ _./src/common/components/dashboard/dashboard.component.tsx_
 
 ```tsx
 import React from 'react';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import { ItemComponent, ClassesProps } from './components';
 import { DashboardItemProps } from './dashboard.vm';
 import * as innerClasses from './dashboard.styles';

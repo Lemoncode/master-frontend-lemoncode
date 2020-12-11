@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import Button from '@material-ui/core/Button';
 import * as classes from './command-footer.style';
 

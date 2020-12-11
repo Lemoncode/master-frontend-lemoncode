@@ -320,7 +320,7 @@ desde cero el flujo sería:
 _./src/common/components/form/checkbox.styles.ts_
 
 ```ts
-import { css } from 'emotion';
+import { css } from '@emotion/css';
 import { theme } from 'core/theme';
 
 export const root = css`
@@ -409,7 +409,7 @@ _./src/pods/employee/components/data.component.tsx_
 import React from 'react';
 import { Formik, Form } from 'formik';
 import { TextFieldComponent, CheckboxComponent } from 'common/components';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import { Employee } from '../employee.vm';
 
 interface Props {
@@ -607,7 +607,7 @@ export const EmployeeContainer: React.FunctionComponent = () => {
 _./src/common-app/command-footer/command-footer.style.ts_
 
 ```tsx
-import { css } from 'emotion';
+import { css } from '@emotion/css';
 
 export const footerButtonsContainer = css`
   display: flex;
@@ -621,7 +621,7 @@ _./src/common-app/command-footer/command-footer.component.tsx_
 
 ```tsx
 import * as React from 'react';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import Button from '@material-ui/core/Button';
 import * as classes from './command-footer.style';
 
@@ -739,7 +739,6 @@ _./src/pods/employee/components/data.component.tsx_
 +      validate={formValidation.validateForm}
   >
 ```
-
 
 # ¿Te apuntas a nuestro máster?
 

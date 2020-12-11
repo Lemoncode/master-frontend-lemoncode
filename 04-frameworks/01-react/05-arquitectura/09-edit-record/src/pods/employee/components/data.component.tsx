@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 import { TextFieldComponent, CheckboxComponent } from 'common/components';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import { Employee } from '../employee.vm';
 import { CommandFooterComponent } from '../../../common-app/command-footer';
 import { formValidation } from './data.validations';

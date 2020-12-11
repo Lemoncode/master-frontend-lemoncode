@@ -234,7 +234,7 @@ _./src/pods/employee/components/data.component.tsx_
 import React from 'react';
 import { Formik, Form } from 'formik';
 import { TextFieldComponent, CheckboxComponent } from 'common/components';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 
 export const DataComponent: React.FunctionComponent = () => {
   return (

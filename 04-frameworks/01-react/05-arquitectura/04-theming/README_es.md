@@ -152,7 +152,7 @@ export default hot(App);
 _./src/layout/centered.layout.styles.ts_
 
 ```diff
-import { css } from 'emotion';
+import { css } from '@emotion/css';
 + import { theme } from 'core/theme';
 
 export const root = css`

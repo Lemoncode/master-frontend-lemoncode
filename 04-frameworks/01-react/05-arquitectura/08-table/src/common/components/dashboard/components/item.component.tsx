@@ -1,5 +1,5 @@
 import React from 'react';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import { DashboardItemProps } from '../dashboard.vm';
@@ -18,7 +18,7 @@ interface Props {
   dataTestId?: string;
 }
 
-export const ItemComponent: React.StatelessComponent<Props> = props => {
+export const ItemComponent: React.FC<Props> = props => {
   const {
     item: { icon: Icon, title, linkTo, subtitle },
     classes,

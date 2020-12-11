@@ -1,5 +1,5 @@
 import React from 'react';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import { ItemComponent, ClassesProps } from './components';
 import { DashboardItemProps } from './dashboard.vm';
 import * as innerClasses from './dashboard.styles';
@@ -16,8 +16,24 @@ interface Props {
   dataTestId?: string;
 }
 
+const createEmptyClasses = () => ({
+  root: '',
+  items: '',
+  item: {
+    root: '',
+    icon: '',
+    title: '',
+  },
+});
+
 export const DashboardComponent: React.StatelessComponent<Props> = props => {
-  const { items, classes, dataTestId } = props;
+  const { items, dataTestId } = props;
+
+  const classes = {
+    ...createEmptyClasses(),
+    ...props.classes,
+  };
+
   return (
     <div
       data-testid={dataTestId}
@@ -43,13 +59,5 @@ export const DashboardComponent: React.StatelessComponent<Props> = props => {
 };
 
 DashboardComponent.defaultProps = {
-  classes: {
-    root: '',
-    items: '',
-    item: {
-      root: '',
-      icon: '',
-      title: '',
-    },
-  },
+  classes: createEmptyClasses(),
 };

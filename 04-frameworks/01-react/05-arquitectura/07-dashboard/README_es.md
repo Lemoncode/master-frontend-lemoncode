@@ -185,8 +185,23 @@ interface Props {
   dataTestId?: string;
 }
 
+const createEmptyClasses = () => ({
+  root: '',
+  items: '',
+  item: {
+    root: '',
+    icon: '',
+    title: '',
+  },
+});
+
 export const DashboardComponent: React.StatelessComponent<Props> = props => {
-  const { items, classes, dataTestId } = props;
+  const { items, dataTestId } = props;
+  const classes = {
+    ...createEmptyClasses(),
+    ...props.classes,
+  };
+
   return (
     <div
       data-testid={dataTestId}
@@ -212,14 +227,7 @@ export const DashboardComponent: React.StatelessComponent<Props> = props => {
 };
 
 DashboardComponent.defaultProps = {
-  classes: {
-    root: '',
-    items: '',
-    item: {
-      root: '',
-      icon: '',
-      title: '',
-    },
+  classes: createEmptyClasses(),
   },
 };
 ```
@@ -317,6 +325,31 @@ export const SubmoduleListScene: React.FC = () => {
 -      <Link to={routes.employees}>Navigate employee list</Link>
 +      <SubmoduleListContainer/>
     </AppLayout>
+  );
+};
+```
+
+- Si quieres probar a jugar con la api de CSS de Dashboard: vamos a cambiar el color
+  de fondo de nuestro dashboard:
+
+_./pods/submodule-list.component.tsx_
+
+```diff
++ import { css } from '@emotion/css';
+// (...)
+
+
++ const itemStyle = css`
++  background: red;
++ `;
+
+export const SubmoduleListComponent: React.FC<Props> = props => {
+  const { items } = props;
+  return (
+    <DashboardComponent
+      items={items}
++      classes={{ item: { root: itemStyle } }}
+    />
   );
 };
 ```

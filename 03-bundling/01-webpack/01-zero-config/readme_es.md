@@ -8,3 +8,13 @@ Aunque esto suena genial, no funcionará para casos muy simples (sólo demostrac
 
 Veamos en esta demostración cómo podemos ejecutar una muestra simple.
 
+
+./package.json
+{
+  ...
+  "scripts": {
++   "build": "webpack --mode development",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  ...
+}

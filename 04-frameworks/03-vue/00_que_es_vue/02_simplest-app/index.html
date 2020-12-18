@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Simplest App</title>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="simplest-example" v-cloak>
+      <h1>{{ whatever }}</h1>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+      new Vue({
+        el: "#simplest-example",
+        data: {
+          whatever: "Hello world!! 🔥🔥",
+        },
+      })
+    </script>
+  </body>
+</html>

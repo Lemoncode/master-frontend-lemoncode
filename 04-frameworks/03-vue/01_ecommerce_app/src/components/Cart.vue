@@ -1,11 +1,11 @@
 <template>
   <ul class="cart full-width card" v-if="totalItemsInCart">
     <li v-for="(cartItem, key) in items" :key="key" class="cart__item">
-      <div class="flex justify-comtent-between align-items-center">
-        <span>
-          <span>{{ cartItem.quantity }}</span
-          ><span>{{ cartItem.data.title }}</span>
-        </span>
+      <div class="flex justify-content-between align-items-center">
+        <div class="grid justify-comtent-between item__title">
+          <span class="text-align-end">{{ cartItem.quantity }}</span>
+          <span>{{ cartItem.data.title }}</span>
+        </div>
         <button class="button" @click="removeItemFromCart(cartItem.data.id)">
           X
         </button>
@@ -39,5 +39,9 @@ export default defineComponent({
 }
 .cart__item:not(:last-child) {
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+.item__title {
+  grid-template-columns: 4ch 1fr;
+  gap: 1em;
 }
 </style>

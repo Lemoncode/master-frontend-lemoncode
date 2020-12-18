@@ -8,6 +8,15 @@ body {
   margin: 0;
 }
 
+a {
+  text-decoration: none;
+  color: currentColor;
+}
+
+ul {
+  list-style: none;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -20,8 +29,18 @@ body {
   padding-inline-end: 2%;
 }
 
+.relative {
+  position: relative;
+}
+
+// flex and grid
+
 .flex {
   display: flex;
+}
+
+.grid {
+  display: grid;
 }
 
 .align-items-center {
@@ -31,7 +50,12 @@ body {
   justify-content: space-between;
 }
 
-//
+// boxes
+.full-width {
+  width: 100%;
+}
+
+// texts
 .text-align-end {
   text-align: end;
 }
@@ -39,10 +63,17 @@ body {
   text-align: center;
 }
 
+// colors
 .grey-text {
   color: #cacaca;
 }
 
+// custom
+.card {
+  border-radius: 5px;
+  box-shadow: 0 0 10px 6px rgba(0, 0, 0, 0.1);
+  padding: 1em;
+}
 .button {
   background-color: #fff;
   font-weight: bold;

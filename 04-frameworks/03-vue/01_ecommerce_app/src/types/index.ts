@@ -1,7 +1,7 @@
 type Price = string
-type ProductId = number
+type ProductId = string
 
-declare interface Product {
+export interface Product {
   id: ProductId
   author: string
   published: string

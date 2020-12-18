@@ -7,13 +7,16 @@
 
     <ul class="product-list">
       <li v-for="product in list" :key="product.id">
-        <div>
+        <router-link :to="`/detail/${product.id}`">
           <article
-            class="flex justify-content-between product-container"
+            class="grid product-container card"
             :class="{
               'product-container--has-discount': product.discount !== '0.0',
             }"
           >
+            <div class="image">
+              <img :src="`https://picsum.photos/id/${product.id}/200`" alt="" />
+            </div>
             <div class="product-container__content">
               <h2>
                 {{ product.title }}
@@ -31,13 +34,13 @@
               </p>
             </div>
             <div class="flex product-container__aside">
-              <p class="text-align-center">
+              <div class="text-align-end aside__price">
                 <StaticPrice :quantity="product.price" />
-              </p>
+              </div>
               <AddToCartButton :product="product" @addItem="onAddItem" />
             </div>
           </article>
-        </div>
+        </router-link>
       </li>
     </ul>
   </section>
@@ -45,7 +48,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { mapActions } from 'vuex'
 
+import { Product } from '@/types'
 import { productService } from '@/services/productService'
 
 import AddToCartButton from '@/components/AddToCartButton.vue'
@@ -67,42 +72,36 @@ export default defineComponent({
     },
   },
   methods: {
+    ...mapActions('CartModule', ['addItemToCart']),
     onAddItem(product: Product): void {
-      console.log(product)
+      this.addItemToCart(product)
     },
   },
 })
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
-  @media (min-width: 900px) {
-    max-width: 1000px;
-  }
-}
 .product-list {
-  list-style: none;
   padding: 0;
   li {
     margin-bottom: 2em;
   }
-  h2 {
-    text-transform: capitalize;
-  }
 }
 .product-container {
-  border-radius: 5px;
   align-items: flex-start;
-  box-shadow: 0 0 10px 6px rgba(0, 0, 0, 0.1);
-  padding: 1em;
+  grid-template-columns: 210px 1fr 100px;
 }
 .product-container__content {
   margin-left: 10px;
 }
 .product-container__aside {
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-self: stretch;
+}
+.aside__price {
+  margin-top: 2rem;
+  padding: 0.7em 0;
 }
 .product-container--has-discount {
   background-color: pink;

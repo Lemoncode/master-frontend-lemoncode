@@ -1,11 +1,12 @@
 <template>
-  <button class="button" type="button" @click="addItem()">
+  <button class="button" type="button" @click.prevent="addItem()">
     Add to Cart
   </button>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
+import { Product } from '@/types'
 
 export default defineComponent({
   props: {

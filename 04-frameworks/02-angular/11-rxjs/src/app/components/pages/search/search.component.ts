@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/services/user.service';
-import { fromEvent } from 'rxjs';
 import { map, filter, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 
@@ -21,6 +20,13 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.emailControl.valueChanges
+    .subscribe(
+      value => this.getUsers(value).subscribe(
+        users => this.users = users,
+        error => this.errorMessage =  error as string
+      )
+    );
     // this.emailControl.valueChanges
     //   .pipe(
     //     // tap(x => console.log('Elemento original:', x)),

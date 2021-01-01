@@ -486,3 +486,4 @@ Y en el mismo archivo `.vue`, unos estilos:
 - Binding de clases de manera dinámica: `product.discount !== '0.0',`
 - Añadir un botón de compra como componente, `AddToCartButton`
 - Añadir la página detalle
+- cambiar dynamic import a fetch de /public, luego a fetch de [raw.githubusercontent.com](https://raw.githubusercontent.com/Lemoncode/master-frontend-lemoncode/master/04-frameworks/03-vue/01_ecommerce_app_final/public/books.mock.json).

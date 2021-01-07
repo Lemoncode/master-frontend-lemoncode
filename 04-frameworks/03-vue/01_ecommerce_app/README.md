@@ -417,7 +417,7 @@ Con ese cambio deberíamos ver ya una lista de _lorem ipsums_ en la pantalla. Va
   <ul>
     <li v-for="product in list" :key="product.id">
 -      {{ product.title }}
-+       <h2>
++      <h2>
 +        {{ product.title }}
 +      </h2>
 +      <p>
@@ -449,7 +449,7 @@ Para darle un aspecto más real, añadiremos una imagen y un poco más de estruc
 +          <img :src="`https://picsum.photos/id/${product.id}/+200`" alt="" />
 +        </div>
 +        <div class="product-container__content">
-+          <!-- Aquí los datos que acabábamos de añadir -->
+...          <!-- Aquí los datos que acabábamos de añadir -->
 +        </div>
 +        <div class="flex product-container__aside">
 +          <div class="text-align-end aside__price">

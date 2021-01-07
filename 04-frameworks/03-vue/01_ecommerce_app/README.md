@@ -1,5 +1,9 @@
 # 01_ecommerce_app
 
+<img src="./screenshot.png" width="800px" />
+
+## Inicio
+
 ```
 vue create <name>
 # Con el siguiente preset: (opcional, pero recomendado para el máster)
@@ -446,7 +450,7 @@ Para darle un aspecto más real, añadiremos una imagen y un poco más de estruc
        <!-- Añadimos una capa de contenedor y unas clases -->
 +      <article class="grid product-container card">
 +        <div class="image">
-+          <img :src="`https://picsum.photos/id/${product.id}/+200`" alt="" />
++          <img :src="`https://picsum.photos/id/${product.id}/200`" alt="" />
 +        </div>
 +        <div class="product-container__content">
 ...          <!-- Aquí los datos que acabábamos de añadir -->

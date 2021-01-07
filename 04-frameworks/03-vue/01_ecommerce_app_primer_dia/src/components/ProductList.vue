@@ -3,7 +3,7 @@
     <li v-for="product in list" :key="product.id">
       <article class="grid product-container card">
         <div class="image">
-          <img :src="`https://picsum.photos/id/${product.id}/+200`" alt="" />
+          <img :src="`https://picsum.photos/id/${product.id}/200`" alt="" />
         </div>
         <div class="product-container__content">
           <h2>

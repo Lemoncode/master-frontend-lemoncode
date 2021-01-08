@@ -105,11 +105,11 @@ export const DetailPage: React.FC = () => {
     <>
       <h2>Hello from Detail page</h2>
 -      <h3>User Id: {id}</h3>
-+      <span> id: {member.id}</span>
-+      <span> login: {member.login}</span>
-+      <span> name: {member.name}</span>
-+      <span> company: {member.company}</span>
-+      <span> bio: {member.bio}</span>
++      <p> id: {member.id}</p>
++      <p> login: {member.login}</p>
++      <p> name: {member.name}</p>
++      <p> company: {member.company}</p>
++      <p> bio: {member.bio}</p>
       <Link to="/list">Back to list page</Link>
     </>
   );

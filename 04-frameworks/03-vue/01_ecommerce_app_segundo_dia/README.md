@@ -374,6 +374,15 @@ En el código compilado esto se comportará como un link normal (`<a>`), pero se
 
 De esta manera, mantenemos nuestro markup semántico.
 
+Una cosa a tener en cuenta: dentro de cada elemento de la lista teníamos un botón de añadir a carrito. Si queremos que al clickar en el botón, el evento (del DOM) no se propague y el `router-link` reciba el click tenemos que especificarlo:
+
+- En `AddToCartButton.vue`, cambiamos el evento click:
+
+```diff
+-  <button class="button" type="button" @click="addItem()">
++  <button class="button" type="button" @click.stop="addItem()">
+```
+
 Como decíamos, tenemos que implementar el método `productService.getProduct` o de lo contrario, nos saltará un error.
 
 Vamos a hacer el filtrado en cliente, aunque normalmente sería un endpoint diferente para hacer una query en el lado del servidor o algo similar:.
@@ -519,3 +528,42 @@ El único problema es que hemos dado con un caso particular. Cuando utilizamos `
 ```
 
 De esta manera, tenemos una forma de controlar el estado de "cargando" y los errores que devolvería promesa.
+
+Ahora, si queremos, podemos extraer de `ProductList` la lógica de la llamada a la API a su propio "módulo". Normalmente se estructuran estos archivos en una carpeta `src/use/` o en `src/composables/`. Pero la arquitectura está abierta a diferentes implementaciones. Por ejemplo, podemos optar a separar features por "dominios", siguiendo DDD.
+
+El `script` de nuestro `ProductList` quedaría así:
+
+```diff
+  <script lang="ts">
+-  import { defineComponent, computed, Ref, ref } from 'vue'
++  import { defineComponent } from 'vue'
+  import { Product } from '@/types'
+
+  import AddToCartButton from '@/components/AddToCartButton.vue'
+  import StaticPrice from '@/components/StaticPrice.vue'
++ import useProductsApi from '@/use/productsApi'
+
+  export default defineComponent({
+    components: { AddToCartButton, StaticPrice },
+    async setup() {
+-     const list: Ref<Product[]> = ref([])
+-     list.value = await productService.get()
+-
+-     const totalProducts = computed<number>(() => list.value.length)
++     const { list, totalProducts } = await useProductsApi()
+
+      const onAddItem = (product: Product) => {
+        console.log(product.title)
+      }
+
+      return {
+        list,
+        totalProducts,
+        onAddItem,
+      }
+    },
+  })
+  </script>
+```
+
+De esta manera, el componente no tiene tanta responsabilidad como tenía antes. Lo que se llama _Dependency Inversion_, si no me equivoco. Ahora, hemos "abstraído" la responsabilidad de la llamada a la API y su implementación a otro módulo.

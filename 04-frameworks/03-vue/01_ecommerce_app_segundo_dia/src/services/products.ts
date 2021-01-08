@@ -2,9 +2,9 @@ import { Product } from '@/types'
 
 export const productService = {
   async get(): Promise<Product[]> {
-    const books: Product[] = await import(
-      /* webpackChunkName: "books" */ './books.mock.json'
-    ).then(module => module.default)
+    const books: Product[] = await fetch('./books.mock.json').then(response =>
+      response.json()
+    )
     return books
   },
 }

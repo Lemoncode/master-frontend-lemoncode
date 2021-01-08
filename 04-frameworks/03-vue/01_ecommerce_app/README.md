@@ -1,5 +1,9 @@
 # 01_ecommerce_app
 
+<img src="./screenshot.png" width="800px" />
+
+## Inicio
+
 ```
 vue create <name>
 # Con el siguiente preset: (opcional, pero recomendado para el máster)
@@ -417,7 +421,7 @@ Con ese cambio deberíamos ver ya una lista de _lorem ipsums_ en la pantalla. Va
   <ul>
     <li v-for="product in list" :key="product.id">
 -      {{ product.title }}
-+       <h2>
++      <h2>
 +        {{ product.title }}
 +      </h2>
 +      <p>
@@ -446,10 +450,10 @@ Para darle un aspecto más real, añadiremos una imagen y un poco más de estruc
        <!-- Añadimos una capa de contenedor y unas clases -->
 +      <article class="grid product-container card">
 +        <div class="image">
-+          <img :src="`https://picsum.photos/id/${product.id}/+200`" alt="" />
++          <img :src="`https://picsum.photos/id/${product.id}/200`" alt="" />
 +        </div>
 +        <div class="product-container__content">
-+          <!-- Aquí los datos que acabábamos de añadir -->
+...          <!-- Aquí los datos que acabábamos de añadir -->
 +        </div>
 +        <div class="flex product-container__aside">
 +          <div class="text-align-end aside__price">
@@ -481,8 +485,9 @@ Y en el mismo archivo `.vue`, unos estilos:
 
 #### Siguientes pasos:
 
-- Comprobar cómo se carga el JSON desde la ventana de Red de las DevTools del navegador.
-- Añadir computed property `totalProducts`
-- Binding de clases de manera dinámica: `product.discount !== '0.0',`
-- Añadir un botón de compra como componente, `AddToCartButton`
-- Añadir la página detalle
+- [ ] Añadir computed property `totalProducts`
+- [ ] Binding de clases de manera dinámica: `product.discount !== '0.0',`
+- [ ] Añadir un botón de compra como componente, `AddToCartButton`
+- [ ] Añadir la página detalle
+- [ ] cambiar dynamic import a fetch de /public, luego a fetch de [raw.githubusercontent.com](https://raw.githubusercontent.com/Lemoncode/master-frontend-lemoncode/master/04-frameworks/03-vue/01_ecommerce_app_final/public/books.mock.json).
+- [ ] Comprobar cómo se carga el JSON desde la ventana de Red de las DevTools del navegador.

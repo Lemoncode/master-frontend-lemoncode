@@ -1,5 +1,5 @@
-export type Price = string
-export type ProductId = string
+type Price = string
+type ProductId = string
 
 export interface Product {
   id: ProductId

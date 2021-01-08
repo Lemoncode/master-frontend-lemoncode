@@ -7,31 +7,40 @@
 
     <ul class="product-list">
       <li v-for="product in list" :key="product.id">
-        <article class="grid product-container card">
-          <div class="image">
-            <img :src="`https://picsum.photos/id/${product.id}/200`" alt="" />
-          </div>
-          <div class="product-container__content">
-            <h2>
-              {{ product.title }}
-            </h2>
-            <p>
-              <span class="grey-text">Author: </span>
-              <strong>{{ product.author }}</strong>
-            </p>
-            <p>
-              <span class="grey-text">Publisher: </span>
-              {{ product.publisher }}
-            </p>
-            <p><span class="grey-text">Year: </span>{{ product.published }}</p>
-          </div>
-          <div class="flex product-container__aside">
-            <div class="text-align-end aside__price">
-              <StaticPrice :quantity="product.price" />
+        <router-link :to="`/detail/${product.id}`">
+          <article
+            class="grid product-container card"
+            :class="{
+              'product-container--has-discount': product.discount !== '0.0',
+            }"
+          >
+            <div class="image">
+              <img :src="`https://picsum.photos/id/${product.id}/200`" alt="" />
             </div>
-            <AddToCartButton :product="product" @addItem="onAddItem" />
-          </div>
-        </article>
+            <div class="product-container__content">
+              <h2>
+                {{ product.title }}
+              </h2>
+              <p>
+                <span class="grey-text">Author: </span>
+                <strong>{{ product.author }}</strong>
+              </p>
+              <p>
+                <span class="grey-text">Publisher: </span>
+                {{ product.publisher }}
+              </p>
+              <p>
+                <span class="grey-text">Year: </span>{{ product.published }}
+              </p>
+            </div>
+            <div class="flex product-container__aside">
+              <div class="text-align-end aside__price">
+                <StaticPrice :quantity="product.price" />
+              </div>
+              <AddToCartButton :product="product" @addItem="onAddItem" />
+            </div>
+          </article>
+        </router-link>
       </li>
     </ul>
   </section>
@@ -87,5 +96,8 @@ export default defineComponent({
 .aside__price {
   margin-top: 2rem;
   padding: 0.7em 0;
+}
+.product-container--has-discount {
+  background-color: rgba(yellow, 0.5);
 }
 </style>

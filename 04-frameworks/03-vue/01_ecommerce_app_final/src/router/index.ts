@@ -9,7 +9,11 @@ const routes: Array<RouteRecordRaw> = [
     component: Home,
     name: 'Home',
   },
-  { path: '/detail/:id', component: Detail, name: 'Detail' },
+  {
+    path: '/detail/:id',
+    component: () => import('../views/Detail.vue'),
+    name: 'Detail',
+  },
 ]
 
 const router = createRouter({

@@ -230,3 +230,208 @@ En `ProductList` toca implementar el _callback_ `onAddItem`. Añadimos lo siguie
 ```
 
 ## Binding de atributos dinámicos
+
+En cada objeto Product hay información sobre sus descuentos. Vamos a darles algún distintivo para que se vea desde la vista. Por ejemplo, un color diferente (UX... :P)
+
+Dentro de cada `li`, al `article` le vamos a "bindear" una clase.
+
+```diff
+-        <article class="grid product-container card">
++        <article
++          class="grid product-container card"
++          :class="{
++            'product-container--has-discount': product.discount !== '0.0',
++          }"
++        >
+
+```
+
+Podemos bindear cualquier atributo de manera dinámica, pero `:class` es un poco especial. Lo más normal es que le pasemos un objeto.
+
+- Las `keys` son las clases a asignar
+- el `value` es una expresión de JS que se analiza como booleana. Si es "truthy", se asigna la clase; si no, se borra o no se llega a asignar. De esta manera podemos hacer `toggling` de clases en Vue.
+
+Añadiremos esa clase en los estilos:
+
+```scss
+/* Por ejemplo: */
+.product-container--has-discount {
+  background-color: rgba(yellow, 0.5);
+}
+```
+
+Podemos bindear estilos directamente también, si lo necesitamos, pero es más común colocar los estilos en los SFC en la sección de estilos, ya que gracias a los "`scoped` styles", no necesitamos usar estilos en línea. Pero si quisíeramos asignar una `background-image`, con un valor dinámico, por ejemplo, haríamos:
+
+```vue
+<template>
+  <div
+    class="card"
+    :style="{
+      backgroundImage: `url(${this.imageSrc})`,
+      backgroundPosition: 'center',
+    }"
+  >
+    <!-- ... -->
+  </div>
+</template>
+```
+
+Como vemos, usa sintaxis de objetos de JS.
+
+Para bindear cualquier otro atributo, usaremos la directiva `v-bind`. Pero os dejo unos enlaces, ya que ahora no lo vamos a ver:
+
+- https://v3.vuejs.org/guide/class-and-style.html#class-and-style-bindings
+- https://v3.vuejs.org/api/directives.html#v-bind
+
+Nota: son enlaces de la documentación de v3, tal y como está publicada ahora. En el futuro puede que la URL sea diferente: sin el subdominio `v3`.
+
+## Dynamic routes
+
+Por último, en la sesión de hoy vamos a añadir una ruta nueva en nuestra página. Será la ruta "detalle" de cada elemento de la lista, la página de cada producto.
+
+en nuestro `src/router/index.ts`, vamos a añadir un registro nuevo:
+
+```diff
+const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/',
+    component: Home,
+    name: 'Home',
+  },
++ {
++   path: '/detail/:id',
++   component: () => import('../views/Detail.vue'),
++   name: 'Detail',
++ },
+]
+```
+
+La ruta será `/detail/` y el `id` de cada `Product`. Por ejemplo, en desarrollo: `http://localhost:8080/detail/42`.
+
+Un detalle muy importante a tener en cuenta es el uso de synamic imports. Eso hará que cuando webpack compile nuestra aplicación, no inlcuya esa vista en el _bundle_ principal, sino como un "chunk" separado: no queremos que se carguen todas las páginas de primeras, por temas de _performance_.
+
+Vamos a implementar la vista de `Detail` en `src/views/Detail.vue`:
+
+```vue
+<template>
+  <div class="grid">
+    <div>
+      <img :src="`https://picsum.photos/id/${id}/600`" alt="" />
+    </div>
+    <div v-if="product">
+      <h1>{{ product.title }}</h1>
+      <p class="flex">Price:&nbsp;<StaticPrice :quantity="product.price" /></p>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+import { RouteLocation } from 'vue-router'
+import { Product } from '@/types'
+import { productService } from '@/services/products'
+
+import StaticPrice from '@/components/StaticPrice.vue'
+
+export default defineComponent({
+  components: {
+    StaticPrice,
+  },
+  data: () => ({
+    product: {} as Product,
+  }),
+  computed: {
+    id(): string {
+      return String((this.$route as RouteLocation).params.id)
+    },
+  },
+  created() {
+    productService.getProduct(this.id).then((product: Product | undefined) => {
+      if (product) {
+        this.product = product
+      }
+    })
+  },
+})
+</script>
+```
+
+- Vemos que estamos usando el lifeclycle hook `created` para hacer una llamada a la API, con un método del `productService` que no hemos creado todavía. Enseguida lo implementaremos.
+- Hacemos uso de `computed properties` una vez más para reasignar datos de la instancia del componente.
+- La plantilla no tiene mucho de momento, una imagen, el título y el precio...
+
+No he conseguido hacer funcionar correctamente el Router con TS... TS + Vue 3 de manera global, por eso estaba importando los tipos aquí :(
+
+Ahora, haremos que al clickar en un producto nos lleve a la página de detalle: En `ProductList`, para ello, encerraremos a cada `article > li` en un `<router-link>`. Es un componente que registra Vue Router de manera global, al igual que `<router-view />`:
+
+```diff
++        <router-link :to="`/detail/${product.id}`">
+...        <!--  <article>...</article> -->
++        </router-link>
+```
+
+En el código compilado esto se comportará como un link normal (`<a>`), pero será Javascript el que haga la navegación, usando la History API.
+
+De esta manera, mantenemos nuestro markup semántico.
+
+Como decíamos, tenemos que implementar el método `productService.getProduct` o de lo contrario, nos saltará un error.
+
+Vamos a hacer el filtrado en cliente, aunque normalmente sería un endpoint diferente para hacer una query en el lado del servidor o algo similar:.
+
+Añadimos una propiedad más en el objeto
+
+```ts
+// src/services/products.ts
+export const productService = {
+  // ...async get() {},
+  async getProduct(id: Product['id']): Promise<Product | undefined> {
+    if (!id) throw new Error('id is required')
+    // usamos el mismo `get` que ya teníamos
+    return this.get().then(list => {
+      return list.find((item: Product) => String(item.id) === String(id))
+    })
+  },
+}
+```
+
+### `Unexpected token < in JSON at position 0`
+
+En este punto me dio un error el `fetch`: `Unexpected token < in JSON at position 0`. Podemos solucionarlo de la siguiente manera:
+
+- Movemos el `json` a la carpeta `/public`, que para eso está: _assets_ estáticos.
+- Y haremos los siguientes cambios en el método `get()`:
+
+```diff
+-    const books: Product[] = await fetch('./books.mock.json', {
++    const books: Product[] = await fetch('/books.mock.json', {
++      headers: {
++        Accept: 'application/json',
++      },
+     }).then(response => response.json())
+     return books
+```
+
+Hemos cambiado la ruta relativa a una absoluta y le especificamos el tipo de contenido que solicitamos.
+
+El _product service_ quedaría así:
+
+```ts
+import { Product } from '@/types'
+
+export const productService = {
+  async get(): Promise<Product[]> {
+    const books = await fetch('/books.mock.json', {
+      headers: {
+        Accept: 'application/json',
+      },
+    }).then(m => m.json())
+    return books
+  },
+  async getProduct(id: Product['id']): Promise<Product | undefined> {
+    if (!id) throw new Error('id is required')
+    return this.get().then(list => {
+      return list.find((item: Product) => String(item.id) === String(id))
+    })
+  },
+}
+```

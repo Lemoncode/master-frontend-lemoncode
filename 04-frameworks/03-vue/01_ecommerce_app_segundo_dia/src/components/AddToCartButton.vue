@@ -1,5 +1,5 @@
 <template>
-  <button class="button" type="button" @click="addItem()">
+  <button class="button" type="button" @click.stop="addItem()">
     Add to Cart
   </button>
 </template>

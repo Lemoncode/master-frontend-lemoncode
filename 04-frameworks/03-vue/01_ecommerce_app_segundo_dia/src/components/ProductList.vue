@@ -47,31 +47,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, Ref, ref } from 'vue'
-import { productService } from '@/services/products'
+import { defineComponent } from 'vue'
 import { Product } from '@/types'
 
 import AddToCartButton from '@/components/AddToCartButton.vue'
 import StaticPrice from '@/components/StaticPrice.vue'
 
+import useProductsApi from '@/use/productsApi'
+
 export default defineComponent({
   components: { AddToCartButton, StaticPrice },
   async setup() {
-    const list: Ref<Product[]> = ref([])
-
-    try {
-      // only to avoid having to use Suspense:
-      // if you do `async setup()`, you need to use Suspense.
-      // because then setup wouldn't return an object, but a promise of an object!
-      // so you could do:
-      // ;(async () => (list.value = await productService.get()))()
-      // and return an object with a ref!
-      list.value = await productService.get()
-    } catch (error) {
-      console.log(error)
-    }
-
-    const totalProducts = computed<number>(() => list.value.length)
+    const { list, totalProducts } = await useProductsApi()
 
     const onAddItem = (product: Product) => {
       console.log(product.title)

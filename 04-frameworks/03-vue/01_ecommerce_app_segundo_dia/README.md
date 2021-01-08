@@ -435,3 +435,87 @@ export const productService = {
   },
 }
 ```
+
+## Vue 3
+
+Por hoy, como hemos dicho al principio, no vamos a añadir más features en la app de ecommerce. Pero vamos a empezar a usar la nueva tecnología de Vue 3: Composition API.
+
+Volvemos a los slides, para ver una pequeña introducción.
+
+---
+
+Nota, no es recomendable hacer un refactor de aplicaciones completas a la Composition API, ya que ambas no son excluyentes. Y la composition API no reemplaza a la Options API (basada en objetos).
+
+Por ejemplo, un refactor del ProductList:
+
+```vue
+<script lang="ts">
+import { defineComponent, computed, Ref, ref } from 'vue'
+import { productService } from '@/services/products'
+import { Product } from '@/types'
+
+import AddToCartButton from '@/components/AddToCartButton.vue'
+import StaticPrice from '@/components/StaticPrice.vue'
+
+export default defineComponent({
+  components: { AddToCartButton, StaticPrice },
+  async setup() {
+    const list: Ref<Product[]> = ref([])
+    list.value = await productService.get()
+
+    const totalProducts = computed<number>(() => list.value.length)
+
+    const onAddItem = (product: Product) => {
+      console.log(product.title)
+    }
+
+    return {
+      list,
+      totalProducts,
+      onAddItem,
+    }
+  },
+})
+</script>
+```
+
+El único problema es que hemos dado con un caso particular. Cuando utilizamos `setup` con `async`, no devuelve un objeto, sino una promesa. Por lo tanto, necesitamos usar el componente `Suspense` que viene con Vue 3, alrededor de `ProductList`, para que funcione:
+
+```diff
+  <template>
+    <div class="home">
+-     <ProductList />
++     <div v-if="error">Error :(</div>
++     <Suspense>
++       <template #default>
++         <ProductList />
++       </template>
++       <template #fallback>loading...</template>
++     </Suspense>
+    </div>
+  </template>
+
+  <script lang="ts">
+- import { defineComponent } from 'vue'
++ import { defineComponent, onErrorCaptured, ref, Ref } from 'vue'
+  import ProductList from '@/components/ProductList.vue'
+
+  export default defineComponent({
+    name: 'Home',
+    components: {
+      ProductList,
+    },
++   setup() {
++     const error: Ref<unknown> = ref()
++     onErrorCaptured(errorCaptured => {
++       error.value = errorCaptured
++     })
++     return {
++       error,
++     }
++   },
+  })
+  </script>
+```
+
+De esta manera, tenemos una forma de controlar el estado de "cargando" y los errores que devolvería promesa.

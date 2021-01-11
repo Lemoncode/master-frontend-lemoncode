@@ -1,8 +1,8 @@
 import { createStore } from 'vuex'
+import CartModule from './Cart'
 
 export default createStore({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {},
+  modules: {
+    CartModule,
+  },
 })

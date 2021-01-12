@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Web Components</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Web Componentes</h1>
+    <p>Shadow Root</p>
+    
+    <template id="searchbar-template">
+      <input type="text" placeholder="Search..." class="field" />
+      <div class="icons-container">
+        <slot name="searchbar-icon-slot"><div class="icon-search"></div></slot>
+      </div>
+      <style>
+      .container {
+        position: relative;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        width: 150px;
+        height: 30px;
+      }
+      
+      .field {
+        width: 100%;
+        height: 100%;
+        border-radius: 3px;
+      }
+      
+      .icons-container {
+        position: absolute;
+        top: 5px;
+        right: -10px;
+        width: 30px;
+        height: 30px;
+      }
+      
+      .icon-search {
+        position: relative;
+        width: 50%;
+        height: 50%;
+        opacity: 1;
+        border-radius: 50%;
+        border: 3px solid #c7d0f8;
+      }
+      
+      .icon-search:after {
+        content: "";
+        position: absolute;
+        bottom: -9px;
+        right: -2px;
+        width: 4px;
+        border-radius: 3px;
+        transform: rotate(-45deg);
+        height: 10px;
+        background-color: #c7d0f8;
+      }
+      </style>
+    </template>
+
+
+    <div></div>
+
+    <!-- <slot name="searchbar-icon-slot"><div class="icon-search"></div></slot> -->
+
+    <search-bar id="searchbar" ph="buscar..."></search-bar>
+    <search-bar id="searchbar2" ph="buscar...">
+      <span slot="searchbar-icon-slot">
+        <div class="icon-another"></div>
+        <style>
+        .icon-another {
+          position: relative;
+          width: 50%;
+          height: 50%;
+          opacity: 1;
+          border-radius: 50%;
+          border: 3px solid #cbf8c7;
+        }
+        .icon-another:after {
+          content: "";
+          position: absolute;
+          bottom: -9px;
+          right: -2px;
+          width: 4px;
+          border-radius: 3px;
+          transform: rotate(-45deg);
+          height: 10px;
+          background-color: #f8c7e9;
+        }
+        </style>
+      </span>
+    </search-bar>
+
+  </div>  
+  <script src="searchbar.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

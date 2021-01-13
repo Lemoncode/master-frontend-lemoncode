@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div v-if="error">Error :(</div>
-    <Suspense>
+    <Suspense v-else>
       <template #default>
         <ProductList />
       </template>
@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onErrorCaptured, ref, Ref } from 'vue'
+import { defineComponent, onErrorCaptured, Ref, ref } from 'vue'
 import ProductList from '@/components/ProductList.vue'
 
 export default defineComponent({
@@ -24,6 +24,7 @@ export default defineComponent({
     onErrorCaptured(errorCaptured => {
       error.value = errorCaptured
     })
+
     return {
       error,
     }

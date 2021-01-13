@@ -5,6 +5,8 @@
       total: {{ totalProducts }}
     </div>
 
+    Cart: {{ totalItemsInCart }}
+
     <ul class="product-list">
       <li v-for="product in list" :key="product.id">
         <router-link :to="`/detail/${product.id}`">
@@ -37,7 +39,7 @@
               <div class="text-align-end aside__price">
                 <StaticPrice :quantity="product.price" />
               </div>
-              <AddToCartButton :product="product" @addItem="onAddItem" />
+              <AddToCartButton :product="product" />
             </div>
           </article>
         </router-link>
@@ -48,26 +50,35 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { Product } from '@/types'
-
-import AddToCartButton from '@/components/AddToCartButton.vue'
-import StaticPrice from '@/components/StaticPrice.vue'
+import { mapGetters } from 'vuex'
 
 import useProductsApi from '@/use/productsApi'
 
+import StaticPrice from '@/components/StaticPrice.vue'
+import AddToCartButton from '@/components/AddToCartButton.vue'
+import { CartItem } from '@/store/Cart'
+
 export default defineComponent({
-  components: { AddToCartButton, StaticPrice },
+  name: 'ProductList',
+  components: {
+    StaticPrice,
+    AddToCartButton,
+  },
+  computed: {
+    ...mapGetters('CartModule', ['items']),
+    totalItemsInCart() {
+      const cartItems: CartItem[] = Object.values(this.items || {})
+      return cartItems.reduce((acc: number, item: CartItem) => {
+        return item.quantity + acc
+      }, 0)
+    },
+  },
   async setup() {
     const { list, totalProducts } = await useProductsApi()
-
-    const onAddItem = (product: Product) => {
-      console.log(product.title)
-    }
 
     return {
       list,
       totalProducts,
-      onAddItem,
     }
   },
 })

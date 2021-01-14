@@ -20,6 +20,7 @@ describe('useUser specs', () => {
     expect(result.current.setUser).toEqual(expect.any(Function));
 
     await waitForNextUpdate();
+
     const updatedUser: User = {
       name: 'Jane',
       surname: 'Smith',
@@ -35,7 +36,9 @@ describe('useUser specs', () => {
     };
 
     // Act
-    const { result, waitForNextUpdate } = renderHook(() => useUser(initialUser));
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useUser(initialUser)
+    );
 
     await waitForNextUpdate();
 

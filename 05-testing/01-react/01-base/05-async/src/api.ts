@@ -13,5 +13,4 @@ export const getMembers = (): Promise<Member[]> =>
         case 503:
           throw 'Unavailable service';
       }
-    })
-    .catch((error) => console.log(error));
+    });

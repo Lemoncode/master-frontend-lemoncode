@@ -26,7 +26,7 @@ export const usePolling = () => {
     // Simulate calls to api and count it
     const interval = setInterval(() => {
       setCount(c => c + 1);
-    }, 1000);
+    }, 500);
 
     return () => {
       clearInterval(interval);
@@ -88,7 +88,7 @@ describe('usePolling specs', () => {
 +   // Act
 +   const { result, waitForNextUpdate } = renderHook(() => usePolling());
 
-+   await waitForNextUpdate();
++   await waitForNextUpdate({ timeout: 1500 });
 
 +   // Assert
 +   expect(result.current.count).toEqual(1);
@@ -110,7 +110,7 @@ describe('usePolling specs', () => {
 
 +   await waitForNextUpdate();
 +   await waitForNextUpdate();
-+   await waitForNextUpdate();
++   await waitForNextUpdate({ timeout: 1500 });
 
 +   // Assert
 +   expect(result.current.count).toEqual(3);
@@ -133,8 +133,10 @@ describe('usePolling specs', () => {
 
 -   await waitForNextUpdate();
 -   await waitForNextUpdate();
--   await waitForNextUpdate();
-+   await waitForValueToChange(() => result.current.count === 3);
+-   await waitForNextUpdate({ timeout: 1500 });
++   await waitForValueToChange(() => result.current.count === 3, {
++     timeout: 2000,
++   });
 
     // Assert
     expect(result.current.count).toEqual(3);

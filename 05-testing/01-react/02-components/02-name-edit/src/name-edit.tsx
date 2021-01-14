@@ -6,7 +6,7 @@ export const NameEdit: React.FunctionComponent = () => {
   return (
     <>
       <h3>{userName}</h3>
-      <input value={userName} onChange={(e) => setUserName(e.target.value)} />
+      <input value={userName} onChange={e => setUserName(e.target.value)} />
     </>
   );
 };

@@ -12,7 +12,6 @@ describe('Calculator tests', () => {
       // Arrange
       const a = 2;
       const b = 2;
-      const isLowerThanFive = jest.fn();
 
       // Act
       const result = calculator.add(a, b);

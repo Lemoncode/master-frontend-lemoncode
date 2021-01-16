@@ -156,7 +156,7 @@ _./.env_
 ```diff
 NODE_ENV=development
 PORT=8081
-+STRIPE_SECRET=sk_test_51I6CyeIc8xc9b5x9hrN1OdIlGHHnTs94RBiIBsbHSkMAZGU7hP8WwFnO7kRsq3IKQx8SrW5DOs0dTaDzQZWXon8O00g5kpYFnW
++STRIPE_SECRET=sk_test_4eC39HqLyjWDarjtT1zdp7dc
 ```
 
 Y enlazarla a nuestro fichero de constantes:
@@ -330,7 +330,7 @@ _./src/static/index.html_
 +    // Aquí usamos la clave publica de stripe que hay genérica
 +    // En el siguiente ejemnplo reemplazaremos por la nuestra
 +    // Es buena idea en un proyecto que tenga proceso de bundling meter este valor en una variable de entorno
-+    var stripe = Stripe("pk_test_51I6CyeIc8xc9b5x9DsxHWsyhdQboii2rEzrq9vM1Ow2HEiikCdFaBFYNS6mVtdqSflmGbaMzm0RLFVtQJAjz8BVp00oP25tBjQ");
++    var stripe = Stripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 +    var checkoutButton = document.getElementById("checkout-button");
 +
 +    checkoutButton.addEventListener("click", function () {

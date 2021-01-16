@@ -7,13 +7,13 @@ describe('dummy specs', () => {
     // Assert
     expect(true).toBeTruthy();
   });
-});
 
-it('should fail spec', () => {
-  // Arrange
+  it('should fail spec', () => {
+    // Arrange
 
-  // Act
+    // Act
 
-  // Assert
-  expect(true).toBeFalsy();
+    // Assert
+    expect(true).toBeFalsy();
+  });
 });

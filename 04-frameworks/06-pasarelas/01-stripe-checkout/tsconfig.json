@@ -9,6 +9,7 @@
     "noLib": false,
     "allowJs": true,
     "suppressImplicitAnyIndexErrors": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "baseUrl": "./src"

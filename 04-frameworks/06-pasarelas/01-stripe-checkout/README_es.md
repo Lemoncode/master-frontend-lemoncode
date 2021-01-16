@@ -14,6 +14,8 @@ Vamos a configurar el kiosko de stripe (checkout) para hacer una compra (sin not
 npm install stripe --save
 ```
 
+- Y sus typings:
+
 - Creamos una hoja de estilo para que nuestras páginas tengan buena pinta (la del ejemplo de Stripe):
 
 _./src/public/style.css_
@@ -112,7 +114,6 @@ _./static/index.html_
     <title>Buy cool new product</title>
     <link rel="stylesheet" href="style.css" />
     <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
-    <script src="https://js.stripe.com/v3/"></script>
   </head>
   <body>
     <section>
@@ -150,7 +151,220 @@ npm start
 
 Para este ejemplo vamos a usar una clave genérica de stripe:
 
-__
+_./.env_
+
+```diff
+NODE_ENV=development
+PORT=8081
++STRIPE_SECRET=sk_test_51I6CyeIc8xc9b5x9hrN1OdIlGHHnTs94RBiIBsbHSkMAZGU7hP8WwFnO7kRsq3IKQx8SrW5DOs0dTaDzQZWXon8O00g5kpYFnW
+```
+
+Y enlazarla a nuestro fichero de constantes:
+
+_./env.constants.ts_
+
+```diff
+export const envConstants = {
+  NODE_ENV: process.env.NODE_ENV,
+  PORT: process.env.PORT,
++ STRIPE_SECRET: process.env.STRIPE_SECRET
+};
+```
+
+- Y en el lado de los endpoints vamos a traernos stripes, como vamos a usar el import en modo genérico, vamos a configurar esto en nuetro tsconfig
+
+_./tsconfig.json_
+
+```diff
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "es6",
+    "moduleResolution": "node",
+    "declaration": false,
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "noLib": false,
+    "allowJs": true,
+    "suppressImplicitAnyIndexErrors": true,
++    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "baseUrl": "./src"
+  },
+  "include": ["src/**/*"]
+}
+```
+
+- Vamos ahora a nuestro fichero de _api_ e importarnos Stripe, configurandolo con la cuenta que acabamos de introducir en nuestra variable de entorno.
+
+```diff
+
+import { Router } from 'express';
++ import Stripe from 'stripe';
+
++ // https://github.com/stripe/stripe-node#usage-with-typescript
++ const stripe = new Stripe(envConstants.STRIPE_SECRET, {
++  apiVersion: '2020-08-27',
++ });
+
+export const api = Router();
+
+api.get('/', async (req, res) => {
+  res.send({ id: '1', name: 'test data' });
+});
+```
+
+- Vamos ahora a crear un endpoint que se llame _checkout_ que sera el que le pida a stripe crear una nueva sesión y nos devolvera un
+  session Id de stripe que devolveremos a cliente, a destacar aquí:
+
+  - Le decimos que sólo aceptamos tarjeta de crédito.
+  - Le indicamos nuestro carrito de la compra (así Stripe lo muestra para confirmar).
+  - Le indicamos lo que cuesta.
+  - Le indicamos la dirección de ok y ko (transacción completada con éxito, o transacción errónea)
+
+_./src/api.ts_
+
+```diff
+api.get('/', async (req, res) => {
+  res.send({ id: '1', name: 'test data' });
+});
+
++ api.post('/api/create-checkout-session', async (req, res) => {
++  const session = await stripe.checkout.sessions.create({
++    payment_method_types: ['card'],
++    line_items: [
++      {
++        price_data: {
++          currency: 'usd',
++          product_data: {
++            name: 'Stubborn Attachments',
++            images: ['https://i.imgur.com/EHyR2nP.png'],
++          },
++          unit_amount: 2000,
++        },
++        quantity: 1,
++      },
++    ],
++    mode: 'payment',
++    success_url: `http://localhost:${envConstants.PORT}/success.html`,
++    cancel_url: `http://localhost:${envConstants.PORT}/cancel.html`,
++  });
++
++  res.json({ id: session.id });
++});
+```
+
+- Vamos a definir la página de exito y la de error:
+
+_./src/static/success.html_
+
+```html
+<html>
+  <head>
+    <title>Thanks for your order!</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section>
+      <p>
+        We appreciate your business! If you have any questions, please email
+        <a href="mailto:orders@example.com">orders@example.com</a>.
+      </p>
+    </section>
+  </body>
+</html>
+```
+
+_./src/static/error.html_
+
+```html
+<html>
+  <head>
+    <title>Checkout canceled</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section>
+      <p>
+        Forgot to add something to your cart? Shop around then come back to pay!
+      </p>
+    </section>
+  </body>
+</html>
+```
+
+- Volvemos a la página en la que teníamos el botón de compra y vamos a manejar ese botón con Javascript:
+  - Nos traemos el SDK de stripe en cliente de una CDN (es la forma que te indica stripe no es aconsejable meterlo en un bundle)
+  - Llamamos a nuetro backend al endpoint de checkout.
+  - Obtenemos el id de sesión de Stripe.
+  - Redirigimos a la pasarela de Stripe.
+  - Stripe ya tiene el mando, nos redirigirá a la página de success o de cancel según se complete la operación.
+
+_./src/static/index.html_
+
+```diff
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Buy cool new product</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
++    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body>
+    <section>
+      <div class="product">
+        <img
+          src="https://i.imgur.com/EHyR2nP.png"
+          alt="The cover of Stubborn Attachments"
+        />
+        <div class="description">
+          <h3>Stubborn Attachments</h3>
+          <h5>$20.00</h5>
+        </div>
+      </div>
+      <button id="checkout-button">Checkout</button>
+    </section>
++  <script type="text/javascript">
++    // Aquí usamos la clave publica de stripe que hay genérica
++    // En el siguiente ejemnplo reemplazaremos por la nuestra
++    // Es buena idea en un proyecto que tenga proceso de bundling meter este valor en una variable de entorno
++    var stripe = Stripe("pk_test_51I6CyeIc8xc9b5x9DsxHWsyhdQboii2rEzrq9vM1Ow2HEiikCdFaBFYNS6mVtdqSflmGbaMzm0RLFVtQJAjz8BVp00oP25tBjQ");
++    var checkoutButton = document.getElementById("checkout-button");
++
++    checkoutButton.addEventListener("click", function () {
++      fetch("/create-checkout-session", {
++        method: "POST",
++      })
++        .then(function (response) {
++          return response.json();
++        })
++        .then(function (session) {
++          return stripe.redirectToCheckout({ sessionId: session.id });
++        })
++        .then(function (result) {
++          // If redirectToCheckout fails due to a browser or network
++          // error, you should display the localized error message to your
++          // customer using error.message.
++          if (result.error) {
++            alert(result.error.message);
++          }
++        })
++        .catch(function (error) {
++          console.error("Error:", error);
++        });
++    });
++  </script>
+  </body>
+</html>
+```
+
+- Vamos a probar que el proceso funciona.
+
+```bash
+npm start
+```
 
 # ¿Con ganas de ponerte al día con Backend?
 

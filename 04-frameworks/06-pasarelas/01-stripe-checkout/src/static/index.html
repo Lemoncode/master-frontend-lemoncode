@@ -20,5 +20,37 @@
       </div>
       <button id="checkout-button">Checkout</button>
     </section>
+    <script type="text/javascript">
+      // Aquí usamos la clave publica de stripe que hay genérica
+      // En el siguiente ejemnplo reemplazaremos por la nuestra
+      // Es buena idea en un proyecto que tenga proceso de bundling meter este valor en una variable de entorno
+      var stripe = Stripe(
+        'pk_test_51I6CyeIc8xc9b5x9DsxHWsyhdQboii2rEzrq9vM1Ow2HEiikCdFaBFYNS6mVtdqSflmGbaMzm0RLFVtQJAjz8BVp00oP25tBjQ'
+      );
+      var checkoutButton = document.getElementById('checkout-button');
+
+      checkoutButton.addEventListener('click', function () {
+        fetch('/api/create-checkout-session', {
+          method: 'POST',
+        })
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (session) {
+            return stripe.redirectToCheckout({ sessionId: session.id });
+          })
+          .then(function (result) {
+            // If redirectToCheckout fails due to a browser or network
+            // error, you should display the localized error message to your
+            // customer using error.message.
+            if (result.error) {
+              alert(result.error.message);
+            }
+          })
+          .catch(function (error) {
+            console.error('Error:', error);
+          });
+      });
+    </script>
   </body>
 </html>

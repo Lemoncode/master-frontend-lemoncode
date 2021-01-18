@@ -225,7 +225,6 @@ _./webpack.config.js_
 +         {
 +            loader: "css-loader",
 +            options: {
-+              import: false,
 +              modules: true,
 +            },
 +          },
@@ -253,7 +252,7 @@ _./src/averageComponent.jsx_
 ```diff
 import React from 'react';
 import { getAvg } from './averageService';
-+ const classes = require('./averageComponentStyles.scss').default;
++ import classes from "./averageComponentStyles.scss";
 
 export const AverageComponent: React.FunctionComponent = () => {
   ...
@@ -277,7 +276,7 @@ _./src/totalScoreComponent.jsx_
 ```diff
 import React from 'react';
 import { getTotalScore } from './averageService';
-+ const classes = require('./totalScoreComponentStyles.scss').default;
++ import classes from './totalScoreComponentStyles.scss';
 
 export const TotalScoreComponent: React.FunctionComponent = () => {
   ...
@@ -317,11 +316,10 @@ _./webpack.config.js_
           {
             loader: "css-loader",
             options: {
-              import: false,
--                            modules: true,
-+              modules: {
-+                exportLocalsConvention: "camelCase",
-+              },
+-             modules: true,
++             modules: {
++               exportLocalsConvention: "camelCase",
++             },
             },
           },
           ...
@@ -341,9 +339,6 @@ _./webpack.config.js_
 _./src/averageComponent.tsx_
 
 ```diff
-- const classes = require("./averageComponentStyles.scss").default;
-+ import classes from "./averageComponentStyles.scss";
-
 ...
   return (
     <div>
@@ -360,9 +355,6 @@ _./src/averageComponent.tsx_
 _./src/totalScoreComponent.tsx_
 
 ```diff
--const classes = require("./totalScoreComponentStyles.scss").default;
-+ import classes from "./totalScoreComponentStyles.scss";
-
 ...
 
   return (
@@ -388,16 +380,18 @@ npm start
   {
     loader: "css-loader",
     options: {
-      import: false,
       modules: {
         exportLocalsConvention: "camelCase",
-+        localIdentName: '[path][name]__[local]--[hash:base64:5]',
-+        localIdentContext: path.resolve(__dirname, 'src'),
-+        localIdentHashPrefix: 'my-custom-hash',
++       localIdentName: '[path][name]__[local]--[hash:base64:5]',
++       localIdentContext: path.resolve(__dirname, 'src'),
++       localIdentHashPrefix: 'my-custom-hash', // Optional
       },
     },
   },
 ```
+> [localIdentName](https://webpack.js.org/loaders/css-loader/#localidentname)
+> [localIdentContext](https://webpack.js.org/loaders/css-loader/#localidentcontext)
+> [localIdentHashPrefix](https://webpack.js.org/loaders/css-loader/#localidenthashprefix)
 
 - If we take a look to the browser console, we can see how webpack transform css class names, adding prefixes (inspect element).
 

@@ -47,18 +47,10 @@ npm install webpack-merge --save-dev
 _webpack.common.js_
 
 ```diff
-module.exports = {
-  context: path.join(basePath, "src"),
-  resolve: {
-    extensions: [".js", ".ts", ".tsx"]
-  },
-- devtool: "eval-source-map",
-  entry: {
-    app: "./index.tsx",
-    appStyles: ["./mystyles.scss"],
-    vendorStyles: ["../node_modules/bootstrap/dist/css/bootstrap.css"]
-  },
+...
+-  devtool: "eval-source-map",
 -  devServer: {
+-    port: 8080,
 -    stats: "errors-only",
 -  },
 ```
@@ -74,8 +66,9 @@ const common = require("./webpack.common.js");
 
 module.exports = merge(common, {
   mode: "development",
-  devtool: "inline-source-map",
+  devtool: "eval-source-map",
   devServer: {
+    port: 8080,
     stats: "errors-only",
   },
 });
@@ -105,11 +98,11 @@ _./package.json_
     "start": "run-p -l type-check:watch start:dev",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
--    "start:dev": "webpack-dev-server --mode development --open",
-+        "start:dev": "webpack serve --mode development --config webpack.dev.js",
--    "build": "rimraf dist && webpack --mode development"
-+    "build:dev": "rimraf dist && webpack --config webpack.dev.js",
-+    "build:prod": "rimraf dist && webpack --config webpack.prod.js"
+-   "start:dev": "webpack serve",
++   "start:dev": "webpack serve --config webpack.dev.js",
+-   "build": "webpack --mode development"
++   "build:dev": "npm run type-check && webpack --config webpack.dev.js",
++   "build:prod": "npm run type-check && webpack --config webpack.prod.js"
   },
 ```
 
@@ -123,6 +116,310 @@ npm run build:dev
 
 ```bash
 npm run build:prod
+```
+
+- Fix app:
+
+_averageService.ts_
+
+```diff
+...
+- const a: number = "this is a string"
+
+```
+
+- Another important change is to use [mini-css-extract-plugin in production](https://webpack.js.org/plugins/mini-css-extract-plugin/#common-use-case) because we can use style-loader in dev mode which it's faster:
+
+_webpack.common.js_
+
+```diff
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+- const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+...
+module: {
+    rules: [
+      ...
+-     {
+-       test: /\.scss$/,
+-       exclude: /node_modules/,
+-       use: [
+-         MiniCssExtractPlugin.loader,
+-         {
+-           loader: "css-loader",
+-           options: {
+-             modules: {
+-               exportLocalsConvention: "camelCase",
+-               localIdentName: "[path][name]__[local]--[hash:base64:5]",
+-               localIdentContext: path.resolve(__dirname, "src"),
+-               localIdentHashPrefix: "my-custom-hash",
+-             },
+-           },
+-         },
+-         {
+-           loader: "sass-loader",
+-           options: {
+-             implementation: require("sass"),
+-           },
+-         },
+-       ],
+-     },
+-     {
+-       test: /\.css$/,
+-       use: [MiniCssExtractPlugin.loader, "css-loader"],
+-     },
+      {
+        test: /\.(png|jpg)$/,
+        type: "asset/resource",
+      },
+      {
+        test: /\.html$/,
+        loader: "html-loader",
+      },
+    ],
+  },
+  plugins: [
+    //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
+    new HtmlWebpackPlugin({
+      filename: "index.html", //Name of file in ./dist/
+      template: "index.html", //Name of template in ./src
+    }),
+    new CleanWebpackPlugin(),
+-   new MiniCssExtractPlugin({
+-     filename: "[name].css",
+-     chunkFilename: "[id].css",
+-   }),
+  ],
+```
+
+_webpack.dev.js_
+
+```diff
+const { merge } = require("webpack-merge");
++ const path = require("path");
+const common = require("./webpack.common.js");
+
+module.exports = merge(common, {
+  mode: "development",
+  devtool: "eval-source-map",
+  devServer: {
+    port: 8080,
+    stats: "errors-only",
+  },
++ module: {
++   rules: [
++     {
++       test: /\.scss$/,
++       exclude: /node_modules/,
++       use: [
++         "style-loader",
++         {
++           loader: "css-loader",
++           options: {
++             modules: {
++               exportLocalsConvention: "camelCase",
++               localIdentName: "[path][name]__[local]--[hash:base64:5]",
++               localIdentContext: path.resolve(__dirname, "src"),
++               localIdentHashPrefix: "my-custom-hash",
++             },
++           },
++         },
++         {
++           loader: "sass-loader",
++           options: {
++             implementation: require("sass"),
++           },
++         },
++       ],
++     },
++     {
++       test: /\.css$/,
++       use: ["style-loader", "css-loader"],
++     },
++   ],
++ },
+});
+
+```
+
+_webpack.prod.js_
+
+```diff
+const { merge } = require("webpack-merge");
++ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
++ const path = require("path");
+const common = require("./webpack.common.js");
+
+module.exports = merge(common, {
+  mode: "production",
+  stats: "verbose",
++ module: {
++   rules: [
++     {
++       test: /\.scss$/,
++       exclude: /node_modules/,
++       use: [
++         MiniCssExtractPlugin.loader,
++         {
++           loader: "css-loader",
++           options: {
++             modules: {
++               exportLocalsConvention: "camelCase",
++               localIdentName: "[path][name]__[local]--[hash:base64:5]",
++               localIdentContext: path.resolve(__dirname, "src"),
++               localIdentHashPrefix: "my-custom-hash",
++             },
++           },
++         },
++         {
++           loader: "sass-loader",
++           options: {
++             implementation: require("sass"),
++           },
++         },
++       ],
++     },
++     {
++       test: /\.css$/,
++       use: [MiniCssExtractPlugin.loader, "css-loader"],
++     },
++   ],
++ },
++ plugins: [
++   new MiniCssExtractPlugin({
++     filename: "[name].css",
++     chunkFilename: "[id].css",
++   }),
++ ],
+});
+
+```
+
+- The `chunkhash` on file names are recommended to use only for production mode:
+
+_webpack.common.js_
+
+```diff
+...
+  output: {
+-   filename: "[name].[chunkhash].js",
+    path: path.resolve(process.cwd(), "dist"),
+    publicPath: "./",
+  },
+...
+
+```
+
+_webpack.dev.js_
+
+```diff
+...
+  devServer: {
+    port: 8080,
+    stats: "errors-only",
+  },
++ output: {
++   filename: "[name].js",
++ },
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                exportLocalsConvention: "camelCase",
+-               localIdentName: "[path][name]__[local]--[hash:base64:5]",
++               localIdentName: "[path][name]__[local]",
+                localIdentContext: path.resolve(__dirname, "src"),
+-               localIdentHashPrefix: "my-custom-hash",
+              },
+...
+```
+
+_webpack.prod.js_
+
+```diff
+...
+module.exports = merge(common, {
+  mode: "production",
+  stats: "verbose",
++ output: {
++   filename: "[name].[chunkhash].js",
++ },
+  module: {
+...
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+-     filename: "[name].css",
++     filename: "[name].[chunkhash].css",
+-     chunkFilename: "[id].css",
++     chunkFilename: "[id].[chunkhash].css",
+    }),
+  ],
+});
+
+```
+
+- Even, we can group output files in folders, let's add an image to app:
+
+_declaration.d.ts_
+
+```diff
+declare module "*.scss";
++ declare module "*.png";
+
+```
+
+_index.tsx_
+
+```diff
+import React from "react";
+import ReactDOM from "react-dom";
+import { AverageComponent } from "./averageComponent";
+import { TotalScoreComponent } from './totalScoreComponent';
++ import logo from './content/logo_1.png';
+
+ReactDOM.render(
+  <div>
+    <h1>Hello from React DOM</h1>
++   <img src={logo} />
+    <AverageComponent />
+    <TotalScoreComponent />
+  </div>,
+  document.getElementById("root")
+);
+
+```
+
+- Group by folders:
+
+_webpack.prod.js_
+
+```diff
+...
+module.exports = merge(common, {
+  mode: "production",
+  output: {
+-   filename: "[name].[chunkhash].js",
++   filename: "js/[name].[chunkhash].js",
++   assetModuleFilename: "images/[hash][ext][query]",
+  },
+...
+  plugins: [
+    new MiniCssExtractPlugin({
+-     filename: "[name].[chunkhash].css",
++     filename: "css/[name].[chunkhash].css",
+      chunkFilename: "[id].[chunkhash].css",
+    }),
+  ],
+});
+
 ```
 
 # About Basefactor + Lemoncode

@@ -48,7 +48,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex'
 
 import useProductsApi from '@/use/productsApi'
 
@@ -60,9 +59,6 @@ export default defineComponent({
   components: {
     StaticPrice,
     AddToCartButton,
-  },
-  computed: {
-    ...mapGetters('CartModule', ['items']),
   },
   async setup() {
     const { list, totalProducts } = await useProductsApi()

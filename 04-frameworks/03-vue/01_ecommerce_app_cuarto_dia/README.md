@@ -1,139 +1,76 @@
 # ecommerce-app
 
-Vamos a seguir con la aplicación donde la dejamos en la ayer. De momento,
+En la última clase no nos dio tiempo de ver Vuex demasiado bien. Hemos preparado una clase para abordar esto y además añadir una feature muy importante de Vue: `v-model` (formularios, en general).
 
-- hemos hecho el _bootstrapping_ de una app con Vue CLI
-- hemos borrado los archivos que venían por defecto ("assets", "components", "views"...)
-- hemos añadido un servicio "dummy" que nos devuelve una JSON
-- hemos añadido el primer componente que hace una llamada a esa lista y la pinta en la vista
-- hemos visto otras features de _Vue_ como "computed properties", "dynamic attributes binding", "custom events"
-- Y hemos ñadido una página nueva en _Vue Router_.
+Vamos a empezar por `v-model`
 
-Hoy el objetivo es:
+## `v-model`
 
-- Haremos un poquito de _refactor_ de nuestra app para usar la "Composition API"
-- Añadiremos más funcionalidad con vuex: carrito
+`v-model` es la manera de sincronizar los formularios de la interfaz con el estado de nuestra aplicación. Lo veremos normalmente asociado a `<input>`s, `<textarea>`s y `<select>`s...; pero también en componentes propios asociados a estos elementos típicos de los formularios.
 
-## Vue 3
-
-Vamos a empezar por aplicar los cambios que vemos en los slides ayer para practicar la Composition API.
-
-Nota, no es recomendable hacer un refactor de aplicaciones completas a la Composition API, ya que ambas no son excluyentes. Y la composition API no reemplaza a la Options API (basada en objetos).
-
-Por ejemplo, un refactor del ProductList:
+Vemos un ejemplo:
 
 ```vue
-<script lang="ts">
-import { defineComponent, computed, Ref, ref } from 'vue'
-import { productService } from '@/services/products'
-import { Product } from '@/types'
+<template>
+  <input type="text" v-model="myName" />
+  <p>Mi nombre es: {{ myName }}</p>
+</template>
 
-import AddToCartButton from '@/components/AddToCartButton.vue'
-import StaticPrice from '@/components/StaticPrice.vue'
-
-export default defineComponent({
-  components: { AddToCartButton, StaticPrice },
-  async setup() {
-    const list: Ref<Product[]> = ref([])
-    list.value = await productService.get()
-
-    const totalProducts = computed<number>(() => list.value.length)
-
-    const onAddItem = (product: Product) => {
-      console.log(product.title)
-    }
-
+<script>
+export default {
+  data() {
     return {
-      list,
-      totalProducts,
-      onAddItem,
+      myName: '',
     }
   },
-})
+}
 </script>
 ```
 
-El único problema es que hemos dado con un caso particular. Cuando utilizamos `setup` con `async`, no devuelve un objeto, sino una promesa. Por lo tanto, necesitamos usar el componente `Suspense` que viene con Vue 3, alrededor de `ProductList`, para que funcione:
+Cada vez que l@s usuari@s cambien el valor del input (escribiendo), el estado del componente cambiara acorde.
+
+Asímismo, cada vez que cambie el valor `myName` dentro de nuestro componente (imaginad, en un `method`), cambiaría el formulario en la interfaz también. Por eso lo llaman "2 way", cambie uno u otro, actualizará su reflejo.
 
 ```diff
   <template>
-    <div class="home">
--     <ProductList />
-+     <div v-if="error">Error :(</div>
-+     <Suspense>
-+       <template #default>
-+         <ProductList />
-+       </template>
-+       <template #fallback>loading...</template>
-+     </Suspense>
-    </div>
+    <input type="text" v-model="myName" />
+    <p>Mi nombre es: {{ myName }}</p>
   </template>
 
-  <script lang="ts">
-- import { defineComponent } from 'vue'
-+ import { defineComponent, onErrorCaptured, ref, Ref } from 'vue'
-  import ProductList from '@/components/ProductList.vue'
-
-  export default defineComponent({
-    name: 'Home',
-    components: {
-      ProductList,
-    },
-+   setup() {
-+     const error: Ref<unknown> = ref()
-+     onErrorCaptured(errorCaptured => {
-+       error.value = errorCaptured
-+     })
-+     return {
-+       error,
-+     }
-+   },
-  })
-  </script>
-```
-
-De esta manera, tenemos una forma de controlar el estado de "cargando" y los errores que devolvería promesa.
-
-Ahora, si queremos, podemos extraer de `ProductList` la lógica de la llamada a la API a su propio "módulo". Normalmente se estructuran estos archivos en una carpeta `src/use/` o en `src/composables/`. Pero la arquitectura está abierta a diferentes implementaciones. Por ejemplo, podemos optar a separar features por "dominios", siguiendo DDD.
-
-El `script` de nuestro `ProductList` quedaría así:
-
-```diff
-  <script lang="ts">
--  import { defineComponent, computed, Ref, ref } from 'vue'
-+  import { defineComponent } from 'vue'
-  import { Product } from '@/types'
-
-  import AddToCartButton from '@/components/AddToCartButton.vue'
-  import StaticPrice from '@/components/StaticPrice.vue'
-+ import useProductsApi from '@/use/productsApi'
-
-  export default defineComponent({
-    components: { AddToCartButton, StaticPrice },
-    async setup() {
--     const list: Ref<Product[]> = ref([])
--     list.value = await productService.get()
--
--     const totalProducts = computed<number>(() => list.value.length)
-+     const { list, totalProducts } = await useProductsApi()
-
-      const onAddItem = (product: Product) => {
-        console.log(product.title)
-      }
-
+  <script>
+  export default {
+    data() {
       return {
-        list,
-        totalProducts,
-        onAddItem,
+        myName: '',
       }
     },
-  })
-  </script>
++   mounted() {
++     this.myName = 'algo'
++   }
+  }
+</script>
 ```
 
-De esta manera, el componente no tiene tanta responsabilidad como tenía antes. Lo que se llama _Dependency Inversion_, si no me equivoco. Ahora, hemos "abstraído" la responsabilidad de la llamada a la API y su implementación a otro módulo.
+Veríamos en la interfaz que el input tiene el valor `algo`.
+
+Algo a tener en cuenta, para finalizar la introducción a `v-model` es: v-model, en realidad es el equivalente a hacer:
+
+```vue
+<template>
+  <textarea :value="myValue" @input="myValue = $event" />
+</template>
+```
+
+Tened en cuenta que:
+
+- el evento `input` (en _Vanilla Javascript_) lo usaríamos en `input`s y `textarea`s
+- pero en un `select` sería el evento `change`...
+
+`v-model` trata todos los casos de los elementos relacionados con los formularios.
 
 ## Vuex
+
+> Esta sección completa está sacada de [la última sesión literalmente](../01_ecommerce_app_tercer_dia/README.md)
 
 Vamos a empezar por añadir un "Store", como habréis visto en otros frameworks, vuex sirve para controlar la gestión de estado global de la aplicación.
 
@@ -143,13 +80,13 @@ Vuex "se sienta" horizontalmente en la app y desde cualquier componente (o pági
 
 Los datos siempre deben fluir en el mismo sentido: `actions -> mutations -> state`. Os recordará a Redux, seguramente. Y es que Vuex y Redux están basados en la ["Flux Arquitecture"](https://facebook.github.io/flux/).
 
-## Actions
+### Actions
 
-Desde los componentes (o páginas) llamamos a "actions", para que se ejecute un cambio de estado. Las `actions` son asíncronas. Por lo tanto, es donde mucha gente coloca llamadas asíncronas. Pero mover toda la lógica de llamadas asíncronas a Vuex... está bien apra proyectos pequeños o medianos, en mi opinión. Personalmente, prefiero usar servicios como hemos hecho en nuestra app de ecommerce.
+Desde los componentes (o páginas) llamamos a "actions", para que se ejecute un cambio de estado. Las `actions` son asíncronas. Por lo tanto, es donde mucha gente coloca llamadas asíncronas. Pero mover toda la lógica de llamadas asíncronas a Vuex... está bien para proyectos pequeños o medianos, en mi opinión. Personalmente, prefiero usar servicios como hemos hecho en nuestra app de ecommerce.
 
 Las `actions` deberían describir acciones que se realizan en la interfaz, como "addToCart()".
 
-## Mutations
+### Mutations
 
 Son las encargadas de editar el estado. Cada `mutation` tiene acceso al state y lo puede mutar. Ejemplo:
 
@@ -167,11 +104,11 @@ Serían el equivalente a los "Reducers" de Redux. Pero la diferencia es que en R
 
 Fuente: https://github.com/facebook/flux/tree/master/examples/flux-concepts
 
-## State
+### State
 
 Es donde definimos nuestro estado inicial. Se define como una función que devuelve un Objeto.
 
-## Getters
+### Getters
 
 Vuex nos brinda unos "helpers" para acceder a partes del estado. Podemos considerar a los "getters" de Vuex como las "computed properties" de los componentes. Pero en este caso, no podemos hacer un "setter", sólo acceder a valores de forma reactiva.
 
@@ -253,3 +190,45 @@ Será, de momento, un objeto (`Record`), con `id`s como `keys` y un `CartItem` c
 Las `mutations`, `actions` y `getters` son objetos que tienen funciones. En el tipado de la librería los definen como "Trees": `MutationTree`, `ActionTree` y `GetterTree`.
 
 Perp, para simplificar la explicación de Vuex, creo que primero vamos a implementar el store sin tipado. Y se lo añadiremos a continuación
+
+## Vuex + v-model!
+
+Os voy a enseñar un patrón interesante.
+
+Qué pasaría si queremos hacer que cada vez que cambie un valor en un formulario, se actualice el valor en el `Store`.
+
+Recordemos que `computed` es definido como una función:
+
+```js
+{
+  // ...
+  computed: {
+    myComputedProp() {
+      return __something__
+    }
+  }
+}
+```
+
+Recordad que `data` y `computed` son reactivos en Vue gracias a `getters`/`setters` (`Proxies` en Vue 3) que añade la librería "por debajo" ("invisible" para el usuario). Con `computed` tenemos una manera de definirlos **explícitamente** ([documentación](https://vuejs.org/v2/guide/computed.html#Computed-Setter)), de esta manera haríamos que una propiedad de `computed` tenga una manera de ser asignada directamente. Para l@s que conozcáis los _Proxies_, sería como hacer una `set trap` o una `get trap`.
+
+```vue
+<script>
+export default {
+  computed: {
+    // Fijaros que no lo definimos como función, sino como objeto!
+    myComputedProp: {
+      get() {
+        // este `__algo__` tiene que vivir en algún lugar: puede ser en el componente o fuera (en Vuex, por ejemplo)
+        return __algo__
+      },
+      set(val) {
+        __algo__ = val
+      },
+    },
+  },
+}
+</script>
+```
+
+Recordemos que los `getters`/`setters` son propios de Objetos en Javascript, como vimos en [../00_que_es_vue/01_reactividad](../00_que_es_vue/01_reactividad)

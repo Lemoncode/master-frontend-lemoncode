@@ -5,8 +5,12 @@
       total: {{ totalProducts }}
     </div>
 
+    <hr />
+    <input type="text" v-model="textFilter" />
+    <hr />
+
     <ul class="product-list">
-      <li v-for="product in list" :key="product.id">
+      <li v-for="product in filteredList" :key="product.id">
         <router-link :to="`/detail/${product.id}`">
           <article
             class="grid product-container card"
@@ -47,12 +51,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent, ref, Ref } from 'vue'
 
 import useProductsApi from '@/use/productsApi'
 
 import StaticPrice from '@/components/StaticPrice.vue'
 import AddToCartButton from '@/components/AddToCartButton.vue'
+
+import { Product } from '@/types'
+
+const matchStrings = (strA: string, strB: string) =>
+  strA.toLowerCase().match(strB.toLowerCase())
 
 export default defineComponent({
   name: 'ProductList',
@@ -63,9 +72,18 @@ export default defineComponent({
   async setup() {
     const { list, totalProducts } = await useProductsApi()
 
+    const textFilter = ref<string>('')
+    const filteredList = computed(() =>
+      list.value.filter((item: Product) =>
+        matchStrings(item.title, textFilter.value)
+      )
+    )
+
     return {
       list,
       totalProducts,
+      filteredList,
+      textFilter,
     }
   },
 })

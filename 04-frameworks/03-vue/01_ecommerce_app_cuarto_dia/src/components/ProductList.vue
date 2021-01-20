@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, Ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 
 import useProductsApi from '@/use/productsApi'
 
@@ -80,7 +80,6 @@ export default defineComponent({
     )
 
     return {
-      list,
       totalProducts,
       filteredList,
       textFilter,

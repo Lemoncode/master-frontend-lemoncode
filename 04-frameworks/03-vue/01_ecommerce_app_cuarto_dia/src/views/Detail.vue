@@ -12,7 +12,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { RouteLocation } from 'vue-router'
 import { Product } from '@/types'
 import { productService } from '@/services/products'
 
@@ -27,7 +26,7 @@ export default defineComponent({
   }),
   computed: {
     id(): string {
-      return String((this.$route as RouteLocation).params.id)
+      return String(this.$route.params.id)
     },
   },
   created() {

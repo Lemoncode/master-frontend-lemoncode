@@ -63,3 +63,10 @@ Video de la sesión 3 (ver en streaming)
 📌 <a href="https://campus.lemoncode.net/api/student/assets/0b6731da472cbced5f4b86c9ceb3fcb6:90d60418e22e71e726276e81092275ae:8dbaec06ef052fd24c62681bc534af15cfb49816e0e1d0a227886036f2f31db9334a94d1d4d312da67a37f450bb037048ccd2cdd3bb0182587109e539efcf8ee903c98820ed7cb8903062702348644822b638e8a2bc5a554029875e3917ac6d1b314f94a1b095e6a1f2010f374cfac9e039b0029e31829d27dadc57d1f9e33d648432a886ac5adef5c1a28382b?download=true">Video de la Sesión 3 (enlace para descarga)</a>
 
 📋 <a href="https://campus.lemoncode.net/api/student/assets/4899895f13337bb08d99781d209a444c:ccd18d5120c88aa160fbfacf84630f29:36e350b888fbcf126b7573fae00aa1cac787a0677c5da368e986cf7a751e77135a3306f2757f839668b308a954baed196598389108478e5fc354abc10e0d893f9258881b25ddad78a190ce797df29bdf91a9dd370f6550ed11f2971bc1c491df801436c6fbadf8983521d74331ea0ad0754d608d1e55d47206881e01fdfbf07bcb9ada9dd2eb0e40686ab6?download=true">Sesion 3 - chatlog</a>
+
+### Sesion 4
+
+- v-model
+- repaso de Vuex
+
+

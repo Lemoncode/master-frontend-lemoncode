@@ -8,7 +8,7 @@ Hemos contruido una app con Vue CLI.
 
 ### Sesion 1
 
-Que se ha cubierto esta sesión:
+Qué se ha cubierto esta sesión:
 
 - Teoría Vue
 - Bootstrapping de una app con Vue CLI
@@ -28,7 +28,7 @@ Video de la sesión 1 (ver en streaming)
 
 ### Sesion 2
 
-Que se ha cubierto esta sesión:
+Qué se ha cubierto esta sesión:
 
 - Computed properties, Dynamic attributes, ejemplo de :class y Custom events.
 - Creación de una página detalle y configuración de Vue Router
@@ -47,7 +47,7 @@ Video de la sesión 2 (ver en streaming)
 
 ### Sesion 3
 
-Que se ha cubierto esta sesión:
+Qué se ha cubierto esta sesión:
 
 - Refactor de algún componente para usar la Composition API
 - async setup + Suspense + onErrorCaptured
@@ -65,6 +65,8 @@ Video de la sesión 3 (ver en streaming)
 📋 <a href="https://campus.lemoncode.net/api/student/assets/4899895f13337bb08d99781d209a444c:ccd18d5120c88aa160fbfacf84630f29:36e350b888fbcf126b7573fae00aa1cac787a0677c5da368e986cf7a751e77135a3306f2757f839668b308a954baed196598389108478e5fc354abc10e0d893f9258881b25ddad78a190ce797df29bdf91a9dd370f6550ed11f2971bc1c491df801436c6fbadf8983521d74331ea0ad0754d608d1e55d47206881e01fdfbf07bcb9ada9dd2eb0e40686ab6?download=true">Sesion 3 - chatlog</a>
 
 ### Sesion 4
+
+Qué se ha cubierto esta sesión:
 
 - v-model
 - repaso de Vuex

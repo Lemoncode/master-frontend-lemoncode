@@ -1,7 +1,6 @@
 describe('Hotel collection specs', () => {
   it('should fetch hotel list and show it in screen when visit /hotel-collection url', () => {
     // Arrange
-
     // Act
     cy.visit('/hotel-collection');
 
@@ -21,8 +20,7 @@ describe('Hotel collection specs', () => {
 
   it('should fetch two hotels when visit /hotel-collection url', () => {
     // Arrange
-    cy.server(); // Start the server to change request behaviour
-    cy.route('GET', '/api/hotels', 'fixture:hotels');
+    cy.intercept('GET', '/api/hotels', { fixture: 'hotels.json' });
 
     // Act
     cy.visit('/hotel-collection');

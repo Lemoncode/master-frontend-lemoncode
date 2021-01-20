@@ -1,10 +1,12 @@
 # ecommerce-app
 
+## Parte teórica
+
 En la última clase no nos dio tiempo de ver Vuex demasiado bien. Hemos preparado una clase para abordar esto y además añadir una feature muy importante de Vue: `v-model` (formularios, en general).
 
 Vamos a empezar por `v-model`
 
-## `v-model`
+### `v-model`
 
 `v-model` es la manera de sincronizar los formularios de la interfaz con el estado de nuestra aplicación. Lo veremos normalmente asociado a `<input>`s, `<textarea>`s y `<select>`s...; pero también en componentes propios asociados a estos elementos típicos de los formularios.
 
@@ -68,7 +70,7 @@ Tened en cuenta que:
 
 `v-model` trata todos los casos de los elementos relacionados con los formularios.
 
-## Vuex
+### Vuex
 
 > Esta sección completa está sacada de [la última sesión literalmente](../01_ecommerce_app_tercer_dia/README.md)
 
@@ -80,13 +82,13 @@ Vuex "se sienta" horizontalmente en la app y desde cualquier componente (o pági
 
 Los datos siempre deben fluir en el mismo sentido: `actions -> mutations -> state`. Os recordará a Redux, seguramente. Y es que Vuex y Redux están basados en la ["Flux Arquitecture"](https://facebook.github.io/flux/).
 
-### Actions
+#### Actions
 
 Desde los componentes (o páginas) llamamos a "actions", para que se ejecute un cambio de estado. Las `actions` son asíncronas. Por lo tanto, es donde mucha gente coloca llamadas asíncronas. Pero mover toda la lógica de llamadas asíncronas a Vuex... está bien para proyectos pequeños o medianos, en mi opinión. Personalmente, prefiero usar servicios como hemos hecho en nuestra app de ecommerce.
 
 Las `actions` deberían describir acciones que se realizan en la interfaz, como "addToCart()".
 
-### Mutations
+#### Mutations
 
 Son las encargadas de editar el estado. Cada `mutation` tiene acceso al state y lo puede mutar. Ejemplo:
 
@@ -104,11 +106,11 @@ Serían el equivalente a los "Reducers" de Redux. Pero la diferencia es que en R
 
 Fuente: https://github.com/facebook/flux/tree/master/examples/flux-concepts
 
-### State
+#### State
 
 Es donde definimos nuestro estado inicial. Se define como una función que devuelve un Objeto.
 
-### Getters
+#### Getters
 
 Vuex nos brinda unos "helpers" para acceder a partes del estado. Podemos considerar a los "getters" de Vuex como las "computed properties" de los componentes. Pero en este caso, no podemos hacer un "setter", sólo acceder a valores de forma reactiva.
 
@@ -191,7 +193,7 @@ Las `mutations`, `actions` y `getters` son objetos que tienen funciones. En el t
 
 Perp, para simplificar la explicación de Vuex, creo que primero vamos a implementar el store sin tipado. Y se lo añadiremos a continuación
 
-## Vuex + v-model!
+### Vuex + v-model!
 
 Os voy a enseñar un patrón interesante.
 
@@ -232,3 +234,19 @@ export default {
 ```
 
 Recordemos que los `getters`/`setters` son propios de Objetos en Javascript, como vimos en [../00_que_es_vue/01_reactividad](../00_que_es_vue/01_reactividad)
+
+## Parte práctica
+
+Para la sesión de hoy no la voy a dejar definida con los pasos en el README. Pero podéis ver exactamente los cambios que haremos en estos commits:
+
+### v-model
+
+- "añadir filtro de lista con v-model" [c133ed1](https://github.com/Lemoncode/master-frontend-lemoncode/commit/c133ed1)
+
+### Vuex
+
+- "eliminados cambios de útima hora" [92468ec](https://github.com/Lemoncode/master-frontend-lemoncode/commit/92468ec)
+- "actualizar dependencias" [d0da7ed](https://github.com/Lemoncode/master-frontend-lemoncode/commit/d0da7ed)
+- "Añadido carrito" [a67eb30](https://github.com/Lemoncode/master-frontend-lemoncode/commit/a67eb30)
+
+Nota importante, [el commit](https://github.com/Lemoncode/master-frontend-lemoncode/commit/d0da7ed) en el que hablo de actualizar las dependencias: Para hacer funcionar `Vuex` con `Typescript`, cosa que no me funcionó el último día, necesitaremos actualizar TS a la versión 4+ y Vue a la última publicada a día de hoy (3.0.5). Y "aumentar" (_type augmenting_) los tipos de Vue con la propiedad `$store`, que ya no se añade a la instancia de Vue de manera predefinida.

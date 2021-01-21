@@ -6,7 +6,11 @@
     </div>
 
     <hr />
-    <input type="text" v-model="textFilter" />
+    <input
+      type="text"
+      :value="textFilter"
+      @input="event => updateFilter(event.target.value)"
+    />
     <hr />
 
     <ul class="product-list">
@@ -51,7 +55,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent } from 'vue'
+import { useDebounceFn } from '@vueuse/core'
+import { Store, useStore } from 'vuex'
 
 import useProductsApi from '@/use/productsApi'
 
@@ -59,6 +65,7 @@ import StaticPrice from '@/components/StaticPrice.vue'
 import AddToCartButton from '@/components/AddToCartButton.vue'
 
 import { Product } from '@/types'
+import { State } from '@/store'
 
 const matchStrings = (strA: string, strB: string) =>
   strA.toLowerCase().match(strB.toLowerCase())
@@ -70,19 +77,27 @@ export default defineComponent({
     AddToCartButton,
   },
   async setup() {
-    const { list, totalProducts } = await useProductsApi()
+    const store: Store<State> = useStore()
+    const { list } = await useProductsApi()
 
-    const textFilter = ref<string>('')
+    const textFilter = computed(() => store.getters['CartModule/textFilter'])
+
+    const updateFilter = useDebounceFn(event => {
+      store.dispatch('CartModule/setTextFilter', event)
+    }, 300)
+
     const filteredList = computed(() =>
       list.value.filter((item: Product) =>
         matchStrings(item.title, textFilter.value)
       )
     )
+    const totalProducts = computed(() => filteredList.value.length)
 
     return {
       totalProducts,
       filteredList,
       textFilter,
+      updateFilter,
     }
   },
 })

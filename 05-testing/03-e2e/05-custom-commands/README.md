@@ -18,8 +18,7 @@ npm install
 
 ```javascript
 Cypress.Commands.add('loadAndVisit', () => {
-  cy.server();
-  cy.route('GET', '/api/hotels').as('fetchHotels');
+  cy.intercept('GET', '/api/hotels').as('fetchHotels');
   cy.visit('/hotel-collection');
 
   return cy.wait('@fetchHotels');
@@ -41,8 +40,7 @@ import '@testing-library/cypress/add-commands';
 ...
   it('should fetch hotel list and show it in screen when visit /hotel-collection url', () => {
     // Arrange
--   cy.server();
--   cy.route('GET', '/api/hotels').as('fetchHotels');
+-   cy.intercept('GET', '/api/hotels').as('fetchHotels');
 
     // Act
 -   cy.visit('/hotel-collection');
@@ -98,8 +96,7 @@ declare namespace Cypress {
 ...
 it('should fetch hotel list greater than 0 when visit /hotel-collection url', () => {
     // Arrange
--   cy.server();
--   cy.route('GET', '/api/hotels').as('fetchHotels');
+-   cy.intercept('GET', '/api/hotels').as('fetchHotels');
 
     // Act
 -   cy.visit('/hotel-collection');
@@ -120,11 +117,10 @@ it('should fetch hotel list greater than 0 when visit /hotel-collection url', ()
 + Cypress.Commands.add(
 +   'loadAndVisit',
 +   (apiPath: string, routePath: string, fixture?: string) => {
-  cy.server();
-- cy.route('GET', '/api/hotels').as('fetchHotels');
+- cy.intercept('GET', '/api/hotels').as('fetchHotels');
 + Boolean(fixture)
-+     ? cy.route('GET', apiPath, fixture).as('load')
-+     : cy.route('GET', apiPath).as('load');
++     ? cy.intercept('GET', apiPath, { fixture }).as('load')
++     : cy.intercept('GET', apiPath).as('load');
 - cy.visit('/hotel-collection');
 + cy.visit(routePath);
 
@@ -182,12 +178,11 @@ declare namespace Cypress {
 
   it('should fetch two hotels when visit /hotel-collection url', () => {
     // Arrange
--   cy.server(); // Start the server to change request behaviour
--   cy.route('GET', '/api/hotels', 'fixture:hotels').as('fetchHotels');
+-   cy.intercept('GET', '/api/hotels', { fixture: 'hotels.json' }).as('fetchHotels');
 
     // Act
 -   cy.visit('/hotel-collection');
-+   cy.loadAndVisit('/api/hotels', '/hotel-collection', 'fixture:hotels');
++   cy.loadAndVisit('/api/hotels', '/hotel-collection', 'hotels.json');
 
     // Assert
 -   cy.wait('@fetchHotels');

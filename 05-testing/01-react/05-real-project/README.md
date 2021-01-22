@@ -12,6 +12,248 @@ We will start from [origin-front-admin repository](https://github.com/Lemoncode/
 npm install
 ```
 
+- Let's add specs to `./src/common/components/form/select`:
+
+### ./src/common/components/form/select/select.component.spec.tsx
+
+```javascript
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { SelectComponent } from './select.component';
+
+describe('common/components/form/select/select.component specs', () => {
+  it('should render a select element when it feeds required props and three items', () => {
+    // Arrange
+    
+    // Act
+    
+    // Assert
+  });
+});
+```
+
+- Run test watch:
+
+```bash
+npm run test:watch select
+```
+
+- Let's implement the first spec:
+
+### ./src/common/components/form/select/select.component.spec.tsx
+
+```diff
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { SelectComponent } from './select.component';
++ import { Lookup } from 'common/models';
+
+describe('common/components/form/select/select.component specs', () => {
+  it('should render a select element when it feeds required props and three items', () => {
+    // Arrange
++   const props = {
++     items: [
++       { id: '1', name: 'Item 1' },
++       { id: '2', name: 'Item 2' },
++       { id: '3', name: 'Item 3' },
++     ] as Lookup[],
++     label: 'Test label',
++     value: '',
++   };
+    
+    // Act
++   render(<SelectComponent {...props} />);
+    
++   const selectElement = screen.getByRole('button', { name: 'Test label' });
+    // Assert
++   expect(selectElement).toBeInTheDocument();
+  });
+});
+```
+
+- Testing it should shows 3 items when it clicks on select:
+
+### ./src/common/components/form/select/select.component.spec.tsx
+
+```diff
+import React from 'react';
+- import { render, screen } from '@testing-library/react';
++ import { render, screen, fireEvent } from '@testing-library/react';
+...
+
++ it('should render a menu with three item when it clicks on select element', () => {
++   // Arrange
++   const props = {
++     items: [
++       { id: '1', name: 'Item 1' },
++       { id: '2', name: 'Item 2' },
++       { id: '3', name: 'Item 3' },
++     ] as Lookup[],
++     label: 'Test label',
++     value: '',
++   };
+
++   // Act
++   render(<SelectComponent {...props} />);
+
++   const selectElement = screen.getByRole('button', { name: 'Test label' });
++   fireEvent.click(selectElement);
++   const menuElement = screen.getByRole('listbox');
+
++   // Assert
++   expect(menuElement).toBeInTheDocument();
++ });
+```
+
+> It fails.
+> We research about it and found this [issue](https://github.com/testing-library/react-testing-library/issues/322)
+
+- Install library:
+
+```bash
+npm install @testing-library/user-event @testing-library/dom --save-dev
+```
+
+- Update spec:
+
+### ./src/common/components/form/select/select.component.spec.tsx
+
+```diff
+import React from 'react';
+- import { render, screen, fireEvent } from '@testing-library/react';
++ import { render, screen } from '@testing-library/react';
++ import userEvent from '@testing-library/user-event';
+...
+
+  it('should render a menu with three item when it clicks on select element', () => {
+    // Arrange
+    const props = {
+      items: [
+        { id: '1', name: 'Item 1' },
+        { id: '2', name: 'Item 2' },
+        { id: '3', name: 'Item 3' },
+      ] as Lookup[],
+      label: 'Test label',
+      value: '',
+    };
+
+    // Act
+    render(<SelectComponent {...props} />);
+
+    const selectElement = screen.getByRole('button', { name: 'Test label' });
+-   fireEvent.click(selectElement);
++   expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+    
++   userEvent.click(selectElement);
+    const menuElement = screen.getByRole('listbox');
++   const itemElementList = screen.getAllByRole('option');
+
+    // Assert
+    expect(menuElement).toBeInTheDocument();
++   expect(itemElementList).toHaveLength(3);
+  });
+```
+
+- Testing should calls onChange method when it clicks on second item:
+
+### ./src/common/components/form/select/select.component.spec.tsx
+
+```diff
+...
+
++ it('should calls onChange method with value equals 2 when it clicks on second item', () => {
++   // Arrange
++   const props = {
++     items: [
++       { id: '1', name: 'Item 1' },
++       { id: '2', name: 'Item 2' },
++       { id: '3', name: 'Item 3' },
++     ] as Lookup[],
++     label: 'Test label',
++     value: '',
++     onChange: jest.fn(),
++   };
+
++   // Act
++   render(<SelectComponent {...props} />);
+
++   const selectElement = screen.getByRole('button', { name: 'Test label' });
+
++   userEvent.click(selectElement);
++   const itemElementList = screen.getAllByRole('option');
++   userEvent.click(itemElementList[1]);
+
++   // Assert
++   expect(props.onChange).toHaveBeenCalledWith(
++     expect.objectContaining({ target: { value: '2' } }),
++     expect.anything()
++   );
++ });
+```
+
+- Testing should update selected item when it clicks on third item using Formik:
+
+### ./src/common/components/form/select/select.component.spec.tsx
+
+```diff
+...
++ it('should update selected item when it clicks on third item using Formik', () => {
++   // Arrange
++   const props = {
++     items: [
++       { id: '1', name: 'Item 1' },
++       { id: '2', name: 'Item 2' },
++       { id: '3', name: 'Item 3' },
++     ] as Lookup[],
++     label: 'Test label',
++     name: 'selectedItem',
++   };
+
++   // Act
++   render(<SelectComponent {...props} />);
++ });
+```
+
+- Create `renderWithFormik`:
+
+### ./src/common/components/form/select/select.component.spec.tsx
+
+```diff
+import React from 'react';
++ import { Formik, Form } from 'formik';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { SelectComponent } from './select.component';
+import { Lookup } from 'common/models';
+
++ const renderWithFormik = (component, initialValues) => ({
++   ...render(
++     <Formik initialValues={initialValues} onSubmit={console.log}>
++       {() => <Form>{component}</Form>}
++     </Formik>
++   ),
++ });
+...
+
+  it('should update selected item when it clicks on third item using Formik', () => {
+    ...
+    // Act
+-   render(<SelectComponent {...props} />);
++   renderWithFormik(<SelectComponent {...props} />, { selectedItem: '1' });
+
++   const selectElement = screen.getByRole('button', { name: /Item 1/i });
+
++   expect(selectElement.textContent).toEqual('Item 1');
+
++   userEvent.click(selectElement);
++   const itemElementList = screen.getAllByRole('option');
++   userEvent.click(itemElementList[2]);
+
++   // Assert
++   expect(selectElement.textContent).toEqual('Item 3');
+  });
+```
+
 - We will testing `./src/common/components/search-bar`. It has a `component` and `hook` file:
 
 ### ./src/common/components/search-bar/search-bar.component.spec.tsx
@@ -134,14 +376,14 @@ npm run test:watch search-bar
 
 ```diff
 import React from 'react';
-- import { render, screen } from '@testing-library/react';
-+ import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
++ import userEvent from '@testing-library/user-event';
 ...
 
 + it('should call onSearch prop when it types on input change event', () => {
 +   // Arrange
 +   const props = {
-+     search: 'test search',
++     search: '',
 +     onSearch: jest.fn(),
 +     labels: {
 +       placeholder: 'test placeholder',
@@ -152,7 +394,7 @@ import React from 'react';
 +   render(<SearchBarComponent {...props} />);
 
 +   const inputElement = screen.getByRole('textbox');
-+   fireEvent.change(inputElement, { target: { value: 'new text search' } });
++   userEvent.paste(inputElement, 'new text search');
 
 +   // Assert
 +   expect(props.onSearch).toHaveBeenCalledWith('new text search');
@@ -319,7 +561,7 @@ import { useSearchBar } from './search-bar.hook';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useSearchBar } from './search-bar.hook';
 import * as commonHooks from 'common/hooks/debounce.hook';
-+ import * as filterHelpers from 'common/helpers/filter.helper';
++ import * as filterHelpers from 'common/helpers/filter.helpers';
 ...
 
 + it('should calls filterByText method when it renders', () => {
@@ -373,248 +615,6 @@ import * as commonHooks from 'common/hooks/debounce.hook';
 +   ]);
 + });
   
-```
-
-- Let's add specs to `./src/common/components/form/select`:
-
-### ./src/common/components/form/select/select.component.spec.tsx
-
-```javascript
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { SelectComponent } from './select.component';
-
-describe('common/components/form/select/select.component specs', () => {
-  it('should render a select element when it feeds required props and three items', () => {
-    // Arrange
-    
-    // Act
-    
-    // Assert
-  });
-});
-```
-
-- Run test watch:
-
-```bash
-npm run test:watch select
-```
-
-- Let's implement the first spec:
-
-### ./src/common/components/form/select/select.component.spec.tsx
-
-```diff
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { SelectComponent } from './select.component';
-+ import { Lookup } from 'common/models';
-
-describe('common/components/form/select/select.component specs', () => {
-  it('should render a select element when it feeds required props and three items', () => {
-    // Arrange
-+   const props = {
-+     items: [
-+       { id: '1', name: 'Item 1' },
-+       { id: '2', name: 'Item 2' },
-+       { id: '3', name: 'Item 3' },
-+     ] as Lookup[],
-+     label: 'Test label',
-+     value: '',
-+   };
-    
-    // Act
-+   render(<SelectComponent {...props} />);
-    
-+   const selectElement = screen.getByRole('button', { name: 'Test label' });
-    // Assert
-+   expect(selectElement).toBeInTheDocument();
-  });
-});
-```
-
-- Testing it should shows 3 items when it clicks on select:
-
-### ./src/common/components/form/select/select.component.spec.tsx
-
-```diff
-import React from 'react';
-- import { render, screen } from '@testing-library/react';
-+ import { render, screen, fireEvent } from '@testing-library/react';
-...
-
-+ it('should render a menu with three item when it clicks on select element', () => {
-+   // Arrange
-+   const props = {
-+     items: [
-+       { id: '1', name: 'Item 1' },
-+       { id: '2', name: 'Item 2' },
-+       { id: '3', name: 'Item 3' },
-+     ] as Lookup[],
-+     label: 'Test label',
-+     value: '',
-+   };
-
-+   // Act
-+   render(<SelectComponent {...props} />);
-
-+   const selectElement = screen.getByRole('button', { name: 'Test label' });
-+   fireEvent.click(selectElement);
-+   const menuElement = screen.getByRole('listbox');
-
-+   // Assert
-+   expect(menuElement).toBeInTheDocument();
-+ });
-```
-
-> It fails.
-> We research about it and found this [issue](https://github.com/testing-library/react-testing-library/issues/322)
-
-- Install library:
-
-```bash
-npm install @testing-library/user-event --save-dev
-```
-
-- Update spec:
-
-### ./src/common/components/form/select/select.component.spec.tsx
-
-```diff
-import React from 'react';
-- import { render, screen, fireEvent } from '@testing-library/react';
-+ import { render, screen } from '@testing-library/react';
-+ import userEvent from '@testing-library/user-event';
-...
-
-  it('should render a menu with three item when it clicks on select element', () => {
-    // Arrange
-    const props = {
-      items: [
-        { id: '1', name: 'Item 1' },
-        { id: '2', name: 'Item 2' },
-        { id: '3', name: 'Item 3' },
-      ] as Lookup[],
-      label: 'Test label',
-      value: '',
-    };
-
-    // Act
-    render(<SelectComponent {...props} />);
-
-    const selectElement = screen.getByRole('button', { name: 'Test label' });
--   fireEvent.click(selectElement);
-+   expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
-    
-+   userEvent.click(selectElement);
-    const menuElement = screen.getByRole('listbox');
-+   const itemElementList = screen.getAllByRole('option');
-
-    // Assert
-    expect(menuElement).toBeInTheDocument();
-+   expect(itemElementList).toHaveLength(3);
-  });
-```
-
-- Testing should calls onChange method when it clicks on second item:
-
-### ./src/common/components/form/select/select.component.spec.tsx
-
-```diff
-...
-
-+ it('should calls onChange method with value equals 2 when it clicks on second item', () => {
-+   // Arrange
-+   const props = {
-+     items: [
-+       { id: '1', name: 'Item 1' },
-+       { id: '2', name: 'Item 2' },
-+       { id: '3', name: 'Item 3' },
-+     ] as Lookup[],
-+     label: 'Test label',
-+     value: '',
-+     onChange: jest.fn(),
-+   };
-
-+   // Act
-+   render(<SelectComponent {...props} />);
-
-+   const selectElement = screen.getByRole('button', { name: 'Test label' });
-
-+   userEvent.click(selectElement);
-+   const itemElementList = screen.getAllByRole('option');
-+   userEvent.click(itemElementList[1]);
-
-+   // Assert
-+   expect(props.onChange).toHaveBeenCalledWith(
-+     expect.objectContaining({ target: { value: '2' } }),
-+     expect.anything()
-+   );
-+ });
-```
-
-- Testing should update selected item when it clicks on third item using Formik:
-
-### ./src/common/components/form/select/select.component.spec.tsx
-
-```diff
-...
-+ it('should update selected item when it clicks on third item using Formik', () => {
-+   // Arrange
-+   const props = {
-+     items: [
-+       { id: '1', name: 'Item 1' },
-+       { id: '2', name: 'Item 2' },
-+       { id: '3', name: 'Item 3' },
-+     ] as Lookup[],
-+     label: 'Test label',
-+     name: 'selectedItem',
-+   };
-
-+   // Act
-+   render(<SelectComponent {...props} />);
-+ });
-```
-
-- Create `renderWithFormik`:
-
-### ./src/common/components/form/select/select.component.spec.tsx
-
-```diff
-import React from 'react';
-+ import { Formik, Form } from 'formik';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { SelectComponent } from './select.component';
-import { Lookup } from 'common/models';
-
-+ const renderWithFormik = (component, initialValues) => ({
-+   ...render(
-+     <Formik initialValues={initialValues} onSubmit={console.log}>
-+       {() => <Form>{component}</Form>}
-+     </Formik>
-+   ),
-+ });
-...
-
-  it('should update selected item when it clicks on third item using Formik', () => {
-    ...
-    // Act
--   render(<SelectComponent {...props} />);
-+   renderWithFormik(<SelectComponent {...props} />, { selectedItem: '1' });
-
-+   const selectElement = screen.getByRole('button', { name: /Item 1/i });
-
-+   expect(selectElement.textContent).toEqual('Item 1');
-
-+   userEvent.click(selectElement);
-+   const itemElementList = screen.getAllByRole('option');
-+   userEvent.click(itemElementList[2]);
-
-+   // Assert
-+   expect(selectElement.textContent).toEqual('Item 3');
-  });
 ```
 
 # About Basefactor + Lemoncode

@@ -7,7 +7,7 @@ export const usePolling = () => {
     // Simulate calls to api and count it
     const interval = setInterval(() => {
       setCount(c => c + 1);
-    }, 1000);
+    }, 500);
 
     return () => {
       clearInterval(interval);

@@ -101,6 +101,8 @@ describe('useLanguage specs', () => {
 ### ./src/language.hooks.spec.ts
 
 ```diff
+- import { renderHook } from '@testing-library/react-hooks';
++ import { renderHook, act } from '@testing-library/react-hooks';
 ...
 - it('', () => {
 + it('should return a message with language equals "es" when it renders the hook', () => {
@@ -109,7 +111,9 @@ describe('useLanguage specs', () => {
     // Act
 +   const { result } = renderHook(() => useLanguage());
 
-+   result.current.setLanguage('es');
++   act(() => {
++     result.current.setLanguage('es');
++   })
 
     // Assert
 +   expect(result.current.message).toEqual('The current language is: es');

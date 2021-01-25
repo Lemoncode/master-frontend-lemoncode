@@ -14,120 +14,41 @@ Let's give a try.
 
 # Steps
 
-- We will start from scratch, but will be reuseing a lot of code from 01-bar-chart
-  (in a real world scenario it would be enough to refactor the previous example
-  but for the sake of clarity we will go step by step).
-
-- Let's copy the content from _00-boilerplate_ and execute _npm install_
+- This example will start from 01-bar-chart, let's copy it to a new folder and execute
 
 ```bash
 npm install
 ```
 
-- Let's start by adding the setting information we have alreadty calculated
-  in the previous chart.
-
-- Let's wipe the test content in _index.ts_
-
-_./src/index.ts_
-
-```diff
-- import * as d3 from "d3";
-
-- svg
--  .append("text")
--  .attr("x", 100)
--  .attr("y", 100)
--  .text("Hello d3js");
--
--svg
--  .append("circle")
--  .attr("r", 20)
--  .attr("cx", 20)
--  .attr("cy", 20);
-```
-
-- Let's add all the settings. IMPORTANT this time the height will be fixed (we will
-  name that const **barHeight** and the width will be dynamic).
-
-_./src/index.ts_
-
-```typescript
-import * as d3 from "d3";
-import { resultCollectionSpainNov19 } from "./data";
-
-const svgDimensions = { width: 800, height: 500 };
-const margin = { left: 5, right: 5, top: 10, bottom: 10 };
-const chartDimensions = {
-  width: svgDimensions.width - margin.left - margin.right,
-  height: svgDimensions.height - margin.bottom - margin.top
-};
-
-const totalNumberSeats = resultCollectionSpainNov19.reduce(
-  (sum, item) => sum + item.seats,
-  0
-);
-
-const barHeight = 200;
-
-const politicalParties = [
-  "PSOE",
-  "PP",
-  "VOX",
-  "UP",
-  "ERC",
-  "Cs",
-  "JxCat",
-  "PNV",
-  "Bildu",
-  "Más pais",
-  "CUP",
-  "CC",
-  "BNG",
-  "Teruel Existe"
-];
-
-const partiesColorScale = d3
-  .scaleOrdinal([
-    "#ED1D25",
-    "#0056A8",
-    "#5BC035",
-    "#6B2E68",
-    "#F3B219",
-    "#FA5000",
-    "#C50048",
-    "#029626",
-    "#A3C940",
-    "#0DDEC5",
-    "#FFF203",
-    "#FFDB1B",
-    "#E61C13",
-    "#73B1E6"
-  ])
-  .domain(politicalParties);
-
-const svg = d3
-  .select("body")
-  .append("svg")
-  .attr("width", svgDimensions.width)
-  .attr("height", svgDimensions.height)
-  .attr("style", "background-color: #FBFAF0");
-
-const chartGroup = svg
-  .append("g")
-  .attr("transform", `translate(${margin.left}, ${margin.top})`)
-  .attr("width", chartDimensions.width)
-  .attr("height", chartDimensions.height);
-```
-
 - Since x axis will be dynamic (depending on the seats assigned for each party)
   let's calcualte the XScale (seats to pixels).
 
-```typescript
-const xScale = d3
-  .scaleLinear()
-  .domain([0, totalNumberSeats])
-  .range([0, chartDimensions.width]);
+First let's remove how we calculated the fixed bar width (now height will be fixed):
+
+```diff
++ const barHeight = 200; // We could calculate this based on svg height
+
+- const barPadding = 5; // We could calculate this value as well
+- const barWidth =
+-  (chartDimensions.width - barPadding * politicalPartiesCount) /
+-  politicalPartiesCount;
+```
+
+```diff
+- const yScale = d3
+-   .scaleLinear()
+-  .domain([0, maxNumberSeats])
+-  .range([0, chartDimensions.height]);
+
++ const totalNumberSeats = resultCollectionSpainNov19.reduce(
++  (sum, item) => sum + item.seats,
++  0
++ );
+
++ const xScale = d3
++  .scaleLinear()
++  .domain([0, totalNumberSeats])
++  .range([0, chartDimensions.width]);
 ```
 
 - Let's add the rectangles, this time, we will calculate the width dinamically and
@@ -136,23 +57,28 @@ const xScale = d3
   to use an accumulator (in the next example we will learn how to solve
   this using a layout)
 
-```typescript
-let currentXPosition = 0;
+```diff
++ let currentXPosition = 0;
 
 chartGroup
   .selectAll("rect")
   .data(resultCollectionSpainNov19)
   .enter()
   .append("rect")
-  .attr("width", d => xScale(d.seats))
-  .attr("height", barHeight)
-  .attr("x", (d, i) => {
-    const position = currentXPosition;
-    currentXPosition += xScale(d.seats);
-    return position;
-  })
-  .attr("y", d => chartDimensions.height - barHeight)
-  .attr("fill", d => partiesColorScale(d.party));
+-  .attr("width", barWidth)
++  .attr("width", (d) => xScale(d.seats))
+-  .attr("height", (d) => yScale(d.seats))
++  .attr("height", barHeight)
+-  .attr("x", (d, i) => i * (barWidth + barPadding))
++    .attr("x", (d, i) => {
++    const position = currentXPosition;
++    currentXPosition += xScale(d.seats);
++    return position;
++  })
+
+-  .attr("y", (d) => chartDimensions.height - yScale(d.seats))
++  .attr("y", (d) => chartDimensions.height - barHeight)
+  .attr("fill", (d) => partiesColorScale(d.party));
 ```
 
 - Let's run this code now

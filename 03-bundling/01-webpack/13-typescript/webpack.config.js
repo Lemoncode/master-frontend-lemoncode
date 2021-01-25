@@ -10,19 +10,15 @@ module.exports = {
   resolve: {
     extensions: [".js", ".ts", ".tsx"],
   },
-  devtool: "eval-source-map",
   entry: {
-    app: ["./index.tsx"],
+    app: "./index.tsx",
     appStyles: ["./mystyles.scss"],
     vendorStyles: ["../node_modules/bootstrap/dist/css/bootstrap.css"],
-  },
-  devServer: {
-    stats: "errors-only",
   },
   output: {
     filename: "[name].[chunkhash].js",
     path: path.resolve(process.cwd(), "dist"),
-    publicPath: "/",
+    publicPath: "./",
   },
   module: {
     rules: [
@@ -35,13 +31,10 @@ module.exports = {
         test: /\.scss$/,
         exclude: /node_modules/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-          },
+          MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
             options: {
-              import: false,
               modules: {
                 exportLocalsConvention: "camelCase",
                 localIdentName: "[path][name]__[local]--[hash:base64:5]",
@@ -72,13 +65,18 @@ module.exports = {
       },
     ],
   },
+  devtool: 'eval-source-map',
+  devServer: {
+    port: 8080,
+    stats: "errors-only",
+  },
   plugins: [
-    new CleanWebpackPlugin(),
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: "index.html", //Name of file in ./dist/
       template: "index.html", //Name of template in ./src
     }),
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css",

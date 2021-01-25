@@ -1,8 +1,7 @@
 describe('Hotel collection specs', () => {
   it('should fetch hotel list and show it in screen when visit /hotel-collection url', () => {
     // Arrange
-    cy.server();
-    cy.route('GET', '/api/hotels').as('fetchHotels');
+    cy.intercept('GET', '/api/hotels').as('fetchHotels');
 
     // Act
     cy.visit('/hotel-collection');
@@ -14,8 +13,7 @@ describe('Hotel collection specs', () => {
 
   it('should fetch hotel list greater than 0 when visit /hotel-collection url', () => {
     // Arrange
-    cy.server();
-    cy.route('GET', '/api/hotels').as('fetchHotels');
+    cy.intercept('GET', '/api/hotels').as('fetchHotels');
 
     // Act
     cy.visit('/hotel-collection');
@@ -27,8 +25,7 @@ describe('Hotel collection specs', () => {
 
   it('should fetch two hotels when visit /hotel-collection url', () => {
     // Arrange
-    cy.server(); // Start the server to change request behaviour
-    cy.route('GET', '/api/hotels', 'fixture:hotels').as('fetchHotels');
+    cy.intercept('GET', '/api/hotels', { fixture: 'hotels.json' }).as('fetchHotels');
 
     // Act
     cy.visit('/hotel-collection');

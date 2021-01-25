@@ -1,0 +1,1002 @@
+[
+  {
+    "id": "0",
+    "author": "Hanae Cleveland",
+    "published": "1983",
+    "title": "Montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc",
+    "category": "Mystery",
+    "publisher": "Tellus LLC",
+    "price": "4,80",
+    "discount": "0.0"
+  },
+  {
+    "id": "1",
+    "author": "Whitney Mcgee",
+    "published": "2003",
+    "title": "Feugiat. Sed nec",
+    "category": "Art",
+    "publisher": "Eros Proin Ultrices LLP",
+    "price": "27,79",
+    "discount": "0.0"
+  },
+  {
+    "id": "2",
+    "author": "Brandon Hammond",
+    "published": "1920",
+    "title": "Dapibus rutrum, justo. Praesent luctus.",
+    "category": "Fiction",
+    "publisher": "Class Ltd",
+    "price": "42,22",
+    "discount": "0.0"
+  },
+  {
+    "id": "3",
+    "author": "Yoshio H. Mckinney",
+    "published": "1949",
+    "title": "Adipiscing lobortis risus. In mi pede, nonummy ut, molestie",
+    "category": "Fantasy",
+    "publisher": "Fusce Fermentum Fermentum Corporation",
+    "price": "43,75",
+    "discount": "0.0"
+  },
+  {
+    "id": "4",
+    "author": "Anthony R. Hartman",
+    "published": "1953",
+    "title": "Lectus pede, ultrices a,",
+    "category": "Dystopian,",
+    "publisher": "Non Justo Proin LLC",
+    "price": "18,07",
+    "discount": "0.0"
+  },
+  {
+    "id": "5",
+    "author": "Lewis Q. Hayes",
+    "published": "1997",
+    "title": "Morbi neque tellus, imperdiet non, vestibulum nec,",
+    "category": "Adventure",
+    "publisher": "A Foundation",
+    "price": "1,49",
+    "discount": "0.0"
+  },
+  {
+    "id": "6",
+    "author": "May M. Farmer",
+    "published": "1978",
+    "title": "Arcu eu odio tristique pharetra. Quisque",
+    "category": "Travel",
+    "publisher": "Ridiculus Mus Donec Incorporated",
+    "price": "42,37",
+    "discount": "0.0"
+  },
+  {
+    "id": "7",
+    "author": "Tallulah J. Mcgee",
+    "published": "1919",
+    "title": "Velit justo nec ante. Maecenas mi felis, adipiscing fringilla, porttitor",
+    "category": "Cooking",
+    "publisher": "Erat Corporation",
+    "price": "23,50",
+    "discount": "0.15"
+  },
+  {
+    "id": "8",
+    "author": "Lillian P. Turner",
+    "published": "1948",
+    "title": "Non",
+    "category": "Development",
+    "publisher": "Duis Limited",
+    "price": "25,80",
+    "discount": "0.0"
+  },
+  {
+    "id": "9",
+    "author": "Mara D. Malone",
+    "published": "1999",
+    "title": "Iaculis nec, eleifend non, dapibus rutrum, justo.",
+    "category": "Horror",
+    "publisher": "Tempor Erat PC",
+    "price": "13,90",
+    "discount": "0.0"
+  },
+  {
+    "id": "10",
+    "author": "Kaye T. Madden",
+    "published": "2012",
+    "title": "Nonummy",
+    "category": "imperdiet necMystery",
+    "publisher": "Dignissim Consulting",
+    "price": "1,88",
+    "discount": "0.0"
+  },
+  {
+    "id": "11",
+    "author": "Linus Malone",
+    "published": "1917",
+    "title": "Orci lobortis augue scelerisque mollis. Phasellus libero mauris,",
+    "category": "Art",
+    "publisher": "Purus Consulting",
+    "price": "48,40",
+    "discount": "0.0"
+  },
+  {
+    "id": "12",
+    "author": "Grant Z. Conley",
+    "published": "2013",
+    "title": "Massa. Suspendisse eleifend. Cras",
+    "category": "Fiction",
+    "publisher": "Congue Turpis In Corp.",
+    "price": "49,62",
+    "discount": "0.0"
+  },
+  {
+    "id": "13",
+    "author": "Althea I. Ingram",
+    "published": "1955",
+    "title": "Sed et libero. Proin mi. Aliquam",
+    "category": "Fantasy",
+    "publisher": "Primis In Foundation",
+    "price": "21,92",
+    "discount": "0.0"
+  },
+  {
+    "id": "14",
+    "author": "Fletcher Porter",
+    "published": "1979",
+    "title": "Euismod mauris eu",
+    "category": "Dystopian",
+    "publisher": "Aliquet Foundation",
+    "price": "11,42",
+    "discount": "0.0"
+  },
+  {
+    "id": "15",
+    "author": "Marcia W. Hickman",
+    "published": "2004",
+    "title": "Bibendum. Donec felis orci, adipiscing non,",
+    "category": "Adventure",
+    "publisher": "At LLC",
+    "price": "11,36",
+    "discount": "0.0"
+  },
+  {
+    "id": "16",
+    "author": "Lee B. Gordon",
+    "published": "1915",
+    "title": "Donec porttitor tellus non magna.",
+    "category": "Travel",
+    "publisher": "Mollis Duis Company",
+    "price": "21,04",
+    "discount": "0.0"
+  },
+  {
+    "id": "17",
+    "author": "Davis Adams",
+    "published": "1921",
+    "title": "Blandit at, nisi. Cum sociis natoque",
+    "category": "Cooking",
+    "publisher": "Gravida Molestie Institute",
+    "price": "12,40",
+    "discount": "0.15"
+  },
+  {
+    "id": "18",
+    "author": "Tamara Mccoy",
+    "published": "1984",
+    "title": "Sit",
+    "category": "Development",
+    "publisher": "Mi Lorem Vehicula Ltd",
+    "price": "24,69",
+    "discount": "0.0"
+  },
+  {
+    "id": "19",
+    "author": "Ezekiel X. Collins",
+    "published": "1950",
+    "title": "Primis in",
+    "category": "Horror",
+    "publisher": "Pede Et Consulting",
+    "price": "17,63",
+    "discount": "0.0"
+  },
+  {
+    "id": "20",
+    "author": "Mary L. Parks",
+    "published": "1939",
+    "title": "Non leo. Vivamus nibh dolor, nonummy",
+    "category": "Mystery",
+    "publisher": "Pretium Neque LLP",
+    "price": "48,26",
+    "discount": "0.0"
+  },
+  {
+    "id": "21",
+    "author": "Conan P. Knox",
+    "published": "1934",
+    "title": "Mauris, aliquam eu,",
+    "category": "Art",
+    "publisher": "Tristique Institute",
+    "price": "25,14",
+    "discount": "0.0"
+  },
+  {
+    "id": "22",
+    "author": "Savannah Hopkins",
+    "published": "2011",
+    "title": "Et malesuada fames",
+    "category": "Fiction",
+    "publisher": "Sollicitudin Orci Sem Company",
+    "price": "17,01",
+    "discount": "0.0"
+  },
+  {
+    "id": "23",
+    "author": "Larissa Nieves",
+    "published": "1916",
+    "title": "Orci. Ut",
+    "category": "Fantasy",
+    "publisher": "Ante Dictum Mi Associates",
+    "price": "6,74",
+    "discount": "0.0"
+  },
+  {
+    "id": "24",
+    "author": "Gavin M. Conrad",
+    "published": "1993",
+    "title": "Rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida",
+    "category": "Dystopian",
+    "publisher": "Libero Proin LLC",
+    "price": "1,07",
+    "discount": "0.0"
+  },
+  {
+    "id": "25",
+    "author": "Alexander T. Gamble",
+    "published": "1956",
+    "title": "In",
+    "category": "Adventure",
+    "publisher": "Eleifend Vitae Erat Associates",
+    "price": "26,87",
+    "discount": "0.0"
+  },
+  {
+    "id": "26",
+    "author": "Harper Perry",
+    "published": "1927",
+    "title": "Ligula. Nullam feugiat placerat velit. Quisque varius.",
+    "category": "Travel",
+    "publisher": "Cras Incorporated",
+    "price": "41,12",
+    "discount": "0.0"
+  },
+  {
+    "id": "27",
+    "author": "Emmanuel Ball",
+    "published": "1925",
+    "title": "Cursus. Nunc mauris elit, dictum eu,",
+    "category": "Cooking",
+    "publisher": "Hendrerit Corporation",
+    "price": "48,23",
+    "discount": "0.15"
+  },
+  {
+    "id": "28",
+    "author": "Ian Y. Thomas",
+    "published": "1991",
+    "title": "Sit amet, consectetuer adipiscing elit. Etiam laoreet, libero",
+    "category": "Development",
+    "publisher": "Mauris Foundation",
+    "price": "45,74",
+    "discount": "0.0"
+  },
+  {
+    "id": "29",
+    "author": "Aurora Graves",
+    "published": "1925",
+    "title": "Risus. Donec egestas.",
+    "category": "Horror",
+    "publisher": "Sapien Aenean Massa Limited",
+    "price": "30,11",
+    "discount": "0.0"
+  },
+  {
+    "id": "30",
+    "author": "Erasmus Maddox",
+    "published": "1963",
+    "title": "Nec, mollis vitae, posuere at, velit. Cras",
+    "category": "arcuMystery",
+    "publisher": "Faucibus Company",
+    "price": "14,96",
+    "discount": "0.0"
+  },
+  {
+    "id": "31",
+    "author": "Echo T. Lamb",
+    "published": "1917",
+    "title": "Donec sollicitudin adipiscing ligula. Aenean gravida nunc",
+    "category": "Art",
+    "publisher": "Lobortis Consulting",
+    "price": "39,54",
+    "discount": "0.0"
+  },
+  {
+    "id": "32",
+    "author": "Flavia J. Hendricks",
+    "published": "1927",
+    "title": "Ante ipsum primis",
+    "category": "Fiction",
+    "publisher": "Lobortis Company",
+    "price": "41,06",
+    "discount": "0.0"
+  },
+  {
+    "id": "33",
+    "author": "August Lopez",
+    "published": "1916",
+    "title": "Egestas blandit. Nam",
+    "category": "Fantasy",
+    "publisher": "Non Enim Commodo Foundation",
+    "price": "48,63",
+    "discount": "0.0"
+  },
+  {
+    "id": "34",
+    "author": "Orson Z. Wilder",
+    "published": "2010",
+    "title": "Sodales elit erat vitae",
+    "category": "Dystopian,",
+    "publisher": "Nibh Institute",
+    "price": "26,56",
+    "discount": "0.0"
+  },
+  {
+    "id": "35",
+    "author": "Audra Carney",
+    "published": "1929",
+    "title": "Sem",
+    "category": "Adventure",
+    "publisher": "Morbi Non Ltd",
+    "price": "21,23",
+    "discount": "0.0"
+  },
+  {
+    "id": "36",
+    "author": "Tatiana Wood",
+    "published": "1914",
+    "title": "Rhoncus. Nullam velit dui, semper",
+    "category": "Travel",
+    "publisher": "Praesent Interdum Company",
+    "price": "25,71",
+    "discount": "0.0"
+  },
+  {
+    "id": "37",
+    "author": "Avram Daniels",
+    "published": "1979",
+    "title": "Aptent taciti sociosqu ad litora",
+    "category": "Cooking",
+    "publisher": "Pharetra Felis Industries",
+    "price": "38,23",
+    "discount": "0.15"
+  },
+  {
+    "id": "38",
+    "author": "Daniel S. Giles",
+    "published": "1914",
+    "title": "Vulputate, posuere vulputate, lacus. Cras interdum. Nunc sollicitudin",
+    "category": "Development",
+    "publisher": "Non Leo Corporation",
+    "price": "49,58",
+    "discount": "0.0"
+  },
+  {
+    "id": "39",
+    "author": "Colby Y. Andrews",
+    "published": "1983",
+    "title": "Eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur",
+    "category": "Horror",
+    "publisher": "Phasellus Fermentum Convallis Inc.",
+    "price": "2,90",
+    "discount": "0.0"
+  },
+  {
+    "id": "40",
+    "author": "Zeph Castaneda",
+    "published": "1983",
+    "title": "Semper. Nam tempor diam dictum sapien.",
+    "category": "sagittis. Mystery",
+    "publisher": "Aliquam Erat Volutpat Industries",
+    "price": "9,43",
+    "discount": "0.0"
+  },
+  {
+    "id": "41",
+    "author": "Barclay Mason",
+    "published": "2020",
+    "title": "Purus,",
+    "category": "Art",
+    "publisher": "Nec Mollis Vitae Incorporated",
+    "price": "48,50",
+    "discount": "0.0"
+  },
+  {
+    "id": "42",
+    "author": "Benjamin Payne",
+    "published": "1979",
+    "title": "Etiam vestibulum massa rutrum",
+    "category": "Fiction",
+    "publisher": "Leo Corp.",
+    "price": "34,60",
+    "discount": "0.0"
+  },
+  {
+    "id": "43",
+    "author": "Armand L. Ball",
+    "published": "2014",
+    "title": "Euismod est",
+    "category": "Fantasy",
+    "publisher": "Aliquet Proin Velit Ltd",
+    "price": "12,37",
+    "discount": "0.0"
+  },
+  {
+    "id": "44",
+    "author": "Ross Sutton",
+    "published": "1983",
+    "title": "Quis turpis vitae",
+    "category": "Dystopian",
+    "publisher": "Torquent Per Conubia Corporation",
+    "price": "43,66",
+    "discount": "0.0"
+  },
+  {
+    "id": "45",
+    "author": "Illana Witt",
+    "published": "2007",
+    "title": "Magna sed dui. Fusce aliquam, enim nec tempus",
+    "category": "Adventure",
+    "publisher": "Vivamus Nibh Inc.",
+    "price": "28,26",
+    "discount": "0.0"
+  },
+  {
+    "id": "46",
+    "author": "Tarik Watson",
+    "published": "1953",
+    "title": "Blandit congue. In scelerisque",
+    "category": "Travel",
+    "publisher": "Fermentum Risus Inc.",
+    "price": "23,18",
+    "discount": "0.0"
+  },
+  {
+    "id": "47",
+    "author": "Walter Matthews",
+    "published": "1969",
+    "title": "Duis a mi fringilla mi lacinia mattis. Integer",
+    "category": "Cooking",
+    "publisher": "Aliquet Libero Integer PC",
+    "price": "39,49",
+    "discount": "0.15"
+  },
+  {
+    "id": "48",
+    "author": "Velma H. Wyatt",
+    "published": "2007",
+    "title": "Netus et malesuada fames ac turpis egestas. Aliquam fringilla",
+    "category": "Development",
+    "publisher": "Neque Sed PC",
+    "price": "47,90",
+    "discount": "0.0"
+  },
+  {
+    "id": "49",
+    "author": "Carlos V. Gonzales",
+    "published": "2006",
+    "title": "Nunc ullamcorper, velit",
+    "category": "Horror",
+    "publisher": "Nonummy Ipsum Non Foundation",
+    "price": "27,38",
+    "discount": "0.0"
+  },
+  {
+    "id": "50",
+    "author": "Karyn X. Mills",
+    "published": "2001",
+    "title": "Aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus dapibus quam",
+    "category": "Mystery",
+    "publisher": "Donec Tempus Incorporated",
+    "price": "9,62",
+    "discount": "0.0"
+  },
+  {
+    "id": "51",
+    "author": "Derek Barnes",
+    "published": "1969",
+    "title": "Neque tellus,",
+    "category": "Art",
+    "publisher": "At Velit Cras Ltd",
+    "price": "17,34",
+    "discount": "0.0"
+  },
+  {
+    "id": "52",
+    "author": "Oscar William",
+    "published": "1986",
+    "title": "Vestibulum nec, euismod in, dolor. Fusce",
+    "category": "Fiction",
+    "publisher": "Nulla Corp.",
+    "price": "47,46",
+    "discount": "0.0"
+  },
+  {
+    "id": "53",
+    "author": "Basil Brady",
+    "published": "1990",
+    "title": "Odio semper cursus. Integer",
+    "category": "Fantasy",
+    "publisher": "Vitae Semper Ltd",
+    "price": "49,31",
+    "discount": "0.0"
+  },
+  {
+    "id": "54",
+    "author": "Otto I. Duncan",
+    "published": "1993",
+    "title": "Sociis natoque penatibus et magnis dis parturient montes,",
+    "category": "Dystopian.",
+    "publisher": "Sollicitudin Adipiscing Ligula PC",
+    "price": "15,54",
+    "discount": "0.0"
+  },
+  {
+    "id": "55",
+    "author": "Keane Contreras",
+    "published": "1950",
+    "title": "Nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet",
+    "category": "Adventure",
+    "publisher": "Tellus Eu Augue Incorporated",
+    "price": "41,94",
+    "discount": "0.0"
+  },
+  {
+    "id": "56",
+    "author": "Erin G. Humphrey",
+    "published": "1948",
+    "title": "Porttitor",
+    "category": "Travel",
+    "publisher": "Eu LLC",
+    "price": "15,88",
+    "discount": "0.0"
+  },
+  {
+    "id": "57",
+    "author": "Dylan Ellison",
+    "published": "2012",
+    "title": "Tincidunt, nunc ac mattis ornare, lectus ante dictum mi,",
+    "category": "Cooking",
+    "publisher": "Maecenas Libero Incorporated",
+    "price": "6,82",
+    "discount": "0.15"
+  },
+  {
+    "id": "58",
+    "author": "Anastasia Tanner",
+    "published": "1971",
+    "title": "Enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec",
+    "category": "Development",
+    "publisher": "Arcu PC",
+    "price": "36,47",
+    "discount": "0.0"
+  },
+  {
+    "id": "59",
+    "author": "Jenna C. Downs",
+    "published": "1979",
+    "title": "Amet ante.",
+    "category": "Horror",
+    "publisher": "Rutrum Magna Cras PC",
+    "price": "43,49",
+    "discount": "0.0"
+  },
+  {
+    "id": "60",
+    "author": "Tyrone B. Mejia",
+    "published": "1964",
+    "title": "Nulla",
+    "category": "cursus etMystery",
+    "publisher": "Lacinia Orci Consectetuer Ltd",
+    "price": "31,89",
+    "discount": "0.0"
+  },
+  {
+    "id": "61",
+    "author": "Colleen Barlow",
+    "published": "2005",
+    "title": "Id, mollis nec, cursus a, enim. Suspendisse aliquet, sem",
+    "category": "Art",
+    "publisher": "Rutrum Magna Institute",
+    "price": "19,15",
+    "discount": "0.0"
+  },
+  {
+    "id": "62",
+    "author": "Camden Z. Ramos",
+    "published": "1953",
+    "title": "Eu, accumsan sed, facilisis vitae,",
+    "category": "Fiction",
+    "publisher": "Metus Inc.",
+    "price": "4,43",
+    "discount": "0.0"
+  },
+  {
+    "id": "63",
+    "author": "Damon Mccoy",
+    "published": "2010",
+    "title": "Consectetuer rhoncus.",
+    "category": "Fantasy",
+    "publisher": "Nisl Nulla Company",
+    "price": "19,89",
+    "discount": "0.0"
+  },
+  {
+    "id": "64",
+    "author": "Ivan Mccarthy",
+    "published": "1917",
+    "title": "Nulla aliquet. Proin",
+    "category": "Dystopian",
+    "publisher": "Pharetra Ut Pharetra Consulting",
+    "price": "7,21",
+    "discount": "0.0"
+  },
+  {
+    "id": "65",
+    "author": "Chloe M. Avila",
+    "published": "2008",
+    "title": "Elit, dictum",
+    "category": "Adventure",
+    "publisher": "Curabitur Ltd",
+    "price": "6,40",
+    "discount": "0.0"
+  },
+  {
+    "id": "66",
+    "author": "Aurelia P. Buck",
+    "published": "1970",
+    "title": "Curabitur massa. Vestibulum accumsan neque et nunc. Quisque ornare",
+    "category": "Travel",
+    "publisher": "Augue Eu Tempor PC",
+    "price": "3,93",
+    "discount": "0.0"
+  },
+  {
+    "id": "67",
+    "author": "Sasha X. Dickson",
+    "published": "1944",
+    "title": "Facilisis non, bibendum sed,",
+    "category": "Cooking",
+    "publisher": "Amet Luctus Company",
+    "price": "9,09",
+    "discount": "0.15"
+  },
+  {
+    "id": "68",
+    "author": "Riley T. Mccray",
+    "published": "1936",
+    "title": "Ornare, elit elit fermentum risus, at fringilla",
+    "category": "Development",
+    "publisher": "Mi Eleifend Incorporated",
+    "price": "7,24",
+    "discount": "0.0"
+  },
+  {
+    "id": "69",
+    "author": "Duncan M. Pennington",
+    "published": "1929",
+    "title": "Dictum eu, eleifend nec,",
+    "category": "Horror",
+    "publisher": "Felis Ltd",
+    "price": "45,86",
+    "discount": "0.0"
+  },
+  {
+    "id": "70",
+    "author": "Victor C. Dale",
+    "published": "1957",
+    "title": "Eros turpis",
+    "category": "luctus vulputateMystery",
+    "publisher": "Suspendisse LLP",
+    "price": "29,54",
+    "discount": "0.0"
+  },
+  {
+    "id": "71",
+    "author": "Kendall R. Bowman",
+    "published": "1991",
+    "title": "Magna.",
+    "category": "Art",
+    "publisher": "Posuere Enim Associates",
+    "price": "20,25",
+    "discount": "0.0"
+  },
+  {
+    "id": "72",
+    "author": "Kirestin Sawyer",
+    "published": "1956",
+    "title": "Sapien. Aenean massa. Integer vitae nibh.",
+    "category": "Fiction",
+    "publisher": "Neque Non Quam Associates",
+    "price": "38,21",
+    "discount": "0.0"
+  },
+  {
+    "id": "73",
+    "author": "Raja Duke",
+    "published": "1951",
+    "title": "Tortor, dictum eu, placerat eget, venenatis",
+    "category": "Fantasy",
+    "publisher": "Ridiculus Mus Donec Incorporated",
+    "price": "49,45",
+    "discount": "0.0"
+  },
+  {
+    "id": "74",
+    "author": "Vivien K. Simmons",
+    "published": "2018",
+    "title": "Amet ultricies sem magna nec quam.",
+    "category": "Dystopian",
+    "publisher": "Ultricies Ornare Elit Consulting",
+    "price": "22,81",
+    "discount": "0.0"
+  },
+  {
+    "id": "75",
+    "author": "Leah Malone",
+    "published": "1938",
+    "title": "Curabitur egestas nunc sed libero. Proin",
+    "category": "Adventure",
+    "publisher": "Amet Risus Inc.",
+    "price": "27,28",
+    "discount": "0.0"
+  },
+  {
+    "id": "76",
+    "author": "Regina A. Duran",
+    "published": "1978",
+    "title": "Tristique pharetra. Quisque ac libero nec ligula consectetuer rhoncus. Nullam",
+    "category": "Travel",
+    "publisher": "Sed Dui Fusce Foundation",
+    "price": "10,50",
+    "discount": "0.0"
+  },
+  {
+    "id": "77",
+    "author": "Macon Hewitt",
+    "published": "1985",
+    "title": "Sed pede nec ante blandit viverra.",
+    "category": "Cooking",
+    "publisher": "Pellentesque Institute",
+    "price": "42,85",
+    "discount": "0.15"
+  },
+  {
+    "id": "78",
+    "author": "Farrah G. Ramsey",
+    "published": "2010",
+    "title": "Iaculis quis,",
+    "category": "Development",
+    "publisher": "Nulla Industries",
+    "price": "45,07",
+    "discount": "0.0"
+  },
+  {
+    "id": "79",
+    "author": "Rooney Mendez",
+    "published": "1912",
+    "title": "Augue malesuada malesuada. Integer id magna et",
+    "category": "Horror",
+    "publisher": "Ornare Lectus Ante Foundation",
+    "price": "28,62",
+    "discount": "0.0"
+  },
+  {
+    "id": "80",
+    "author": "Jack Martinez",
+    "published": "1989",
+    "title": "Accumsan",
+    "category": "Mystery",
+    "publisher": "Iaculis Quis Foundation",
+    "price": "8,01",
+    "discount": "0.0"
+  },
+  {
+    "id": "81",
+    "author": "Dai Singleton",
+    "published": "1992",
+    "title": "Praesent",
+    "category": "Art",
+    "publisher": "Placerat Foundation",
+    "price": "33,85",
+    "discount": "0.0"
+  },
+  {
+    "id": "82",
+    "author": "Jaden Richardson",
+    "published": "2014",
+    "title": "Consequat enim",
+    "category": "Fiction",
+    "publisher": "Cras Eget Nisi PC",
+    "price": "38,27",
+    "discount": "0.0"
+  },
+  {
+    "id": "83",
+    "author": "Kylan R. Santiago",
+    "published": "1913",
+    "title": "Quisque porttitor eros nec tellus. Nunc lectus",
+    "category": "Fantasy",
+    "publisher": "Rutrum Non Hendrerit Incorporated",
+    "price": "34,82",
+    "discount": "0.0"
+  },
+  {
+    "id": "84",
+    "author": "Cairo Ingram",
+    "published": "1929",
+    "title": "Nunc sollicitudin commodo ipsum. Suspendisse",
+    "category": "Dystopian,",
+    "publisher": "Lectus Rutrum PC",
+    "price": "10,39",
+    "discount": "0.0"
+  },
+  {
+    "id": "85",
+    "author": "Plato S. Cooley",
+    "published": "1983",
+    "title": "Lorem eu metus. In lorem. Donec elementum, lorem ut",
+    "category": "Adventure",
+    "publisher": "Amet Orci PC",
+    "price": "40,78",
+    "discount": "0.0"
+  },
+  {
+    "id": "86",
+    "author": "Teagan C. Hale",
+    "published": "2003",
+    "title": "Nulla eget metus eu erat semper rutrum. Fusce dolor quam,",
+    "category": "Travel",
+    "publisher": "Elit Incorporated",
+    "price": "4,01",
+    "discount": "0.0"
+  },
+  {
+    "id": "87",
+    "author": "Griffith Robbins",
+    "published": "1922",
+    "title": "Ante dictum cursus. Nunc mauris",
+    "category": "Cooking",
+    "publisher": "Vehicula Pellentesque Limited",
+    "price": "49,58",
+    "discount": "0.15"
+  },
+  {
+    "id": "88",
+    "author": "Elijah E. Mcintyre",
+    "published": "2015",
+    "title": "Nibh. Aliquam ornare, libero at",
+    "category": "Development",
+    "publisher": "Augue Eu Corp.",
+    "price": "22,31",
+    "discount": "0.0"
+  },
+  {
+    "id": "89",
+    "author": "Kerry L. Rosa",
+    "published": "1993",
+    "title": "Phasellus in felis. Nulla",
+    "category": "Horror",
+    "publisher": "At Ltd",
+    "price": "38,27",
+    "discount": "0.0"
+  },
+  {
+    "id": "90",
+    "author": "Raven Moody",
+    "published": "1946",
+    "title": "Feugiat nec, diam. Duis mi enim, condimentum eget,",
+    "category": "Mystery",
+    "publisher": "Curabitur Massa Vestibulum Institute",
+    "price": "18,72",
+    "discount": "0.0"
+  },
+  {
+    "id": "91",
+    "author": "Sybill Dejesus",
+    "published": "2013",
+    "title": "Egestas. Sed pharetra, felis eget",
+    "category": "Art",
+    "publisher": "Hendrerit Neque Ltd",
+    "price": "22,97",
+    "discount": "0.0"
+  },
+  {
+    "id": "92",
+    "author": "Murphy P. Rodgers",
+    "published": "2021",
+    "title": "Ante dictum cursus. Nunc mauris elit, dictum eu, eleifend",
+    "category": "Fiction",
+    "publisher": "Augue LLC",
+    "price": "6,51",
+    "discount": "0.0"
+  },
+  {
+    "id": "93",
+    "author": "Jeremy Z. Faulkner",
+    "published": "2021",
+    "title": "Ipsum",
+    "category": "Fantasy",
+    "publisher": "A Limited",
+    "price": "21,93",
+    "discount": "0.0"
+  },
+  {
+    "id": "94",
+    "author": "Thane P. Peterson",
+    "published": "2005",
+    "title": "Lacinia at, iaculis quis, pede. Praesent eu dui.",
+    "category": "Dystopian",
+    "publisher": "Et Risus Quisque Inc.",
+    "price": "6,11",
+    "discount": "0.0"
+  },
+  {
+    "id": "95",
+    "author": "Gregory X. Newton",
+    "published": "1930",
+    "title": "Ornare. In faucibus. Morbi",
+    "category": "Adventure",
+    "publisher": "Mauris Corporation",
+    "price": "20,38",
+    "discount": "0.0"
+  },
+  {
+    "id": "96",
+    "author": "Tad W. Boyer",
+    "published": "1975",
+    "title": "Non leo. Vivamus nibh",
+    "category": "Travel",
+    "publisher": "Proin Non Limited",
+    "price": "21,11",
+    "discount": "0.0"
+  },
+  {
+    "id": "97",
+    "author": "Bo U. Mueller",
+    "published": "2013",
+    "title": "Nam nulla magna, malesuada vel, convallis in,",
+    "category": "Cooking",
+    "publisher": "Dictum Industries",
+    "price": "22,82",
+    "discount": "0.15"
+  },
+  {
+    "id": "98",
+    "author": "Hoyt X. Simon",
+    "published": "2013",
+    "title": "Tellus id nunc interdum feugiat. Sed",
+    "category": "Development",
+    "publisher": "Morbi Tristique Consulting",
+    "price": "37,30",
+    "discount": "0.0"
+  },
+  {
+    "id": "99",
+    "author": "Ivan Sawyer",
+    "published": "1985",
+    "title": "Magna tellus faucibus leo, in lobortis tellus justo sit amet",
+    "category": "Horror",
+    "publisher": "Quis Tristique Ac Associates",
+    "price": "40,27",
+    "discount": "0.0"
+  }
+]

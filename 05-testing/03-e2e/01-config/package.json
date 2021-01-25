@@ -46,7 +46,7 @@
     "@types/react-router-dom": "^5.1.5",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.6.0",
-    "cypress": "^4.9.0",
+    "cypress": "^6.3.0",
     "dotenv-webpack": "^1.8.0",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",

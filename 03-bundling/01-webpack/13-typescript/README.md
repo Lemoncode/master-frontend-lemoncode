@@ -136,20 +136,14 @@ _./webpack.config.js_
   webpack output just to quick find that errors:
 
 ```diff
-module.exports = {
-  context: path.join(basePath, "src"),
-  resolve: {
-    extensions: [".js", ".ts", ".tsx"]
-  },
-  entry: {
-    app: "./index.tsx",
-    appStyles: ["./mystyles.scss"],
-    vendorStyles: ["../node_modules/bootstrap/dist/css/bootstrap.css"]
-  },
-+  devServer: {
-+    stats: "errors-only",
-+  },
+...
+   devServer: {
+    port: 8080,
++   stats: "errors-only",
+   },
 ```
+
+> [Reference](https://webpack.js.org/configuration/dev-server/#devserverstats-)
 
 - Install React and React DOM typings
 
@@ -242,11 +236,11 @@ _./package.json_
 
 ```diff
   "scripts": {
--    "start": "webpack-dev-server --mode development --open",
+-    "start": "webpack serve",
 +    "start": "run-p -l type-check:watch start:dev",
 +    "type-check": "tsc --noEmit",
 +    "type-check:watch": "npm run type-check -- --watch",
-+    "start:dev": "webpack serve --mode development",
++    "start:dev": "webpack serve",
     "build": "rimraf dist && webpack --mode development"
   },
 ```
@@ -256,6 +250,21 @@ _./package.json_
 ```bash
 npm start
 ```
+
+- We can add sourcemaps to debug our application in browser console:
+
+_./webpack.config.js_
+
+```diff
+...
++ devtool: 'eval-source-map',
+  devServer: {
+    port: 8080,
+    stats: "errors-only",
+  },
+```
+
+> [Reference](https://webpack.js.org/configuration/devtool/)
 
 # About Basefactor + Lemoncode
 

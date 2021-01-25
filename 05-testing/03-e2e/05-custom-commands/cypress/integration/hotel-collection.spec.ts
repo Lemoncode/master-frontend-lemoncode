@@ -9,9 +9,8 @@ describe('Hotel collection specs', () => {
     cy.findAllByRole('listitem').should('have.length', 10);
   });
 
-  it('should fetch hotel list greater than 0 when visit /hotel-collection url', () => {
+  it('should fetch hotel list greater than 0 when loadAndVisit ', () => {
     // Arrange
-
     // Act
     cy.loadAndVisit('/api/hotels', '/hotel-collection');
 
@@ -23,7 +22,7 @@ describe('Hotel collection specs', () => {
     // Arrange
 
     // Act
-    cy.loadAndVisit('/api/hotels', '/hotel-collection', 'fixture:hotels');
+    cy.loadAndVisit('/api/hotels', '/hotel-collection', 'hotels.json');
 
     // Assert
     cy.findAllByRole('listitem').should('have.length', 2);

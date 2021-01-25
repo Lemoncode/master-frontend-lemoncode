@@ -1,6 +1,6 @@
 import React from "react";
 import { getTotalScore } from "./averageService";
-import classes from "./totalScoreComponentStyles.scss";
+import classes from './totalScoreComponentStyles.scss';
 
 export const TotalScoreComponent = () => {
   const [totalScore, setTotalScore] = React.useState(0);

@@ -56,9 +56,9 @@ Finally, we need to update command script:
 _./package.json_
 
 ```diff
-    "build:dev": "rimraf dist && webpack --config webpack.dev.js",
-    "build:prod": "rimraf dist && webpack --config webpack.prod.js"
-+   "build:perf": "rimraf dist && webpack --config webpack.perf.js"
+...
+    "build:prod": "npm run type-check && webpack --config webpack.prod.js",
++   "build:perf": "npm run type-check && webpack --config webpack.perf.js"
   },
 ```
 
@@ -67,6 +67,70 @@ _./package.json_
 ```bash
 npm run build:perf
 ```
+
+- As we can see, we have mixed `app` code with `vendor` code. We can use [Code Splitting](https://webpack.js.org/guides/code-splitting/#splitchunksplugin) webpack feature. Let's try all vendors in one bundle:
+
+_webpack.prod.js_
+
+```diff
+...
+  output: {
+    filename: "js/[name].[chunkhash].js",
+    assetModuleFilename: "images/[hash][ext][query]",
+  },
++ optimization: {
++   runtimeChunk: 'single',
++   splitChunks: {
++     cacheGroups: {
++       vendor: {
++         chunks: 'all',
++         name: 'vendor',
++         test: /[\\/]node_modules[\\/]/,
++         enforce: true,
++       },
++     },
++   },
++ },
+```
+
+- Each vendor on its own bundle (nice with HTTP 2):
+
+_webpack.prod.js_
+
+```diff
+...
+  output: {
+    filename: "js/[name].[chunkhash].js",
+    assetModuleFilename: "images/[hash][ext][query]",
+  },
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          chunks: 'all',
+-         name: 'vendor',
++         name: (module) => {
++           const packageName = module.context.match(
++             /[\\/]node_modules[\\/](.*?)([\\/]|$)/
++           )[1];
++           // npm package names are URL-safe, but some servers don't like @ symbols
++           return `vendor/${packageName.replace("@", "")}`;
++         },
+          test: /[\\/]node_modules[\\/]/,
+          enforce: true,
+        },
+      },
+    },
+  },
+```
+
+
+> References:
+>
+> [Webpack SplitChunks](https://webpack.js.org/plugins/split-chunks-plugin/#optimizationsplitchunks)
+>
+> https://medium.com/hackernoon/the-100-correct-way-to-split-your-chunks-with-webpack-f8a9df5b7758
 
 # About Basefactor + Lemoncode
 

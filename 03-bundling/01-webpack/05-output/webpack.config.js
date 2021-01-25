@@ -11,6 +11,9 @@ module.exports = {
       },
     ],
   },
+  devServer: {
+    port: 8080,
+  },
   plugins: [
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({

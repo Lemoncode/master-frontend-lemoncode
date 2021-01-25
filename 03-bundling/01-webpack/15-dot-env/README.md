@@ -53,19 +53,14 @@ _./webpack.dev.js_
 
 ```diff
 const { merge } = require("webpack-merge");
-const common = require("./webpack.common.js");
 + const Dotenv = require('dotenv-webpack');
+...
 ```
 
 _./webpack.dev.js_
 
 ```diff
-module.exports = merge(common, {
-  mode: "development",
-  devtool: "inline-source-map",
-  devServer: {
-    stats: "errors-only",
-  },
+...
 + plugins: [
 +   new Dotenv({
 +     path: './dev.env',
@@ -80,25 +75,24 @@ _./webpack.prod.js_
 
 ```diff
 const { merge } = require("webpack-merge");
-const common = require("./webpack.common.js");
 + const Dotenv = require('dotenv-webpack');
+...
+
 ```
 
 _./webpack.prod.js_
 
 ```diff
-const { merge } = require("webpack-merge");
-const common = require("./webpack.common.js");
-
-module.exports = merge(common, {
-  mode: "production",
-  devtool: "none",
-  stats: "verbose",
-+ plugins: [
+...
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "css/[name].[chunkhash].css",
+      chunkFilename: "[id].[chunkhash].css",
+    }),
 +   new Dotenv({
-+     path: './prod.env',
++     path: "./prod.env",
 +   }),
-+ ],
+  ],
 });
 ```
 
@@ -120,10 +114,10 @@ _./package.json_
     "start": "run-p -l type-check:watch start:dev",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
-    "start:dev": "webpack-dev-server --mode development --open --config webpack.dev.js",
+    "start:dev": "webpack serve --config webpack.dev.js",
 +   "start:prod": "webpack serve --config webpack.prod.js",
-    "build:dev": "rimraf dist && webpack --config webpack.dev.js",
-    "build:prod": "rimraf dist && webpack --config webpack.prod.js"
+    "build:dev": "npm run type-check && webpack --config webpack.dev.js",
+    "build:prod": "npm run type-check && webpack --config webpack.prod.js"
   },
 ```
 

@@ -90,8 +90,7 @@ describe('Hotel collection specs', () => {
 +       city: 'Seattle',
 +     },
 +   ] as HotelEntityApi[];
-+   cy.server(); // Start the server to change request behaviour
-+   cy.route('GET', '/api/hotels', hotels);
++   cy.intercept('GET', '/api/hotels', hotels);
 
 +   // Act
 +   cy.visit('/hotel-collection');
@@ -103,7 +102,7 @@ describe('Hotel collection specs', () => {
 
 ```
 
-> [server method](https://docs.cypress.io/api/commands/server.html#Syntax)
+> [intercept method](https://docs.cypress.io/api/commands/intercept.htm)
 > Mock data, 404 responses, etc
 
 - This is a common task that we will have to do, so cypress provide the `fixtures` approach:
@@ -163,9 +162,8 @@ describe('Hotel collection specs', () => {
 -       city: 'Seattle',
 -     },
 -   ] as HotelEntityApi[];
-    cy.server(); // Start the server to change request behaviour
 +   cy.fixture('hotels').then((hotels) => {
-      cy.route('GET', '/api/hotels', hotels);
+      cy.intercept('GET', '/api/hotels', hotels);
 +   });
 
     // Act
@@ -184,11 +182,10 @@ describe('Hotel collection specs', () => {
 ```diff
   it('should fetch two hotels when visit /hotel-collection url', () => {
     // Arrange
-    cy.server(); // Start the server to change request behaviour
 -   cy.fixture('hotels').then((hotels) => {
--     cy.route('GET', '/api/hotels', hotels);
+-     cy.intercept('GET', '/api/hotels', hotels);
 -   });
-+   cy.route('GET', '/api/hotels', 'fixture:hotels');
++   cy.intercept('GET', '/api/hotels', { fixture: 'hotels.json' });
 
     // Act
     cy.visit('/hotel-collection');

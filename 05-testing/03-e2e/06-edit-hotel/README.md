@@ -100,7 +100,7 @@ describe('Hotel edit specs', () => {
     // Act
     cy.loadAndVisit('/api/hotels', '/hotel-collection');
 
-+   cy.route('GET', '/api/hotels/2').as('loadHotel');
++   cy.intercept('GET', '/api/hotels/2').as('loadHotel');
 
     cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {
       buttons[1].click();
@@ -135,13 +135,15 @@ Cypress.Commands.add(
 + (visitUrl: string, resources: Resource[], callbackAfterVisit?: () => void) => {
     cy.server();
 -   Boolean(fixture)
--     ? cy.route('GET', apiPath, fixture).as('load')
--     : cy.route('GET', apiPath).as('load');
+-     ? cy.intercept('GET', apiPath, { fixture }).as('load')
+-     : cy.intercept('GET', apiPath).as('load');
 +   const aliasList = resources.map((resource, index) => {
 +     const alias = resource.alias || `load-${index}`;
 +     Boolean(resource.fixture)
-+       ? cy.route('GET', resource.path, resource.fixture).as(alias)
-+       : cy.route('GET', resource.path).as(alias);
++       ? cy
++           .intercept('GET', resource.path, { fixture: resource.fixture })
++           .as(alias)
++       : cy.intercept('GET', resource.path).as(alias);
 
 +     return alias;
 +   });
@@ -217,7 +219,11 @@ declare namespace Cypress {
 -   cy.loadAndVisit('/api/hotels', '/hotel-collection');
 +   cy.loadAndVisit(
 +     '/hotel-collection',
-+     [{ path: '/api/hotels', alias: 'loadHotels' }, { path: '/api/hotels/2' }],
++     [
++       { path: '/api/hotels', alias: 'loadHotels' },
++       { path: '/api/hotels/2' },
++       { path: '/api/cities' },
++     ],
 +     () => {
 +       cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {
 +         buttons[1].click();
@@ -225,7 +231,7 @@ declare namespace Cypress {
 +     }
 +   );
 
--   cy.route('GET', '/api/hotels/2').as('loadHotel');
+-   cy.intercept('GET', '/api/hotels/2').as('loadHotel');
 
 -   cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {
 -     buttons[1].click();
@@ -274,9 +280,9 @@ declare namespace Cypress {
     // Arrange
 
     // Act
--   cy.loadAndVisit('/api/hotels', '/hotel-collection', 'fixture:hotels');
+-   cy.loadAndVisit('/api/hotels', '/hotel-collection', 'hotels.json');
 +   cy.loadAndVisit('/hotel-collection', [
-+     { path: '/api/hotels', fixture: 'fixture:hotels' },
++     { path: '/api/hotels', fixture: 'hotels.json' },
 +   ]);
 
     // Assert

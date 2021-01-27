@@ -30,6 +30,8 @@ app.use('/', express.static(path.join(__dirname, 'static')));
 
 - En nuestro fichero de API vamos a definir un nuevo endpoint.
 
+_./src/api.ts_
+
 ```diff
 api.get('/', async (req, res) => {
   res.send({ id: '1', name: 'test data' });

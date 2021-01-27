@@ -233,7 +233,7 @@ api.get('/', async (req, res) => {
   res.send({ id: '1', name: 'test data' });
 });
 
-+ api.post('/api/create-checkout-session', async (req, res) => {
++ api.post('/create-checkout-session', async (req, res) => {
 +  const session = await stripe.checkout.sessions.create({
 +    payment_method_types: ['card'],
 +    line_items: [
@@ -337,7 +337,7 @@ _./src/static/index.html_
 +    var checkoutButton = document.getElementById("checkout-button");
 +
 +    checkoutButton.addEventListener("click", function () {
-+      fetch("/create-checkout-session", {
++      fetch("/api/create-checkout-session", {
 +        method: "POST",
 +      })
 +        .then(function (response) {

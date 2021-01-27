@@ -18,7 +18,7 @@ npm install stripe --save
 
 - Creamos una hoja de estilo para que nuestras páginas tengan buena pinta (la del ejemplo de Stripe):
 
-_./src/public/style.css_
+_./src/static/style.css_
 
 ```css
 body {

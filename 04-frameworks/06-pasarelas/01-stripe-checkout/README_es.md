@@ -204,6 +204,7 @@ _./src/api.ts_
 
 import { Router } from 'express';
 + import Stripe from 'stripe';
++ import {envConstants} from './env.constants';
 
 + // https://github.com/stripe/stripe-node#usage-with-typescript
 + const stripe = new Stripe(envConstants.STRIPE_SECRET, {

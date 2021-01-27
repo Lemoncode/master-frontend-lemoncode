@@ -198,6 +198,8 @@ _./tsconfig.json_
 
 - Vamos ahora a nuestro fichero de _api_ e importarnos Stripe, configurandolo con la cuenta que acabamos de introducir en nuestra variable de entorno.
 
+_./src/api.ts_
+
 ```diff
 
 import { Router } from 'express';

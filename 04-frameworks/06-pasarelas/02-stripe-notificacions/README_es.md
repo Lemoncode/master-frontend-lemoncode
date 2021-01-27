@@ -115,6 +115,8 @@ stripe listen --forward-to localhost:8081/api/webhook
 
 - Volvemos a api.ts en el post webhook, verificamos la firma.
 
+_./src/api.ts_
+
 ```diff
 + // Aquí copiamos y pegamos el código que nos dió el comando _stripe listen --forward_ (el que empieza + por whsec_)
 + const endpointSecret = "whsec_...";

@@ -30,7 +30,7 @@ _index.ts_
 
 ```tsx
 import * as d3 from "d3";
-import { resultCollectionSpainNov19 } from "./data";
+import { resultCollectionSpainNov19, ResultEntry } from "./data";
 
 const svgDimensions = { width: 800, height: 500 };
 const margin = { left: 5, right: 5, top: 10, bottom: 10 };

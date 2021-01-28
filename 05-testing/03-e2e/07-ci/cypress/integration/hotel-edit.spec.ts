@@ -1,10 +1,8 @@
 describe('Hotel edit specs', () => {
   it('should navigate to second hotel when click on edit second hotel', () => {
     // Arrange
-
     // Act
     cy.loadAndVisit('/hotel-collection', [{ path: '/api/hotels' }]);
-
     cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {
       buttons[1].click();
     });
@@ -22,9 +20,7 @@ describe('Hotel edit specs', () => {
       [
         { path: '/api/hotels', alias: 'loadHotels' },
         { path: '/api/hotels/2' },
-        {
-          path: '/api/cities',
-        },
+        { path: '/api/cities' },
       ],
       () => {
         cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {

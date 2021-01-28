@@ -67,6 +67,7 @@ describe('Tests del comportamiento en el DOM', () => {
 
   jest.mock('src/app/services/members.service');
   const mockService = mocked(MembersService, true);
+  mockService['getAll'] = jest.fn(() => of(fakeMembers));
 
   let component: UserListComponent;
   let fixture: ComponentFixture<UserListComponent>;
@@ -81,20 +82,19 @@ describe('Tests del comportamiento en el DOM', () => {
         FormsModule,
         HttpClientTestingModule
       ],
-      providers: [mockService],
+      providers: [
+        // {provide: MembersService, useClass: MockMembersService},
+        {provide: MembersService, useValue: mockService},
+      ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UserListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
   });
 
   it('Debe aparecer un listado', () => {
-    console.log(component.members);
-    component.members = [...fakeMembers];
-    fixture.detectChanges();
     const login1 = fixture.nativeElement.querySelector('table tbody tr:first-child td:nth-child(3) span') as HTMLTableRowElement;
     expect(login1.textContent).toContain('antonio08');
   });

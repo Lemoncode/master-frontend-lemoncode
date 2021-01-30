@@ -137,7 +137,8 @@ svg
   .data(geojson["features"])
   .enter()
   .append("path")
-  // data loaded from json file
+  // use geoPath to convert the data into the current projection
+  // https://stackoverflow.com/questions/35892627/d3-map-d-attribute
   .attr("d", geoPath as any);
 ```
 

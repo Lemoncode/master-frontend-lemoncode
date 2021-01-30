@@ -118,7 +118,7 @@ svg
   .enter()
   .append("rect")
   .attr("width", 50)
-  .attr("height", d => d.seats);
+  .attr("height", d => d.seats)
 + .attr("x", (d,i) => i * 60)
   ;
 ```

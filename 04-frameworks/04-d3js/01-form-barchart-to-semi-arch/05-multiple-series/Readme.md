@@ -40,7 +40,6 @@ import * as d3 from "d3";
 import {
   resultCollectionSpainNov19,
 +  resultCollectionSpainApr19,
-+  ResultEntry
   ResultEntry
 } from "./data";
 ```
@@ -48,87 +47,41 @@ import {
 - In April's election there's a political party that is not in novembers election, we need to include all parties:
 
 ```diff
-- const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
--  item => item.party
-- );
-
-+ const politicalPartiesKeys: string[] = [
-+  "PSOE",
-+  "PP",
-+  "VOX",
-+  "UP",
-+  "ERC",
-+  "Cs",
-+  "JxCat",
-+  "PNV",
-+  "Bildu",
-+  "Más pais",
-+  "CUP",
-+  "CC",
-+  "BNG",
-+  "Teruel Existe",
-+  "Compromis"
-+ ];
-```
-
-- Let's add one more color for that party, and move up the ordinal scale (map parties to colors):
-
-```diff
-const partiesColor = [
-  "#ED1D25",
-  "#0056A8",
-  "#5BC035",
-  "#6B2E68",
-  "#F3B219",
-  "#FA5000",
-  "#C50048",
-  "#029626",
-  "#A3C940",
-  "#0DDEC5",
-  "#FFF203",
-  "#FFDB1B",
-  "#E61C13",
-  "#73B1E6",
-  "#BECD48",
-  "#017252",
-+  "#DD0000"
-];
-
-+ var ordinal = d3
-+  .scaleOrdinal()
-+  .domain(politicalPartiesKeys)
-+  .range(partiesColor);
-```
-
-- Let's remove it from the legend
-
-```diff
-// Legend
-- var ordinal = d3
--  .scaleOrdinal()
--  .domain(politicalPartiesKeys)
--  .range(partiesColor);
-```
-
-- Now we are going to use the whole entity instead of only values:
-
-```diff
-- const politicalResultsOnlyNumbers: number[] = resultCollectionSpainNov19.map(
--  result => result.seats
-- );
-
-- const pie = pieChart(politicalResultsOnlyNumbers);
-+ const pie = pieChart(<any>resultCollectionSpainNov19);
-```
-
-- On the piechart let's indicate the values fields to be measure (seats).
-
-```diff
-const pieChart = d3
-  .pie()
-  .startAngle(-90 * (Math.PI / 180))
-  .endAngle(90 * (Math.PI / 180))
-+  .value(d => d["seats"])
+const partiesColorScale = d3
+  .scaleOrdinal([
+    "#ED1D25",
+    "#0056A8",
+    "#5BC035",
+    "#6B2E68",
+    "#F3B219",
+    "#FA5000",
+    "#C50048",
+    "#029626",
+    "#A3C940",
+    "#0DDEC5",
+    "#FFF203",
+    "#FFDB1B",
+    "#E61C13",
+    "#73B1E6",
++    "#FFA500"
+  ])
+  .domain([
+    "PSOE",
+    "PP",
+    "VOX",
+    "UP",
+    "ERC",
+    "Cs",
+    "JxCat",
+    "PNV",
+    "Bildu",
+    "Más pais",
+    "CUP",
+    "CC",
+    "BNG",
+    "Teruel Existe",
++    "Compromis",
+  ]);
 ```
 
 - Let's add a method to swap the data we are using (e.g. swap november results with april results),
@@ -162,7 +115,13 @@ document
   });
 ```
 
-- Let's give a try... we got an animation but a bit strange, how to make it smoother? remove the sorting:
+- Let's give a try...
+
+```bash
+npm start
+```
+
+- We got an animation but a bit strange, how to make it smoother? remove the sorting:
 
 ```diff
 const pieChart = d3

@@ -15,34 +15,27 @@ Live demo: [codesandbox](https://codesandbox.io/s/fervent-lumiere-8w12q)
 
 - We will take as starting sample _03-arc-chart_.
 
-- We will add the parties keys array again:
-
-```typescript
-const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
-  item => item.party
-);
-```
-
 - Let's copy the content from _03-arc-chart_ and execute _npm install_
 
 ```bash
 npm install
 ```
 
-- Let's install _d3-svg-legend_
+- We could just create the legend by ourselves or use some library (in this case
+  we will go for the easy path), let's install
 
-```bash
-npm i d3-svg-legend -P
+```
+npm i d3-svg-legend --save
 ```
 
-- Let's import this legend in our _index.ts_ file.
+- Let's import the legend in our index
 
 _./src/index.ts_
 
 ```diff
 import * as d3 from "d3";
-import { resultCollectionSpainNov19 } from "./data";
 + import {legendColor} from 'd3-svg-legend';
+import { resultCollectionSpainNov19, ResultEntry } from "./data";
 ```
 
 - Now let's create and ordinal scale color,map it to a legend object and add it in a group below the semi arch chart (APPEND THIS CONTENT, EOF).
@@ -51,19 +44,16 @@ _./src/index.ts_
 
 ```typescript
 // Legend
-const ordinal = d3
-  .scaleOrdinal(partiesColor)
-  .domain(politicalPartiesKeys)
-
-const legendOrdinal = legendColor().scale(ordinal);
-
 const legendLeft = margin.left;
 const legendTop = radius + 5;
 
 const legendGroup = svg
- .append("g")
- .attr("transform", `translate(${legendLeft},${legendTop})`);
-legendGroup.call(legendOrdinal);
+  .append("g")
+  .attr("transform", `translate(${legendLeft},${legendTop})`);
+
+var colorLegend = legendColor().scale(partiesColorScale);
+
+legendGroup.call(colorLegend);
 ```
 
 - Let's go for one more goodie, we want to highlight the piece of arc where the mouse point
@@ -73,11 +63,13 @@ legendGroup.call(legendOrdinal);
 arcs
   .append("path")
   .attr("d", <any>arc) // Hack typing: https://stackoverflow.com/questions/35413072/compilation-errors-when-drawing-a-piechart-using-d3-js-typescript-and-angular/38021825
-  .attr("fill", (d, i) => partiesColor[i]); // TODO color ordinal
-+ .on("mouseover", function(d, i) {
+  .attr("fill", (d, i) => {
+    return partiesColorScale(d.data.party);
+  })
++ .on("mouseover", function(datum) {
 +   d3.select(this).attr("transform", `scale(1.1, 1.1)`);
 + })
-+  .on("mouseout", function(d, i) {
++  .on("mouseout", function(datum) {
 +    d3.select(this).attr("transform", ``);
 +  });
 ```
@@ -87,7 +79,7 @@ arcs
 
 - Let's start by defining the styles for that tooltip.
 
-_styles.css_
+_./src/styles.css_
 
 ```css
 div.tooltip {
@@ -117,6 +109,8 @@ _./src/index.html_
 
 - Now let's define the tooltip.
 
+> Watch out!! breaking change on d3 v6: https://stackoverflow.com/questions/63693132/unable-to-get-node-datum-on-mouseover-in-d3-v6
+
 _./src/index.ts_
 
 ```typescript
@@ -133,18 +127,15 @@ const div = d3
 _./src/index.ts_
 
 ```diff
-  .on("mouseover", function(d, i) {
+  .on("mouseover", function(datum) {
     d3.select(this).attr("transform", `scale(1.1, 1.1)`);
++    const partyInfo = datum.data;
++    const coords = { x: d3.event.pageX, y: d3.event.pageY };
++    div.transition().duration(200).style("opacity", 0.9);
 +    div
-+      .transition()
-+      .duration(200)
-+      .style("opacity", 0.9);
-+    div
-+      .html(
-+        `<span>${resultCollectionSpainNov19[i].party}: ${resultCollectionSpainNov19[i].seats}</span>`
-+      )
-+      .style("left", `${d3.event.pageX}px`)
-+      .style("top", `${d3.event.pageY - 28}px`);
++      .html(`<span>${partyInfo.party}: ${partyInfo.seats}</span>`)
++      .style("left", `${coords.x}px`)
++      .style("top", `${coords.y - 28}px`);
   })
 ```
 
@@ -153,7 +144,7 @@ _./src/index.ts_
 _./src/index.ts_
 
 ```diff
-  .on("mouseout", function(d, i) {
+  .on("mouseout", function(datum) {
     d3.select(this).attr("transform", ``);
 +   div.transition()
 +                .duration(500)
@@ -182,4 +173,3 @@ We are an innovating team of Javascript experts, passionate about turning your i
 [Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
 
 For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
-

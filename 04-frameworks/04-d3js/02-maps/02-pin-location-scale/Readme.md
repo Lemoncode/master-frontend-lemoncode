@@ -68,7 +68,7 @@ const aProjection = d3
 -  .scale(500)
 +  .scale(2000)
   // Let's center the map
--  .translate([300, 900])3
+-  .translate([300, 900])
 +  .translate([650, 1800]);
 ```
 
@@ -129,88 +129,88 @@ export const latLongCommunities = [
   {
     name: "Madrid",
     long: -3.70256,
-    lat: 40.4165
+    lat: 40.4165,
   },
   {
     name: "Andalucía",
     long: -4.5,
-    lat: 37.6
+    lat: 37.6,
   },
   {
     name: "Valencia",
     long: -0.37739,
-    lat: 39.45975
+    lat: 39.45975,
   },
   {
     name: "Murcia",
     long: -1.13004,
-    lat: 37.98704
+    lat: 37.98704,
   },
   {
     name: "Extremadura",
     long: -6.16667,
-    lat: 39.16667
+    lat: 39.16667,
   },
   {
     name: "Cataluña",
     long: 1.86768,
-    lat: 41.82046
+    lat: 41.82046,
   },
   {
     name: "País Vasco",
     long: -2.75,
-    lat: 43.0
+    lat: 43.0,
   },
   {
     name: "Cantabria",
     long: -4.03333,
-    lat: 43.2
+    lat: 43.2,
   },
   {
     name: "Asturias",
     long: -5.86112,
-    lat: 43.36662
+    lat: 43.36662,
   },
   {
     name: "Galicia",
     long: -7.86621,
-    lat: 42.75508
+    lat: 42.75508,
   },
   {
     name: "Aragón",
     long: -1.0,
-    lat: 41.0
+    lat: 41.0,
   },
   {
     name: "Castilla y León",
     long: -4.45,
-    lat: 41.383333
+    lat: 41.383333,
   },
   {
     name: "Castilla La Mancha",
     long: -3.000033,
-    lat: 39.500011
+    lat: 39.500011,
   },
   {
     name: "Islas Canarias",
     long: -15.5,
-    lat: 28.0
+    lat: 28.0,
   },
   {
     name: "Islas Baleares",
     long: 2.52136,
-    lat: 39.18969
+    lat: 39.18969,
   },
   {
     name: "Navarra",
     long: -1.65,
-    lat: 42.816666
+    lat: 42.816666,
   },
   {
     name: "La Rioja",
     long: -2.445556,
-    lat: 42.465
-  }
+    lat: 42.465,
+  },
 ];
 ```
 
@@ -236,8 +236,8 @@ svg
   .enter()
   .append("circle")
   .attr("r", 15)
-  .attr("cx", d => aProjection([d.long, d.lat])[0])
-  .attr("cy", d => aProjection([d.long, d.lat])[1]);
+  .attr("cx", (d) => aProjection([d.long, d.lat])[0])
+  .attr("cy", (d) => aProjection([d.long, d.lat])[1]);
 ```
 
 - Nice ! we got an spot on top of each community, now is time to
@@ -251,68 +251,68 @@ _./stats.ts_
 export const stats = [
   {
     name: "Madrid",
-    value: 174
+    value: 174,
   },
   {
     name: "La Rioja",
-    value: 39
+    value: 39,
   },
   {
     name: "Andalucía",
-    value: 34
+    value: 34,
   },
   {
     name: "Cataluña",
-    value: 24
+    value: 24,
   },
   {
     name: "Valencia",
-    value: 30
+    value: 30,
   },
   {
     name: "Murcia",
-    value: 0
+    value: 0,
   },
   {
     name: "Extremadura",
-    value: 6
+    value: 6,
   },
   {
     name: "Castilla La Mancha",
-    value: 16
+    value: 16,
   },
   {
     name: "País Vasco",
-    value: 45
+    value: 45,
   },
   {
     name: "Cantabria",
-    value: 10
+    value: 10,
   },
   {
     name: "Asturias",
-    value: 5
+    value: 5,
   },
   {
     name: "Galicia",
-    value: 3
+    value: 3,
   },
   {
     name: "Aragón",
-    value: 11
+    value: 11,
   },
   {
     name: "Castilla y León",
-    value: 19
+    value: 19,
   },
   {
     name: "Islas Canarias",
-    value: 18
+    value: 18,
   },
   {
     name: "Islas Baleares",
-    value: 6
-  }
+    value: 6,
+  },
 ];
 ```
 
@@ -357,7 +357,7 @@ _./src/index.ts_
 
 ```typescript
 const calculateRadiusBasedOnAffectedCases = (comunidad: string) => {
-  const entry = stats.find(item => item.name === comunidad);
+  const entry = stats.find((item) => item.name === comunidad);
 
   return entry ? affectedRadiusScale(entry.value) : 0;
 };

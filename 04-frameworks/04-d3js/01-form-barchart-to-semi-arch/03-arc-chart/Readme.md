@@ -23,73 +23,69 @@ of layouts is that you can easily preprocess the data the way you need it to dis
 npm install
 ```
 
-- Let's start by adding the setting information we have alreadty calculated
-  in the previous chart.
+- Let's keep a fresh cut, wipe _index.ts_ and let's get started with
+  the following boiler plate:
 
-- Let's wipe the test content in _index.ts_
+_index.ts_
 
-_./src/index.ts_
-
-```diff
-- import * as d3 from "d3";
-
-- svg
--  .append("text")
--  .attr("x", 100)
--  .attr("y", 100)
--  .text("Hello d3js");
--
--svg
--  .append("circle")
--  .attr("r", 20)
--  .attr("cx", 20)
--  .attr("cy", 20);
-```
-
-- Let's add all the settings. IMPORTANT this time the height will be fixed (we will
-  name that const **barHeight** and the width will be dynamic).
-
-> As an enhancemente this time we will take the keys from the data array, and
-> we will increase the with of the chart to 800 pixels.
-
-_./src/index.ts_
-
-```typescript
+```tsx
 import * as d3 from "d3";
-import { resultCollectionSpainNov19 } from "./data";
+import { resultCollectionSpainNov19, ResultEntry } from "./data";
 
 const svgDimensions = { width: 800, height: 500 };
 const margin = { left: 5, right: 5, top: 10, bottom: 10 };
+
 const chartDimensions = {
   width: svgDimensions.width - margin.left - margin.right,
-  height: svgDimensions.height - margin.bottom - margin.top
+  height: svgDimensions.height - margin.bottom - margin.top,
 };
 
-const partiesColor = [
-  "#ED1D25",
-  "#0056A8",
-  "#5BC035",
-  "#6B2E68",
-  "#F3B219",
-  "#FA5000",
-  "#C50048",
-  "#029626",
-  "#A3C940",
-  "#0DDEC5",
-  "#FFF203",
-  "#FFDB1B",
-  "#E61C13",
-  "#73B1E6",
-  "#BECD48",
-  "#017252"
-];
+const maxNumberSeats = resultCollectionSpainNov19.reduce(
+  (max, item) => (item.seats > max ? item.seats : max),
+  0
+);
+
+const politicalPartiesCount = resultCollectionSpainNov19.length;
+
+const partiesColorScale = d3
+  .scaleOrdinal([
+    "#ED1D25",
+    "#0056A8",
+    "#5BC035",
+    "#6B2E68",
+    "#F3B219",
+    "#FA5000",
+    "#C50048",
+    "#029626",
+    "#A3C940",
+    "#0DDEC5",
+    "#FFF203",
+    "#FFDB1B",
+    "#E61C13",
+    "#73B1E6",
+  ])
+  .domain([
+    "PSOE",
+    "PP",
+    "VOX",
+    "UP",
+    "ERC",
+    "Cs",
+    "JxCat",
+    "PNV",
+    "Bildu",
+    "Más pais",
+    "CUP",
+    "CC",
+    "BNG",
+    "Teruel Existe",
+  ]);
 
 const svg = d3
   .select("body")
   .append("svg")
   .attr("width", svgDimensions.width)
-  .attr("height", svgDimensions.height)
-  .attr("style", "background-color: #FBFAF0");
+  .attr("height", svgDimensions.height);
 
 const chartGroup = svg
   .append("g")
@@ -119,45 +115,41 @@ const arc = d3
   .outerRadius(radius);
 ```
 
-- Now it's time for the pie layout to make it's magic, we will indicate that we want him to calculate all the semi archs angles,
-  based on the values (and base on a half pie shape).
+- Now it's time for the pie layout to make it's magic, we will indicate that we want him to calculate all the semi archs angles, based on the values (and base on a half pie shape), since our array
+  contains objects we need to pass a selector to extract the numeric values (seats)
 
 ```typescript
 const pieChart = d3
-  .pie()
+  .pie<ResultEntry>()
   .startAngle(-90 * (Math.PI / 180))
-  .endAngle(90 * (Math.PI / 180));
+  .endAngle(90 * (Math.PI / 180))
+  .value(function (d: any) {
+    return d.seats;
+  });
 ```
 
-- For the sake of simplicity we are gong to pass just the seats values to the pie layout:
-
-```typescript
-const politicalResultsOnlyNumbers: number[] = resultCollectionSpainNov19.map(
-  result => result.seats
-);
-```
-
-- Let's setup our pie chart layout and get the array of arcs:
-
-```typescript
-const pie = pieChart(politicalResultsOnlyNumbers);
-```
-
-- Now it's time to start rendering our chart:
+- Let's create the chartGroup, set the data and start in enter (insert mode):
 
 ```typescript
 const arcs = chartGroup
   .selectAll("slice")
-  .data(pie)
+  .data(pieChart(resultCollectionSpainNov19))
   .enter();
+```
 
+- And let's pain the paths
+
+```typescript
 arcs
   .append("path")
   .attr("d", <any>arc) // Hack typing: https://stackoverflow.com/questions/35413072/compilation-errors-when-drawing-a-piechart-using-d3-js-typescript-and-angular/38021825
-  .attr("fill", (d, i) => partiesColor[i]); // TODO color ordinal
+  .attr("fill", (d, i) => {
+    console.log(d.data.party);
+    return partiesColorScale(d.data.party);
+  });
 ```
 
-- Let's run this code now
+- Let's give a try
 
 ```bash
 npm start

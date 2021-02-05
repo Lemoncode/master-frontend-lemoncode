@@ -12,19 +12,35 @@ Live demo: [codesandbox](https://codesandbox.io/s/musing-wilson-ymnv7)
 
 # Steps
 
-- We will take as starting sample _03-arc-chart_.
+- We will take as starting sample _05-multiple-series_.
 
-- Let's copy the content from _03-arc-chart_ and execute _npm install_
+- Let's copy the content from _05-multiple-series_ and execute _npm install_
 
 ```bash
 npm install
+```
+
+- Let's remove the legend (that would need additional tweaking)
+
+```diff
+- // Legend
+- const legendLeft = margin.left;
+- const legendTop = radius + 5;
+-
+- const legendGroup = svg
+-  .append("g")
+-  .attr("transform", `translate(${legendLeft},${legendTop})`);
+-
+- var colorLegend = legendColor().scale(partiesColorScale);
+-
+- legendGroup.call(colorLegend);
 ```
 
 - Let's update the size of our svg (this will be enclosed in a viewbox, inside the viewBox we will play with exact coordinates, outside with percentages)
 
 ```diff
 - const svgDimensions = { width: 800, height: 500 };
-+ const svgDimensions = { width: 500, height: 250 };
++ const svgDimensions = { width: 500, height: 500 };
 ```
 
 - Let's enclose the **svg** we are displaying in a **viewBox** (now sgv will have a _width_ and _height_ of 100%)

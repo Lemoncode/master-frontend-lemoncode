@@ -26,6 +26,49 @@ cd ./front
 npm start
 ```
 
+- We don't need CORS because we are using `webpack's proxy`, so it looks like same domain:
+
+_./front/config/webpack/dev.js_
+
+```javascript
+...
+ devServer: {
+...
+    proxy: {
+      '/api': 'http://localhost:8081',
+    },
+  },
+```
+
+## Demo
+
+- Open Chrome Dev tools > Network tab.
+
+- Login with `admin` credentials
+
+- Open Chrome Dev tools > Application tab > Cookies
+
+- Load client list
+
+- Load order list
+
+- Logout
+
+- Navigate to `http://localhost:8080/#/list` without LOGIN
+
+- Load client list.
+
+## Demo open new tab
+
+- Open Chrome Dev tools > Network tab.
+
+- Login with `admin` credentials
+
+- Load client list in new tab.
+
+> NOTE: Right now, the cookie expires when we close all brower's tabs.
+> Check Browser lock icon > Cookies
+
 ## Login flow
 
 Backend:
@@ -72,32 +115,6 @@ Frontend:
 
   - `front/src/common-app/app-bar/app-bar.component.tsx`
   - `front/src/common-app/app-bar/app-bar.api.tsx`
-
-## Cookie without httpOnly
-
-If we want to access a cookie's value from JavaScript, we have to:
-
-_./back/src/pods/security/security.constants.ts_
-
-```diff
-import { CookieOptions } from 'express';
-import { envConstants } from 'core/constants';
-
-export const jwtSignAlgorithm = 'HS256';
-
-export const cookieOptions: CookieOptions = {
-- httpOnly: true,
-+ httpOnly: false,
-  secure: envConstants.isProduction,
-};
-
-```
-
-- Now we could write this code in browser console:
-
-```
-document.cookie
-```
 
 ## Cookie expiration
 
@@ -157,6 +174,32 @@ _./back/src/pods/security/security.api.ts_
     }
   })
 
+```
+
+## Cookie without httpOnly
+
+If we want to access a cookie's value from JavaScript, we have to:
+
+_./back/src/pods/security/security.constants.ts_
+
+```diff
+import { CookieOptions } from 'express';
+import { envConstants } from 'core/constants';
+
+export const jwtSignAlgorithm = 'HS256';
+
+export const cookieOptions: CookieOptions = {
+- httpOnly: true,
++ httpOnly: false,
+  secure: envConstants.isProduction,
+};
+
+```
+
+- Now we could write this code in browser console:
+
+```
+document.cookie
 ```
 
 # About Basefactor + Lemoncode

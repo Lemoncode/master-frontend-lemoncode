@@ -64,7 +64,6 @@ _./front/config/webpack/dev.js_
 
 - Load client list in new tab.
 
-
 ## Login flow
 
 Backend:

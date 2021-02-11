@@ -26,52 +26,67 @@ cd ./front
 npm start
 ```
 
+- We don't need CORS because we are using `webpack's proxy`, so it looks like same domain:
+
+_./front/config/webpack/dev.js_
+
+```javascript
+...
+ devServer: {
+...
+    proxy: {
+      '/api': 'http://localhost:8081',
+    },
+  },
+```
+
 ## Login flow
 
 Backend:
 
-  - `back/src/core/servers/express.server.ts`
-  - `back/src/app.ts`
-  - `back/src/pods/security/security.api.ts`
-  - Check user credentials.
-  - Create `jwt` by user credentials.
-  - Return token in body.
+- `back/src/core/servers/express.server.ts`
+- `back/src/app.ts`
+- `back/src/pods/security/security.api.ts`
+- Check user credentials.
+- Create `jwt` by user credentials.
+- Return token in body.
+
+> NOTE: [Verify jwt token](https://jwt.io/)
 
 Frontend:
 
-  - `front/src/pods/login/login.container.tsx`
-  - `front/src/pods/login/login.hooks.ts`
-  - `front/src/pods/login/api/login.api.ts`
-  - `front/src/core/api/api/api.helpers.ts`
-  - `front/src/common-app/auth/auth.context.ts`
-  - `front/src/common-app/app-abr/app-bar.component.tsx`
+- `front/src/pods/login/login.container.tsx`
+- `front/src/pods/login/login.hooks.ts`
+- `front/src/pods/login/api/login.api.ts`
+- `front/src/core/api/api/api.helpers.ts`
+- `front/src/common-app/auth/auth.context.ts`
+- `front/src/common-app/app-abr/app-bar.component.tsx`
 
 ## Load list flow
 
 Backend:
 
-  - `back/src/app.ts`
-  - `back/src/pods/security/security.middlewares.ts`
-  - `back/src/pods/client/client.api.ts`
-  - `back/src/pods/order/order.api.ts`
+- `back/src/app.ts`
+- `back/src/pods/security/security.middlewares.ts`
+- `back/src/pods/client/client.api.ts`
+- `back/src/pods/order/order.api.ts`
 
-Frontend: 
+Frontend:
 
-  - `front/src/pods/list/list.container.tsx`
-  - `front/src/pods/list/api/list.api.tsx`
+- `front/src/pods/list/list.container.tsx`
+- `front/src/pods/list/api/list.api.tsx`
 
 ## Logout flow
 
 Backend:
 
-  - `back/src/app.ts`: We are not using `jwtMiddleware` on root security api.
-  - `back/src/pods/security/security.api.ts`
+- `back/src/app.ts`: We are not using `jwtMiddleware` on root security api.
+- `back/src/pods/security/security.api.ts`
 
-Frontend: 
+Frontend:
 
-  - `front/src/common-app/app-bar/app-bar.component.tsx`
-  - `front/src/common-app/app-bar/app-bar.api.tsx`: clear header.
-
+- `front/src/common-app/app-bar/app-bar.component.tsx`
+- `front/src/common-app/app-bar/app-bar.api.tsx`: clear header.
 
 # About Basefactor + Lemoncode
 

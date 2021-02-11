@@ -164,6 +164,90 @@ export const jwtMiddleware = expressJwt({
 
 - Notice that we don't need to update the front code to run example.
 
+# Using CORS
+
+- Let's update example to check if it's working with cors:
+
+```bash
+npm install cors --save
+```
+
+> NOTE: we can install @types/cors for Typescript.
+
+_./back/src/core/servers/express.server.ts_
+
+```diff
+import express from 'express';
++ import cors from 'cors';
+import cookieParser from 'cookie-parser';
+
+export const createApp = () => {
+  const app = express();
+
+  app.use(express.json());
++ app.use(
++   cors({
++     credentials: true,
++     origin: '*',
++   })
++ );
+  app.use(cookieParser());
+
+  return app;
+};
+
+```
+
+- Update front:
+
+_./front/config/webapck/dev.js_
+
+```diff
+...
+  devServer: {
+    inline: true,
+    host: 'localhost',
+    port: 8080,
+    stats: 'minimal',
+    hot: true,
+-   proxy: {
+-     '/api': 'http://localhost:8081',
+-   },
+  },
+```
+
+- Update login request:
+
+_./front/src/pods/login/api/login.api.ts_
+
+```diff
+import Axios from 'axios';
+import { UserSession } from './login.api-model';
+
+- const url = '/api/security/login';
++ const url = 'http://localhost:8081/api/security/login';
+
+...
+
+```
+
+- Update list requests:
+
+_./front/src/pods/list/api/list.api.ts_
+
+```diff
+import Axios from 'axios';
+import { Item } from './list.api-model';
+
+- const clientUrl = '/api/clients';
++ const clientUrl = 'http://localhost:8081/api/clients';
+- const orderUrl = '/api/orders';
++ const orderUrl = 'http://localhost:8081/api/orders';
+
+...
+
+```
+
 # About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.

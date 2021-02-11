@@ -40,6 +40,31 @@ _./front/config/webpack/dev.js_
   },
 ```
 
+## Demo
+
+- Open Chrome Dev tools > Network tab.
+
+- Login with `admin` credentials
+
+- Load client list
+
+- Load order list
+
+- Logout
+
+- Navigate to `http://localhost:8080/#/list` without LOGIN
+
+- Load client list.
+
+## Demo open new tab
+
+- Open Chrome Dev tools > Network tab.
+
+- Login with `admin` credentials
+
+- Load client list in new tab.
+
+
 ## Login flow
 
 Backend:

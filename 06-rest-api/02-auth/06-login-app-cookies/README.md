@@ -71,6 +71,32 @@ const createUserSession = (user: User): UserSession => {
 
 ```
 
+- Update login method:
+
+_./back/src/pods/security/security.api.ts_
+
+```diff
+...
+
+  .post('/login', async (req, res) => {
+    const { user, password } = req.body;
+    const currentUser = userList.find(
+      (u) => u.userName == user && u.password === password
+    );
+
+    if (currentUser) {
+      const userSession = createUserSession(currentUser);
++     const token = createToken(currentUser);
+
++     res.cookie(headerConstants.authorization, token);
+      res.send(userSession);
+    } else {
+      res.sendStatus(401);
+    }
+  })
+
+```
+
 - Add cookie options:
 
 _./back/src/pods/security/security.constants.ts_
@@ -87,9 +113,6 @@ export const jwtSignAlgorithm = 'HS256';
 + };
 
 ```
-
-- Update login method:
-
 _./back/src/pods/security/security.api.ts_
 
 ```diff
@@ -107,8 +130,9 @@ import { jwtMiddleware } from './security.middlewares';
 
     if (currentUser) {
       const userSession = createUserSession(currentUser);
-+     const token = createToken(currentUser);
+      const token = createToken(currentUser);
 
+-     res.cookie(headerConstants.authorization, token);
 +     res.cookie(headerConstants.authorization, token, cookieOptions);
       res.send(userSession);
     } else {
@@ -163,6 +187,7 @@ export const jwtMiddleware = expressJwt({
 ```
 
 - Notice that we don't need to update the front code to run example.
+
 
 # Using CORS
 

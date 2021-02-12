@@ -39,8 +39,8 @@ npm install
 ### ./server/src/graphql/resolvers.ts
 
 ```diff
-- import { getHotelList, Hotel } from '../data';
-+ import { getHotelList, Hotel, getHotel } from '../data';
+- import { getHotelList, Hotel } from '../db';
++ import { getHotelList, Hotel, getHotel } from '../db';
 
 export const resolvers = {
   Query: {
@@ -67,6 +67,7 @@ export const resolvers = {
 
 ```diff
 import Axios from 'axios';
++ import { gql } from 'graphql-request';
 + import { graphQLClient } from 'core/api';
 import { Hotel } from './hotel.api-model';
 import { Lookup } from 'common/models';
@@ -81,7 +82,7 @@ const cityListUrl = '/api/cities';
 export const getHotel = async (id: string): Promise<Hotel> => {
 - const { data } = await Axios.get<Hotel>(`${hotelListUrl}/${id}`);
 - return data;
-+ const query = `
++ const query = gql`
 +   query {
 +     hotel(id: "${id}") {
 +       id
@@ -136,7 +137,7 @@ export const getHotel = async (id: string): Promise<Hotel> => {
 ### ./server/src/graphql/resolvers.ts
 
 ```diff
-- import { getHotelList, Hotel, getHotel } from '../data';
+- import { getHotelList, Hotel, getHotel } from '../db';
 + import {
 +   getHotelList,
 +   Hotel,
@@ -233,7 +234,7 @@ export const saveHotel = async (hotel: Hotel): Promise<boolean> => {
 -   await Axios.post<Hotel>(hotelListUrl, hotel);
 - }
 - return true;
-+ const query = `
++ const query = gql`
 +   mutation($hotel: HotelInput!) {
 +     saveHotel(hotel: $hotel)
 +   }
@@ -321,7 +322,7 @@ export const getCities = async (): Promise<Lookup[]> => {
 - const { data } = await Axios.get<Lookup[]>(cityListUrl);
 
 - return data;
-+ const query = `
++ const query = gql`
 +   query {
 +     cities {
 +       id
@@ -395,7 +396,7 @@ import {
 export const deleteHotel = async (id: string): Promise<boolean> => {
 - await Axios.delete(`${url}/${id}`);
 - return true;
-+ const query = `
++ const query = gql`
 +   mutation {
 +     deleteHotel(id: "${id}")
 +   }

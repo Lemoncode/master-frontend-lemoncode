@@ -85,13 +85,18 @@ export * from './graphql.client';
 
 ```diff
 import Axios from 'axios';
++ import { gql } from 'graphql-request';
 + import { graphQLClient } from 'core/api';
 import { HotelEntityApi } from './hotel-collection.api-model';
 
 const url = '/api/hotels';
 
++ interface GetHotelCollectionResponse {
++   hotels: HotelEntityApi[];
++ }
+
 export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
-+ const query = `
++ const query = gql`
 +   query {
 +     hotels {
 +       id

@@ -25,8 +25,9 @@ npm install
 
 ```bash
 cd ./server
-npm install apollo-server-express --save
+npm install apollo-server-express graphql --save
 ```
+> It has `graphql` lib as peerDependency.
 
 # Config
 

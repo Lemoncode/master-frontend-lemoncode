@@ -142,22 +142,6 @@ import { jwtMiddleware } from './security.middlewares';
 
 ```
 
-- Implement logout method:
-
-_./back/src/pods/security/security.api.ts_
-
-```diff
-...
-  .post('/logout', jwtMiddleware, async (req, res) => {
-    // NOTE: We cannot invalidate token using jwt libraries.
-    // Different approaches:
-    // - Short expiration times in token
-    // - Black list tokens on DB
-+   res.clearCookie(headerConstants.authorization);
-    res.sendStatus(200);
-  });
-```
-
 - Update security middleware to read cookies:
 
 _./back/src/pods/security/security.middlewares.ts_
@@ -186,42 +170,27 @@ export const jwtMiddleware = expressJwt({
 
 ```
 
+- Implement logout method:
+
+_./back/src/pods/security/security.api.ts_
+
+```diff
+...
+  .post('/logout', jwtMiddleware, async (req, res) => {
+    // NOTE: We cannot invalidate token using jwt libraries.
+    // Different approaches:
+    // - Short expiration times in token
+    // - Black list tokens on DB
++   res.clearCookie(headerConstants.authorization);
+    res.sendStatus(200);
+  });
+```
+
 - Notice that we don't need to update the front code to run example.
 
 
 # Using CORS
 
-- Let's update example to check if it's working with cors:
-
-```bash
-npm install cors --save
-```
-
-> NOTE: we can install @types/cors for Typescript.
-
-_./back/src/core/servers/express.server.ts_
-
-```diff
-import express from 'express';
-+ import cors from 'cors';
-import cookieParser from 'cookie-parser';
-
-export const createApp = () => {
-  const app = express();
-
-  app.use(express.json());
-+ app.use(
-+   cors({
-+     credentials: true,
-+     origin: '*',
-+   })
-+ );
-  app.use(cookieParser());
-
-  return app;
-};
-
-```
 
 - Update front:
 
@@ -271,6 +240,124 @@ import { Item } from './list.api-model';
 
 ...
 
+```
+
+- Let's update example to check if it's working with cors:
+
+```bash
+npm install cors --save
+```
+
+> NOTE: we can install @types/cors for Typescript.
+
+_./back/src/core/servers/express.server.ts_
+
+```diff
+import express from 'express';
++ import cors from 'cors';
+import cookieParser from 'cookie-parser';
+
+export const createApp = () => {
+  const app = express();
+
+  app.use(express.json());
++ app.use(
++   cors({
++     credentials: true,
++     origin: '*',
++   })
++ );
+  app.use(cookieParser());
+
+  return app;
+};
+
+```
+
+## Cookie expiration
+
+Right now, cookie expires when users close the browser. We could add some expiration time:
+
+_./back/src/pods/security/security.constants.ts_
+
+```diff
+import { CookieOptions } from 'express';
+import { envConstants } from 'core/constants';
+
+export const jwtSignAlgorithm = 'HS256';
+
+- export const cookieOptions: CookieOptions = {
+-   httpOnly: true,
+-   secure: envConstants.isProduction
+- };
+
++ export const getCookieOptions = (expires: Date): CookieOptions => ({
++   httpOnly: true,
++   secure: envConstants.isProduction,
++   expires,
++ });
+
+```
+
+_./back/src/pods/security/security.api.ts_
+
+```diff
+...
+- import { jwtSignAlgorithm, cookieOptions } from './security.constants';
++ import { jwtSignAlgorithm, getCookieOptions } from './security.constants';
+
+...
+
+.post('/login', async (req, res) => {
+    const { user, password } = req.body;
+    const currentUser = userList.find(
+      (u) => u.userName == user && u.password === password
+    );
+
+    if (currentUser) {
+      const userSession = createUserSession(currentUser);
+      const token = createToken(currentUser);
++     const expires = new Date();
++     expires.setDate(new Date().getDate() + 1); // Add one day
+
+      res.cookie(
+        headerConstants.authorization,
+        token,
+-       cookieOptions
++       getCookieOptions(expires)
+      );
+      res.send(userSession);
+    } else {
+      res.sendStatus(401);
+    }
+  })
+
+```
+
+## Cookie without httpOnly
+
+If we want to access a cookie's value from JavaScript, we have to:
+
+_./back/src/pods/security/security.constants.ts_
+
+```diff
+import { CookieOptions } from 'express';
+import { envConstants } from 'core/constants';
+
+export const jwtSignAlgorithm = 'HS256';
+
+export const cookieOptions: CookieOptions = {
+- httpOnly: true,
++ httpOnly: false,
+  secure: envConstants.isProduction,
+};
+
+```
+
+- Now we could write this code in browser console:
+
+```
+document.cookie
 ```
 
 # About Basefactor + Lemoncode

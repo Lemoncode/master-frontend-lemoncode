@@ -75,27 +75,6 @@ app.listen(envConstants.PORT, () => {
 
 ```
 
-_./back/src/pods/security/security.api.ts_
-
-```diff
-...
-+ import { jwtMiddleware } from './security.middlewares';
-import { jwtSignAlgorithm } from './security.constants';
-...
-
-- .post('/logout', async (req, res) => {
-+ .post('/logout', jwtMiddleware, async (req, res) => {
-    // NOTE: We cannot invalidate token using jwt libraries.
-    // Different approaches:
-    // - Short expiration times in token
-    // - Black list tokens on DB
-    res.sendStatus(200);
-  });
-
-```
-> NOTE: It will fail if we use `jwtMiddleware` on securityApi
-> `app.use(apiRouteConstants.security, jwtMiddleware, securityApi);`
-
 - Now, we should set the `token` value in HTTP headers on each request:
 
 _./front/src/pods/login/api/login.api.ts_
@@ -117,6 +96,27 @@ export const isValidLogin = async (
 };
 
 ```
+
+_./back/src/pods/security/security.api.ts_
+
+```diff
+...
++ import { jwtMiddleware } from './security.middlewares';
+import { jwtSignAlgorithm } from './security.constants';
+...
+
+- .post('/logout', async (req, res) => {
++ .post('/logout', jwtMiddleware, async (req, res) => {
+    // NOTE: We cannot invalidate token using jwt libraries.
+    // Different approaches:
+    // - Short expiration times in token
+    // - Black list tokens on DB
+    res.sendStatus(200);
+  });
+
+```
+> NOTE: It will fail if we use `jwtMiddleware` on securityApi
+> `app.use(apiRouteConstants.security, jwtMiddleware, securityApi);`
 
 - And clean it on logout:
 

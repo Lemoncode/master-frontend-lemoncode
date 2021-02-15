@@ -1,4 +1,4 @@
-# Express boiler plate
+# Hola Socket io
 
 [🇬🇧 English version](./README.md)
 

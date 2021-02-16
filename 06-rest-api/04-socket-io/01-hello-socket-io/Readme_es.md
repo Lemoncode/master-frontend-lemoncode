@@ -69,8 +69,16 @@ const app = createApp();
 
 + app.use(cors(options));
 
++ // set up socket.io and bind it to our
++ // http server.
++ // https://socket.io/docs/v3/handling-cors/
 + const socketapp = new http.Server(app);
-+ const io = new Server(socketapp);
++ const io = new Server(socketapp, {
++  cors: {
++    origin: '*',
++    methods: ['GET', 'POST'],
++  },
++ });
 
 app.use('/', express.static(path.join(__dirname, 'static')));
 
@@ -281,5 +289,3 @@ Y vamos a dar un punto de entrada para enviar mensajes:
       )}
 )
 ```
-
-\*\*\* Seguir por nickname pero antes probar el readme

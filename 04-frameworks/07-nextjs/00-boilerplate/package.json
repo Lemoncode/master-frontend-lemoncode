@@ -4,7 +4,7 @@
   "description": "Nextjs examples",
   "scripts": {
     "start:api-server": "cd api-server && npm run mock-server",
-    "postinstall": "cd ./server && npm install"
+    "postinstall": "cd ./api-server && npm install"
   },
   "author": "Lemoncode",
   "license": "MIT",

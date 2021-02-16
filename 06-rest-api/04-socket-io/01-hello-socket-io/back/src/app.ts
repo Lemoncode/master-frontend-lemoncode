@@ -1,16 +1,20 @@
 import { createApp } from './express.server';
 import { envConstants } from './env.constants';
-import { api } from './api';
-import express from 'express';
-import path from 'path';
-import * as http from 'http';
-import { Server, Socket } from 'socket.io';
 import cors from 'cors';
+import SocketIOClient, { Socket } from 'socket.io';
 
 const app = createApp();
 
-const socketapp = new http.Server(app);
-const io = new Server(socketapp);
+let http = require('http').Server(app);
+// set up socket.io and bind it to our
+// http server.
+// https://socket.io/docs/v3/handling-cors/
+let io: SocketIOClient.Socket = require('socket.io')(http, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST'],
+  },
+});
 
 //options for cors midddleware
 const options: cors.CorsOptions = {
@@ -30,10 +34,6 @@ const options: cors.CorsOptions = {
 
 app.use(cors(options));
 
-app.use('/', express.static(path.join(__dirname, 'static')));
-
-app.use('/api', api);
-
 app.listen(envConstants.PORT, () => {
   console.log(`Server ready at http://localhost:${envConstants.PORT}/api`);
 });
@@ -50,6 +50,10 @@ io.on('connection', function (socket: Socket) {
   });
 });
 
-const server = socketapp.listen(3000, function () {
+const server = http.listen(3000, function () {
   console.log('listening on *:3000');
 });
+
+/*
+Access to XMLHttpRequest at from origin  has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+*/

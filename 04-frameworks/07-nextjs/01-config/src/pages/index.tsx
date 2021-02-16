@@ -1,7 +1,7 @@
 import React from 'react';
 
 const HomePage = () => {
-  return <div>Hello from Nextjs</div>;
+  return <h2>Hello from Nextjs</h2>;
 };
 
 export default HomePage;

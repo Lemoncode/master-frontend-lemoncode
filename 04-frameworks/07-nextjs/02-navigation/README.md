@@ -12,73 +12,170 @@ We will start from `01-config`.
 npm install
 ```
 
-- Install necessary libraries.
+- Since router will automatically add routes from file name inside `pages` folder, let's add a second page:
 
-```bash
-npm install next --save
-npm install @types/next @types/node --save-dev
-```
-
-> [Official Docs](https://nextjs.org/docs/getting-started)
-
-- Now, we can add the necessary npm scripts:
-
-_./package.json_
-
-```diff
-  "scripts": {
-+   "start": "next dev",
-    "start:api-server": "cd api-server && npm run mock-server",
-    "postinstall": "cd ./api-server && npm install"
-  },
-```
-
-- Before run this example, we need to create an index page:
-
-_./src/pages/index.tsx_
+_./src/pages/cars.tsx_
 
 ```javascript
 import React from 'react';
 
+const CarListPage = () => {
+  return (
+    <>
+      <h2>Car list page</h2>
+      <ul>
+        <li>Audi Q8</li>
+        <li>BMW X7</li>
+      </ul>
+    </>
+  );
+};
+
+export default CarListPage;
+```
+
+- Run app:
+
+```bash
+npm run start:dev
+```
+
+- We have to ways to navigate in Gatsby. Using `link` component:
+
+_./src/pages/index.tsx_
+
+```diff
+import React from 'react';
++ import Link from 'next/link';
+
 const HomePage = () => {
-  return <div>Hello from Nextjs</div>;
+- return <h2>Hello from Nextjs</h2>;
++ return (
++   <>
++     <h2>Hello from Nextjs</h2>
++     <Link href="/cars">Navigate to car list</Link>
++   </>
++ );
 };
 
 export default HomePage;
 
 ```
 
-- Run `start`:
+> [Routing](https://nextjs.org/docs/routing/introduction)
 
-```bash
-npm start
-```
+- Or programmatically:
 
-> NOTE: Since we are using typescript, nextjs add automatically `tsconfig.json`, `next-env.d.ts` files with default values.
-
-- This is great to work with Nextjs in dev mode, but we need to add more commands to works with production mode:
-
-
-_./package.json_
+_./src/pages/cars.tsx_
 
 ```diff
-  "scripts": {
--   "start": "next dev",
-+   "start:dev": "next dev",
-+   "build": "next build",
-+   "start:prod": "next start -p 8080",
-    "start:api-server": "cd api-server && npm run mock-server",
-    "postinstall": "cd ./api-server && npm install"
-  },
+import React from 'react';
++ import { useRouter } from 'next/router';
+
+const CarListPage = () => {
++ const router = useRouter();
++ const onNavigateBack = () => {
++   router.push('/'); // or router.back()
++ };
+
+  return (
+    <>
+      <h2>Car list page</h2>
+      <ul>
+        <li>Audi Q8</li>
+        <li>BMW X7</li>
+      </ul>
++     <button onClick={onNavigateBack}>Navigate to home</button>
+    </>
+  );
+};
+
+export default CarListPage;
+
 ```
 
-> Default PORT in prod mode is 3000 too.
+- A common route to define on real apps are route with params like `cars/:carId`:
 
-- Run `build` and `start:prod`:
+_./src/pages/cars/[carId].tsx_
 
-```bash
-npm run build
-npm run start:prod
+```javascript
+import React from 'react';
+import { useRouter } from 'next/router';
+
+const CarPage = () => {
+  const router = useRouter();
+  return (
+    <>
+      <h2>Car detail page</h2>
+      <p>{router.query.carId}</p>
+    </>
+  );
+};
+
+export default CarPage;
+```
+
+> [Dynamic routes](https://nextjs.org/docs/routing/dynamic-routes) > [i18n-routing](https://nextjs.org/docs/advanced-features/i18n-routing)
+
+- Check route `http://localhost:3000/cars/3`;
+
+- Title tags are a very important part for SEO purposes, thats why we can use [next/head](https://nextjs.org/docs/api-reference/next/head) to update html's head on each page:
+
+_./src/pages/index.tsx_
+
+```diff
+import React from 'react';
+import Link from 'next/link';
++ import Head from 'next/head';
+
+const HomePage = () => {
+  return (
+    <>
++     <Head>
++       <title>Rent a car - Home</title>
++     </Head>
+      <h2>Hello from Nextjs</h2>
+...
+
+```
+
+_./src/pages/cars.tsx_
+
+```diff
+import React from 'react';
+import { useRouter } from 'next/router';
++ import Head from 'next/head';
+
+const CarListPage = () => {
+  ...
+
+  return (
+    <>
++     <Head>
++       <title>Rent a car - Car list</title>
++     </Head>
+      <h2>Car list page</h2>
+...
+
+```
+
+_./src/pages/cars/[carId].tsx_
+
+```diff
+import React from 'react';
+import { useRouter } from 'next/router';
++ import Head from 'next/head';
+
+const CarPage = () => {
+  const router = useRouter();
+  return (
+    <>
++     <Head>
++       <title>Rent a car - Car {router.query.carId} details</title>
++     </Head>
+      <h2>Car detail page</h2>
+...
+
 ```
 
 # About Basefactor + Lemoncode

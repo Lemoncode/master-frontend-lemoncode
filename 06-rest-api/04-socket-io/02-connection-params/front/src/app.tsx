@@ -9,9 +9,10 @@ export const App = () => {
   const [socket, setSocket] = React.useState<globalThis.SocketIOClient.Socket>(
     null
   );
+  const [nickname, setNickname] = React.useState("Pepe");
 
   const establishConnection = () => {
-    const socketConnection = createSocket();
+    const socketConnection = createSocket(nickname);
     setSocket(socketConnection);
     socketConnection.on("message", (body) => {
       if (body && body.type) {
@@ -21,7 +22,10 @@ export const App = () => {
             console.log("Connection succeded");
             break;
           case "CHAT_MESSAGE":
-            setChatlog((chatlog) => `${chatlog}\n${body.payload.content}`);
+            setChatlog(
+              (chatlog) =>
+                `${chatlog}\n${body.payload.nickname}:${body.payload.content}`
+            );
             break;
         }
       }
@@ -46,6 +50,9 @@ export const App = () => {
 
   return (
     <>
+      <label>Enter Nickname: </label>
+      <input value={nickname} onChange={(e) => setNickname(e.target.value)} />
+
       <button onClick={handleConnect} disabled={isConnected}>
         Join
       </button>

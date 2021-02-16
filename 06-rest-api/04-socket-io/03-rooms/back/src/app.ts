@@ -6,7 +6,7 @@ import path from 'path';
 import * as http from 'http';
 import { Server, Socket } from 'socket.io';
 import cors from 'cors';
-import { addUserSession, getNickname } from './store';
+import { addUserSession, getUserInfo } from './store';
 
 const app = createApp();
 
@@ -50,17 +50,25 @@ app.listen(envConstants.PORT, () => {
 // a websocket, log that a user has connected
 io.on('connection', function (socket: Socket) {
   console.log('** connection recieved');
-  console.log(socket.handshake.query['nickname']);
-  addUserSession(socket.conn.id, socket.handshake.query['nickname']);
+  addUserSession(
+    socket.conn.id,
+    socket.handshake.query['nickname'] as string,
+    socket.handshake.query['room'] as string
+  );
+
+  socket.join(socket.handshake.query['room'] as string);
   socket.emit('message', { type: 'CONNECTION_SUCCEEDED' });
 
   socket.on('message', function (body: any) {
     console.log(body);
-    socket.broadcast.emit('message', {
+    const userInfo = getUserInfo(socket.conn.id);
+    //io.in(userInfo.room).emit({
+    //io.to(userInfo.room).emit({
+    socket.to(userInfo.room).emit({
       ...body,
       payload: {
         ...body.payload,
-        nickname: getNickname(socket.conn.id),
+        nickname: userInfo.nickname,
       },
     });
   });

@@ -22,4 +22,136 @@ npm install
 
 - En el lado cliente vamos a crear la fontaneria de interfaz de usuario:
 
-_./src/_
+_./src/app.tsx_
+
+```diff
+export const App = () => {
+  const [message, setMessage] = React.useState("");
+  const [chatlog, setChatlog] = React.useState("");
+  const [isConnected, setIsConnected] = React.useState(false);
+  const [socket, setSocket] = React.useState<globalThis.SocketIOClient.Socket>(
+    null
+  );
+  const [nickname, setNickname] = React.useState("Pepe");
++ const [room, setRoom] = React.useState("Front End");
+```
+
+_./src/app.tsx_
+
+```diff
+    <>
+      <label>Enter Nickname: </label>
+      <input value={nickname} onChange={(e) => setNickname(e.target.value)} />
++      <label>Room: </label>
++      <select value={room} onChange={e => setRoom(e.target.value)}>
++        <option value="Front End">Front End</option>
++        <option value="Back End">Back End</option>
++        <option value="Devops">Devops</option>
++        <option value="Random">Random</option>
++      </select>
+```
+
+- Bien, vamos a pasarle el nombre de la habitacion en nuestra conexión (aquí sería buena idea agrupar esto en un objeto)
+
+_./src/app.tsx_
+
+```diff
+  const establishConnection = () => {
+-    const socketConnection = createSocket(nickname);
++    const socketConnection = createSocket(nickname, room);
+```
+
+_./src/api.tsx_
+
+```diff
+export const createSocket = (
+  nickname: string,
++ room : string
+): globalThis.SocketIOClient.Socket => {
+  const url = baseSocketUrl;
+
+  const options: SocketIOClient.ConnectOpts = {
+-    query: `nickname=${nickname}`,
++    query: `nickname=${nickname}&room=${room}`,
+    timeout: 60000,
+```
+
+- Vamos al servidor, vamos a añadir al store la informacíon de la habitación en la que estamos:
+
+_./back/src/app.ts_
+
+```diff
+io.on('connection', function (socket: Socket) {
+  console.log('** connection recieved');
+-  addUserSession(socket.conn.id, socket.handshake.query['nickname']);
++  addUserSession(socket.conn.id, socket.handshake.query['nickname'], socket.handshake.query['room']);
++  socket.join(socket.handshake.query['room']);
+```
+
+_./back/src/store.ts_
+
+```diff
+interface UserSession {
+  connectionId: string;
+  nickname: string;
++ room : string;
+}
+
+let userSession = [];
+
+- export const addUserSession = (connectionId: string, nickname) => {
++ export const addUserSession = (connectionId: string, nickname  :string, room : string) => {
+-  userSession = [...userSession, { connectionId, nickname}];
++  userSession = [...userSession, { connectionId, nickname, room }];
+};
+```
+
+Y el getter...
+
+_./back/src/store.ts_
+
+```diff
+- export const getNickname = (connectionId: string) => {
++ export const getUserInfo = (connectionId: string) : UserSession => {
+  const session = userSession.find(
+    (session) => session.connectionId === connectionId
+  );
+
+-  return session ? session : 'ANONYMOUS :-@';
++  return session ? session : {id: -1, nickname: 'ANONYMOUS :-@', room: 'devops' }
+};
+```
+
+- Y Vamos a recogerla a la hora de enviar el mensaje que solo se envíe a los que estén en esa habitación:
+
+_./backend/src/app.ts_
+
+```diff
+- import { addUserSession, getNickname } from './store';
++ import { addUserSession, getUserInfo } from './store';
+
+// (...)
+
+  socket.on('message', function (body: any) {
+    console.log(body);
++   const userInfo = getUserInfo(socket.conn.id);
+-    socket.broadcast.emit('message', {
++    io.to(userInfo.room).emit({
+      ...body,
+      payload: {
+        ...body.payload,
+-        nickname: getNickname(socket.conn.id),
++        nickname: userInfo.nickname,
+      },
+    });
+  });
+
+```
+
+- Arrancamos
+
+```bash
+npm start
+```
+
+> Importante el envío a salas se hace desde servidor, desde cliente no puedo elegir a que sala envío.

@@ -10,9 +10,10 @@ export const App = () => {
     null
   );
   const [nickname, setNickname] = React.useState("Pepe");
+  const [room, setRoom] = React.useState("Front End");
 
   const establishConnection = () => {
-    const socketConnection = createSocket(nickname);
+    const socketConnection = createSocket(nickname, room);
     setSocket(socketConnection);
     socketConnection.on("message", (body) => {
       if (body && body.type) {
@@ -52,6 +53,13 @@ export const App = () => {
     <>
       <label>Enter Nickname: </label>
       <input value={nickname} onChange={(e) => setNickname(e.target.value)} />
+      <label>Room: </label>
+      <select value={room} onChange={(e) => setRoom(e.target.value)}>
+        <option value="Front End">Front End</option>
+        <option value="Back End">Back End</option>
+        <option value="Devops">Devops</option>
+        <option value="Random">Random</option>
+      </select>
 
       <button onClick={handleConnect} disabled={isConnected}>
         Join

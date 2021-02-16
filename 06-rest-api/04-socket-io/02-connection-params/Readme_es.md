@@ -1,6 +1,6 @@
-# Hello Socket IO
+# connection-params
 
-Vamos a montar un ejemplo mínimo con sockets
+Vamos a ver como puedo pasarle parametros con información a la hora de conectarnos.
 
 # Pasos
 

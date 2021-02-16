@@ -62,15 +62,16 @@ io.on('connection', function (socket: Socket) {
   socket.on('message', function (body: any) {
     console.log(body);
     const userInfo = getUserInfo(socket.conn.id);
-    //io.in(userInfo.room).emit({
-    //io.to(userInfo.room).emit({
-    socket.to(userInfo.room).emit({
+
+    const message = {
       ...body,
       payload: {
         ...body.payload,
         nickname: userInfo.nickname,
       },
-    });
+    };
+
+    socket.to(userInfo.room).emit('message', message);
   });
 });
 

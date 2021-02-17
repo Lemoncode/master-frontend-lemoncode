@@ -7,6 +7,11 @@ export const toolbar = css`
   row-gap: 1rem;
 `;
 
+export const iconButton = css`
+  width: 3rem;
+  height: 3rem;
+`;
+
 export const content = css`
   margin: 2rem;
 `;

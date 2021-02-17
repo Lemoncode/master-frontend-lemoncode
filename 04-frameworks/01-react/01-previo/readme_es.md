@@ -81,9 +81,8 @@ export default function App() {
 + // React.useState returns an array
 + //   item[0] is the getter (returns the username)
 + //   item[1] is the setter (let us update the state)
-+ // That's why we are appliying here destructuring
-+ // const [username, setUsername]
-+ // const [username, setUsername] = React.useState('No name');
++ // That's why we are appliying here destructuring:
++ const [username, setUsername] = React.useState('No name');
 +
   return (
     <div className="App">

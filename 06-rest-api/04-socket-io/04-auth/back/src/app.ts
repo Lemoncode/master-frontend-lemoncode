@@ -50,6 +50,7 @@ app.listen(envConstants.PORT, () => {
 // a websocket, log that a user has connected
 io.on('connection', function (socket: Socket) {
   console.log('** connection recieved');
+  console.log(`#### ${socket.request}`);
   addUserSession(
     socket.conn.id,
     socket.handshake.query['nickname'] as string,

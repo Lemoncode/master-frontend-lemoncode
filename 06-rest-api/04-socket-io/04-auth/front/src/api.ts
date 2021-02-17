@@ -12,6 +12,7 @@ export const createSocket = (
   const options: SocketIOClient.ConnectOpts = {
     query: `nickname=${nickname}&room=${room}`,
     timeout: 60000,
+    transports: ["websocket"],
   };
 
   return ioClient(baseSocketUrl, options);

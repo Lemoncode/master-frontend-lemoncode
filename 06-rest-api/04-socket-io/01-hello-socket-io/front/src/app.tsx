@@ -1,14 +1,12 @@
 import React from "react";
 import { createSocket } from "./api";
-import { Socket } from "socket.io";
+import { Socket } from "socket.io-client";
 
 export const App = () => {
   const [message, setMessage] = React.useState("");
   const [chatlog, setChatlog] = React.useState("");
   const [isConnected, setIsConnected] = React.useState(false);
-  const [socket, setSocket] = React.useState<globalThis.SocketIOClient.Socket>(
-    null
-  );
+  const [socket, setSocket] = React.useState<Socket>(null);
 
   const establishConnection = () => {
     const socketConnection = createSocket();

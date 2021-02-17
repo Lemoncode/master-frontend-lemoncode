@@ -27,13 +27,6 @@ npm install
 npm install socket.io --save
 ```
 
-- Arrancamos por el back, vamos a instalar la librería de _socket.io_ y
-  sus typings.
-
-```bash
-npm install @types/socket.io --save-dev
-```
-
 - Vamos a por el fichero principal y levantar nuestro websocket.
 
 _./src/app.ts_
@@ -129,63 +122,85 @@ socket.emit("message", { type: "CONNECTION_SUCCEEDED" });
 
 +   socket.on('message', function (body: any) {
 +     console.log(body);
-+     io.emit('message', body);
++     socket.broadcast.emit('message', body);
 +   });
   });
 ```
 
-> Aquí podríamos enviar el mensaje a todo el mundo, menos al que lo ha enviado
-> ¿Cómo haríamos esto? ¿Te acuerdas?
+> Aquí podríamos enviar el mensaje a todo el mundo menos al que envío el mensaje,
+> ¿ Cómo podrámos hacer para enviarselo a todo el mundo? ¿Lo pruebas?
 
-Vamos a probar con websocket king, abrimos el plugin
+Vamos a probar con esta tool (importante contact, y pestaña emit y message, despude payload y como json)
 
-```bash
-ws://localhost:3000/socket.io/?transport=websocket
 ```
+https://amritb.github.io/socketio-client-tool/
+```
+
+Y el proyecto:
+
+```
+https://github.com/amritb/socketio-client-tool/tree/master/react-client-tool
+```
+
+![choose url /port and settings](./readme-pics/init.png)
+
+Podemos ver como nos hemos conectado y recibido el mensaje _CONNECTION_SUCCEEDED_
+
+Podemos enviar un mensaje (tab emit):
+
+- tecleamos _message_ y le damos al botón de _add_.
+- Miramos que este deshabilitado _json data_
+- Añadimos el siguiente body del mensaje
+
+```
+{type: 'CHAT_MESSAGE', payload: 'Hola desde socket client tool'}
+```
+
+![Enviando un mensaje, añadimos message, deshabilitamos json y ponemos el cuerpo del mensaje](./readme-pics/send-message.png)
 
 ## Front
 
 Vamos a por el Front.
 
-Instalamos socket.io
-
-```bash
-npm install socket.io --save
-```
-
-y instalamos sus typings:
-
-```bash
-npm install @types/socket.io --save-dev
-```
+Instalamos socket.io la versión para cliente
 
 ```bash
 npm install socket.io-client --save
-```
-
-```bash
-npm install @types/socket.io-client --save-dev
 ```
 
 - Vamos a hacernos una función de ayuda para crear la conexión.
 
 _./src/api.ts_
 
-````typescript
-};```
-````
+```typescript
+import { io, SocketOptions, Socket, ManagerOptions } from "socket.io-client";
+
+// TODO: Add env variable
+export const baseSocketUrl = "http://localhost:3000";
+
+export const createSocket = (): Socket => {
+  const url = baseSocketUrl;
+
+  const options: Partial<ManagerOptions & SocketOptions> = {
+    timeout: 60000,
+  };
+
+  return io(baseSocketUrl, options);
+};
+```
 
 - Vamos ahora a por app.ts, vamos a crear
 
 ```diff
 import React from "react";
++ import { Socket} from "socket.io-client";
 + import { createSocket } from "./api";
 
 export const App = () => {
 +  const [message, setMessage] = React.useState("");
 +  const [chatlog, setChatlog] = React.useState("");
 +  const [isConnected, setIsConnected] = React.useState(false);
-+  const [socket, setSocket] = React.useState<globalThis.SocketIOClient.Socket>(null);
++  const [socket, setSocket] = React.useState<Socket>(null);
 
   return <h1>Hello</h1>;
 };
@@ -216,12 +231,11 @@ export const App = () => {
 +            break;
 +          case "CHAT_MESSAGE":
 +              setChatlog((chatlog) => `${chatlog}\n${body.payload.content}`);
-+            }
 +            break;
 +        }
 +      }
 +    });
-  };
++  };
 
 
   return <h1>Hello</h1>;
@@ -261,31 +275,35 @@ Y vamos a dar un punto de entrada para enviar mensajes:
 
 ```diff
 -  return <h1>Hello</h1>;
- return (
-      <>
-          <button onClick={handleConnect} enable={!isConnected}>Join</button>
-      </>
-      )}
++ return (
++      <>
++          <button onClick={handleConnect} disabled={!isConnected}>Join</button>
++      {isConnected && (
++        <div style={{ marginTop: "40px" }}>
++          <label>Message:</label>
++          <input
++            style={{ width: "80%" }}
++            value={message}
++            onChange={(e) => setMessage(e.target.value)}
++          />
++          <button onClick={(e) => sendMessage(message)}>Send</button>
++          <div style={{ display: "flex", flexDirection: "column" }}>
++            <label>ChatLog</label>
++            <textarea
++              style={{ height: "400px" }}
++              value={chatlog}
++              onChange={(e) => setChatlog(e.target.value)}
++              readOnly
++            ></textarea>
++          </div>
++        </div>
++      )}
++      </>
++ )
+```
 
-      {isConnected && (
-        <div style={{ marginTop: "40px" }}>
-          <label>Message:</label>
-          <input
-            style={{ width: "80%" }}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <button onClick={(e) => sendMessage(message)}>Send</button>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <label>ChatLog</label>
-            <textarea
-              style={{ height: "400px" }}
-              value={chatlog}
-              onChange={(e) => setChatlog(e.target.value)}
-              readOnly
-            ></textarea>
-          </div>
-        </div>
-      )}
-)
+- Vamos a probar
+
+```bash
+npm start
 ```

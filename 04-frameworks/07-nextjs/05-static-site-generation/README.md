@@ -12,7 +12,10 @@ We will start from `04-images`.
 npm install
 ```
 
-- 
+- We can render Nextjs pages in 3 modes:
+  - Static Site Generation
+  - Server Side Rendering
+  - Client Side Rendering
 
 # About Basefactor + Lemoncode
 

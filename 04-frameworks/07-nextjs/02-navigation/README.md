@@ -61,6 +61,14 @@ const HomePage = () => {
 export default HomePage;
 
 ```
+> [Next link](https://nextjs.org/docs/api-reference/next/link) >
+> Important for SEO purpose. You can replace the styles like:
+
+```javascript
+  <Link href={href} passHref>
+    <a className={classes}>{name}</a>
+  </Link>
+```
 
 > [Routing](https://nextjs.org/docs/routing/introduction)
 

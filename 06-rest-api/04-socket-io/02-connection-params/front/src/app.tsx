@@ -1,14 +1,12 @@
 import React from "react";
 import { createSocket } from "./api";
-import { Socket } from "socket.io";
+import { Socket } from "socket.io-client";
 
 export const App = () => {
   const [message, setMessage] = React.useState("");
   const [chatlog, setChatlog] = React.useState("");
   const [isConnected, setIsConnected] = React.useState(false);
-  const [socket, setSocket] = React.useState<globalThis.SocketIOClient.Socket>(
-    null
-  );
+  const [socket, setSocket] = React.useState<Socket>(null);
   const [nickname, setNickname] = React.useState("Pepe");
 
   const establishConnection = () => {
@@ -24,7 +22,7 @@ export const App = () => {
           case "CHAT_MESSAGE":
             setChatlog(
               (chatlog) =>
-                `${chatlog}\n${body.payload.nickname}:${body.payload.content}`
+                `${chatlog}\n[${body.payload.nickname}]${body.payload.content}`
             );
             break;
         }
@@ -52,7 +50,6 @@ export const App = () => {
     <>
       <label>Enter Nickname: </label>
       <input value={nickname} onChange={(e) => setNickname(e.target.value)} />
-
       <button onClick={handleConnect} disabled={isConnected}>
         Join
       </button>

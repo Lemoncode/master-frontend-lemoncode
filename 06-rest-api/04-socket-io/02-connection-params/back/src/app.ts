@@ -10,16 +10,6 @@ import { addUserSession, getNickname } from './store';
 
 const app = createApp();
 
-// set up socket.io and bind it to our
-// http server.
-const socketapp = new http.Server(app);
-const io = new Server(socketapp, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST'],
-  },
-});
-
 //options for cors midddleware
 const options: cors.CorsOptions = {
   allowedHeaders: [
@@ -38,6 +28,17 @@ const options: cors.CorsOptions = {
 
 app.use(cors(options));
 
+// set up socket.io and bind it to our
+// http server.
+// https://socket.io/docs/v3/handling-cors/
+const socketapp = new http.Server(app);
+const io = new Server(socketapp, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST'],
+  },
+});
+
 app.use('/', express.static(path.join(__dirname, 'static')));
 
 app.use('/api', api);
@@ -46,11 +47,14 @@ app.listen(envConstants.PORT, () => {
   console.log(`Server ready at http://localhost:${envConstants.PORT}/api`);
 });
 
+const server = socketapp.listen(3000, function () {
+  console.log('listening on *:3000');
+});
+
 // whenever a user connects on port 3000 via
 // a websocket, log that a user has connected
 io.on('connection', function (socket: Socket) {
   console.log('** connection recieved');
-  console.log(socket.handshake.query['nickname']);
   addUserSession(socket.conn.id, socket.handshake.query['nickname']);
   socket.emit('message', { type: 'CONNECTION_SUCCEEDED' });
 
@@ -64,8 +68,4 @@ io.on('connection', function (socket: Socket) {
       },
     });
   });
-});
-
-const server = socketapp.listen(3000, function () {
-  console.log('listening on *:3000');
 });

@@ -28,8 +28,8 @@ _./frontend/src/api.ts_
 export const createSocket = (): globalThis.SocketIOClient.Socket => {
   const url = baseSocketUrl;
 
-  const options: SocketIOClient.ConnectOpts = {
-+    query: "nickname=pepe",
+  const options: Partial<ManagerOptions & SocketOptions> = {
++   query: { nickname: "pepe" },
     timeout: 60000,
   };
 
@@ -49,6 +49,12 @@ io.on('connection', function (socket: Socket) {
 ```
 
 - Si arrancamos podemos ver como aparece el id por la consola del servidor.
+
+_En front y back_
+
+```bash
+npm start
+```
 
 - Seguimos ahora queremos que el usuario introduzca el nombre que quiera y el de a conectar:
 
@@ -176,16 +182,24 @@ _./src/app.tsx_
 _./src/api.ts_
 
 ```diff
-- export const createSocket = (): globalThis.SocketIOClient.Socket => {
-+ export const createSocket = (nickname:string): globalThis.SocketIOClient.Socket => {
+- export const createSocket = (): Socket => {
++ export const createSocket = (nickname:string): Socket => {
 
   const url = baseSocketUrl;
 
   const options: SocketIOClient.ConnectOpts = {
 -    query: "nickname=pepe",
-+    query: `nickname=${nickname}`,
++    query: {nickname},
     timeout: 60000,
   };
+```
+
+- Vamos a probar:
+
+_en front y back_
+
+```bash
+npm start
 ```
 
 > Ejercicios: si os queréis divertir...

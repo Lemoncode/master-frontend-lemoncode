@@ -13,6 +13,6 @@
     "skipLibCheck": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*", "../back/src/store.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

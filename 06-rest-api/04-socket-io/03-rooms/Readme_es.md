@@ -71,8 +71,8 @@ export const createSocket = (
   const url = baseSocketUrl;
 
   const options: SocketIOClient.ConnectOpts = {
--    query: `nickname=${nickname}`,
-+    query: `nickname=${nickname}&room=${room}`,
+-    query: { nickname },
++    query: { nickname, room },,
     timeout: 60000,
 ```
 
@@ -84,7 +84,7 @@ _./back/src/app.ts_
 io.on('connection', function (socket: Socket) {
   console.log('** connection recieved');
 -  addUserSession(socket.conn.id, socket.handshake.query['nickname']);
-+  addUserSession(socket.conn.id, socket.handshake.query['nickname'], socket.handshake.query['room']);
++  addUserSession(socket.conn.id, socket.handshake.query['nickname'] as string, socket.handshake.query['room'] as string);
 +  socket.join(socket.handshake.query['room']);
 ```
 
@@ -136,7 +136,7 @@ _./backend/src/app.ts_
     console.log(body);
 +   const userInfo = getUserInfo(socket.conn.id);
 -    socket.broadcast.emit('message', {
-+    io.to(userInfo.room).emit({
++    io.to(userInfo.room).emit('message',{
       ...body,
       payload: {
         ...body.payload,

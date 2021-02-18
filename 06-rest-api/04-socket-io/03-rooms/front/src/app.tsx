@@ -1,16 +1,14 @@
 import React from "react";
 import { createSocket } from "./api";
-import { Socket } from "socket.io";
+import { Socket } from "socket.io-client";
 
 export const App = () => {
   const [message, setMessage] = React.useState("");
   const [chatlog, setChatlog] = React.useState("");
   const [isConnected, setIsConnected] = React.useState(false);
-  const [socket, setSocket] = React.useState<globalThis.SocketIOClient.Socket>(
-    null
-  );
+  const [socket, setSocket] = React.useState<Socket>(null);
   const [nickname, setNickname] = React.useState("Pepe");
-  const [room, setRoom] = React.useState("frontend");
+  const [room, setRoom] = React.useState("Front End");
 
   const establishConnection = () => {
     const socketConnection = createSocket(nickname, room);
@@ -25,7 +23,7 @@ export const App = () => {
           case "CHAT_MESSAGE":
             setChatlog(
               (chatlog) =>
-                `${chatlog}\n${body.payload.nickname}:${body.payload.content}`
+                `${chatlog}\n[${body.payload.nickname}]${body.payload.content}`
             );
             break;
         }
@@ -55,12 +53,11 @@ export const App = () => {
       <input value={nickname} onChange={(e) => setNickname(e.target.value)} />
       <label>Room: </label>
       <select value={room} onChange={(e) => setRoom(e.target.value)}>
-        <option value="frontend">Front End</option>
-        <option value="backend">Back End</option>
-        <option value="devops">Devops</option>
-        <option value="random">Random</option>
+        <option value="Front End">Front End</option>
+        <option value="Back End">Back End</option>
+        <option value="Devops">Devops</option>
+        <option value="Random">Random</option>
       </select>
-
       <button onClick={handleConnect} disabled={isConnected}>
         Join
       </button>

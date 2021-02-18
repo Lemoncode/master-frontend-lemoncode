@@ -10,16 +10,6 @@ import { addUserSession, getUserInfo } from './store';
 
 const app = createApp();
 
-// set up socket.io and bind it to our
-// http server.
-const socketapp = new http.Server(app);
-const io = new Server(socketapp, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST'],
-  },
-});
-
 //options for cors midddleware
 const options: cors.CorsOptions = {
   allowedHeaders: [
@@ -38,12 +28,27 @@ const options: cors.CorsOptions = {
 
 app.use(cors(options));
 
+// set up socket.io and bind it to our
+// http server.
+// https://socket.io/docs/v3/handling-cors/
+const socketapp = new http.Server(app);
+const io = new Server(socketapp, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST'],
+  },
+});
+
 app.use('/', express.static(path.join(__dirname, 'static')));
 
 app.use('/api', api);
 
 app.listen(envConstants.PORT, () => {
   console.log(`Server ready at http://localhost:${envConstants.PORT}/api`);
+});
+
+const server = socketapp.listen(3000, function () {
+  console.log('listening on *:3000');
 });
 
 // whenever a user connects on port 3000 via
@@ -55,26 +60,18 @@ io.on('connection', function (socket: Socket) {
     socket.handshake.query['nickname'] as string,
     socket.handshake.query['room'] as string
   );
-
-  socket.join(socket.handshake.query['room'] as string);
+  socket.join(socket.handshake.query['room']);
   socket.emit('message', { type: 'CONNECTION_SUCCEEDED' });
 
   socket.on('message', function (body: any) {
     console.log(body);
     const userInfo = getUserInfo(socket.conn.id);
-
-    const message = {
+    io.to(userInfo.room).emit('message', {
       ...body,
       payload: {
         ...body.payload,
         nickname: userInfo.nickname,
       },
-    };
-
-    socket.to(userInfo.room).emit('message', message);
+    });
   });
-});
-
-const server = socketapp.listen(3000, function () {
-  console.log('listening on *:3000');
 });

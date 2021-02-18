@@ -1,2 +1,3 @@
-export * from './car-list.component';
+export * from './car-list.container';
 export * from './app.layout';
+export * from './car.container';

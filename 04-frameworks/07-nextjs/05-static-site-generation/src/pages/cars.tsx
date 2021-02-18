@@ -1,24 +1,38 @@
 import React from 'react';
-import { useRouter } from 'next/router';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import { AppLayout, CarListComponent } from '../components';
+import * as api from '../api';
+import { AppLayout, CarListContainer } from '../components';
 
-const CarListPage = () => {
-  const router = useRouter();
-  const onNavigateBack = () => {
-    router.push('/'); // or router.back()
-  };
+interface Props {
+  carList: api.Car[];
+}
 
+const CarListPage: React.FunctionComponent<Props> = (props) => {
+  const { carList } = props;
   return (
     <AppLayout>
       <Head>
         <title>Rent a car - Car list</title>
       </Head>
-      <h2>Car list page</h2>
-      <CarListComponent />
-      <button onClick={onNavigateBack}>Navigate to home</button>
+      <CarListContainer carList={carList} />
     </AppLayout>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const carList = await api.getCarList();
+  console.log(`Render car list: ${carList.length}`);
+
+  return {
+    props: {
+      carList,
+    },
+    // Next.js will attempt to re-generate the page:
+    // - When a request comes in
+    // - At most once every second
+    revalidate: 1, // In seconds
+  };
 };
 
 export default CarListPage;

@@ -1,18 +1,46 @@
 import React from 'react';
-import { useRouter } from 'next/router';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
+import * as api from '../../api';
+import { AppLayout, CarContainer } from '../../components';
 
-const CarPage = () => {
-  const router = useRouter();
+interface Props {
+  car: api.Car;
+}
+
+const CarPage: React.FunctionComponent<Props> = (props) => {
+  const { car } = props;
   return (
-    <>
+    <AppLayout>
       <Head>
-        <title>Rent a car - Car {router.query.carId} details</title>
+        <title>Rent a car - Car {car?.name} details</title>
       </Head>
-      <h2>Car detail page</h2>
-      <p>{router.query.carId}</p>
-    </>
+      <CarContainer car={car} />
+    </AppLayout>
   );
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const carId = context.params.carId as string;
+  const car = await api.getCar(carId);
+  console.log(`Fetch car: ${JSON.stringify(car, null, 2)}`);
+
+  return {
+    props: {
+      car,
+    },
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [
+      { params: { carId: '1' } },
+      { params: { carId: '2' } },
+      { params: { carId: '3' } },
+    ],
+    fallback: true,
+  };
 };
 
 export default CarPage;

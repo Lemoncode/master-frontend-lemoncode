@@ -29,7 +29,8 @@ _./package.json_
   "scripts": {
 +   "start": "next dev",
     "start:api-server": "cd api-server && npm run mock-server",
-    "postinstall": "cd ./api-server && npm install"
+    "postinstall": "cd ./api-server && npm install",
+    "clean": "rimraf .next"
   },
 ```
 
@@ -65,10 +66,9 @@ _./package.json_
   "scripts": {
 -   "start": "next dev",
 +   "start:dev": "next dev",
-+   "build": "next build",
++   "build": "npm run clean && next build",
 +   "start:prod": "next start -p 8080",
-    "start:api-server": "cd api-server && npm run mock-server",
-    "postinstall": "cd ./api-server && npm install"
+    ...
   },
 ```
 

@@ -104,7 +104,7 @@ export default CarListPage;
 
 - A common route to define on real apps are route with params like `cars/:carId`:
 
-_./src/pages/cars/[carId].tsx_
+_./src/pages/cars/\[carId\].tsx_
 
 ```javascript
 import React from 'react';
@@ -167,7 +167,7 @@ const CarListPage = () => {
 
 ```
 
-_./src/pages/cars/[carId].tsx_
+_./src/pages/cars/\[carId\].tsx_
 
 ```diff
 import React from 'react';

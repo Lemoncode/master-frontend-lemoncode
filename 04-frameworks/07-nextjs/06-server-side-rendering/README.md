@@ -14,7 +14,11 @@ npm install
 
 # Server Side Rendering
 
+If we can't pre-render a page ahead of a user's request but we need SEO. For example: search bar, shopping cart.
 
+- The page is generated on each request.
+- Only available on page components.
+- [When to use it](https://nextjs.org/docs/basic-features/data-fetching#when-should-i-use-getserversideprops)
 
 # About Basefactor + Lemoncode
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import * as api from '../api';
 import { AppLayout, CarListContainer } from '../components';
@@ -10,6 +10,7 @@ interface Props {
 
 const CarListPage: React.FunctionComponent<Props> = (props) => {
   const { carList } = props;
+  console.log('Render car list Page');
   return (
     <AppLayout>
       <Head>
@@ -20,7 +21,7 @@ const CarListPage: React.FunctionComponent<Props> = (props) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const carList = await api.getCarList();
   console.log(`Render car list: ${carList.length}`);
 
@@ -28,10 +29,6 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       carList,
     },
-    // Next.js will attempt to re-generate the page:
-    // - When a request comes in
-    // - At most once every second
-    revalidate: 1, // In seconds
   };
 };
 

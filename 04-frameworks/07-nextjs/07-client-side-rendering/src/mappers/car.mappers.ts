@@ -23,3 +23,11 @@ export const mapCarListFromApiToVm = (
   carList: apiModel.Car[]
 ): viewModel.Car[] =>
   Array.isArray(carList) ? carList.map(mapCarFromApiToVm) : [];
+
+export const mapCarFromVmToApi = (car: viewModel.Car): apiModel.Car => ({
+  id: car.id,
+  name: car.name,
+  imageUrl: car.imageUrl.split(envConstants.BASE_PICTURES_URL)[1],
+  features: car.features,
+  isBooked: car.isBooked,
+});

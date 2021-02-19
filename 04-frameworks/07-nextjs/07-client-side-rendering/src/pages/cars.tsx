@@ -1,16 +1,14 @@
 import React from 'react';
-import { GetServerSideProps } from 'next';
+import useSWR from 'swr';
 import Head from 'next/head';
 import * as api from '../api';
 import { AppLayout, CarListContainer } from '../components';
 
-interface Props {
-  carList: api.Car[];
-}
+const CarListPage: React.FunctionComponent = () => {
+  const { data } = useSWR(api.url, api.getCarList);
+  const carList = data || [];
 
-const CarListPage: React.FunctionComponent<Props> = (props) => {
-  const { carList } = props;
-  console.log('Render car list Page');
+  console.log(`Render car list: ${carList.length}`);
   return (
     <AppLayout>
       <Head>
@@ -19,17 +17,6 @@ const CarListPage: React.FunctionComponent<Props> = (props) => {
       <CarListContainer carList={carList} />
     </AppLayout>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const carList = await api.getCarList();
-  console.log(`Render car list: ${carList.length}`);
-
-  return {
-    props: {
-      carList,
-    },
-  };
 };
 
 export default CarListPage;

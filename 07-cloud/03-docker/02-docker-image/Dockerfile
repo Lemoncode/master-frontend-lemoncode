@@ -10,13 +10,13 @@ RUN npm run build
 
 # Release
 FROM base AS release
-COPY --from=build-front /usr/app/dist ./public
+ENV STATIC_FILES_PATH=./public
+COPY --from=build-front /usr/app/dist $STATIC_FILES_PATH
 COPY ./server/package.json ./
 COPY ./server/index.js ./
 RUN npm install --only=production
 
 ENV PORT=8083
-ENV STATIC_FILES_PATH=./public
-
 EXPOSE 8083
+
 ENTRYPOINT [ "node", "index" ]

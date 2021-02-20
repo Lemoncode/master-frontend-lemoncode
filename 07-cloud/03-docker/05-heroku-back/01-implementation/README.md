@@ -285,7 +285,7 @@ env:
 ...
 ```
 
-- Create `BASE_API_URL` as secret too:
+- Create `BASE_API_URL` as secret too (in `FRONT` Repository):
 
 ![05-base-api-url](./readme-resources/05-base-api-url.png)
 

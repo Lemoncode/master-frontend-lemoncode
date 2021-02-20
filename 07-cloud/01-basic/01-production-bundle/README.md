@@ -42,6 +42,7 @@ module.exports = merge(base, {
 + output: {
 +   path: helpers.resolveFromRootPath('dist'),
 +   filename: './js/[name].[chunkhash].js',
++   assetModuleFilename: "images/[hash][ext][query]",
 + },
 });
 
@@ -49,31 +50,24 @@ module.exports = merge(base, {
 
 > NOTE: Remember to add `chunkhash` to avoid cache issues.
 
-- Next one, it's apply same approach to images:
+- Next one, it's apply optimization to split `node_modules` as different chunk from `app`:
 
 _./config/webpack/prod.js_
 
 ```diff
-const { merge } = require('webpack-merge');
-const base = require('./base');
-const helpers = require('./helpers');
-
-module.exports = merge(base, {
-  mode: 'production',
-  output: {
-    path: helpers.resolveFromRootPath('dist'),
-    filename: './js/[name].[chunkhash].js',
-  },
-+ module: {
-+   rules: [
-+     {
-+       test: /\.(png|jpg|gif|svg)$/,
-+       loader: 'file-loader',
-+       options: {
-+         name: './images/[name].[hash].[ext]',
+...
++ optimization: {
++   runtimeChunk: 'single',
++   splitChunks: {
++     cacheGroups: {
++       vendor: {
++         chunks: 'all',
++         name: 'vendor',
++         test: /[\\/]node_modules[\\/]/,
++         enforce: true,
 +       },
 +     },
-+   ],
++   },
 + },
 });
 
@@ -99,25 +93,8 @@ _./config/webpack/prod.js_
 const { merge } = require('webpack-merge');
 + const Dotenv = require('dotenv-webpack');
 const base = require('./base');
-const helpers = require('./helpers');
+...
 
-module.exports = merge(base, {
-  mode: 'production',
-  output: {
-    path: helpers.resolveFromRootPath('dist'),
-    filename: './js/[name].[chunkhash].js',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: './images/[name].[hash].[ext]',
-        },
-      },
-    ],
-  },
 + plugins: [
 +   new Dotenv({
 +     path: 'prod.env',
@@ -139,10 +116,7 @@ _./package.json_
 +   "build": "run-p -l type-check build:prod",
 +   "build:prod": "npm run clean && webpack --config ./config/webpack/prod.js",
     "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --watch",
-    "clean": "rimraf dist",
-    "test": "jest -c ./config/test/jest.js --verbose",
-    "test:watch": "npm run test -- --watchAll -i --no-cache"
+    ...
   },
 ```
 

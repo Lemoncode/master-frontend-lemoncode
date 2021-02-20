@@ -28,20 +28,11 @@ module.exports = merge(
           exclude: /node_modules/,
           loader: 'babel-loader',
         },
-      ],
-    },
-    optimization: {
-      runtimeChunk: 'single',
-      splitChunks: {
-        cacheGroups: {
-          vendor: {
-            chunks: 'all',
-            name: 'vendor',
-            test: /[\\/]node_modules[\\/]/,
-            enforce: true,
-          },
+        {
+          test: /\.(png|jpg|gif|svg)$/,
+          type: 'asset/resource',
         },
-      },
+      ],
     },
     plugins: [
       new HtmlWebpackPlugin({

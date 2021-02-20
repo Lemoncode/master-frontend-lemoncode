@@ -251,27 +251,19 @@ COPY ./server/package.json ./
 
 ```
 
-- Run it:
-
-```bash
-docker build -t my-app:2 .
-
-docker stop my-app
-docker run --name my-app --rm -p 8080:8083 my-app:2
-```
-
 - Check now the images:
 
 ```bash
 docker images
 ```
 
-- We can run it, in background:
+- Run it:
 
 ```bash
+docker build -t my-app:2 .
+
 docker stop my-app
 docker run --name my-app --rm -p 8080:8083 -d my-app:2
-
 ```
 
 > `-d`: To start a container in detached mode

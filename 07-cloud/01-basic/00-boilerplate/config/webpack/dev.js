@@ -23,6 +23,7 @@ module.exports = mergeWithCustomize({
   output: {
     path: helpers.resolveFromRootPath('dist'),
     filename: '[name].js',
+    assetModuleFilename: "images/[hash][ext][query]",
   },
   devServer: {
     inline: true,
@@ -40,10 +41,7 @@ module.exports = mergeWithCustomize({
     rules: [
       {
         test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: 'img/[name].[ext]',
-        },
+        type: "asset/resource",
       },
     ],
   },

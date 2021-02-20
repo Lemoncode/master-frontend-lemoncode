@@ -2,7 +2,7 @@
 
 In this example we are going to create a production server using Github pages.
 
-We will start from `01-production-bundle`.
+We will start from `02-azure-ftp`.
 
 # Steps to build it
 
@@ -13,6 +13,8 @@ npm install
 ```
 
 - Using previous application, we upload it using [Github Pages](https://pages.github.com/). We only need to create a new repository.
+
+> NOTE: In this case we won't use `express server` to serve front app, because Github Pages has its own server.
 
 - Upload files:
 
@@ -39,6 +41,14 @@ npm run build
 |- js
 |- index.html
 
+```
+
+- Upload files:
+
+```bash
+git add .
+git commit -m "upload files"
+git push -u origin gh-pages
 ```
 
 - Now, we have deployed our website in: `https://<user-name>.github.io/<repository-name>`

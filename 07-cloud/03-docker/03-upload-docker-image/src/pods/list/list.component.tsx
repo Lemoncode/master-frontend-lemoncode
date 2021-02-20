@@ -1,5 +1,5 @@
 import React from 'react';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import Typography from '@material-ui/core/Typography';
 import { TableComponent } from './components';
 import { Member } from './list.vm';

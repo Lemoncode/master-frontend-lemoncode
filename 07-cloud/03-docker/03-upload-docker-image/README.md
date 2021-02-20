@@ -48,7 +48,7 @@ docker images
 docker push <user-name>/<app-name>
 ```
 
-- We can use same tag to `DockerHub` versions:
+- We can use same image to tag `DockerHub` versions:
 
 ```bash
 docker tag <app-name>:<tag> <registry>/<path-to-repository>:<tag>
@@ -69,29 +69,13 @@ docker push <user-name>/<app-name>
 _./Dockerfile_
 
 ```diff
-FROM node:12-alpine AS base
-RUN mkdir -p /usr/app
-WORKDIR /usr/app
-
-# Prepare static files
-FROM base AS build-front
-COPY ./ ./
-RUN npm install
-RUN npm run build
-
-# Release
-FROM base AS release
-COPY --from=build-front /usr/app/dist ./public
-COPY ./server/package.json ./
-COPY ./server/index.js ./
-RUN npm install --only=production
+...
 
 - ENV PORT=8083
-+ ENV PORT=8000
-ENV STATIC_FILES_PATH=./public
-
 - EXPOSE 8083
++ ENV PORT=8000
 + EXPOSE 8000
+
 ENTRYPOINT [ "node", "index" ]
 
 ```
@@ -99,24 +83,24 @@ ENTRYPOINT [ "node", "index" ]
 - Built and upload again:
 
 ```bash
-docker build -t my-app:3 .
-docker tag my-app:3 <user-name>/<app-name>:<tag>
+docker build -t <user-name>/my-app:3 .
 docker images
-docker push <user-name>/<app-name>
+docker push <user-name>/my-app
 ```
 
 - We should update the `latest` version to tag equals `3`:
 
 ```bash
-docker tag my-app:3 <user-name>/<app-name>
+docker tag <user-name>/my-app:3 <user-name>/my-app
 docker images
-docker push <user-name>/<app-name>
+docker push <user-name>/my-app
 ```
 
 - We can run the uploaded image version:
 
 ```bash
-docker run --rm -p 8080:8000 <user-name>/<app-name>:<tag>
+docker stop my-app
+docker run --name my-app --rm -p 8080:8000 -d <user-name>/my-app:3
 ```
 
 # About Basefactor + Lemoncode

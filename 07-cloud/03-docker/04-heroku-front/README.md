@@ -24,7 +24,7 @@ git commit -m "initial commit"
 git push -u origin master
 ```
 
-- Create new branch `feature/configure-ci-cd`.
+- CREATE NEW BRANCH: `feature/configure-ci-cd`.
 
 - First, we can add the CI workflow to execute on each `pull request`:
 
@@ -75,20 +75,48 @@ heroku authorizations:create -d <description>
 
 ![03-heroku-app-name](./readme-resources/03-heroku-app-name.png)
 
-- Now, we can defined another file for `Continuos Deployment workflow`:
+- Now, we can update the `Continuos Deployment workflow`:
 
 _./.github/workflows/cd.yml_
 
-```yml
+```diff
+...
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+-     - name: Use SSH key
+-       run: |
+-         mkdir -p ~/.ssh/
+-         echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
+-         sudo chmod 600 ~/.ssh/id_rsa
+-     - name: Git config
+-       run: |
+-         git config --global user.email "cd-user@my-app.com"
+-         git config --global user.name "cd-user"
+-     - name: Install
+-       run: npm install
+-     - name: Build
+-       run: npm run build
+-     - name: Deploy
+-       run: npm run deploy -- -r git@github.com:nasdan/test-cloud.git
+
+```
+
+_./.github/workflows/cd.yml_
+
+```diff
 name: Continuos Deployment workflow
 
 on:
   push:
     branches:
       - master
-
-env:
-  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
++ env:
++   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
++   IMAGE_NAME: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
 
 jobs:
   cd:
@@ -96,19 +124,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Install heroku and login
-        # Login using HEROKU_API_KEY env variable
-        run: |
-          curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
-          heroku container:login
-      - name: Build docker image
-        run: docker build -t ${{ secrets.HEROKU_APP_NAME }}:${{ github.run_id }} .
-      - name: Deploy docker image
-        run: |
-          docker tag ${{ secrets.HEROKU_APP_NAME }}:${{ github.run_id }} registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
-          docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
-      - name: Release
-        run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
++     - name: Install heroku and login
++       run: |
++         curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
++         heroku container:login
++     - name: Build docker image
++       run: docker build -t ${{ env.IMAGE_NAME }} .
++     - name: Deploy docker image
++       run: docker push ${{ env.IMAGE_NAME }}
++     - name: Release
++       run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
 
 ```
 

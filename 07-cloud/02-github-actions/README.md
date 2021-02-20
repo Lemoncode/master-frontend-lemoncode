@@ -145,6 +145,8 @@ jobs:
 > "Use SSH key" step: create id_rsa with ssh private key in default ssh folder and add write permits.
 >
 > "Deploy" step: update deploy command with repository's SSH URL.
+>
+> [gh-pages -r flag](https://github.com/tschaub/gh-pages#optionsrepo)
 
 ```bash
 git add .

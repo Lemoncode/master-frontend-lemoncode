@@ -272,16 +272,25 @@ _./config/webpack/prod.js_
 _./.github/workflows/cd.yml_
 
 ```diff
-name: Continuos Deployment workflow
+...
 
-on:
-  push:
-    branches:
-      - master
-env:
-  HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-  IMAGE_NAME: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
-+ BASE_API_URL: ${{secrets.BASE_API_URL}}
+      - name: Build docker image
+-       run: docker build -t ${{ env.IMAGE_NAME }} .
++       run: docker build -t ${{ env.IMAGE_NAME }} --build-arg BASE_API_URL=${{secrets.BASE_API_URL}} .
+...
+```
+
+- And Docker:
+
+_./Dockerfile_
+
+```diff
+FROM node:12-alpine AS base
+RUN mkdir -p /usr/app
+WORKDIR /usr/app
++ ARG BASE_API_URL
++ ENV BASE_API_URL=$BASE_API_URL
+
 ...
 ```
 

@@ -6,34 +6,78 @@ We will start from `01-production-bundle`.
 
 # Steps to build it
 
-- Open `./app/app.sln` with Visual Studio 2019
+- We have a `dist` folder with app files, but to public this files in a production server, we need some kind of `server` to serve this static files. In this case, we are going to use a `nodejs` server.
 
-- Select `Release`:
+- Create `server` folder and:
 
-![01-select-release](./readme-resources/01-select-release.png)
+```bash
+cd ./server
+```
 
-- Build solution:
+- Create package.json and install `express`:
 
-![02-build-solution](./readme-resources/02-build-solution.png)
+```bash
+npm init -y
+npm install express --save
+```
+
+- Create a simple server using [express](https://github.com/expressjs/express):
+
+_./server/index.js_
+
+```javascript
+const express = require('express');
+const path = require('path');
+
+const app = express();
+const staticFilesPath = path.resolve(__dirname, './public');
+app.use('/', express.static(staticFilesPath));
+
+const PORT = process.env.PORT || 8081;
+app.listen(PORT, () => {
+  console.log(`App running on http://localhost:${PORT}`);
+});
+
+```
+
+- We can run it on local:
+
+_./server/package.json_
+
+```diff
+...
+  "scripts": {
+-   "test": "echo \"Error: no test specified\" && exit 1"
++   "start": "node index.js"
+  },
+```
+
+- Before running, we need to copy `./dist` folder content to `./server/public`.
+
+- Run it:
+
+```bash
+npm start
+```
 
 - Now, we can configure a web server in `Azure` to upload files via FTP.
 
-![03-create-app-service](./readme-resources/03-create-app-service.png)
+![01-create-app-service](./readme-resources/01-create-app-service.png)
 
 - Navigate to deploy center.
 
-![04-navigate-deploy-center](./readme-resources/04-navigate-deploy-center.png)
+![02-navigate-deploy-center](./readme-resources/02-navigate-deploy-center.png)
 
 - And click on FTP:
 
-![05-use-ftp](./readme-resources/05-use-ftp.png)
+![03-use-ftp](./readme-resources/03-use-ftp.png)
 
-- We can use whatever ftp client to connect to our server and copy all files from 
+- We can use whatever ftp client to connect to our server and copy all files from:
 
-- `./app/mvc-app/bin/Release/netcoreapp3.1`: the mvc backend code.
-- `./app/mvc-app/wwwroot`: the static files from client side. 
+- `./server`: server folder.
+- Important: including `node_modules`.
 
-![06-upload-files](./readme-resources/06-upload-files.png)
+![04-upload-files](./readme-resources/04-upload-files.png)
 
 > NOTE: Here we are using [Filezilla](https://filezilla-project.org/)
 

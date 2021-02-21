@@ -85,7 +85,7 @@ ENTRYPOINT [ "node", "index" ]
 ```bash
 docker build -t <user-name>/my-app:3 .
 docker images
-docker push <user-name>/my-app
+docker push <user-name>/my-app:3
 ```
 
 - We should update the `latest` version to tag equals `3`:

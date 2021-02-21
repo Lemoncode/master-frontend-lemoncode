@@ -2,16 +2,6 @@
 
 In this example we are going to upload frontend app to Amazon Web Services
 
-We will start from `05-heroku-back/01-implementation`.
-
-# Steps to build it
-
-- `npm install` to install previous sample packages:
-
-```bash
-npm install
-```
-
 - [Amazon EC2](https://aws.amazon.com/ec2/?ec2-whats-new.sort-by=item.additionalFields.postDateTime&ec2-whats-new.sort-order=desc) is an Amazon virtual machine.
 
 > [Docker basics for Amazon EC2](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-basics.html)
@@ -51,8 +41,10 @@ sudo usermod -a -G docker ec2-user
 - Execute Docker image uploaded to Docker Hub in example `03-upload-docker-image`:
 
 ```bash
-sudo docker run --rm -d -p 80:8000 <user-name>/<app-name>:<tag>
+sudo docker run --name my-app --rm -d -p 80:8000 <user-name>/<app-name>:3
 ```
+
+> In `tag 3` we had setted the port to `8000`
 
 # About Basefactor + Lemoncode
 

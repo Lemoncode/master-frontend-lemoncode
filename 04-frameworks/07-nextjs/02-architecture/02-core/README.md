@@ -2,7 +2,7 @@
 
 Let's move functionality to `core` folder.
 
-We will start from `08-context`.
+We will start from `01-config`.
 
 # Steps to build it
 

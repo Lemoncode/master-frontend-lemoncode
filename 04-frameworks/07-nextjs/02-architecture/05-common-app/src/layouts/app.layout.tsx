@@ -4,7 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import { UserContext } from '../common/contexts';
+import { UserContext } from 'common-app/user';
 import * as classes from './app.layout.styles';
 
 export const AppLayout: React.FunctionComponent = (props) => {

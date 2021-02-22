@@ -1,22 +1,26 @@
 import React from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
-import { UserContext } from '../common/contexts';
+import { useUser } from 'common-app/user';
 
 const HomePage = () => {
-  const { setUser } = React.useContext(UserContext);
+  const { credentials, setCredentials, onLogin } = useUser();
 
-  React.useEffect(() => {
-    // After login
-    setUser('John');
-  }, []);
+  const handleCredentials = () => {
+    setCredentials({
+      email: 'john@email.com',
+      password: 'test',
+    });
+  };
 
   return (
     <>
       <Head>
         <title>Rent a car - Home</title>
       </Head>
-      <h2>Hello from Nextjs</h2>
+      <h2>Hello {credentials.email}</h2>
+      <button onClick={() => handleCredentials()}>Add credentials</button>
+      <button onClick={() => onLogin()}>Login</button>
       <Link href="/cars">Navigate to car list</Link>
     </>
   );

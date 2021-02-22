@@ -1,8 +1,8 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import * as api from '../api';
 import { routeConstants } from 'core/constants';
-import { mapCarFromApiToVm, mapCarFromVmToApi } from '../mappers';
+import * as api from './api';
+import { mapCarFromApiToVm, mapCarFromVmToApi } from './car.mappers';
 import { CarComponent } from './car.component';
 
 interface Props {

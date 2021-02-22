@@ -8,7 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import AvailableIcon from '@material-ui/icons/CheckCircle';
 import BookedIcon from '@material-ui/icons/Cancel';
 import { routeConstants } from 'core/constants';
-import { Car } from '../view-models';
+import { Car } from '../car-list.vm';
 import * as classes from './car-item.styles';
 
 interface Props {

@@ -1,6 +1,6 @@
 import React from 'react';
-import * as api from '../api';
-import { mapCarListFromApiToVm } from '../mappers';
+import * as api from './api';
+import { mapCarListFromApiToVm } from './car-list.mappers';
 import { CarListComponent } from './car-list.component';
 
 interface Props {

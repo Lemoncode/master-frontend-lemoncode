@@ -2,8 +2,7 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { AppLayout } from 'layouts';
-import * as api from '../../api';
-import { CarContainer } from '../../components';
+import { api, CarContainer } from 'pods/car';
 
 interface Props {
   car: api.Car;

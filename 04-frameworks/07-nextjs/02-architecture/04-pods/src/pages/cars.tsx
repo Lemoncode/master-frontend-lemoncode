@@ -2,8 +2,7 @@ import React from 'react';
 import useSWR from 'swr';
 import Head from 'next/head';
 import { AppLayout } from 'layouts';
-import * as api from '../api';
-import { CarListContainer } from '../components';
+import { api, CarListContainer } from 'pods/car-list';
 
 const CarListPage: React.FunctionComponent = () => {
   const { data } = useSWR(api.url, api.getCarList);

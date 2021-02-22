@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { Car } from '../view-models';
+import { Car } from './car.vm';
 import * as classes from './car.styles';
 
 interface Props {

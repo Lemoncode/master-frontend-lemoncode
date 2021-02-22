@@ -155,6 +155,8 @@ export default HomePage;
 
 ```
 
+- Remove `common` folder.
+
 # About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.

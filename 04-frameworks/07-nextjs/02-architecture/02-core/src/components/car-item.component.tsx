@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import AvailableIcon from '@material-ui/icons/CheckCircle';
 import BookedIcon from '@material-ui/icons/Cancel';
-import { routeConstants } from '../common/constants';
+import { routeConstants } from 'core/constants';
 import { Car } from '../view-models';
 import * as classes from './car-item.styles';
 

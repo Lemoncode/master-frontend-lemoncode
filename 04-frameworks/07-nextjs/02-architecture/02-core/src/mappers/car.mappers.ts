@@ -1,4 +1,4 @@
-import { envConstants } from '../common/constants';
+import { envConstants } from 'core/constants';
 import * as apiModel from '../api';
 import * as viewModel from '../view-models';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import * as api from '../api';
-import { routeConstants } from 'common/constants';
+import { routeConstants } from 'core/constants';
 import { mapCarFromApiToVm, mapCarFromVmToApi } from '../mappers';
 import { CarComponent } from './car.component';
 

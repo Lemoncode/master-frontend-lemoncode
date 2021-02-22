@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppProps } from 'next/app';
-import { ThemeProviderComponent } from '../common/theme';
+import { ThemeProviderComponent } from 'core/theme';
 import { UserProvider } from '../common/contexts';
 
 const App: React.FunctionComponent<AppProps> = (props) => {

@@ -1,13 +1,16 @@
 import React from 'react';
 import { AppProps } from 'next/app';
 import { ThemeProviderComponent } from '../common/theme';
+import { UserProvider } from '../common/contexts';
 
 const App: React.FunctionComponent<AppProps> = (props) => {
   const { Component, pageProps } = props;
 
   return (
     <ThemeProviderComponent>
-      <Component {...pageProps} />
+      <UserProvider>
+        <Component {...pageProps} />
+      </UserProvider>
     </ThemeProviderComponent>
   );
 };

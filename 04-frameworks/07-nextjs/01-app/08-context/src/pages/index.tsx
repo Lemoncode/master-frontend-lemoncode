@@ -1,8 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
+import { UserContext } from '../common/contexts';
 
 const HomePage = () => {
+  const { setUser } = React.useContext(UserContext);
+
+  React.useEffect(() => {
+    // After login
+    setUser('John');
+  }, []);
+
   return (
     <>
       <Head>

@@ -52,41 +52,91 @@ export * from './user.context';
 _./src/components/app.layout.ts_
 
 ```diff
-import React from 'react';
-import Image from 'next/image';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+...
 import IconButton from '@material-ui/core/IconButton';
++ import { UserContext } from '../common/contexts';
 import * as classes from './app.layout.styles';
 
 export const AppLayout: React.FunctionComponent = (props) => {
   const { children } = props;
-
-  return (
-    <>
-      <AppBar position="fixed">
-        <Toolbar className={classes.toolbar} variant="dense">
-          <IconButton className={classes.iconButton}>
-            <Image src="/home-logo.png" layout="fill" objectFit="contain" />
-          </IconButton>
++ const { user } = React.useContext(UserContext);
+...
           <Typography variant="h6" color="inherit">
             Rent a car
           </Typography>
++         <Typography variant="h6" color="inherit">
++           {user}
++         </Typography>
         </Toolbar>
-      </AppBar>
-      <main className={classes.content}>
-        <Toolbar variant="dense" />
-        {children}
-      </main>
-    </>
-  );
-};
+...
 
 ```
 
-- Where we should place the `UserProvider` to keep state? As we did with theme, the `_app` is the component with the initial 
+_./src/components/app.layout.styles.ts_
 
+```diff
+...
+
+export const toolbar = css`
+  display: flex;
+  flex-direction: row;
+  column-gap: 1rem;
+  row-gap: 1rem;
+
++ & > :nth-child(3) {
++   margin-left: auto;
++ }
+`;
+...
+```
+
+- Where we should place the `UserProvider` to keep state? As we did with theme, the [_app](https://nextjs.org/docs/advanced-features/custom-app) is the component  to keep state when navigate between pages:
+
+_./src/pages/\_app.tsx_
+
+```diff
+import React from 'react';
+import { AppProps } from 'next/app';
+import { ThemeProviderComponent } from '../common/theme';
++ import { UserProvider } from '../common/contexts';
+
+const App: React.FunctionComponent<AppProps> = (props) => {
+  const { Component, pageProps } = props;
+
+  return (
+    <ThemeProviderComponent>
++     <UserProvider>
+        <Component {...pageProps} />
++     </UserProvider>
+    </ThemeProviderComponent>
+  );
+};
+
+export default App;
+
+```
+
+- The idea is after user login on `index` page, we want to keep user state as global state:
+
+_./src/pages/index.tsx_
+
+```diff
+...
+
+const HomePage = () => {
++ const { setUser } = React.useContext(UserContext);
+
++ React.useEffect(() => {
++   // After login
++   setUser('John');
++ }, []);
+
+  return (
+    <>
+      <Head>
+...
+
+```
 
 # About Basefactor + Lemoncode
 

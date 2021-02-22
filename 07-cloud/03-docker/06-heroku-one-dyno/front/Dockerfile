@@ -4,19 +4,21 @@ WORKDIR /usr/app
 
 # Prepare static files
 FROM base AS build-front
+ARG BASE_API_URL
+ENV BASE_API_URL=$BASE_API_URL
 COPY ./ ./
 RUN npm install
 RUN npm run build
 
 # Release
 FROM base AS release
-COPY --from=build-front /usr/app/dist ./public
+ENV STATIC_FILES_PATH=./public
+COPY --from=build-front /usr/app/dist $STATIC_FILES_PATH
 COPY ./server/package.json ./
 COPY ./server/index.js ./
 RUN npm install --only=production
 
 ENV PORT=8000
-ENV STATIC_FILES_PATH=./public
-
 EXPOSE 8000
+
 ENTRYPOINT [ "node", "index" ]

@@ -1,8 +1,8 @@
-# 03 Github branch
+# 02 Github actions
 
 In this example we are going to create a production server using Github pages and Github actions.
 
-We will start from `03-github-branch`.
+We will start from `04-heroku-branch`.
 
 # Steps to build it
 
@@ -36,14 +36,7 @@ _./package.json_
 
 ```diff
   "scripts": {
-    "start": "run-p -l type-check:watch start:dev",
-    "start:dev": "webpack-dev-server --config ./config/webpack/dev.js",
-    "build": "run-p -l type-check build:prod",
-    "build:prod": "npm run clean && webpack --config ./config/webpack/prod.js",
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --watch",
-    "clean": "rimraf dist",
-    "test": "jest -c ./config/test/jest.js --verbose",
+    ...
     "test:watch": "npm run test -- --watchAll -i --no-cache",
 +   "deploy": "gh-pages -d dist"
   },
@@ -152,6 +145,8 @@ jobs:
 > "Use SSH key" step: create id_rsa with ssh private key in default ssh folder and add write permits.
 >
 > "Deploy" step: update deploy command with repository's SSH URL.
+>
+> [gh-pages -r flag](https://github.com/tschaub/gh-pages#optionsrepo)
 
 ```bash
 git add .

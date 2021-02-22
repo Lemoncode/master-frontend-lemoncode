@@ -8,21 +8,25 @@ module.exports = merge(base, {
   output: {
     path: helpers.resolveFromRootPath('dist'),
     filename: './js/[name].[chunkhash].js',
+    assetModuleFilename: 'images/[hash][ext][query]',
   },
-  module: {
-    rules: [
-      {
-        test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: './images/[name].[hash].[ext]',
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          chunks: 'all',
+          name: 'vendor',
+          test: /[\\/]node_modules[\\/]/,
+          enforce: true,
         },
       },
-    ],
+    },
   },
   plugins: [
     new Dotenv({
       path: 'prod.env',
+      systemvars: true,
     }),
   ],
 });

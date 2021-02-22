@@ -59,12 +59,9 @@ git push
 
 ![04-nodejs-buildpack](./readme-resources/04-nodejs-buildpack.png).
 
-- Add a simple web server using `nodejs` and express:
+- Copy `./server` folder's content to `heroku repository`:
 
-```bash
-npm init -y
-npm install express --save
-```
+- Create `public` folder.
 
 - Remove `static.json` file and move `static files` to public folder.
 
@@ -77,41 +74,17 @@ node_modules
 
 ```
 
-- Create a simple server using [express](https://github.com/expressjs/express):
-
-_index.js_
-
-```javascript
-const express = require('express');
-const path = require('path');
-
-const app = express();
-const staticFilesPath = path.resolve(__dirname, './public');
-app.use('/', express.static(staticFilesPath));
-
-const PORT = process.env.PORT || 8081;
-app.listen(PORT, () => {
-  console.log(`App running on http://localhost:${PORT}`);
-});
+- Result:
 
 ```
+|- public/
+|---- images
+|---- js
+|---- index.html
+|- .gitignore
+|- index.js
+|- package.json
 
-- We can run it on local:
-
-_./package.json_
-
-```diff
-...
-  "scripts": {
--   "test": "echo \"Error: no test specified\" && exit 1"
-+   "start": "node index.js"
-  },
-```
-
-- Run it:
-
-```bash
-npm start
 ```
 
 - Add a custom REST API endpoint:

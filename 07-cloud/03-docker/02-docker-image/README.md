@@ -2,7 +2,7 @@
 
 In this example we are going to create and run Docker images.
 
-We will start from `01-production-bundle`.
+We will start from `02-github-actions`.
 
 # Steps to build it
 
@@ -49,6 +49,7 @@ dist
 .env
 .env.example
 .gitignore
+.github
 package-lock.json
 README.md
 
@@ -94,52 +95,17 @@ docker build -t my-app:1 .
 
 ```bash
 docker images
-docker run -it my-app:1 sh
+docker run --name my-app my-app:1
+docker exec -it my-app sh
+
+docker container rm my-app
+docker run --name my-app -it my-app:1 sh
 ```
 
 > Tag is optionally.
 > We can see the files after build in `cd ./dist && ls`
 
-- We can create a node.js server this static files. Create `server` folder and:
-
-```bash
-cd ./server
-npm init -y
-```
-
-- Install `express`:
-
-```bash
-npm install express --save
-```
-
-- Create server:
-
-_./server/index.js_
-
-```javascript
-const express = require('express');
-const path = require('path');
-
-const app = express();
-const staticFilesPath = path.resolve(__dirname, '../dist');
-app.use('/', express.static(staticFilesPath));
-
-const PORT = process.env.PORT || 8081;
-app.listen(PORT, () => {
-  console.log(`App running on http://localhost:${PORT}`);
-});
-```
-
-- Let's check it:
-
-```bash
-cd ..
-npm run build
-node server
-```
-
-- We have to do same steps in the docker file:
+- We can create some docker steps to install server and execute it:
 
 _./Dockerfile_
 
@@ -152,6 +118,7 @@ COPY ./ ./
 RUN npm install
 RUN npm run build
 
++ RUN cp ./dist ./server/public
 + RUN cd server
 + RUN npm install
 
@@ -165,7 +132,18 @@ RUN npm run build
 
 ```bash
 docker build -t my-app:1 .
-docker run my-app:1
+docker images
+
+```
+> It creates a <none> image due to replace same tag.
+> We can remove it with `docker image prune`
+
+- Run new container:
+
+```bash
+docker container rm my-app
+docker run --name my-app my-app:1
+docker exec -it my-app sh
 ```
 
 - Why can't we access to `http://localhost:8081`? Because this process is executing itself inside container, we need to expose to our machine:
@@ -173,16 +151,7 @@ docker run my-app:1
 _./Dockerfile_
 
 ```diff
-FROM node:12-alpine
-RUN mkdir -p /usr/app
-WORKDIR /usr/app
-
-COPY ./ ./
-RUN npm install
-RUN npm run build
-
-RUN cd server
-RUN npm install
+...
 
 + ENV PORT=8083
 + EXPOSE 8083
@@ -194,9 +163,12 @@ ENTRYPOINT [ "node", "server" ]
 
 ```bash
 docker ps
-docker stop <CONTAINER ID>
+docker stop my-app
+docker container rm my-app
+
 docker build -t my-app:1 .
-docker run --rm -p 8080:8083 my-app:1
+
+docker run --name my-app --rm -p 8080:8083 my-app:1
 ```
 
 > [Docker run options](https://docs.docker.com/engine/reference/commandline/run/)
@@ -225,6 +197,7 @@ COPY ./ ./
 RUN npm install
 RUN npm run build
 
+- RUN cp -a ./dist/. ./server/public
 - RUN cd server
 - RUN npm install
 + # Release
@@ -235,9 +208,8 @@ RUN npm run build
 + RUN npm install --only=production
 
 ENV PORT=8083
-+ ENV STATIC_FILES_PATH=./public
-
 EXPOSE 8083
+
 - ENTRYPOINT [ "node", "server" ]
 + ENTRYPOINT [ "node", "index" ]
 
@@ -263,11 +235,20 @@ app.listen(PORT, () => {
 
 ```
 
-- Run it:
+- Update Dockerfile:
 
-```bash
-docker build -t my-app:2 .
-docker run --rm -p 8080:8083 my-app:2
+_./Dockerfile_
+
+```diff
+...
+# Release
+FROM base AS release
++ ENV STATIC_FILES_PATH=./public
+- COPY --from=build-front /usr/app/dist ./public
++ COPY --from=build-front /usr/app/dist $STATIC_FILES_PATH
+COPY ./server/package.json ./
+...
+
 ```
 
 - Check now the images:
@@ -276,12 +257,13 @@ docker run --rm -p 8080:8083 my-app:2
 docker images
 ```
 
-- We can run it, in background:
+- Run it:
 
 ```bash
-docker stop <Container ID>
-docker run -d --rm -p 8080:8083 my-app:2
+docker build -t my-app:2 .
 
+docker stop my-app
+docker run --name my-app --rm -p 8080:8083 -d my-app:2
 ```
 
 > `-d`: To start a container in detached mode

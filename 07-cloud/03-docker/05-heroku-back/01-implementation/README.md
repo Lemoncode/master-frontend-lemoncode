@@ -27,7 +27,7 @@ MONGODB_URI=mongodb://localhost:27017/demo-cloud
 - This app is using a [mongodb database](https://www.mongodb.com/), instead of [download and install the MongoDB software](https://docs.mongodb.com/manual/administration/install-community/) we can use [docker to run an MongoDB](https://hub.docker.com/_/mongo) instance for local development.
 
 ```bash
-docker run --name my-mongo-db -p 27017:27017 -d mongo:4.2.10
+docker run --name my-mongo-db -p 27017:27017 -d mongo:4.4.3
 docker ps
 ```
 
@@ -95,7 +95,7 @@ git commit -m "initial commit"
 git push -u origin master
 ```
 
-- Create new branch `feature/configure-cd`.
+- CREATE NEW BRANCH `feature/configure-cd`.
 
 - We need an to create a [new heroku app](https://dashboard.heroku.com/) to deploy it.
 
@@ -122,7 +122,7 @@ heroku authorizations:create -d <description>
 
 ![03-heroku-app-name](./readme-resources/03-heroku-app-name.png)
 
-- Now, we can defined another file for `Continuos Deployment workflow`:
+- Now, we can defined another file for `Continuos Deployment workflow`. (It's `the same as frontend` cd workflow):
 
 _./.github/workflows/cd.yml_
 
@@ -136,6 +136,7 @@ on:
 
 env:
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  IMAGE_NAME: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
 
 jobs:
   cd:
@@ -144,16 +145,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Install heroku and login
-        # Login using HEROKU_API_KEY env variable
         run: |
           curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
           heroku container:login
       - name: Build docker image
-        run: docker build -t ${{ secrets.HEROKU_APP_NAME }}:${{ github.run_id }} .
+        run: docker build -t ${{ env.IMAGE_NAME }} .
       - name: Deploy docker image
-        run: |
-          docker tag ${{ secrets.HEROKU_APP_NAME }}:${{ github.run_id }} registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
-          docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+        run: docker push ${{ env.IMAGE_NAME }}
       - name: Release
         run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
 
@@ -223,10 +221,11 @@ npm run start:seed-data
 ![04-env-variables](./readme-resources/04-env-variables.png)
 
 ```
-CORS_ORIGIN=...
+CORS_ORIGIN=https://<heroku-app-name>.herokuapp.com
 MONGODB_URI=...
 
 ```
+> IMPORTANT: remove last `/`
 
 - Update `env` again:
 
@@ -255,14 +254,55 @@ ORGANIZATION=lemoncode
 
 ```
 
-_./prod.env_
+_./config/webpack/prod.js_
 
 ```diff
-NODE_ENV=development
-ORGANIZATION=lemoncode
-+ BASE_API_URL=...herokuapp.com
-
+...
+  plugins: [
+    new Dotenv({
+      path: 'prod.env',
++     systemvars: true,
+    }),
+  ],
+});
 ```
+
+- Update `cd workflow`:
+
+_./.github/workflows/cd.yml_
+
+```diff
+...
+
+      - name: Build docker image
+-       run: docker build -t ${{ env.IMAGE_NAME }} .
++       run: docker build -t ${{ env.IMAGE_NAME }} --build-arg BASE_API_URL=${{secrets.BASE_API_URL}} .
+...
+```
+
+- And Docker:
+
+_./Dockerfile_
+
+```diff
+...
+
+# Prepare static files
+FROM base AS build-front
++ ARG BASE_API_URL
++ ENV BASE_API_URL=$BASE_API_URL
+COPY ./ ./
+RUN npm install
+RUN npm run build
+
+...
+```
+
+- Create `BASE_API_URL` as secret too (in `FRONT` Repository):
+
+![05-base-api-url](./readme-resources/05-base-api-url.png)
+
+> IMPORTANT: remove last `/`
 
 - Update `api`:
 

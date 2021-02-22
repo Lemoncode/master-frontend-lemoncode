@@ -22,12 +22,14 @@ _./build-front.sh_
 mkdir -p ./dist/public
 
 cd ../<front-folder>
+export BASE_API_URL=http://localhost:8081
 npm install
 npm run build
 cp -r ./dist/. ../<back-folder>/dist/public
 ```
 
 > NOTE: Developers have to clone both repositories with same name as script has.
+> We will need here 
 
 - Add npm commands:
 
@@ -142,15 +144,7 @@ ssh-keygen -m PEM -t rsa -C "cd-user@my-app.com"
 
 - Delete `id_rsa.pub` file.
 
-- This time, we need to convert private ssh key to base64 due to the private `ssh key` is multiline:
-
-```bash
-base64 -w 0 < id_rsa
-```
-
-> References: [code and decode base64](https://linuxhint.com/bash_base64_encode_decode/)
-
-- Copy base64 `id_rsa` content to `BACKEND` project > `Github Settings` > `Secrets` section:
+- Copy `id_rsa` content to `BACKEND` project > `Github Settings` > `Secrets` section:
 
 ![03-private-ssh-key](./readme-resources/03-private-ssh-key.png)
 
@@ -158,21 +152,50 @@ base64 -w 0 < id_rsa
 
 - Delete `id_rsa` file.
 
-- We can add the `FRONT_REPOSITORY_URL` secret too.
+- We need add the `FRONT_REPOSITORY_NAME` (<user-name>/<repository-name>) to clone front repository and `BASE_API_URL` to build front app:
+
+![05-front-repository-name](./readme-resources/05-front-repository-name.png)
+
+![06-base-api-url](./readme-resources/06-base-api-url.png)
 
 - Update the CD workflow file:
 
 _./.github/workflows/cd.yml_
 
 ```diff
-...
-      - name: Build docker image
--       run: docker build -t ${{ secrets.HEROKU_APP_NAME }}:${{ github.run_id }} .
-+       run: docker build --build-arg SSH_PRIVATE_KEY=${{ secrets.SSH_PRIVATE_KEY }} --build-arg FRONT_REPOSITORY_URL=${{ secrets.FRONT_REPOSITORY_URL }} -t ${{ secrets.HEROKU_APP_NAME }}:${{ github.run_id }} .
-      - name: Deploy docker image
+name: Continuos Deployment workflow
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  IMAGE_NAME: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
++ FRONT_PATH: ./front
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
++     - name: Checkout front repository
++       uses: actions/checkout@v2
++       with:
++         repository: ${{ secrets.FRONT_REPOSITORY_NAME }}
++         path: ${{ env.FRONT_PATH }}
++         ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Install heroku and login
         run: |
-          docker tag ${{ secrets.HEROKU_APP_NAME }}:${{ github.run_id }} registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
-          docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+          curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+          heroku container:login
+      - name: Build docker image
+-       run: docker build -t ${{ env.IMAGE_NAME }} .
++       run: docker build --build-arg BASE_API_URL=${{secrets.BASE_API_URL}} --build-arg FRONT_PATH=${{env.FRONT_PATH}} -t ${{ env.IMAGE_NAME }} .
+      - name: Deploy docker image
+        run: docker push ${{ env.IMAGE_NAME }}
       - name: Release
         run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
 
@@ -189,18 +212,12 @@ FROM node:12-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
-+ # Build frontend
-+ FROM base AS build-frontend
-+ ARG SSH_PRIVATE_KEY
-+ RUN mkdir -p ~/.ssh/
-+ RUN echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
-+ RUN chmod 600 ~/.ssh/id_rsa
-+ RUN apk add --no-cache git openssh
-+ RUN ssh-keyscan github.com >> ~/.ssh/known_hosts
-+ RUN git config --global user.email "cd-user@my-app.com"
-+ RUN git config --global user.name "cd-user"
-+ ARG FRONT_REPOSITORY_URL
-+ RUN git clone $FRONT_REPOSITORY_URL ./
++ # Build front
++ FROM base AS build-front
++ ARG BASE_API_URL
++ ENV BASE_API_URL=$BASE_API_URL
++ ARG FRONT_PATH
++ COPY $FRONT_PATH ./
 + RUN npm install
 + RUN npm run build
 
@@ -212,8 +229,9 @@ RUN npm run build
 
 # Release
 FROM base AS release
++ ENV STATIC_FILES_PATH=./public
++ COPY --from=build-front /usr/app/dist $STATIC_FILES_PATH
 COPY --from=build-backend /usr/app/dist ./
-+ COPY --from=build-frontend /usr/app/dist ./public
 COPY ./package.json ./
 RUN npm install --only=production
 
@@ -226,9 +244,12 @@ ENTRYPOINT [ "node", "index" ]
 - Update heroku portal env variables:
 
 ```diff
+- CORS_ORIGIN=...
 + CORS_ORIGIN=false
-+ STATIC_FILES_PATH=./public
+MONGODB_URI=...
+
 ```
+> Not need to define `STATIC_FILES_PATH` env variable, because we set it on Dockerfile, but we can replace on heroku if we want.
 
 # About Basefactor + Lemoncode
 

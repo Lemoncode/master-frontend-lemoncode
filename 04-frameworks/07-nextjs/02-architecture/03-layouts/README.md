@@ -12,7 +12,59 @@ We will start from `02-core`.
 npm install
 ```
 
-- 
+- Let's migrate `app.layout`:
+  - `components/app.layout.styles.ts` > `layouts/app.layout.styles.ts`:
+  - `components/app.layout.tsx` > `layouts/app.layout.tsx`:
+
+_./src/components/index.ts_
+
+```diff
+export * from './car-list.container';
+- export * from './app.layout';
+export * from './car.container';
+
+```
+
+- Add barrel file:
+
+_./src/layouts/index.ts_
+
+```javascript
+export * from './app.layout';
+
+```
+
+_./src/pages/cars.tsx_
+
+```diff
+import React from 'react';
+import useSWR from 'swr';
+import Head from 'next/head';
++ import { AppLayout } from 'layouts';
+import * as api from '../api';
+- import { AppLayout, CarListContainer } from '../components';
++ import { CarListContainer } from '../components';
+
+...
+
+```
+
+_./src/pages/cars/\[carId\].tsx_
+
+```diff
+import React from 'react';
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
++ import { AppLayout } from 'layouts';
+import * as api from '../../api';
+- import { AppLayout, CarContainer } from '../../components';
++ import { CarContainer } from '../../components';
+
+...
+
+```
+
+- We can create more layouts, for example for `Login` page.
 
 # About Basefactor + Lemoncode
 

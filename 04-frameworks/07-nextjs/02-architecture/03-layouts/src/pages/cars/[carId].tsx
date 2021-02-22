@@ -1,8 +1,9 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
+import { AppLayout } from 'layouts';
 import * as api from '../../api';
-import { AppLayout, CarContainer } from '../../components';
+import { CarContainer } from '../../components';
 
 interface Props {
   car: api.Car;

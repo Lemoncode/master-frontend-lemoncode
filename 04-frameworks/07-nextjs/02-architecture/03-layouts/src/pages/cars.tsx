@@ -1,8 +1,9 @@
 import React from 'react';
 import useSWR from 'swr';
 import Head from 'next/head';
+import { AppLayout } from 'layouts';
 import * as api from '../api';
-import { AppLayout, CarListContainer } from '../components';
+import { CarListContainer } from '../components';
 
 const CarListPage: React.FunctionComponent = () => {
   const { data } = useSWR(api.url, api.getCarList);

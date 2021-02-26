@@ -1,0 +1,121 @@
+{
+  "cars": [
+    {
+      "id": "1",
+      "name": "Audi Q8 Automático",
+      "imageUrl": "/audi-q8.png",
+      "features": [
+        "5 asientos",
+        "5 puertas",
+        "Automático",
+        "4 maletas",
+        "Aire acondicionado"
+      ],
+      "isBooked": false
+    },
+    {
+      "id": "2",
+      "name": "BMW X7",
+      "imageUrl": "/bmw-x7.png",
+      "features": [
+        "7 asientos",
+        "5 puertas",
+        "Automático",
+        "2 maletas",
+        "Aire acondicionado",
+        "GPS"
+      ],
+      "isBooked": false
+    },
+    {
+      "id": "3",
+      "name": "Citroen C4 Cactus",
+      "imageUrl": "/citroen-c4-cactus.png",
+      "features": [
+        "5 asientos",
+        "5 puertas",
+        "Manual",
+        "1 maleta",
+        "Aire acondicionado"
+      ],
+      "isBooked": false
+    },
+    {
+      "id": "4",
+      "name": "Jaguar F-Pace Automático",
+      "imageUrl": "/jaguar-f-pace.png",
+      "features": [
+        "5 asientos",
+        "5 puertas",
+        "Automático",
+        "2 maletas",
+        "Aire acondicionado"
+      ],
+      "isBooked": false
+    },
+    {
+      "id": "5",
+      "name": "Mercedes-Benz Clase G",
+      "imageUrl": "/mb-g.png",
+      "features": [
+        "5 asientos",
+        "5 puertas",
+        "Automático",
+        "2 maletas",
+        "Aire acondicionado"
+      ],
+      "isBooked": false
+    },
+    {
+      "id": "6",
+      "name": "Mercedes-Benz Clase V",
+      "imageUrl": "/mb-v-klasse.png",
+      "features": [
+        "7 asientos",
+        "5 puertas",
+        "Automático",
+        "3 maletas",
+        "Aire acondicionado"
+      ],
+      "isBooked": false
+    },
+    {
+      "id": "7",
+      "name": "Peugeot Rifter",
+      "imageUrl": "/peugeot-rifter.png",
+      "features": [
+        "5 asientos",
+        "5 puertas",
+        "Manual",
+        "2 maletas",
+        "Aire acondicionado"
+      ],
+      "isBooked": false
+    },
+    {
+      "id": "8",
+      "name": "Porsche Macan",
+      "imageUrl": "/porsche-macan.png",
+      "features": [
+        "5 asientos",
+        "5 puertas",
+        "Manual",
+        "2 maletas"
+      ],
+      "isBooked": false
+    },
+    {
+      "id": "9",
+      "name": "VW Touran",
+      "imageUrl": "/vw-touran.png",
+      "features": [
+        "5 asientos",
+        "5 puertas",
+        "Manual",
+        "2 maletas",
+        "Aire acondicionado"
+      ],
+      "isBooked": false
+    }
+  ]
+}

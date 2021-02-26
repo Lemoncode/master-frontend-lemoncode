@@ -42,7 +42,7 @@ module.exports = merge(base, {
 + output: {
 +   path: helpers.resolveFromRootPath('dist'),
 +   filename: './js/[name].[chunkhash].js',
-+   assetModuleFilename: "images/[hash][ext][query]",
++   assetModuleFilename: "./images/[hash][ext][query]",
 + },
 });
 

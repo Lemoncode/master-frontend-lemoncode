@@ -363,7 +363,7 @@ _./src/components/car-item.component.tsx_
 import React from 'react';
 import { useRouter } from 'next/router';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader/CardHeader';
+import CardHeader from '@material-ui/core/CardHeader';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';

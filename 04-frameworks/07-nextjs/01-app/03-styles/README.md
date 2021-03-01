@@ -241,7 +241,7 @@ npm run start:prod
 
 - We can follow similar approach for `material-ui` styles. Let's add an `app layout`:
 
-_./src/components/app.layout.styles.tsx_
+_./src/components/app.layout.styles.ts_
 
 ```javascript
 import { css } from '@emotion/css';

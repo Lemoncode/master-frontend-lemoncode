@@ -132,7 +132,9 @@ _./src/pages/cars.tsx_
 ```diff
 import React from 'react';
 - import { useRouter } from 'next/router';
++ import { GetStaticProps } from 'next';
 import Head from 'next/head';
++ import * as api from '../api';
 import { AppLayout, CarListComponent } from '../components';
 
 const CarListPage = () => {
@@ -140,6 +142,7 @@ const CarListPage = () => {
 - const onNavigateBack = () => {
 -   router.push('/'); // or router.back()
 - };
++ console.log(`Car list on component: `, { carList });
 
   return (
     <AppLayout>
@@ -152,6 +155,16 @@ const CarListPage = () => {
     </AppLayout>
   );
 };
+
++ export const getStaticProps: GetStaticProps = async () => {
++   const carList = await api.getCarList();
++   console.log('Car list build time:', { carList });
++   return {
++     props: {
++       carList,
++     },
++   };
++ };
 
 export default CarListPage;
 

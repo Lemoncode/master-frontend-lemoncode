@@ -95,8 +95,6 @@ docker build -t my-app:1 .
 
 ```bash
 docker images
-docker run --name my-app my-app:1
-docker exec -it my-app sh
 
 docker container rm my-app
 docker run --name my-app -it my-app:1 sh
@@ -118,7 +116,7 @@ COPY ./ ./
 RUN npm install
 RUN npm run build
 
-+ RUN cp ./dist ./server/public
++ RUN cp -r ./dist ./server/public
 + RUN cd server
 + RUN npm install
 
@@ -202,9 +200,8 @@ RUN npm run build
 - RUN npm install
 + # Release
 + FROM base AS release
++ COPY ./server ./
 + COPY --from=build-front /usr/app/dist ./public
-+ COPY ./server/package.json ./
-+ COPY ./server/index.js ./
 + RUN npm install --only=production
 
 ENV PORT=8083
@@ -214,6 +211,27 @@ EXPOSE 8083
 + ENTRYPOINT [ "node", "index" ]
 
 ```
+
+- Check now the images:
+
+```bash
+docker images
+```
+
+- Run it:
+
+```bash
+docker build -t my-app:2 .
+
+docker stop my-app
+docker run --name my-app --rm -p 8080:8083 -d my-app:2
+```
+
+> `-d`: To start a container in detached mode
+
+# Appendix
+
+We can add more env variables, for example feed the `public` folder.
 
 - Update server to consume env variable:
 
@@ -250,23 +268,6 @@ COPY ./server/package.json ./
 ...
 
 ```
-
-- Check now the images:
-
-```bash
-docker images
-```
-
-- Run it:
-
-```bash
-docker build -t my-app:2 .
-
-docker stop my-app
-docker run --name my-app --rm -p 8080:8083 -d my-app:2
-```
-
-> `-d`: To start a container in detached mode
 
 # About Basefactor + Lemoncode
 

@@ -41,10 +41,10 @@ sudo usermod -a -G docker ec2-user
 - Execute Docker image uploaded to Docker Hub in example `03-upload-docker-image`:
 
 ```bash
-sudo docker run --name my-app --rm -d -p 80:8000 <user-name>/<app-name>:3
+sudo docker run --name my-app --rm -d -p 80:8080 <user-name>/<app-name>:3
 ```
 
-> In `tag 3` we had setted the port to `8000`
+> In `tag 3` we had setted the port to `8080`
 
 # About Basefactor + Lemoncode
 

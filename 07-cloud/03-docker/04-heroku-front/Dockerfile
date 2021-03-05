@@ -16,7 +16,7 @@ COPY ./server/package.json ./
 COPY ./server/index.js ./
 RUN npm install --only=production
 
-ENV PORT=8000
-EXPOSE 8000
+ENV PORT=8080
+EXPOSE 8080
 
 ENTRYPOINT [ "node", "index" ]

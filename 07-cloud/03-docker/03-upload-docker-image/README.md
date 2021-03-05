@@ -73,8 +73,8 @@ _./Dockerfile_
 
 - ENV PORT=8083
 - EXPOSE 8083
-+ ENV PORT=8000
-+ EXPOSE 8000
++ ENV PORT=8080
++ EXPOSE 8080
 
 ENTRYPOINT [ "node", "index" ]
 
@@ -100,7 +100,7 @@ docker push <user-name>/my-app
 
 ```bash
 docker stop my-app
-docker run --name my-app --rm -p 8080:8000 -d <user-name>/my-app:3
+docker run --name my-app --rm -p 8080:8080 -d <user-name>/my-app:3
 ```
 
 # About Basefactor + Lemoncode

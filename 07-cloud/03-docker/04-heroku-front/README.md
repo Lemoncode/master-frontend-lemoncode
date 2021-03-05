@@ -24,32 +24,6 @@ git commit -m "initial commit"
 git push -u origin master
 ```
 
-- CREATE NEW BRANCH: `feature/configure-ci-cd`.
-
-- First, we can add the CI workflow to execute on each `pull request`:
-
-_./.github/workflows/ci.yml_
-
-```yml
-name: Continuos Integration workflow
-
-on: pull_request
-
-jobs:
-  ci:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Install
-        run: npm install
-      - name: Build
-        run: npm run build
-      - name: Tests
-        run: npm test
-
-```
-
 - We need an to create a [new heroku app](https://dashboard.heroku.com/) to deploy it.
 
 - This time, we need an [auth token](https://devcenter.heroku.com/articles/heroku-cli-commands#heroku-authorizations-create) to heroku login inside Github Action job:
@@ -143,9 +117,7 @@ jobs:
 > [Heroku Docker Deploy](https://devcenter.heroku.com/articles/container-registry-and-runtime)
 > [Github context](https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#github-context)
 
-- Create new PR.
-
-- Merge PR after CI job.
+- Git commit and push.
 
 # About Basefactor + Lemoncode
 

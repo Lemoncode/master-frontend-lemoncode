@@ -12,18 +12,6 @@ We will start from `04-heroku-front` and `00-backend-start`.
 npm install
 ```
 
-- First, we need to create a `.env` file with same data as `.env.example`:
-
-_./.env_
-
-```
-NODE_ENV=development
-PORT=8081
-CORS_ORIGIN=http://localhost:8080
-MONGODB_URI=mongodb://localhost:27017/demo-cloud
-
-```
-
 - This app is using a [mongodb database](https://www.mongodb.com/), instead of [download and install the MongoDB software](https://docs.mongodb.com/manual/administration/install-community/) we can use [docker to run an MongoDB](https://hub.docker.com/_/mongo) instance for local development.
 
 ```bash
@@ -54,6 +42,19 @@ docker container rm my-mongo-db -f
 ```
 
 - We will use same approach but using [`Docker Compose`](https://docs.docker.com/compose/):
+
+
+- First, we need to create a `.env` file with same data as `.env.example`:
+
+_./.env_
+
+```
+NODE_ENV=development
+PORT=8081
+CORS_ORIGIN=http://localhost:8080
+MONGODB_URI=mongodb://localhost:27017/demo-cloud
+
+```
 
 ```bash
 # In first terminal
@@ -94,8 +95,6 @@ git add .
 git commit -m "initial commit"
 git push -u origin master
 ```
-
-- CREATE NEW BRANCH `feature/configure-cd`.
 
 - We need an to create a [new heroku app](https://dashboard.heroku.com/) to deploy it.
 
@@ -188,7 +187,7 @@ ENTRYPOINT [ "node", "index" ]
 
 ```
 
-- Create new PR and merge it.
+- Create commit and push.
 
 - Check `herokuapp.com/members/facebook`.
 
@@ -243,7 +242,41 @@ CORS_ORIGIN=http://localhost:8080
 
 # Update front project
 
+- Update `api`:
+
+_./src/pods/list/api/list.api.ts_
+
+```diff
+import Axios from 'axios';
+import { Member } from './list.api-model';
+
++ const url = 'http://localhost:8081/members';
+
+export const getMemberList = async (
+  organization: string
+): Promise<Member[]> => {
+  const { data } = await Axios.get(
+-   `https://api.github.com/orgs/${organization}/members`
++   `${url}/${organization}`
+  );
+  return data;
+};
+
+```
+
 - Update env variables:
+
+_./src/pods/list/api/list.api.ts_
+
+```diff
+import Axios from 'axios';
+import { Member } from './list.api-model';
+
+- const url = 'http://localhost:8081/members';
++ const url = `${process.env.BASE_API_URL}/members`
+
+...
+```
 
 _./dev.env_
 
@@ -303,32 +336,6 @@ RUN npm run build
 ![05-base-api-url](./readme-resources/05-base-api-url.png)
 
 > IMPORTANT: remove last `/`
-
-- Update `api`:
-
-_./src/pods/list/api/list.api.ts_
-
-```diff
-import Axios from 'axios';
-import { Member } from './list.api-model';
-
-+ const url = `${process.env.BASE_API_URL}/members`;
-
-export const getMemberList = async (
-  organization: string
-): Promise<Member[]> => {
-- const { data } = await Axios.get(
--   `https://api.github.com/orgs/${organization}/members`
-- );
-+ const { data } = await Axios.get(`${url}/${organization}`, {
-+   headers: {
-+     'Access-Control-Allow-Origin': '*',
-+   },
-+ });
-  return data;
-};
-
-```
 
 - Run backend and frontend.
 

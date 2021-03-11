@@ -2,17 +2,17 @@
 
 Vamos a seguir con la aplicación donde la dejamos en la ayer. De momento,
 
-- hemos hecho el _bootstrapping_ de una app con Vue CLI
-- hemos borrado los archivos que venían por defecto ("assets", "components", "views"...)
-- hemos añadido un servicio "dummy" que nos devuelve una JSON
-- hemos añadido el primer componente que hace una llamada a esa lista y la pinta en la vista
-- hemos visto otras features de _Vue_ como "computed properties", "dynamic attributes binding", "custom events"
-- Y hemos ñadido una página nueva en _Vue Router_.
+- [x] hemos hecho el _bootstrapping_ de una app con Vue CLI
+- [x] hemos borrado los archivos que venían por defecto ("assets", "components", "views"...)
+- [x] hemos añadido un servicio "dummy" que nos devuelve una JSON
+- [x] hemos añadido el primer componente que hace una llamada a esa lista y la pinta en la vista
+- [x] hemos visto otras features de _Vue_ como "computed properties", "dynamic attributes binding", "custom events"
+- [x] Y hemos ñadido una página nueva en _Vue Router_.
 
 Hoy el objetivo es:
 
-- Haremos un poquito de _refactor_ de nuestra app para usar la "Composition API"
-- Añadiremos más funcionalidad con vuex: carrito
+- [ ] Haremos un poquito de _refactor_ de nuestra app para usar la "Composition API"
+- [ ] Añadiremos más funcionalidad con vuex: carrito
 
 ## Vue 3
 
@@ -252,4 +252,4 @@ Será, de momento, un objeto (`Record`), con `id`s como `keys` y un `CartItem` c
 
 Las `mutations`, `actions` y `getters` son objetos que tienen funciones. En el tipado de la librería los definen como "Trees": `MutationTree`, `ActionTree` y `GetterTree`.
 
-Perp, para simplificar la explicación de Vuex, creo que primero vamos a implementar el store sin tipado. Y se lo añadiremos a continuación
+Pero, para simplificar la explicación de Vuex, creo que primero vamos a implementar el store sin tipado. Y se lo añadiremos a continuación. Si queréis ver un ejemplo del sotre con tipado completo podéis ver la implementación en: https://github.com/Lemoncode/master-frontend-lemoncode/tree/master/04-frameworks/03-vue/01_ecommerce_app_final/src/store/Cart

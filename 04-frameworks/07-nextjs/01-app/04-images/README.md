@@ -65,6 +65,7 @@ export const AppLayout: React.FunctionComponent = (props) => {
 ```
 
 > [Image docs](https://nextjs.org/docs/api-reference/next/image)
+> [Image examples github](https://github.com/vercel/next.js/tree/canary/examples/image-component/pages)
 > It adapts image to the design
 > Size `214kB` vs `44.5kB`
 > First load the page and then the image.

@@ -5,15 +5,14 @@
   "description": "Esta app hace cosas asombrosas",
   "short_name": "Amazing",
   "icons": [{
-    "src": "icon/lowres.webp",
-    "sizes": "64x64",
-    "type": "image/webp"
-  },{
     "src": "icon/lowres.png",
-    "sizes": "64x64"
-  }, {
-    "src": "icon/hd_hi",
-    "sizes": "128x128"
+    "sizes": "280x280"
+  },{
+    "src": "icon/icon370.gif",
+    "sizes": "370x370"
+  },{
+    "src": "icon/icon512.jpg",
+    "sizes": "512x512"
   }],
   "start_url": "/index.html?launcher=homescreen",
   "display": "fullscreen",

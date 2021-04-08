@@ -2,7 +2,7 @@
 
 Vuenas! El repositorio está dividido por los bloques que hemos ido cubriendo cada día.
 
-En el campus tenéis los slides y vídeos: https://campus.lemoncode.net/#/training/5f6c37484efde600032a6515/page/%2Fapi%2Fstudent%2Fpages%2Fe1ca0bb6dd7d1a3c5405a024d704bcdf:d0bc2ea5eae52042f9ec7d6c3b1cc812:c925ab658956dab873685015f634b81991d87bd29cd49a24
+En el campus tenéis los slides y vídeos: https://campus.lemoncode.net/#/training/5f6c37484efde600032a6515/page/%2Fapi%2Fstudent%2Fpages%2F70091accd0e17b3153c5f521d142f7d8:d529f796102a2c2db49f88b52bea9613:0b56b7c7a209d1eb2ff8a92b4e4cd90ac2f755eee277460f
 
 Hemos contruido una app con Vue CLI.
 

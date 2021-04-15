@@ -153,12 +153,27 @@ npm start
 First of all we want to paint a bigger map, we can just play with the _scale_,
 then we want to center the map, let's _translate_ it, we will configure the projection
 
+We got two options:
+
+- Manually place the right settings:
+
 ```diff
 const aProjection = d3.geoMercator()
 +     // Let's make the map bigger to fit in our resolution
 +    .scale(500)
 +    // Let's center the map
 +    .translate([300, 900]);
+```
+
+- Automatically let the projection fit to the canvas size:
+
+```diff
+const geojson = topojson.feature(
+  europejson,
+  europejson.objects.continent_Europe_subunits
+);
+
++ aProjection.fitSize([1024, 800], geojson);
 ```
 
 - This is looking better, let's add some styling we want to add some background to each country, and draw their borders.

@@ -1,0 +1,62 @@
+html, body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  font-family: Roboto;
+  margin: 0;
+  background-color: #d9d9d9;
+}
+
+.jumbo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 2rem;
+  color: white;
+  background: linear-gradient(-25deg, #136a8a, #4ec1b7);
+  font-family: "Open Sans";
+}
+
+.title {
+  font-size: 5em;
+  font-weight: bolder;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 1rem 0 1rem;
+}
+
+.caption {
+  font-size: 1.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 1rem 0 1rem;
+}
+
+.content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: inherit;
+  width: 100%;
+  box-shadow: 0 0 10px black;
+}
+
+.paper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  margin: 3rem;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 0 15px darkgray;
+}
+
+.message {
+  margin: 0;
+  text-align: center;
+}

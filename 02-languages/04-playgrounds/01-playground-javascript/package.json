@@ -1,0 +1,35 @@
+{
+  "name": "language-sessions-playground",
+  "version": "1.0.0",
+  "description": "Playground to show code snippets with no transpilation",
+  "keywords": [
+    "lemoncode",
+    "master",
+    "javascript",
+    "typescript"
+  ],
+  "homepage": "https://github.com/Lemoncode/language-sessions#readme",
+  "bugs": {
+    "url": "https://github.com/Lemoncode/language-sessions/issues"
+  },
+  "license": "MIT",
+  "author": "Lemoncode",
+  "contributors": [
+    "Javier Calzado <javi.calzado@lemoncode.net> (https://github.com/fjcalzado)",
+    "Santiago Camargo <santi.camargo@lemoncode.net> (https://github.com/crsanti)",
+    "Antonio Contreras <antonio.contreras@lemoncode.net> (https://github.com/antonio06)"
+  ],
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lemoncode/language-sessions.git"
+  },
+  "scripts": {
+    "start": "lite-server -c bs-config.json"
+  },
+  "dependencies": {
+    "lite-server": "^2.4.0"
+  },
+  "peerDependencies": {},
+  "devDependencies": {}
+}

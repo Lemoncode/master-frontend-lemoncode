@@ -1,0 +1,5 @@
+{
+  "port": 3001,
+  "files": ["./transpiled/**/*.{html,htm,css,js}"],
+  "server": { "baseDir": "./transpiled" }
+}

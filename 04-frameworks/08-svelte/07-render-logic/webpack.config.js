@@ -17,6 +17,11 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(t|j)s?$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+      },
+      {
         test: /\.(svelte)$/,
         use: [
           { loader: "babel-loader" },
@@ -28,11 +33,6 @@ module.exports = {
             },
           },
         ],
-      },
-      {
-        test: /\.(t|j)s?$/,
-        exclude: /node_modules/,
-        loader: "babel-loader",
       },
       {
         test: /\.css$/,
@@ -53,6 +53,8 @@ module.exports = {
   mode,
   plugins: [
     new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: "index.html",
       scriptLoading: "blocking",
     }),
     new MiniCssExtractPlugin(),

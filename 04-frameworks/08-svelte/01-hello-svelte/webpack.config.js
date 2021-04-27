@@ -11,14 +11,22 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+      },
+      {
         test: /\.svelte$/,
-        use: {
-          loader: "svelte-loader",
-          options: {
-            emitCss: false,
-            hotReload: true,
+        use: [
+          { loader: "babel-loader" },
+          {
+            loader: "svelte-loader",
+            options: {
+              emitCss: false,
+              hotReload: true,
+            },
           },
-        },
+        ],
       },
     ],
   },
@@ -27,6 +35,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: "index.html",
       scriptLoading: "blocking",
     }),
   ],

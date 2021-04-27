@@ -23,25 +23,35 @@ module.exports = {
     path: path.resolve(__dirname, "./dist"),
     filename: "index.js",
   },
-+  module: {
-+    rules: [
-+      {
-+        test: /\.svelte$/,
-+        use: {
-+          loader: "svelte-loader",
-+          options: {
-+            emitCss: false,
-+            hotReload: true,
-+          },
-+        },
-+      },
-+    ],
-+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+      },
++     {
++       test: /\.svelte$/,
++       use: [
++         { loader: "babel-loader" },
++         {
++           loader: "svelte-loader",
++           options: {
++             emitCss: false,
++             hotReload: true,
++           },
++         },
++       ],
++     },
+    ],
+  },
   devServer: {
     stats: "errors-only",
   },
   plugins: [
     new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: "index.html",
       scriptLoading: "blocking",
     }),
   ],

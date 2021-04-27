@@ -26,6 +26,28 @@ Y _html-webpack-plugin_:
 npm install html-webpack-plugin --save-dev
 ```
 
+También instalaremos babel:
+
+```bash
+npm install @babel/cli @babel/core @babel/preset-env --save-dev
+```
+
+Y babe-loader para comunicarnos con webpack:
+
+```bash
+npm install babel-loader --save-dev
+```
+
+Y configuramos babel:
+
+_.babelrc_
+
+```json
+{
+  "presets": ["@babel/preset-env"]
+}
+```
+
 Crearemos nuestro fichero _index.html_:
 
 _index.html_
@@ -66,11 +88,20 @@ module.exports = {
     path: path.resolve(__dirname, "./dist"),
     filename: "index.js",
   },
+  module: {
+    rules: [{
+        test: /\.(t|j)s?$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+      },]
+  }
   devServer: {
     stats: "errors-only",
   },
   plugins: [
     new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: "index.html",
       scriptLoading: "blocking",
     }),
   ],

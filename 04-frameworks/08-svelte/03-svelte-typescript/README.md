@@ -23,9 +23,11 @@ Now, _package.json_ looks like the following:
   "author": "Victor Borrego Perez",
   "license": "ISC",
   "devDependencies": {
-+   "@babel/core": "^7.13.10",
-+   "@babel/preset-typescript": "^7.13.0",
-+   "babel-loader": "^8.2.2",
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.13.16",
+    "@babel/preset-env": "^7.13.15",
++    "@babel/preset-typescript": "^7.13.0",
+    "babel-loader": "^8.2.2",
     "css-loader": "^5.1.3",
     "html-webpack-plugin": "^5.3.1",
     "mini-css-extract-plugin": "^1.3.9",
@@ -51,6 +53,14 @@ declare module "*.svelte" {
 }
 ```
 
+_.babelrc_
+
+```json
+{
+  "presets": ["@babel/preset-env", "@babel/preset-typescript"]
+}
+```
+
 _webpack.config.js_
 
 ```diff
@@ -73,6 +83,12 @@ module.exports = {
   },
   module: {
     rules: [
++     {
+-       test: /\.js$/,
++       test: /\.(t|j)s?$/,
++       exclude: /node_modules/,
++       loader: "babel-loader",
++     },
       {
         test: /\.svelte$/,
         use: [
@@ -86,11 +102,6 @@ module.exports = {
           },
         ],
       },
-+     {
-+       test: /\.(t|j)s?$/,
-+       exclude: /node_modules/,
-+       loader: "babel-loader",
-+     },
       {
         test: /\.css$/,
         use: [
@@ -110,6 +121,8 @@ module.exports = {
   mode,
   plugins: [
     new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: "index.html",
       scriptLoading: "blocking",
     }),
     new MiniCssExtractPlugin(),
@@ -173,7 +186,8 @@ _package.json_
 _app.svelte_
 
 ```diff
-<script lang="typescript">
+- <script>
++ <script lang="ts">
 -	let name = "Svelte";
 +	let name: string = "Svelte";
 </script>

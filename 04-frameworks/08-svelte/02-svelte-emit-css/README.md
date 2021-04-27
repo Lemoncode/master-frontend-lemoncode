@@ -24,15 +24,23 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+      },
+      {
         test: /\.svelte$/,
-        use: {
-          loader: "svelte-loader",
-          options: {
--           emitCss: false,
-+           emitCss: true,
-            hotReload: true,
+        use: [
+          { loader: "babel-loader" },
+          {
+            loader: "svelte-loader",
+            options: {
+-             emitCss: false,
++             emitCss: true,
+              hotReload: true,
+            },
           },
-        },
+        ],
       },
 +      {
 +        test: /\.css$/,
@@ -53,6 +61,8 @@ module.exports = {
 + mode,
   plugins: [
     new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: "index.html",
       scriptLoading: "blocking",
     }),
 +   new MiniCssExtractPlugin(),

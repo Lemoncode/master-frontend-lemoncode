@@ -8,12 +8,6 @@ Vamos a configurar el kiosko de stripe (checkout) para hacer una compra (sin not
 
 # Pasos
 
-- Vamos a instalar la librería de servidor de stripe (esta ya trae los typings incorporados):
-
-```bash
-npm install stripe --save
-```
-
 - Definimos un fichero de variables de entorno en local:
 
 _./env_
@@ -22,6 +16,23 @@ _./env_
 NODE_ENV=development
 PORT=8081
 ```
+
+- Podemos arrancar el proyecto y ver que hay en el boiler plate:
+
+```bash
+npm start
+```
+
+en http://localhost:8081 tenemos la página home
+
+en http://localhost:8081/api tenemos un edpoint que devuelve datos
+
+- Vamos a instalar la librería de servidor de stripe (esta ya trae los typings incorporados):
+
+```bash
+npm install stripe --save
+```
+
 
 - Creamos una hoja de estilo para que nuestras páginas tengan buena pinta (la del ejemplo de Stripe):
 

@@ -56,7 +56,7 @@ function f() {
 
 // Si llamo a f haciendo que su contexto sea un objeto que tenga 'age',
 // no habrá problemas:
-f.call({age: 35}); // 35
+f.call({ age: 35 }); // 35
 
 // De lo contrario:
 f(); // undefined
@@ -71,12 +71,12 @@ const g = () => console.log(this.surname);
 
 // Por tanto, no puedo hacer esto ahora, porque su contexto es siempre "window",
 // tal y como ha sido definida la fat arrow.
-g.call({surname: "calzado"}); // undefined pq window no tiene "surname".
+g.call({ surname: "calzado" }); // undefined pq window no tiene "surname".
 g(); // undefined pq window no tiene "surname".
 
 // Creemos un "surname" en "window":
 surname = "camargo";
-g.call({surname: "calzado"}); // camargo.
+g.call({ surname: "calzado" }); // camargo.
 g(); // camargo.
 
 
@@ -91,16 +91,18 @@ g(); // camargo.
 function Person(age) {
   this.age = age;
 }
-
-Person.prototype.sayDelayedAge = function() {
-  setTimeout(function() { 
-    console.log(this.age);  // Undefined
+Person.prototype.sayAge = function () {
+  console.log(this.age);
+};
+Person.prototype.sayDelayedAge = function () {
+  setTimeout(function () {
+    console.log(this.age); // Undefined
   }, 1000);
-}
+};
 
-const me = new Person(37);
-me.sayDelayedAge();
-
+const me = new Person(38);
+me.sayAge(); // 38, se muestra inmediatamente, this apunta a 'me'
+me.sayDelayedAge(); // transcurrido un segundo se muestra ... undefined ... a que apunta this?
 
 // Problema: al usar funciones clásicas como callbacks desconocemos quien las está invocando y como,
 // perdemos la pista. En este ejemplo, el setTimeout registra ese callback pero es el ámbito global

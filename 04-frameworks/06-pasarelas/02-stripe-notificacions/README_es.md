@@ -119,6 +119,7 @@ _./src/api.ts_
 
 ```diff
 + // Aquí copiamos y pegamos el código que nos dió el comando _stripe listen --forward_ (el que empieza + por whsec_)
++ // Lo suyo sería que estuvieran en una variable de entorno
 + const endpointSecret = "whsec_...";
 
 api.post('/webhook', (request, response) => {

@@ -8,13 +8,20 @@ Vamos a configurar el kiosko de stripe (checkout) para hacer una compra (sin not
 
 # Pasos
 
-- Vamos a instalar la librería de servidor de stripe:
+- Vamos a instalar la librería de servidor de stripe (esta ya trae los typings incorporados):
 
 ```bash
 npm install stripe --save
 ```
 
-- Y sus typings:
+- Definimos un fichero de variables de entorno en local:
+
+_./env_
+
+```env
+NODE_ENV=development
+PORT=8081
+```
 
 - Creamos una hoja de estilo para que nuestras páginas tengan buena pinta (la del ejemplo de Stripe):
 

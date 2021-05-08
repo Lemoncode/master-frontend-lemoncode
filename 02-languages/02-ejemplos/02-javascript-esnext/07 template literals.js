@@ -28,6 +28,8 @@ const formatMessage = (product, quantity) =>
 console.log(formatMessage("egg", 3)); // "You have 3 eggs in the shopping cart"
 console.log(formatMessage("egg", 1)); // "You have 1 egg in the shopping cart"
 
+///-- TEMPLATE FUNCTIONS *******************************************************
+
 // Una forma avanzada de utilizar los template literals es para modificar el resultado de la plantilla mediante una función:
 
 const data = {

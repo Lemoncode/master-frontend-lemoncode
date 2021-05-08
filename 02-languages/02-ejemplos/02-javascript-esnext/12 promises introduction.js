@@ -43,7 +43,7 @@ const serverData = 43;
 const getDataAsync = (callback) => {
   setTimeout(
     () => callback(serverData), // callback del setTimeout
-    Math.random() * 1000 + 2000 // Random entre 1s y 3s.
+    Math.random() * 2000 + 1000 // Random entre 1s y 3s.
   );
 };
 

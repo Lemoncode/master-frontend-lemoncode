@@ -6,7 +6,7 @@
 // syntaxis: Symbol("etiqueta") | Symbol()
 const mySymbol = Symbol('sample');
 console.log(typeof mySymbol); // "symbol"
-console.log(mySymbol); // TypeError: Cannot convert a Symbol value to a string
+console.log(mySymbol); // "Symbol(sample)"
 console.log(mySymbol.toString()); // "Symbol(sample)"
 
 // Los Symbol tienen una peculiaridad y es que representan valores únicos:
@@ -14,7 +14,7 @@ const sym1 = Symbol("hello");
 const sym2 = Symbol("hello");
 console.log(sym1 === sym2); // false
 
-// Nos permiten crear propiedades menos accesibles, ya que tienes que 
+// Nos permiten crear propiedades menos accesibles, ya que tienes que
 // estar en posesión de ese símbolo para poder acceder a esa propiedad.
 const user = { name: "Evan" };
 const id = Symbol("id");

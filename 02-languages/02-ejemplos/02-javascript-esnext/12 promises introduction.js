@@ -54,8 +54,9 @@ getDataAsync(console.log); // Ejemplo de uso.
 // asíncrona. Este resultado podría estar disponible ahora o en el futuro.
 // Una promesa puede tener los siguientes estados:
 // - A la espera de respuesta -> PENDING
-// - Operación completada con éxito -> FULFILLED or RESOLVED
-// - Operación rechazada con fallo o error -> REJECTED
+// - Finalizada -> SETTLED. En este caso, puede terminar con 2 estados:
+//    - Operación completada con éxito -> FULFILLED or RESOLVED
+//    - Operación rechazada con fallo o error -> REJECTED
 
 // Las promesas se basan en callbacks pero son una evolución de éstos, una
 // mejora, que añade azúcar sintáctico para un mejor manejo.

@@ -119,6 +119,20 @@ npm run build
   ],
 ```
 
+- Let's add a parameter that will load the scripts correctly.
+
+```diff
+  plugins: [
+    //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
+    new HtmlWebpackPlugin({
+      filename: 'index.html', //Name of file in ./dist/
+      template: 'index.html', //Name of template in ./src
+     hash:true,
++    scriptLoading:'blocking',
+    }),
+  ],
+```
+
 - Let's run the build and check that now we get a hash on our script.
 
 # About Basefactor + Lemoncode

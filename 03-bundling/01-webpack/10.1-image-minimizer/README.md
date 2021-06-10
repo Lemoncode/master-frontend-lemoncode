@@ -130,7 +130,7 @@ _[webpack.config.js](webpack.config.js)_
 npm start
 ```
 
-- If you stop the server, and type _npm run build_ you can watch that the weight of the images inside _dist_ folder is the same as the _content_ folder.
+- If you stop the server, and type `npm run build` you can watch that the weight of the images inside _dist_ folder is the same as the _content_ folder.
 
 ```bash
 npm run build
@@ -206,4 +206,4 @@ We are an innovating team of Javascript experts, passionate about turning your i
 
 [Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
 
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info : http://lemoncode.net/master-frontend
+For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend

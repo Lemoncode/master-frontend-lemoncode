@@ -130,20 +130,20 @@ _[webpack.config.js](webpack.config.js)_
 npm start
 ```
 
-- Now stop the server, type _npm run build_ and watch the weight of the images inside _dist_ folder.
+- If you stop the server, and type _npm run build_ you can watch that the weight of the images inside _dist_ folder is the same as the _content_ folder.
 
 ```bash
 npm run build
 ```
 
 - We are going to install and configure [`ImageMinimizerWebpackPlugin`](https://webpack.js.org/plugins/image-minimizer-webpack-plugin/),
-  after doing that the weight of the images should have decreased.
+  after doing that the weight of the images should have decreased inside _dist_ folder.
 
 ```bash
 npm install image-minimizer-webpack-plugin --save-dev
 ```
 
-- There are two ways of compressing images, lossless or lossy optimization, we are going to use the lossless option.
+- There are two ways of compressing images, lossless or lossy optimization, we are going to use the lossless option to avoid pixelated images.
 
 ```bash
 npm install imagemin-gifsicle imagemin-jpegtran imagemin-optipng imagemin-svgo --save-dev
@@ -164,7 +164,7 @@ _[webpack.config.js](webpack.config.js)_
 +        // Lossless optimization with custom option
 +        // Feel free to experiment with options for better result for you
 +        plugins: [
-+          ["gifsicle", { interlaced: true }],
++          ["gifsicle", { interlaced: true, colors: 16 }],
 +          ["jpegtran", { progressive: true }],
 +          ["optipng", { optimizationLevel: 5 }],
 +          // Svgo configuration here https://github.com/svg/svgo#configuration
@@ -192,7 +192,11 @@ _[webpack.config.js](webpack.config.js)_
 
 ```
 
-- TODO: solve problem
+- Let's run `npm run build` and watch the weight differences between files inside dist and content folder. [`ImageMinimizerWebpackPlugin`](https://webpack.js.org/plugins/image-minimizer-webpack-plugin/) have compress the files without losing quality.
+
+```bash
+npm run build
+```
 
 # About Basefactor + Lemoncode
 

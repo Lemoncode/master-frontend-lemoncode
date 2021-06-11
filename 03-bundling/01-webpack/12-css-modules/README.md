@@ -1,7 +1,7 @@
 # 12 CSS Modules
 
 In this demo we are going to isolate different scss files using same css class names.
-We will learn how to configure it and how to deal with external css classes provided by third libraries like Bootstrap.
+We will learn how to configure it and how to deal with external css classes provided by third party libraries like Bootstrap.
 
 We will start from sample _11-react_.
 

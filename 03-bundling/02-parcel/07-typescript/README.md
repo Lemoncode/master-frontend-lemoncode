@@ -113,7 +113,7 @@ npm install npm-run-all --save-dev
 +    "type-check:watch": "npm run type-check -- --watch",
 -    "start": "rimraf dist && parcel ./src/index.html --open"
 +    "start:dev": "rimraf dist && parcel ./src/index.html --open",
-+    "start": "run-p -l  type-check:watch && start:dev"
++    "start": "run-p -l type-check:watch start:dev"
   },
 ```
 

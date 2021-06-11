@@ -176,17 +176,6 @@ _webpack.config.js_
   },
 ```
 
-- We need to set an extra step, set the public path (try not to do so and check the error), more info about public path:
-  https://webpack.js.org/guides/public-path/
-
-```diff
-  output: {
-    filename: "[name].[chunkhash].js",
-    path: path.resolve(process.cwd(), "dist"),
-+   publicPath: "./",
-  },
-```
-
 - And remember that the webpack `context` is over `./src` so:
 
 _./src/index.html_

@@ -304,7 +304,6 @@ _webpack.common.js_
   output: {
 -   filename: "[name].[chunkhash].js",
     path: path.resolve(process.cwd(), "dist"),
-    publicPath: "./",
   },
 ...
 

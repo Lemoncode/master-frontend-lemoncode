@@ -1,6 +1,6 @@
 # 08 SASS
 
-In this demo we rename our css file to scss extension and add a simple SASS variable. We will learn how to add a loader that can
+In this demo we will rename our css file to scss extension and add a simple SASS variable. We will learn how to add a loader that can
 make the SASS preprocess and then chain it to our css / style pipe.
 
 We will start from sample _01 Styles/02 Twitter Bootstrap_.
@@ -16,7 +16,7 @@ Summary steps:
 
 ## Prerequisites
 
-Prerequisites, you will need to have nodejs installed in your computer (at least v 8.9.2). If you want to follow this step guides you will need to take as starting point sample _02 Twitter Bootstrap_.
+Prerequisites, you will need to have nodejs installed in your computer (at least v 8.9.2). If you want to follow this step guides you will need to take as starting point sample _07 Twitter Bootstrap_.
 
 ## steps
 
@@ -74,7 +74,7 @@ npm install sass sass-loader --save-dev
 
 - We only need one more step. Open our `webpack.config.js` and add a new entry (scss) to the loaders that will use the just installed sass-loader. Interesting to note down: we are chaining loaders, first we preprocess the scss, then we apply the previous loaders to the resulting css.
 
-- Important here, we need to split in two loaders, first one using `sass-loader` for appStyles and second one using previous configuration for vendorStyles:
+- Important here, we need to split in two loaders, first one using `sass-loader` for appStyles and a second one using previous configuration for vendorStyles:
 
 ```diff
     rules: [

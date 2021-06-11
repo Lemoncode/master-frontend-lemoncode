@@ -2,7 +2,7 @@
 
 Let's get started working with styles.
 
-In this demo will create a custom CSS file (it will contain a simple css class
+In this demo we will create a custom CSS file (it will contain a simple css class
 that will setup a background color to red).
 
 We will start from sample _05 Output_.
@@ -116,7 +116,7 @@ _webpack.config.js_
   },
 ```
 
-> Remember to stop and start your light server whenver you make changes on your _webpack.config_ file.
+> Remember to stop and start your lite server whenever you make changes on your _webpack.config_ file.
 
 - Now we can just execute the app (npm start) and check how the red background is
   being displayed on the div we have chosen.
@@ -129,7 +129,7 @@ npm start
   into the _bundle.js_ file. In some case we may preffer divide the application into several
   bundle files, let' see how can we chop this.
 
-> We will create three main groups: app, appStyles and vendor (for third partie libraries)
+> We will create three main groups: app, appStyles and vendor (for third party libraries)
 
 - On the entry side let's create two groups
 
@@ -162,7 +162,7 @@ _webpack.config.json_
 +},
 ```
 
-- As we notice, we don't need to use `hash` flag from `HtmlWebpackPlugin` because all chunks has same value, the `chunkhash` is the best due to it changes when content does it.
+- As we notice, we don't need to use `hash` flag from `HtmlWebpackPlugin` because all chunks have the same value, the `chunkhash` is the best due to it changes when content does it.
 
 _webpack.config.json_
 
@@ -190,7 +190,7 @@ npm run build
 npm install clean-webpack-plugin --save-dev
 ```
 
-- Let's add this webpack plugin in it's config section
+- Let's add this webpack plugin in its config section
 
 _webpack.config.json_
 
@@ -225,17 +225,17 @@ npm run build
 
 - We can check that we get two chunks app and appStyles.
 
-- Now we can see tha the styles are enclosed in a js file, what if we want to keep it as a separated
+- Now we can see that the styles are enclosed in a js file, what if we want to keep it as a separated
   css file? We can make use of MiniCssExtractPlugin.
 
 ```bash
 npm install mini-css-extract-plugin --save-dev
 ```
 
-> In the webpack roadmap (versions 4.x or 5) it supposed that the core webpack functionallity will
+> In the webpack roadmap (versions 4.x or 5) is supposed that the core webpack functionallity will
 > implement the functionallity of this plugin.
 
-- Let's to configure loader:
+- Let's configure the loader:
 
 - Reference the plugin.
 
@@ -298,7 +298,7 @@ module.exports = {
   ],
 ```
 
-- Running `webpack` again, it split into two files `appStyles.js` and `appStyles.css` and how to size decrease:
+- Running `webpack` again, it splits into two files `appStyles.js` and `appStyles.css` and how to size decrease:
 
 - Now if we run a build, we will see that dist folder is wiped and we get only the new generated fresh
   content.

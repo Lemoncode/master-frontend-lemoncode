@@ -1,6 +1,6 @@
 # 09 Refactor SRC
 
-So far we have doing progress without following conventions, this time
+So far we have been doing progress without following conventions, this time
 we are going to setup our project structure following naming and folder
 conventions.
 
@@ -15,7 +15,7 @@ Summary steps:
 
 ## Prerequisites
 
-Prerequisites, you will need to have nodejs installed in your computer (at least v 8.9.2). If you want to follow this step guides you will need to take as starting point sample _02 Twitter Bootstrap_.
+Prerequisites, you will need to have nodejs installed in your computer (at least v 8.9.2). If you want to follow this step guides you will need to take as starting point sample _08 Sass_.
 
 ## steps
 
@@ -25,7 +25,7 @@ Prerequisites, you will need to have nodejs installed in your computer (at least
 npm install
 ```
 
-- It's time to refactor a bit our solution to make it more maintaneable.
+- It's time to refactor a bit our solution to make it more maintainable.
 
 - To keep maintainable our source code, let's create a `src` folder and move the following files into:
 

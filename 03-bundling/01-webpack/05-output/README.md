@@ -17,7 +17,7 @@ Summary steps:
 
 ## Prerequisites
 
-You will need to have nodejs installed in your computer (at least 8.9.2). If you want to follow this step-by-step guide you will need to take as starting point sample _00 Intro/03 Server_.
+You will need to have nodejs installed in your computer (at least 8.9.2). If you want to follow this step-by-step guide you will need to take as starting point sample 04 Server_.
 
 ## steps
 

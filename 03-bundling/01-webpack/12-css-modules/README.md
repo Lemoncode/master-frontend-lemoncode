@@ -1,7 +1,7 @@
 # 12 CSS Modules
 
 In this demo we are going to isolate different scss files using same css class names.
-We will learn how to configure it and how to deal with external css class provided by third libraries like Bootstrap.
+We will learn how to configure it and how to deal with external css classes provided by third libraries like Bootstrap.
 
 We will start from sample _11-react_.
 
@@ -395,7 +395,7 @@ npm start
 
 - If we take a look to the browser console, we can see how webpack transform css class names, adding prefixes (inspect element).
 
-- Finally, let's do an example where we need to add styles to element that has a Bootstrap class:
+- Finally, let's do an example where we need to add styles to an element that has a Bootstrap class:
 
 _./src/averageComponent.jsx_
 
@@ -418,7 +418,7 @@ _./src/averageComponent.jsx_
 
 - Running `npm start`, it looks a bit weird:
 
-- Let's go to add own styles:
+- Let's go to add our own styles:
 
 _./src/averageComponentStyles.scss_
 
@@ -437,7 +437,7 @@ $background: teal;
 
 ```
 
-- Running `npm start` nothing changes, why? Due to webpack is transform `local` class names to `'[name]__[local]___[hash:base64:5]'` we need to tell him that jumbotron is a `global` style ([more info](https://webpack.js.org/loaders/css-loader/#-css-modules-https-github-com-css-modules-css-modules-)):
+- Running `npm start` nothing changes, why? Due to webpack transforming `local` class names to `'[name]__[local]___[hash:base64:5]'` we need to tell him that jumbotron is a `global` style ([more info](https://webpack.js.org/loaders/css-loader/#-css-modules-https-github-com-css-modules-css-modules-)):
 
 _./src/averageComponentStyles.scss_
 

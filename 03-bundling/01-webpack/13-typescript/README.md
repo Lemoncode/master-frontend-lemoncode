@@ -30,11 +30,11 @@ Summary steps:
 - Rename all files to ts/tsx.
 - Install React and React DOM typings
 - Start using some typing (basic variables etc...).
-- Use seom React Built in typing.
+- Use some React Built in typing.
 
 ## Prerequisites
 
-You will need to have nodejs installed in your computer (at least 8.9.2). If you want to follow this step-by-step guide you will need to take as starting point sample _00 Intro/03 Server_.
+You will need to have nodejs installed in your computer (at least 8.9.2). If you want to follow this step-by-step guide you will need to take as starting point sample _12 Css modules_.
 
 ## steps
 
@@ -133,7 +133,7 @@ _./webpack.config.js_
 
 - Now that we are updating our webpack config, and taking into account that in this
   example we will introduce compile errors on purpose, let's reduce the verbosity of
-  webpack output just to quick find that errors:
+  webpack output just to quickly find that errors:
 
 ```diff
 ...
@@ -191,8 +191,8 @@ _./src/totalScoreComponent.tsx_
 npm start
 ```
 
-- Altough it doesn't complain transpiling, if we take a look to the imports we
-  can see there are marked as error in VSCode, typescript does not know how to
+- Although it doesn't complain when transpiling, if we take a look to the imports we
+  can see there are errors marked in VSCode, typescript does not know how to
   import a css file, we can just declare it as a module.
 
 _./src/declaration.d.ts_
@@ -222,7 +222,7 @@ export function getTotalScore(scores: number[]) {
   rely on our IDE or just run tsc by our own... then what about performance? We can
   run both tsc and babel transpilation in parallel, let' go for that.
 
-- Let's install _npm-run-all_ a package that will let us execute to this tasks
+- Let's install _npm-run-all_ a package that will let us execute these tasks
   in parallel from the script command section in our package.json.
 
 ```bash

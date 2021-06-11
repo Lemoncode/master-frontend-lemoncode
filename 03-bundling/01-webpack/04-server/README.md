@@ -2,7 +2,7 @@
 
 In this sample we are going to enter into "dev mode". Working with files service
 is not ideal when you are developing a web application, we will learn how to launch
-a lite web server, how deploy our bundle into a dist folder (including `index.html`)
+a lite web server, how to deploy our bundle into a dist folder (including `index.html`)
 , how to debug our ES6 code directly into the browser debugger and minify
 our `bundle.js`.
 
@@ -20,7 +20,7 @@ Summary steps:
 
 ## Prerequisites
 
-Prerequisites, you will need to have nodejs (at least v 8.9.2) installed in your computer. If you want to follow this step guides you will need to take as starting point sample _02 Import_.
+Prerequisites, you will need to have nodejs (at least v 8.9.2) installed in your computer. If you want to follow this step guides you will need to take as starting point sample _03 Import_.
 
 ## steps
 

@@ -20,7 +20,7 @@ Summary steps:
 
 ## Prerequisites
 
-You will need to have Node.js (at least v 8.9) installed in your computer. In order to follow this step guides you will also need to take sample _01 BoilerPlate_ as a starting point.
+You will need to have Node.js (at least v 8.9) installed in your computer. In order to follow this step guides you will also need to take sample _02 BoilerPlate_ as a starting point.
 
 ## Steps
 

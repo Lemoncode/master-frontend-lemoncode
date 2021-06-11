@@ -148,7 +148,7 @@ npm start
 </html>
 ```
 
-- Now if run the app (`npm start`) we can check that both logo images are being shown.
+- Now if we run the app (`npm start`) we can check that both logo images are being shown.
 
 ```bash
 npm start
@@ -156,7 +156,7 @@ npm start
 
 - Finally, if we open the developer tools in our browser we can see that a `<img>` has been inserted under the `<div>` element, and also that its `src` attribute has changed:
 
-- But we are referencing [`logo_2`](./src/content/logo_2.png) from `./src..` path. Whats if we upload to production? We loose the reference so we need to process this kind of files using `html-loader`:
+- But we are referencing [`logo_2`](./src/content/logo_2.png) from `./src..` path. What if we upload to production? We lose the reference so we need to process this kind of files using `html-loader`:
 
 ```bash
 npm install html-loader --save-dev

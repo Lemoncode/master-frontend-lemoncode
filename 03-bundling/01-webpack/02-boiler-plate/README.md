@@ -24,7 +24,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (min v8.9) if they are not alr
 
 - Navigate to the folder where you are going to create the empty project.
 
-- Execute `npm init`, you will be prompted to answer some information request about the project (once you have successfully fulfilled them a **`package.json`** file we will generated).
+- Execute `npm init`, you will be prompted to answer some information request about the project (once you have successfully fulfilled them a **`package.json`** file will be generated).
 
 ```bash
 npm init -y
@@ -39,11 +39,11 @@ npm init -y
 npm install webpack webpack-cli --save-dev
 ```
 
-- In order to launch webpack, modify the **`package.json`** file an add the following property `"start": "webpack"` under the scripts object. It allows us to launch webpack from the command line through npm typing `npm start`.
+- In order to launch webpack, modify the **`package.json`** file and add the following property `"start": "webpack"` under the scripts object. It allows us to launch webpack from the command line through npm typing `npm start`.
 
 > In webpack 4 now is mandatory to inform the mode we are working on development or production (minified, etc...) in the command line where we call it.
 
-Now, our **`package.json`** file should looks something like:
+Now, our **`package.json`** file should look something like:
 
 _./package.json_
 
@@ -77,7 +77,7 @@ npm install @babel/cli @babel/core @babel/preset-env --save-dev
 npm install babel-loader --save-dev
 ```
 
-Our **`package.json`** file should looks something like:
+Our **`package.json`** file should look something like:
 
 _./package.json_
 
@@ -201,7 +201,7 @@ _./index.html_
 
 - Now we can click on the html file and see our small piece of code up and running.
 
-> **Note down** this is not the optimal solution, in next steps we will proper generate
+> **Note down** this is not the optimal solution, in next steps we will properly generate
 > an HTML file and use a plugin to inject the starting scripts.
 
 # About Basefactor + Lemoncode

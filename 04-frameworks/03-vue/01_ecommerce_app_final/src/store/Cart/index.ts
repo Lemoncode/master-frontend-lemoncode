@@ -8,8 +8,8 @@ import {
 
 import { Product } from '@/types'
 import {
-  ICartState,
-  ICartGetters,
+  CartState,
+  CartGetters,
   CartMutationsType,
   CartActionsType,
   CartItem,
@@ -17,11 +17,11 @@ import {
   CartActionEnums,
 } from './types'
 
-const state: () => ICartState = () => ({ items: {} })
+const state: () => CartState = () => ({ items: {} })
 
-const getters: GetterTree<ICartState, unknown> & ICartGetters = {
-  items: (state: ICartState) => state.items,
-  totalItemsInCart: (state: ICartState) => {
+const getters: GetterTree<CartState, unknown> & CartGetters = {
+  items: (state: CartState) => state.items,
+  totalItemsInCart: (state: CartState) => {
     const cartItems: CartItem[] = Object.values(state.items || {})
     return cartItems.reduce((acc: number, item: CartItem) => {
       return item.quantity + acc
@@ -29,8 +29,8 @@ const getters: GetterTree<ICartState, unknown> & ICartGetters = {
   },
 }
 
-const mutations: MutationTree<ICartState> & CartMutationsType = {
-  [CartMutationEnums.ADD_ITEM_TO_CART](state: ICartState, product: Product) {
+const mutations: MutationTree<CartState> & CartMutationsType = {
+  [CartMutationEnums.ADD_ITEM_TO_CART](state: CartState, product: Product) {
     if (state.items[product.id]) {
       state.items[product.id].quantity += 1
     } else {
@@ -41,34 +41,34 @@ const mutations: MutationTree<ICartState> & CartMutationsType = {
     }
   },
   [CartMutationEnums.REMOVE_ITEM_FROM_CART](
-    state: ICartState,
+    state: CartState,
     id: Product['id']
   ) {
     delete state.items[id]
   },
-  [CartMutationEnums.DECREMENT_QUANTITY](state: ICartState, id: Product['id']) {
+  [CartMutationEnums.DECREMENT_QUANTITY](state: CartState, id: Product['id']) {
     if (state.items[id].quantity > 1) {
       state.items[id].quantity--
     }
   },
 }
-const actions: ActionTree<ICartState, unknown> & CartActionsType = {
+const actions: ActionTree<CartState, unknown> & CartActionsType = {
   [CartActionEnums.ADD_ITEM_TO_CART](
-    { commit }: ActionContext<ICartState, unknown>,
+    { commit }: ActionContext<CartState, unknown>,
     product: Product
   ) {
     if (!product) return
     commit(CartMutationEnums.ADD_ITEM_TO_CART, product)
   },
   [CartActionEnums.REMOVE_ITEM_FROM_CART](
-    { commit }: ActionContext<ICartState, unknown>,
+    { commit }: ActionContext<CartState, unknown>,
     id: Product['id']
   ) {
     if (!id) return
     commit(CartMutationEnums.REMOVE_ITEM_FROM_CART, id)
   },
   [CartActionEnums.DECREMENT_QUANTITY](
-    { commit }: ActionContext<ICartState, unknown>,
+    { commit }: ActionContext<CartState, unknown>,
     id: Product['id']
   ) {
     if (!id) return
@@ -76,7 +76,7 @@ const actions: ActionTree<ICartState, unknown> & CartActionsType = {
   },
 }
 
-const CartModule: Module<ICartState, unknown> = {
+const CartModule: Module<CartState, unknown> = {
   namespaced: true,
   state,
   actions,

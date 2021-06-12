@@ -1,15 +1,16 @@
 import { Product } from '@/types'
+import { ActionContext } from 'vuex'
 
 export type CartItem = { quantity: number; data: Product }
 export type CartItemRecord = Record<Product['id'], CartItem>
 
-export interface ICartState {
+export interface CartState {
   items: CartItemRecord
 }
 
-export interface ICartGetters {
-  items(state: ICartState): CartItemRecord
-  totalItemsInCart(state: ICartState): number
+export interface CartGetters {
+  items(state: CartState): CartItemRecord
+  totalItemsInCart(state: CartState): number
 }
 
 export enum CartMutationEnums {
@@ -18,7 +19,7 @@ export enum CartMutationEnums {
   DECREMENT_QUANTITY = 'DECREMENT_QUANTITY',
 }
 
-export type CartMutationsType<S = ICartState> = {
+export type CartMutationsType<S = CartState> = {
   [CartMutationEnums.ADD_ITEM_TO_CART](state: S, product: Product): void
   [CartMutationEnums.REMOVE_ITEM_FROM_CART](state: S, id: string): void
 }
@@ -29,7 +30,7 @@ export enum CartActionEnums {
   DECREMENT_QUANTITY = 'decrementQuantity',
 }
 
-export type CartActionsType<S = ICartState> = {
+export type CartActionsType<S = CartState> = {
   [CartActionEnums.ADD_ITEM_TO_CART](
     { commit }: ActionContext<S, unknown>,
     product: Product

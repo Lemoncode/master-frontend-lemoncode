@@ -23,7 +23,7 @@ logName(); // [!] Si no inicializamos el parametro a {} esto daría TypeError.
 
 // Para evitar esos errores tenemos que inicializar también el argumento completo
 // como objeto vacío, no solo su propiedad name.
-const getName = ({ name = "Unknown" } = {}) => console.log(name);
+const logName = ({ name = "Unknown" } = {}) => console.log(name);
 
 logName(); // Unknown. Ahora si!
 

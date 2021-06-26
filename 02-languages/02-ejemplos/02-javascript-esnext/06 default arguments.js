@@ -17,7 +17,7 @@ logName({ name: "Carl" }); // "Carl"
 logName({}); // "Unknown"
 
 // PREGUNTA: Pero ¿que creeis que pasaría si llamo a la función sin argumento?
-// ¿o con argumento null u objeto vacío?
+// ¿o con argumento null?
 
 logName(); // [!] Si no inicializamos el parametro a {} esto daría TypeError.
 

@@ -6,9 +6,8 @@ import { AppLayout, CarListComponent } from '../components';
 const CarListPage = () => {
   const router = useRouter();
   const onNavigateBack = () => {
-    router.push('/'); // or router.back()
+    router.push('/');
   };
-
   return (
     <AppLayout>
       <Head>

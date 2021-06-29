@@ -69,6 +69,7 @@ import { routeConstants } from '../common/constants';
 +   try {
 +     const apiCar = mapCarFromVmToApi({ ...car, isBooked: !car.isBooked });
 +     await api.bookCar(apiCar);
+-     // TODO: Book a car
       router.push(routeConstants.carList);
 +   } catch (error) {
 +     console.error({ error });
@@ -132,7 +133,7 @@ import { AppLayout, CarListContainer } from '../components';
 
 - export const getServerSideProps: GetServerSideProps = async () => {
 -   const carList = await api.getCarList();
--   console.log(`Render car list: ${carList.length}`);
+-   console.log('Car list build time:', { carList });
 
 -   return {
 -     props: {
@@ -210,11 +211,8 @@ npm run build
 npm run start:prod
 ```
 
-- Check Chrome Devtools > Network > Fast 3G
+- Open two browser tabs in `http://localhost:8080/cars`
 
-- Open `http://localhost:8080/cars`
-
-- Navigate to `http://localhost:8080/cars/1`
 
 - Add new car:
 
@@ -230,9 +228,6 @@ _./api-server/mock-data/data.json_
 +     "isBooked": false
 +   }
 ```
-
-> Check that only the first time render length = 0 and then get the data.
-> In next re-renders, it get the cached data and then request new ones.
 
 - Remove `new car` Open two windows to check [revalidate on focus demo](https://swr.vercel.app/docs/revalidation#revalidate-on-focus) and add `new car` again.
 

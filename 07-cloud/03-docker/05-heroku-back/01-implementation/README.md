@@ -96,7 +96,7 @@ git commit -m "initial commit"
 git push -u origin master
 ```
 
-- We need an to create a [new heroku app](https://dashboard.heroku.com/) to deploy it.
+- We need create a [new heroku app](https://dashboard.heroku.com/) to deploy it.
 
 - This time, we need an [auth token](https://devcenter.heroku.com/articles/heroku-cli-commands#heroku-authorizations-create) to heroku login inside Github Action job:
 

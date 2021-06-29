@@ -7,8 +7,8 @@ import { AppLayout, CarListContainer } from '../components';
 const CarListPage: React.FunctionComponent = () => {
   const { data } = useSWR(api.url, api.getCarList);
   const carList = data || [];
-
   console.log(`Render car list: ${carList.length}`);
+
   return (
     <AppLayout>
       <Head>

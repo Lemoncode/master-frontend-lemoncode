@@ -137,11 +137,19 @@ import Head from 'next/head';
 + import * as api from '../api';
 import { AppLayout, CarListComponent } from '../components';
 
-const CarListPage = () => {
+
++ interface Props {
++   carList: api.Car[];
++ }
+
+
+- const CarListPage = () => {
++ const CarListPage: React.FunctionComponent<Props> = (props) => {
 - const router = useRouter();
 - const onNavigateBack = () => {
 -   router.push('/'); // or router.back()
 - };
++ const { carList } = props;
 + console.log(`Car list on component: `, { carList });
 
   return (
@@ -172,7 +180,14 @@ export default CarListPage;
 
 > [getStaticProps](https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation)
 
-- Run in `two` terminals:
+- Run in `dev` mode:
+
+```bash
+npm start
+
+```
+
+- Run in `prod` mode (two terminals):
 
 ```bash
 npm run start:api-server
@@ -186,54 +201,14 @@ npm run build
 npm run start:prod
 ```
 
-- Let's try on dev mode:
+- In dev mode it's working as `server side rendering`. How we can use breakpoints on `getStaticProps` method if it's executing on server side? We need add a VSCode debug config or run it with `Javascript Debug Terminal`:
 
 ```bash
-npm run start:dev
-```
+npm run start
 
-> NOTE: First load http://localhost:3000/cars
-
-- In dev mode it's working as `server side rendering`. How we can use breakpoints on `getStaticProps` method if it's executing on server side? We need add a VSCode debug config:
-
-_./.vscode/launch.json_
-
-```json
-{
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "type": "node",
-      "request": "attach",
-      "name": "Debug",
-      "skipFiles": ["<node_internals>/**"],
-      "port": 9229
-    }
-  ]
-}
 ```
 
 > [Debugging docs](https://nextjs.org/docs/advanced-features/debugging)
-
-- Add script command:
-
-_./package.json_
-
-```diff
-  "scripts": {
-    "start": "run-p -l start:dev start:api-server",
-    "start:dev": "next dev",
-+   "start:debug": "run-p -l debug start:api-server",
-+   "debug": "cross-env NODE_OPTIONS='--inspect' next dev",
-    ...
-  },
-```
-
-- Run `start:debug` and VSCode debugger:
-
-```bash
-npm run start:debug
-```
 
 - Now, if we want to render this car list, we will need to create a mapper to aim `imageUrl` to `api-server` where this images are published:
 
@@ -539,16 +514,13 @@ const CarListPage: React.FunctionComponent<Props> = (props) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
-  const carList = await api.getCarList();
-- console.log(`Car list build time: `, { carList });
 ...
 ```
 
 - Stop app and run again:
 
 ```bash
-npm run start:debug
+npm start
 ```
 
 - It looks great, but if we navigate to some car details and the go back, the images will disappears. It's because Nextjs delegate to client render after the first load.
@@ -585,7 +557,7 @@ export const envConstants = {
 - Stop app and run again:
 
 ```bash
-npm run start:debug
+npm start
 ```
 
 ## GetStaticPaths
@@ -929,7 +901,7 @@ _./src/pages/cars.tsx_
 
 export const getStaticProps: GetStaticProps = async () => {
   const carList = await api.getCarList();
-+ console.log(`Render car list: ${carList.length}`);
+  console.log('Car list build time:', { carList });
 
   return {
     props: {
@@ -938,7 +910,7 @@ export const getStaticProps: GetStaticProps = async () => {
 +   // Next.js will attempt to re-generate the page:
 +   // - When a request comes in
 +   // - At most once every second
-+   revalidate: 1, // In seconds
++   revalidate: 10, // In seconds
   };
 };
 ```
@@ -971,7 +943,6 @@ _./api-server/mock-data/data.json_
 - If we refresh the `/cars` page again (F5) it pre-renders the `car page again` and show the new version (navigate to details and back again).
 
 > It will works with Car Details too.
-> Check ` revalidate: 10` and press F5 many times
 
 - Remove data:
 

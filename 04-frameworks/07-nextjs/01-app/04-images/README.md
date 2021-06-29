@@ -64,12 +64,38 @@ export const AppLayout: React.FunctionComponent = (props) => {
 ...
 ```
 
-> [Image docs](https://nextjs.org/docs/api-reference/next/image)
-> [Image examples github](https://github.com/vercel/next.js/tree/canary/examples/image-component/pages)
+> [Image docs](https://nextjs.org/docs/api-reference/next/image) > [Image examples github](https://github.com/vercel/next.js/tree/canary/examples/image-component/pages)
 > It adapts image to the design
 > Size `214kB` vs `44.5kB`
 > First load the page and then the image.
+>
+> Blur effect supported since Next v11.
 > [Nextjs Issue not supported](https://github.com/vercel/next.js/issues/18858) > [plaiceholder](https://github.com/joe-bell/plaiceholder) and [example with Nextjs](https://github.com/joe-bell/plaiceholder/tree/main/examples/next) > [Vanilla Blur Example](https://codepen.io/darajava/pen/GRZzpbB?editors=0110)
+
+- Let's try `blur` effect:
+
+_./src/components/app.layout.tsx_
+
+```diff
+import React from 'react';
+import Image from 'next/image';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
++ import logo from '../../public/home-logo.png'
+import * as classes from './app.layout.styles';
+
+...
+
+  return (
+    <>
+      <AppBar position="fixed">
+        <Toolbar className={classes.toolbar} variant="dense">
+-         <Image src="/home-logo.png" layout="fill" objectFit="contain" />
++         <Image src={logo} layout="fill" objectFit="contain" placeholder="blur" />
+...
+
+```
 
 - Let's move this image inside a button:
 
@@ -82,6 +108,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 + import IconButton from '@material-ui/core/IconButton';
+import logo from '../../public/home-logo.png'
+import * as classes from './app.layout.styles';
 ...
 
 export const AppLayout: React.FunctionComponent = (props) => {
@@ -92,7 +120,7 @@ export const AppLayout: React.FunctionComponent = (props) => {
       <AppBar position="fixed">
         <Toolbar className={classes.toolbar} variant="dense">
 +         <IconButton>
-            <Image src="/home-logo.png" layout="fill" objectFit="contain" />
+            <Image src={logo} layout="fill" objectFit="contain" placeholder="blur" />
 +         </IconButton>
 ...
 
@@ -126,7 +154,7 @@ _./src/components/app.layout.tsx_
 ...
 -         <IconButton>
 +         <IconButton className={classes.iconButton}>
-            <Image src="/home-logo.png" layout="fill" objectFit="contain" />
+            <Image src={logo} layout="fill" objectFit="contain" placeholder="blur" />
           </IconButton>
 ```
 

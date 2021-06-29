@@ -9,7 +9,6 @@ interface Props {
 
 export const CarListComponent: React.FunctionComponent<Props> = (props) => {
   const { carList } = props;
-
   return (
     <ul className={classes.root}>
       {carList.map((car) => (

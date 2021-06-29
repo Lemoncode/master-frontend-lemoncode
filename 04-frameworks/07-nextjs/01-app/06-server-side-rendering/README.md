@@ -39,7 +39,7 @@ const CarListPage: React.FunctionComponent<Props> = (props) => {
 - export const getStaticProps: GetStaticProps = async () => {
 + export const getServerSideProps: GetServerSideProps = async () => {
   const carList = await api.getCarList();
-  console.log(`Render car list: ${carList.length}`);
+  console.log('Car list build time:', { carList });
 
   return {
     props: {
@@ -48,7 +48,7 @@ const CarListPage: React.FunctionComponent<Props> = (props) => {
 -   // Next.js will attempt to re-generate the page:
 -   // - When a request comes in
 -   // - At most once every second
--   revalidate: 1, // In seconds
+-   revalidate: 10, // In seconds
   };
 };
 

@@ -11,6 +11,7 @@ interface Props {
 const CarListPage: React.FunctionComponent<Props> = (props) => {
   const { carList } = props;
   console.log('Render car list Page');
+
   return (
     <AppLayout>
       <Head>
@@ -23,13 +24,11 @@ const CarListPage: React.FunctionComponent<Props> = (props) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const carList = await api.getCarList();
-  console.log(`Render car list: ${carList.length}`);
-
+  console.log('Car list build time:', { carList });
   return {
     props: {
       carList,
     },
   };
 };
-
 export default CarListPage;

@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import { UserContext } from '../common/contexts';
+import logo from '../../public/home-logo.png';
 import * as classes from './app.layout.styles';
 
 export const AppLayout: React.FunctionComponent = (props) => {
@@ -16,7 +17,12 @@ export const AppLayout: React.FunctionComponent = (props) => {
       <AppBar position="fixed">
         <Toolbar className={classes.toolbar} variant="dense">
           <IconButton className={classes.iconButton}>
-            <Image src="/home-logo.png" layout="fill" objectFit="contain" />
+            <Image
+              src={logo}
+              layout="fill"
+              objectFit="contain"
+              placeholder="blur"
+            />
           </IconButton>
           <Typography variant="h6" color="inherit">
             Rent a car

@@ -55,7 +55,7 @@ _./src/components/app.layout.ts_
 ...
 import IconButton from '@material-ui/core/IconButton';
 + import { UserContext } from '../common/contexts';
-import * as classes from './app.layout.styles';
+...
 
 export const AppLayout: React.FunctionComponent = (props) => {
   const { children } = props;
@@ -121,7 +121,10 @@ export default App;
 _./src/pages/index.tsx_
 
 ```diff
-...
+import React from 'react';
+import Link from 'next/link';
+import Head from 'next/head';
++ import { UserContext } from '../common/contexts';
 
 const HomePage = () => {
 + const { setUser } = React.useContext(UserContext);

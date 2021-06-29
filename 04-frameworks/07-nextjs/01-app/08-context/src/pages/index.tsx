@@ -5,12 +5,11 @@ import { UserContext } from '../common/contexts';
 
 const HomePage = () => {
   const { setUser } = React.useContext(UserContext);
-
+  
   React.useEffect(() => {
     // After login
     setUser('John');
   }, []);
-
   return (
     <>
       <Head>

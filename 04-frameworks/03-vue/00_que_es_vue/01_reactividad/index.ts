@@ -1,18 +1,24 @@
+/* const person = {
+    name: 'Nerea'
+}
+person.name = 'Alfredo' */
+
 const person = {
-    _name: "Nerea", // valor "interno"
-    get name() {
-        return this._name; /* + '!' */
-    },
-    set name(value) {
-        this._name = value;
-    },
-};
+  // valor "interno"
+  _name: 'Nerea',
+  get name() {
+    return this._name /* + '!' */
+  },
+  set name(value) {
+    this._name = value
+  },
+}
 
-console.log(person.name);
+console.log(person.name)
 
-person.name = "Alfredo";
+person.name = 'Alfredo'
 
-console.log(person.name);
+console.log(person.name)
 
 // reactividad con Proxies
 // 👉🏽 En el apartado 05

@@ -14,12 +14,12 @@
       <h1>{{ whatever }}</h1>
     </div>
 
-    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
-    <script>
+    <script type="module">
+      import Vue from 'https://unpkg.com/vue@2.6.0/dist/vue.esm.browser.min.js'
       const app = new Vue({
         el: '#simplest-example',
         data: {
-          whatever: 'Hello world!! 🔥🔥',
+          whatever: 'Hello browser modules! 🔥🔥',
         },
       })
     </script>

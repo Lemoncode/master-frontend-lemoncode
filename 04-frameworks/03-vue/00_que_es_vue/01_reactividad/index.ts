@@ -1,9 +1,9 @@
-const person = {
+/* const person = {
   name: 'Nerea',
 }
-person.name = 'Alfredo'
+person.name = 'Alfredo' */
 
-/* const person = {
+const person = {
   // valor "interno"
   _name: 'Nerea',
   get name() {
@@ -12,7 +12,7 @@ person.name = 'Alfredo'
   set name(value) {
     this._name = value
   },
-} */
+}
 
 console.log(person.name)
 

@@ -175,10 +175,12 @@ De vuelta, a `src/components/Header.vue`, vamos a poner algo simple solo para ve
     <div>Cart</div>
   </nav>
 </template>
+
 <script lang="ts">
 import { defineComponent } from 'vue'
 export default defineComponent({})
 </script>
+
 <style lang="scss" scoped>
 .nav {
   min-height: 80px;
@@ -353,6 +355,19 @@ export const productService = {
 }
 ```
 
+Necesitamos añadir el archivo `./books.mock.json` (podéis descargarlo de [aquí](https://raw.githubusercontent.com/Lemoncode/master-frontend-lemoncode/a40dd58/04-frameworks/03-vue/05_ecommerce_app_final/public/books.mock.json)) en la misma carpeta, ya que el `import()` está cogiendo un recurso con un "path" relativo y le estamos indicando (porque la ruta empieza con `./`) que es en la misma carpeta donde está este `productService`.
+
+Antes de continuar, necesitamos decirle a TS que puede importar los archivos de JSON como si fueran JS:
+
+En el `tsconfig.json`, tenemos que añadir, dentro de `compilerOptions`:
+
+```diff
++  "resolveJsonModule": true,
+```
+
+De esta manera, `import`ará archivos JSON como si fueran módulos de ESM.
+
+
 Vamos a añadir el servicio en el componente de _ProductList_:
 
 ```diff
@@ -378,6 +393,8 @@ export default defineComponent({
 </script>
 <style></style>
 ```
+
+**Nota**: Importante añadir el `as Product[]` en el dato `list`, para que TS no de errores.
 
 Como veís, hemos añadido el tipado en nuestra propiedad `list` del estado local del componente. Ahora tenemos que pintar algo dentro de los `li`s.
 

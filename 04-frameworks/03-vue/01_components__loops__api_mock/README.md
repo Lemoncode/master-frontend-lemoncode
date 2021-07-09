@@ -214,7 +214,7 @@ El componente no queda ocupando el 100% de la pantalla y es porque no tenemos un
 
 Para esta app no vamos a usar ninguna librería de estilos, como las implementaciones de Material Design (como Vuetify, en el caso de Vue) o Tailwind. Usaremos estilos propios, pero sin reparar mucho en ellos.
 
-Vamos a añadir, de hecho, directamente el contenido de: https://github.com/Lemoncode/master-frontend-lemoncode/blob/04cef2da11fbc567be71b45071753152ce5c2046/04-frameworks/03-vue/01_ecommerce_app_final/src/assets/scss/main.scss (o su última versión en master) en `src/assets/scss/main.scss`
+Vamos a añadir, de hecho, directamente el contenido de: https://github.com/Lemoncode/master-frontend-lemoncode/blob/a40dd58/04-frameworks/03-vue/05_ecommerce_app_final/src/assets/scss/main.scss (o su última versión en master) en `src/assets/scss/main.scss`
 
 Y vamos a importarlo en nuestro archivo de entrada: `src/main.ts`
 
@@ -241,7 +241,7 @@ Vemos que es un poco diferente a lo que hemos usado en los ejemplos de la teorí
 
 Se "inyectarán" nuestros archivos: el código generado tras compilar `main.ts`.
 
-Para la versión de producción, ver los comandos de vue-cli en su [documentación oficial](https://cli.vuejs.org/guide/build-targets.html). Es muy interesante que viene con opciones por defecto para "librerías de Vue". O nos permite compilar la aplicación de Vue como un Web Component, si lo deseamos.
+Para la versión de producción, ved los comandos de vue-cli en su [documentación oficial](https://cli.vuejs.org/guide/build-targets.html). Es muy interesante que viene con opciones por defecto para "librerías de Vue". O nos permite compilar la aplicación de Vue como un Web Component, si lo deseamos.
 
 Volvemos al componente Header para añadir solo unas clases más, para darle mejor apariencia:
 
@@ -467,5 +467,5 @@ Y en el mismo archivo `.vue`, unos estilos:
 - [ ] Binding de clases de manera dinámica: `product.discount !== '0.0',`
 - [ ] Añadir un botón de compra como componente, `AddToCartButton`
 - [ ] Añadir la página detalle
-- [ ] cambiar dynamic import a fetch de /public, luego a fetch de [raw.githubusercontent.com](https://raw.githubusercontent.com/Lemoncode/master-frontend-lemoncode/master/04-frameworks/03-vue/01_ecommerce_app_final/public/books.mock.json).
+- [ ] cambiar dynamic import a fetch de /public, luego a fetch de [raw.githubusercontent.com](https://github.com/Lemoncode/master-frontend-lemoncode/blob/a40dd5852e7f199b7ca90a207177fdcc59c70dcf/04-frameworks/03-vue/05_ecommerce_app_final/public/books.mock.json).
 - [ ] Comprobar cómo se carga el JSON desde la ventana de Red de las DevTools del navegador.

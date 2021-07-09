@@ -1,6 +1,6 @@
 # ecommerce-app
 
-Resultado de la primera sesión del módulo (hasta donde está grabado).
+Resultado de la primera sesión del módulo.
 
 <img src="./screenshot.png" width="800">
 

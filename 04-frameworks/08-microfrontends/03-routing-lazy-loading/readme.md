@@ -406,7 +406,7 @@ Para este apartado tomaremos la segunda solución e implementaremos un cargador 
   }
 
   export const MicroappLoader: React.FC<MicroappLoaderProps> = ({ microapp }) => {
-    const containerRef = React.useRef();
+    const containerRef = React.useRef<HTMLDivElement>();
 
   + React.useEffect(() => {
   +   let microappInterface: MicroappInterface;
@@ -442,3 +442,77 @@ Para este apartado tomaremos la segunda solución e implementaremos un cargador 
 Esta implementación básica y primitiva de un posible loader trae algunos problemillas.
 
 ¿Qué pasa cuando navegas varias veces entre páginas? La descarga se vuelve a hacer una y otra vez, porque estamos añadiendo nuestro elemento `<script>` en `<body>` continuamente. No vigilamos si ya lo teníamos cargado de antes o no.
+
+## Refinamiento
+
+`[app] core/microapp-loader.component.ts`
+
+- Para un comportamiento más refinado y óptimo, deberiamos detectar qué microapps hemos cargado previamente y cuales no. De este modo, evitaremos añadir `<script>` redundantes y por tanto descargar los _bundles_ que ya habíamos descargado previamente.
+
+- Para saber si un _bundle_ ha sido cargado, usaremos el objeto `window` como si de una caché se tratara, es decir, comprobaremos si la variable nombrada con el `exportName` existe (y por tanto el `MicroappInterface` está disponible) o no.
+
+- Aprovecharemos para hacer un pequeño refactor y extraer un poco de funcionalidad fuera:
+
+  ```ts
+  import React from "react";
+  import { microappRegistry, RegisteredMicroapps } from "./microapp.registry";
+
+  // Lógica de Negocio
+  const isMicroappLoaded = (microapp: RegisteredMicroapps) =>
+    Boolean(window[microappRegistry[microapp]?.exportName]);
+
+  const renderMicroapp = (microapp: RegisteredMicroapps, container: HTMLElement) => {
+    const { exportName } = microappRegistry[microapp] ?? {};
+    if (exportName) window[exportName]?.MicroappInterface?.render(container);
+  };
+
+  const downloadMicroapp = (microapp: RegisteredMicroapps): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const { bundleUrl } = microappRegistry[microapp] ?? {};
+      if (bundleUrl) {
+        const script = document.createElement("script");
+        script.src = bundleUrl;
+        script.type = "text/javascript";
+        script.onload = () => resolve();
+        script.onerror = () => {
+          script.remove();
+          reject();
+        };
+        document.body.appendChild(script);
+      }
+    });
+  };
+
+  const unmountMicroapp = (microapp: RegisteredMicroapps, container: HTMLElement) => {
+    const { exportName } = microappRegistry[microapp] ?? {};
+    if (exportName) window[exportName]?.MicroappInterface?.unmount(container);
+  };
+
+  // Componente Microapp Loader
+  export interface MicroappLoaderProps {
+    microapp: RegisteredMicroapps;
+  }
+
+  export const MicroappLoader: React.FC<MicroappLoaderProps> = ({ microapp }) => {
+    const containerRef = React.useRef<HTMLDivElement>();
+
+    React.useEffect(() => {
+      const mountMicroapp = async () => {
+        if (!isMicroappLoaded(microapp))
+          try {
+            await downloadMicroapp(microapp);
+          } catch {
+            console.error(`Error downloading microfrontend bundle for ${microapp}`);
+          }
+        renderMicroapp(microapp, containerRef.current);
+      };
+      mountMicroapp();
+
+      return () => unmountMicroapp(microapp, containerRef.current);
+    }, [microapp]);
+
+    return <div ref={containerRef} />;
+  };
+  ```
+
+- **NOTA**: En esta versión refinada hemos tenido en cuenta un posible caso _edge_ problemático: la descarga fallida del _bundle_. En tal caso vamos a hacer limpieza del tag `<script>` que se añadiría con cada intento fallido, pues de lo contrario dejaríamos 'sucio' nuestro HTML.

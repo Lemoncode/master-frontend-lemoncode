@@ -17,7 +17,7 @@ export interface MicroappRenderProps {
 }
 
 export const MicroappRender: React.FC<MicroappRenderProps> = ({ microapp }) => {
-  const containerRef = React.useRef();
+  const containerRef = React.useRef<HTMLDivElement>();
 
   React.useEffect(() => {
     // Línea clave, ¿dónde puedo encontrar el interfaz de mi microapp cargada por <script>?

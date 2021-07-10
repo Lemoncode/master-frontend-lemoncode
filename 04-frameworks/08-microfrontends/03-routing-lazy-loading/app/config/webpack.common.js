@@ -10,7 +10,7 @@ module.exports = (env = {}) => {
       extensions: [".js", ".jsx", ".ts", ".tsx"],
     },
     entry: {
-      [helpers.bundleName]: ["./app.entrypoint.tsx"],
+      [helpers.bundleName]: ["regenerator-runtime/runtime", "./app.entrypoint.tsx"],
     },
     output: {
       path: helpers.buildPath,

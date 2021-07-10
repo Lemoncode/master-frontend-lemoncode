@@ -4,6 +4,8 @@ Vamos a seguir con la aplicación donde la dejamos en la primera sesión. De mom
 
 - [x] hemos hecho el _bootstrapping_ de una app con Vue CLI
 - [x] hemos borrado los archivos que venían por defecto ("assets", "components", "views"...)
+- [x] hemos creado un componente Header que se pinta en todas las vistas.
+- [x] hemos añadido estilos globales.
 - [x] hemos añadido un servicio "dummy" que nos devuelve una JSON
 - [x] y hemos añadido el primer componente que hace una llamada a esa lista y la pinta en la vista
 
@@ -18,7 +20,7 @@ Hoy el objetivo es:
 El ejemplo de dynamic import que hicimos en el servicio era solo para enseñaros cómo usar Dynamic Imports en general.
 Si tenéis alguna duda al respecto, preguntadme.
 
-Pero en un servicio web lo más normal es que usemos `fetch` o alguna librería de peticiones http. Vamos a hacer un pequeño refactor en el servicio para que se parezca más a un caso del mundo real:
+Pero en un servicio web lo más normal es que usemos `fetch` o alguna librería de peticiones HTTP. Vamos a hacer un pequeño refactor en el servicio para que se parezca más a un caso del mundo real:
 
 ```diff
 // services/products.ts
@@ -38,7 +40,43 @@ export const productService = {
 
 ```
 
-Deberíamos ver que en vez de crearse un chunk con el nom bre que le habíamos puesto en el _Webpack Magic Comment_, se está haciendo una llamada http a un archivo JSON.
+### `Unexpected token < in JSON at position 0`
+
+En este punto me dio un error el `fetch`: `Unexpected token < in JSON at position 0`. Podemos solucionarlo de la siguiente manera:
+
+- Movemos el `json` a la carpeta `/public`, que para eso está: _assets_ estáticos.
+- Y haremos los siguientes cambios en el método `get()`:
+
+```diff
+-    const books: Product[] = await fetch('./books.mock.json', {
++    const books: Product[] = await fetch('/books.mock.json', {
++      headers: {
++        Accept: 'application/json',
++      },
+     }).then(response => response.json())
+     return books
+```
+
+Hemos cambiado la ruta relativa a una absoluta y le especificamos el tipo de contenido que solicitamos.
+
+El _product service_ quedaría así:
+
+```ts
+import { Product } from '@/types'
+
+export const productService = {
+  async get(): Promise<Product[]> {
+    const books = await fetch('/books.mock.json', {
+      headers: {
+        Accept: 'application/json',
+      },
+    }).then(m => m.json())
+    return books
+  },
+}
+```
+
+Deberíamos ver que, en vez de crearse un chunk con el nombre que le habíamos puesto en el _Webpack Magic Comment_, se está haciendo una llamada http a un archivo JSON.
 
 ## Computed
 
@@ -396,48 +434,6 @@ export const productService = {
   async getProduct(id: Product['id']): Promise<Product | undefined> {
     if (!id) throw new Error('id is required')
     // usamos el mismo `get` que ya teníamos
-    return this.get().then(list => {
-      return list.find((item: Product) => String(item.id) === String(id))
-    })
-  },
-}
-```
-
-### `Unexpected token < in JSON at position 0`
-
-En este punto me dio un error el `fetch`: `Unexpected token < in JSON at position 0`. Podemos solucionarlo de la siguiente manera:
-
-- Movemos el `json` a la carpeta `/public`, que para eso está: _assets_ estáticos.
-- Y haremos los siguientes cambios en el método `get()`:
-
-```diff
--    const books: Product[] = await fetch('./books.mock.json', {
-+    const books: Product[] = await fetch('/books.mock.json', {
-+      headers: {
-+        Accept: 'application/json',
-+      },
-     }).then(response => response.json())
-     return books
-```
-
-Hemos cambiado la ruta relativa a una absoluta y le especificamos el tipo de contenido que solicitamos.
-
-El _product service_ quedaría así:
-
-```ts
-import { Product } from '@/types'
-
-export const productService = {
-  async get(): Promise<Product[]> {
-    const books = await fetch('/books.mock.json', {
-      headers: {
-        Accept: 'application/json',
-      },
-    }).then(m => m.json())
-    return books
-  },
-  async getProduct(id: Product['id']): Promise<Product | undefined> {
-    if (!id) throw new Error('id is required')
     return this.get().then(list => {
       return list.find((item: Product) => String(item.id) === String(id))
     })

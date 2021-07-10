@@ -1,29 +1,3 @@
 # primer_dia
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Ver docs de los pasos: https://github.com/Lemoncode/master-frontend-lemoncode/blob/68e471c/04-frameworks/03-vue/01_components__loops__api_mock/README.md

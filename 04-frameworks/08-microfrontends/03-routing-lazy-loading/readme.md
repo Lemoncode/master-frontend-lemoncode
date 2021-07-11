@@ -228,7 +228,7 @@ export * from "./app-frame.component";
 
 `[app]`
 
-- Ya estamos terminados, comprobemos el resultado:
+- ✅ **CHECKPOINT**: Ya estamos terminados, comprobemos el resultado:
 
   ```text
   npm start
@@ -431,7 +431,7 @@ Para este apartado tomaremos la segunda solución e implementaremos un cargador 
 
 `[app]`
 
-- Con esta implementación básica, ya podemos poner en marcha nuestra aplicación. Veamos que sucede:
+- ✅ **CHECKPOINT**: Con esta implementación básica, ya podemos poner en marcha nuestra aplicación. Veamos que sucede:
 
   ```text
   npm start
@@ -516,3 +516,11 @@ Esta implementación básica y primitiva de un posible loader trae algunos probl
   ```
 
 - **NOTA**: En esta versión refinada hemos tenido en cuenta un posible caso _edge_ problemático: la descarga fallida del _bundle_. En tal caso vamos a hacer limpieza del tag `<script>` que se añadiría con cada intento fallido, pues de lo contrario dejaríamos 'sucio' nuestro HTML.
+
+`[app]`
+
+- ✅ **CHECKPOINT**: Comprobemos como la versión mejorada elimina los problemas mencionados anteriormente:
+
+  ```text
+  npm start
+  ```

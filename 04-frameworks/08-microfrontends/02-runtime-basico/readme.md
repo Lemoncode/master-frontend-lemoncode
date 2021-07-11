@@ -58,15 +58,13 @@ Por agilizar las cosas y puesto que estamos haciendo pruebas de concepto en un e
 
 `[app]`
 
-- Probemos a ejecutar la solución y comprobar como los _bundles_ de ambas microapps se están descargando correctamente:
+- ✅ **CHECKPOINT**: Probemos a ejecutar la solución y comprobar como los _bundles_ de ambas microapps se están descargando correctamente:
 
   ```text
   npm start
   ```
 
-#### Nota
-
-- **IMPORTANTE**: La colocación de los `<script>` a mano en el `<head>` del HTML es intencionado. Al estar en `<head>`, su carga es _síncrona_. Primero se parsea el elemento head al completo, descargando uno a uno los scripts de forma síncrona. Una vez lo tenemos todo, entonces se da comienzo al parseo del elemento `<body>`. De esta forma al llegar a `<body>` nos aseguramos de que tenemos todos los _scripts_ de las microapps cargados. No es lo más eficiente, pero es una primera aproximación que funciona. Veremos como mejorar esto.
+- 🛑 **IMPORTANTE**: La colocación de los `<script>` a mano en el `<head>` del HTML es intencionado. Al estar en `<head>`, su carga es _síncrona_. Primero se parsea el elemento head al completo, descargando uno a uno los scripts de forma síncrona. Una vez lo tenemos todo, entonces se da comienzo al parseo del elemento `<body>`. De esta forma al llegar a `<body>` nos aseguramos de que tenemos todos los _scripts_ de las microapps cargados. No es lo más eficiente, pero es una primera aproximación que funciona. Veremos como mejorar esto.
 
 - El punto anterior es válido siempre que no utilicemos `async`/`defer` como atributos de los _scripts_. Son 2 atributos relativamente nuevos para hacer cargas asíncronas y tienen diferentes implicaciones. Mas info aqui: https://flaviocopes.com/javascript-async-defer/.
 
@@ -153,7 +151,7 @@ Por agilizar las cosas y puesto que estamos haciendo pruebas de concepto en un e
 
 `[app]`
 
-- Listo! Ejecutemos la solución y veamos nuestra primera integración run time real:
+- ✅ **CHECKPOINT**: Ejecutemos la solución y veamos nuestra primera integración run time real:
 
   ```text
   npm start

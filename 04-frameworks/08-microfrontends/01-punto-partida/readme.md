@@ -130,10 +130,10 @@ En resumen, nuestro _standalone.entrypoint_ será algo tan sencillo como importa
 
 Recordemos, será el _setup_ **standalone** de webpack quien ponga en marcha el servidor de desarrollo y lo alimentará con un `index.html` que generará usando como plantilla el `index.html` que encontramos en el código fuente.
 
-Probemos a arrancar nuestros microfrontends:
-
 `[microapp-clock]`
 `[microapp-quote]`
+
+✅ **CHECKPOINT**: Probemos a arrancar nuestros microfrontends:
 
 ```text
 npm start
@@ -144,6 +144,8 @@ npm start
 Nuestra aplicación _host_ de partida no es más que un sencillo componente a modo de _dashboard_ que utilizaremos para alojar los microfrontends anteriores.
 
 `[app]`
+
+✅ **CHECKPOINT**: Probemos la aplicación _host_
 
 ```text
 npm start

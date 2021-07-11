@@ -1,6 +1,6 @@
 # ecommerce-app
 
-Resultado de la primera sesión del módulo (hasta donde está grabado).
+Resultado de la primera sesión del módulo.
 
 <img src="./screenshot.png" width="800">
 
@@ -175,10 +175,12 @@ De vuelta, a `src/components/Header.vue`, vamos a poner algo simple solo para ve
     <div>Cart</div>
   </nav>
 </template>
+
 <script lang="ts">
 import { defineComponent } from 'vue'
 export default defineComponent({})
 </script>
+
 <style lang="scss" scoped>
 .nav {
   min-height: 80px;
@@ -214,7 +216,7 @@ El componente no queda ocupando el 100% de la pantalla y es porque no tenemos un
 
 Para esta app no vamos a usar ninguna librería de estilos, como las implementaciones de Material Design (como Vuetify, en el caso de Vue) o Tailwind. Usaremos estilos propios, pero sin reparar mucho en ellos.
 
-Vamos a añadir, de hecho, directamente el contenido de: https://github.com/Lemoncode/master-frontend-lemoncode/blob/04cef2da11fbc567be71b45071753152ce5c2046/04-frameworks/03-vue/01_ecommerce_app_final/src/assets/scss/main.scss (o su última versión en master) en `src/assets/scss/main.scss`
+Vamos a añadir, de hecho, directamente el contenido de: https://github.com/Lemoncode/master-frontend-lemoncode/blob/a40dd58/04-frameworks/03-vue/05_ecommerce_app_final/src/assets/scss/main.scss (o su última versión en master) en `src/assets/scss/main.scss`
 
 Y vamos a importarlo en nuestro archivo de entrada: `src/main.ts`
 
@@ -241,7 +243,7 @@ Vemos que es un poco diferente a lo que hemos usado en los ejemplos de la teorí
 
 Se "inyectarán" nuestros archivos: el código generado tras compilar `main.ts`.
 
-Para la versión de producción, ver los comandos de vue-cli en su [documentación oficial](https://cli.vuejs.org/guide/build-targets.html). Es muy interesante que viene con opciones por defecto para "librerías de Vue". O nos permite compilar la aplicación de Vue como un Web Component, si lo deseamos.
+Para la versión de producción, ved los comandos de vue-cli en su [documentación oficial](https://cli.vuejs.org/guide/build-targets.html). Es muy interesante que viene con opciones por defecto para "librerías de Vue". O nos permite compilar la aplicación de Vue como un Web Component, si lo deseamos.
 
 Volvemos al componente Header para añadir solo unas clases más, para darle mejor apariencia:
 
@@ -353,6 +355,19 @@ export const productService = {
 }
 ```
 
+Necesitamos añadir el archivo `./books.mock.json` (podéis descargarlo de [aquí](https://raw.githubusercontent.com/Lemoncode/master-frontend-lemoncode/a40dd58/04-frameworks/03-vue/05_ecommerce_app_final/public/books.mock.json)) en la misma carpeta, ya que el `import()` está cogiendo un recurso con un "path" relativo y le estamos indicando (porque la ruta empieza con `./`) que es en la misma carpeta donde está este `productService`.
+
+Antes de continuar, necesitamos decirle a TS que puede importar los archivos de JSON como si fueran JS:
+
+En el `tsconfig.json`, tenemos que añadir, dentro de `compilerOptions`:
+
+```diff
++  "resolveJsonModule": true,
+```
+
+De esta manera, `import`ará archivos JSON como si fueran módulos de ESM.
+
+
 Vamos a añadir el servicio en el componente de _ProductList_:
 
 ```diff
@@ -378,6 +393,8 @@ export default defineComponent({
 </script>
 <style></style>
 ```
+
+**Nota**: Importante añadir el `as Product[]` en el dato `list`, para que TS no de errores.
 
 Como veís, hemos añadido el tipado en nuestra propiedad `list` del estado local del componente. Ahora tenemos que pintar algo dentro de los `li`s.
 
@@ -467,5 +484,5 @@ Y en el mismo archivo `.vue`, unos estilos:
 - [ ] Binding de clases de manera dinámica: `product.discount !== '0.0',`
 - [ ] Añadir un botón de compra como componente, `AddToCartButton`
 - [ ] Añadir la página detalle
-- [ ] cambiar dynamic import a fetch de /public, luego a fetch de [raw.githubusercontent.com](https://raw.githubusercontent.com/Lemoncode/master-frontend-lemoncode/master/04-frameworks/03-vue/01_ecommerce_app_final/public/books.mock.json).
+- [ ] cambiar dynamic import a fetch de /public, luego a fetch de [raw.githubusercontent.com](https://github.com/Lemoncode/master-frontend-lemoncode/blob/a40dd5852e7f199b7ca90a207177fdcc59c70dcf/04-frameworks/03-vue/05_ecommerce_app_final/public/books.mock.json).
 - [ ] Comprobar cómo se carga el JSON desde la ventana de Red de las DevTools del navegador.

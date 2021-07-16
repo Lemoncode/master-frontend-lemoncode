@@ -252,4 +252,4 @@ Será, de momento, un objeto (`Record`), con `id`s como `keys` y un `CartItem` c
 
 Las `mutations`, `actions` y `getters` son objetos que tienen funciones. En el tipado de la librería los definen como "Trees": `MutationTree`, `ActionTree` y `GetterTree`.
 
-Pero, para simplificar la explicación de Vuex, creo que primero vamos a implementar el store sin tipado. Y se lo añadiremos a continuación. Si queréis ver un ejemplo del sotre con tipado completo podéis ver la implementación en: https://github.com/Lemoncode/master-frontend-lemoncode/tree/master/04-frameworks/03-vue/01_ecommerce_app_final/src/store/Cart
+Pero, para simplificar la explicación de Vuex, creo que primero vamos a implementar el store sin tipado. Y se lo añadiremos a continuación. Si queréis ver un ejemplo del sotre con tipado completo podéis ver la implementación en: https://github.com/Lemoncode/master-frontend-lemoncode/tree/master/04-frameworks/03-vue/05_ecommerce_app_final/src/store/Cart

@@ -1,6 +1,6 @@
 <template>
   <button class="button" type="button" @click.prevent="addItem()">
-    Add to Cart
+    <slot />
   </button>
 </template>
 

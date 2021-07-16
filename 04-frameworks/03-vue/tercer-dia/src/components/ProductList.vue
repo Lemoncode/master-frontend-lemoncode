@@ -2,10 +2,23 @@
   <section class="wrapper">
     <div class="flex align-items-center justify-content-between">
       <h1>Products</h1>
-      total: {{ totalProducts }}
+      total: {{ totalFilteredProducts }}
     </div>
+
+    <div class="categories-filter">
+      <input type="text" v-model="categoriesFilter" />
+      <ul>
+        <li v-for="(category, index) of categoriesFiltered" :key="index">
+          <CategoryFilter
+            :category="category"
+            @selectedCategory="selectCategory"
+          />
+        </li>
+      </ul>
+    </div>
+
     <ul>
-      <li v-for="product in list" :key="product.id">
+      <li v-for="product in filteredList" :key="product.id">
         <router-link :to="`/detail/${product.id}`">
           <article
             class="grid product-container card"
@@ -34,7 +47,9 @@
               <AddToCartButton
                 :product="product"
                 @addItem="($event) => onAddItem($event)"
-              />
+              >
+                <span>Add to cart</span>
+              </AddToCartButton>
             </div>
           </article>
         </router-link>
@@ -44,7 +59,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, Ref, computed } from 'vue'
+import { mapActions } from 'vuex'
 
 import { Product } from '@/types'
 
@@ -52,6 +68,7 @@ import { useProductApi } from '@/composables/productsApi'
 
 import StaticPrice from '@/components/StaticPrice.vue'
 import AddToCartButton from '@/components/AddToCartButton.vue'
+import CategoryFilter from '@/components/CategoryFilter.vue'
 
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
@@ -63,19 +80,71 @@ export default defineComponent({
   components: {
     StaticPrice,
     AddToCartButton,
+    CategoryFilter,
   },
   async setup() {
-    const { list, totalProducts } = await useProductApi()
+    const { list } = await useProductApi()
 
-    const onAddItem = (product: Product) => {
-      console.log(product)
+    const categories = list.value.reduce(
+      (accumulated: string[], current: Product) => {
+        if (!accumulated.some((category) => category === current.category)) {
+          accumulated.push(current.category)
+        }
+        return accumulated
+      },
+      []
+    )
+
+    const selectedCategories: Ref<string[]> = ref([])
+
+    const selectCategory = (category: string) => {
+      if (selectedCategories.value.indexOf(category) === -1) {
+        selectedCategories.value.push(category)
+      } else {
+        selectedCategories.value.splice(
+          selectedCategories.value.indexOf(category),
+          1
+        )
+      }
+      console.log(selectedCategories.value)
     }
+
+    const filteredList = computed<Product[]>(() => {
+      return list.value.filter((product) => {
+        return selectedCategories.value.some((category) => {
+          return category === product.category
+        })
+      })
+    })
+
+    const totalFilteredProducts = computed(() => filteredList.value.length)
+
+    const categoriesFilter: Ref<string> = ref('')
+
+    const categoriesFiltered = computed(() => {
+      return categories.filter((category) => {
+        return String(category.toLowerCase()).match(
+          categoriesFilter.value.toLowerCase()
+        )
+      })
+    })
 
     return {
-      list,
-      totalProducts,
-      onAddItem,
+      categoriesFilter,
+      selectCategory,
+      selectedCategories,
+      filteredList,
+      categoriesFiltered,
+      // totalProducts,
+      totalFilteredProducts,
     }
+  },
+  methods: {
+    ...mapActions('CartModule', ['addItemToCart']),
+    onAddItem(product: Product) {
+      // this.$store.dispatch('CartModule/addItemToCart', product)
+      this.addItemToCart(product)
+    },
   },
 })
 </script>

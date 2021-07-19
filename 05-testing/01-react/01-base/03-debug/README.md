@@ -21,7 +21,47 @@ npm install
 
 Jest is running over node, so we could use VS Code for debugging jest specs:
 
-### Using VS Code
+### Using JavaScript Debug Terminal
+
+Since `jest` is a nodejs process, we could use the integraded `JavaScript Debug Terminal` provided by VS Code.
+
+We could run all specs as `single run` in this terminal and adding some breakpoints:
+
+```bash
+npm test
+
+```
+
+We could run all specs as `watch run` in this terminal and adding some breakpoints:
+
+```bash
+npm run test:watch
+
+```
+
+We could run specs related to specific file or files:
+
+#### ./src/second.spec.ts
+
+```typescript
+describe('second specs', () => {
+  it('should return true', () => {
+    expect(true).toBeTruthy();
+  });
+});
+
+```
+
+```bash
+npm run test:watch calculator
+npm run test:watch calculator.spec
+npm run test:watch spec
+
+```
+
+> Use `p` option in jest's menu.
+
+### Using launch.json
 
 As we know, VS Code provides by default a [node debugger](https://code.visualstudio.com/Docs/editor/debugging):
 
@@ -58,7 +98,8 @@ As we know, VS Code provides by default a [node debugger](https://code.visualstu
 }
 ```
 
-> Maybe you have to disable `usePreview` flag on VSCode settings.
+> Maybe you have to disable `usePreview` flag on VSCode settings if you have some issues:
+>
 > `"debug.javascript.usePreview": false`
 
 - Now we could run specs in debugging mode.
@@ -131,7 +172,6 @@ As we know, VS Code provides by default a [node debugger](https://code.visualstu
 }
 
 ```
-
 
 - If you want more info about configure it, check this [post](https://www.basefactor.com/using-visual-studio-code-to-debug-jest-based-unit-tests)
 

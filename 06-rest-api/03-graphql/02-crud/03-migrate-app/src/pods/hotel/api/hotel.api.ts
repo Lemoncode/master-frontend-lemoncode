@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { gql } from 'graphql-request';
 import { graphQLClient } from 'core/api';
 import { Hotel } from './hotel.api-model';
 import { Lookup } from 'common/models';
@@ -11,7 +12,7 @@ interface GetHotelResponse {
 }
 
 export const getHotel = async (id: string): Promise<Hotel> => {
-  const query = `
+  const query = gql`
     query {
       hotel(id: "${id}") {
         id
@@ -34,7 +35,7 @@ interface GetCitiesResponse {
 }
 
 export const getCities = async (): Promise<Lookup[]> => {
-  const query = `
+  const query = gql`
     query {
       cities {
         id
@@ -52,8 +53,8 @@ interface SaveHotelResponse {
 }
 
 export const saveHotel = async (hotel: Hotel): Promise<boolean> => {
-  const query = `
-    mutation($hotel: HotelInput!) {
+  const query = gql`
+    mutation ($hotel: HotelInput!) {
       saveHotel(hotel: $hotel)
     }
   `;

@@ -190,7 +190,7 @@ type Query {
 
 ```diff
 + query {
-+   repository(name: "graphql-playground-example", owner:"nasdan") {
++   repository(name: "graphql-playground-example", owner:"lemoncode") {
 +     id
 +     name
 +     description
@@ -199,12 +199,14 @@ type Query {
 
 ```
 
+> [Repository](https://github.com/Lemoncode/graphql-playground-example)
+
 - If we want to update the description, we have to use a mutation:
 
 ```diff
 - query {
 + query QueryA {
-  repository(name: "graphql-playground-example", owner:"nasdan") {
+  repository(name: "graphql-playground-example", owner:"lemoncode") {
     id
     name
     description
@@ -213,8 +215,8 @@ type Query {
 
 + mutation MutationA {
 +   updateRepository(input: {
-+     repositoryId: "MDEwOlJlcG9zaXRvcnkyOTc3MjE0Njg="
-+     description: "This is a repository for play with Graphql Playground: https://developer.github.com/v4/explorer/"
++     repositoryId: "<repository-id>"
++     description: "Updated This is a repository for play with Graphql Playground: https://developer.github.com/v4/explorer/"
 +   }) {
 +     repository {
 +       name
@@ -232,8 +234,8 @@ type Query {
 - mutation MutationA {
 + mutation MutationA($repositoryInput: UpdateRepositoryInput!) {
 -   updateRepository(input: {
--     repositoryId: "MDEwOlJlcG9zaXRvcnkyOTc3MjE0Njg="
--     description: "This is a repository for play with Graphql Playground: https://developer.github.com/v4/explorer/"
+-     repositoryId: "<repository-id>"
+-     description: "Updated This is a repository for play with Graphql Playground: https://developer.github.com/v4/explorer/"
 -   }) {
 +   updateRepository(input: $repositoryInput) {
     repository {
@@ -247,8 +249,8 @@ type Query {
 ```json
 {
   "repositoryInput": {
-    "repositoryId": "MDEwOlJlcG9zaXRvcnkyOTc3MjE0Njg=",
-    "description": "Updated This is a repository for play with Graphql Playground: https://developer.github.com/v4/explorer/"
+    "repositoryId": "<repository-id>",
+    "description": "This is a repository for play with Graphql Playground: https://developer.github.com/v4/explorer/"
   }
 }
 ```

@@ -20,7 +20,7 @@ npm install
 
 # Libraries
 
-- We are going to install a library to work with graphql in front side, [graphql-request](https://github.com/prisma-labs/graphql-request).
+- We are going to install a library to work with graphql in front side, [graphql-request](https://github.com/prisma-labs/graphql-request). Make sure you are over `root` folder in terminal
 
 ```bash
 npm install graphql-request graphql --save
@@ -33,6 +33,7 @@ npm install graphql-request graphql --save
 
 - [relay](https://github.com/facebook/relay)
 - [apollo-client](https://github.com/apollographql/apollo-client)
+- [axios](https://github.com/axios/axios): We could create grapqhl queries using axios too.
 
 # Config
 

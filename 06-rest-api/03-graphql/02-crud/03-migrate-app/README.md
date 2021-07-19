@@ -61,9 +61,22 @@ export const resolvers = {
 
 - We can play with graphql development tool at [http://localhost:3000/graphql](http://localhost:3000/graphql)
 
-- Now, it's time to update `hotel-edit` api:
+- Example query:
 
-### ./src/pods/hotel-edit/api/hotel-edit.api.ts
+```graphql
+query {
+  hotel(id:"<replace-by-id>") {
+    id
+    name
+    city
+  }
+}
+
+```
+
+- Now, it's time to update `hotel` api:
+
+### ./src/pods/hotel/api/hotel.api.ts
 
 ```diff
 import Axios from 'axios';
@@ -104,6 +117,8 @@ export const getHotel = async (id: string): Promise<Hotel> => {
 
 ```
 
+> Check `Chrome Network` content size.
+
 - Let's implement save hotel. We will create an [input](https://graphql.org/learn/schema/#input-types) type to model hotel editing fields:
 
 ### ./server/src/graphql/type-defs.ts
@@ -137,15 +152,14 @@ export const getHotel = async (id: string): Promise<Hotel> => {
 ### ./server/src/graphql/resolvers.ts
 
 ```diff
-- import { getHotelList, Hotel, getHotel } from '../db';
-+ import {
-+   getHotelList,
-+   Hotel,
-+   getHotel,
-+   insertHotel,
-+   updateHotel,
-+   HotelEdit,
-+ } from '../db';
+import {
+  getHotelList,
+  Hotel,
+  getHotel,
++ insertHotel,
++ updateHotel,
++ HotelEdit,
+} from '../db';
 
 + interface SaveHotelArgs {
 +   hotel: HotelEdit;
@@ -172,7 +186,7 @@ export const resolvers = {
 - Give a try using the following query at [http://localhost:3000/graphql](http://localhost:3000/graphql):
 
 ```graphql
-mutation {
+mutation InsertHotel {
   saveHotel(hotel: {
     id: ""
     name: "New name"
@@ -183,9 +197,20 @@ mutation {
   })
 }
 
-mutation {
+query GetHotels {
+  hotels {
+    id
+    name
+    address1
+    city
+    hotelRating
+    shortDescription
+  }
+}
+
+mutation UpdateHotel {
   saveHotel(hotel: {
-    id: "0248058a-27e4-11e6-ace6-a9876eff01b3"
+    id: "<replace-by-id>"
     name: "Updated name"
     address1: "Updated address1"
     city: "Chicago"
@@ -193,20 +218,24 @@ mutation {
     shortDescription: "Updated shortDescription"
   })
 }
+
 ```
 
 - We can use a [variable](https://graphql.org/learn/queries/#variables) too:
 
 ```graphql
-mutation($hotel: HotelInput!) {
+mutation UpdateHotel($hotel: HotelInput!) {
   saveHotel(hotel: $hotel)
 }
+
 ```
+
+`QUERY VARIABLES`
 
 ```json
 {
   "hotel": {
-    "id": "0248058a-27e4-11e6-ace6-a9876eff01b3",
+    "id": "<replace-by-id>",
     "name": "Using variable name",
     "address1": "Using variable address1",
     "city": "Seattle",
@@ -216,9 +245,9 @@ mutation($hotel: HotelInput!) {
 }
 ```
 
-- Now, it's time to update `hotel-edit` api again:
+- Now, it's time to update `hotel` api again:
 
-### ./src/pods/hotel-edit/api/hotel-edit.api.ts
+### ./src/pods/hotel/api/hotel.api.ts
 
 ```diff
 ...
@@ -309,7 +338,7 @@ export const resolvers = {
 
 ```
 
-### ./src/pods/hotel-edit/api/hotel-edit.api.ts
+### ./src/pods/hotel/api/hotel.api.ts
 
 ```diff
 ...

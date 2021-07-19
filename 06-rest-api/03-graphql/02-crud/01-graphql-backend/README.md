@@ -41,18 +41,31 @@ import express from 'express';
 import path from 'path';
 + import { ApolloServer } from 'apollo-server-express';
 import { hotelApi, cityApi } from './api';
-...
-+ const graphqlServer = new ApolloServer({});
-+ graphqlServer.applyMiddleware({ app });
 
-app.listen(PORT, () => {
-  console.log(`Server running http://localhost:${PORT}`);
-+ console.log(
-+   `GraphQL server ready at http://localhost:${PORT}${graphqlServer.graphqlPath}`
-+ );
-});
+const PORT = 3000;
++ (async function () {
+    const app = express();
+    app.use(express.json());
++   const graphqlServer = new ApolloServer({});
++   await graphqlServer.start();
++   graphqlServer.applyMiddleware({ app });
+
+    const publicPath = path.resolve(__dirname, './public');
+    app.use(express.static(publicPath));
+    app.use('/api/hotels', hotelApi);
+    app.use('/api/cities', cityApi);
+
+    app.listen(PORT, () => {
+      console.log(`Server running http://localhost:${PORT}`);
++     console.log(
++       `GraphQL server ready at http://localhost:${PORT}${graphqlServer.graphqlPath}`
++     );
+    });
++ })();
 
 ```
+
+> Since v3 we have to use `graphqlServer.start` method. [Reference](https://github.com/apollographql/apollo-server/blob/main/CHANGELOG.md#changes-to-nodejs-framework-integrations)
 
 - Let's create a dummy endpoint to test it:
 
@@ -62,7 +75,8 @@ app.listen(PORT, () => {
 ...
 - import { ApolloServer } from 'apollo-server-express';
 + import { ApolloServer, gql } from 'apollo-server-express';
-...
+import { hotelApi, cityApi } from './api';
+
 + const typeDefs = gql`
 +   type Query {
 +     hello: String!
@@ -77,12 +91,19 @@ app.listen(PORT, () => {
 +   },
 + };
 
+const PORT = 3000;
+(async function () {
+  const app = express();
+  app.use(express.json());
 - const graphqlServer = new ApolloServer({});
 + const graphqlServer = new ApolloServer({
 +   typeDefs,
 +   resolvers,
 + });
+  await graphqlServer.start();
+  graphqlServer.applyMiddleware({ app });
 ...
+
 ```
 
 - Let's run it. Make sure you are over `server` folder in terminal:
@@ -94,8 +115,53 @@ npm start
 > Open GraphQL server at [http://localhost:3000/graphql](http://localhost:3000/graphql)
 >
 > Check grapql tool, only available at development mode
+>
 > Check docs
+>
 > All queries are stored in localStorage.
+>
+> We could enable previous [GraphQL Playground](https://www.apollographql.com/docs/apollo-server/migration/#graphql-playground)
+
+Example query:
+
+```graphql
+query {
+  hello
+}
+```
+
+- Enable `previous Playground`:
+
+### ./server/src/index.ts
+
+```diff
+...
+import { ApolloServer, gql } from 'apollo-server-express';
++ import {
++   ApolloServerPluginLandingPageGraphQLPlayground,
++   ApolloServerPluginLandingPageDisabled,
++ } from 'apollo-server-core';
+import { hotelApi, cityApi } from './api';
+
+...
+
+const PORT = 3000;
+(async function () {
+  const app = express();
+  app.use(express.json());
+  const graphqlServer = new ApolloServer({
+    typeDefs,
+    resolvers,
++   plugins: [
++     process.env.NODE_ENV === 'production'
++       ? ApolloServerPluginLandingPageDisabled()
++       : ApolloServerPluginLandingPageGraphQLPlayground(),
++   ],
+  });
+  await graphqlServer.start();
+ ...
+
+```
 
 - Now, we can start implementing `hotel` GraphQL Schema:
 
@@ -141,6 +207,7 @@ export const resolvers = {
     },
   },
 };
+
 ```
 
 - Let's create `barrel` file:
@@ -150,6 +217,7 @@ export const resolvers = {
 ```javascript
 export * from './type-defs';
 export * from './resolvers';
+
 ```
 
 - And use it:
@@ -159,10 +227,12 @@ export * from './resolvers';
 ```diff
 - import { ApolloServer, gql } from 'apollo-server-express';
 + import { ApolloServer } from 'apollo-server-express';
+import {
+  ApolloServerPluginLandingPageGraphQLPlayground,
+  ApolloServerPluginLandingPageDisabled,
+} from 'apollo-server-core';
 import { hotelApi } from './api';
 + import { typeDefs, resolvers } from './graphql';
-
-...
 
 - const typeDefs = gql`
 -   type Query {

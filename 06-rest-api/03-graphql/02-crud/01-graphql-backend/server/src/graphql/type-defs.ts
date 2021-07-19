@@ -17,4 +17,4 @@ export const typeDefs = gql`
   type Query {
     hotels: [Hotel!]!
   }
-`
+`;

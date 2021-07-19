@@ -30,7 +30,7 @@ export const getNameCollection = (): Promise<string[]> =>
 ### ./src/name-collection.tsx
 
 ```javascript
-import * as React from 'react';
+import React from 'react';
 import { getNameCollection } from './name-api';
 
 export const NameCollection: React.FunctionComponent = () => {
@@ -57,7 +57,7 @@ export const NameCollection: React.FunctionComponent = () => {
 ### ./src/app.tsx
 
 ```diff
-import * as React from 'react';
+import React from 'react';
 import { NameEdit } from './name-edit';
 + import { NameCollection } from './name-collection';
 
@@ -78,7 +78,7 @@ export const App: React.FunctionComponent = () => {
 ### ./src/name-collection.spec.tsx
 
 ```javascript
-import * as React from 'react';
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { NameCollection } from './name-collection';
 
@@ -96,7 +96,7 @@ describe('NameCollection component specs', () => {
 ### ./src/name-collection.spec.tsx
 
 ```diff
-import * as React from 'react';
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 + import * as api from './name-api';
 import { NameCollection } from './name-collection';
@@ -121,6 +121,8 @@ describe('NameCollection component specs', () => {
 });
 
 ```
+
+> [Find queries](https://testing-library.com/docs/dom-testing-library/api-async#findby-queries)
 
 - How to check if there is no element?
 
@@ -169,30 +171,116 @@ describe('NameCollection component specs', () => {
 
 ```
 
-- should display a list with two items when it mounts the component and it resolves the async call:
+> [Query](https://testing-library.com/docs/guide-disappearance/#asserting-elements-are-not-present)
+
+- Sometimes, we need to wait for some element to be removed and check it:
+
+### ./src/name-collection.tsx
+
+```diff
+import React from 'react';
+import { getNameCollection } from './name-api';
+
++ interface Props {
++   initialNameCollection?: string[];
++ }
+
+- export const NameCollection: React.FunctionComponent = () => {
++ export const NameCollection: React.FunctionComponent<Props> = (props) => {
+- const [nameCollection, setNameCollection] = React.useState([]);
++ const [nameCollection, setNameCollection] = React.useState(
++   props.initialNameCollection || []
++ );
+
+  React.useEffect(() => {
+    getNameCollection().then(names => {
+      setNameCollection(names);
+    });
+  }, []);
+
+  return (
+    <ul>
+      {nameCollection.map(name => (
+        <li key={name}>{name}</li>
+      ))}
+    </ul>
+  );
+};
+
+```
 
 ### ./src/name-collection.spec.tsx
 
 ```diff
+import React from 'react';
+- import { render, screen } from '@testing-library/react';
++ import { render, screen, waitFor } from '@testing-library/react';
+import * as api from './name-api';
+import { NameCollection } from './name-collection';
 ...
 
-+ it('should display a list with two items when it mounts the component and it resolves the async call', async () => {
++ it('should remove initial list when it mounts the component and it resolves the async call', async () => {
 +   // Arrange
++   const initialNameCollection = ['initial-user'];
 +   const getStub = jest
 +     .spyOn(api, 'getNameCollection')
-+     .mockResolvedValue(['John Doe', 'Jane Doe']);
++     .mockResolvedValue(['John Doe']);
 
 +   // Act
-+   render(<NameCollection />);
++   render(<NameCollection initialNameCollection={initialNameCollection} />);
 
-+   const items = await screen.findAllByRole('listitem');
++   const initialItems = screen.getAllByRole('listitem');
++   expect(initialItems).toHaveLength(1);
++   expect(initialItems[0].textContent).toEqual('initial-user');
 
-+   // Assert
-+   expect(items).toHaveLength(2);
-+   expect(items[0].textContent).toEqual('John Doe');
-+   expect(items[1].textContent).toEqual('Jane Doe');
-+   expect(getStub).toHaveBeenCalled();
++   await waitFor(() => {
++     // Assert
++     expect(screen.queryByText('initial-user')).not.toBeInTheDocument();
++   });
 + });
+
+```
+
+> NOTE: we could use `waitFor` for async code inside components which we cannot check it with `findBy`.
+
+Or using `waitForElementToBeRemoved`:
+
+### ./src/name-collection.spec.tsx
+
+```diff
+import React from 'react';
+import {
+  render,
+  screen,
+- waitFor,
++ waitForElementToBeRemoved,
+} from '@testing-library/react';
+import * as api from './name-api';
+import { NameCollection } from './name-collection';
+
+...
+
+  it('should remove initial list when it mounts the component and it resolves the async call', async () => {
+    // Arrange
+    const initialNameCollection = ['initial-user'];
+    const getStub = jest
+      .spyOn(api, 'getNameCollection')
+      .mockResolvedValue(['John Doe']);
+
+    // Act
+    render(<NameCollection initialNameCollection={initialNameCollection} />);
+
+    const initialItems = screen.getAllByRole('listitem');
+    expect(initialItems).toHaveLength(1);
+    expect(initialItems[0].textContent).toEqual('initial-user');
+
+-   await waitFor(() => {
++   await waitForElementToBeRemoved(screen.queryByText('initial-user'));
+
+    // Assert
+    expect(screen.queryByText('initial-user')).not.toBeInTheDocument();
+-   });
+  });
 
 ```
 

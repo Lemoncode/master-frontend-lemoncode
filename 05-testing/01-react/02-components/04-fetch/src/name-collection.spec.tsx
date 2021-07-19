@@ -1,5 +1,9 @@
-import * as React from 'react';
-import { render, screen } from '@testing-library/react';
+import React from 'react';
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import * as api from './name-api';
 import { NameCollection } from './name-collection';
 
@@ -23,21 +27,23 @@ describe('NameCollection component specs', () => {
     expect(getStub).toHaveBeenCalled();
   });
 
-  it('should display a list with two items when it mounts the component and it resolves the async call', async () => {
+  it('should remove initial list when it mounts the component and it resolves the async call', async () => {
     // Arrange
+    const initialNameCollection = ['initial-user'];
     const getStub = jest
       .spyOn(api, 'getNameCollection')
-      .mockResolvedValue(['John Doe', 'Jane Doe']);
+      .mockResolvedValue(['John Doe']);
 
     // Act
-    render(<NameCollection />);
+    render(<NameCollection initialNameCollection={initialNameCollection} />);
 
-    const items = await screen.findAllByRole('listitem');
+    const initialItems = screen.getAllByRole('listitem');
+    expect(initialItems).toHaveLength(1);
+    expect(initialItems[0].textContent).toEqual('initial-user');
+
+    await waitForElementToBeRemoved(screen.queryByText('initial-user'));
 
     // Assert
-    expect(items).toHaveLength(2);
-    expect(items[0].textContent).toEqual('John Doe');
-    expect(items[1].textContent).toEqual('Jane Doe');
-    expect(getStub).toHaveBeenCalled();
+    expect(screen.queryByText('initial-user')).not.toBeInTheDocument();
   });
 });

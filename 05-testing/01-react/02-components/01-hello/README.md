@@ -24,7 +24,7 @@ npm install @testing-library/react -D
 ### ./src/say-hello.tsx
 
 ```javascript
-import * as React from 'react';
+import React from 'react';
 
 interface Props {
   person: string;
@@ -41,7 +41,7 @@ export const SayHello: React.FunctionComponent<Props> = (props) => {
 ### ./src/say-hello.spec.tsx
 
 ```javascript
-import * as React from 'react';
+import React from 'react';
 import { render } from '@testing-library/react';
 import { SayHello } from './say-hello';
 
@@ -60,6 +60,24 @@ describe('SayHello component specs', () => {
   });
 });
 ```
+
+- Why it's failing? Because the default `jest running environment` is NodeJS, we could select `jsdom`:
+
+### ./config/test/jest.js
+
+```diff
+module.exports = {
+  rootDir: '../../',
+  preset: 'ts-jest',
+  restoreMocks: true,
++ testEnvironment: 'jsdom',
+};
+
+```
+
+> [Jest Docs](https://jestjs.io/docs/configuration#testenvironment-string)
+>
+> [jsdom Docs](https://github.com/jsdom/jsdom)
 
 - Another approach is to use `snapshot testing`:
 
@@ -83,7 +101,7 @@ describe('SayHello component specs', () => {
 
 - It will add a file like:
 
-### ./src/**snapshots**/say-hello.spec.tsx.snap
+### ./src/\_\_snapshots\_\_/say-hello.spec.tsx.snap
 
 ```
 // Jest Snapshot v1, https://goo.gl/fbAQLP
@@ -126,6 +144,7 @@ module.exports = {
   rootDir: '../../',
   preset: 'ts-jest',
   restoreMocks: true,
+  testEnvironment: 'jsdom',
 + setupFilesAfterEnv: ['<rootDir>/config/test/setup-after.ts'],
 };
 
@@ -162,7 +181,7 @@ module.exports = {
 ### ./src/say-hello.spec.tsx
 
 ```diff
-import * as React from 'react';
+import React from 'react';
 - import { render } from '@testing-library/react';
 + import { render, screen } from '@testing-library/react';
 import { SayHello } from './say-hello';
@@ -211,7 +230,7 @@ describe('SayHello component specs', () => {
 ### ./src/say-hello.tsx
 
 ```diff
-import * as React from 'react';
+import React from 'react';
 
 interface Props {
   person: string;
@@ -232,7 +251,7 @@ export const SayHello: React.FunctionComponent<Props> = (props) => {
 ### ./src/say-hello.tsx
 
 ```diff
-import * as React from 'react';
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { SayHello } from './say-hello';
 

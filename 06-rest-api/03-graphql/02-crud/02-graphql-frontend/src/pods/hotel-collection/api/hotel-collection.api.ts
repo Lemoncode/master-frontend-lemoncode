@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { gql } from 'graphql-request';
 import { graphQLClient } from 'core/api';
 import { HotelEntityApi } from './hotel-collection.api-model';
 
@@ -9,7 +10,7 @@ interface GetHotelCollectionResponse {
 }
 
 export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
-  const query = `
+  const query = gql`
     query {
       hotels {
         id

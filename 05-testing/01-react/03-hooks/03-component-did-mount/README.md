@@ -74,43 +74,6 @@ export const useUser = (initialUser: User) => {
 
 ```
 
-- Update second spec:
-
-### ./src/user.hooks.spec.ts
-
-```diff
-...
-- it('should update user when it calls setUser', () => {
-+ it('should update user when it calls setUser', async () => {
-    // Arrange
-    const initialUser: User = {
-      name: 'John',
-      surname: 'Doe',
-    };
-
-    // Act
--   const { result } = renderHook(() => useUser(initialUser));
-+   const { result, waitForNextUpdate } = renderHook(() =>
-+     useUser(initialUser)
-+   );
-
-+   await waitForNextUpdate();
-
-    act(() => {
-      result.current.setUser({
-        name: 'updated name',
-        surname: 'updated surname',
-      });
-    });
-
-    // Assert
-    expect(result.current.user).toEqual({
-      name: 'updated name',
-      surname: 'updated surname',
-    });
-  });
-```
-
 # About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.

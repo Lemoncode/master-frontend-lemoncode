@@ -11,7 +11,9 @@ describe('useLanguage specs', () => {
       wrapper: LanguageProvider,
     });
 
-    result.current.setLanguage('es');
+    act(() => {
+      result.current.setLanguage('es');
+    });
 
     // Assert
     expect(result.current.message).toEqual('The current language is: es');

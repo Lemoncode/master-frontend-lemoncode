@@ -1,9 +1,15 @@
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { getNameCollection } from './name-api';
 
-export const NameCollection: React.FunctionComponent = () => {
-  const [nameCollection, setNameCollection] = React.useState([]);
+interface Props {
+  initialNameCollection?: string[];
+}
+
+export const NameCollection: React.FunctionComponent<Props> = (props) => {
+  const [nameCollection, setNameCollection] = React.useState(
+    props.initialNameCollection || []
+  );
 
   React.useEffect(() => {
     getNameCollection().then((names) => {

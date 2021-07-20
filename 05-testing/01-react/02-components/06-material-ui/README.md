@@ -12,49 +12,59 @@ We will start from `05-router`.
 npm install
 ```
 
-- Let's create a simple material-ui `Card`:
+- Let's create a simple material-ui `Dialog`:
 
-### ./src/card.tsx
+### ./src/cookies-dialog.tsx
 
 ```javascript
-import * as React from 'react';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
+import React from 'react';
 import Button from '@material-ui/core/Button';
-
-const useStyles = makeStyles(
-  createStyles({
-    card: {
-      maxWidth: 300,
-    },
-  })
-);
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 interface Props {
-  title: string;
-  body: string;
-  onClick: () => void;
+  onAgreeClick: () => void;
 }
 
-export const CardComponent: React.FunctionComponent<Props> = props => {
-  const { title, body, onClick } = props;
-  const classes = useStyles(props);
+export const CookiesDialog: React.FunctionComponent<Props> = (props) => {
+  const { onAgreeClick } = props;
+  const [open, setOpen] = React.useState(false);
+
+  const handleAgreeClick = () => {
+    setOpen(false);
+    onAgreeClick();
+  };
 
   return (
-    <Card className={classes.card}>
-      <CardHeader title={title} />
-      <CardContent>{body}</CardContent>
-      <CardActions>
-        <Button color="primary" onClick={onClick}>
-          Learn more
-        </Button>
-      </CardActions>
-    </Card>
+    <>
+      <Button variant="outlined" onClick={() => setOpen(true)}>
+        Learn more about our cookies
+      </Button>
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>About cookies</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Any information that you voluntarily provide to us, including your
+            name and email address, will be used for the sole purpose for which
+            the information was provided to us. In addition, communication
+            exchanges on this website are public (not private) communications.
+            Therefore, any message that you post on this website will be
+            considered and treated as available for public use and distribution.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button color="primary" onClick={handleAgreeClick}>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
+
 ```
 
 - Use it:
@@ -62,19 +72,19 @@ export const CardComponent: React.FunctionComponent<Props> = props => {
 ### ./src/app.tsx
 
 ```diff
-import * as React from 'react';
+import React from 'react';
 import { Router } from './router';
-+ import { CardComponent } from './card';
++ import { CookiesDialog } from './cookies-dialog';
 
 export const App: React.FunctionComponent = () => {
   return (
     <>
       <h1>05-Testing / 01 React</h1>
       <Router />
-+     <CardComponent
-+       title="Card title"
-+       body="Card body"
-+       onClick={console.log}
++     <CookiesDialog
++       onAgreeClick={() => {
++         console.log('Click agree');
++       }}
 +     />
     </>
   );
@@ -84,77 +94,115 @@ export const App: React.FunctionComponent = () => {
 
 - Let's add some specs:
 
-### ./src/card.spec.tsx
+### ./src/cookies-dialog.spec.tsx
 
 ```javascript
-import * as React from 'react';
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { CardComponent } from './card';
+import { CookiesDialog } from './cookies-dialog';
 
-describe('Card component specs', () => {
+describe('CookiesDialog component specs', () => {
   it('', () => {
     // Arrange
     // Act
     // Assert
   });
 });
+
 ```
 
-- should display a card with title and body when it feeds a title and body:
+- should display a button with text "Learn more about our cookies":
 
-### ./src/card.spec.tsx
+### ./src/cookies-dialog.spec.tsx
 
 ```diff
 ...
 
-describe('Card component specs', () => {
+describe('CookiesDialog component specs', () => {
 - it('', () => {
-+ it('should display a card with title and body when it feeds a title and body', () => {
++ it('should display a button with text "Learn more about our cookies"', () => {
     // Arrange
 +   const props = {
-+     title: 'Test title',
-+     body: 'Test body',
-+     onClick: jest.fn(),
++     onAgreeClick: jest.fn(),
 +   };
 
     // Act
-+   render(<CardComponent {...props} />);
++   render(<CookiesDialog {...props} />);
 
-+   const titleElement = screen.getByText(props.title);
-+   const bodyElement = screen.getByText(props.body);
++   const buttonElement = screen.getByRole('button', {
++     name: /learn more about our cookies/i,
++   });
 
     // Assert
-+   expect(titleElement).toBeInTheDocument();
-+   expect(bodyElement).toBeInTheDocument();
++   expect(buttonElement).toBeInTheDocument();
   });
 });
 
 ```
 
-- should call onClick property when it clicks on "Learn more" button:
+- should open a dialog when click on "learn more..." button:
 
-### ./src/card.spec.tsx
+### ./src/cookies-dialog.spec.tsx
 
 ```diff
 ...
 
-+ it('should call onClick property when it clicks on "Learn more" button', () => {
++ it('should open dialog when click on "Learn more about our cookies" button', () => {
 +   // Arrange
 +   const props = {
-+     title: 'Test title',
-+     body: 'Test body',
-+     onClick: jest.fn(),
++     onAgreeClick: jest.fn(),
 +   };
 
 +   // Act
-+   render(<CardComponent {...props} />);
++   render(<CookiesDialog {...props} />);
 
-+   const buttonElement = screen.getByRole('button', { name: 'Learn more' });
++   const buttonElement = screen.getByRole('button', {
++     name: /learn more about our cookies/i,
++   });
 +   userEvent.click(buttonElement);
 
++   const dialogElement = screen.getByRole('dialog');
+
 +   // Assert
-+   expect(props.onClick).toHaveBeenCalled();
++   expect(dialogElement).toBeInTheDocument();
++ });
+
+```
+
+> Instead of get title element text, we should get element by role when it's available.
+
+- should call onAgreeClick when it clicks on "Agree" button:
+
+```diff
+import React from 'react';
+- import { render, screen } from '@testing-library/react';
++ import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { CookiesDialog } from './cookies-dialog';
+
+...
+
++ it('should call onAgreeClick when it clicks on "Agree" button', () => {
++   // Arrange
++   const props = {
++     onAgreeClick: jest.fn(),
++   };
+
++   // Act
++   render(<CookiesDialog {...props} />);
+
++   // The only button available at this moment
++   const buttonElement = screen.getByRole('button');
++   userEvent.click(buttonElement);
+
++   const dialogElement = screen.getByRole('dialog');
+
++   const agreeButtonElement = within(dialogElement).getByRole('button');
++   userEvent.click(agreeButtonElement);
+
++   // Assert
++   expect(props.onAgreeClick).toHaveBeenCalled();
 + });
 
 ```

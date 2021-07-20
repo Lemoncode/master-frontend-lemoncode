@@ -7,8 +7,8 @@ describe('useName specs', () => {
 
     // Act
     const { result } = renderHook(() => useName());
-
     // Assert
+
     expect(result.current.name).toEqual('John Doe');
     expect(result.current.setName).toEqual(expect.any(Function));
   });

@@ -23,7 +23,7 @@ npm install @testing-library/react-hooks react-test-renderer -D
 ### ./src/name.hooks.ts
 
 ```javascript
-import * as React from 'react';
+import React from 'react';
 
 export const useName = () => {
   const [name, setName] = React.useState('John Doe');

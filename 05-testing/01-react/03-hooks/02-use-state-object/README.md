@@ -27,7 +27,7 @@ export interface User {
 ### ./src/user.hooks.ts
 
 ```javascript
-import * as React from 'react';
+import React from 'react';
 import { User } from './model';
 
 export const useUser = (initialUser: User) => {

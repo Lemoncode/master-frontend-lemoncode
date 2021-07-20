@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { User } from './model';
 
 export const useUser = (initialUser: User) => {

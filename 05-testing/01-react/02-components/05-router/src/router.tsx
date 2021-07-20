@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import { NameCollection } from './name-collection';
 import { UserEdit } from './user-edit';

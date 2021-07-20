@@ -17,7 +17,7 @@ npm install
 ### ./src/user-edit.tsx
 
 ```javascript
-import * as React from 'react';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
 interface ParamProps {
@@ -36,7 +36,7 @@ export const UserEdit: React.FunctionComponent<Props> = (props) => {
 ### ./src/router.tsx
 
 ```javascript
-import * as React from 'react';
+import React from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import { NameCollection } from './name-collection';
 import { UserEdit } from './user-edit';
@@ -58,7 +58,7 @@ export const Router: React.FunctionComponent = () => {
 ### ./src/app.tsx
 
 ```diff
-import * as React from 'react';
+import React from 'react';
 - import { NameEdit } from './name-edit';
 - import { NameCollection } from './name-collection';
 + import { Router } from './router';
@@ -81,7 +81,7 @@ export const App: React.FunctionComponent = () => {
 ### ./src/name-collection.tsx
 
 ```diff
-import * as React from 'react';
+import React from 'react';
 + import { Link } from 'react-router-dom';
 import { getNameCollection } from './name-api';
 
@@ -114,9 +114,13 @@ npm run test:watch
 > Note: [testing with react-router](https://testing-library.com/docs/example-react-router)
 
 ```diff
-import * as React from 'react';
+import React from 'react';
 + import { HashRouter, Switch, Route } from 'react-router-dom';
-import { render, screen } from '@testing-library/react';
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import * as api from './name-api';
 + import { UserEdit } from './user-edit';
 import { NameCollection } from './name-collection';
@@ -141,12 +145,14 @@ import { NameCollection } from './name-collection';
     ...
   });
 
-  it('should display a list with two items when it mounts the component and it resolves the async call', async () => {
+  it('should remove initial list when it mounts the component and it resolves the async call', async () => {
     ...
 
     // Act
--   render(<NameCollection />);
-+   renderWithRouter(<NameCollection />);
+-   render(<NameCollection initialNameCollection={initialNameCollection} />);
++   renderWithRouter(
++     <NameCollection initialNameCollection={initialNameCollection} />
++   );
 
     ...
   });
@@ -159,9 +165,13 @@ import { NameCollection } from './name-collection';
 ### ./src/name-collection.spec.tsx
 
 ```diff
-import * as React from 'react';
+import React from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
-import { render, screen } from '@testing-library/react';
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 + import userEvent from '@testing-library/user-event';
 import * as api from './name-api';
 import { UserEdit } from './user-edit';

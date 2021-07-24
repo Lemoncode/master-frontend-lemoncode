@@ -147,8 +147,7 @@ describe('dummy specs', () => {
 - },
 + }
 - "jest": {
--   "preset": "ts-jest",
--   "restoreMocks": true
+-   "preset": "ts-jest"
 - }
 }
 

@@ -114,7 +114,7 @@ describe('mapper specs', () => {
 +   const members: apiModel.Member[] = undefined;
 
     // Act
-+   const result: viewModel.Member[] = mapToMemberVMList(members);
++   const result: viewModel.Member[] = mapMemberLitFromApiToVm(members);
 
     // Assert
 +   expect(result).toEqual([]);
@@ -131,7 +131,7 @@ describe('mapper specs', () => {
 import * as apiModel from './api-model';
 import * as viewModel from './view-model';
 
-export const mapToMemberVMList = (
+export const mapMemberLitFromApiToVm = (
   members: apiModel.Member[]
 ): viewModel.Member[] => [];
 ```
@@ -143,7 +143,7 @@ export const mapToMemberVMList = (
 ```diff
 import * as apiModel from './api-model';
 import * as viewModel from './view-model';
-+ import { mapToMemberVMList } from './mapper';
++ import { mapMemberLitFromApiToVm } from './mapper';
 ...
 
 ```
@@ -160,7 +160,7 @@ import * as viewModel from './view-model';
 +   const members: apiModel.Member[] = null;
 
 +   // Act
-+   const result: viewModel.Member[] = mapToMemberVMList(members);
++   const result: viewModel.Member[] = mapMemberLitFromApiToVm(members);
 
 +   // Assert
 +   expect(result).toEqual([]);
@@ -181,7 +181,7 @@ import * as viewModel from './view-model';
 +   const members: apiModel.Member[] = [];
 
 +   // Act
-+   const result: viewModel.Member[] = mapToMemberVMList(members);
++   const result: viewModel.Member[] = mapMemberLitFromApiToVm(members);
 
 +   // Assert
 +   expect(result).toEqual([]);
@@ -204,7 +204,7 @@ import * as viewModel from './view-model';
 +   ];
 
 +   // Act
-+   const result: viewModel.Member[] = mapToMemberVMList(members);
++   const result: viewModel.Member[] = mapMemberLitFromApiToVm(members);
 
 +   // Assert
 +   const expectedResult: viewModel.Member[] = [
@@ -228,12 +228,12 @@ import * as viewModel from './view-model';
 import * as apiModel from './api-model';
 import * as viewModel from './view-model';
 
-export const mapToMemberVMList = (
+export const mapMemberLitFromApiToVm = (
   members: apiModel.Member[]
 - ): viewModel.Member[] => [];
-+ ): viewModel.Member[] => members.map(member => mapToMemberVM(member));
++ ): viewModel.Member[] => members.map(member => mapMemberFromApiToVm(member));
 
-+ const mapToMemberVM = (member: apiModel.Member): viewModel.Member => ({
++ const mapMemberFromApiToVm = (member: apiModel.Member): viewModel.Member => ({
 +   id: member.id.toString(),
 +   login: member.login,
 +   avatarUrl: member.avatar_url,
@@ -247,12 +247,12 @@ export const mapToMemberVMList = (
 
 ```diff
 
-export const mapToMemberVMList = (
+export const mapMemberLitFromApiToVm = (
   members: apiModel.Member[]
-- ): viewModel.Member[] => members.map(member => mapToMemberVM(member));
+- ): viewModel.Member[] => members.map(member => mapMemberFromApiToVm(member));
 + ): viewModel.Member[] =>
 +   members !== undefined
-+   ? members.map(member => mapToMemberVM(member))
++   ? members.map(member => mapMemberFromApiToVm(member))
 +   : [];
 ...
 
@@ -265,12 +265,12 @@ export const mapToMemberVMList = (
 ```diff
 ...
 
-export const mapToMemberVMList = (
+export const mapMemberLitFromApiToVm = (
   members: apiModel.Member[]
 ): viewModel.Member[] =>
 -  members !== undefined
 +  members !== undefined && members !== null
-    ? members.map(member => mapToMemberVM(member))
+    ? members.map(member => mapMemberFromApiToVm(member))
     : [];
 ...
 
@@ -283,12 +283,12 @@ export const mapToMemberVMList = (
 ```diff
 ...
 
-export const mapToMemberVMList = (
+export const mapMemberLitFromApiToVm = (
   members: apiModel.Member[]
 ): viewModel.Member[] =>
 - members !== undefined && members !== null
 + Array.isArray(members)
-    ? members.map(member => mapToMemberVM(member))
+    ? members.map(member => mapMemberFromApiToVm(member))
     : [];
 ...
 
@@ -301,13 +301,13 @@ export const mapToMemberVMList = (
 ```diff
 import * as React from 'react';
 import { getMembers } from './api';
-+ import { mapToMemberVMList } from './mapper';
++ import { mapMemberLitFromApiToVm } from './mapper';
 
 export const App: React.FunctionComponent = () => {
   React.useEffect(() => {
     getMembers().then(members => {
 -     console.log(members);
-+     console.log(mapToMemberVMList(members));
++     console.log(mapMemberLitFromApiToVm(members));
     });
   });
 

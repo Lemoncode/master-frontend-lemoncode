@@ -62,6 +62,12 @@ export const add = (a, b) => a + b;
 
 ```
 
+> Differences between `toEqual` vs `toBe` vs `toStrictEqual`:
+>
+> `toBe` fails if `expect({ id: 1 }).toBe({ id: 1 });`: it's not the same object. We should use `toEqual` if we only want the value not the reference
+>
+> `toStrictEqual` pass if `expect({ id: 1 }).toStrictEqual({ id: 1 });` but it fails if `expect({ id: 1 }).toStrictEqual({ id: 1, name: undefined });`: it should have same fields, even undefined values. We should use `toEqual` if we don't care about it.
+
 - Now, we need passing a method as parameter, whatever it is, we only want to check that it was called and with which arguments:
 
 ### ./src/calculator.ts
@@ -125,12 +131,21 @@ describe("Calculator tests", () => {
 
 - Sometimes, we need to `import` dependencies that we can't pass throught function parameters, we need to import as `external dependency`:
 
-### ./src/business.ts
+### ./src/business/calculator.business.ts
 
 ```javascript
 export const isLowerThanFive = value => {
   console.log(`The value: ${value} is lower than 5`);
 };
+```
+
+- Add barrel file:
+
+### ./src/business/index.ts
+
+```javascript
+export * from './calculator.business';
+
 ```
 
 - Use it:
@@ -197,6 +212,19 @@ describe('Calculator tests', () => {
 
 ```
 
+- Why the second spec is failing? `TypeError: Cannot redefine property: isLowerThanFive`. We could find [many related issues](https://github.com/facebook/jest/issues/880) like this one. We should update the code:
+
+### ./src/calculator.spec.ts
+
+```diff
+import * as calculator from './calculator';
+- import * as business from './business';
++ import * as business from './business/calculator.business';
+
+...
+
+```
+
 > Note: As we see in `console`, the `stub` doesn't replace original function behaviour. We have to mock it if we need it.
 
 - Mocking original behaviour:
@@ -224,9 +252,81 @@ describe('Calculator tests', () => {
 
 ```
 
+- Note, it's important reset the `mocks` implementation:
+
+### ./src/calculator.spec.ts
+
+```diff
+...
+
++   it('should call to original implementation isLowerThanFive', () => {
++     // Arrange
++     const a = 1;
++     const b = 2;
+
++     // Act
++     const result = calculator.add(a, b);
+
++     // Assert
++     expect(result).toEqual(3);
++   });
+
+```
+
+> console.log
+>    This is the result 3
+
+- We should restore all mocks after run them:
+
+### ./src/calculator.spec.ts
+
+```diff
+...
+
+describe('Calculator tests', () => {
++ afterEach(() => {
++   jest.restoreAllMocks();
++ });
+
+  describe('add', () => {
+...
+
+```
+
+Instead of use `restoreAllMocks` on each spec file, we could configure it globally:
+
+### ./config/test/jest.js
+
+```diff
+module.exports = {
+  rootDir: '../../',
+  preset: 'ts-jest',
++ restoreMocks: true,
+};
+
+```
+> [Jest configuration options](https://facebook.github.io/jest/docs/en/configuration.html#options)
+
+### ./src/calculator.spec.ts
+
+```diff
+...
+
+describe('Calculator tests', () => {
+- afterEach(() => {
+-   jest.restoreAllMocks();
+- });
+
+  describe('add', () => {
+...
+
+```
+
+> Run again `npm run test:watch`
+
 - Finally, we could have a business with too much methods, or even, it is exporting an object:
 
-### ./src/business.ts
+### ./src/business/calculator.business.ts
 
 ```diff
 - export const isLowerThanFive = (value) => {
@@ -266,13 +366,15 @@ export const add = (a, b) => {
 ### ./src/calculator.spec.ts
 
 ```diff
-import * as calculator from './calculator'
-import * as business from './business'
+import * as calculator from './calculator';
+import * as business from './business/calculator.business';
 
-+ jest.mock('./business', () => ({
-+   isLowerThan: jest.fn(),
++ jest.mock('./business/calculator.business', () => ({
++   isLowerThan: jest.fn().mockImplementation(() => {
++     console.log('Another implementation');
++   }),
 +   max: 7,
-+ }))
++ }));
 
 describe('Calculator tests', () => {
   describe('add', () => {
@@ -305,6 +407,19 @@ describe('Calculator tests', () => {
 -     expect(isLowerThanFive).toHaveBeenCalledWith(4);
 +     expect(business.isLowerThan).toHaveBeenCalledWith(4, 7);
     })
+
+-   it('should call to original implementation isLowerThanFive', () => {
++   it('should call to original implementation isLowerThan', () => {
+      // Arrange
+      const a = 1;
+      const b = 2;
+
+      // Act
+      const result = calculator.add(a, b);
+
+      // Assert
+      expect(result).toEqual(3);
+    });
   })
 })
 

@@ -23,7 +23,7 @@ npm install
 ### ./src/name-edit.tsx
 
 ```javascript
-import * as React from 'react';
+import React from 'react';
 
 export const NameEdit: React.FunctionComponent = () => {
   const [userName, setUserName] = React.useState('');
@@ -42,7 +42,7 @@ export const NameEdit: React.FunctionComponent = () => {
 ### ./src/app.tsx
 
 ```diff
-import * as React from 'react';
+import React from 'react';
 + import { NameEdit } from './name-edit';
 
 export const App: React.FunctionComponent = () => {
@@ -69,7 +69,7 @@ export const App: React.FunctionComponent = () => {
 ### ./src/name-edit.spec.tsx
 
 ```javascript
-import * as React from 'react';
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { NameEdit } from './name-edit';
 
@@ -96,7 +96,7 @@ describe('NameEdit component specs', () => {
 ### ./src/name-edit.spec.tsx
 
 ```diff
-import * as React from 'react';
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { NameEdit } from './name-edit';
 
@@ -119,7 +119,7 @@ describe('NameEdit component specs', () => {
 
 ```
 
-- should update h3 text when input changes. This library comes with `fireEvent`, it will simply trigger some event over the element but in some cases, [we could have some issues](https://github.com/testing-library/react-testing-library/issues/322). So let's install `@testing-library/user-event` is a package that's built on top of `fireEvent`, but it provides several methods that resemble the user interactions more closely:
+- should update h3 text when input changes. This library comes with `fireEvent`, it will simply trigger some event over the element but in some cases, [we could have some issues](https://github.com/testing-library/react-testing-library/issues/322). So let's install [@testing-library/user-event](https://github.com/testing-library/user-event) is a package that's built on top of `fireEvent`, but it provides several methods that resemble the user interactions more closely:
 
 ```bash
 npm install @testing-library/user-event @testing-library/dom --save-dev
@@ -128,7 +128,7 @@ npm install @testing-library/user-event @testing-library/dom --save-dev
 ### ./src/name-edit.spec.tsx
 
 ```diff
-import * as React from 'react';
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 + import userEvent from '@testing-library/user-event';
 import { NameEdit } from './name-edit';

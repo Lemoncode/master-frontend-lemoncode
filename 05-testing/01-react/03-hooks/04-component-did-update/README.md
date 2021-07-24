@@ -30,7 +30,7 @@ export const getUsersByFilter = filter =>
 ### ./src/filter-user.hooks.ts
 
 ```javascript
-import * as React from 'react';
+import React from 'react';
 import { getUsersByFilter } from './api';
 
 export const useFilterUsers = initialFilter => {

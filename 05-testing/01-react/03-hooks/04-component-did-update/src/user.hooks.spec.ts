@@ -36,11 +36,7 @@ describe('useUser specs', () => {
     };
 
     // Act
-    const { result, waitForNextUpdate } = renderHook(() =>
-      useUser(initialUser)
-    );
-
-    await waitForNextUpdate();
+    const { result } = renderHook(() => useUser(initialUser));
 
     act(() => {
       result.current.setUser({

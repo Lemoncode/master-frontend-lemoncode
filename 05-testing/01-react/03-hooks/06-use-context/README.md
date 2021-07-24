@@ -17,7 +17,7 @@ npm install
 ### ./src/language.context.tsx
 
 ```javascript
-import * as React from 'react';
+import React from 'react';
 
 interface Context {
   language: string;
@@ -56,7 +56,7 @@ export const LanguageProvider: React.FunctionComponent = props => {
 ### ./src/language.hooks.ts
 
 ```javascript
-import * as React from 'react';
+import React from 'react';
 import { LanguageContext } from './language.context';
 
 export const useLanguage = () => {
@@ -127,9 +127,9 @@ describe('useLanguage specs', () => {
 ### ./src/language.hooks.spec.tsx
 
 ```diff
-+ import * as React from 'react';
-import { renderHook } from '@testing-library/react-hooks';
-+ import {LanguageProvider} from './language.context';
++ import React from 'react';
+import { renderHook, act } from '@testing-library/react-hooks';
++ import { LanguageProvider } from './language.context';
 import { useLanguage } from './language.hooks';
 
 describe('useLanguage specs', () => {
@@ -143,7 +143,9 @@ describe('useLanguage specs', () => {
 -   const { result } = renderHook(() => useLanguage());
 +   const { result } = renderHook(() => useLanguage(), { wrapper: provider });
 
-    result.current.setLanguage('es');
+    act(() => {
+      result.current.setLanguage('es');
+    });
 
     // Assert
     expect(result.current.message).toEqual('The current language is: es');
@@ -152,13 +154,15 @@ describe('useLanguage specs', () => {
 
 ```
 
+> Maybe you could have some error due to file rename. Stop and run it again (npm run test:watch).
+
 - Or using LanguageProvider. We can rename to `.ts` again:
 
 ### ./src/language.hooks.spec.tsx
 
 ```diff
-- import * as React from 'react';
-import { renderHook } from '@testing-library/react-hooks';
+- import React from 'react';
+import { renderHook, act } from '@testing-library/react-hooks';
 import { LanguageProvider } from './language.context';
 import { useLanguage } from './language.hooks';
 
@@ -173,7 +177,9 @@ describe('useLanguage specs', () => {
 -   const { result } = renderHook(() => useLanguage(), { wrapper: provider });
 +   const { result } = renderHook(() => useLanguage(), { wrapper: LanguageProvider });
 
-    result.current.setLanguage('es');
+    act(() => {
+      result.current.setLanguage('es');
+    });
 
     // Assert
     expect(result.current.message).toEqual('The current language is: es');
@@ -187,11 +193,6 @@ describe('useLanguage specs', () => {
 ### ./src/language.hooks.spec.ts
 
 ```diff
-- import { renderHook } from '@testing-library/react-hooks';
-+ import { renderHook, act } from '@testing-library/react-hooks';
-import { LanguageProvider } from './language.context';
-import { useLanguage } from './language.hooks';
-
 ...
 
 + it('should return a message with language equals "english" when it call setLanguage with "english"', () => {

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 export const usePolling = () => {
   const [count, setCount] = React.useState(0);

@@ -18,7 +18,7 @@ npm install
 ### ./src/display.tsx
 
 ```javascript
-import * as React from 'react';
+import React from 'react';
 
 interface Props {
   userName: string;
@@ -34,7 +34,7 @@ export const Display: React.FunctionComponent<Props> = (props) => {
 ### ./src/edit.tsx
 
 ```javascript
-import * as React from 'react';
+import React from 'react';
 
 interface Props {
   userName: string;
@@ -55,7 +55,7 @@ export const Edit: React.FunctionComponent<Props> = (props) => {
 ### ./src/name-edit.tsx
 
 ```diff
-import * as React from 'react';
+import React from 'react';
 + import { Display } from './display';
 + import { Edit } from './edit';
 

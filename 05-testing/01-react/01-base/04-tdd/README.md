@@ -16,7 +16,14 @@ Summary steps:
 npm install
 ```
 
-- Let's remove all `calculator` stuff and create a simple `app` to retrieve data from `github`:
+- Let's remove all `calculator` stuff.
+  - `./src/business/calculator.business.ts`
+  - `./src/business/index.ts`
+  - `./src/calculator.spec.ts`
+  - `./src/calculator.ts`
+  - `./src/second.spec.ts`
+
+- Create a simple `app` to retrieve data from `github`:
 
 ### ./src/api-model.ts
 
@@ -261,8 +268,8 @@ export const mapToMemberVMList = (
 export const mapToMemberVMList = (
   members: apiModel.Member[]
 ): viewModel.Member[] =>
-- members !== undefined ? members.map(member => mapToMemberVM(member)) : [];
-+ members !== undefined && members !== null
+-  members !== undefined
++  members !== undefined && members !== null
     ? members.map(member => mapToMemberVM(member))
     : [];
 ...

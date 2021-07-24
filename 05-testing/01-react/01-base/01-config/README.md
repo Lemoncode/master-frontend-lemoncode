@@ -67,7 +67,7 @@ npm install jest @types/jest ts-jest --save-dev
 }
 ```
 
-- [ts-jest basic configuration](https://kulshekhar.github.io/ts-jest/user/config/#basic-usage):
+- [ts-jest basic configuration](https://kulshekhar.github.io/ts-jest/docs/getting-started/presets#basic-usage):
 
 ### ./package.json
 
@@ -79,21 +79,6 @@ npm install jest @types/jest ts-jest --save-dev
 + "jest": {
 +   "preset": "ts-jest"
 + }
-```
-
-- Finally we are going to automatically restore mock state between every test:
-
-### ./package.json
-
-```diff
-{
-  ...
-  "jest": {
--   "preset": "ts-jest"
-+   "preset": "ts-jest",
-+   "restoreMocks": true
-  }
-}
 ```
 
 > [Jest configuration options](https://facebook.github.io/jest/docs/en/configuration.html#options)
@@ -153,7 +138,7 @@ describe('dummy specs', () => {
 
 - One step over, we could be moved jest config outside `package.json` to improve maintainability.
 
-- Move config to `config/test/jest.json` file:
+- Move config to `config/test/jest.js` file:
 
 ### ./package.json
 
@@ -174,7 +159,6 @@ describe('dummy specs', () => {
 ```js
 module.exports = {
   preset: 'ts-jest',
-  restoreMocks: true,
 };
 ```
 
@@ -186,7 +170,6 @@ module.exports = {
 module.exports = {
 + rootDir: '../../',
   preset: 'ts-jest',
-  restoreMocks: true,
 };
 
 

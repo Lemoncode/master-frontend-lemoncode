@@ -18,7 +18,7 @@ describe('usePolling specs', () => {
     // Act
     const { result, waitForNextUpdate } = renderHook(() => usePolling());
 
-    await waitForNextUpdate();
+    await waitForNextUpdate({ timeout: 1500 });
 
     // Assert
     expect(result.current.count).toEqual(1);

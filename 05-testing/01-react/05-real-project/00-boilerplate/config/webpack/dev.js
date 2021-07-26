@@ -1,4 +1,5 @@
 const { merge } = require('webpack-merge');
+const Dotenv = require('dotenv-webpack');
 const base = require('./base');
 const helpers = require('./helpers');
 
@@ -15,4 +16,9 @@ module.exports = merge(base, {
     port: 8080,
     stats: 'minimal',
   },
+  plugins: [
+    new Dotenv({
+      path: 'dev.env',
+    }),
+  ],
 });

@@ -1,6 +1,7 @@
 describe('Hotel collection specs', () => {
   it('should fetch hotel list and show it in screen when visit /hotel-collection url', () => {
     // Arrange
+
     // Act
     cy.visit('/hotel-collection');
 

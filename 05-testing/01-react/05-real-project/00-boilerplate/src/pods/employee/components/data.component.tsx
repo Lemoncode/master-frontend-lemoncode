@@ -4,7 +4,7 @@ import { TextFieldComponent, CheckboxComponent } from 'common/components';
 import produce from 'immer';
 import { CommandFooterComponent } from '../../../common-app/command-footer';
 import * as classes from './data.styles';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import { Employee } from '../employee.vm';
 import { formValidation, validationSchema } from './data.validations';
 import { Validators } from '@lemoncode/fonk';

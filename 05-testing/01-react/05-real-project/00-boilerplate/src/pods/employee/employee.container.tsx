@@ -14,7 +14,7 @@ import { useParams } from 'react-router-dom';
 import { isEditModeHelper } from 'common/helpers';
 
 export const EmployeeContainer: React.FunctionComponent = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [employee, setEmployee] = React.useState<Employee>(
     createEmptyEmployee()
   );

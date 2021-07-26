@@ -1,5 +1,4 @@
 import React from 'react';
-import { hot } from 'react-hot-loader/root';
 import { StylesProvider } from '@material-ui/styles';
 import { setValidatorsMessagesToSpanish } from 'core/i18n';
 import { RouterComponent } from 'core/router';
@@ -29,4 +28,4 @@ const App: React.FunctionComponent = () => {
   );
 };
 
-export default hot(App);
+export default App;

@@ -118,8 +118,8 @@ describe('useFilterUsers specs', () => {
 +   );
 
 +   // Assert
-+   await waitForNextUpdate();
 +   act(() => result.current.setFilter(filter));
++   await waitForNextUpdate();
 
 +   expect(getUsersByFilterSpy).toHaveBeenCalledTimes(1);
 + });
@@ -144,8 +144,8 @@ describe('useFilterUsers specs', () => {
 +   );
 
 +   // Assert
-+   await waitForNextUpdate();
 +   act(() => result.current.setFilter('smith'));
++   await waitForNextUpdate();
 
 +   expect(getUsersByFilterSpy).toHaveBeenCalledTimes(2);
 + });

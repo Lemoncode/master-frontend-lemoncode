@@ -71,6 +71,25 @@ describe('common/components/form/select/select.component specs', () => {
 });
 ```
 
+- Since, it could found `webpack alias`, let's configure in jest:
+
+### ./config/test/jest.js
+
+```diff
+module.exports = {
+  rootDir: '../../',
+  preset: 'ts-jest',
+  restoreMocks: true,
+  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/config/test/setup-after.ts'],
++ moduleDirectories: ['<rootDir>/src', 'node_modules'],
+};
+
+```
+
+> [More info](https://www.basefactor.com/configuring-aliases-in-webpack-vs-code-typescript-jest)
+> [Official Docs](https://jestjs.io/docs/webpack)
+
 - Testing it should shows 3 items when it clicks on select:
 
 ### ./src/common/components/form/select/select.component.spec.tsx
@@ -502,8 +521,8 @@ import { useSearchBar } from './search-bar.hook';
 
 ```diff
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useSearchBar } from './search-bar.hook';
 + import * as commonHooks from 'common/hooks/debounce.hook';
+import { useSearchBar } from './search-bar.hook';
 ...
 
 + it('should calls useDebounce hook when it renders', () => {
@@ -559,9 +578,9 @@ import { useSearchBar } from './search-bar.hook';
 
 ```diff
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useSearchBar } from './search-bar.hook';
 import * as commonHooks from 'common/hooks/debounce.hook';
 + import * as filterHelpers from 'common/helpers/filter.helpers';
+import { useSearchBar } from './search-bar.hook';
 ...
 
 + it('should calls filterByText method when it renders', () => {

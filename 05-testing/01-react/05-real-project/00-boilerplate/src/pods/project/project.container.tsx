@@ -9,7 +9,7 @@ import { Project, createEmptyProject } from './project.vm';
 import { isEditModeHelper } from 'common/helpers';
 
 export const ProjectContainer: React.FunctionComponent = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [project, setProject] = React.useState<Project>(createEmptyProject());
   const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
   const { showMessage } = useSnackbarContext();

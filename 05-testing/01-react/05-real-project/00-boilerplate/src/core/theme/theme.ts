@@ -1,11 +1,11 @@
 import merge from 'lodash.merge';
 import {
-  createMuiTheme,
+  createTheme,
   Theme as DefaultTheme,
 } from '@material-ui/core/styles';
 import { PaletteColor } from '@material-ui/core/styles/createPalette';
 
-const defaultTheme = createMuiTheme();
+const defaultTheme = createTheme();
 
 type Theme = DefaultTheme & {
   palette: {

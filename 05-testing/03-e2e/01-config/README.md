@@ -50,7 +50,7 @@ npm run test:e2e
 
 - And a `cypress.json` for configuration.
 
-- Let's remove all folders, and add our first test:
+- Let's remove all `files` inside folders, and add our first test:
 
 ### ./cypress/integration/login.spec.js
 

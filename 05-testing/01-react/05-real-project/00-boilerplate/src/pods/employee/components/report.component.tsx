@@ -4,7 +4,7 @@ import { SelectComponent } from 'common/components';
 import { monthList } from 'common/constants';
 import * as classes from './report.styles';
 import { CommandFooterComponent } from 'common-app/command-footer';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import { formValidation } from './report.validations';
 import { Report } from '../employee.vm';
 

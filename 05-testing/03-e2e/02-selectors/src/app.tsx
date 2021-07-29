@@ -1,5 +1,4 @@
 import React from 'react';
-import { hot } from 'react-hot-loader/root';
 import { ThemeProviderComponent } from 'core/theme';
 import { RouterComponent } from 'core/router';
 import { SessionProvider } from 'core/session-context';
@@ -18,4 +17,4 @@ const AppProviders: React.FunctionComponent = () => {
   );
 };
 
-export default hot(AppProviders);
+export default AppProviders;

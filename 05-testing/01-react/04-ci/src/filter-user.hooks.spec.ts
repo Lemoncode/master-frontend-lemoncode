@@ -37,14 +37,10 @@ describe('useFilterUsers specs', () => {
     );
 
     // Assert
-    expect(result.current.users).toEqual([]);
-
     act(() => result.current.setFilter(filter));
     await waitForNextUpdate();
 
-    expect(getUsersByFilterSpy).toHaveBeenCalledWith('doe');
     expect(getUsersByFilterSpy).toHaveBeenCalledTimes(1);
-    expect(result.current.users).toEqual(['John Doe', 'Jane Doe']);
   });
 
   it('should call getUsersByFilter two times when it calls filterUsers with different filters', async () => {
@@ -60,14 +56,9 @@ describe('useFilterUsers specs', () => {
     );
 
     // Assert
-    expect(result.current.users).toEqual([]);
-
     act(() => result.current.setFilter('smith'));
     await waitForNextUpdate();
 
-    expect(getUsersByFilterSpy).toHaveBeenCalledWith('doe');
-    expect(getUsersByFilterSpy).toHaveBeenCalledWith('smith');
     expect(getUsersByFilterSpy).toHaveBeenCalledTimes(2);
-    expect(result.current.users).toEqual(['John Doe', 'Jane Doe']);
   });
 });

@@ -159,6 +159,8 @@ git commit -m "configure git cd-user permits"
 git push
 ```
 
+![05-open-gh-pages-url](./readme-resources/05-open-gh-pages-url.png)
+
 # About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.

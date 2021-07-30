@@ -20,19 +20,36 @@ npm install
 
 - We need to use an [Heroku buildpack](https://elements.heroku.com/buildpacks). It's a tool to build processes for your preferred language or framework. Right now, we can use [heroku-buildpack-static](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static):
 
+
+- Use this buildpack in `Settings` tab:
+
+> Buildpack url: https://github.com/heroku/heroku-buildpack-static.git
+
 ![03-static-files-buildpack](./readme-resources/03-static-files-buildpack.png)
 
 > Buildpack url https://github.com/heroku/heroku-buildpack-static.git
 
-- We need `git` to clone the Heroku app repository and works on it. Check `Delpoy` tab too:
+- We need `git` to clone the Heroku app repository and works on it:
+
+![04-copy-heroku-git-url](./readme-resources/04-copy-heroku-git-url.png)
+
+> Check `Deploy` tab for another deploy options.
 
 ```bash
-npx heroku login
-git clone https://git.heroku.com/<heroku-app-name>.git
+npm install -g heroku
+
+heroku login
+git clone https://git.heroku.com/<heroku-app-name>.git .
 ```
-> NOTE: [Download heroku cli](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
-> Use `npm install -g heroku`
+
+> Another ways to install Heroku CLI: [Download heroku cli](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
 > Or using [npx](https://github.com/npm/npx)
+
+- Run build command:
+
+```bash
+npm run build
+```
 
 - Copy `./dist` files to new repository.
 
@@ -47,6 +64,16 @@ _./static.json_
 
 ```
 
+- Result:
+
+```
+|- images
+|- js
+|- index.html
+|- static.json
+
+```
+
 - Commit and push:
 
 ```bash
@@ -55,15 +82,25 @@ git commit -m "add static files"
 git push
 ```
 
+- Open url:
+
+![05-open-url](./readme-resources/05-open-url.png)
+
 - Sometimes, we need create our custom web server to deploy `static files` and use same server to expose REST API / GraphQL endpoints. We can use [nodejs buildpack](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-nodejs):
 
-![04-nodejs-buildpack](./readme-resources/04-nodejs-buildpack.png).
+![06-nodejs-buildpack](./readme-resources/06-nodejs-buildpack.png).
 
-- Copy `./server` folder's content to `heroku repository`:
+- Remove `heroku-buildpack-static`:
+
+![07-remove-buildpack-static](./readme-resources/07-remove-buildpack-static.png)
+
+- Remove `static.json` file.
 
 - Create `public` folder.
 
-- Remove `static.json` file and move `static files` to public folder.
+- Move `front files` to public folder.
+
+- Copy from `source code repository` > `./server/index.js` and `./server/package.json` files to `heroku repository`:
 
 - Add `.gitignore` file:
 
@@ -110,12 +147,6 @@ app.listen(PORT, () => {
 
 ```
 
-- Check it:
-
-```bash
-npm start
-```
-
 - Deploy it:
 
 ```bash
@@ -124,11 +155,17 @@ git commit -m "add nodejs + express server"
 git push
 ```
 
+- Open url:
+
+![05-open-url](./readme-resources/05-open-url.png)
+
+- Open `https://<heroku-app-name>.herokuapp.com/api/hello`
+
 - If you want to see logs:
 
 ```bash
-npx heroku login
-npx heroku logs -a <heroku-app-name>
+heroku login
+heroku logs -a <heroku-app-name>
 ```
 
 > NOTE: [Download heroku cli](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)

@@ -144,6 +144,8 @@ git commit -m "update cd file"
 git push
 ```
 
+Open Heroku server: `https://<heroku-app-name>.herokuapp.com/`
+
 # About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.

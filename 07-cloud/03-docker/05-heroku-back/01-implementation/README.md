@@ -167,7 +167,7 @@ jobs:
 _./Dockerfile_
 
 ```Dockerfile
-FROM node:12-alpine AS base
+FROM node:14-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 

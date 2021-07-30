@@ -17,7 +17,7 @@ npm install
 _./Dockerfile_
 
 ```Docker
-FROM node:12-alpine
+FROM node:14-alpine
 ```
 
 > You can use [Docker VSCode extension](https://code.visualstudio.com/docs/containers/overview)
@@ -27,7 +27,7 @@ FROM node:12-alpine
 _./Dockerfile_
 
 ```diff
-FROM node:12-alpine
+FROM node:14-alpine
 + RUN mkdir -p /usr/app
 + WORKDIR /usr/app
 
@@ -60,7 +60,7 @@ README.md
 _./Dockerfile_
 
 ```diff
-FROM node:12-alpine
+FROM node:14-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -73,7 +73,7 @@ WORKDIR /usr/app
 _./Dockerfile_
 
 ```diff
-FROM node:12-alpine
+FROM node:14-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -96,8 +96,12 @@ docker build -t my-app:1 .
 ```bash
 docker images
 
-docker container rm my-app
 docker run --name my-app -it my-app:1 sh
+
+> ls
+> exit
+
+docker container rm my-app
 ```
 
 > Tag is optionally.
@@ -108,7 +112,7 @@ docker run --name my-app -it my-app:1 sh
 _./Dockerfile_
 
 ```diff
-FROM node:12-alpine
+FROM node:14-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -139,12 +143,24 @@ docker images
 - Run new container:
 
 ```bash
-docker container rm my-app
 docker run --name my-app my-app:1
+
+// In another terminal
 docker exec -it my-app sh
+
+> ls
+> exit
 ```
 
+- Try to access `http://localhost:8081`
+
+
 - Why can't we access to `http://localhost:8081`? Because this process is executing itself inside container, we need to expose to our machine:
+
+```
+docker container stop my-app
+docker container rm my-app
+```
 
 _./Dockerfile_
 
@@ -160,32 +176,38 @@ ENTRYPOINT [ "node", "server" ]
 - Run it:
 
 ```bash
-docker ps
-docker stop my-app
-docker container rm my-app
-
 docker build -t my-app:1 .
 
-docker run --name my-app --rm -p 8080:8083 my-app:1
+docker run --name my-app --rm -d -p 8080:8083 my-app:1
 ```
 
 > [Docker run options](https://docs.docker.com/engine/reference/commandline/run/)
+>
 > -p: Expose a port or a range of ports
+>
 > --rm: Automatically remove the container when it exits. We still have to use `docker stop`.
+>
+> `-d`: To start a container in detached mode
+
+
+- Open `http://localhost:8080`
 
 - If we check `docker images` we can see dangling images, due to use same tags for each build.
 
 ```bash
+docker images
 docker image prune
+docker images
+
 ```
 
-- On the other hand, we have an image with `361MB`, too much size isn't it?. We should use [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/) to decrease this size, with only the necessary info:
+- On the other hand, we have an image with `384MB`, too much size isn't it?. We should use [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/) to decrease this size, with only the necessary info:
 
 _./Dockerfile_
 
 ```diff
-- FROM node:12-alpine
-+ FROM node:12-alpine AS base
+- FROM node:14-alpine
++ FROM node:14-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -200,8 +222,9 @@ RUN npm run build
 - RUN npm install
 + # Release
 + FROM base AS release
-+ COPY ./server ./
 + COPY --from=build-front /usr/app/dist ./public
++ COPY ./server/package.json ./
++ COPY ./server/index.js ./
 + RUN npm install --only=production
 
 ENV PORT=8083
@@ -212,24 +235,17 @@ EXPOSE 8083
 
 ```
 
-- Check now the images:
-
-```bash
-docker images
-```
+> We could use `npm ci` instead of `npm install` if we have a `package-lock.json` generated.
 
 - Run it:
 
 ```bash
 docker build -t my-app:2 .
+docker images
 
 docker stop my-app
-docker run --name my-app --rm -p 8080:8083 -d my-app:2
+docker run --name my-app --rm -d -p 8080:8083 my-app:2
 ```
-
-> `-d`: To start a container in detached mode
-
-# Appendix
 
 We can add more env variables, for example feed the `public` folder.
 

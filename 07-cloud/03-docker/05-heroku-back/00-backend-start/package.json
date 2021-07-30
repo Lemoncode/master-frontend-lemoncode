@@ -6,7 +6,7 @@
   "scripts": {
     "start": "run-p -l type-check:watch start:dev start:local-db",
     "start:dev": "nodemon --exec babel-node --extensions \".ts\" src/index.ts",
-    "start:local-db": "docker-compose up || echo \"Run docker-compose up manually\"",
+    "start:local-db": "docker-compose up -d || echo \"Run docker-compose up manually\"",
     "stop:local-db": "docker-compose down || echo \"Run docker-compose down manually\"",
     "start:seed-data": "babel-node --extensions \".ts\" seed-data/index.ts",
     "build": "run-p -l type-check build:prod",

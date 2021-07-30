@@ -12,6 +12,12 @@ const devMemberList: Member[] = [
   },
   {
     _id: new Types.ObjectId().toHexString(),
+    login: 'jaimesalas',
+    avatarUrl: 'https://avatars.githubusercontent.com/u/7754966?v=4',
+    organization: 'lemoncode',
+  },
+  {
+    _id: new Types.ObjectId().toHexString(),
     login: 'nasdan',
     avatarUrl: 'https://avatars2.githubusercontent.com/u/4374977?v=4',
     organization: 'lemoncode',

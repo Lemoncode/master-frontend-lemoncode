@@ -26,7 +26,6 @@ git push -u origin master
 
 - We need to create a [new heroku app](https://dashboard.heroku.com/) to deploy it.
 
-
 ![01-create-heroku-app](./readme-resources/01-create-heroku-app.png)
 
 ![02-create-heroku-app](./readme-resources/02-create-heroku-app.png)

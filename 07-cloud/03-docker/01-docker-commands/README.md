@@ -68,6 +68,7 @@ docker run hello-world
 - Let's remove all stopped containers:
 
 ```bash
+docker ps -a
 docker container rm <CONTAINER ID>
 docker container prune
 ```

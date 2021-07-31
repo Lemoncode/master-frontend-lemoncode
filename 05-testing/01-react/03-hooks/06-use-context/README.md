@@ -96,7 +96,7 @@ describe('useLanguage specs', () => {
 
 ```
 
-- should return a message with language equals "es" when it renders the hook:
+- should return a message with language equals "en" when it renders the hook:
 
 ### ./src/language.hooks.spec.ts
 
@@ -105,18 +105,18 @@ describe('useLanguage specs', () => {
 + import { renderHook, act } from '@testing-library/react-hooks';
 ...
 - it('', () => {
-+ it('should return a message with language equals "es" when it renders the hook', () => {
++ it('should return a message with language equals "en" when it renders the hook', () => {
     // Arrange
 
     // Act
 +   const { result } = renderHook(() => useLanguage());
 
 +   act(() => {
-+     result.current.setLanguage('es');
++     result.current.setLanguage('en');
 +   })
 
     // Assert
-+   expect(result.current.message).toEqual('The current language is: es');
++   expect(result.current.message).toEqual('The current language is: en');
   });
 });
 
@@ -133,7 +133,7 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import { useLanguage } from './language.hooks';
 
 describe('useLanguage specs', () => {
-  it('should return a message with language equals "es" when it renders the hook', () => {
+  it('should return a message with language equals "en" when it renders the hook', () => {
     // Arrange
 +   const provider: React.FunctionComponent = props => (
 +     <LanguageProvider>{props.children}</LanguageProvider>
@@ -144,11 +144,11 @@ describe('useLanguage specs', () => {
 +   const { result } = renderHook(() => useLanguage(), { wrapper: provider });
 
     act(() => {
-      result.current.setLanguage('es');
+      result.current.setLanguage('en');
     });
 
     // Assert
-    expect(result.current.message).toEqual('The current language is: es');
+    expect(result.current.message).toEqual('The current language is: en');
   });
 });
 
@@ -167,7 +167,7 @@ import { LanguageProvider } from './language.context';
 import { useLanguage } from './language.hooks';
 
 describe('useLanguage specs', () => {
-  it('should return a message with language equals "es" when it renders the hook', () => {
+  it('should return a message with language equals "en" when it renders the hook', () => {
     // Arrange
 -   const provider: React.FunctionComponent = props => (
 -     <LanguageProvider>{props.children}</LanguageProvider>
@@ -178,36 +178,13 @@ describe('useLanguage specs', () => {
 +   const { result } = renderHook(() => useLanguage(), { wrapper: LanguageProvider });
 
     act(() => {
-      result.current.setLanguage('es');
+      result.current.setLanguage('en');
     });
 
     // Assert
-    expect(result.current.message).toEqual('The current language is: es');
+    expect(result.current.message).toEqual('The current language is: en');
   });
 });
-
-```
-
-- should return a message with language equals "english" when it call setLanguage with "english":
-
-### ./src/language.hooks.spec.ts
-
-```diff
-...
-
-+ it('should return a message with language equals "english" when it call setLanguage with "english"', () => {
-+   // Arrange
-
-+   // Act
-+   const { result } = renderHook(() => useLanguage(), { wrapper: LanguageProvider });
-
-+   act(() => {
-+     result.current.setLanguage('english');
-+   });
-
-+   // Assert
-+   expect(result.current.message).toEqual('The current language is: english');
-+ });
 
 ```
 

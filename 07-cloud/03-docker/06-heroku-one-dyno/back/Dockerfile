@@ -24,7 +24,5 @@ COPY --from=build-front /usr/app/dist $STATIC_FILES_PATH
 COPY --from=build-backend /usr/app/dist ./
 COPY ./package.json ./
 RUN npm install --only=production
-RUN ls
-RUN ls public
 
 ENTRYPOINT [ "node", "index" ]

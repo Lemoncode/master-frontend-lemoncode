@@ -130,6 +130,8 @@ npm run start:prod
 npm run start:local-db
 ```
 
+> We have not any members from Facebook organisation in backend, but we just run front and back in one Nodejs process.
+
 - This means that we don't need any cors configuration in `front` nor `back`. But we need a way to clone front repository in Dockerfile and build front project. That is, we need permissions to clone front repository, an ssh key:
 
 ```bash
@@ -157,6 +159,8 @@ ssh-keygen -m PEM -t rsa -C "cd-user@my-app.com"
 ![05-front-repository-name](./readme-resources/05-front-repository-name.png)
 
 ![06-base-api-url](./readme-resources/06-base-api-url.png)
+
+> IMPORTANT: remove last `/`
 
 - Update the CD workflow file:
 
@@ -208,7 +212,7 @@ jobs:
 _./Dockerfile_
 
 ```diff
-FROM node:14-alpine AS base
+FROM node:12-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -240,6 +244,12 @@ ENTRYPOINT [ "node", "index" ]
 ```
 
 - Commit and push.
+
+```bash
+git add .
+git commit -m "deploy front and back together"
+git push
+```
 
 - Update heroku portal env variables:
 

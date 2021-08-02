@@ -130,6 +130,8 @@ npm run start:prod
 npm run start:local-db
 ```
 
+> We have not any members from Facebook organisation in backend, but we just run front and back in one Nodejs process.
+
 - This means that we don't need any cors configuration in `front` nor `back`. But we need a way to clone front repository in Dockerfile and build front project. That is, we need permissions to clone front repository, an ssh key:
 
 ```bash
@@ -152,11 +154,18 @@ ssh-keygen -m PEM -t rsa -C "cd-user@my-app.com"
 
 - Delete `id_rsa` file.
 
-- We need add the `FRONT_REPOSITORY_NAME` (<user-name>/<repository-name>) to clone front repository and `BASE_API_URL` to build front app:
+- We need add the `FRONT_REPOSITORY_NAME` (`<user-name>/<repository-name>`) to clone front repository and `BASE_API_URL` to build front app:
 
 ![05-front-repository-name](./readme-resources/05-front-repository-name.png)
 
 ![06-base-api-url](./readme-resources/06-base-api-url.png)
+
+> IMPORTANT: remove last `/`
+
+Result Backend's secrets:
+
+![07-backend-secrets](./readme-resources/07-backend-secrets.png)
+
 
 - Update the CD workflow file:
 
@@ -241,7 +250,15 @@ ENTRYPOINT [ "node", "index" ]
 
 - Commit and push.
 
+```bash
+git add .
+git commit -m "deploy front and back together"
+git push
+```
+
 - Update heroku portal env variables:
+
+![08-env-variables](./readme-resources/08-env-variables.png)
 
 ```diff
 - CORS_ORIGIN=...
@@ -250,6 +267,8 @@ MONGODB_URI=...
 
 ```
 > Not need to define `STATIC_FILES_PATH` env variable, because we set it on Dockerfile, but we can replace on heroku if we want.
+
+Open backend Heroku server: `https://<heroku-app-name>.herokuapp.com/`
 
 # About Basefactor + Lemoncode
 

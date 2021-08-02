@@ -33,14 +33,15 @@ docker tag my-app:2 <user-name>/<app-name>
 ```
 
 > `<registry>`: By default is docker.io.
-> `<path-to-repository>`: In the DockerHub case is <user-name>/<app-name>
-> `<tag>`: is optionally, by default would be latest.
+> `<path-to-repository>`: In the DockerHub case is <user-name>/<app-name> > `<tag>`: is optionally, by default would be latest.
 
 - Check image list now:
 
 ```bash
 docker images
 ```
+
+- Check image in Docker hub: `https://hub.docker.com/repository/docker/<user-name>/my-app/tags`
 
 - Now, we can use docker `push` to upload it:
 
@@ -51,17 +52,9 @@ docker push <user-name>/<app-name>
 - We can use same image to tag `DockerHub` versions:
 
 ```bash
-docker tag <app-name>:<tag> <registry>/<path-to-repository>:<tag>
-
-# Docker Hub case
-docker tag my-app:2 <user-name>/<app-name>:<tag>
-
-```
-
-```bash
 docker tag my-app:2 <user-name>/<app-name>:2
 docker images
-docker push <user-name>/<app-name>
+docker push <user-name>/<app-name>:2
 ```
 
 - Let's update the version:
@@ -96,12 +89,17 @@ docker images
 docker push <user-name>/my-app
 ```
 
-- We can run the uploaded image version:
+- We could remove all local iamges and run the uploaded image version:
 
 ```bash
-docker stop my-app
-docker run --name my-app --rm -p 8080:8080 -d <user-name>/my-app:3
+docker rmi my-app:1 my-app:2 <user-name>/my-app:latest <user-name>/my-app:2 <user-name>/my-app:3
+
+docker images
+
+docker run --name my-app --rm -d -p 8080:8080 <user-name>/my-app:3
 ```
+
+Open `http://localhost:8080`
 
 # About Basefactor + Lemoncode
 

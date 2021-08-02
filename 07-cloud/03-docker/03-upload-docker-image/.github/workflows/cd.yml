@@ -25,4 +25,4 @@ jobs:
       - name: Build
         run: npm run build
       - name: Deploy
-        run: npm run deploy -- -r git@github.com:nasdan/test-cloud.git
+        run: npm run deploy -- -r git@github.com:<owner>/<repository-name>.git

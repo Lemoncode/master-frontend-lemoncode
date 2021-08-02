@@ -56,6 +56,11 @@ _./config/webpack/prod.js_
 
 ```diff
 ...
+  output: {
+    path: helpers.resolveFromRootPath('dist'),
+    filename: './js/[name].[chunkhash].js',
+    assetModuleFilename: './images/[hash][ext][query]',
+  },
 + optimization: {
 +   runtimeChunk: 'single',
 +   splitChunks: {
@@ -72,8 +77,6 @@ _./config/webpack/prod.js_
 });
 
 ```
-
-> [file-loader hash](https://webpack.js.org/loaders/file-loader/#hash)
 
 - Finally, we will provide a different env variables for `production`:
 
@@ -94,7 +97,19 @@ const { merge } = require('webpack-merge');
 + const Dotenv = require('dotenv-webpack');
 const base = require('./base');
 ...
-
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          chunks: 'all',
+          name: 'vendor',
+          test: /[\\/]node_modules[\\/]/,
+          enforce: true,
+        },
+      },
+    },
+  },
 + plugins: [
 +   new Dotenv({
 +     path: 'prod.env',

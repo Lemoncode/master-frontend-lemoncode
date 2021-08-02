@@ -5,7 +5,7 @@ on:
     branches:
       - master
 env:
-  HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
   IMAGE_NAME: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
 
 jobs:
@@ -14,10 +14,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Install heroku and login
-        run: |
-          curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
-          heroku container:login
+      - name: Heroku login
+        run: heroku container:login
       - name: Build docker image
         run: docker build -t ${{ env.IMAGE_NAME }} .
       - name: Deploy docker image

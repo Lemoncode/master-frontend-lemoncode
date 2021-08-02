@@ -81,6 +81,11 @@ git push
 ```bash
 ssh-keygen -m PEM -t rsa -C "cd-user@my-app.com"
 ```
+```bash
+> Enter file in which to save the key (/c/Users/nasda/.ssh/id_rsa): `./id_rsa`
+> Enter passphrase (empty for no passphrase): `Pulse Enter for empty`
+> Enter same passphrase again: `Pulse Enter for empty`
+```
 
 > NOTES
 > -m PEM: Format to apply. PEM is a common public/private key certificate format.
@@ -153,6 +158,8 @@ git add .
 git commit -m "configure git cd-user permits"
 git push
 ```
+
+![05-open-gh-pages-url](./readme-resources/05-open-gh-pages-url.png)
 
 # About Basefactor + Lemoncode
 

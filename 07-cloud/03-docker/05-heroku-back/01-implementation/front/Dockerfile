@@ -1,4 +1,4 @@
-FROM node:12-alpine AS base
+FROM node:14-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -20,5 +20,4 @@ RUN npm install --only=production
 
 ENV PORT=8080
 EXPOSE 8080
-
 ENTRYPOINT [ "node", "index" ]

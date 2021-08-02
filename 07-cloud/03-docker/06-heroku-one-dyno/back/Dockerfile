@@ -1,4 +1,4 @@
-FROM node:12-alpine AS base
+FROM node:14-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -24,7 +24,5 @@ COPY --from=build-front /usr/app/dist $STATIC_FILES_PATH
 COPY --from=build-backend /usr/app/dist ./
 COPY ./package.json ./
 RUN npm install --only=production
-RUN ls
-RUN ls public
 
 ENTRYPOINT [ "node", "index" ]

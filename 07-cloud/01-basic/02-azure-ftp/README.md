@@ -8,7 +8,7 @@ We will start from `01-production-bundle`.
 
 - We have a `dist` folder with app files, but to public this files in a production server, we need some kind of `server` to serve this static files. In this case, we are going to use a `nodejs` server.
 
-- Create `server` folder and:
+- Create new `server` folder and:
 
 ```bash
 cd ./server
@@ -54,6 +54,16 @@ _./server/package.json_
 
 - Before running, we need to copy `./dist` folder content to `./server/public`.
 
+|server/
+|-- node_modules/
+|-- public/
+|----- images
+|----- js
+|----- index.html
+|-- index.js
+|-- package-lock.json
+|-- package.json
+
 - Run it:
 
 ```bash
@@ -62,24 +72,39 @@ npm start
 
 - Now, we can configure a web server in `Azure` to upload files via FTP.
 
-![01-create-app-service](./readme-resources/01-create-app-service.png)
+![01-clik-on-create-app-service-button](./readme-resources/01-clik-on-create-app-service-button.png)
+
+![02-create-app-service](./readme-resources/02-create-app-service.png)
 
 - Navigate to deploy center.
 
-![02-navigate-deploy-center](./readme-resources/02-navigate-deploy-center.png)
+![03-go-to-resource](./readme-resources/03-go-to-resource.png)
+
+![04-navigate-deploy-center](./readme-resources/04-navigate-deploy-center.png)
 
 - And click on FTP:
 
-![03-use-ftp](./readme-resources/03-use-ftp.png)
+![05-use-ftp](./readme-resources/05-use-ftp.png)
 
-- We can use whatever ftp client to connect to our server and copy all files from:
+- We can use whatever ftp client to connect to our server and copy all files from. In this case we will user [Filezilla portable version](https://filezilla-project.org/)
 
-- `./server`: server folder.
-- Important: including `node_modules`.
+- Copy `Host`, `Username` and `Password` values
 
-![04-upload-files](./readme-resources/04-upload-files.png)
+![06-use-ftp-credentials](./readme-resources/06-use-ftp-credentials.png)
 
-> NOTE: Here we are using [Filezilla](https://filezilla-project.org/)
+- Remove `hostingstart.html`:
+
+![06-remove-file](./readme-resources/06-remove-file.png)
+
+- Copy inner `./server` folders and files.
+
+![08-upload-files](./readme-resources/08-upload-files.png)
+
+> Important: including `node_modules`.
+
+- Open server URL:
+
+![09-open-server-url](./readme-resources/09-open-server-url.png)
 
 # About Basefactor + Lemoncode
 

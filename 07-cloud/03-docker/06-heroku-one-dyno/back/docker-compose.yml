@@ -2,6 +2,6 @@ version: '3'
 services:
   mongo-demo-cloud:
     container_name: mongo-demo-cloud
-    image: mongo:4.4.3
+    image: mongo:4.4.6
     ports:
       - '27017:27017'

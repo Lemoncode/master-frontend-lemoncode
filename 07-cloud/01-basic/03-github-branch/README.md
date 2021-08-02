@@ -51,7 +51,9 @@ git commit -m "upload files"
 git push -u origin gh-pages
 ```
 
-- Now, we have deployed our website in: `https://<user-name>.github.io/<repository-name>`
+- Now, we have deployed our website in: `https://<user-name>.github.io/<repository-name>`:
+
+![01-open-gh-pages-url](./readme-resources/01-open-gh-pages-url.png)
 
 > NOTE: We can change branch name on Settings tab > GitHub Pages section
 

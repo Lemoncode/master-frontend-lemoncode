@@ -22,11 +22,16 @@ In this example we are going to upload frontend app to Amazon Web Services
 
 ![04-configure-security-group](./readme-resources/04-configure-security-group.png)
 
+
+This time, we don't create any SSH key because we will access to EC2 with Amazon's tools:
+
+![05-proceed-without-key-pair](./readme-resources/05-proceed-without-key-pair.png)
+
 - Connect to instance:
 
-![05-connect-to-instance](./readme-resources/05-connect-to-instance.png)
+![06-connect-to-instance](./readme-resources/06-connect-to-instance.png)
 
-![06-connect-by-browser](./readme-resources/06-connect-by-browser.png)
+![07-connect-by-browser](./readme-resources/07-connect-by-browser.png)
 
 - Install docker in AWS EC2 instance:
 

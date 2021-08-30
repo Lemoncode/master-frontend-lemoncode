@@ -107,6 +107,7 @@ describe('Hotel edit specs', () => {
     });
 
 +   cy.wait('@loadHotel');
++   cy.findByLabelText('Name').should('not.have.value', '');
 
     cy.findByLabelText('Name').clear().type('Updated hotel two');
 
@@ -117,6 +118,8 @@ describe('Hotel edit specs', () => {
     cy.findByText('Updated hotel two');
   });
 ```
+
+> Notice: some this has to wait until it has some value.
 
 - Refactor command:
 
@@ -238,6 +241,8 @@ declare namespace Cypress {
 
 -   cy.wait('@loadHotel');
 
+    cy.findByLabelText('Name').should('not.have.value', '');
+    
     cy.findByLabelText('Name').clear().type('Updated hotel two');
 
     cy.findByRole('button', { name: 'Save' }).click();

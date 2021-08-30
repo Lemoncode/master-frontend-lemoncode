@@ -1,6 +1,7 @@
 describe('Hotel edit specs', () => {
   it('should navigate to second hotel when click on edit second hotel', () => {
     // Arrange
+
     // Act
     cy.loadAndVisit('/hotel-collection', [{ path: '/api/hotels' }]);
     cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {
@@ -28,6 +29,8 @@ describe('Hotel edit specs', () => {
         });
       }
     );
+
+    cy.findByLabelText('Name').should('not.have.value', '');
 
     cy.findByLabelText('Name').clear().type('Updated hotel two');
 

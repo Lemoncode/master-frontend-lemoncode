@@ -9,7 +9,5 @@
     "allowJs": true,
     "types": ["cypress", "@testing-library/cypress", "./support"]
   },
-  "include": [
-    "**/*.ts"
-  ]
+  "include": ["**/*.ts"]
 }

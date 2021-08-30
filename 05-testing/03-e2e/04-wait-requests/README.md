@@ -37,8 +37,6 @@ export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
 - Now, it's failing due to cypress timeout, so we need to refactor it:
 
 > Press run all specs again.
->
-> Check with Chrome > Network > Slow 3G too
 
 ### ./cypress/integration/hotel-collection.spec.ts
 

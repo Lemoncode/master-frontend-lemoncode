@@ -70,6 +70,8 @@ npm run test:e2e:ci
       }
     );
 
+    cy.findByLabelText('Name').should('not.have.value', '');
+
     cy.findByLabelText('Name').clear().type('Updated hotel two');
 
     cy.findByRole('button', { name: 'Save' }).click();
@@ -119,7 +121,7 @@ jobs:
 ```bash
 git add .
 git commit -m "add ci file"
-git push
+git push -u origin feature/add-ci-file
 ```
 
 - Create a pull request.

@@ -1,7 +1,5 @@
 # Scaffolding Express Typescript
 
-[🇬🇧 English version](./README.md)
-
 Project startup:
 
 - Express instalado y configurado.

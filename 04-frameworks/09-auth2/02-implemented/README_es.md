@@ -46,6 +46,8 @@ npm install @types/express-session @types/passport @types/passport-google-oauth2
 
 Pasamos a configurar las variables de entorno, creamos un fichero env
 
+**No mostrar esto por pantalla, ni almacenar O:-)**
+
 _./env_
 
 ```env
@@ -163,7 +165,7 @@ export const sessionRepository: SessionRepositoryContract = mockRepository;
 
 Y exponemos con un barrel a nivel de DAL los modulos que necesitemos:
 
-_./src/dals_
+_./src/dals/index.ts_
 
 ```typescript
 export * from './user.model';
@@ -303,7 +305,7 @@ _./src/static/mainapp.html_
   </head>
   <body>
     <section>
-      <h1>My site: info about user logged in</h1>
+      <h1>My site: info about user logged in (F12 open console :))</h1>
     </section>
     <script type="text/javascript">
       fetch('/api/user-profile', {
@@ -324,9 +326,21 @@ _./src/static/mainapp.html_
 ```
 
 - Vamos ahora a por los endpoints de la API (añadir al final del fichero):
-  - Añadimos el endpoint _/google_ que es donde arrancamos
-    el proceso con passport para que conecte con google account
-    (redirect a su página).
+  - Añadimos los imports de passport, dal...
+
+_./src/api.ts_
+
+```diff
+import { Router } from 'express';
++ import passport from 'passport';
++ import { envConstants } from './env.constants';
++ import { sessionRepository } from './dals';
+export const api = Router();
+```
+
+- Añadimos el endpoint _/google_ que es donde arrancamos
+  el proceso con passport para que conecte con google account
+  (redirect a su página).
 
 _./src/api.ts_
 
@@ -388,6 +402,10 @@ import { envConstants } from './env.constants';
 import { api } from './api';
 import express from 'express';
 import path from 'path';
++ import { configPassport } from './setup';
++ import passport from 'passport';
++ import expressSession from 'express-session';
+
 
 const app = createApp();
 
@@ -415,6 +433,12 @@ app.use('/api', api);
 app.listen(envConstants.PORT, () => {
   console.log(`Server ready at http://localhost:${envConstants.PORT}/api`);
 });
+```
+
+- Vamos a ver si esto funciona
+
+```bash
+npm start
 ```
 
 # ¿Con ganas de ponerte al día con Backend?

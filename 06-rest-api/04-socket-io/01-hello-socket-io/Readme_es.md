@@ -277,7 +277,7 @@ Y vamos a dar un punto de entrada para enviar mensajes:
 -  return <h1>Hello</h1>;
 + return (
 +      <>
-+          <button onClick={handleConnect} disabled={!isConnected}>Join</button>
++          <button onClick={handleConnect} disabled={isConnected}>Join</button>
 +      {isConnected && (
 +        <div style={{ marginTop: "40px" }}>
 +          <label>Message:</label>

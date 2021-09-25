@@ -88,6 +88,16 @@ io.on('connection', function (socket: Socket) {
 +  socket.join(socket.handshake.query['room']);
 ```
 
+Bueno hacemos un _addUserSession_ para almacenarlo en nuestra _base de datos_ (memoria) pero... tenemos que decirle a _socket.io_
+que ese usuario se registra en la habitación que indica, esto lo hacemos de la siguiente manera:
+
+```diff
+   addUserSession(socket.conn.id, socket.handshake.query['nickname'] as string, socket.handshake.query['room'] as string);
++  socket.join(socket.handshake.query['room']);
+```
+
+Añadimos
+
 _./back/src/store.ts_
 
 ```diff
@@ -145,13 +155,23 @@ _./backend/src/app.ts_
       },
     });
   });
-
 ```
 
-- Arrancamos
+- Arrancamos y... nos damos cuenta de que los mensajes salen dos veces en algunos casos ¿Qué pasa aquí?
+  Que _io.to_ envía también al emisor, si miramos la chuleta podemos ver que el correcto es:
 
 ```bash
 npm start
+```
+
+_./backend/src/app.ts_
+
+```diff
+  socket.on('message', function (body: any) {
+    console.log(body);
+   const userInfo = getUserInfo(socket.conn.id);
+-  io.to(userInfo.room).emit('message',{
++  socket.to(userInfo.room).emit('message',{
 ```
 
 > Importante el envío a salas se hace desde servidor, desde cliente no puedo elegir a que sala envío.

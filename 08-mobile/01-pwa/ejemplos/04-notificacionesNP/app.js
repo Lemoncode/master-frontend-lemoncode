@@ -21,7 +21,7 @@ function mostrarNotificacion() {
     });
 
     notification.onclick = function (event) {
-      window.open("https://espublico.tech/");      
+      window.open("https://lemoncode.net/");      
     };
 
   }

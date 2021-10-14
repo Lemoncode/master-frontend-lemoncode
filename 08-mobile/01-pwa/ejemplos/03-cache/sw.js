@@ -1,4 +1,4 @@
-var version = 'v2';
+var version = 'v1';
 
 // Instalación: Creamos una caché para nuestro SW y cacheamos todos los assets.
 self.addEventListener('install', function (event) {
@@ -31,11 +31,13 @@ self.addEventListener('activate', function (event) {
 
 
 urls_cacheFirst = [
-  //
+  'index.html',
+  'manifest.json',
+  'sw.js',
 ];
 
 urls_networkFirst = [
-  //
+  'app.js'
 ];
 
 // Fetch: buscamos el recurso en la cache, si no está en en la caché hacemos petición (excepto que estemos off-line).

@@ -357,6 +357,10 @@ Safari en iOS no admite el manifiesto de aplicación web (todavía), por lo que 
 <link rel="apple-touch-icon" href="/images/icons/icon-152x152.png">
 ```
 
+## Limitaciones en dispositivos iOS
+  
+https://www.gdcbusiness.com/limitaciones-progressive-web-app-ios/
+  
 ## Cómo detectar si se ha accedido a la web desde la app instalada
 
 Si nos interesa saber en css o en javascript si un usuario ha accedido a la web desde el navegador o haciendo click en el icono de la app instalada, tenemos las técnicas que se cuentan en este enlace:

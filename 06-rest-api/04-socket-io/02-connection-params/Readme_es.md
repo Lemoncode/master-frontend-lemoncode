@@ -72,10 +72,14 @@ interface UserSession {
   nickname: string;
 }
 
+interface ConnectionConfig {
+  nickname: string;
+}
+
 let userSession = [];
 
-export const addUserSession = (connectionId: string, nickname) => {
-  userSession = [...userSession, { connectionId, nickname }];
+export const addUserSession = (connectionId: string, config: ConnectionConfig) => {
+  userSession = [...userSession, { connectionId, config }];
 };
 
 export const getNickname = (connectionId: string) => {
@@ -83,7 +87,7 @@ export const getNickname = (connectionId: string) => {
     (session) => session.connectionId === connectionId
   );
 
-  return session ? session.nickname : "ANONYMOUS :-@";
+  return session ? session.nickname : 'ANONYMOUS :-@';
 };
 ```
 
@@ -109,7 +113,8 @@ _./backend/src/app.ts_
 io.on('connection', function (socket: Socket) {
   console.log('** connection recieved');
 -  console.log(socket.handshake.query['nickname']);
-+  addUserSession(socket.conn.id, socket.handshake.query['nickname']);
++  const config: ConnectionConfig = { nickname: socket.handshake.query['nickname'] as string };
++  addUserSession(socket.conn.id, config);
 ```
 
 - Y cuando enviamos un mensaje ampliamos e indicamos el nick name de quien lo envió.

@@ -83,8 +83,12 @@ _./back/src/app.ts_
 ```diff
 io.on('connection', function (socket: Socket) {
   console.log('** connection recieved');
--  addUserSession(socket.conn.id, socket.handshake.query['nickname']);
-+  addUserSession(socket.conn.id, socket.handshake.query['nickname'] as string, socket.handshake.query['room'] as string);
+-  const config: ConnectionConfig = { nickname: socket.handshake.query['nickname'] as string };  
++  const config = {
++    nickname: socket.handshake.query['nickname'] as string,
++    room: socket.handshake.query['room'] as string
++  }
+  addUserSession(socket.conn.id, config);
 +  socket.join(socket.handshake.query['room']);
 ```
 
@@ -92,7 +96,7 @@ Bueno hacemos un _addUserSession_ para almacenarlo en nuestra _base de datos_ (m
 que ese usuario se registra en la habitación que indica, esto lo hacemos de la siguiente manera:
 
 ```diff
-   addUserSession(socket.conn.id, socket.handshake.query['nickname'] as string, socket.handshake.query['room'] as string);
+  addUserSession(socket.conn.id, config);
 +  socket.join(socket.handshake.query['room']);
 ```
 
@@ -107,12 +111,15 @@ interface UserSession {
 + room : string;
 }
 
+interface ConnectionConfig {
+  nickname: string;
++ room: string;
+}
+
 let userSession = [];
 
-- export const addUserSession = (connectionId: string, nickname) => {
-+ export const addUserSession = (connectionId: string, nickname  :string, room : string) => {
--  userSession = [...userSession, { connectionId, nickname}];
-+  userSession = [...userSession, { connectionId, nickname, room }];
+export const addUserSession = (connectionId: string, config: ConnectionConfig) => {
+  userSession = [...userSession, { connectionId, config}];
 };
 ```
 

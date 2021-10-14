@@ -152,7 +152,7 @@ Hay 4 valores posibles a día de hoy:
 - minimal-ui
 - browser
 
-https://www.w3.org/TR/appmanifest/#dfn-display-modes-values
+https://www.w3.org/TR/appmanifest/#dfn-display-mode
 
 ### orientation
 

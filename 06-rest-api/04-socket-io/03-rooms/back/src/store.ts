@@ -4,14 +4,18 @@ interface UserSession {
   room: string;
 }
 
+interface ConnectionConfig {
+  nickname: string;
+  room: string;
+}
+
 let userSession = [];
 
 export const addUserSession = (
   connectionId: string,
-  nickname: string,
-  room: string
+  config: ConnectionConfig
 ) => {
-  userSession = [...userSession, { connectionId, nickname, room }];
+  userSession = [...userSession, { connectionId, config }];
 };
 
 export const getUserInfo = (connectionId: string): UserSession => {

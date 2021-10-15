@@ -1,4 +1,4 @@
-var version = 'v1';
+var version = 'v3';
 
 // Instalación: Creamos una caché para nuestro SW y cacheamos todos los assets.
 self.addEventListener('install', function (event) {
@@ -7,9 +7,12 @@ self.addEventListener('install', function (event) {
       .then(function (cache) {
         return cache.addAll([
           'index.html',
+          'contact.html',
+          'about.html',
           'manifest.json',
           'sw.js',
-          'app.js'
+          'app.js',
+          'app.css',
         ]);
       })
   );
@@ -32,7 +35,10 @@ self.addEventListener('activate', function (event) {
 
 urls_cacheFirst = [
   'index.html',
+  'contact.html',
+  'about.html',
   'manifest.json',
+  'app.css',
   'sw.js',
 ];
 
@@ -53,7 +59,7 @@ self.addEventListener('fetch', function (event) {
             return cacheResponse;
           } else {
             return fetch(event.request).then(fetchResponse => {
-              return caches.open('v1').then(cache => {
+              return caches.open(version).then(cache => {
                 caches.put(event.request, fetchResponse.clone()).then(() => {
                   return fetchResponse;
                 })
@@ -67,7 +73,7 @@ self.addEventListener('fetch', function (event) {
     event.respondWith(function () {
       fetch(event.request)
         .then(fetchResponse => {
-          return caches.open('v1').then(cache => {
+          return caches.open(version).then(cache => {
             if (!fetchResponse.ok)
               return cache.match(event.request)
             else {

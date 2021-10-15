@@ -110,6 +110,28 @@ greet("happy"); // Wow, so nice to see you again! How are you?
 
 // [!] A partir de ahora OLVIDAOS DE VAR :P :)
 
+/*
+RESUMEN:
+- var
+    + Ámbito: función
+    + Hoisting: SI
+    + Redeclarable: SI
+    + Reasignable: SI
+- let
+    + Ámbito: bloque
+    + Hoisting: NO
+    + Redeclarable: NO
+    + Reasignable: SI
+- const
+    + Ámbito: bloque
+    + Hoisting: NO
+    + Redeclarable: NO
+    + Reasignable: NO
+
+NOTA:
+- Ámbito de función: sólo las funciones representan un scope privado para ellas.
+- Ámbito de bloque: cualquier bloque, incluidas funciones, representan scope privado para ellas.
+*/
 
 ///-- OPERADORES *******************************************************
 

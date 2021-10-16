@@ -165,13 +165,11 @@ In this sessions we will focus on exploring each topic of Typescript, its syntax
 - Typing Functions (8')
 - Typing Generics (9')
 
-
-
 ## Functional Programming
 
 ### Summary
 
-Functional Programming is a style of coding tha's been growing in popularity in the last few years. It introduces mathematical approach of solving problems and new concepts like partial application, composition, immutability, and more. 
+Functional Programming is a style of coding tha's been growing in popularity in the last few years. It introduces mathematical approach of solving problems and new concepts like partial application, composition, immutability, and more.
 
 In this lesson we will learn how to apply these concepts using JavaScript in the form of functions and small constraints in order to explore how we can take advantage of this paradigm.
 
@@ -186,8 +184,6 @@ In this lesson we will learn how to apply these concepts using JavaScript in the
 - Pure Functions.
 - Functional Composition.
 - Currying & Partial application.
-
-
 
 ## Lodash
 
@@ -213,8 +209,6 @@ In this lesson we will unleash Lodash power and explore some of its most used fu
 - Functional Programming with Lodash functions.
 
 - Usage & bundling in modern projects.
-
-  
 
 # About Basefactor + Lemoncode
 

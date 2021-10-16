@@ -133,8 +133,6 @@ console.log(Object.getPrototypeOf(dan)); // Es el mismo objeto
 console.log(Person.prototype === Object.getPrototypeOf(dan)); // true
 console.log(dan instanceof Person); // true
 
-
-
 ///-- HERENCIA PROTOTÍPICA *******************************************************
 
 /*
@@ -188,7 +186,7 @@ Taxi.prototype.service = function () {
   this.isOccupied = true;
 };
 
-// super.run(): este método se sirve de otro que está más arriba en la cadena de prototipos.
+// Este método se sirve de otro que está más arriba en la cadena de prototipos.
 Taxi.prototype.drive = function (kms) {
   Automobile.prototype.drive.call(this, kms); // super.drive()
   var serviceStatus = this.isOccupied ? "in service" : "free";
@@ -261,10 +259,9 @@ me -----> Person.prototype -----> Object.prototype -----> null
 */
 
 // 3. Object.create()
-var a = { name: "a" };    // a -----> Object.prototype -----> null.
+var a = { name: "a" }; // a -----> Object.prototype -----> null.
 var b = Object.create(a); // b -----> a -----> Object.prototype -----> null.
 var c = Object.create(b); // c -----> b -----> a -----> Object.prototype -----> null.
-
 
 ///-- CONSTRUCTORES POR DEFECTO ***********************************
 
@@ -280,7 +277,7 @@ que dicho primitivo incorpore toda la funcionalidad de su prototipo correspondie
 */
 
 // String
-var a = new String('foo');
+var a = new String("foo");
 console.log(a); // "foo"
 console.log(a == "foo"); // true
 console.log(a === "foo"); // false
@@ -304,12 +301,10 @@ console.log(a == {}); // false
 console.log(a === {}); // false
 
 // Type conversion
-console.log(32..toString()); // "32"
+console.log((32).toString()); // "32"
 console.log(Number("32")); // 32
 console.log(Boolean("32")); // true
 console.log(!!"32"); // true
-
-
 
 ///-- THIS *******************************************************
 
@@ -360,8 +355,6 @@ var me = {
 };
 
 console.log(me.sayAge()); // "I'm 36 years old"
-
-
 
 ///-- GETTERS & SETTERS *******************************************************
 

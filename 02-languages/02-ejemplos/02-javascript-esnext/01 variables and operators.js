@@ -126,9 +126,9 @@ const user = {
   // stats: {
   //   likes: 38,
   //   rt: 56,
-  // }
+  // },
   // friends: ["Santi", "Ana"],
-  // greet: () => console.log("Hey there! Whats up");
+  // greet: () => console.log("Hey there! Whats up"),
 }
 
 console.log(user.stats); // undefined. Acceso "seguro" porque user siempre existe como objeto.

@@ -54,7 +54,8 @@ var config = '{"port": 3002}';
 var port;
 try {
   // Bloque que puede lanzar errores
-  port = JSON.parse(config);
+  var parsedConfig = JSON.parse(config);
+  port = parsedConfig.port;
 } catch (err) {
   // Bloque donde actuamos si hay errores
   console.log("Catched error!!!", err);
@@ -68,7 +69,7 @@ try {
 // del error:
 
 function doOperation() {
-  he$-s*lloworld; // SyntaxError
+  123.hello; // SyntaxError
   return window(); // TypeError
   return a * 5; // ReferenceError
   return Array(-5); // RangeError

@@ -1,6 +1,6 @@
 ///-- CLASSES *******************************************************
 
-// Al igual que en ES6 las clases se escriben utilizando el keyword 
+// Al igual que en ES6 las clases se escriben utilizando el keyword
 // "class" pero con una ligera diferencia. Para TypeScript todas las
 // propiedades propias de instancias deben estar declaradas.
 class Ghost {
@@ -43,16 +43,16 @@ const mim = new Witch('Madam Mim', new Sweep('Nimbus', 2000));
 
 // -- PUBLIC, PRIVATE, PROTECTED PROPERTIES
 // En TypeScript podemos añadir modificadores de acceso a las propiedades
-// utilizando "public", "private", y "protected". Por defecto las 
+// utilizando "public", "private", y "protected". Por defecto las
 // variables declaradas sin modificadores de acceso se consideran públicas.
 
-type Hunger = 'low' | 'medium' | 'high' | 'full';
+enum Hunger { Low, Medium, High, Full };
 class Undead {
   protected diet: string;
   protected hunger: Hunger;
   constructor(diet: string) {
     this.diet = diet;
-    this.hunger = 'high';
+    this.hunger = Hunger.High;
   }
 
   public getHunger() {
@@ -65,9 +65,9 @@ class Undead {
 
   private setHunger(): Hunger {
     switch (this.hunger) {
-      case 'high': return 'medium';
-      case 'medium': return 'low';
-      default: return 'full';
+      case Hunger.High: return Hunger.Medium;
+      case Hunger.Medium: return Hunger.Low;
+      default: return Hunger.Full;
     }
   }
 }
@@ -144,7 +144,7 @@ const boleskineHouse: HountedHouse = {
 
 // -- SHORTHANDS DE CONSTRUCTOR
 // Ya hemos visto que para añadir propiedades en el constructor debemos indicar
-// previamente qué propiedades vamos a usar. TypeScript nos proporciona una 
+// previamente qué propiedades vamos a usar. TypeScript nos proporciona una
 // forma abreviada de asignar propiedades en el constructor y es añadiendo los
 // modificadores de acceso a los parámetros de "constructor"
 

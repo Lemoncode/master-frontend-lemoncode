@@ -86,7 +86,7 @@ saySomethingTyped(true); // TS error: Argument of type 'true' is not assignable
 // tengamos que comprobar de que tipo concreto es un determinado argumento
 // recibido, de entre todos los posibles tipos de su unión.
 
-// Por tanto, las guardas surjen ante la necesidad de tener que desambiguar
+// Por tanto, las guardas surgen ante la necesidad de tener que desambiguar
 // uniones.
 
 // Imaginemos la siguiente situacion, 2 interfaces y una función que

@@ -62,10 +62,10 @@ _index.html_
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Webpack 4.x by sample</title>
+    <title>Webpack 5.x by sample</title>
   </head>
   <body>
-    Hello Webpack 4!
+    Hello Webpack 5!
 -    <script src="./dist/main.js"></script>
 +    <script src="main.js"></script>
   </body>

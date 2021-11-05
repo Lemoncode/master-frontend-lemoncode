@@ -41,7 +41,7 @@ npm install webpack webpack-cli --save-dev
 
 - Para lanzar webpack, modifica el archivo **`package.json`** y añade la siguiente propiedad `"start": "webpack"` bajo el objeto "scripts". Nos permite lanzar el webpack desde la línea de comandos a través de npm escribiendo `npm start`.
 
-> En webpack 4, ahora es obligatorio informar el modo en el que estamos trabajando, en desarrollo, o en producción (minified, etc...), en la línea de comandos donde lo llamamos.
+> En webpack 5, ahora es obligatorio informar el modo en el que estamos trabajando, en desarrollo, o en producción (minified, etc...), en la línea de comandos donde lo llamamos.
 
 Ahora, nuestro archivo **`package.json`** debería tener un aspecto parecido a esto:
 
@@ -58,7 +58,7 @@ _./package.json_
 }
 ```
 
-> Webpack 4 ofrece un punto de entrada de configuración cero, esto significa: si no vas a transpilar tu código
+> Webpack 5 ofrece un punto de entrada de configuración cero, esto significa: si no vas a transpilar tu código
 > y tienes un punto de entrada bajo _./src/index.js_ , este funcionará por defecto. Esto es bueno para conseguir
 > algún código de prueba rápido en marcha, pero en un proyecto real no es suficiente, iremos por el camino largo
 > en esta muestra (crear y configurar el webpack.config.js).
@@ -189,7 +189,7 @@ _./index.html_
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Webpack 4.x by sample</title>
+    <title>Webpack 5.x by sample</title>
   </head>
   <body>
     Hello Webpack!

@@ -61,7 +61,7 @@ _index.html_
 +      </p>
 +    </div>
 
-  Hello Webpack 4!
+  Hello Webpack 5!
   <div class="red-background">
     RedBackground stuff
   </div>

@@ -96,6 +96,7 @@ _webpack.config.js_
 +   new HtmlWebpackPlugin({
 +     filename: 'index.html', //Name of file in ./dist/
 +     template: 'index.html', //Name of template in ./src
++     scriptLoading:'blocking', // Load the scripts correctly
 +    }),
 + ],
 ```
@@ -114,21 +115,8 @@ npm run build
     new HtmlWebpackPlugin({
       filename: 'index.html', //Name of file in ./dist/
       template: 'index.html', //Name of template in ./src
+      scriptLoading:'blocking',
 +     hash:true,
-    }),
-  ],
-```
-
-- Let's add a parameter that will load the scripts correctly.
-
-```diff
-  plugins: [
-    //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: 'index.html', //Name of file in ./dist/
-      template: 'index.html', //Name of template in ./src
-     hash:true,
-+    scriptLoading:'blocking',
     }),
   ],
 ```

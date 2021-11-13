@@ -173,6 +173,7 @@ _webpack.config.json_
     new HtmlWebpackPlugin({
       filename: 'index.html', //Name of file in ./dist/
       template: 'index.html', //Name of template in ./src
+      scriptLoading:'blocking', // Load the scripts correctly
 -     hash: true,
     }),
   ],
@@ -212,6 +213,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
     new HtmlWebpackPlugin({
       filename: "index.html", //Name of file in ./dist/
       template: "index.html", //Name of template in ./src
+      scriptLoading:'blocking', // Load the scripts correctly
     }),
 +    new CleanWebpackPlugin(),
   ],
@@ -290,6 +292,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html', //Name of file in ./dist/
       template: 'index.html', //Name of template in ./src
+      scriptLoading:'blocking', // Load the scripts correctly
     }),
 +   new MiniCssExtractPlugin({
 +     filename: "[name].css",

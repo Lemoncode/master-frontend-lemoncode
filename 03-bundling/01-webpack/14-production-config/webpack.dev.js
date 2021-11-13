@@ -7,7 +7,9 @@ module.exports = merge(common, {
   devtool: "eval-source-map",
   devServer: {
     port: 8080,
-    stats: "errors-only",
+    devMiddleware: {
+      stats: "errors-only",
+    },
   },
   output: {
     filename: "[name].js",

@@ -5,6 +5,7 @@ const common = require("./webpack.common.js");
 
 module.exports = merge(common, {
   mode: "production",
+  stats: "verbose",
   output: {
     filename: "js/[name].[chunkhash].js",
     assetModuleFilename: "images/[hash][ext][query]",

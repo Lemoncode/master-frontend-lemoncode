@@ -25,13 +25,13 @@ _./src/login.tsx_
 
 ```diff
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const LoginPage: React.FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleNavigation = () => {
-    history.push("/list");
+    navigate("/list");
   };
 
   return (
@@ -59,12 +59,12 @@ _./src/login.tsx_
 
 ```diff
 export const LoginPage: React.FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 + const [username, setUsername] = React.useState('');
 + const [password, setPassword] = React.useState('');
 
   const handleNavigation = () => {
-    history.push("/list");
+    navigate("/list");
   };
 
   return (
@@ -93,13 +93,13 @@ _./src/login.tsx_
 
 ```diff
 export const LoginPage: React.FC = () => {
-  const history = useHistory();
+  const navigate = useNavigation();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const handleNavigation = () => {
 +   if(username === 'admin' && password === 'test') {
-      history.push("/list");
+      navigate("/list");
 +   } else {
 +     alert("User / password not valid, psst... admin / test")
 +   }

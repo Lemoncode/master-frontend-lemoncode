@@ -7,10 +7,10 @@ module.exports = {
   resolve: {
     extensions: [".js", ".ts", ".tsx"],
   },
-  devtool: "eval-source-map",
   entry: {
-    app: ["./index.tsx"],
+    app: ["./index.tsx", "./styles.css"],
   },
+  devtool: "eval-source-map",
   stats: "errors-only",
   output: {
     filename: "[name].[chunkhash].js",
@@ -25,11 +25,23 @@ module.exports = {
       {
         test: /\.(png|jpg)$/,
         exclude: /node_modules/,
-        loader: "url-loader?limit=5000",
+        loader: "url-loader",
       },
       {
         test: /\.html$/,
         loader: "html-loader",
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: "style-loader",
+          },
+          {
+            loader: "css-loader",
+          },
+        ],
       },
     ],
   },

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
@@ -8,14 +8,15 @@ import Button from "@material-ui/core/Button";
 import * as classes from "./login.styles";
 
 export const LoginPage: React.FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const handleNavigation = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (username === "admin" && password === "test") {
-      history.push("/list");
+      navigate("/list");
     } else {
       alert("User / password not valid, psst... admin / test");
     }

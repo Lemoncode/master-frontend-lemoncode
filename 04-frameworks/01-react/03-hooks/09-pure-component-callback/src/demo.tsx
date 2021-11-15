@@ -16,9 +16,9 @@ export const MyComponent = () => {
   const [username, setUsername] = React.useState("John");
   const [lastname, setLastname] = React.useState("Doe");
 
-  const resetNameCallback = () => {
+  const resetNameCallback = React.useCallback(() => {
     setUsername("");
-  };
+  }, []);
 
   return (
     <>

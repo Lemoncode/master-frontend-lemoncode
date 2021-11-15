@@ -29,7 +29,7 @@ export const ListPage: React.FC = () => {
         </thead>
         <tbody>
           {members.map((member) => (
-            <tr key={member.id}>
+            <tr>
               <td>
                 <img src={member.avatar_url} style={{ width: "5rem" }} />
               </td>
@@ -39,7 +39,7 @@ export const ListPage: React.FC = () => {
               <td>
                 <Link to={generatePath("/detail/:id", { id: member.login })}>
                   {member.login}
-                </Link>{" "}
+                </Link>
               </td>
             </tr>
           ))}

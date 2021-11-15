@@ -1,15 +1,16 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const LoginPage: React.FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const handleNavigation = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (username === "admin" && password === "test") {
-      history.push("/list");
+      navigate("/list");
     } else {
       alert("User / password not valid, psst... admin / test");
     }
@@ -35,7 +36,6 @@ export const LoginPage: React.FC = () => {
           />
         </div>
       </div>
-
       <button type="submit">login</button>
     </form>
   );

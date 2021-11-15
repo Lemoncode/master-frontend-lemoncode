@@ -39,7 +39,7 @@ export const ListPage: React.FC = () => {
               <td>
                 <Link to={generatePath("/detail/:id", { id: member.login })}>
                   {member.login}
-                </Link>{" "}
+                </Link>
               </td>
             </tr>
           ))}

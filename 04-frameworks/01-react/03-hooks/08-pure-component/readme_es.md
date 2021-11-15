@@ -28,6 +28,18 @@ _./src_/demo.tsx\_
 ```tsx
 import React from "react";
 
+interface Props {
+  name: string;
+}
+
+export const DisplayUsername = (props: Props) => {
+  console.log(
+    "Hey I'm only rerendered when name gets updated, check React.memo"
+  );
+
+  return <h3>{props.name}</h3>;
+};
+
 export const MyComponent = () => {
   const [userInfo, setUserInfo] = React.useState({
     name: " John ",
@@ -57,18 +69,6 @@ export const MyComponent = () => {
       />
     </>
   );
-};
-
-interface Props {
-  name: string;
-}
-
-export const DisplayUsername = (props: Props) => {
-  console.log(
-    "Hey I'm only rerendered when name gets updated, check React.memo"
-  );
-
-  return <h3>{props.name}</h3>;
 };
 ```
 

@@ -31,12 +31,6 @@ npm install
 npm install react-router-dom --save
 ```
 
-Y sus typings:
-
-```bash
-npm install @types/react-router-dom --save
-```
-
 - Vamos a crear una página de login en blanco, va a ser un componente de React.
 
 _./src/login.tsx_

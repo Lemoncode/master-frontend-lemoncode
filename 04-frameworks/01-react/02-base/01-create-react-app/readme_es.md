@@ -1,48 +1,33 @@
-# 01 Previo - Hola React
+# Create React app
 
-## Resumen
+Para crear una aplicación de este tipo
 
-En este ejemplo vamos a crear un proyecto desde cero utilizando en cli que ofrece el equipo de FaceBook **create-react-app**
-
-## Paso a paso
-
-- Create React App es una herramienta cli para poder crear proyectos react de forma rápida.
-
-- Hasta hace un tiempo nos la teníamos que instalar de forma global, y eso era un problema, ya que teníamos que estar
-  atentos a que no hubiera nuevas versiones disponibles y actualizarnos, ahora podemos ejecutar la última versión
-  disponible utilizado _npx_. npx es un _npm package runner_ que se descarga a un carpeta temporal _create-react-app_ y lo ejecuta.
-
-- Paso previo: si has instalado en create-react-app como dependencia global
+https://create-react-app.dev/
 
 ```bash
-npm uninstall create-react-app -g
+npx create-react-app my-app
 ```
 
-> Si estás en MacOs o Linux acuerdate de añadirle el prefijo _sudo_
-
-Queremos que sea con TS
+Cómo hacer un upgrade
 
 ```bash
-npx create-react-app myexample --template typescript
+npm install react-scripts@latest
 ```
 
-- Si le echamos un vistazo a esta solución nos encontramos que:
+Comentar que es _npx_ y por que no un _npm install create-react-app -g_
 
-  - No hay ningún _webpack.config.js_ ... bueno si lo hay, pero _create-react-app_ nos lo oculta, si quieres
-    verlo puedes ejecutar _npm run eject_ pero ¡ojo! si ejecutas esto no tienes vuelta atras.
+Comentar estructura, y comentar como crear proyecto _typescript_
 
-  - Debajo de la carpeta _public_ podemos encontrar el fichero _index.html_ con el _div_ con id _root_
-    que usaremos como punto de entrada para instanciar nuestra aplicación React.
+npx create-react-app my-app --template typescript
 
-  - Debajo de de la carpeta _src_ podemos encontrar:
-    - El _index.tsx_ contiene el _ReactDOM.Render_
-    - El _App.tsx_ instancia el componente principal de la aplicación.
+Y añadir soporte a _TypeScript_ después
 
-- También nos encontraremos con configuración avanzada ya lista para usar como la configuración de testing, o como
-  registrar un service worker para poder trabajar en modo offline..
+https://create-react-app.dev/docs/adding-typescript
 
-- Si queremos ejecutar nuestra aplicación:
+Comentar eject y no veas la que se lía.
 
-```bash
-npm start
-```
+https://create-react-app.dev/docs/available-scripts/#npm-run-eject
+
+Y más fumada customizando y haciendo tu plantilla
+
+https://auth0.com/blog/how-to-configure-create-react-app/

@@ -1,4 +1,4 @@
-# 04 Refacctor
+# 06 Refacctor
 
 ## Resumen
 
@@ -14,7 +14,7 @@ Vamos a reorganizar un poco y estilar el resto de la aplicación utilizando mate
 npm install
 ```
 
-- Vamos a crear una carpeta que se va a llamar pages y volvar las páginas que hemos creado dentro.
+- Vamos a crear una carpeta que se va a llamar pages y volcar las páginas que hemos creado dentro.
 
 La estructura que debe de quedar
 

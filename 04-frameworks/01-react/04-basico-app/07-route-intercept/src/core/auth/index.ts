@@ -1,2 +1,2 @@
 export * from "./authcontext";
-export * from "./authroute";
+export * from "./authwrapper";

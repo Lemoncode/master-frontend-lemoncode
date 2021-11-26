@@ -40,7 +40,7 @@ console.log("No estoy bloqueada, puedo ejecutar código");
 
 // [OPCIONAL] Podríamos hacer un mock a una llamada a servidor:
 const serverData = 43;
-const getDataAsync = (callback) => {
+const getDataAsync = callback => {
   setTimeout(
     () => callback(serverData), // callback del setTimeout
     Math.random() * 2000 + 1000 // Random entre 1s y 3s.
@@ -74,17 +74,17 @@ getDataAsync(console.log); // Ejemplo de uso.
 // indicar 'que hacer en caso de fallo' (rechazo de la promesa o reject).
 
 fetch("https://api.github.com/users/lemoncode")
-  .then((response) => console.log(response))
-  .catch((error) => console.error(error));
+  .then(response => console.log(response))
+  .catch(error => console.error(error));
 
 // Encadenando promesas. El resolveCallback de una promesa, podría devolver
 // otra promesa, en cuyo caso pueden encadenarse. Solo será necesario
 // especificar un rejectCallback (un único catch()) para cualquiera de las
 // promesas encadenadas.
 fetch("https://api.github.com/users/lemoncode")
-  .then((response) => response.json())
-  .then((data) => console.log(data)) // Muestra el resultado de la promesa `response.json()`
-  .catch((error) => console.error(error));
+  .then(response => response.json())
+  .then(data => console.log(data)) // Muestra el resultado de la promesa `response.json()`
+  .catch(error => console.error(error));
 
 // CREANDO PROMESAS
 // Una promesa se crea instanciando un nuevo objeto Promise. En el momento
@@ -99,7 +99,7 @@ fetch("https://api.github.com/users/lemoncode")
 
 // Modifiquemos el ejemplo anterior en el que haciamos un mock de llamada
 // a servidor para adaptarlo al patrón de promesas:
-const getDataAsync = (callback) => {
+const getDataAsync = callback => {
   setTimeout(
     () => callback(Math.ceil(Math.random() * 100)), // callback del setTimeout
     Math.random() * 2000 + 1000 // Random entre 1s y 3s.
@@ -119,8 +119,8 @@ const getDataWithPromise = () => {
 
 // Su utilización sería:
 getDataWithPromise()
-  .then((data) => console.log(data))
-  .catch((error) => console.log(`ERROR CAPTURADO: ${error}`));
+  .then(data => console.log(data))
+  .catch(error => console.log(`ERROR CAPTURADO: ${error}`));
 
 // *** MANEJANDO MÚLTIPLES PROMESAS [OPCIONAL SI DA TIEMPO]
 
@@ -128,7 +128,7 @@ getDataWithPromise()
 // De esta nueva función es wrapear a getDataWithPromise para mostrar por consola
 // el resultado devuelto en cada llamada.
 const getDataAndLog = () =>
-  getDataWithPromise().then((data) => {
+  getDataWithPromise().then(data => {
     console.log(data);
     return data;
   });
@@ -141,7 +141,7 @@ Promise.race([
   getDataAndLog(),
   getDataAndLog(),
   getDataAndLog(),
-]).then((winner) => console.log("And the winner is ...", winner));
+]).then(winner => console.log("And the winner is ...", winner));
 
 // Promise All: devuelve una nueva promesa que se resuelve con el array de resultados
 // de todas las promesas de entrada. Por tanto se resolverá cuando todas las promesas
@@ -154,7 +154,7 @@ Promise.all([
   getDataAndLog(),
   getDataAndLog(),
   getDataAndLog(),
-]).then((result) => console.log("And the result is ...", result));
+]).then(result => console.log("And the result is ...", result));
 
 // *** ASYNC / AWAIT [OPCIONAL SI DA TIEMPO]
 
@@ -171,8 +171,8 @@ const getDataWithSugar = async () => {
 
 // Su utilización sería:
 getDataWithSugar()
-  .then((data) => console.log(data))
-  .catch((error) => console.log(`ERROR CAPTURADO: ${error}`));
+  .then(data => console.log(data))
+  .catch(error => console.log(`ERROR CAPTURADO: ${error}`));
 
 // [OPCIONAL] Versión con manejo de errores:
 const getDataWithSugar = async () => {
@@ -213,3 +213,15 @@ const getMultiDataWithSugar = async () => {
   return [data1, data2, data3, data4, data5];
 };
 getMultiDataWithSugar().then(console.log);
+
+// Posible implementación de Promise.race usando async await
+const myCustomPromiseRace = promises =>
+  new Promise((resolve, reject) => {
+    promises?.forEach(async promise => {
+      try {
+        resolve(await promise);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  });

@@ -144,10 +144,8 @@ _./src/list.tsx_
   </td>
 ```
 
-- Esto de primeras parece que funciona, pero ¿ Que pasaría si un nombre tuviera
-  un espacio en blanco, o una barra, o un caracter reservado para otro use en una
-  url? No funcionaría la url :(, vamos usar el helper de generate path de react
-  router
+- Otra forma de crear la url es usando _generatePath_, pero ojo en la versión 5
+esto si hacía el encoding de los parametros, en la 6 no (https://github.com/remix-run/react-router/issues/7428)
 
 _./src/list.tsx_
 
@@ -166,7 +164,7 @@ _./src/list.tsx_
   </td>
 ```
 
-Si quieres hacer la prueba sustituye el código dentro del useEffect por este;
+¿En que impactar que no haga encoding? Si quieres hacer la prueba sustituye el código dentro del useEffect por este;
 
 ```tsx
 setMembers([{ id: "2", login: "a/b", avatar_url: "" }]);

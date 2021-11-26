@@ -58,7 +58,7 @@ enum DiaSemana {  // Por convención, los tipos no primitivos siempre en PascalC
   Miercoles,  // = 2
   Jueves,     // = 3
   Viernes,    // = 4
-  Sábado,     // = 5
+  Sabado,     // = 5
   Domingo     // = 6
 };
 const dia: DiaSemana = DiaSemana.Miercoles;
@@ -72,7 +72,7 @@ enum DiaSemanaUSA {
   Miercoles,
   Jueves,
   Viernes,
-  Sábado,
+  Sabado,
   Domingo = 0
 };
 const diaUSA: DiaSemanaUSA = DiaSemanaUSA.Domingo;
@@ -131,6 +131,8 @@ const medName: string = MediaTypes[MediaTypes.JSON]; // undefined
   MediaTypes["PLAIN"] = "OTHER"; // [!] Hemos sobreescrito la propiedad "PLAIN" de (1)
 */
 
+// Si utilizamos la palabra clave `const` delante de `enum` TypeScript no creará el objeto y reemplazará las referencias
+// por valores hardcodeados.
 
 
 // *** Void
@@ -198,6 +200,22 @@ falsyValues.push('');
 // también abrimos la puerta a posibles erroes. Es lo más parecido a volver
 // a vanilla JS.
 
+// *** Unknown
+// Es el tipo de carácter opuesto a `any`. Podemos asignar cualquier valor a `unknown` pero a la hora de acceder a dicho
+// valor tendremos que comprobar su tipo antes de poder usarlo.
+let myData1: unknown = getServerData();
+myData1 = "hello"; // podemos reasignar cualquier valor, como any.
+myData1.push(3); // Error: La variable es de tipo `unknown`
+if (Array.isArray(myData1)) {
+  // Ahora `myData1` es un array
+  myData1.push(3);
+} else if (typeof myData1 === 'string') {
+  // Ahora `myData1` es un string
+  console.log(myData1.toUpperCase());
+} else {
+  // `myData1` sigue siendo `unknown`
+  console.log(myData1);
+}
 
 // TYPE ASSERTION o ASEVERACIÓN DE TIPOS
 

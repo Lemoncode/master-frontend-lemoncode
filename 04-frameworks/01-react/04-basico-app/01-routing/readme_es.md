@@ -25,16 +25,10 @@ npm install
 ```
 
 - Para poder implementar una aplicación SPA nos hace falta un router,
-  vamos a instalar _react-router_
+  vamos a instalar _react-router_ (la versión 6 ya incluye los typings).
 
 ```bash
 npm install react-router-dom --save
-```
-
-Y sus typings:
-
-```bash
-npm install @types/react-router-dom --save
 ```
 
 - Vamos a crear una página de login en blanco, va a ser un componente de React.
@@ -91,7 +85,7 @@ _./src/app.tsx_
 
 ```diff
 import React from "react";
-+ import { HashRouter, Switch, Route } from "react-router-dom";
++ import { HashRouter, Routes, Route } from "react-router-dom";
 + import {LoginPage} from './login';
 + import {ListPage} from './list';
 + import {DetailPage} from './detail';
@@ -101,44 +95,22 @@ export const App = () => {
 -  return <h1>Hello React !!</h1>;
 + return (
 +  <HashRouter>
-+     <Switch>
-+       <Route path="/">
-+          <LoginPage/>
-+       </Route>
-+       <Route path="/list">
-+          <ListPage/>
-+       </Route>
-+       <Route path="/detail">
-+          <DetailPage/>
-+       </Route>
-+     </Switch>
-+  </HashRouter>
++     <Routes>
++       <Route path="/" element={<LoginPage/>} />
++       <Route path="/list" element={<ListPage/>} />
++       <Route path="/detail" element={<DetailPage/>} />
++     </Routes>
++   <HashRouter>
 + );
 };
 ```
 
-- Vamos a ejecutar y ver que pasa:
+- Vamos a ejecutar y ver que pasa (podemos ir navegando tecleando en le url del 
+navegador):
 
 ```bash
 npm start
 ```
-
-- si arrancamos la aplicación vemos que _loginPage_ se muetras, si intentamos
-  navegar a _list_ (tecleando la url del navegador) podemos ver como nos vuelve a
-  llevar a la página de login ¿Por qué? Resulta que la ruta raíz es muy "glotona"
-  y se traga todas las url, para ellos tenemos que decirle que sólo escuche
-  exactamente a esa ruta "/" sólo eso.
-
-```diff
-        <Switch>
--          <Route path="/">
-+          <Route exact path="/">
-
-            <LoginPage />
-          </Route>
-```
-
-- Ahora si, ya podemos entrar la url de _list_ o _detail_ y navegamos.
 
 - Navegar tecleando la url está bien pero lo normal es hacerlo clickando en enlaces
   o botones, vamos a ello.
@@ -202,18 +174,18 @@ tengo que usar un hook que me ofrecer React Router DOM:
 
 Vamos a añadir un bottón para navega desde login a la página de lista:
 
-_./src/_
+_./src/login.tsx_
 
 ```diff
 import React from "react";
-import { Link } from "react-router-dom";
-+ import { Link, useHistory } from "react-router-dom";
+- import { Link } from "react-router-dom";
++ import { Link, useNavigate } from "react-router-dom";
 
 export const LoginPage: React.FC = () => {
-+ const history = useHistory();
++ const navigate = useNavigate();
 
 +  const handleNavigation = () => {
-+    history.push("/list");
++    navigate("/list");
 +  };
 
   return (
@@ -232,7 +204,7 @@ export const LoginPage: React.FC = () => {
 http://localhost:8080/#/list
 ```
 
-Esto es para tener compatibilida de navegación con navegadores antiguos, lo que hay después
+Esto es para tener compatibilidad de navegación con navegadores antiguos, lo que hay después
 de la almohadilla lo ignoran los navegadores y es tu sitio para definir rutas SPA.
 
 Si quieres cambiarlo puedes usar _BrowserRouter_ en vez de _HashRouter_
@@ -241,8 +213,8 @@ _./src/app.tsx_
 
 ```diff
 import React from "react";
-- import { HashRouter, Switch, Route } from "react-router-dom";
-+ import { BrowserRouter, Switch, Route } from "react-router-dom";
+- import { HashRouter, Routes, Route } from "react-router-dom";
++ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage } from "./login";
 import { ListPage } from "./list";
 import { DetailPage } from "./detail";
@@ -251,17 +223,11 @@ export const App = () => {
   return (
 -      <HashRouter>
 +      <BrowserRouter>
-        <Switch>
-          <Route exact path="/">
-            <LoginPage />
-          </Route>
-          <Route path="/list">
-            <ListPage />
-          </Route>
-          <Route path="/detail">
-            <DetailPage />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/" element={<LoginPage/>} />
+          <Route path="/list" element={<ListPage/>} />
+          <Route path="/detail" element={<DetailPage>} />
+        </Routes>
 -      </HashRouter>
 +      </BrowserRouter>
   );
@@ -284,17 +250,11 @@ export const App = () => {
   return (
 -    <BrowserRouter>
 +    <Router>
-      <Switch>
-        <Route exact path="/">
-          <LoginPage />
-        </Route>
-        <Route path="/list">
-          <ListPage />
-        </Route>
-        <Route path="/detail">
-          <DetailPage />
-        </Route>
-      </Switch>
+        <Routes>
+          <Route path="/" element={<LoginPage/>} />
+          <Route path="/list" element={<ListPage/>} />
+          <Route path="/detail" element={<DetailPage>} />
+        </Routes>
 -    </BrowserRouter>
 +    </Router>
   );

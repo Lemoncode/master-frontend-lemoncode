@@ -26,7 +26,6 @@ import {
   of,
   over,
   times,
-  view,
   when,
   xprod,
 } from 'ramda';

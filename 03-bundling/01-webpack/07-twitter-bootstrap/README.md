@@ -54,14 +54,15 @@ _index.html_
 
 ```diff
 <body>
-+    <div class="jumbotron">
-+      <h1>Testing Bootstrap</h1>
-+      <p>
-+        Bootstrap is the most popular ...
-+      </p>
-+    </div>
++ <div class="card" style="width: 18rem;">
++   <div class="card-body">
++     <h5 class="card-title">Card title</h5>
++     <p class="card-text">Some quick example text</p>
++     <a href="#" class="btn btn-primary">Go somewhere</a>
++   </div>
++ </div>
 
-  Hello Webpack 4!
+  Hello Webpack 5!
   <div class="red-background">
     RedBackground stuff
   </div>
@@ -86,8 +87,6 @@ _index.html_
 npm start
 ```
 
-> Bootstrap 4 does not ship glyphicons or other type of files, if you are working
-> with version 3 you will need additional plumbing (check out the version 3)
 
 # About Basefactor + Lemoncode
 

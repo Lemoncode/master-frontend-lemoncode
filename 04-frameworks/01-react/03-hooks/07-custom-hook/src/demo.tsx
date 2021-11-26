@@ -10,12 +10,13 @@ const useUserCollection = () => {
       .then((json) => setUserCollection(json));
   };
 
-  return { userCollection, loadUsers, filter, setFilter };
+  return { userCollection, filter, setFilter, loadUsers };
 };
 
 export const MyComponent = () => {
-  const { userCollection, loadUsers, filter, setFilter } = useUserCollection();
+  const { userCollection, filter, setFilter, loadUsers } = useUserCollection();
 
+  // Load full list when the component gets mounted and filter gets updated
   React.useEffect(() => {
     loadUsers();
   }, [filter]);

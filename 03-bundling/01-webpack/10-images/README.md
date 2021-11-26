@@ -38,7 +38,7 @@ _./src/index.html_
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Webpack 3.x by sample</title>
+    <title>Webpack 5.x by sample</title>
   </head>
   <body>
 -   <div class="jumbotron">
@@ -48,7 +48,7 @@ _./src/index.html_
 -     </p>
 -   </div>
 +   <div id="imgContainer"></div>
-    Hello Webpack 4!
+    Hello Webpack 5!
     <div class="red-background">
       RedBackground stuff
     </div>
@@ -135,7 +135,7 @@ npm start
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Webpack 3.x by sample</title>
+    <title>Webpack 5.x by sample</title>
   </head>
   <body>
     <div id="imgContainer"></div>
@@ -187,11 +187,11 @@ _./src/index.html_
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Webpack 3.x by sample</title>
+    <title>Webpack 5.x by sample</title>
   </head>
   <body>
     <div id="imgContainer"></div>
-    Hello Webpack 4!
+    Hello Webpack 5!
 -   <img src="./src/content/logo_2.png" />
 +   <img src="./content/logo_2.png" />
     <div class="red-background">

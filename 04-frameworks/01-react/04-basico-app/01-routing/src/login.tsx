@@ -1,11 +1,11 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const LoginPage: React.FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleNavigation = () => {
-    history.push("/list");
+    navigate("/list");
   };
 
   return (

@@ -139,7 +139,9 @@ _./webpack.config.js_
 ...
    devServer: {
     port: 8080,
-+   stats: "errors-only",
++   devMiddleware: {
++     stats: "errors-only",
++   },
    },
 ```
 
@@ -260,7 +262,9 @@ _./webpack.config.js_
 + devtool: 'eval-source-map',
   devServer: {
     port: 8080,
-    stats: "errors-only",
+    devMiddleware: {
+      stats: "errors-only",
+    },
   },
 ```
 

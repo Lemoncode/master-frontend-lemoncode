@@ -17,7 +17,7 @@ npm install
 
 - Vamos a a almacenar, el usuario logado en un sitio global (contexto).
 
-_./core/auth/authcontext.ts_
+_./core/auth/authcontext.tsx_
 
 ```tsx
 import React from "react";
@@ -50,7 +50,7 @@ export const AuthProvider: React.FunctionComponent = (props) => {
 _./core/auth/index.ts_
 
 ```tsx
-export * from "././authcontext";
+export * from "./authcontext";
 ```
 
 - Lo añadimos al provider:
@@ -90,14 +90,14 @@ export const App = () => {
 _./src/pages/login.tsx_
 
 ```diff
-+ import {AuthContext} from '../core';
++ import {AuthContext} from '../core/auth';
 
 // (...)
 export const LoginPage: React.FC = () => {
   const history = useHistory();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
-+ const {setUserInfo} = React.useContext(AutContext);
++ const {setUserInfo} = React.useContext(AuthContext);
 
 
   const handleNavigation = (e: React.FormEvent<HTMLFormElement>) => {
@@ -111,29 +111,29 @@ export const LoginPage: React.FC = () => {
   };
 ```
 
-- Ahora que ya tenemos esta información, podemos añadir un interceptor en nuestro router, y comprobar
-  si el usuario esta logado, en caso negativo lo redirigimos a la página de login.
+- Ahora que ya tenemos esta información, vamos a añdir un wrapper que intercepte rutas
+  (ojo esto ha cambiado con respecto a React Router 5).
 
-_./core/auth/authroute.tsx_
+_./core/auth/authwrapper.tsx_
 
 ```tsx
 import React from "react";
-import { Route, RouteProps, useHistory } from "react-router-dom";
-import { AuthContext } from "../core";
+import { Route, RouteProps, useNavigate } from "react-router-dom";
+import { AuthContext } from "./authcontext";
 
-export const AuthRouteComponent: React.FunctionComponent<RouteProps> = (
+export const AuthWrapperComponent: React.FunctionComponent<RouteProps> = (
   props
 ) => {
   const { userInfo } = React.useContext(AuthContext);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (!userInfo) {
-      history.push("/");
+      navigate("/");
     }
-  }, [props.location.pathname]);
+  }, [props.path]);
 
-  return <Route {...props} />;
+  return <>{props.children}</>;
 };
 ```
 
@@ -143,9 +143,8 @@ _./core/index.ts_
 
 ```diff
 export * from "./authcontext";
-+ export * from "./authroute";
++ export * from "./authwrapper";
 ```
-
 
 - En el lado del router vamos a reemplazar los _routes_ por nuestro wrapper.
 
@@ -155,25 +154,25 @@ _./app.tsx_
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { LoginPage, ListPage, DetailPage } from "./pages";
-import { AuthProvider } from "./core";
+- import { AuthProvider } from "./core";
++ import { AuthProvider, AuthWrapperComponent } from "./core";
+
 
 export const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <Switch>
-          <Route exact path="/">
-            <LoginPage />
-          </Route>
-          <Route path="/list">
-            <ListPage />
-          </Route>
-          <Route path="/detail/:id">
-            <DetailPage />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+-          <Route path="/list" element={<ListPage />} />
++          <Route path="/list" element={<AuthWrapperComponent><ListPage /></AuthWrapperComponent>} />
+-          <Route path="/detail/:id" element={<DetailPage />} />
++          <Route path="/detail/:id" element={<AuthWrapperComponent><DetailPage /></AuthWrapperComponent/>} />
+
+        </Routes>
       </Router>
     </AuthProvider>
+
   );
 };
 ```

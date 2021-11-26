@@ -11,3 +11,4 @@ package-lock.json
 yarn.lock
 .awcache
 .next
+.DS_Store

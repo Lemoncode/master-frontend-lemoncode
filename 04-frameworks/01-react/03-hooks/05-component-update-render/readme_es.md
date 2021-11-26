@@ -58,7 +58,7 @@ const MyChildComponent = () => {
 };
 ```
 
-- Ahora viene la parte intresante, vamos a llamar a React.useEffect sólo
+- Ahora viene la parte interesante, vamos a llamar a React.useEffect sólo
   informando el primer parametro.
 
 ```diff

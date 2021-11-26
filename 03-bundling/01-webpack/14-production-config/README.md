@@ -51,7 +51,9 @@ _webpack.common.js_
 -  devtool: "eval-source-map",
 -  devServer: {
 -    port: 8080,
--    stats: "errors-only",
+-    devMiddleware: {
+-      stats: "errors-only",
+-    },
 -  },
 ```
 
@@ -69,7 +71,9 @@ module.exports = merge(common, {
   devtool: "eval-source-map",
   devServer: {
     port: 8080,
-    stats: "errors-only",
+    devMiddleware: {
+      stats: "errors-only",
+    },
   },
 });
 ```
@@ -183,6 +187,7 @@ module: {
     new HtmlWebpackPlugin({
       filename: "index.html", //Name of file in ./dist/
       template: "index.html", //Name of template in ./src
+      scriptLoading:'blocking', // Load the scripts correctly
     }),
     new CleanWebpackPlugin(),
 -   new MiniCssExtractPlugin({
@@ -204,7 +209,9 @@ module.exports = merge(common, {
   devtool: "eval-source-map",
   devServer: {
     port: 8080,
-    stats: "errors-only",
+    devMiddleware: {
+      stats: "errors-only",
+    },
   },
 + module: {
 +   rules: [
@@ -315,7 +322,9 @@ _webpack.dev.js_
 ...
   devServer: {
     port: 8080,
-    stats: "errors-only",
+    devMiddleware: {
+      stats: "errors-only",
+    },
   },
 + output: {
 +   filename: "[name].js",

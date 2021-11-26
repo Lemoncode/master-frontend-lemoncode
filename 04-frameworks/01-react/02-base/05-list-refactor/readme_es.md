@@ -39,6 +39,8 @@ export interface MemberEntity {
 
 - Vamos ahora a importarlo en nuestro _app.tsx_ y a tipar nuestro estado
 
+_./src/app.tsx_
+
 ```diff
 import React from "react";
 + import { MemberEntity } from './model';
@@ -102,7 +104,7 @@ import { MemberEntity } from './model';
 ```diff
       <tbody>
         {members.map((member) => (
-+          <MemberTableRow member={member}/>
++          <MemberTableRow key={member.id} member={member}/>
 -          <tr>
 -            <td>
 -              <img src={member.avatar_url} style={{ width: "5rem" }} />
@@ -198,8 +200,6 @@ export const App = () => {
 -      </tbody>
 -    </table>
 -  );
-
-
 };
 ```
 

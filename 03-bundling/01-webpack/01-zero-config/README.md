@@ -42,7 +42,7 @@ npm install webpack webpack-cli --save-dev
 
 - In order to launch webpack, modify the **`package.json`** file and add the following property `"build": "webpack --mode development"` under the scripts object. It allows us to launch webpack from the command line through npm typing `npm run build`.
 
-> In webpack 4 now is mandatory to inform the mode we are working on development or production (minified, etc...) in the command line where we call it.
+> In webpack 5 now is mandatory to inform the mode we are working on development or production (minified, etc...) in the command line where we call it.
 
 Now, our **`package.json`** file should looks something like:
 

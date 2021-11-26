@@ -59,10 +59,10 @@ npm install react react-dom --save
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Webpack 4.x by sample</title>
+    <title>Webpack 5.x by sample</title>
   </head>
   <body>
-    Hello Webpack 4!
+    Hello Webpack 5!
 +   <div id="root"></div>
   </body>
 </html>

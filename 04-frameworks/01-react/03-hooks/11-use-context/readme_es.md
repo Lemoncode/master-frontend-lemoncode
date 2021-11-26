@@ -6,7 +6,7 @@ Este ejemplo toma como punto de partida el ejemplo _10-use-reducer_.
 
 Uno de los puntos fuertes de React es que conviertes tu componentes en cajas
 negras, se conectan al exterior mediante un contrato que son las Props, esto
-hace que React se muy robusto y que facilmente se puedan promocionar componentes específicos a reusables.
+hace que React sea muy robusto y que facilmente se puedan promocionar componentes específicos a reusables.
 
 Hasta aquí todo genial, pero... ¿Qué pasa si tengo datos tranversales? Es decir
 que pasa con los típicos datos comunes como el nombre y los roles que tiene el usuario que se ha logado en la aplicacíon, o que pasa cuando quiero navegar de una
@@ -63,11 +63,11 @@ React incorpora un mecanismo muy potente, se llama **Context**
 - El **Context** me permite compartir datos entre componentes sin pasar por las props.
 
 - El Contexto vive dentro de un componente React, con lo que se integra en el
-  flujo undireccional de React, es decir cualquier cambio que haga en él hace
+  flujo unidireccional de React, es decir cualquier cambio que haga en él hace
   que se disparen actualizaciones de manera automática.
 
 - El Contexto lo puedo colocar al nivel que quiera del arbol de componentes,
-  es decir puedo poner disponibles esos datos a nivel de aplicacion completa
+  es decir puedo poner esos datos disponibles a nivel de aplicacion completa
   o de por ejemplo una ventana que contenga varios tabs.
 
 Y a todo esto tenemos que añadirle que React incorpora un hook que se llama
@@ -200,6 +200,12 @@ export const MyComponent = () => {
 ```bash
 npm start
 ```
+
+**Ejercicio**:
+
+1. Create un componente que se llame _MyEditComponent_ que permite editar el nombre que tenemos en el contexto.
+2. Ahora vamos a añadir un botón en ese componente que se llame "guardar", hasta que no pulsemos en guardar, este
+   valor no se actualizara
 
 # ¿Te apuntas a nuestro máster?
 

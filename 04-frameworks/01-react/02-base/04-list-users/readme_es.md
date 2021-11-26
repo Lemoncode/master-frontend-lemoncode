@@ -106,9 +106,11 @@ export const App = () => {
 
 -  return <span>{members[0].login}</span>;
 +  return (
-+    members.map((member) =>
-+       <span key={member.id}>{member.login}</span>
-+    )
++    <>
++      {members.map((member) => (
++        <span key={member.id}>{member.login}</span>
++      ))}
++    </>
 +  )
 };
 ```

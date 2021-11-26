@@ -2,11 +2,11 @@
 
 // "let" y "const" son 2 nuevas palabras reservadas en ES6 para declarar
 // variables. Presentan una notable diferencia con respecto a "var",
-// y es que tienen ámbito de bloque ("block scope") por lo tanto 
+// y es que tienen ámbito de bloque ("block scope") por lo tanto
 // se redefinen dentro de bloques tales como "if/else" o bucles "for".
 // Mientras que "var" tenía ámbito de función (contexto de ejecución)
 // ahora con "let" y "const" el ámbito es de bloque.
-// Esto tiene una implicación: el "hoisting" tampoco es aplicado a 
+// Esto tiene una implicación: el "hoisting" tampoco es aplicado a
 // variables declaradas con "let" o "const".
 // ¿Cuál es la diferencia entre ellas? "let" está pensado para valores
 // reasignables, permite declarar la variable (con inicialización opcional)
@@ -41,7 +41,7 @@ for (const i = 0; i < 10; i++) { // Uncaught TypeError: Assignment to constant v
 // en caso de que el contendio de la variable sea un objeto, si que podemos mutar sus
 // propiedades o métodos, sin que esto viole su característica de no-reasignable, puesto
 // que la referencia al objeto sigue siendo la misma.
-// [!] Asi que importante, no entendais el "const" como contenido constante, sino 
+// [!] Asi que importante, no entendais el "const" como contenido constante, sino
 // referencia constante.
 const list = ["hey", "ho", "let's go"];
 list[2] = "yay";
@@ -102,7 +102,7 @@ function greet(mood) {
 }
 
 greet();  // How are you?
-greet("happy"); // Wow, so nice to see you again! How are you? 
+greet("happy"); // Wow, so nice to see you again! How are you?
 
 // *Si reemplazamos const por var en este ejemplo vemos que el funcionamiento
 // con el mood "happy" no es el esperado.
@@ -138,7 +138,7 @@ NOTA:
 // *** Optional chaining (encadenamiento opcional). [!] Bajo implementación ES2020.
 
 /*
-El operador optional chaining nos permite acceder en profundidad a propiedades de 
+El operador optional chaining nos permite acceder en profundidad a propiedades de
 objetos de manera segura, sin tener que realizar de forma explícita un chequeo
 para validar si todas las propiedades de la cadena existen o no. Veamos la
 problemática y como este operador la resuelve:
@@ -148,9 +148,9 @@ const user = {
   // stats: {
   //   likes: 38,
   //   rt: 56,
-  // }
+  // },
   // friends: ["Santi", "Ana"],
-  // greet: () => console.log("Hey there! Whats up");
+  // greet: () => console.log("Hey there! Whats up"),
 }
 
 console.log(user.stats); // undefined. Acceso "seguro" porque user siempre existe como objeto.
@@ -194,7 +194,7 @@ el operando derecho cuando el izquierdo sea 'falsy'. Veámoslo:
 */
 
 const quantity = 43;
-console.log(quantity || "unknown"); 
+console.log(quantity || "unknown");
 // Este uso del cortocircuito del OR ha sido muy común para devolver valores por defecto.
 // Pero ... ¿qué pasa si quantity es 0? Probarlo! (devolvería 'unknown' cuando no lo es).
 
@@ -205,7 +205,7 @@ console.log(quantity ?? "unknown");
 // y con valores por defecto en caso de no existir. Siguiendo el ejemplo anterior:
 console.log(user?.stats?.likes ?? "Not available");
 
-// IMPORTANTE: 
+// IMPORTANTE:
 // Estos dos operadores permiten construir código robusto y resiliente a errores.
 
 // *** Asignaciones con operadores lógicos. [!] Bajo implementación ES2022.

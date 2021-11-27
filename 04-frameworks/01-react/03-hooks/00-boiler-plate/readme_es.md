@@ -2,7 +2,7 @@
 
 ## Resumen
 
-Este ejemplo toma como punto de partida el ejemplo de _(02-base/02-webpack-boiler)[../../02-base/02-webpack-boiler]_.
+Este ejemplo toma como punto de partida el ejemplo de [02-base/02-webpack-boiler](../../02-base/02-webpack-boiler).
 
 Vamos a ir paso a paso añdiendo la configuración necesaria para que integrar
 **React** en nuestro proceso de build.

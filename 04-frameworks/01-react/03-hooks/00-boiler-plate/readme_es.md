@@ -2,7 +2,7 @@
 
 ## Resumen
 
-Este ejemplo toma como punto de partida el ejemplo _02-webpack-boiler_.
+Este ejemplo toma como punto de partida el ejemplo de _(02-base/02-webpack-boiler)[../../02-base/02-webpack-boiler]_.
 
 Vamos a ir paso a paso añdiendo la configuración necesaria para que integrar
 **React** en nuestro proceso de build.
@@ -49,10 +49,8 @@ _./src/app.tsx_
 import React from "react";
 
 export const App = () => {
-  return (
-    <h1>Hello React !!</h1>
-  )
-}
+  return <h1>Hello React !!</h1>;
+};
 ```
 
 - Es hora de instanciar ese compente principal, para poder integrarlo con el navegador

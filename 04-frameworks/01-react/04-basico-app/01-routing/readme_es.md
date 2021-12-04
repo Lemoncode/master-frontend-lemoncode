@@ -100,7 +100,7 @@ export const App = () => {
 +       <Route path="/list" element={<ListPage/>} />
 +       <Route path="/detail" element={<DetailPage/>} />
 +     </Routes>
-+   <HashRouter>
++   </HashRouter>
 + );
 };
 ```

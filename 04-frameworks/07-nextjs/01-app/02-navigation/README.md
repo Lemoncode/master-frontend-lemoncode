@@ -40,7 +40,7 @@ export default CarListPage;
 npm run start:dev
 ```
 
-- We have to ways to navigate in Gatsby. Using `link` component:
+- We have two ways of navigations in Nextjs. Using `link` component:
 
 _./src/pages/index.tsx_
 

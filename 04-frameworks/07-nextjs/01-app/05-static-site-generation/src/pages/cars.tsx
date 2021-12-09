@@ -10,7 +10,6 @@ interface Props {
 
 const CarListPage: React.FunctionComponent<Props> = (props) => {
   const { carList } = props;
-  console.log(`Car list on component: `, { carList });
 
   return (
     <AppLayout>

@@ -10,6 +10,8 @@ interface Props {
 
 const CarListPage: React.FunctionComponent<Props> = (props) => {
   const { carList } = props;
+  console.log(`Car list on component: `, { carList });
+
   return (
     <AppLayout>
       <Head>
@@ -33,4 +35,5 @@ export const getStaticProps: GetStaticProps = async () => {
     revalidate: 10, // In seconds
   };
 };
+
 export default CarListPage;

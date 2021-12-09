@@ -16,7 +16,7 @@ npm install
 
 ```bash
 npm install next --save
-npm install @types/next @types/node --save-dev
+npm install @types/next --save-dev
 ```
 
 > [Official Docs](https://nextjs.org/docs/getting-started)

@@ -5,8 +5,9 @@ import Head from 'next/head';
 const CarListPage = () => {
   const router = useRouter();
   const onNavigateBack = () => {
-    router.push('/');
+    router.push('/'); // or router.back()
   };
+
   return (
     <>
       <Head>

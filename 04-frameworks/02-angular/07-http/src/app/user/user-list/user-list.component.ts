@@ -19,6 +19,8 @@ export class UserListComponent implements OnInit {
   loginControl: FormControl;
   avatarControl: FormControl;
 
+  files: FileList;
+
   constructor(private membersService: MembersService, private fb: FormBuilder) {
     this.membersService.getAll().subscribe(
       members => this.members = members
@@ -81,11 +83,15 @@ export class UserListComponent implements OnInit {
   }
 
   save() {
+    const formData = new FormData();
+    formData.append("file", this.files[0]);
+    fetch("http://localhost:8000/user/file", { method: 'POST', body: formData });
+
     if (this.editForm.valid) {
       this.members = [...this.members];
       const member = this.editForm.value;
       const index = this.members.findIndex(item => item.id === member.id);
-      this.members.splice(index, 1, member);
+      this.members.splice(index, 1, member); 
     }
   }
 
@@ -95,5 +101,6 @@ export class UserListComponent implements OnInit {
     reader.onload = (event) => {
       this.avatarControl.setValue(reader.result);
     };
+    this.files = files;
   }
 }

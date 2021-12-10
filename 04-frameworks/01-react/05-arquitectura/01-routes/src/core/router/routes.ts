@@ -10,7 +10,7 @@ interface SwitchRoutes {
 
 export const switchRoutes: SwitchRoutes = {
   root: '/',
-  login: '/login',
+  login: '/',
   submoduleList: '/submodule-list',
   employees: '/employees',
   editEmployee: '/employees/:id',

@@ -271,37 +271,33 @@ import {
 
 - Y podemos definir nuestro _RouterComponent_
 
-**añadir al final del fichero**
-
 _./src/core/router/router.component.tsx_
 
 ```tsx
-export const RouterComponent: React.FunctionComponent = () => {
+import React from 'react';
+import { HashRouter, Routes, Route } from 'react-router-dom';
+import { switchRoutes } from './routes';
+import {
+  LoginScene,
+  SubmoduleListScene,
+  EmployeeListScene,
+  EmployeeScene,
+} from 'scenes';
+
+export const RouterComponent: React.FC = () => {
   return (
-    <Router>
-      <Switch>
+    <HashRouter>
+      <Routes>
+        <Route path={switchRoutes.root} element={<LoginScene />} />
+        <Route path={switchRoutes.login} element={<LoginScene />} />
         <Route
-          exact={true}
-          path={[switchRoutes.root, switchRoutes.login]}
-          component={LoginScene}
-        />
-        <Route
-          exact={true}
           path={switchRoutes.submoduleList}
-          component={SubmoduleListScene}
+          element={<SubmoduleListScene />}
         />
-        <Route
-          exact={true}
-          path={switchRoutes.employees}
-          component={EmployeeListScene}
-        />
-        <Route
-          exact={true}
-          path={switchRoutes.editEmployee}
-          component={EmployeeScene}
-        />
-      </Switch>
-    </Router>
+        <Route path={switchRoutes.employees} element={<EmployeeListScene />} />
+        <Route path={switchRoutes.editEmployee} element={<EmployeeScene />} />
+      </Routes>
+    </HashRouter>
   );
 };
 ```

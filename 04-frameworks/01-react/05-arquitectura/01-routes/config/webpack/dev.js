@@ -10,6 +10,7 @@ module.exports = merge.strategy({
 })(base, {
   mode: 'development',
   devtool: 'inline-source-map',
+  stats: 'errors-only',
   resolve: {
     alias: {
       'react-dom': '@hot-loader/react-dom',
@@ -23,10 +24,7 @@ module.exports = merge.strategy({
     filename: '[name].js',
   },
   devServer: {
-    inline: true,
-    host: 'localhost',
     port: 8080,
-    stats: 'minimal',
     hot: true,
   },
   plugins: [

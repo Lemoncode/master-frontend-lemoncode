@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { switchRoutes } from './routes';
 import {
   LoginScene,
@@ -8,31 +8,19 @@ import {
   EmployeeScene,
 } from 'scenes';
 
-export const RouterComponent: React.FunctionComponent = () => {
+export const RouterComponent: React.FC = () => {
   return (
-    <Router>
-      <Switch>
+    <HashRouter>
+      <Routes>
+        <Route path={switchRoutes.root} element={<LoginScene />} />
+        <Route path={switchRoutes.login} element={<LoginScene />} />
         <Route
-          exact={true}
-          path={[switchRoutes.root, switchRoutes.login]}
-          component={LoginScene}
-        />
-        <Route
-          exact={true}
           path={switchRoutes.submoduleList}
-          component={SubmoduleListScene}
+          element={<SubmoduleListScene />}
         />
-        <Route
-          exact={true}
-          path={switchRoutes.employees}
-          component={EmployeeListScene}
-        />
-        <Route
-          exact={true}
-          path={switchRoutes.editEmployee}
-          component={EmployeeScene}
-        />
-      </Switch>
-    </Router>
+        <Route path={switchRoutes.employees} element={<EmployeeListScene />} />
+        <Route path={switchRoutes.editEmployee} element={<EmployeeScene />} />
+      </Routes>
+    </HashRouter>
   );
 };

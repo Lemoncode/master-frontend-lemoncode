@@ -73,6 +73,29 @@ _index.html_
 
 ```
 
+- Tenemos que modificar nuestro **`webpack.config.js`** porque por defecto **``webpack dev server``** mira en la carpeta _public_
+ y tenemos que decirle que mire en la raiz de nuestra aplicación.
+
+```diff
+const path = require("path");
+
+module.exports = {
+  entry: ["./students.js"],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+      },
+    ],
+  },
++  devServer: {
++    static: path.join(__dirname, "./"),
++  },
+};
+```
+
 - Ahora si escribimos desde la terminal de nuestro sistema.
 
 ```bash
@@ -108,9 +131,10 @@ module.exports = {
       },
     ],
   },
-+ devServer: {
+devServer: {
+    static: path.join(__dirname, "./"),
 +   port: 8081,
-+ },
+ },
 };
 
 ```
@@ -137,6 +161,7 @@ module.exports = {
     ],
   },
   devServer: {
+    static: path.join(__dirname, "./"),
 -   port: 8081,
 +   port: 8080,
   },

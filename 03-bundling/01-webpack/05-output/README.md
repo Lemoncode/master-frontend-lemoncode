@@ -101,6 +101,24 @@ _webpack.config.js_
 + ],
 ```
 
+We no longer need the devServer configuration to tell you the location of the ** `` index.html`` **.
+
+```diff
+  plugins: [
+    //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
+    new HtmlWebpackPlugin({
+      filename: "index.html", //Name of file in ./dist/
+      template: "index.html", //Name of template in ./src
+      scriptLoading: "blocking", // Load the scripts correctly
+    }),
+  ],
+  devServer: {
+-    static: path.join(__dirname, "./"),
+    port: 8080,
+  },
+};
+```
+
 - Now if we run webpack we will realize that `index.html` is copied under the dist folder and the script tag is automatically being generated. There is only one caveat... we are not getting any additional hash param to avoid browser caching, we can do that by setting the option hash to true:
 
 ```bash

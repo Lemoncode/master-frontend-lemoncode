@@ -88,6 +88,17 @@ class SearchBar extends HTMLElement {
     });
 
     setTimeout( () => { this.dispatchEvent(myEvent); }, 5000);
+    
+    iconContainer.onclick = mouseEvent => {
+      const myEvent2 = new CustomEvent("myEvent2", {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        detail: {value: input.value}
+      });
+      this.dispatchEvent(myEvent2);
+    };
+    
   }
 }
 

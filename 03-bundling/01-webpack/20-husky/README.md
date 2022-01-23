@@ -1,85 +1,76 @@
-# 19 Hot Module Replacement with css
+# 20 Pre-commit hook with husky and prettier
 
-In this demo we are going to start working with css in hmr modules, when you are working on a page and you change a style, 
-webpack server reloads the whole page and that makes us lose focus or the inputs lose their content, or we lose the console messages, etc. 
+Git hooks allow us to run an script every time a certain event from git happen. Most important hooks are pre-commit, prepare-commit-msg, commit-msg, post-commit, pre-push, post-checkout and post-merge.
 
-We will start from sample _18-hmr-1
+Husky is a tool that allows us to easily wrangle Git hooks and run the scripts we want at those stages.
+In this example we will configure husky + prettier to format the code just before the commit.
+
+We will start from sample \_19-hmr-2
 
 Summary steps:
 
-- Install loaders for css
-- Modify webpack.config.js
-- Create styles.css file
+- Init a git repository
+- Install and configure husky
+- Install and configure prettier and pretty-quick.
 
 # Steps to build it
 
 ## Prerequisites
 
-Prerequisites, you will need to have nodejs installed in your computer. If you want to follow this step guides you will need to take as starting point sample _18-hmr-1.
+Prerequisites, you will need to have nodejs installed in your computer. If you want to follow this step guides you will need to take as starting point sample \_19-hmr-2.
 
 ## Steps
 
-- Install both loaders with the following command:
+Husky required by default to have .git and package.json in the same folder. If that is not your case you can configure following this [link](https://typicode.github.io/husky/#/?id=custom-directory).
+
+- Init your git repository
 
 ```bash
-npm install --save-dev style-loader css-loader
+git init
 ```
 
-- Now in the _webpack.config.js_ let's update the configuration file to make use of the loader and add.
-
-```diff
-+    module: {
-+        rules: [
-+          {
-+            test: /\.css$/,
-+            use: ['style-loader', 'css-loader'],
-+          },
-+        ],
-+    },
-```
-
-- Create the _styles.css_
-
-```css
-.text-color {
-    color: red;
-}
-
-body{
-    background-color: aquamarine;
-}
-```
-
-- Now is the time to modify _app.js_
-
-```diff
-import DIV from './components/div';
-+ import './styles.css';
-
-let divComponent = DIV();
-+ divComponent.classList.add('text-color');
-document.body.appendChild(divComponent);
-const input = document.createElement('input');
-input.type = 'text';
-
-document.body.appendChild(input);
-
-if (module.hot){
-    module.hot.accept('./components/div.js', () =>{
-        const newComponent = DIV();
-        document.body.replaceChild(newComponent, divComponent);
-
-        divComponent = newComponent;
-    })
-}
-```
-- Now we execute the command `npm start`
+- Add prettier and pretty-quick to dev dependecies
 
 ```bash
-npm start
+npm install --save-dev prettier pretty-quick
 ```
 
-- For test it, write something in the input field and change de color in the background-color property in _styles.css_ file, then the page will be updated without lost the input focus
+- You can modify prettier default config adding a .prettierrc file in root directory. [More info](https://prettier.io/docs/en/configuration.html) about possible configurations. In this example we are goingo to use a basic one:
+
+```json
+{
+  "trailingComma": "es5",
+  "tabWidth": 2,
+  "semi": false,
+  "singleQuote": true
+}
+```
+
+- Add husky to dev devepencies and install it
+
+```bash
+npm install husky --save-dev
+npx husky install
+```
+
+- Create a script for husky in package.json and run it
+
+```bash
+npm set-script prepare "husky install"
+npm run prepare
+```
+
+- Create a pre-commit hook that run pretty quick only with staged files
+
+```bash
+npx husky add .husky/pre-commit "npx pretty-quick --staged"
+```
+
+- Add pre-commmit file to git
+
+```bash
+git add .husky/pre-push
+```
 
 # About Basefactor + Lemoncode
 

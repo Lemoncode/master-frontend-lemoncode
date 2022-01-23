@@ -21,6 +21,12 @@ Prerequisites, you will need to have nodejs installed in your computer. If you w
 
 ## Steps
 
+- `npm install` to install previous sample packages:
+
+```bash
+npm install
+```
+
 Husky require by default to have .git and package.json in the same folder. If that is not your case you can configure following this [link](https://typicode.github.io/husky/#/?id=custom-directory).
 
 - Init your git repository

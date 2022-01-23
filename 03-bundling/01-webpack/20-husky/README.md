@@ -21,7 +21,7 @@ Prerequisites, you will need to have nodejs installed in your computer. If you w
 
 ## Steps
 
-Husky required by default to have .git and package.json in the same folder. If that is not your case you can configure following this [link](https://typicode.github.io/husky/#/?id=custom-directory).
+Husky require by default to have .git and package.json in the same folder. If that is not your case you can configure following this [link](https://typicode.github.io/husky/#/?id=custom-directory).
 
 - Init your git repository
 
@@ -35,7 +35,7 @@ git init
 npm install --save-dev prettier pretty-quick
 ```
 
-- You can modify prettier default config adding a .prettierrc file in root directory. [More info](https://prettier.io/docs/en/configuration.html) about possible configurations. In this example we are goingo to use a basic one:
+- You can modify prettier default config adding a .prettierrc file in root directory. [More info](https://prettier.io/docs/en/configuration.html) about possible configurations. In this example we are going to use a basic one:
 
 ```json
 {
@@ -71,6 +71,8 @@ npx husky add .husky/pre-commit "npx pretty-quick --staged"
 ```bash
 git add .husky/pre-push
 ```
+
+- Next commit you run in console we will check modified files and apply prettier.
 
 # About Basefactor + Lemoncode
 

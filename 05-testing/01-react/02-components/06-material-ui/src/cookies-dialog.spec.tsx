@@ -7,7 +7,7 @@ describe('CookiesDialog component specs', () => {
   it('should display a button with text "Learn more about our cookies"', () => {
     // Arrange
     const props = {
-      onAgreeClick: jest.fn(),
+      onAgreeClick: () => {},
     };
 
     // Act
@@ -24,7 +24,7 @@ describe('CookiesDialog component specs', () => {
   it('should open dialog when click on "Learn more about our cookies" button', () => {
     // Arrange
     const props = {
-      onAgreeClick: jest.fn(),
+      onAgreeClick: () => {},
     };
 
     // Act

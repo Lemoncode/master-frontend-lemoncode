@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, Switch, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import {
   render,
   screen,
@@ -14,10 +14,10 @@ const renderWithRouter = (component) => {
   return {
     ...render(
       <HashRouter>
-        <Switch>
-          <Route path="/users/:name" component={UserEdit} />
-        </Switch>
-        {component}
+        <Routes>
+          <Route path="/" element={component} />
+          <Route path="users/:name" element={<UserEdit />} />
+        </Routes>
       </HashRouter>
     ),
   };

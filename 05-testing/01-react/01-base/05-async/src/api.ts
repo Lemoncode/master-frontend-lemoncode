@@ -5,7 +5,7 @@ const url = 'https://api.github.com/orgs/lemoncode/members';
 
 export const getMembers = (): Promise<Member[]> =>
   Axios.get(url)
-    .then(({ data }) => data)
+    .then((response) => response.data)
     .catch((error: AxiosError) => {
       switch (error.response.status) {
         case 403:

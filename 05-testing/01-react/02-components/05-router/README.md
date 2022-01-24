@@ -18,17 +18,17 @@ npm install
 
 ```javascript
 import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-interface ParamProps {
+type ParamProps = {
   name: string;
-}
-
-interface Props extends RouteComponentProps<ParamProps> {}
-
-export const UserEdit: React.FunctionComponent<Props> = (props) => {
-  return <h1>User name: {props.match.params.name}</h1>;
 };
+
+export const UserEdit: React.FunctionComponent = (props) => {
+  const params = useParams<ParamProps>();
+  return <h1>User name: {params.name}</h1>;
+};
+
 ```
 
 - Create `router`:
@@ -37,20 +37,21 @@ export const UserEdit: React.FunctionComponent<Props> = (props) => {
 
 ```javascript
 import React from 'react';
-import { HashRouter, Switch, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { NameCollection } from './name-collection';
 import { UserEdit } from './user-edit';
 
 export const Router: React.FunctionComponent = () => {
   return (
     <HashRouter>
-      <Switch>
-        <Route exact={true} path="/" component={NameCollection} />
-        <Route path="/users/:name" component={UserEdit} />
-      </Switch>
+      <Routes>
+        <Route path="/" element={<NameCollection />} />
+        <Route path="users/:name" element={<UserEdit />} />
+      </Routes>
     </HashRouter>
   );
 };
+
 ```
 
 - Use it:
@@ -115,7 +116,7 @@ npm run test:watch
 
 ```diff
 import React from 'react';
-+ import { HashRouter, Switch, Route } from 'react-router-dom';
++ import { HashRouter, Routes, Route } from 'react-router-dom';
 import {
   render,
   screen,
@@ -125,14 +126,14 @@ import * as api from './name-api';
 + import { UserEdit } from './user-edit';
 import { NameCollection } from './name-collection';
 
-+ const renderWithRouter = component => {
++ const renderWithRouter = (component) => {
 +   return {
 +     ...render(
 +       <HashRouter>
-+         <Switch>
-+           <Route path="/users/:name" component={UserEdit} />
-+         </Switch>
-+         {component}
++         <Routes>
++           <Route path="/" element={component} />
++           <Route path="users/:name" element={<UserEdit />} />
++         </Routes>
 +       </HashRouter>
 +     ),
 +   };
@@ -202,6 +203,25 @@ import { NameCollection } from './name-collection';
 
 ...
 
+```
+
+> NOTE: we could use screen.debug() to check DOM changes:
+
+```diff
+...
+    const links = await screen.findAllByRole('link');
+
++   screen.debug()
+
+    const secondUser = links[1];
+    userEvent.click(secondUser);
+    
++   screen.debug()
+
+    const userEditElement = screen.getByRole('heading', {
+      name: 'User name: Jane Doe',
+    });
+...
 ```
 
 # About Basefactor + Lemoncode

@@ -114,7 +114,7 @@ describe('mapper specs', () => {
 +   const members: apiModel.Member[] = undefined;
 
     // Act
-+   const result: viewModel.Member[] = mapMemberLitFromApiToVm(members);
++   const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
 
     // Assert
 +   expect(result).toEqual([]);
@@ -131,7 +131,7 @@ describe('mapper specs', () => {
 import * as apiModel from './api-model';
 import * as viewModel from './view-model';
 
-export const mapMemberLitFromApiToVm = (
+export const mapMemberListFromApiToVm = (
   members: apiModel.Member[]
 ): viewModel.Member[] => [];
 ```
@@ -143,7 +143,7 @@ export const mapMemberLitFromApiToVm = (
 ```diff
 import * as apiModel from './api-model';
 import * as viewModel from './view-model';
-+ import { mapMemberLitFromApiToVm } from './mapper';
++ import { mapMemberListFromApiToVm } from './mapper';
 ...
 
 ```
@@ -160,7 +160,7 @@ import * as viewModel from './view-model';
 +   const members: apiModel.Member[] = null;
 
 +   // Act
-+   const result: viewModel.Member[] = mapMemberLitFromApiToVm(members);
++   const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
 
 +   // Assert
 +   expect(result).toEqual([]);
@@ -181,7 +181,7 @@ import * as viewModel from './view-model';
 +   const members: apiModel.Member[] = [];
 
 +   // Act
-+   const result: viewModel.Member[] = mapMemberLitFromApiToVm(members);
++   const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
 
 +   // Assert
 +   expect(result).toEqual([]);
@@ -204,7 +204,7 @@ import * as viewModel from './view-model';
 +   ];
 
 +   // Act
-+   const result: viewModel.Member[] = mapMemberLitFromApiToVm(members);
++   const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
 
 +   // Assert
 +   const expectedResult: viewModel.Member[] = [
@@ -228,7 +228,7 @@ import * as viewModel from './view-model';
 import * as apiModel from './api-model';
 import * as viewModel from './view-model';
 
-export const mapMemberLitFromApiToVm = (
+export const mapMemberListFromApiToVm = (
   members: apiModel.Member[]
 - ): viewModel.Member[] => [];
 + ): viewModel.Member[] => members.map(member => mapMemberFromApiToVm(member));
@@ -247,7 +247,7 @@ export const mapMemberLitFromApiToVm = (
 
 ```diff
 
-export const mapMemberLitFromApiToVm = (
+export const mapMemberListFromApiToVm = (
   members: apiModel.Member[]
 - ): viewModel.Member[] => members.map(member => mapMemberFromApiToVm(member));
 + ): viewModel.Member[] =>
@@ -265,7 +265,7 @@ export const mapMemberLitFromApiToVm = (
 ```diff
 ...
 
-export const mapMemberLitFromApiToVm = (
+export const mapMemberListFromApiToVm = (
   members: apiModel.Member[]
 ): viewModel.Member[] =>
 -  members !== undefined
@@ -283,7 +283,7 @@ export const mapMemberLitFromApiToVm = (
 ```diff
 ...
 
-export const mapMemberLitFromApiToVm = (
+export const mapMemberListFromApiToVm = (
   members: apiModel.Member[]
 ): viewModel.Member[] =>
 - members !== undefined && members !== null
@@ -301,13 +301,13 @@ export const mapMemberLitFromApiToVm = (
 ```diff
 import * as React from 'react';
 import { getMembers } from './api';
-+ import { mapMemberLitFromApiToVm } from './mapper';
++ import { mapMemberListFromApiToVm } from './mapper';
 
 export const App: React.FunctionComponent = () => {
   React.useEffect(() => {
     getMembers().then(members => {
 -     console.log(members);
-+     console.log(mapMemberLitFromApiToVm(members));
++     console.log(mapMemberListFromApiToVm(members));
     });
   });
 

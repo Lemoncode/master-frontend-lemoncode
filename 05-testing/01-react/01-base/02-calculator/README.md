@@ -134,7 +134,7 @@ describe("Calculator tests", () => {
 ### ./src/business/calculator.business.ts
 
 ```javascript
-export const isLowerThanFive = value => {
+export const isLowerThanFive = (value) => {
   console.log(`The value: ${value} is lower than 5`);
 };
 ```
@@ -274,7 +274,7 @@ import * as calculator from './calculator';
 ```
 
 > console.log
->    This is the result 3
+> This is the result 3
 
 - We should restore all mocks after run them:
 
@@ -305,6 +305,7 @@ module.exports = {
 };
 
 ```
+
 > [Jest configuration options](https://facebook.github.io/jest/docs/en/configuration.html#options)
 
 ### ./src/calculator.spec.ts

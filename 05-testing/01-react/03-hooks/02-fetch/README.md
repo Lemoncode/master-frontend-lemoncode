@@ -1,8 +1,8 @@
-# 03 Component did mount
+# 02 Fetch
 
 In this example we will create a simple test over a custom hook that it uses `React.useEffect`.
 
-We will start from `02-use-state-object`.
+We will start from `01-use-state`.
 
 # Steps
 
@@ -12,40 +12,130 @@ We will start from `02-use-state-object`.
 npm install
 ```
 
-- Let's update `useUser` hook to use `React.useEffect`:
+- Now, we will simulate the `login` method, but first let's create the user's model:
 
-### ./src/user.hooks.ts
+### ./src/model.ts
 
 ```diff
-import * as React from 'react';
-import { User } from './model';
+export interface Credential {
+  name: string;
+  password: string;
+}
 
-export const useUser = (initialUser: User) => {
-  const [user, setUser] = React.useState(initialUser);
++ export interface User {
++   email: string;
++   role: string;
++ }
 
-+ React.useEffect(() => {
-+   // Simulate async call
-+   setTimeout(() => {
-+     setUser({ name: 'Jane', surname: 'Smith' });
-+   }, 500);
-+ }, []);
+```
+
+- Create api method:
+
+### ./src/api.ts
+
+```javascript
+import { Credential, User } from './model';
+
+// TODO: Implement real login method on backend server
+export const login = (credential: Credential): Promise<User> => {
+  return Promise.reject('Pending to implement');
+};
+
+```
+
+- Let's update `useLogin` hook to use `React.useEffect`:
+
+### ./src/login.hooks.ts
+
+```diff
+import React from 'react';
++ import * as api from './api';
+- import { Credential } from './model';
++ import { Credential, User } from './model';
+
+export const useLogin = () => {
+  const [credential, setCredential] = React.useState<Credential>({
+    name: '',
+    password: '',
+  });
++ const [user, setUser] = React.useState<User>(null);
+
++ const onLogin = () => {
++   api.login(credential).then((newUser) => {
++     setUser(newUser);
++   });
++ };
 
   return {
-    user,
-    setUser,
+    credential,
+    setCredential,
++   user,
++   onLogin,
   };
 };
 
 ```
 
-- Why does not current spec fail? Because we have to `wait` until async call will be resolved:
+- should return user equals null and onLogin function:
 
-### ./src/user.hooks.spec.ts
+### ./src/login.hooks.spec.ts
 
 ```diff
 ...
-- it('should return user with initial values and setUser method when it calls it', () => {
-+ it('should return user with initial values and setUser method when it calls it', async () => {
+
++ it('should return user equals null and onLogin function', () => {
++   // Arrange
+
++   // Act
++   const { result } = renderHook(() => useLogin());
+
++   // Assert
++   expect(result.current.user).toBeNull();
++   expect(result.current.setCredential).toEqual(expect.any(Function));
++ });
+
+```
+
+- should update user when it send valid credentials using onLogin:
+
+### ./src/login.hooks.spec.ts
+
+```diff
+import { renderHook, act } from '@testing-library/react-hooks';
++ import * as api from './api';
+- import { Credential } from 'model';
++ import { Credential, User } from 'model';
+import { useLogin } from './login.hooks';
+
+...
+
++ it('should update user when it send valid credentials using onLogin', () => {
++   // Arrange
++   const adminUser: User = { email: 'admin@email.com', role: 'admin' };
++   const loginStub = jest.spyOn(api, 'login').mockResolvedValue(adminUser);
+
++   // Act
++   const { result } = renderHook(() => useLogin());
+
++   act(() => {
++     result.current.onLogin();
++   });
+
++   // Assert
++   expect(loginStub).toHaveBeenCalled();
++   expect(result.current.user).toEqual(adminUser);
++ });
+
+```
+
+- Why does not current spec fail? Because we have to `wait` until async call will be resolved:
+
+### ./src/login.hooks.spec.ts
+
+```diff
+...
+- it('should update user when it send valid credentials using onLogin', () => {
++ it('should update user when it send valid credentials using onLogin', async () => {
     // Arrange
     const initialUser: User = {
       name: 'John',
@@ -53,22 +143,18 @@ export const useUser = (initialUser: User) => {
     };
 
     // Act
--   const { result } = renderHook(() => useUser(initialUser));
-+   const { result, waitForNextUpdate } = renderHook(() =>
-+     useUser(initialUser)
-+   );
+-   const { result } = renderHook(() => useLogin());
++   const { result, waitForNextUpdate } = renderHook(() => useLogin());
 
-    // Assert
-    expect(result.current.user).toEqual(initialUser);
-    expect(result.current.setUser).toEqual(expect.any(Function));
+    act(() => {
+      result.current.onLogin();
+    });
 
 +   await waitForNextUpdate();
 
-+   const updatedUser: User = {
-+     name: 'Jane',
-+     surname: 'Smith',
-+   };
-+   expect(result.current.user).toEqual(updatedUser);
+    // Assert
+    expect(loginStub).toHaveBeenCalled();
+    expect(result.current.user).toEqual(adminUser);
   });
   ...
 

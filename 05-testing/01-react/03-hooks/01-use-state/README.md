@@ -69,7 +69,7 @@ describe('useLogin specs', () => {
 
 ```
 
-- should return an object: user with default values and setCredential a function when it calls it:
+- should return an object: credential with default values and setCredential a function when it calls it:
 
 ### ./src/login.hooks.spec.ts
 
@@ -77,7 +77,7 @@ describe('useLogin specs', () => {
 ...
 
 - it('', () => {
-+ it('should return an object: user with default values and setCredential a function when it calls it', () => {
++ it('should return an object: credential with default values and setCredential a function when it calls it', () => {
     // Arrange
 
     // Act
@@ -92,7 +92,7 @@ describe('useLogin specs', () => {
 
 ```
 
-- should update user when it calls setUser:
+- should update credential when it calls setUser:
 
 ### ./src/login.hooks.spec.ts
 

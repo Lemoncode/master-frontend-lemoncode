@@ -1,8 +1,8 @@
-# 05 Component unmount
+# 03 Component unmount
 
 In this example we will create a simple test over a custom hook that it will unsubscribe an event when component will unmount.
 
-We will start from `04-component-did-update`.
+We will start from `02-fetch`.
 
 # Steps
 

@@ -23,7 +23,7 @@ npm install @testing-library/react-hooks react-test-renderer -D
 ### ./src/model.ts
 
 ```javascript
-export interface User {
+export interface Credential {
   name: string;
   password: string;
 }
@@ -34,14 +34,17 @@ export interface User {
 
 ```javascript
 import React from 'react';
-import { User } from './model';
+import { Credential } from './model';
 
 export const useLogin = () => {
-  const [user, setUser] = React.useState<User>({ name: '', password: '' });
+  const [credential, setCredential] = React.useState<Credential>({
+    name: '',
+    password: '',
+  });
 
   return {
-    user,
-    setUser,
+    credential,
+    setCredential,
   };
 };
 
@@ -53,7 +56,7 @@ export const useLogin = () => {
 
 ```javascript
 import { renderHook } from '@testing-library/react-hooks';
-import { User } from 'model';
+import { Credential } from 'model';
 import { useLogin } from './login.hooks';
 
 describe('useLogin specs', () => {
@@ -66,7 +69,7 @@ describe('useLogin specs', () => {
 
 ```
 
-- should return an object: user with default values and setUser a function when it calls it:
+- should return an object: user with default values and setCredential a function when it calls it:
 
 ### ./src/login.hooks.spec.ts
 
@@ -74,16 +77,16 @@ describe('useLogin specs', () => {
 ...
 
 - it('', () => {
-+ it('should return an object: user with default values and setUser a function when it calls it', () => {
++ it('should return an object: user with default values and setCredential a function when it calls it', () => {
     // Arrange
 
     // Act
 +   const { result } = renderHook(() => useLogin());
 
     // Assert
-+   const defaultUser: User = { name: '', password: '' };
-+   expect(result.current.user).toEqual(defaultUser);
-+   expect(result.current.setUser).toEqual(expect.any(Function));
++   const defaultCredential: Credential = { name: '', password: '' };
++   expect(result.current.credential).toEqual(defaultCredential);
++   expect(result.current.setCredential).toEqual(expect.any(Function));
   });
 });
 
@@ -95,17 +98,17 @@ describe('useLogin specs', () => {
 
 ```diff
 ...
-+ it('should update user when it calls setUser', () => {
++ it('should update credential when it calls setCredential', () => {
 +   // Arrange
-+   const newUser: User = { name: 'admin', password: 'test' };
++   const newCredential: Credential = { name: 'admin', password: 'test' };
 
 +   // Act
 +   const { result } = renderHook(() => useLogin());
 
-+   result.current.setUser(newUser);
++   result.current.setCredential(newCredential);
 
 +   // Assert
-+   expect(result.current.user).toEqual(newUser);
++   expect(result.current.credential).toEqual(newCredential);
 + });
 
 ```
@@ -119,24 +122,24 @@ describe('useLogin specs', () => {
 ```diff
 - import { renderHook } from '@testing-library/react-hooks';
 + import { renderHook, act } from '@testing-library/react-hooks';
-import { User } from 'model';
+import { Credential } from 'model';
 import { useLogin } from './login.hooks';
 
 ...
 
-  it('should update user when it calls setUser', () => {
+  it('should update credential when it calls setCredential', () => {
     // Arrange
-    const newUser: User = { name: 'admin', password: 'test' };
+    const newCredential: Credential = { name: 'admin', password: 'test' };
 
     // Act
     const { result } = renderHook(() => useLogin());
 
 +   act(() => {
-      result.current.setUser(newUser);
+      result.current.setCredential(newCredential);
 +   });
 
     // Assert
-    expect(result.current.user).toEqual(newUser);
+    expect(result.current.credential).toEqual(newCredential);
   });
 
 ```

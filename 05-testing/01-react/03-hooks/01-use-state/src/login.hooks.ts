@@ -1,11 +1,14 @@
 import React from 'react';
-import { User } from './model';
+import { Credential } from './model';
 
 export const useLogin = () => {
-  const [user, setUser] = React.useState<User>({ name: '', password: '' });
+  const [credential, setCredential] = React.useState<Credential>({
+    name: '',
+    password: '',
+  });
 
   return {
-    user,
-    setUser,
+    credential,
+    setCredential,
   };
 };

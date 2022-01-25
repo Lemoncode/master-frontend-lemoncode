@@ -4,9 +4,10 @@ import { usePolling } from './polling.hooks';
 describe('usePolling specs', () => {
   it('should return count equals 0 when initialize the hook', () => {
     // Arrange
+    const pollingTime = 500;
 
     // Act
-    const { result } = renderHook(() => usePolling());
+    const { result } = renderHook(() => usePolling(pollingTime));
 
     // Assert
     expect(result.current.count).toEqual(0);
@@ -14,11 +15,14 @@ describe('usePolling specs', () => {
 
   it('should return count equals 1 when it waits for next update', async () => {
     // Arrange
+    const pollingTime = 500;
 
     // Act
-    const { result, waitForNextUpdate } = renderHook(() => usePolling());
+    const { result, waitForNextUpdate } = renderHook(() =>
+      usePolling(pollingTime)
+    );
 
-    await waitForNextUpdate({ timeout: 1500 });
+    await waitForNextUpdate();
 
     // Assert
     expect(result.current.count).toEqual(1);
@@ -26,9 +30,12 @@ describe('usePolling specs', () => {
 
   it('should return count equals 3 when it waits 3 times for next update', async () => {
     // Arrange
+    const pollingTime = 500;
 
     // Act
-    const { result, waitForValueToChange } = renderHook(() => usePolling());
+    const { result, waitForValueToChange } = renderHook(() =>
+      usePolling(pollingTime)
+    );
 
     await waitForValueToChange(() => result.current.count === 3, {
       timeout: 2000,
@@ -40,10 +47,11 @@ describe('usePolling specs', () => {
 
   it('should call clearInterval when it unmounts the component', () => {
     // Arrange
+    const pollingTime = 500;
     const clearIntervalStub = jest.spyOn(window, 'clearInterval');
 
     // Act
-    const { result, unmount } = renderHook(() => usePolling());
+    const { unmount } = renderHook(() => usePolling(pollingTime));
 
     // Assert
     expect(clearIntervalStub).not.toHaveBeenCalled();

@@ -19,14 +19,14 @@ npm install
 ```javascript
 import React from 'react';
 
-export const usePolling = () => {
+export const usePolling = (pollingTime: number) => {
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
     // Simulate calls to api and count it
     const interval = setInterval(() => {
-      setCount(c => c + 1);
-    }, 500);
+      setCount((c) => c + 1);
+    }, pollingTime);
 
     return () => {
       clearInterval(interval);
@@ -35,6 +35,7 @@ export const usePolling = () => {
 
   return { count };
 };
+
 ```
 
 > NOTE: [useState functional updates](https://reactjs.org/docs/hooks-reference.html#functional-updates)
@@ -65,9 +66,10 @@ describe('usePolling specs', () => {
 - it('', () => {
 + it('should return count equals 0 when initialize the hook', () => {
     // Arrange
++   const pollingTime = 500;
 
     // Act
-+   const { result } = renderHook(() => usePolling());
++   const { result } = renderHook(() => usePolling(pollingTime));
 
     // Assert
 +   expect(result.current.count).toEqual(0);
@@ -84,11 +86,12 @@ describe('usePolling specs', () => {
 ...
 + it('should return count equals 1 when it waits for next update', async () => {
 +   // Arrange
++   const pollingTime = 500;
 
 +   // Act
-+   const { result, waitForNextUpdate } = renderHook(() => usePolling());
++   const { result, waitForNextUpdate } = renderHook(() => usePolling(pollingTime));
 
-+   await waitForNextUpdate({ timeout: 1500 });
++   await waitForNextUpdate();
 
 +   // Assert
 +   expect(result.current.count).toEqual(1);
@@ -104,13 +107,14 @@ describe('usePolling specs', () => {
 ...
 + it('should return count equals 3 when it waits 3 times for next update', async () => {
 +   // Arrange
++   const pollingTime = 500;
 
 +   // Act
-+   const { result, waitForNextUpdate } = renderHook(() => usePolling());
++   const { result, waitForNextUpdate } = renderHook(() => usePolling(pollingTime));
 
 +   await waitForNextUpdate();
 +   await waitForNextUpdate();
-+   await waitForNextUpdate({ timeout: 1500 });
++   await waitForNextUpdate();
 
 +   // Assert
 +   expect(result.current.count).toEqual(3);
@@ -126,14 +130,15 @@ describe('usePolling specs', () => {
 ...
   it('should return count equals 3 when it waits 3 times for next update', async () => {
     // Arrange
+    const pollingTime = 500;
 
     // Act
--   const { result, waitForNextUpdate } = renderHook(() => usePolling());
-+   const { result, waitForValueToChange } = renderHook(() => usePolling());
+-   const { result, waitForNextUpdate } = renderHook(() => usePolling(pollingTime));
++   const { result, waitForValueToChange } = renderHook(() => usePolling(pollingTime));
 
 -   await waitForNextUpdate();
 -   await waitForNextUpdate();
--   await waitForNextUpdate({ timeout: 1500 });
+-   await waitForNextUpdate();
 +   await waitForValueToChange(() => result.current.count === 3, {
 +     timeout: 2000,
 +   });
@@ -152,12 +157,11 @@ describe('usePolling specs', () => {
 ...
 + it('should call clearInterval when it unmounts the component', () => {
 +   // Arrange
++   const pollingTime = 500;
 +   const clearIntervalStub = jest.spyOn(window, 'clearInterval');
 
 +   // Act
-+   const { result, unmount } = renderHook(() =>
-+     usePolling()
-+   );
++   const { unmount } = renderHook(() => usePolling(pollingTime));
 
 +   // Assert
 +   expect(clearIntervalStub).not.toHaveBeenCalled();

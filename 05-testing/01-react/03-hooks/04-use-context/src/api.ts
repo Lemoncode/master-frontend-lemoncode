@@ -1,6 +1,6 @@
-import Axios from 'axios';
+import { Credential, User } from './model';
 
-const url = 'https://jsonplaceholder.typicode.com/users?name_like=';
-
-export const getUsersByFilter = filter =>
-  Axios.get(`${url}${filter}`).then(({ data }) => data);
+// TODO: Implement real login method on backend server
+export const login = (credential: Credential): Promise<User> => {
+  return Promise.reject('Pending to implement');
+};

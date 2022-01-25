@@ -1,8 +1,8 @@
-# 06 Use context
+# 04 Use context
 
 In this example we will create a simple test over a custom hook that it will use the `React Context API`.
 
-We will start from `05-component-unmount`.
+We will start from `03-component-unmount`.
 
 # Steps
 

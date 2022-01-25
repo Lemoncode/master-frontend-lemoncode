@@ -20,77 +20,92 @@ npm install @testing-library/react-hooks react-test-renderer -D
 
 - When to use this library? We are writing custom hooks outside components. So let's create a simple custom hook:
 
-### ./src/name.hooks.ts
+### ./src/model.ts
+
+```javascript
+export interface User {
+  name: string;
+  password: string;
+}
+
+```
+
+### ./src/login.hooks.ts
 
 ```javascript
 import React from 'react';
+import { User } from './model';
 
-export const useName = () => {
-  const [name, setName] = React.useState('John Doe');
+export const useLogin = () => {
+  const [user, setUser] = React.useState<User>({ name: '', password: '' });
 
   return {
-    name,
-    setName,
+    user,
+    setUser,
   };
 };
+
 ```
 
 - It's simple hook, isn't it? Let's create the spec:
 
-### ./src/name.hooks.spec.ts
+### ./src/login.hooks.spec.ts
 
 ```javascript
 import { renderHook } from '@testing-library/react-hooks';
-import { useName } from './name.hooks';
+import { User } from 'model';
+import { useLogin } from './login.hooks';
 
-describe('useName specs', () => {
+describe('useLogin specs', () => {
   it('', () => {
     // Arrange
     // Act
     // Assert
   });
 });
+
 ```
 
-- should return an object with name equals "John Doe" and setName a function when it calls it:
+- should return an object: user with default values and setUser a function when it calls it:
 
-### ./src/name.hooks.spec.ts
+### ./src/login.hooks.spec.ts
 
 ```diff
 ...
 
 - it('', () => {
-+ it('should return an object with name equals "John Doe" and setName a function when it calls it', () => {
++ it('should return an object: user with default values and setUser a function when it calls it', () => {
     // Arrange
 
     // Act
-+   const { result } = renderHook(() => useName());
++   const { result } = renderHook(() => useLogin());
 
     // Assert
-+   expect(result.current.name).toEqual('John Doe');
-+   expect(result.current.setName).toEqual(expect.any(Function));
++   const defaultUser: User = { name: '', password: '' };
++   expect(result.current.user).toEqual(defaultUser);
++   expect(result.current.setUser).toEqual(expect.any(Function));
   });
 });
 
 ```
 
-- should update name when it calls setName:
+- should update user when it calls setUser:
 
-### ./src/name.hooks.spec.ts
+### ./src/login.hooks.spec.ts
 
 ```diff
 ...
-+ it('should update name when it calls setName', () => {
++ it('should update user when it calls setUser', () => {
 +   // Arrange
-+   const newName = 'updated name';
++   const newUser: User = { name: 'admin', password: 'test' };
 
 +   // Act
-+   const { result } = renderHook(() => useName());
++   const { result } = renderHook(() => useLogin());
 
-+   result.current.setName(newName);
++   result.current.setUser(newUser);
 
 +   // Assert
-+   expect(result.current.name).toEqual('updated name');
++   expect(result.current.user).toEqual(newUser);
 + });
 
 ```
@@ -99,27 +114,29 @@ describe('useName specs', () => {
 
 > [Read more](https://reactjs.org/docs/test-utils.html#act)
 
-### ./src/name.hooks.spec.ts
+### ./src/login.hooks.spec.ts
 
 ```diff
 - import { renderHook } from '@testing-library/react-hooks';
 + import { renderHook, act } from '@testing-library/react-hooks';
-import { useName } from './useName';
+import { User } from 'model';
+import { useLogin } from './login.hooks';
 
 ...
-  it('should update name when it calls setName', () => {
+
+  it('should update user when it calls setUser', () => {
     // Arrange
-    const newName = 'updated name';
+    const newUser: User = { name: 'admin', password: 'test' };
 
     // Act
-    const { result } = renderHook(() => useName());
+    const { result } = renderHook(() => useLogin());
 
 +   act(() => {
-      result.current.setName(newName);
+      result.current.setUser(newUser);
 +   });
 
     // Assert
-    expect(result.current.name).toEqual('updated name');
+    expect(result.current.user).toEqual(newUser);
   });
 
 ```

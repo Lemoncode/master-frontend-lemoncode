@@ -2,17 +2,17 @@
   "name": "01-basic",
   "version": "1.0.0",
   "description": "Let's start with a very basic sample, just add an html plus a simple console log (E5). This is what you can find in the getting started tutorial.",
-  "main": "index.js",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "source": "src/index.html",
   "scripts": {
-    "build": "rimraf dist && parcel ./src/index.html",
-    "build:prod": "rimraf dist && parcel build ./src/index.html",
-    "start": "rimraf dist && parcel ./src/index.html --open"
+    "start": "rimraf dist && parcel --open",
+    "build": "rimraf dist && parcel build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "parcel-bundler": "^1.12.4",
+    "parcel": "^2.2.1",
     "rimraf": "^3.0.2"
   }
 }

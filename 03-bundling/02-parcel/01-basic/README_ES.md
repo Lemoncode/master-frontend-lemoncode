@@ -26,9 +26,9 @@ npm init -y
 npm install parcel --save-dev
 ```
 
-- Vamos a crear un archvio básico [/src/index.js](./src/index.js) (compatible con es5):
+- Vamos a crear un archvio básico [/src/index.js](./src/index.js):
 
-_[/src/index.js](./src/index.js)_
+_[./src/index.js](./src/index.js)_
 
 ```javascript
 const user = "John Doe";
@@ -38,7 +38,7 @@ console.log(`Hello ${user}!`);
 
 - Creamos [/src/index.html](./src/index.html):
 
-_[/src/index.html](./src/index.html)_
+_.[/src/index.html](./src/index.html)_
 
 ```html
 <html>
@@ -68,50 +68,6 @@ npm run build
 
 > Se generó una nueva carpeta, _[/dist](./dist)_. Qué contiene el bundle.
 
-- ¿Qué pasa si necesitamos una versión para producción? Añadimos este comando al [package.json](./package.json):
-
-_[package.json](./package.json)_
-
-```diff
-  "scripts": {
--   "build": "parcel ./src/index.html"
-+   "build": "parcel ./src/index.html",
-+   "build:prod": "parcel build ./src/index.html"
-  },
-```
-
-- Generemos la _build_
-
-```bash
-npm run build
-```
-
-> Se genera una nueva carpeta, _[/dist](./dist)_, qué contiene el _bundle_.
-
-Pero si abrimos el archivo _javascript_ generado vemos que nuestro código está en _es6_ y no ha sido transpiado. ¿Por qué sucede esto? Tenemos que decirle a _Parcel_ que nos transpile el código. ¿Y cómo lo solucionamos? Nos vamos al _package.json_ y agregamos otra línea de comandos llamada browserslist.
-
-> [Documentación de browserslist para más configuraciones](https://github.com/browserslist/browserslist)
-
-_[./package.json](./package.json)_
-
-```diff
-{
-  "name": "parcel",
-  "version": "1.0.0",
-  "description": "",
-+  "browserslist": "> 0.5%, last 2 versions, not dead",
-  "main": "index.js",
-  "scripts": {
-    "build": "parcel ./src/index.html"
-  },
-```
-
-- Volvamos a generar el _bundle_ y vemos que ahora nuestro código sí ha sido transpilado.
-
-```bash
-npm run build
-```
-
 - ¿Qué pasa si necesitamos una versión lista para producción? Agregamos el siguiente comando a nuestro [package.json](./package.json):
 
 _[./package.json](./package.json)_
@@ -140,7 +96,14 @@ Y nos aparece un bonito error. ¿Qué hicimos mal?, si aparentemente está bien 
     8 |     "build": "parcel ./src/index.html",
 ```
 
-Nuestro _package.json_ contiene un campo _main_, que nos da el punto de entrada a nuestra aplicación. Pero _Parcel_ usa a nuestra aplicación como una librería y trata ese campo _main_ como punto de salida. Cuando creamos el _bundle_, nos da un error y nos muestra _¿Quiso decir index.html?_, por la misma razón. Así que la solución es eliminarlo y nos ahorramos errores.
+Nuestro _package.json_ contiene un campo _main_, que nos da el punto de entrada a nuestra aplicación. Pero _Parcel_ usa a nuestra aplicación como una librería y trata ese campo _main_ como punto de salida. Cuando creamos el _bundle_, nos da un error y nos muestra _¿Quiso decir index.html?_. Así que la solución es eliminarlo y nos ahorramos errores.
+
+```diff
+"browserslist": "> 0.5%, last 2 versions, not dead",
+-  "main": "index.js",
+  "scripts": {
+    "build": "parcel ./src/index.html",
+```
 
 > [Parcel en producción](https://parceljs.org/features/production/)
 
@@ -150,12 +113,44 @@ Nuestro _package.json_ contiene un campo _main_, que nos da el punto de entrada 
 npm run build:prod
 ```
 
-- Obtenemos una versión minificada de nuestro código.
+Pero si abrimos el archivo _javascript_ generado vemos que nuestro código está en _es6_ y no ha sido transpiado. 
 
 ```javascript
-var user = "John Doe";
-console.log("Hello ".concat(user));
-//# sourceMappingURL=index.fb01ca75.js.map
+const user="John Doe";console.log(`Hello ${user}!`);
+//# sourceMappingURL=index.6b00e545.js.map
+```
+
+¿Por qué sucede esto? Tenemos que decirle a _Parcel_ que nos transpile el código. ¿Y cómo lo solucionamos? Nos vamos al _package.json_ y agregamos otra línea de comandos llamada browserslist.
+
+¡¡¡ FALTA EXPLICAR QUE ES BROWSESLIST!!!!!
+
+> [Documentación de browserslist para más configuraciones](https://github.com/browserslist/browserslist)
+
+_[./package.json](./package.json)_
+
+```diff
+{
+  "name": "parcel",
+  "version": "1.0.0",
+  "description": "",
++  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "main": "index.js",
+  "scripts": {
+    "build": "parcel ./src/index.html"
+  },
+```
+
+- Volvamos a generar el _bundle_ y vemos que ahora nuestro código sí ha sido transpilado.
+
+```bash
+npm run build:prod
+```
+
+- Obtenemos una versión minificada de nuestro código y transpilada.
+
+```javascript
+var user="John Doe";console.log("Hello ".concat(user,"!"));
+//# sourceMappingURL=index.c90810f0.js.map
 ```
 
 - Hay un problema: Los archivos antiguos no se borran, vamos a añadir un plugin, llamado **rim-raf** para asegurarnos de que estamos limpiando la carpeta _[/dist](./dist)_ antes de generar el _bundle_.
@@ -179,7 +174,7 @@ _[package.json](./package.json)_
   },
 ```
 
-- Añadimos nuestro **script** para lanzar nuestra aplicación, **start**, dentro de [package.json](./package.json):
+- Añadimos nuestro **script** para lanzar nuestra aplicación, **start**, dentro de [package.json](./package.json) y añadimos el *flag* *--open* para que se abra en nuestro navegador automáticamente cuando se ejecute:
 
 _[package.json](./package.json)_
 
@@ -200,7 +195,7 @@ _[package.json](./package.json)_
   "version": "1.0.0",
   "description": "",
   "browserslist": "> 0.5%, last 2 versions, not dead",
-+ "source": "src/index.html"
++ "source": "src/index.html",
   "scripts": {
 -   "start": "rimraf dist && parcel ./src/index.html --open",
 +   "start": "rimraf dist && parcel --open",
@@ -209,4 +204,4 @@ _[package.json](./package.json)_
   },
 ```
 
-Ahora lanzamos el comando `npm start` en la consola y verificamos los resultado.
+Ahora lanzamos el comando `npm start` en la **terminal** y verificamos los resultados.

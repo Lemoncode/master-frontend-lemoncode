@@ -44,7 +44,7 @@ _.[/src/index.html](./src/index.html)_
 <html>
   <body>
     <h1>Check the console log</h1>
-    <script src="./index.js"></script>
+    <script type="module" src="./index.js"></script>
   </body>
 </html>
 ```

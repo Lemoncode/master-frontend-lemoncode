@@ -11,10 +11,8 @@ module.exports = merge(base, {
     filename: '[name].js',
   },
   devServer: {
-    inline: true,
     host: 'localhost',
     port: 8080,
-    stats: 'minimal',
     proxy: {
       '/api': 'http://localhost:3000',
     },

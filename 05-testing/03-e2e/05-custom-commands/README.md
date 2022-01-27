@@ -21,8 +21,9 @@ Cypress.Commands.add('loadAndVisit', () => {
   cy.intercept('GET', '/api/hotels').as('fetchHotels');
   cy.visit('/hotel-collection');
 
-  return cy.wait('@fetchHotels');
+  cy.wait('@fetchHotels');
 });
+
 ```
 
 ### ./cypress/support/index.ts
@@ -124,8 +125,8 @@ it('should fetch hotel list greater than 0 when visit /hotel-collection url', ()
 - cy.visit('/hotel-collection');
 + cy.visit(routePath);
 
-- return cy.wait('@fetchHotels');
-+ return cy.wait('@load');
+- cy.wait('@fetchHotels');
++ cy.wait('@load');
 });
 
 ```

@@ -6,6 +6,6 @@ Cypress.Commands.add(
       : cy.intercept('GET', apiPath).as('load');
     cy.visit(routePath);
 
-    return cy.wait('@load');
+    cy.wait('@load');
   }
 );

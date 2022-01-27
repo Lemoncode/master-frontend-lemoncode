@@ -39,8 +39,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Install
         run: npm install
-      - name: Build
-        run: npm run build
       - name: Tests
         run: npm test
 

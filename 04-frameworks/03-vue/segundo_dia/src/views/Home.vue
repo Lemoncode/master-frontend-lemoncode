@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div v-if="error">Error :(</div>
+    <div v-if="error">Error :( {{ error }} </div>
     <Suspense>
       <template #default>
         <ProductList />

@@ -156,12 +156,10 @@ Cypress.Commands.add(
 +     callbackAfterVisit();
 +   }
 
--   return cy.wait('@load');
+-   cy.wait('@load');
 +   aliasList.forEach((alias) => {
 +     cy.wait(`@${alias}`);
 +   });
-
-+   return cy;
   }
 );
 
@@ -242,7 +240,7 @@ declare namespace Cypress {
 -   cy.wait('@loadHotel');
 
     cy.findByLabelText('Name').should('not.have.value', '');
-    
+
     cy.findByLabelText('Name').clear().type('Updated hotel two');
 
     cy.findByRole('button', { name: 'Save' }).click();

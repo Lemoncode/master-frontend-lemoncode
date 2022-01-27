@@ -14,6 +14,7 @@ export default defineComponent({
     quantity: {
       type: String,
       required: true,
+      default: '',
     },
     coin: {
       type: String as PropType<Coin>,
@@ -25,6 +26,7 @@ export default defineComponent({
   },
   computed: {
     floatPrice(): number {
+      // cast to number
       return parseFloat(String(this.quantity).replace(',', '.'))
     },
     // TODO: make locale a global property using vue-i18n

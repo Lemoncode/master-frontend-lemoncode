@@ -5,6 +5,7 @@
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
+    "resolveJsonModule": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -15,7 +16,6 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "resolveJsonModule": true,
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "include": [

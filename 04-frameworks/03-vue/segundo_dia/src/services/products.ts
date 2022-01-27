@@ -6,13 +6,16 @@ export const productService = {
       headers: {
         Accept: 'application/json',
       },
-    }).then((response) => response.json())
+    }).then((res) => res.json())
+
     return books
   },
-  async getProduct(id: Product['id']): Promise<Product | undefined> {
-    if (!id) throw new Error('id is required')
-    return this.get().then((list) => {
-      return list.find((item: Product) => String(item.id) === String(id))
-    })
+  async getProduct(id: string): Promise<Product | undefined> {
+    if (!id) {
+      throw new Error('id is required')
+    }
+    return this.get().then((products) =>
+      products.find((product) => product.id === id)
+    )
   },
 }

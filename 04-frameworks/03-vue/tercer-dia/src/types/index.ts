@@ -1,4 +1,5 @@
 type Price = string
+
 type ProductId = string
 
 export interface Product {
@@ -9,4 +10,5 @@ export interface Product {
   category: string
   publisher: string
   price: Price
+  discount: string
 }

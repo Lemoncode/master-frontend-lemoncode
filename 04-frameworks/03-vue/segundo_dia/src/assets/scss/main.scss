@@ -29,6 +29,8 @@ ul {
   padding-inline-end: 2%;
 }
 
+// flex and grid
+
 .flex {
   display: flex;
 }
@@ -44,10 +46,12 @@ ul {
   justify-content: space-between;
 }
 
+// boxes
 .full-width {
   width: 100%;
 }
 
+// texts
 .text-align-end {
   text-align: end;
 }
@@ -55,10 +59,12 @@ ul {
   text-align: center;
 }
 
+// colors
 .grey-text {
   color: #cacaca;
 }
 
+// custom
 .card {
   border-radius: 5px;
   box-shadow: 0 0 10px 6px rgba(0, 0, 0, 0.1);
@@ -73,7 +79,7 @@ ul {
   transition: background-color 0.2s ease-in;
   cursor: pointer;
   padding: 0.7em 1em;
-}
-.button:hover {
-  background-color: #cacaca;
+  &:hover {
+    background-color: #cacaca;
+  }
 }

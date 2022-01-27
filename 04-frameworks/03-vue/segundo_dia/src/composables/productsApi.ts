@@ -1,17 +1,18 @@
-import { Ref, ref, computed } from 'vue'
-
-import { productService } from '@/services/products.ts'
-
+import { ref, Ref, computed, ComputedRef } from 'vue'
 import { Product } from '@/types'
+import { productService } from '@/services/products'
 
-export async function useProductApi() {
+const useProductsApi = async (): Promise<{
+  list: Ref<Product[]>
+  totalProducts: ComputedRef<number>
+}> => {
   const list: Ref<Product[]> = ref([])
   list.value = await productService.get()
 
-  const totalProducts = computed<number>(() => list.value.length)
-
-  return {
-    list,
-    totalProducts,
-  }
+  const totalProducts = computed(() => {
+    return list.value.length
+  })
+  return { list, totalProducts }
 }
+
+export default useProductsApi

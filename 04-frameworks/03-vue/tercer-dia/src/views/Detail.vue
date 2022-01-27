@@ -6,6 +6,7 @@
     <div v-if="product">
       <h1>{{ product.title }}</h1>
       <p class="flex">Price:&nbsp;<StaticPrice :quantity="product.price" /></p>
+
     </div>
   </div>
 </template>
@@ -13,7 +14,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { RouteLocation } from 'vue-router'
-
 import { Product } from '@/types'
 import { productService } from '@/services/products'
 

@@ -1,5 +1,7 @@
 <template>
-  <nav class="nav flex align-items-center justify-content-between container">
+  <nav
+    class="nav nav flex align-items-center justify-content-between container"
+  >
     <div>Logo</div>
     <div>Cart</div>
   </nav>
@@ -10,7 +12,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({})
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .nav {
   min-height: 80px;
   background-color: rgb(198, 247, 244);

@@ -1,7 +1,7 @@
 <template>
   <button
-    class="button"
     type="button"
+    class="button"
     @click="$emit('selected-category', category)"
   >
     {{ category }}
@@ -15,10 +15,8 @@ export default defineComponent({
   props: {
     category: {
       type: String,
-      default: '',
+      required: true,
     },
   },
 })
 </script>
-
-<style></style>

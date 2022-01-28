@@ -73,6 +73,29 @@ _index.html_
 
 ```
 
+
+- We have to modify our ** `webpack.config.js` ** because by default **` `webpack dev server`` ** it looks in the _public_ folder.
+
+```diff
+const path = require("path");
+
+module.exports = {
+  entry: ["./students.js"],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+      },
+    ],
+  },
++  devServer: {
++    static: path.join(__dirname, "./"),
++  },
+};
+```
+
 - Now if we type from the command prompt.
 
 ```bash
@@ -108,9 +131,10 @@ module.exports = {
       },
     ],
   },
-+ devServer: {
+devServer: {
+    static: path.join(__dirname, "./"),
 +   port: 8081,
-+ },
+ },
 };
 
 ```
@@ -137,6 +161,7 @@ module.exports = {
     ],
   },
   devServer: {
+    static: path.join(__dirname, "./"),
 -   port: 8081,
 +   port: 8080,
   },

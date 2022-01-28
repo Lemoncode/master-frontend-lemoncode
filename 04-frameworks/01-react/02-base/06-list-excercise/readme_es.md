@@ -176,7 +176,9 @@ import { MemberGridRow } from "./member-grid-row";
         <div className="header-foto">Avatar</div>
         <div className="header-id ">Id</div>
         <div className="header-nombre">Name</div>
-+       <MemberGridRow key={member.id} member={member}>
+        {members.map((member) => (
+          <MemberGridRow key={member.id} member={member} />
+        ))}
       </div>
 ```
 

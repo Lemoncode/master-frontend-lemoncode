@@ -29,7 +29,5 @@ Cypress.Commands.add(
     aliasList.forEach((alias) => {
       cy.wait(`@${alias}`);
     });
-
-    return cy;
   }
 );

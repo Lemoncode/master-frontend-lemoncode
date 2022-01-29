@@ -1,12 +1,11 @@
 import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-interface ParamProps {
+type ParamProps = {
   name: string;
-}
+};
 
-interface Props extends RouteComponentProps<ParamProps> {}
-
-export const UserEdit: React.FunctionComponent<Props> = (props) => {
-  return <h1>User name: {props.match.params.name}</h1>;
+export const UserEdit: React.FunctionComponent = (props) => {
+  const params = useParams<ParamProps>();
+  return <h1>User name: {params.name}</h1>;
 };

@@ -132,7 +132,7 @@ npm install @testing-library/jest-dom --save-dev
 
 ```javascript
 import '@testing-library/jest-dom';
-import '@testing-library/jest-dom/extend-expect';
+
 ```
 
 - Update `jest` config:

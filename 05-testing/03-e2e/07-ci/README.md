@@ -110,8 +110,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Install
         run: npm install
-      - name: Build
-        run: npm run build
       - name: Tests e2e
         run: npm run test:e2e:ci
 ```
@@ -143,8 +141,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Install
         run: npm install
-      - name: Build
-        run: npm run build
       - name: Tests e2e
         run: npm run test:e2e:ci
 +     - name: Upload screenshots when specs fail

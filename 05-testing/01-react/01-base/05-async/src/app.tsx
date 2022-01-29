@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { getMembers } from './api';
-import { mapToMemberVMList } from './mapper';
+import { mapMemberListFromApiToVm } from './mapper';
 
 export const App: React.FunctionComponent = () => {
   React.useEffect(() => {
     getMembers()
       .then((members) => {
-        console.log(mapToMemberVMList(members));
+        console.log(mapMemberListFromApiToVm(members));
       })
       .catch((error) => console.log(error));
   }, []);

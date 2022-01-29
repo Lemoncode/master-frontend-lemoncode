@@ -1,6 +1,6 @@
 import * as apiModel from './api-model';
 import * as viewModel from './view-model';
-import { mapToMemberVMList } from './mapper';
+import { mapMemberListFromApiToVm } from './mapper';
 
 describe('mapper specs', () => {
   it('should return empty array when it feeds undefined', () => {
@@ -8,7 +8,7 @@ describe('mapper specs', () => {
     const members: apiModel.Member[] = undefined;
 
     // Act
-    const result: viewModel.Member[] = mapToMemberVMList(members);
+    const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
 
     // Assert
     expect(result).toEqual([]);
@@ -19,7 +19,7 @@ describe('mapper specs', () => {
     const members: apiModel.Member[] = null;
 
     // Act
-    const result: viewModel.Member[] = mapToMemberVMList(members);
+    const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
 
     // Assert
     expect(result).toEqual([]);
@@ -30,7 +30,7 @@ describe('mapper specs', () => {
     const members: apiModel.Member[] = [];
 
     // Act
-    const result: viewModel.Member[] = mapToMemberVMList(members);
+    const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
 
     // Assert
     expect(result).toEqual([]);
@@ -43,7 +43,7 @@ describe('mapper specs', () => {
     ];
 
     // Act
-    const result: viewModel.Member[] = mapToMemberVMList(members);
+    const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
 
     // Assert
     const expectedResult: viewModel.Member[] = [

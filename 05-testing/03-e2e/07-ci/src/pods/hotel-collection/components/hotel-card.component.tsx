@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -20,7 +20,7 @@ interface Props {
 
 export const HotelCard: React.FunctionComponent<Props> = (props) => {
   const { hotel } = props;
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <Card>
@@ -49,7 +49,7 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
       <CardActions>
         <IconButton
           aria-label="Edit hotel"
-          onClick={() => history.push(linkRoutes.hotelEdit(hotel.id))}
+          onClick={() => navigate(linkRoutes.hotelEdit(hotel.id))}
         >
           <EditIcon />
         </IconButton>

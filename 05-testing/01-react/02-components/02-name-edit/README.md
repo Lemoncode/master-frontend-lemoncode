@@ -108,7 +108,7 @@ describe('NameEdit component specs', () => {
     render(<NameEdit />);
 
 -   const h3Element = screen.getByText('');
-+   const h3Element = screen.getByRole('heading', { name: '' });
++   const h3Element = screen.getByRole('heading', { level: 3 });
 +   const inputElement = screen.getByRole('textbox', { name: '' });
 
     // Assert

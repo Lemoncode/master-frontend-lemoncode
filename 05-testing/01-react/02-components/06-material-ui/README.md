@@ -18,12 +18,14 @@ npm install
 
 ```javascript
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material';
 
 interface Props {
   onAgreeClick: () => void;
@@ -64,7 +66,6 @@ export const CookiesDialog: React.FunctionComponent<Props> = (props) => {
     </>
   );
 };
-
 ```
 
 - Use it:
@@ -109,7 +110,6 @@ describe('CookiesDialog component specs', () => {
     // Assert
   });
 });
-
 ```
 
 - should display a button with text "Learn more about our cookies":
@@ -124,7 +124,7 @@ describe('CookiesDialog component specs', () => {
 + it('should display a button with text "Learn more about our cookies"', () => {
     // Arrange
 +   const props = {
-+     onAgreeClick: jest.fn(),
++     onAgreeClick: () => {},
 +   };
 
     // Act
@@ -151,7 +151,7 @@ describe('CookiesDialog component specs', () => {
 + it('should open dialog when click on "Learn more about our cookies" button', () => {
 +   // Arrange
 +   const props = {
-+     onAgreeClick: jest.fn(),
++     onAgreeClick: () => {},
 +   };
 
 +   // Act
@@ -175,12 +175,6 @@ describe('CookiesDialog component specs', () => {
 - should call onAgreeClick when it clicks on "Agree" button:
 
 ```diff
-import React from 'react';
-- import { render, screen } from '@testing-library/react';
-+ import { render, screen, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { CookiesDialog } from './cookies-dialog';
-
 ...
 
 + it('should call onAgreeClick when it clicks on "Agree" button', () => {
@@ -192,18 +186,58 @@ import { CookiesDialog } from './cookies-dialog';
 +   // Act
 +   render(<CookiesDialog {...props} />);
 
-+   // The only button available at this moment
-+   const buttonElement = screen.getByRole('button');
++   const buttonElement = screen.getByRole('button', {
++     name: /learn more about our cookies/i,
++   });
 +   userEvent.click(buttonElement);
 
-+   const dialogElement = screen.getByRole('dialog');
-
-+   const agreeButtonElement = within(dialogElement).getByRole('button');
++   const agreeButtonElement = screen.getByRole('button', { name: /agree/i });
 +   userEvent.click(agreeButtonElement);
 
 +   // Assert
 +   expect(props.onAgreeClick).toHaveBeenCalled();
 + });
+
+```
+
+- An improvement could be use `within` method:
+
+```diff
+import React from 'react';
+- import { render, screen } from '@testing-library/react';
++ import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { CookiesDialog } from './cookies-dialog';
+
+...
+
+
+
+  it('should call onAgreeClick when it clicks on "Agree" button', () => {
+    // Arrange
+    const props = {
+      onAgreeClick: jest.fn(),
+    };
+
+    // Act
+    render(<CookiesDialog {...props} />);
+
+-   const buttonElement = screen.getByRole('button', {
+-     name: /learn more about our cookies/i,
+-   });
++   // The only button available at this moment
++   const buttonElement = screen.getByRole('button');
+    userEvent.click(buttonElement);
+
++   const dialogElement = screen.getByRole('dialog');
+
+-   const agreeButtonElement = screen.getByRole('button', { name: /agree/i });
++   const agreeButtonElement = within(dialogElement).getByRole('button');
+    userEvent.click(agreeButtonElement);
+
+    // Assert
+    expect(props.onAgreeClick).toHaveBeenCalled();
+  });
 
 ```
 

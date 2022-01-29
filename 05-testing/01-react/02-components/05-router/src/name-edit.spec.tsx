@@ -10,11 +10,11 @@ describe('NameEdit component specs', () => {
     // Act
     render(<NameEdit />);
 
-    const labelElement = screen.getByRole('heading', { name: '' });
+    const h3Element = screen.getByRole('heading', { level: 3 });
     const inputElement = screen.getByRole('textbox', { name: '' });
 
     // Assert
-    expect(labelElement).toBeInTheDocument();
+    expect(h3Element).toBeInTheDocument();
     expect(inputElement).toBeInTheDocument();
   });
 
@@ -24,7 +24,7 @@ describe('NameEdit component specs', () => {
     // Act
     render(<NameEdit />);
 
-    const labelElement = screen.getByRole('heading', { name: '' });
+    const h3Element = screen.getByRole('heading', { name: '' });
     const inputElement = screen.getByRole('textbox', {
       name: '',
     }) as HTMLInputElement;
@@ -32,7 +32,7 @@ describe('NameEdit component specs', () => {
     userEvent.type(inputElement, 'John');
 
     // Assert
-    expect(labelElement.textContent).toEqual('John');
+    expect(h3Element.textContent).toEqual('John');
     expect(inputElement.value).toEqual('John');
   });
 });

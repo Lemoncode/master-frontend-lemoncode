@@ -15,6 +15,7 @@ Partiendo del ejemplo [05-testing/01-react/05-real-project/00-boilerplate](https
 
 - Copiar los ficheros de la carpeta `00-boilerplate` del repositorio anterior, en local.
 - Subir esos ficheros a un repositorio vuestro propio en la rama `master`.
+- Acordaros de hacer la configuración para los alias de webpack y jest.
 - Crear nueva rama llamada `feature/laboratorio-testing-obligatorio`.
 - Implementar los ejercicios obligatorios.
 - Una vez lista la entrega, podéis crear una pull request desde la rama `feature/laboratorio-testing-obligatorio` hacia la rama `master` para que se vean los nuevos cambios.

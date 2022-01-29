@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -12,7 +12,7 @@ import * as classes from './app.layout.styles';
 export const AppLayout: React.FunctionComponent = (props) => {
   const { children } = props;
   const { login } = React.useContext(SessionContext);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -21,7 +21,7 @@ export const AppLayout: React.FunctionComponent = (props) => {
           <IconButton
             color="inherit"
             aria-label="Menu"
-            onClick={() => history.push(linkRoutes.login)}
+            onClick={() => navigate(linkRoutes.login)}
           >
             <AccountCircle />
           </IconButton>

@@ -156,7 +156,6 @@ module: {
 -               exportLocalsConvention: "camelCase",
 -               localIdentName: "[path][name]__[local]--[hash:base64:5]",
 -               localIdentContext: path.resolve(__dirname, "src"),
--               localIdentHashPrefix: "my-custom-hash",
 -             },
 -           },
 -         },
@@ -227,7 +226,6 @@ module.exports = merge(common, {
 +               exportLocalsConvention: "camelCase",
 +               localIdentName: "[path][name]__[local]--[hash:base64:5]",
 +               localIdentContext: path.resolve(__dirname, "src"),
-+               localIdentHashPrefix: "my-custom-hash",
 +             },
 +           },
 +         },
@@ -274,7 +272,6 @@ module.exports = merge(common, {
 +               exportLocalsConvention: "camelCase",
 +               localIdentName: "[path][name]__[local]--[hash:base64:5]",
 +               localIdentContext: path.resolve(__dirname, "src"),
-+               localIdentHashPrefix: "my-custom-hash",
 +             },
 +           },
 +         },
@@ -344,7 +341,6 @@ _webpack.dev.js_
 -               localIdentName: "[path][name]__[local]--[hash:base64:5]",
 +               localIdentName: "[path][name]__[local]",
                 localIdentContext: path.resolve(__dirname, "src"),
--               localIdentHashPrefix: "my-custom-hash",
               },
 ...
 ```

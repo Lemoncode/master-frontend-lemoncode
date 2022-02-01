@@ -384,14 +384,12 @@ npm start
         exportLocalsConvention: "camelCase",
 +       localIdentName: '[path][name]__[local]--[hash:base64:5]',
 +       localIdentContext: path.resolve(__dirname, 'src'),
-+       localIdentHashPrefix: 'my-custom-hash', // Optional
       },
     },
   },
 ```
 > [localIdentName](https://webpack.js.org/loaders/css-loader/#localidentname)
 > [localIdentContext](https://webpack.js.org/loaders/css-loader/#localidentcontext)
-> [localIdentHashPrefix](https://webpack.js.org/loaders/css-loader/#localidenthashprefix)
 
 - If we take a look to the browser console, we can see how webpack transform css class names, adding prefixes (inspect element).
 

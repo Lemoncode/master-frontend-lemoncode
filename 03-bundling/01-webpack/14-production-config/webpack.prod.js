@@ -24,7 +24,6 @@ module.exports = merge(common, {
                 exportLocalsConvention: "camelCase",
                 localIdentName: "[path][name]__[local]--[hash:base64:5]",
                 localIdentContext: path.resolve(__dirname, "src"),
-                localIdentHashPrefix: "my-custom-hash",
               },
             },
           },

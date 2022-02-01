@@ -12,9 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@parcel/transformer-sass": "^2.2.1",
     "parcel": "^2.2.1",
-    "rimraf": "^3.0.2",
-    "sass": "^1.49.0"
+    "rimraf": "^3.0.2"
   }
 }

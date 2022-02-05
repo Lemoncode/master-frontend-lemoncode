@@ -91,7 +91,7 @@ export const useLogin = () => {
 
 +   // Assert
 +   expect(result.current.user).toBeNull();
-+   expect(result.current.setCredential).toEqual(expect.any(Function));
++   expect(result.current.onLogin).toEqual(expect.any(Function));
 + });
 
 ```

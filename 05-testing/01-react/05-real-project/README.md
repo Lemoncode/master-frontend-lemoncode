@@ -245,13 +245,12 @@ import userEvent from '@testing-library/user-event';
 import { SelectComponent } from './select.component';
 import { Lookup } from 'common/models';
 
-+ const renderWithFormik = (component, initialValues) => ({
-+   ...render(
++ const renderWithFormik = (component, initialValues) =>
++   render(
 +     <Formik initialValues={initialValues} onSubmit={console.log}>
 +       {() => <Form>{component}</Form>}
 +     </Formik>
-+   ),
-+ });
++   );
 ...
 
   it('should update selected item when it clicks on third item using Formik', () => {

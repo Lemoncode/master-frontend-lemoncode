@@ -126,18 +126,15 @@ import * as api from './name-api';
 + import { UserEdit } from './user-edit';
 import { NameCollection } from './name-collection';
 
-+ const renderWithRouter = (component) => {
-+   return {
-+     ...render(
-+       <HashRouter>
-+         <Routes>
-+           <Route path="/" element={component} />
-+           <Route path="users/:name" element={<UserEdit />} />
-+         </Routes>
-+       </HashRouter>
-+     ),
-+   };
-+ };
++ const renderWithRouter = (component) =>
++   render(
++     <HashRouter>
++       <Routes>
++         <Route path="/" element={component} />
++         <Route path="users/:name" element={<UserEdit />} />
++       </Routes>
++     </HashRouter>
++   );
 
 ...
     // Act
@@ -167,7 +164,7 @@ import { NameCollection } from './name-collection';
 
 ```diff
 import React from 'react';
-import { HashRouter, Switch, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import {
   render,
   screen,
@@ -215,7 +212,7 @@ import { NameCollection } from './name-collection';
 
     const secondUser = links[1];
     userEvent.click(secondUser);
-    
+
 +   screen.debug()
 
     const userEditElement = screen.getByRole('heading', {

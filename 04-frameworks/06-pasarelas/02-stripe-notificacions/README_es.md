@@ -18,6 +18,8 @@ npm install
 - Vamos parsear el cuerpo de lo que nos venga con JSON para ello hacemos
   uso del middleware de _json_ de express.
 
+> No olvidar quitar bodyparser !!
+
 _./src/express.server.ts_
 
 ```diff
@@ -42,7 +44,7 @@ api.get('/', async (req, res) => {
 +  const payload = request.body;
 +
 +  // Aquí simplemente mostramos por consola lo que nos devuelve Stripe
-+  console.log('Got payload: ' + JSON.stringify(payload));
++  console.log(`Got payload: ${JSON.stringify(payload)}`);
 +
 +  response.status(200);
 + });
@@ -155,6 +157,8 @@ npm start
   falta el original, ¿Qué podemos hacer? Además de traernos el contenido en JSON, traernos también
   el contenido en crudo, para ello tocamos el body parser de express:
 
+_./src/express.server.ts_
+
 ```diff
   app.use(
 -    express.json({
@@ -169,7 +173,11 @@ npm start
 
 - Y en el webhook tiramos del raw content para validar:
 
+_./src/api.ts_
+
 ```diff
+api.post('/webhook', (request, response) => {
+  const sig = request.headers['stripe-signature'];
   const payload = request.body;
 + const rawBody = request['raw'];
 

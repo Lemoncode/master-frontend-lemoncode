@@ -1,17 +1,19 @@
 {
   "presets": [
-    "@babel/preset-env",
-    "@babel/preset-typescript",
     [
+      "@babel/preset-env",
       {
-        "env": {
-          "development": {
-            "sourceMaps": true,
-            "retainLines": true
-          }
+        "targets": {
+          "node": "14"
         }
       }
-    ]
+    ],
+    "@babel/preset-typescript"
   ],
-  "plugins": ["@babel/plugin-proposal-optional-chaining"]
+  "plugins": ["@babel/plugin-proposal-optional-chaining"],
+  "env": {
+    "development": {
+      "sourceMaps": "inline"
+    }
+  }
 }

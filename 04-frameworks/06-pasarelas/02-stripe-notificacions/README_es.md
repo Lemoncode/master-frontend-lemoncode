@@ -82,7 +82,7 @@ PORT=8081
 + STRIPE_SECRET=**PEGA AQUI CLAVE PRIVADA DE STRIPE empieza por sk_text**
 ```
 
-- También debemo de pegar la clave publica asociada en el index.html
+- También debemos de pegar la clave publica asociada en el index.html
 
 _./src/static/index.html_
 
@@ -149,6 +149,8 @@ api.post('/webhook', (request, response) => {
 ```
 npm start
 ```
+
+- Podemos pararlo y probar a depurar.
 
 # ¿Con ganas de ponerte al día con Backend?
 

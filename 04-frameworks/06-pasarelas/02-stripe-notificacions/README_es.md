@@ -18,14 +18,14 @@ npm install
 - Vamos parsear el cuerpo de lo que nos venga con JSON para ello hacemos
   uso del middleware de _json_ de express.
 
-_./src/app.ts_
+_./src/express.server.ts_
 
 ```diff
 const app = createApp();
 
-+ app.use(express.json()); //Used to parse JSON bodies
-app.use('/', express.static(path.join(__dirname, 'static')));
++ app.use(express.json());
 
+app.use('/', express.static(path.join(__dirname, 'static')));
 ```
 
 - En nuestro fichero de API vamos a definir un nuevo endpoint.
@@ -150,7 +150,45 @@ api.post('/webhook', (request, response) => {
 npm start
 ```
 
-- Podemos pararlo y probar a depurar.
+- Peero si lo paramos y depuramos vemos que la verificación no funciona :-@, ¿Qué es lo que pasa?
+  Que el body que le estamos pasando a stripe para que verifique esta ya parseado a JSON y nos hace
+  falta el original, ¿Qué podemos hacer? Además de traernos el contenido en JSON, traernos también
+  el contenido en crudo, para ello tocamos el body parser de express:
+
+```diff
+  app.use(
+-    express.json({
++    express.json({
++      verify: function (req, res, buf, enconding) {
++        req['raw'] = buf;
++      },
++    })
+-    )
+  );
+```
+
+- Y en el webhook tiramos del raw content para validar:
+
+```diff
+  const payload = request.body;
++ const rawBody = request['raw'];
+
+  // Aquí simplemente mostramos por consola lo que nos devuelve Stripe
+  console.log('Got payload: ' + JSON.stringify(payload));
+
+    let event;
+
+    try {
+      // Tiramos de la librería de stripe para validar la respuesta usando el endPointSecret
+      // esto nos permite ver si el mensaje no viene de un impostor
+-      event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
++      event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret);
+    } catch (err) {
+      return response.status(400).send(`Webhook Error: ${err.message}`);
+    }
+```
+
+- Si probamos ahora podemos ver que la validación es correcta.
 
 # ¿Con ganas de ponerte al día con Backend?
 

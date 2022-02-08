@@ -3,12 +3,6 @@ import { envConstants } from './env.constants';
 import { api } from './api';
 import express from 'express';
 import path from 'path';
-import Stripe from 'stripe';
-
-// https://github.com/stripe/stripe-node#usage-with-typescript
-const stripe = new Stripe(envConstants.STRIPE_SECRET, {
-  apiVersion: '2020-08-27',
-});
 
 const app = createApp();
 

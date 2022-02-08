@@ -18,14 +18,16 @@ npm install
 - Vamos parsear el cuerpo de lo que nos venga con JSON para ello hacemos
   uso del middleware de _json_ de express.
 
-_./src/app.ts_
+> No olvidar quitar bodyparser !!
+
+_./src/express.server.ts_
 
 ```diff
 const app = createApp();
 
-+ app.use(express.json()); //Used to parse JSON bodies
-app.use('/', express.static(path.join(__dirname, 'static')));
++ app.use(express.json());
 
+app.use('/', express.static(path.join(__dirname, 'static')));
 ```
 
 - En nuestro fichero de API vamos a definir un nuevo endpoint.
@@ -42,7 +44,7 @@ api.get('/', async (req, res) => {
 +  const payload = request.body;
 +
 +  // Aquí simplemente mostramos por consola lo que nos devuelve Stripe
-+  console.log('Got payload: ' + JSON.stringify(payload));
++  console.log(`Got payload: ${JSON.stringify(payload)}`);
 +
 +  response.status(200);
 + });
@@ -82,7 +84,7 @@ PORT=8081
 + STRIPE_SECRET=**PEGA AQUI CLAVE PRIVADA DE STRIPE empieza por sk_text**
 ```
 
-- También debemo de pegar la clave publica asociada en el index.html
+- También debemos de pegar la clave publica asociada en el index.html
 
 _./src/static/index.html_
 
@@ -149,6 +151,52 @@ api.post('/webhook', (request, response) => {
 ```
 npm start
 ```
+
+- Peero si lo paramos y depuramos vemos que la verificación no funciona :-@, ¿Qué es lo que pasa?
+  Que el body que le estamos pasando a stripe para que verifique esta ya parseado a JSON y nos hace
+  falta el original, ¿Qué podemos hacer? Además de traernos el contenido en JSON, traernos también
+  el contenido en crudo, para ello tocamos el body parser de express:
+
+_./src/express.server.ts_
+
+```diff
+  app.use(
+-    express.json({
++    express.json({
++      verify: function (req, res, buf, enconding) {
++        req['raw'] = buf;
++      },
++    })
+-    )
+  );
+```
+
+- Y en el webhook tiramos del raw content para validar:
+
+_./src/api.ts_
+
+```diff
+api.post('/webhook', (request, response) => {
+  const sig = request.headers['stripe-signature'];
+  const payload = request.body;
++ const rawBody = request['raw'];
+
+  // Aquí simplemente mostramos por consola lo que nos devuelve Stripe
+  console.log('Got payload: ' + JSON.stringify(payload));
+
+    let event;
+
+    try {
+      // Tiramos de la librería de stripe para validar la respuesta usando el endPointSecret
+      // esto nos permite ver si el mensaje no viene de un impostor
+-      event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
++      event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret);
+    } catch (err) {
+      return response.status(400).send(`Webhook Error: ${err.message}`);
+    }
+```
+
+- Si probamos ahora podemos ver que la validación es correcta.
 
 # ¿Con ganas de ponerte al día con Backend?
 

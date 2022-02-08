@@ -189,7 +189,8 @@ export const envConstants = {
 };
 ```
 
-- Y en el lado de los endpoints vamos a traernos stripes, como vamos a usar el import en modo genérico, vamos a configurar esto en nuetro tsconfig
+- Y en el lado de los endpoints vamos a traernos  las librería
+de servidor de stripe, como vamos a usar el import en modo genérico, vamos a configurar esto en nuetro tsconfig
 
 _./tsconfig.json_
 

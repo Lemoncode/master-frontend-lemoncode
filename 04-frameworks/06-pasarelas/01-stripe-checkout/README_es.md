@@ -189,7 +189,7 @@ export const envConstants = {
 };
 ```
 
-- Y en el lado de los endpoints vamos a traernos  las librería
+- Y en el lado de los endpoints vamos a traernos  la librería
 de servidor de stripe, como vamos a usar el import en modo genérico, vamos a configurar esto en nuetro tsconfig
 
 _./tsconfig.json_
@@ -387,6 +387,13 @@ _./src/static/index.html_
 ```bash
 npm start
 ```
+
+Tarjetas para probar
+
+No authentication (default U.S. card): 4242 4242 4242 4242.
+Authentication required: 4000 0027 6000 3184.
+
+más tarjetas: https://stripe.com/docs/testing
 
 # ¿Con ganas de ponerte al día con Backend?
 

@@ -4,10 +4,14 @@ $blue-color: teal;
   background-color: $blue-color;
 }
 
+img {
+  width: 150px;
+}
+
 .hello {
   background-color: $blue-color;
 
-  .logo {
-    width: 150px;
+  .logo{
+    width:150px;
   }
 }

@@ -1,4 +1,4 @@
-# 09 CSS Modules
+# CSS Modules
 
 Let's check how easy is to integrate css modules in your bundle.
 
@@ -12,29 +12,12 @@ Install [Node.js and npm](https://nodejs.org/en/) (min v8.9) if they are not alr
 
 ## Steps
 
-- We start from _08-react_. Just copy the project and execute _npm install_
+- We start from _07-react_. Just copy the project and execute _npm install_
 
 ```bash
 npm install
 ```
 
-- Let's install _@babel/core_, _@babel/preset-react_ and _@babel/preset-typescript_
-
-```bash
-npm install @babel/core @babel/preset-react @babel/preset-typescript --save-dev
-```
-
-- Now let's add babel configuration file
-_./.babelrc_
-
-```javascript
-{
-    "presets": [
-      "@babel/preset-typescript",
-      "@babel/preset-react"
-    ]
-  }
-```
 - Let's install _postcss-modules_
 
 ```bash
@@ -42,18 +25,23 @@ npm install postcss-modules --save-dev
 ```
 
 - Let's add postcssrc file
+
 _./.postcssrc_
 
 ```javascript
 {
-  "modules": true
+  "modules": true,
+  "plugins": {
+    "postcss-modules": {
+      "generateScopedName": "_[name]__[local]"
+    }
+  }
 }
 ```
 
 - Let's add some styles in the [_mystyles.scss_] file
 
 ```css
-$blue-color: teal;
 
 .hello {
   background-color: $blue-color;

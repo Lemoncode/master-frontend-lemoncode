@@ -45,16 +45,20 @@ _./srsc/index.html_
 ...
 <body>
   <h1>Check the console log</h1>
-+ <div class="jumbotron">
-+   <h1>Testing Bootstrap</h1>
-+   <p>
-+     Bootstrap is the most popular ...
-+   </p>
-+ </div>
++  <div class="card" style="width: 18rem">
++    <div class="card-body">
++      <h5 class="card-title">Card title</h5>
++      <p class="card-text">
++        Some quick example text to build on the card title and make up the
++        bulk of the card's content.
++      </p>
++      <a href="#" class="btn btn-primary">Go somewhere</a>
++    </div>
++  </div>
   <div class="red-background">
       RedBackground stuff
   </div>
-  <script src="./index.js"></script>
+  <script type="module" src="./index.js"></script>
 </body>
 </html>
 ```

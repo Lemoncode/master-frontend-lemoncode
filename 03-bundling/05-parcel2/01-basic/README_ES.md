@@ -122,8 +122,6 @@ const user="John Doe";console.log(`Hello ${user}!`);
 
 ¿Por qué sucede esto? Tenemos que decirle a _Parcel_ que nos transpile el código. ¿Y cómo lo solucionamos? Nos vamos al _package.json_ y agregamos otra línea de comandos llamada browserslist.
 
-¡¡¡ FALTA EXPLICAR QUE ES BROWSESLIST!!!!!
-
 > [Documentación de browserslist para más configuraciones](https://github.com/browserslist/browserslist)
 
 _[./package.json](./package.json)_

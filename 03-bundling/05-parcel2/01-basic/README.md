@@ -25,7 +25,7 @@ npm init -y
 - Let's install parcel
 
 ```bash
-npm install parcel-bundler --save-dev
+npm install parcel --save-dev
 ```
 
 - Let's create a basic [/src/index.js](./src/index.js) file (es5 friendly):
@@ -33,7 +33,9 @@ npm install parcel-bundler --save-dev
 _[/src/index.js](./src/index.js)_
 
 ```javascript
-console.log("hello parcel!");
+const user = "John Doe";
+
+console.log(`Hello ${user}!`);
 ```
 
 - Let's create a dummy [/src/index.html](./src/index.html) file
@@ -44,7 +46,7 @@ _[/src/index.html](./src/index.html)_
 <html>
   <body>
     <h1>Check the console log</h1>
-    <script src="./index.js"></script>
+    <script type="module" src="./index.js"></script>
   </body>
 </html>
 ```
@@ -80,14 +82,78 @@ _[package.json](./package.json)_
   },
 ```
 
-- When you run the build command you get a minified a version plus _NODE_ENV=production_
+```bash
+npm run build:prod
+```
+
+What did we do wrong, if the command line we used is apparently OK?
+
+```
+    5 |   "browserslist": "> 0.5%, last 2 versions, not dead",
+  > 6 |   "main": "index.js",
+  >   |           ^^^^^^^^^^ Did you mean "index.html"?
+    7 |   "scripts": {
+    8 |     "build": "parcel ./src/index.html",
+```
+
+Our _package.json_ contains a _main_ field, which gives us the entry point to our application. But _Parcel_ uses our application as a library and treats that _main_ field as an exit point. When we create the _bundle_, it gives us an error and shows us _Did you mean index.html?_. So the solution is to remove it and save us errors.
+
+```diff
+"browserslist": "> 0.5%, last 2 versions, not dead",
+-  "main": "index.js",
+  "scripts": {
+    "build": "parcel ./src/index.html",
+```
+
+> [Parcel en producción](https://parceljs.org/features/production/)
+
+- When we run the compile command.
 
 ```bash
 npm run build:prod
 ```
 
-- There's a gotcha old files do not get erased, let's add the **rim-raf** plugin to ensure we are
-  clearing up _[/dist](./dist)_ folder before we generate the bundle.
+But if we open the generated _javascript_ file we see that our code is in _es6_ and has not been transpiled. 
+
+```javascript
+const user="John Doe";console.log(`Hello ${user}!`);
+//# sourceMappingURL=index.6b00e545.js.map
+```
+
+Why does this happen? We have to tell _Parcel_ to transpile the code for us. And how do we solve it? We go to _package.json_ and add another command line called browserslist.
+
+> [Browserslist documentation for more settings](https://github.com/browserslist/browserslist)
+
+_[./package.json](./package.json)_
+
+```diff
+{
+  "name": "parcel",
+  "version": "1.0.0",
+  "description": "",
++  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "main": "index.js",
+  "scripts": {
+    "build": "parcel ./src/index.html"
+  },
+```
+
+- Let's re-generate the _bundle_ and see that our code has now been transpiled.
+
+```bash
+npm run build:prod
+```
+
+- We get a minified and transpiled version of our code.
+
+```javascript
+var user="John Doe";console.log("Hello ".concat(user,"!"));
+//# sourceMappingURL=index.c90810f0.js.map
+```
+
+- There's a gotcha old files do not get erased, let's add the **rim-raf** plugin to ensure we are clearing up _[/dist](./dist)_ folder before we generate the bundle.
+
+> [rim-raf documentation](https://www.npmjs.com/package/rimraf)
 
 ```bash
 npm install rimraf --save-dev
@@ -112,10 +178,27 @@ _[package.json](./package.json)_
 
 ```diff
   "scripts": {
-    "build": "rimraf dist && parcel ./src/index.html",
++   "start": "rimraf dist && parcel ./src/index.html --open",
+-   "build": "rimraf dist && parcel ./src/index.html",
++   "build": "rimraf dist && parcel build ./src/index.html"
 -   "build:prod": "rimraf dist && parcel build ./src/index.html"
-+   "build:prod": "rimraf dist && parcel build ./src/index.html",
-+   "start": "rimraf dist && parcel ./src/index.html --open"
+  },
+```
+
+- We can simplify our _scripts_ by adding _source_, where we enter the input to our application.
+
+```diff
+{
+  "name": "parcel",
+  "version": "1.0.0",
+  "description": "",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
++ "source": "src/index.html",
+  "scripts": {
+-   "start": "rimraf dist && parcel ./src/index.html --open",
++   "start": "rimraf dist && parcel --open",
+-   "build": "rimraf dist && parcel build ./src/index.html"
++   "build": "rimraf dist && parcel build"
   },
 ```
 

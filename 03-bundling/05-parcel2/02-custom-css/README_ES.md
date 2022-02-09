@@ -29,6 +29,8 @@ npm install
 
 - Vamos a crear un archivo para los estilos _mystyles.css_
 
+_./src/mystyles.css_
+
 ```css
 .red-background {
   background-color: indianred;
@@ -57,7 +59,7 @@ _./src/index.html_
 + <div class="red-background">
 +  RedBackground stuff
 + </div>
-  <script src="./index.js"></script>
+  <script type="module" src="./index.js"></script>
 </body>
 </html>
 ```
@@ -78,8 +80,7 @@ _./dist/index.html_
 <body>
   <h1>Check the console log</h1>
   <div class="red-background">RedBackground stuff</div>
--  <script src="/index.10b225fe.js" defer=""></script>
-+  <script type="module" src="./index.js"></script>
+  <script src="/src.fec37933.js"></script>
 </body>
 </html>
 ```

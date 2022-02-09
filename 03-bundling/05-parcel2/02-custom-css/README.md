@@ -44,8 +44,8 @@ _./src/index.js_
 ```diff
 + import './mystyles.css';
 
-const sampleNumber = 1;
-console.log(`Hello from sample ${sampleNumber}`);
+const user = "John Doe";
+console.log(`Hello ${user}!`);
 ```
 
 - And now we can just use this style directly in our HTML file. Let's update `index.html`.
@@ -59,7 +59,7 @@ _./src/index.html_
 + <div class="red-background">
 +  RedBackground stuff
 + </div>
-  <script src="./index.js"></script>
+  <script type="module" src="./index.js"></script>
 </body>
 </html>
 ```

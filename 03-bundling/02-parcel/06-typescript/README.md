@@ -1,4 +1,4 @@
-# 07 Typescript
+# Typescript
 
 It's time to test how parcel behaves when using Typescript.
 
@@ -12,7 +12,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (min v8.9) if they are not alr
 
 ## Steps
 
-- We start from _06-images_. Just copy the project and execute _npm install_
+- We start from _05-images_. Just copy the project and execute _npm install_
 
 ```bash
 npm install
@@ -50,17 +50,24 @@ _tsconfig.json_
 
 - Let's rename our _index.js_ file to _index.ts_.
 
-- Let's update the link in the _index.html_
-  file:
+- Let's update _index.html_ file:
 
 ```diff
 -    <div id="imgContainer"></div>
--    <img src="./content/logo_2.png" />
--    <div class="red-background">
--      RedBackground stuff
+-    <div class="red-background">RedBackground stuff</div>
+-    <div class="card" style="width: 18rem">
+-      <img src="./content/logo_2.png" class="card-img-top" alt="logo lemoncode" />
+-      <div class="card-body">
+-        <h5 class="card-title">Card title</h5>
+-        <p class="card-text">
+-          Some quick example text to build on the card title and make up the
+-          bulk of the card's content.
+-        </p>
+-        <a href="#" class="btn btn-primary">Go somewhere</a>
+-      </div>
 -    </div>
--    <script src="./index.js"></script>
-+    <script src="./index.ts"></script>
+-    <script type="module" src="./index.js"></script>
++    <script type="module" src="./index.ts"></script>
   </body>
 </html>
 ```
@@ -69,11 +76,22 @@ _tsconfig.json_
 
 _index.ts_
 
-```typescript
-const numberA: number = 2;
-const numberB: number = 3;
+```diff
+- import logoImg from 'url:./content/logo_1.png';
 
-console.log(numberA + numberB);
+- const user = "John Doe";
+
+- console.log(`Hello ${user}!`);
+
+- const img = document.createElement('img');
+- img.src = logoImg;
+
+- document.getElementById('imgContainer').appendChild(img);
+
++ const numberA: number = 2;
++ const numberB: number = 3;
+
++ console.log(numberA + numberB);
 ```
 
 > It would be a good idea to add a
@@ -86,7 +104,7 @@ npm start
 ```
 
 - Now if we introduce a type error, parcel
-  won't complain, we have to de _tsc_ by our selves,let's got for that:
+  won't complain, we have to do _tsc_ by our selves,let's got for that:
 
 _./src/index.ts_
 
@@ -103,17 +121,16 @@ npm install npm-run-all --save-dev
 ```
 
 - Now let's ellaborate a bit more our package section, we will create a new
-  command just to transpile our babel,
+  command just to transpile our babel:
 
 ```diff
   "scripts": {
-    "build": "rimraf dist && parcel ./src/index.html",
+-   "start:": "rimraf dist && parcel --open",
++   "start": "run-p -l type-check:watch start:dev",
++   "start:dev": "rimraf dist && parcel --open",
     "build:prod": "rimraf dist && parcel build ./src/index.html",
 +    "type-check": "tsc --noEmit",
 +    "type-check:watch": "npm run type-check -- --watch",
--    "start": "rimraf dist && parcel ./src/index.html --open"
-+    "start:dev": "rimraf dist && parcel ./src/index.html --open",
-+    "start": "run-p -l type-check:watch start:dev"
   },
 ```
 

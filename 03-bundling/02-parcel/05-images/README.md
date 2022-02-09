@@ -2,7 +2,7 @@
 
 In this demo we are going to include images in our project in two flavours: via JavaScript and via HTML.
 
-We start from sample _05-bootstrap_.
+We start from sample _04-bootstrap_.
 
 # Steps to build it
 
@@ -14,7 +14,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (min v8.9) if they are not alr
 
 ## Steps
 
-- We start from _05-bootstrap_. Just copy the project and execute _npm install_
+- We start from _04-bootstrap_. Just copy the project and execute _npm install_
 
 ```bash
 npm install
@@ -29,7 +29,7 @@ _./src/index.html_
 ```diff
   <h1>Check the console log</h1>
 + <div id="imgContainer"></div>
-  <div class="jumbotron">
+  <div class="red-background">RedBackground stuff</div>
 ```
 
 - Let's jump into _`index.js`_ and import [`logo_1`](./src/content/logo_1.png) using JavaScript. Then, let's place it under a `<div>` with a given `id`:
@@ -38,15 +38,24 @@ _./src/index.js_
 
 ```diff
 import './mystyles.scss';
-+ import logoImg from './content/logo_1.png';
++ import logoImg from 'url:./assets/logo_1.png';
 
-const sampleNumber = 1;
-console.log(`Hello from sample ${sampleNumber}`);
+const user = "John Doe";
+
+console.log(`Hello ${user}!`);
 
 + const img = document.createElement('img');
 + img.src = logoImg;
 
 + document.getElementById('imgContainer').appendChild(img);
+```
+
+- Let's add styles for the imagen:
+
+```javascript
+img {
+  width: 150px;
+}
 ```
 
 - Now, what if we had already the image referenced inside a HTML `<img>` tag? Let's add [`logo_2.png`](./src/content/logo_2.png) into the index.html file:
@@ -56,8 +65,9 @@ _./src/index.html_
 ```diff
   <h1>Check the console log</h1>
   <div id="imgContainer"></div>
-+ <img src="./content/logo_2.png" />
-  <div class="jumbotron">
+  <div class="red-background">RedBackground stuff</div>
+    <div class="card" style="width: 18rem">
++     <img src="./content/logo_2.png" class="card-img-top" alt="logo lemoncode" />
 ```
 
 - Let's run the sample.
@@ -66,4 +76,4 @@ _./src/index.html_
 npm start
 ```
 
-- We could see that parcel resolve the images `src` to be loaded by server:
+- We could see that parcel resolve the images `src` to be loaded by server.

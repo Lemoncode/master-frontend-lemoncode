@@ -53,6 +53,13 @@ _tsconfig.json_
 - Actualizamos _index.html_
 
 ```diff
+- <head>
+-    <link
+-      rel="stylesheet"
+-      href="../node_modules/bootstrap/dist/css/bootstrap.css"
+-    />
+-  </head>
+  <body>
 -    <div id="imgContainer"></div>
 -    <div class="red-background">RedBackground stuff</div>
 -    <div class="card" style="width: 18rem">

@@ -1,4 +1,4 @@
-# 08 React
+# React
 
 Let's check how easy is to integrate jsx in your bundle.
 
@@ -12,7 +12,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (min v8.9) if they are not alr
 
 ## Steps
 
-- We start from _07-typescript_. Just copy the project and execute _npm install_
+- We start from _06-typescript_. Just copy the project and execute _npm install_
 
 ```bash
 npm install
@@ -32,7 +32,7 @@ npm install @types/react @types/react-dom
 
 - Let's create a component called **HelloComponent** in the [_hello.jsx_](src/hello.jsx) file (./src/hello.jsx)
 
-\_./src/hello.tsx
+_./src/hello.tsx_
 
 ```javascript
 import React from "react";
@@ -49,10 +49,9 @@ _./src/index.html_
 ```diff
 <html>
 <body>
-  <h1>Check the console log</h1>
 +  <div id="root">
 +  </div>
-   <script src="./index.js"></script>
+   <script type="module" src="./index.ts"></script>
 </body>
 </html>
 ```
@@ -75,8 +74,8 @@ import { HelloComponent } from './hello';
 - Let's update _index.html_
 
 ```diff
--    <script src="./index.ts"></script>
-+    <script src="./index.tsx"></script>
+-    <script type="module" src="./index.ts"></script>
++    <script type="module" src="./index.tsx"></script>
   </body>
 ```
 

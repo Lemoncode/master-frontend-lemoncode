@@ -74,7 +74,7 @@ npm install @babel/cli @babel/core @babel/preset-env --save-dev
 - Necesitamos instalar un _"loader"_ (más sobre esto en los próximos módulos) para que webpack pueda hacer uso del transpilador "babel-core".
 
 ```bash
-npm instalar babel-loader --save-dev
+npm install babel-loader --save-dev
 ```
 
 Nuestro archivo **`package.json`** debería ser algo así:
@@ -160,7 +160,7 @@ npm start
 
 - si abrimos el archivo **`bundle.js`** podemos comprobar que contiene (entre otros códigos de _boiler plate_) la versión transpilada a es5 de **`students.js`**.
 
-_./dist/bundle.js_
+_./dist/main.js_
 
 ```javascript
 ...
@@ -206,13 +206,16 @@ _./index.html_
 > **Nota:** Esta no es la solución óptima, en los próximos pasos generaremos correctamente
 > un archivo HTML y usaremos un plugin para inyectar los scripts de arranque.
 
-# Acerca de Basefactor + Lemoncode
+# ¿Te apuntas a nuestro máster?
 
-Somos un equipo innovador de expertos en Javascript, apasionados por convertir sus ideas en productos robustos.
+Si te ha gustado este ejemplo y tienes ganas de aprender Front End
+guiado por un grupo de profesionales ¿Por qué no te apuntas a
+nuestro [Máster Front End Online Lemoncode](https://lemoncode.net/master-frontend#inicio-banner)? Tenemos tanto edición de convocatoria
+con clases en vivo, como edición continua con mentorización, para
+que puedas ir a tu ritmo y aprender mucho.
 
-[Basefactor, consultoría de Lemoncode](http://www.basefactor.com) proporciona servicios de consultoría y entrenamiento.
+Si lo que te gusta es el mundo del _backend_ también puedes apuntante a nuestro [Bootcamp backend Online Lemoncode](https://lemoncode.net/bootcamp-backend#bootcamp-backend/inicio).
 
-[Lemoncode](http://lemoncode.net/services/en/#en-home) provee servicios de entrenamiento.
-
-Para la audiencia de LATAM/España estamos haciendo un Master Online en Front End, más información: http://lemoncode.net/master-frontend
+Y si tienes ganas de meterte una zambullida en el mundo _devops_
+apuntate a nuestro [Bootcamp devops Online Lemoncode](https://lemoncode.net/bootcamp-devops#bootcamp-devops/inicio).
 

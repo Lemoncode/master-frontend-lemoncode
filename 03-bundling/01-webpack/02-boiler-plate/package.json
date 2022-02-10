@@ -1,7 +1,7 @@
 {
-  "name": "02-boiler-plate",
+  "name": "laboratorio-webpack",
   "version": "1.0.0",
-  "description": "In this sample we are going to setup a web project that can be easily managed\r by webpack.",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "webpack --mode development"
@@ -10,11 +10,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/cli": "^7.12.1",
-    "@babel/core": "^7.12.3",
-    "@babel/preset-env": "^7.12.1",
-    "babel-loader": "^8.2.1",
-    "webpack": "^5.4.0",
-    "webpack-cli": "^4.2.0"
+    "@babel/cli": "^7.17.0",
+    "@babel/core": "^7.17.2",
+    "@babel/preset-env": "^7.16.11",
+    "babel-loader": "^8.2.3",
+    "webpack": "^5.68.0",
+    "webpack-cli": "^4.9.2"
   }
 }

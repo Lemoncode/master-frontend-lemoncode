@@ -1,4 +1,4 @@
-// Let's use some ES6 features
+// Usemos algunas características de ES6
 const averageScore = "90";
 const messageToDisplay = `average score ${averageScore}`;
 

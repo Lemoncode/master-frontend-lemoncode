@@ -52,7 +52,7 @@ Now, our **`package.json`** file should looks something like:
 {
   ...
   "scripts": {
-+   "build": "webpack --mode development",
++   "build": "webpack --mode development"
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   ...

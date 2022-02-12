@@ -16,7 +16,7 @@ npm install
 
 ```bash
 git init
-git remote add origin https://github.com/...
+git remote add origin git@github.com...
 git add .
 git commit -m "add project with tests"
 git push -u origin master

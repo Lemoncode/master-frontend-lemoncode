@@ -155,7 +155,7 @@ then we want to center the map, let's _translate_ it, we will configure the proj
 
 We got two options:
 
-- Manually place the right settings:
+- Manually place the right settings (not recommended):
 
 ```diff
 const aProjection = d3.geoMercator()

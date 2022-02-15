@@ -7,16 +7,11 @@ const chartDimensions = {
   width: svgDimensions.width - margin.left - margin.right,
   height: svgDimensions.height - margin.bottom - margin.top,
 };
+
 const maxNumberSeats = resultCollectionSpainNov19.reduce(
   (max, item) => (item.seats > max ? item.seats : max),
   0
 );
-
-const politicalPartiesCount = resultCollectionSpainNov19.length;
-const barPadding = 5; // We could calculate this value as well
-const barWidth =
-  (chartDimensions.width - barPadding * politicalPartiesCount) /
-  politicalPartiesCount;
 
 const partiesColorScale = d3
   .scaleOrdinal([
@@ -51,6 +46,12 @@ const partiesColorScale = d3
     "BNG",
     "Teruel Existe",
   ]);
+
+const politicalPartiesCount = resultCollectionSpainNov19.length;
+const barPadding = 5; // We could calculate this value as well
+const barWidth =
+  (chartDimensions.width - barPadding * politicalPartiesCount) /
+  politicalPartiesCount;
 
 const svg = d3
   .select("body")

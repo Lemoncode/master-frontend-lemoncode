@@ -37,7 +37,7 @@ import * as topojson from "topojson-client";
 + const spainjson = require("./spain.json");
 ```
 
-- Let's build the spain map in stenad of europe:
+- Let's build the spain map instead of europe:
 
 _./src/index.ts_
 
@@ -57,20 +57,6 @@ const geojson = topojson.feature(
   but it's too smal, and on the other hand, canary islands are shown far away (that's normal,
   but usually in maps these islands are relocated).
 
-- Let's start by adding the right size to be displayed in our screen.
-
-_./src/index.ts_
-
-```diff
-const aProjection = d3
-  .geoMercator()
-  // Let's make the map bigger to fit in our resolution
--  .scale(500)
-+  .scale(2000)
-  // Let's center the map
--  .translate([300, 900])
-+  .translate([650, 1800]);
-```
 
 - If we run the project we can check that the map is now renders in a proper size and position, let's
   go for the next challenge, we want to reposition Canary Islands, in order to do that we can build a
@@ -108,12 +94,6 @@ const aProjection =
 -  .geoMercator()
 +  d3Composite
 +  .geoConicConformalSpain()
-  // Let's make the map bigger to fit in our resolution
--  .scale(2000)
-+  .scale(3300)
-  // Let's center the map
--  .translate([600, 2000]);
-+  .translate([500, 400]);
 ```
 
 - If we run the project, voila ! we got the map just the way we want it.

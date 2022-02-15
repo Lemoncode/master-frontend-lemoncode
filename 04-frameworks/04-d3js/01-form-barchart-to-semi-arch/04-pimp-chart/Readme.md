@@ -53,8 +53,15 @@ const legendGroup = svg
 
 var colorLegend = legendColor().scale(partiesColorScale);
 
-legendGroup.call(colorLegend);
+// TODO: review this any
+legendGroup.call(colorLegend as any);
 ```
+
+About d3 call:
+
+_Invokes the specified function exactly once, passing in this selection along with any optional arguments. Returns this selection. This is equivalent to invoking the function by hand but facilitates method chaining. For example, to set several styles in a reusable function_
+
+More info: https://stackoverflow.com/questions/12805309/javascript-library-d3-call-function
 
 - Let's go for one more goodie, we want to highlight the piece of arc where the mouse point
   is on.

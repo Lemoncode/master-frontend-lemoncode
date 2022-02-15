@@ -310,7 +310,7 @@ const partiesColorScale = d3
     "CUP",
     "CC",
     "BNG",
-    "Teruel Existe"
+    "Teruel Existe",
   ]);
 ```
 
@@ -378,7 +378,7 @@ const partiesColorScale = d3
 
 In the next example we will create an horizontal rectangle showing a segment.
 
-# Appendix - Refactoring
+# Appendix - Refactoring (not for demo time)
 
 One of the weak points of d3js is that the code generated looks a bit cryptic, too much details, could it
 be possible to refactor it?
@@ -401,10 +401,10 @@ const drawSingleBar = (
   parent
     .append("rect")
     .attr("width", barWidth)
-    .attr("height", d => yScale(d.seats))
+    .attr("height", (d) => yScale(d.seats))
     .attr("x", (d, i) => i * (barWidth + barPadding))
-    .attr("y", d => chartDimensions.height - yScale(d.seats))
-    .attr("fill", d => partiesColorScale(d.party));
+    .attr("y", (d) => chartDimensions.height - yScale(d.seats))
+    .attr("fill", (d) => partiesColorScale(d.party));
 };
 
 const generateBarChart = (
@@ -429,7 +429,7 @@ const svgDimensions = { width: 500, height: 500 };
 const margin = { left: 5, right: 5, top: 10, bottom: 10 };
 const chartDimensions = {
   width: svgDimensions.width - margin.left - margin.right,
-  height: svgDimensions.height - margin.bottom - margin.top
+  height: svgDimensions.height - margin.bottom - margin.top,
 };
 const maxNumberSeats = resultCollectionSpainNov19.reduce(
   (max, item) => (item.seats > max ? item.seats : max),
@@ -457,7 +457,7 @@ const partiesColorScale = d3
     "CUP",
     "CC",
     "BNG",
-    "Teruel Existe"
+    "Teruel Existe",
   ])
   .range([
     "#ED1D25",
@@ -475,7 +475,7 @@ const partiesColorScale = d3
     "#E61C13",
     "#73B1E6",
     "#BECD48",
-    "#017252"
+    "#017252",
   ]);
 
 const createBlankSvg = () =>
@@ -505,10 +505,10 @@ const drawSingleBar = (
   parent
     .append("rect")
     .attr("width", barWidth)
-    .attr("height", d => yScale(d.seats))
+    .attr("height", (d) => yScale(d.seats))
     .attr("x", (d, i) => i * (barWidth + barPadding))
-    .attr("y", d => chartDimensions.height - yScale(d.seats))
-    .attr("fill", d => partiesColorScale(d.party));
+    .attr("y", (d) => chartDimensions.height - yScale(d.seats))
+    .attr("fill", (d) => partiesColorScale(d.party));
 };
 
 const generateBarChart = (

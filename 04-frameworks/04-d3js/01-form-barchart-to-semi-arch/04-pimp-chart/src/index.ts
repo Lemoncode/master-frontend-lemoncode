@@ -17,13 +17,6 @@ const maxNumberSeats = resultCollectionSpainNov19.reduce(
 
 const politicalPartiesCount = resultCollectionSpainNov19.length;
 
-// Define the div for the tooltip
-const div = d3
-  .select("body")
-  .append("div")
-  .attr("class", "tooltip")
-  .style("opacity", 0);
-
 const partiesColorScale = d3
   .scaleOrdinal([
     "#ED1D25",
@@ -98,22 +91,6 @@ arcs
   .attr("fill", (d, i) => {
     console.log(d.data.party);
     return partiesColorScale(d.data.party);
-  })
-
-  //Watch out!! breaking change on d3 v6: https://stackoverflow.com/questions/63693132/unable-to-get-node-datum-on-mouseover-in-d3-v6
-  .on("mouseover", function (datum) {
-    d3.select(this).attr("transform", `scale(1.1, 1.1)`);
-    const partyInfo = datum.data;
-    const coords = { x: d3.event.pageX, y: d3.event.pageY };
-    div.transition().duration(200).style("opacity", 0.9);
-    div
-      .html(`<span>${partyInfo.party}: ${partyInfo.seats}</span>`)
-      .style("left", `${coords.x}px`)
-      .style("top", `${coords.y - 28}px`);
-  })
-  .on("mouseout", function (datum) {
-    d3.select(this).attr("transform", ``);
-    div.transition().duration(500).style("opacity", 0);
   });
 
 // Legend
@@ -126,4 +103,4 @@ const legendGroup = svg
 
 var colorLegend = legendColor().scale(partiesColorScale);
 
-legendGroup.call(colorLegend);
+legendGroup.call(colorLegend as any);

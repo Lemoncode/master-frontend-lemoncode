@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
-import { coronaVirusAffectedByCountry } from "./stats";
 const europejson = require("./europe.json");
+import { coronaVirusAffectedByCountry } from "./stats";
 
 // set the affected color scale
 const color = d3
@@ -24,12 +24,7 @@ const assignCountryBackgroundColor = (countryName: string) => {
   return item ? color(item.affected) : color(0);
 };
 
-const aProjection = d3
-  .geoMercator()
-  // Let's make the map bigger to fit in our resolution
-  .scale(500)
-  // Let's center the map
-  .translate([300, 900]);
+const aProjection = d3.geoMercator();
 
 const geoPath = d3.geoPath().projection(aProjection);
 
@@ -37,6 +32,8 @@ const geojson = topojson.feature(
   europejson,
   europejson.objects.continent_Europe_subunits
 );
+
+aProjection.fitSize([1024, 800], geojson);
 
 const svg = d3
   .select("body")
@@ -51,8 +48,9 @@ svg
   .enter()
   .append("path")
   .attr("class", "country")
-  // data loaded from json file
-  .attr("d", geoPath as any)
   .style("fill", function (d: any) {
     return assignCountryBackgroundColor(d.properties.geounit);
-  });
+  })
+  // use geoPath to convert the data into the current projection
+  // https://stackoverflow.com/questions/35892627/d3-map-d-attribute
+  .attr("d", geoPath as any);

@@ -306,6 +306,8 @@ _./src/static/mainapp.html_
   <body>
     <section>
       <h1>My site: info about user logged in (F12 open console :))</h1>
+      <img id="profilepic" />
+      <p id="username">user name</p>
     </section>
     <script type="text/javascript">
       fetch('/api/user-profile', {
@@ -315,6 +317,9 @@ _./src/static/mainapp.html_
           return response.json();
         })
         .then(function (session) {
+          document.getElementById('profilepic')['src'] = session.image;
+          document.getElementById('username')['innerHTML'] =
+            session.displayName;
           console.log(session);
         })
         .catch(function (error) {

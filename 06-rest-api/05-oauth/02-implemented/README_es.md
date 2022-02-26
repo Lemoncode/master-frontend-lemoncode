@@ -87,20 +87,20 @@ export interface User {
 }
 ```
 
-_./src/dals/repository/session.contract.ts_
+_./src/dals/repository/profile.contract.ts_
 
 ```typescript
 import { User } from '../user.model';
 
-export interface SessionRepositoryContract {
-  userSessionExists: (googleProfileId: string) => Promise<boolean>;
+export interface ProfileRepositoryContract {
+  userProfileExists: (googleProfileId: string) => Promise<boolean>;
   addNewUser: (user: User) => Promise<User>;
   getUser: (id: number) => Promise<User>;
   getUserByGoogleId: (id: string) => Promise<User>;
 }
 ```
 
-_./src/dals/repository/session.mock.ts_
+_./src/dals/repository/profile.mock.ts_
 
 ```typescript
 import { User } from '../user.model';
@@ -109,13 +109,13 @@ import { User } from '../user.model';
 // later on migrate to a MongoDb or whatever Db implementation
 
 let lastId: number = 1;
-let userCollectionSession: User[] = [];
+let userCollection: User[] = [];
 
-export const userSessionExists = async (
+export const userProfileExists = async (
   googleProfileId: string
 ): Promise<boolean> => {
   const index =
-    userCollectionSession.findIndex(
+    userCollection.findIndex(
       (user) => user.googleId === googleProfileId
     ) ?? null;
 
@@ -128,7 +128,7 @@ export const addNewUser = async (user: User): Promise<User> => {
     id: lastId,
   };
 
-  userCollectionSession = [...userCollectionSession, newUser];
+  userCollection = [...userCollection, newUser];
 
   lastId++;
 
@@ -137,13 +137,13 @@ export const addNewUser = async (user: User): Promise<User> => {
 
 export const getUserByGoogleId = async (googleId: string): Promise<User> => {
   const user =
-    userCollectionSession.find((user) => user.googleId === googleId) ?? null;
+    userCollection.find((user) => user.googleId === googleId) ?? null;
 
   return user;
 };
 
 export const getUser = async (id: number): Promise<User> => {
-  const user = userCollectionSession.find((user) => user.id === id) ?? null;
+  const user = userCollection.find((user) => user.id === id) ?? null;
 
   return user;
 };
@@ -154,13 +154,13 @@ Y su barrel
 _./src/dals/repository/index.ts_
 
 ```typescript
-import * as mockRepository from './session.mock';
-import { SessionRepositoryContract } from './session.contract';
+import * as mockRepository from './profile.mock';
+import { ProfileRepositoryContract } from './profile.contract';
 // TODO: add here real repository
 
 // TODO: Check here env variable if we are in mock mode or not
 // and choose whether use the mock or the real version
-export const sessionRepository: SessionRepositoryContract = mockRepository;
+export const profileRepository: ProfileRepositoryContract = mockRepository;
 ```
 
 Y exponemos con un barrel a nivel de DAL los modulos que necesitemos:
@@ -189,7 +189,7 @@ _./src/setup/passport-config.ts_
 ```ts
 import passportGoogle from 'passport-google-oauth20';
 import { envConstants } from '../env.constants';
-import { User, sessionRepository } from '../dals';
+import { User, profileRepository } from '../dals';
 
 const googleStrategy = passportGoogle.Strategy;
 
@@ -202,12 +202,12 @@ export const configPassport = function (passport) {
         callbackURL: '/api/callback',
       },
       async (accessToken, refreshToken, profile, done) => {
-        const sessionExists = await sessionRepository.userSessionExists(
+        const sessionExists = await profileRepository.userProfileExists(
           profile.id
         );
         if (sessionExists) {
           // Extract user logged in session from repository
-          const user = await sessionRepository.getUserByGoogleId(profile.id);
+          const user = await profileRepository.getUserByGoogleId(profile.id);
           done(null, user);
         } else {
           let user: User = {
@@ -221,7 +221,7 @@ export const configPassport = function (passport) {
           };
 
           // Create new session an store it into the repo
-          user = await sessionRepository.addNewUser(user);
+          user = await profileRepository.addNewUser(user);
 
           done(null, user);
         }
@@ -251,11 +251,10 @@ export const configPassport = function (passport) {
       googleId: '',
       image: '',
     };
-    if (sessionRepository.userSessionExists(id)) {
-      user = await sessionRepository.getUser(id);
+    if (profileRepository.userProfileExists(id)) {
+      user = await profileRepository.getUser(id);
     }
     done(null, user);
-    //User.findById(id, (err, user) => done(err, user))
   });
 };
 ```
@@ -301,13 +300,13 @@ _./src/static/mainapp.html_
 <html>
   <head>
     <title>User already logged in using Google</title>
+    <img id="profilepic" />
+    <p id="username">user name</p>
     <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
   </head>
   <body>
     <section>
       <h1>My site: info about user logged in (F12 open console :))</h1>
-      <img id="profilepic" />
-      <p id="username">user name</p>
     </section>
     <script type="text/javascript">
       fetch('/api/user-profile', {
@@ -320,6 +319,7 @@ _./src/static/mainapp.html_
           document.getElementById('profilepic')['src'] = session.image;
           document.getElementById('username')['innerHTML'] =
             session.displayName;
+
           console.log(session);
         })
         .catch(function (error) {
@@ -338,8 +338,6 @@ _./src/api.ts_
 ```diff
 import { Router } from 'express';
 + import passport from 'passport';
-+ import { envConstants } from './env.constants';
-+ import { sessionRepository } from './dals';
 export const api = Router();
 ```
 
@@ -375,7 +373,7 @@ api.get(
 );
 ```
 
-- Para finalizar añadimos un tercer endpoint que va a ser
+- Añadimos un tercer endpoint que va a ser
   el que nos de la información del usuario logado cuando
   la pidamos vía fetch desde nuestra página principal
   (una vez que ya nos hemos logado)
@@ -383,6 +381,7 @@ api.get(
 _./src/api.ts_
 
 ```typescript
+// (...)
 api.get('/user-profile', async (req, res) => {
   let user = null;
   // user Id can be found in: req.session['passport'].user

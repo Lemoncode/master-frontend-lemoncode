@@ -1,6 +1,6 @@
 import passportGoogle from 'passport-google-oauth20';
 import { envConstants } from '../env.constants';
-import { User, sessionRepository } from '../dals';
+import { User, profileRepository } from '../dals';
 
 const googleStrategy = passportGoogle.Strategy;
 
@@ -13,12 +13,12 @@ export const configPassport = function (passport) {
         callbackURL: '/api/callback',
       },
       async (accessToken, refreshToken, profile, done) => {
-        const sessionExists = await sessionRepository.userSessionExists(
+        const sessionExists = await profileRepository.userProfileExists(
           profile.id
         );
         if (sessionExists) {
           // Extract user logged in session from repository
-          const user = await sessionRepository.getUserByGoogleId(profile.id);
+          const user = await profileRepository.getUserByGoogleId(profile.id);
           done(null, user);
         } else {
           let user: User = {
@@ -32,7 +32,7 @@ export const configPassport = function (passport) {
           };
 
           // Create new session an store it into the repo
-          user = await sessionRepository.addNewUser(user);
+          user = await profileRepository.addNewUser(user);
 
           done(null, user);
         }
@@ -62,10 +62,9 @@ export const configPassport = function (passport) {
       googleId: '',
       image: '',
     };
-    if (sessionRepository.userSessionExists(id)) {
-      user = await sessionRepository.getUser(id);
+    if (profileRepository.userProfileExists(id)) {
+      user = await profileRepository.getUser(id);
     }
     done(null, user);
-    //User.findById(id, (err, user) => done(err, user))
   });
 };

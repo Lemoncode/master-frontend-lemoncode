@@ -4,13 +4,13 @@ import { User } from '../user.model';
 // later on migrate to a MongoDb or whatever Db implementation
 
 let lastId: number = 1;
-let userCollectionSession: User[] = [];
+let userCollection: User[] = [];
 
-export const userSessionExists = async (
+export const userProfileExists = async (
   googleProfileId: string
 ): Promise<boolean> => {
   const index =
-    userCollectionSession.findIndex(
+    userCollection.findIndex(
       (user) => user.googleId === googleProfileId
     ) ?? null;
 
@@ -23,7 +23,7 @@ export const addNewUser = async (user: User): Promise<User> => {
     id: lastId,
   };
 
-  userCollectionSession = [...userCollectionSession, newUser];
+  userCollection = [...userCollection, newUser];
 
   lastId++;
 
@@ -32,13 +32,13 @@ export const addNewUser = async (user: User): Promise<User> => {
 
 export const getUserByGoogleId = async (googleId: string): Promise<User> => {
   const user =
-    userCollectionSession.find((user) => user.googleId === googleId) ?? null;
+    userCollection.find((user) => user.googleId === googleId) ?? null;
 
   return user;
 };
 
 export const getUser = async (id: number): Promise<User> => {
-  const user = userCollectionSession.find((user) => user.id === id) ?? null;
+  const user = userCollection.find((user) => user.id === id) ?? null;
 
   return user;
 };

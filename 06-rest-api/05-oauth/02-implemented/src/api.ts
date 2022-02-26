@@ -1,7 +1,5 @@
 import { Router } from 'express';
 import passport from 'passport';
-import { envConstants } from './env.constants';
-import { sessionRepository } from './dals';
 
 export const api = Router();
 

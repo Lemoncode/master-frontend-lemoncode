@@ -9,9 +9,9 @@ We will start from sample _04 Server_,
 
 Summary steps:
 
-- Redirect output (`bundle.js`) to "dist" folder.
+- Redirect output (`main.js`) to "dist" folder.
 - Include into the build proccess: copying the `index.html` file to "dist" folder
-- Let webpack include the `bundle.js` script into the `index.html` file.
+- Let webpack include the `main.js` script into the `index.html` file.
 - Add map support in order to enable ES6 files to be debugged directly on the browser.
 - Generate a minified version of the `bundle.js`.
 
@@ -58,7 +58,7 @@ _./index.html_
   </head>
   <body>
     Hello Webpack!
--   <script src="./main.js"></script>
+-   <script src="main.js"></script>
   </body>
 </html>
 
@@ -72,7 +72,7 @@ _./index.html_
 module.exports = {
   entry: ['./students.js'],
   output: {
-    filename: 'bundle.js',
+    filename: 'main.js',
   },
 ```
 

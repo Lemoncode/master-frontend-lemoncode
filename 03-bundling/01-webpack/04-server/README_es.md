@@ -77,7 +77,7 @@ _index.html_
  y tenemos que decirle que mire en la raiz de nuestra aplicación.
 
 ```diff
-const path = require("path");
++ const path = require("path");
 
 module.exports = {
   entry: ["./students.js"],

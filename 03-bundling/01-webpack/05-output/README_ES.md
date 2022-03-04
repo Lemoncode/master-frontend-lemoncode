@@ -1,3 +1,5 @@
+# 05 Output
+
 En este ejemplo, usaremos la configuración dist predeterminada de webpack  y copiaremos nuestra página HTML principal en esa ruta de distribución.
 
 > Nota que webpack utiliza la carpeta dist como configuración predeterminada.
@@ -35,7 +37,7 @@ $ npm install html-webpack-plugin --save-dev
   </head>
   <body>
     Hello Webpack!
--   <script src="./main.js"></script>
+-   <script src="main.js"></script>
   </body>
 </html>
 ```
@@ -48,7 +50,7 @@ Este complemento (html-webpack-plugin) tomará como entrada de plantilla nuestro
 module.exports = {
   entry: ['./students.js'],
   output: {
-    filename: 'bundle.js',
+    filename: 'main.js',
   },
 ```
 

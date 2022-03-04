@@ -1,4 +1,4 @@
-# connection-params
+# Salas
 
 Vamos a trabajar con un concepto muy interesante, las "salas"
 
@@ -72,7 +72,7 @@ export const createSocket = (
 
   const options: SocketIOClient.ConnectOpts = {
 -    query: { nickname },
-+    query: { nickname, room },,
++    query: { nickname, room },
     timeout: 60000,
 ```
 
@@ -83,11 +83,10 @@ _./back/src/app.ts_
 ```diff
 io.on('connection', function (socket: Socket) {
   console.log('** connection recieved');
--  const config: ConnectionConfig = { nickname: socket.handshake.query['nickname'] as string };  
-+  const config = {
-+    nickname: socket.handshake.query['nickname'] as string,
+  const config: ConnectionConfig = {
+    nickname: socket.handshake.query['nickname'] as string,
 +    room: socket.handshake.query['room'] as string
-+  }
+  }
   addUserSession(socket.conn.id, config);
 +  socket.join(socket.handshake.query['room']);
 ```
@@ -128,6 +127,8 @@ Y el getter...
 _./back/src/store.ts_
 
 ```diff
+
+
 - export const getNickname = (connectionId: string) => {
 + export const getUserInfo = (connectionId: string) : UserSession => {
   const session = userSession.find(
@@ -135,7 +136,13 @@ _./back/src/store.ts_
   );
 
 -  return session ? session : 'ANONYMOUS :-@';
-+  return session ? session : {id: -1, nickname: 'ANONYMOUS :-@', room: 'devops' }
++    return session
++    ? {
++        connectionId: session.connectionId,
++        nickname: session.config.nickname,
++        room: session.config.room,
++      }
++    : { connectionId: -1, nickname: 'ANONYMOUS :-@', room: 'devops' };
 };
 ```
 
@@ -151,7 +158,7 @@ _./backend/src/app.ts_
 
   socket.on('message', function (body: any) {
     console.log(body);
-+   const userInfo = getUserInfo(socket.conn.id);
++   const userInfo = getUserInfo(socket.id);
 -    socket.broadcast.emit('message', {
 +    io.to(userInfo.room).emit('message',{
       ...body,

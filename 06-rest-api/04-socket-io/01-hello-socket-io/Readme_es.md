@@ -130,7 +130,7 @@ socket.emit("message", { type: "CONNECTION_SUCCEEDED" });
 > Aquí podríamos enviar el mensaje a todo el mundo menos al que envío el mensaje,
 > ¿ Cómo podrámos hacer para enviarselo a todo el mundo? ¿Lo pruebas?
 
-Vamos a probar con esta tool (importante contact, y pestaña emit y message, despude payload y como json)
+Vamos a probar con esta tool (importante contact, y pestaña emit y message, despues payload y como json)
 
 ```
 https://amritb.github.io/socketio-client-tool/
@@ -148,7 +148,8 @@ Podemos ver como nos hemos conectado y recibido el mensaje _CONNECTION_SUCCEEDED
 
 Podemos enviar un mensaje (tab emit):
 
-- tecleamos _message_ y le damos al botón de _add_.
+- tecleamos _message_ y le damos al botón de _add_ (IMPORTANTE
+darle al botón de add para que envie MESSAGE y no socket io client).
 - Miramos que este deshabilitado _json data_
 - Añadimos el siguiente body del mensaje
 
@@ -189,7 +190,7 @@ export const createSocket = (): Socket => {
 };
 ```
 
-- Vamos ahora a por app.ts, vamos a crear
+- Vamos ahora a por app.tsx, vamos a crear
 
 ```diff
 import React from "react";

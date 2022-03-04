@@ -4,7 +4,7 @@ interface UserSession {
   room: string;
 }
 
-interface ConnectionConfig {
+export interface ConnectionConfig {
   nickname: string;
   room: string;
 }
@@ -24,6 +24,10 @@ export const getUserInfo = (connectionId: string): UserSession => {
   );
 
   return session
-    ? session
-    : { id: -1, nickname: 'ANONYMOUS :-@', room: 'devops' };
+    ? {
+        connectionId: session.connectionId,
+        nickname: session.config.nickname,
+        room: session.config.room,
+      }
+    : { connectionId: -1, nickname: 'ANONYMOUS :-@', room: 'devops' };
 };

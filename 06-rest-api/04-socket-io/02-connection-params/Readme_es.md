@@ -64,7 +64,7 @@ npm start
 - Primero nos vamos a crear un sitio donde guardar esa info (lo ponemos en memoria en una aplicación
   real podría por ejemplo ir a base de de datos).
 
-_./backend/src/store.ts_
+_./back/src/store.ts_
 
 ```ts
 interface UserSession {
@@ -72,13 +72,16 @@ interface UserSession {
   nickname: string;
 }
 
-interface ConnectionConfig {
+export interface ConnectionConfig {
   nickname: string;
 }
 
 let userSession = [];
 
-export const addUserSession = (connectionId: string, config: ConnectionConfig) => {
+export const addUserSession = (
+  connectionId: string,
+  config: ConnectionConfig
+) => {
   userSession = [...userSession, { connectionId, config }];
 };
 
@@ -87,7 +90,7 @@ export const getNickname = (connectionId: string) => {
     (session) => session.connectionId === connectionId
   );
 
-  return session ? session.nickname : 'ANONYMOUS :-@';
+  return session ? session.config.nickname : "ANONYMOUS :-@";
 };
 ```
 
@@ -104,7 +107,7 @@ import path from 'path';
 import * as http from 'http';
 import { Server, Socket } from 'socket.io';
 import cors from 'cors';
-+ import { addUserSession, getNickname } from './store';
++ import { addUserSession, getNickname, ConnectionConfig } from './store';
 ```
 
 _./backend/src/app.ts_
@@ -114,7 +117,7 @@ io.on('connection', function (socket: Socket) {
   console.log('** connection recieved');
 -  console.log(socket.handshake.query['nickname']);
 +  const config: ConnectionConfig = { nickname: socket.handshake.query['nickname'] as string };
-+  addUserSession(socket.conn.id, config);
++  addUserSession(socket.id, config);
 ```
 
 - Y cuando enviamos un mensaje ampliamos e indicamos el nick name de quien lo envió.
@@ -127,7 +130,7 @@ io.on('connection', function (socket: Socket) {
 +      ...body,
 +      payload: {
 +        ...body.payload,
-+        nickname: getNickname(socket.conn.id),
++        nickname: getNickname(socket.id),
 +      },
 +    });
   });

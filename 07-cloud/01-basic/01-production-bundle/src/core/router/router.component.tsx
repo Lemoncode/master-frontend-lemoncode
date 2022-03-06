@@ -1,18 +1,15 @@
 import React from 'react';
-import { HashRouter, Switch, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { switchRoutes } from './routes';
 import { ListScene } from 'scenes';
 
 export const RouterComponent: React.FunctionComponent = () => {
   return (
     <HashRouter>
-      <Switch>
-        <Route
-          exact={true}
-          path={[switchRoutes.root, switchRoutes.list]}
-          component={ListScene}
-        />
-      </Switch>
+      <Routes>
+        <Route path={switchRoutes.root} element={<ListScene />} />
+        <Route path={switchRoutes.list} element={<ListScene />} />
+      </Routes>
     </HashRouter>
   );
 };

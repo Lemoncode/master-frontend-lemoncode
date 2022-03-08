@@ -177,12 +177,12 @@ con la autenticación contra Google:
 
 - Recibimos la respuesta de google cuando se ha autenticado con éxito.
 - Ahí tenemos la info de la cuenta, profile Id, EMail...
-- Lo guardamos en una supuesto base de datos de usuarios (si no éxiste ya).
+- Lo guardamos en una supuesta base de datos de usuarios (si no éxiste ya).
 - El identificador del usuario lo almacena en la sesión de express passport
   (es transparente para nosotros).
 - Después tenemos dos métodos para:
   - Grabar el id del usuario que se ha grabado en "base de datos"
-  - Recuperar los datos del perfil de usario en base a ese perfil.
+  - Recuperar los datos del perfil de usuario en base a ese perfil.
 
 _./src/setup/passport-config.ts_
 
@@ -300,11 +300,11 @@ _./src/static/mainapp.html_
 <html>
   <head>
     <title>User already logged in using Google</title>
-    <img id="profilepic" />
-    <p id="username">user name</p>
     <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
   </head>
   <body>
+    <img id="profilepic" />
+    <p id="username">user name</p>
     <section>
       <h1>My site: info about user logged in (F12 open console :))</h1>
     </section>
@@ -388,7 +388,7 @@ api.get('/user-profile', async (req, res) => {
   // you can find whole user Info in req.user (passport middleware serialize and deserialize takes care of this)
   /*
   if (req.session['passport'].user) {
-    user = await sessionRepository.getUser(req.session['passport'].user);
+    user = await profileRepository.getUser(req.session['passport'].user);
   }*/
 
   res.json(req.user);

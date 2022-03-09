@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User already logged in using Google</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+  </head>
+  <body>
+    <img id="profilepic" />
+    <p id="username">user name</p>
+    <section>
+      <h1>My site: info about user logged in (F12 open console :))</h1>
+    </section>
+    <script type="text/javascript">
+      fetch('/api/user-profile', {
+        method: 'GET',
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (session) {
+          document.getElementById('profilepic')['src'] = session.image;
+          document.getElementById('username')['innerHTML'] =
+            session.displayName;
+
+          console.log(session);
+        })
+        .catch(function (error) {
+          console.error('Error:', error);
+        });
+    </script>
+  </body>
+</html>

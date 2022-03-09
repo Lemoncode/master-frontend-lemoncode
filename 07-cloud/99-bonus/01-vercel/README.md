@@ -37,3 +37,77 @@ npm i -g vercel
 ```bash
 vercel link
 ```
+
+> It creates a `.vercel` folder with `projectId` and `orgId` info
+> and new project in `vercel.com`
+
+- Following official docs for [custom workflows](https://vercel.com/support/articles/using-vercel-cli-for-custom-workflows) we will add `ProjectId` to repository as secrets:
+
+![01-project-id-github-secret](./readme-resources/01-project-id-github-secret.png)
+
+- Add `OrgId` to repository secrets:
+
+![02-org-id-github-secret](./readme-resources/02-org-id-github-secret.png)
+
+- Create new workflow
+
+_./.github/workflows/vercel-cd.yml_
+
+```yml
+name: Vercel Continuos Deployment workflow
+
+on:
+  push:
+    branches:
+      - master
+env:
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+```
+
+- Remove `.vercel` folder from repository.
+
+- Create token in [your account](https://vercel.com/account/tokens)
+
+> [Token API docs](https://vercel.com/docs/cli#introduction/global-options/token)
+
+- Add `token` to repository secrets:
+
+![03-token-github-secret](./readme-resources/03-token-github-secret.png)
+
+- Update workflow:
+
+_./.github/workflows/vercel-cd.yml_
+
+```diff
+name: Vercel Continuos Deployment workflow
+
+on:
+  push:
+    branches:
+      - master
+env:
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+
++ jobs:
++   vercel-cd:
++     runs-on: ubuntu-latest
++     steps:
++       - name: Checkout repository
++         uses: actions/checkout@v3
++       - name: Deploy
++         run: vercel -t ${{ secrets.VERCEL_TOKEN }}
+```
+
+- Review builds steps on deploy in Vercel Project Settings:
+
+![04-build-steps](./readme-resources/04-build-steps.png)
+
+- Git commit and push:
+
+```bash
+git add .
+git commit -m "update vercel cd file"
+git push
+```

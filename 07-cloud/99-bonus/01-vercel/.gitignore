@@ -9,3 +9,5 @@ junit.xml
 .awcache
 public
 .env
+
+.vercel

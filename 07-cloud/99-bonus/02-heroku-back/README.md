@@ -15,7 +15,7 @@ npm install
 - This app is using a [mongodb database](https://www.mongodb.com/), instead of [download and install the MongoDB software](https://docs.mongodb.com/manual/administration/install-community/) we can use [docker to run an MongoDB](https://hub.docker.com/_/mongo) instance for local development.
 
 ```bash
-docker run --name my-mongo-db -p 27017:27017 -d mongo:4.4.6
+docker run --name my-mongo-db -p 27017:27017 -d mongo:5
 docker ps
 ```
 

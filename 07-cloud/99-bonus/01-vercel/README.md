@@ -35,6 +35,7 @@ npm i -g vercel
 - Link current code with a new project in vercel:
 
 ```bash
+vercel login
 vercel link
 ```
 

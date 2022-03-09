@@ -1,37 +1,39 @@
-# Deploy to vercel
+# 05 Vercel
 
-Pre: Create account in vercel.com
+In this example we are going to upload Docker image with a front app to Vercel.
 
-Reference: https://www.eliostruyf.com/deploy-site-vercel-github-actions-releases/
+We will start from `04-heroku-front`.
 
-# Steps
+# Steps to build it
 
-Install vercel CLI as global npm:
+- `npm install` to install previous sample packages:
 
+```bash
+npm install
 ```
+
+- We will configure the [Github Actions](https://docs.github.com/en/free-pro-team@latest/actions) as we did in `02-github-actions` example.
+
+- Create new repository and upload files:
+
+```bash
+git init
+git remote add origin git@github.com...
+git add .
+git commit -m "initial commit"
+git push -u origin master
+```
+
+- If we navigate to `https://vercel.com/`, it provides deploy project from `Git repository` or `Clone a template`, but what if we want to use `Github Actions`?
+
+- We can use [Vercel CLI](https://vercel.com/docs/cli):
+
+```bash
 npm i -g vercel
 ```
 
-Link current code with a new project in vercel:
+- Link current code with a new project in vercel:
 
-```
+```bash
 vercel link
 ```
-
-Get `projectId` and `orgId` from `.vercel` folder and create secrets on Github settins
-
-Create `vercel.json` to disabled auto deploy on push with Github, we take over control and trigger deploys with Github Actions
-
-_./vercel.json_
-
-```json
-{
-  "github": {
-    "enabled": false,
-    "silent": true
-  }
-}
-```
-
-
-Create token in Account Settings (not project settings) > tokens

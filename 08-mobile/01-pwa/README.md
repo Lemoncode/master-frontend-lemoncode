@@ -1,4 +1,4 @@
-# Curso de Aplicaciones Web Progresivas
+# Aplicaciones Web Progresivas
 
 ## Contenido del curso
 

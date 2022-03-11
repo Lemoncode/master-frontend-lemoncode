@@ -1,5 +1,4 @@
 import React from 'react';
-import { hot } from 'react-hot-loader/root';
 import { RouterComponent } from 'core/router';
 import { ThemeProviderComponent } from 'core/theme';
 
@@ -11,4 +10,4 @@ const App: React.FunctionComponent = () => {
   );
 };
 
-export default hot(App);
+export default App;

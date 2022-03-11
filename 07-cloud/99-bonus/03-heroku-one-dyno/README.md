@@ -14,23 +14,6 @@ npm install
 
 - If we want only one Heroku Dyno to serve this app, we can use backend server to public `static files`.
 
-- Let's do it locally, we will create a `bash script file` to build front project inside backend project:
-
-_./build-front.sh_
-
-```bash
-mkdir -p ./dist/public
-
-cd ../<front-folder>
-export BASE_API_URL=http://localhost:8081
-npm install
-npm run build
-cp -r ./dist/. ../<back-folder>/dist/public
-```
-
-> NOTE: Developers have to clone both repositories with same name as script has.
-> We will need here 
-
 - Add npm commands:
 
 _./pacakge.json_
@@ -41,15 +24,7 @@ _./pacakge.json_
     "start": "run-p -l type-check:watch start:dev start:local-db",
     "start:dev": "nodemon --exec babel-node --extensions \".ts\" src/index.ts",
 +   "start:prod": "node dist/index.js",
-    "start:local-db": "docker-compose up || echo \"Run docker-compose up manually\"",
-    "stop:local-db": "docker-compose down || echo \"Run docker-compose down manually\"",
-    "start:seed-data": "babel-node --extensions \".ts\" seed-data/index.ts",
-    "build": "run-p -l type-check build:prod",
-    "build:prod": "npm run clean && babel src -d dist --ignore=\"./src/test-runners\" --extensions \".ts\"",
-+   "build:front": "sh ./build-front.sh",
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --watch",
-    "clean": "rimraf dist"
+...
   },
 ```
 
@@ -117,12 +92,40 @@ app.listen(envConstants.PORT, async () => {
 
 ```
 
-- Run build and start:
+- Let's do it locally, build front project and copy `dist` folder to back `dist/public`:
 
 ```bash
+# Front project
 npm run build
-npm run build:front
+```
 
+```bash
+# Back project
+npm run build
+
+## dist folder
+|- core/
+|- dals/
+|- pods/
+|- app.js
+|- index.js
+
+## Create public folder and copy front dist files
+|- core/
+|- dals/
+|- pods/
+|- public/
+|---- images/
+|---- js/
+|---- index.html
+|- app.js
+|- index.js
+
+```
+
+- Run start:
+
+```bash
 # First terminal
 npm run start:prod
 
@@ -178,7 +181,6 @@ on:
   push:
     branches:
       - master
-
 env:
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
   IMAGE_NAME: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
@@ -189,17 +191,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 +     - name: Checkout front repository
-+       uses: actions/checkout@v2
++       uses: actions/checkout@v3
 +       with:
 +         repository: ${{ secrets.FRONT_REPOSITORY_NAME }}
 +         path: ${{ env.FRONT_PATH }}
 +         ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: Install heroku and login
-        run: |
-          curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
-          heroku container:login
+      - name: Heroku login
+        run: heroku container:login
       - name: Build docker image
 -       run: docker build -t ${{ env.IMAGE_NAME }} .
 +       run: docker build --build-arg BASE_API_URL=${{secrets.BASE_API_URL}} --build-arg FRONT_PATH=${{env.FRONT_PATH}} -t ${{ env.IMAGE_NAME }} .
@@ -217,7 +217,7 @@ jobs:
 _./Dockerfile_
 
 ```diff
-FROM node:12-alpine AS base
+FROM node:16-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -227,13 +227,13 @@ WORKDIR /usr/app
 + ENV BASE_API_URL=$BASE_API_URL
 + ARG FRONT_PATH
 + COPY $FRONT_PATH ./
-+ RUN npm install
++ RUN npm ci
 + RUN npm run build
 
 # Build backend
 FROM base AS build-backend
 COPY ./ ./
-RUN npm install
+RUN npm ci
 RUN npm run build
 
 # Release
@@ -242,7 +242,8 @@ FROM base AS release
 + COPY --from=build-front /usr/app/dist $STATIC_FILES_PATH
 COPY --from=build-backend /usr/app/dist ./
 COPY ./package.json ./
-RUN npm install --only=production
+COPY ./package-lock.json ./
+RUN npm ci --only=production
 
 ENTRYPOINT [ "node", "index" ]
 

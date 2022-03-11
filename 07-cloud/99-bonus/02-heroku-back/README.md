@@ -145,7 +145,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Heroku login
         run: heroku container:login
       - name: Build docker image
@@ -154,6 +154,7 @@ jobs:
         run: docker push ${{ env.IMAGE_NAME }}
       - name: Release
         run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
+
 ```
 
 > It's the same file as front project.
@@ -163,23 +164,25 @@ jobs:
 _./Dockerfile_
 
 ```Dockerfile
-FROM node:14-alpine AS base
+FROM node:16-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
 # Build backend
 FROM base AS build-backend
 COPY ./ ./
-RUN npm install
+RUN npm ci
 RUN npm run build
 
 # Release
 FROM base AS release
 COPY --from=build-backend /usr/app/dist ./
 COPY ./package.json ./
-RUN npm install --only=production
+COPY ./package-lock.json ./
+RUN npm ci --only=production
 
 ENTRYPOINT [ "node", "index" ]
+
 
 ```
 
@@ -196,6 +199,8 @@ git push
 ```bash
 heroku logs -a <name>
 ```
+
+- Navigate to [Mongo Atlas](https://www.mongodb.com/atlas/database) to get `MONGODB_URI`.
 
 - Let's update `env variables` in heroku portal:
 

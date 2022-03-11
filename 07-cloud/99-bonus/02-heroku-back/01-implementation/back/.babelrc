@@ -1,20 +1,16 @@
 {
   "presets": [
-    "@babel/preset-env",
-    "@babel/preset-typescript",
     [
+      "@babel/preset-env",
       {
-        "env": {
-          "development": {
-            "sourceMaps": true,
-            "retainLines": true
-          }
+        "targets": {
+          "node": "16"
         }
       }
-    ]
+    ],
+    "@babel/preset-typescript"
   ],
   "plugins": [
-    "@babel/plugin-proposal-optional-chaining",
     [
       "module-resolver",
       {
@@ -23,10 +19,18 @@
           "common": "./src/common",
           "common-app": "./src/common-app",
           "core": "./src/core",
-          "dals": "./src/dals",
-          "pods": "./src/pods"
+          "pods": "./src/pods",
+          "dals": "./src/dals"
         }
       }
     ]
-  ]
+  ],
+  "env": {
+    "development": {
+      "sourceMaps": "inline"
+    },
+    "production": {
+      "ignore": ["seed-data"]
+    }
+  }
 }

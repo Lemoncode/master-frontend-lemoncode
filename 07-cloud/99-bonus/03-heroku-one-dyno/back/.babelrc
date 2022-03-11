@@ -1,0 +1,36 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "16"
+        }
+      }
+    ],
+    "@babel/preset-typescript"
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["."],
+        "alias": {
+          "common": "./src/common",
+          "common-app": "./src/common-app",
+          "core": "./src/core",
+          "pods": "./src/pods",
+          "dals": "./src/dals"
+        }
+      }
+    ]
+  ],
+  "env": {
+    "development": {
+      "sourceMaps": "inline"
+    },
+    "production": {
+      "ignore": ["seed-data"]
+    }
+  }
+}

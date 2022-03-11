@@ -65,10 +65,7 @@ _./Dockerfile_
 ...
 
 - ENV PORT=8083
-- EXPOSE 8083
 + ENV PORT=8080
-+ EXPOSE 8080
-
 ENTRYPOINT [ "node", "index" ]
 
 ```

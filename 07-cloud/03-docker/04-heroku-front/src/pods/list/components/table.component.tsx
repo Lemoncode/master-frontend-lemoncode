@@ -1,7 +1,5 @@
 import React from 'react';
-import TableContainer from '@material-ui/core/TableContainer';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
+import { TableContainer, Table, TableBody } from '@mui/material';
 import { Member } from '../list.vm';
 import { HeaderComponent } from './header.component';
 import { RowComponent } from './row.component';

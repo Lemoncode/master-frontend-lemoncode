@@ -1,6 +1,5 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import { AppBar, Toolbar } from '@mui/material';
 import logo from 'assets/logo.png';
 import * as classes from './app-bar.styles';
 

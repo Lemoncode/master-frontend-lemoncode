@@ -1,0 +1,18 @@
+name: Vercel Continuos Deployment workflow
+
+on:
+  push:
+    branches:
+      - master
+env:
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+
+jobs:
+  vercel-cd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Deploy
+        run: vercel -t ${{ secrets.VERCEL_TOKEN }}

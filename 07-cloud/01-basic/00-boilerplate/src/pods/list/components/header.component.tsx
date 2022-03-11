@@ -1,7 +1,5 @@
 import React from 'react';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
+import { TableHead, TableRow, TableCell } from '@mui/material';
 import * as classes from './header.styles';
 
 export const HeaderComponent: React.FunctionComponent = (props) => {

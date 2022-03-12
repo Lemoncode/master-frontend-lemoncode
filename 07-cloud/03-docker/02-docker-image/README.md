@@ -129,6 +129,7 @@ RUN npm run build
 ```
 
 > RUN vs ENTRYPOINT: I don't want to run `node server` when we build the image, we want to run it when run the container.
+> ENTRYPOINT VS CMD: https://docs.doppler.com/docs/dockerfile
 
 - Run the container:
 
@@ -178,6 +179,7 @@ ENTRYPOINT [ "node", "server" ]
 docker build -t my-app:1 .
 
 docker run --name my-app -p 8080:8083 my-app:1
+docker run --name my-app --rm -p 8080:8083 my-app:1
 docker run --name my-app --rm -d -p 8080:8083 my-app:1
 ```
 
@@ -202,6 +204,25 @@ docker images
 ```
 
 - On the other hand, we have an image with `384MB`, too much size isn't it?. We should use [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/) to decrease this size, with only the necessary info:
+
+> Change container project structure:
+
+```
+|-- /usr/app
+|------ config/
+|------ server/
+|----------- node_modules/
+|----------- public/
+|----------- index.js
+|----------- package.json
+|------ src/
+
+
+|-- /usr/app
+|------ public/
+|------ index.js
+|------ package.json
+```
 
 _./Dockerfile_
 

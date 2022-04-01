@@ -73,10 +73,10 @@ arcs
   .attr("fill", (d, i) => {
     return partiesColorScale(d.data.party);
   })
-+ .on("mouseover", function(datum) {
++ .on("mouseover", function (mouseEvent: MouseEvent, datum) { {
 +   d3.select(this).attr("transform", `scale(1.1, 1.1)`);
 + })
-+  .on("mouseout", function(datum) {
++  .on("mouseout", function() {
 +    d3.select(this).attr("transform", ``);
 +  });
 ```
@@ -134,10 +134,11 @@ const div = d3
 _./src/index.ts_
 
 ```diff
-  .on("mouseover", function(datum) {
+  .on("mouseover", function (mouseEvent: MouseEvent, datum) { {
     d3.select(this).attr("transform", `scale(1.1, 1.1)`);
 +    const partyInfo = datum.data;
-+    const coords = { x: d3.event.pageX, y: d3.event.pageY };
++
++    const coords = { x: mouseEvent.clientX, y: mouseEvent.clientY };
 +    div.transition().duration(200).style("opacity", 0.9);
 +    div
 +      .html(`<span>${partyInfo.party}: ${partyInfo.seats}</span>`)
@@ -157,26 +158,6 @@ _./src/index.ts_
 +                .duration(500)
 +                .style("opacity", 0);
   });
-```
-
-Likely if you are using d3 v6 this won't work, let's check why (breaking change)
-
-- First let's add a breakpoint on "mouseOver", now the event info is enclosed in a first param
-  and in the second we can get the datum, a fix for this:
-
-```diff
--  .on("mouseover", function (datum) {
-+  .on("mouseover", function (event: any, datum: any) {
-    d3.select(this).attr("transform", `scale(1.1, 1.1)`);
-    const partyInfo = datum.data;
--    const coords = { x: d3.event.pageX, y: d3.event.pageY };
-+    const coords = { x: event.x, y: event.y };
-    div.transition().duration(200).style("opacity", 0.9);
-    div
-      .html(`<span>${partyInfo.party}: ${partyInfo.seats}</span>`)
-      .style("left", `${coords.x}px`)
-      .style("top", `${coords.y - 28}px`);
-  })
 ```
 
 # Excercise

@@ -1,35 +1,12 @@
-# 03 Importar
+## Manejando imports
 
-En esta muestra vamos a empezar a trabajar con los módulos ES6 (importar).
+En el paso anterior vimos como transpilar de ES6 a ES5 en un mismo fichero, pero ¿Qué pasa si tengo varios ficheros (modulos) y estoy usando _imports_? Vamos a ver como resuelve esto _webpack_.
 
-Empezaremos con el ejemplo _02 Boilerplate_ y añadiremos un nuevo servicio de JavaScript que
-mantendrá un simple algoritmo para calcular la media de puntos de un array.
+Tomamos como punto de partida el ejemplo anterior, vamos a añadir un nuevo archivo de JavaScript que contendrá un simple algoritmo para calcular la puntuación media un _array_ de notas.
 
-Usaremos este array de JavaScript en el archivo principal students.js, importandolo.
+### Pasos
 
-Resumen:
-
-- Agregar un nuevo archivo `averageService.js`
-- Añade una matriz en `students.js`
-- Importa el servicio promedio en `students.js`
-- Usa las características del servicio promedio dentro del código `students.js`
-- Transpilar y probar en `index.html`
-
-# Pasos para construirlo
-
-## Requisitos previos
-
-Necesitarás tener instalado Node.js (al menos v8.9) en tu ordenador. Para poder seguir las guías de este paso, también necesitarás tomar el ejemplo _01 BoilerPlate_ como punto de partida.
-
-## Pasos
-
-- `npm install` para instalar las dependencias de muestra anteriores:
-
-```
-npm install
-```
-
-- Añadamos un nuevo archivo llamado `averageService.js`. Este archivo contendrá una función que calculará el valor promedio de un array dado, esta función será exportada (haciéndola visible a otros módulos que necesiten usarla). Por lo tanto, añade el siguiente contenido a `averageService.js`:
+- Añadimos un nuevo archivo llamado **`averageService.js`**. Este archivo contendrá una función que calculará el valor promedio de un _array_ dado, esta función será exportada (haciéndola visible a otros módulos que necesiten usarla). Por lo tanto, añade el siguiente contenido a **`averageService.js`**:
 
 _./averageService.js_
 
@@ -43,7 +20,7 @@ function getTotalScore(scores) {
 }
 ```
 
-- Actualicemos `students.js` para importar el archivo anterior y usarlo:
+- Es hora se actualizar **`students.js`** e importar el archivo anterior invocando la función _getAvg_ del mismo:
 
 _./students.js_
 
@@ -60,15 +37,17 @@ _./students.js_
   document.write(messageToDisplay);
 ```
 
-- Por último, vamos a ejecutar webpack desde la línea de comandos ejecutando el siguiente comando:
+- Por último, vamos a ejecutar _webpack_ desde el terminal ejecutando el siguiente comando:
 
+```bash
+$ npm run build
 ```
-npm start
-```
 
-Es hora de hacer doble clic en el `index.html` y comprobar que la nueva función de promedio está en marcha y ha sido incluida en el archivo `bundle.js`.
+Como vemos no nos ha generado en la carpeta _dist_ un fichero **`students.js`** ni un **`averageService.js`**, **`webpack`** se va a ir encargando de concatenar los ficheros en uno sólo. Y como resultado obtenemos dentro de la carpeta _dist_ un fichero llamado **`main.js`** (más adelante veremos que podemos trocear este _bundle_ en varios ficheros).
 
-## Apéndice - Módulo de uso alternativo
+Es hora de probar el **`index.html`** en el navegador y comprobar que la nueva función de cálculo de media está en marcha y ha sido incluida en el archivo **`main.js`**.
+
+### Apéndice - Módulo de uso alternativo
 
 En nuestro ejemplo anterior hemos cubierto un solo uso nombrado de exportación, pero hay otras formas de usar módulos:
 
@@ -76,7 +55,7 @@ En nuestro ejemplo anterior hemos cubierto un solo uso nombrado de exportación,
 
 Una forma popular es usar **`export default`** como la palabra clave de exportación. Esto indicará que, por defecto, sólo habrá una **exportación única por módulo**. Entonces, podremos usar directamente un importar _alias_ (omitiendo las llaves {}) y esto apuntará a nuestro elemento exportado por defecto (función _averarge_ en nuestro ejemplo).
 
-- Uso de la exportación por defecto en `averageService.js`:
+- Uso de la exportación por defecto en **`averageService.js`**:
 
 _./averageService.js_
 
@@ -91,14 +70,13 @@ function getTotalScore(scores) {
     return score + count;
   });
 }
-
 ```
 
-- Uso de importar por defecto en `students.js`:
+- Uso de importar por defecto en **`students.js`**:
 
 _./students.js_
 
-```diff
+````diff
 - import {getAvg} from "./averageService";
 + import getAvg from "./averageService";
 
@@ -109,13 +87,13 @@ const messageToDisplay = `average score ${averageScore}`;
 
 document.write(messageToDisplay);
 ```nt.write(messageToDisplay);
-```
+````
 
-### Multiple named exports
+### Múltiple named exports
 
-Consideremos dos funciones, _getAvg_ y _getTotalScore_, por el bien de este ejemplo. Podemos exportar ambas usando exportaciones nombradas, sólo añadiendo la palabra clave **export** en cada función.
+Consideremos dos funciones, **`getAvg`** y **`getTotalScore`**, por el bien de este ejemplo. Podemos exportar ambas usando exportaciones nombradas, sólo añadiendo la palabra clave **export** en cada función.
 
-- Uso de múltiples exportaciones en `averageService.js`:
+- Uso de múltiples exportaciones en **`averageService.js`**:
 
 _./averageService.js_
 
@@ -133,7 +111,7 @@ return getTotalScore(scores) / scores.length;
 }
 ```
 
-Ahora, podemos importarlos de varias maneras en `students.js`:
+Ahora, podemos importarlos de varias maneras en **`students.js`**:
 
 - Importar ambos elementos en el ámbito actual:
 
@@ -154,7 +132,6 @@ const averageScore = getAvg(scores);
 - document.write(messageToDisplay);
 + document.write(messageToDisplayAvg);
 + document.write(messageToDisplayTotal);
-
 ```
 
 - Importa el contenido de todo el módulo usando el comodín `*` y un _name_ para nuestro módulo. Este _name_ contendrá todos los elementos exportados en nuestro ámbito actual (se utiliza _name_ como espacio de nombres):
@@ -177,16 +154,3 @@ const messageToDisplayTotal = `total score ${totalScore}`;
 document.write(messageToDisplayAvg);
 document.write(messageToDisplayTotal);
 ```
-
-# ¿Te apuntas a nuestro máster?
-
-Si te ha gustado este ejemplo y tienes ganas de aprender Front End
-guiado por un grupo de profesionales ¿Por qué no te apuntas a
-nuestro [Máster Front End Online Lemoncode](https://lemoncode.net/master-frontend#inicio-banner)? Tenemos tanto edición de convocatoria
-con clases en vivo, como edición continua con mentorización, para
-que puedas ir a tu ritmo y aprender mucho.
-
-Si lo que te gusta es el mundo del _backend_ también puedes apuntante a nuestro [Bootcamp backend Online Lemoncode](https://lemoncode.net/bootcamp-backend#bootcamp-backend/inicio).
-
-Y si tienes ganas de meterte una zambullida en el mundo _devops_
-apuntate a nuestro [Bootcamp devops Online Lemoncode](https://lemoncode.net/bootcamp-devops#bootcamp-devops/inicio).

@@ -1,59 +1,34 @@
-# 04 server
+## Servidor web desarrollo
 
-En éste ejemplo vamos a entrar en "dev mode" (modo desarrollador). Trabajando con el servicio de archivos
-no es lo ideal cuando estás desarrollando la aplicación web, aprenderemos como lanzar
-un servidor web ligero, como desplegar nuestro bundler en una carpeta dist ( incluyendo el archivo `index.html`),
-como depurar nuestro codigo ES6 directamente en el depurador de nuestro navegador y minificar
-nuestro `bundle.js`.
+Cuando estás programando una aplicación web no es idea el estar directamente pinchando ficheros _html_ desde el explorador para cargarlos en el navegador, cómo desarrollador es normal que queramos levantar un servidor web ligero en local para poder ir probando nuestro desarrollo. En este ejemplo veremos cómo hacer esto.
 
-Empezaremos desde el ejemplo _03 Import_, instala `webpack-dev-server`, preparar nuestra configuración
-para implementar en la carpeta config y mapas de soporte (depuración), entonces minificaremos
-nuestro archivo `bundle.js` por la vía de los parámetros de webpack cli (cli = command line interface).
+### Pasos
 
-Resumen de los pasos:
+- Vamos a instalar **`webpack-dev-server`**, el cual nos montará un servidor web ligero, donde correrá nuestra aplicación.
 
-- Instalar vía npm webpack-dev-server.
-- Ejecutar webpack-dev-server con la recarga en vivo.
-- Añade el comando start en el `package.json`.
-
-# Pasos para construirlo
-
-## Prerequisitos
-
-Prerequisitos, necesitarás tener nodejs (al menos la versión: v 8.9.2) instalada en tu ordenador. Si quieres seguir esta guía de pasos necesitarás coger como punto de partida el ejemplo _02 Import_.
-
-## Pasos
-
-- `npm install` para instalar los paquetes previos necesarios:
-
-```
-npm install
+```bash
+$ npm install webpack-dev-server --save-dev
 ```
 
-- Vamos a instalar `webpack-dev-server`, envío de paquetes con un lite server que
-  podemos usar como servidor de desarrollo web.
+- Vamos a reconfigurar nuestro **`package.json`** añadiendo el comando **`start`** donde vamos a lanzar nuestra aplicación en modo desarrollo.
 
-```
-npm install webpack-dev-server --save-dev
-```
-
-- Vamos a reconfigurar nuestro _package.json_ comando _start_ y añadimos un nuevo comando customizado que llamaremos _build_.
-
-### ./package.json
+./package.json
 
 ```diff
   "scripts": {
--   "start": "webpack --mode development"
-+   "start": "webpack serve",
-+   "build": "webpack --mode development"
++   "start": "webpack serve --mode development",
+-    "build": "webpack --mode development",
++    "build": "webpack --mode development"
+-   "test": "echo \"Error: no test specified\" && exit 1"
   },
 ```
 
-- Antes de ejecutar el proyecto, tenemos que darnos cuenta de que éste servidor se ejecuta en la memoria y no volcará información en la carpeta
-  _dist_, ahora mismo efectuaremos una solución alternativa, actualizaremos la ruta del archivo index.html para el archivo _bundle.js_,
-  en ejemplos posteriores aprenderemos una mejor forma de referenciar a los archivos incluidos en el HTML (usando HTMLWebpackPlugin)
+- Antes de ejecutar el proyecto, tenemos que tener en cuenta de que éste servidor se ejecuta en memoria (así es muy rápido) y no
+  perderá tiempo en volcar la información en la carpeta _dist_, así pues, para referenciar al archivo _main.js_ que está en la memoria de
+  _webpack dev server_ tenemos que hacer un cambio de ruta en el tag script del _index.html_, más adelante
+  aprenderemos una forma más limpia de hacer esto (utilizando _HTMLWebpackPlugin_)
 
-_index.html_
+_./index.html_
 
 ```diff
 <!DOCTYPE html>
@@ -65,22 +40,29 @@ _index.html_
     <title>Webpack 5.x by sample</title>
   </head>
   <body>
-    Hello Webpack 5!
--    <script src="./dist/main.js"></script>
-+    <script src="main.js"></script>
+-    <script src="../dist/main.js"></script>
++    <script src="./main.js"></script>
   </body>
 </html>
-
 ```
 
-- Tenemos que modificar nuestro **`webpack.config.js`** porque por defecto **``webpack dev server``** mira en la carpeta _public_
- y tenemos que decirle que mire en la raiz de nuestra aplicación.
+- Otra cosa que tenemos que hacer es modificar nuestro **`webpack.config.js`** porque por defecto **`webpack dev server`** busca el _index.html_ en la carpeta _public_ y tenemos que decirle que mire dentro de la carpeta _src_ de nuestra aplicación.
+
+Para ello:
+
+- Por un lado nos traemos una utilidad de _node_ que nos permite concatenar rutas (path).
+- Por otro utilizamos la variable **dirname** que nos da la ruta del proyecto.
+- Por último, obtenemos una ruta resultado de concatenar **dirname** con la ruta _src_,
+  esta será la que usemos en la sección _devServer_ para indicarle a _webpack_dev_server_
+  donde tiene que apuntar.
+
+[Documentación](https://webpack.js.org/configuration/dev-server/)
 
 ```diff
 + const path = require("path");
 
 module.exports = {
-  entry: ["./students.js"],
+  entry: ["./src/students.js"],
   module: {
     rules: [
       {
@@ -91,66 +73,33 @@ module.exports = {
     ],
   },
 +  devServer: {
-+    static: path.join(__dirname, "./"),
++    static: path.join(__dirname, "./src"),
 +  },
 };
 ```
 
-- Ahora si escribimos desde la terminal de nuestro sistema.
+- Ahora si escribimos el comando desde la terminal de nuestro sistema.
 
 ```bash
-npm start
+$ npm start
 ```
 
-- Si abrimos un navegador podemos apuntar la url a http://localhost:8080 y navegaremos a nuestra aplicación web.
-
-- Una característica interesante que incluye éste servidor de desarrollo es **live reloading**, así cualquier cambio introducido en algún archivo JavaScript será automaticamente detectado y webpack dev server lanzará el proceso de build y una vez terminado, refrescará automaticamente la página que se muestra en el navegador. Para realizar ésto, no necesitamos hacer nada.
-
-- Si queremos ejecutar la build de _webpack_, solo necesitamos escribir los comandos desde la terminal de nuestro sistema:
+- Si abrimos un navegador, podemos apuntar la _url_ a [http://localhost:8080](http://localhost:8080/), esto nos llevará a nuestra aplicación.
+- Una característica interesante que incluye éste servidor de desarrollo es **live reloading**, así cualquier cambio introducido en algún archivo JavaScript será automáticamente detectado y _webpack dev server_ lanzará el proceso de _build_ en memoria y una vez terminado refrescará automáticamente la página que se muestra en el navegador (por ejemplo podemos cambiar el texto del _main_ y ver como automáticamente se lanza un _build_ y se refresca el contenido en el navegador).
+- Si queremos ejecutar la _build_ de _webpack_, solo necesitamos escribir los comandos desde la terminal de nuestro sistema:
 
 ```bash
-npm run build
+$ npm run build
 ```
 
-- Finalmente, podemos configurar este servidor en _`webpack.config.js`_:
+- Finalmente, si el puerto por defecto en el que corre _webpack-dev-server_ no nos cuadra, podemos
+  cambiarlo, tocando la entrada _devServer/port_ en el **`webpack.config.js`**:
 
 _./webpack.config.js_
 
 ```diff
 module.exports = {
-  entry: ['./students.js'],
-  output: {
-    filename: 'bundle.js',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-      },
-    ],
-  },
-devServer: {
-    static: path.join(__dirname, "./"),
-+   port: 8081,
- },
-};
-
-```
-
-- Ahora, se está ejecutando en el puerto 8081.
-
-- Podemos restablecer el puerto predeterminado:
-
-_./webpack.config.js_
-
-```diff
-module.exports = {
-  entry: ['./students.js'],
-  output: {
-    filename: 'bundle.js',
-  },
+  entry: ['./src/students.js'],
   module: {
     rules: [
       {
@@ -161,19 +110,39 @@ module.exports = {
     ],
   },
   devServer: {
-    static: path.join(__dirname, "./"),
+    static: path.join(__dirname, "./src"),
++   port: 8081,
+  },
+};
+```
+
+- Ahora, se está ejecutando en el puerto 8081.
+
+```bash
+$ npm start
+```
+
+- De cara a tener este ejemplo listo para siguientes pasos, vamos a volver a indicarle
+  que utilice el puerto por defecto:
+
+_./webpack.config.js_
+
+```diff
+module.exports = {
+  entry: ['./src/students.js'],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+    ],
+  },
+  devServer: {
+    static: path.join(__dirname, "./src"),
 -   port: 8081,
 +   port: 8080,
   },
 };
 ```
-
-# Sobre Basefactor + Lemoncode
-
-Somos un equipo innovador de expertos en Javascript, apasionados por convertir sus ideas en productos sólidos.
-
-[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) proporciona servicios de consultoría y coaching.
-
-[Lemoncode](http://lemoncode.net/services/en/#en-home) proporciona servicios de formación.
-
-Para la audiencia Latino-Americana/Española tenemos un título en Máster Online Front End, mas info: http://lemoncode.net/master-frontend

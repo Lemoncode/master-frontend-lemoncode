@@ -1,5 +1,5 @@
 {
-  "name": "laboratorio-webpack",
+  "name": "01-zero-config",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "webpack": "^5.68.0",
+    "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2"
   }
 }

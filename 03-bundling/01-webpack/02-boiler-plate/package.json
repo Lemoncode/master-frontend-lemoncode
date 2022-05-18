@@ -1,20 +1,20 @@
 {
-  "name": "laboratorio-webpack",
+  "name": "02-boiler-plate",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --mode development"
+    "build": "webpack --mode development"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/cli": "^7.17.0",
-    "@babel/core": "^7.17.2",
-    "@babel/preset-env": "^7.16.11",
-    "babel-loader": "^8.2.3",
-    "webpack": "^5.68.0",
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "babel-loader": "^8.2.5",
+    "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2"
   }
 }

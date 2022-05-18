@@ -1,10 +1,9 @@
-$blue-color: teal;
+$back-color: indianred;
 
 .red-background {
-  background-color: $blue-color;
+  background-color: $back-color;
 }
 
 img {
-  display: block;
   width: 200px;
 }

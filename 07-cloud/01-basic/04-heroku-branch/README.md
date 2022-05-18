@@ -100,7 +100,7 @@ git push
 
 - Move `front files` to public folder.
 
-- Copy from `source code repository` > `./server/index.js` and `./server/package.json` files to `heroku repository`:
+- Copy from `source code repository` > `./server/index.js`, `./server/package.json` and `./server/package-lock.json` files to `heroku repository`:
 
 - Add `.gitignore` file:
 
@@ -120,6 +120,7 @@ node_modules
 |---- index.html
 |- .gitignore
 |- index.js
+|- package-lock.json
 |- package.json
 
 ```

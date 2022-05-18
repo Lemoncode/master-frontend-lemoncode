@@ -1,7 +1,7 @@
 {
   "name": "00-boilerplate",
   "version": "1.0.0",
-  "description": "This is just a simple boiler plate that will let us having a playground for our examples.",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "run-p -l type-check:watch start:dev",
@@ -14,13 +14,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/d3": "^7.1.0",
     "npm-run-all": "^4.1.5",
-    "parcel": "1.12.3",
+    "parcel": "2.3.1",
     "rimraf": "^3.0.2",
-    "typescript": "^3.7.5"
+    "typescript": "^4.5.5"
   },
   "dependencies": {
-    "@types/d3": "^5.7.2",
-    "d3": "^5.15.0"
+    "d3": "^7.3.0"
   }
 }

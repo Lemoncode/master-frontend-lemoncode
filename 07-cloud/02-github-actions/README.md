@@ -18,7 +18,7 @@ npm install
 
 ```bash
 git init
-git remote add origin https://github.com/...
+git remote add origin git@github.com...
 git add .
 git commit -m "initial commit"
 git push -u origin master
@@ -38,9 +38,20 @@ _./package.json_
   "scripts": {
     ...
     "test:watch": "npm run test -- --watchAll -i --no-cache",
++   "build:dev": "npm run clean && webpack --config ./config/webpack/dev.js",
 +   "deploy": "gh-pages -d dist"
   },
 ```
+
+- Run dev build and deploy it:
+
+```bash
+npm run build:dev
+npm run deploy
+```
+
+> NOTE: We can run deploy because we have access to repository
+> since we are logged in Github
 
 - Add GitHub actions CD workflow:
 
@@ -59,9 +70,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install
-        run: npm install
+        run: npm ci
       - name: Build
         run: npm run build
       - name: Deploy
@@ -126,7 +137,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 +     - name: Use SSH key
 +       run: |
 +         mkdir -p ~/.ssh/
@@ -137,7 +148,7 @@ jobs:
 +         git config --global user.email "cd-user@my-app.com"
 +         git config --global user.name "cd-user"
       - name: Install
-        run: npm install
+        run: npm ci
       - name: Build
         run: npm run build
       - name: Deploy

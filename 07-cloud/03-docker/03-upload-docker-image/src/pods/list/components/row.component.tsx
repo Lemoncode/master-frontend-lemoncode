@@ -1,6 +1,5 @@
 import React from 'react';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
+import { TableRow, TableCell } from '@mui/material';
 import { Member } from '../list.vm';
 import * as classes from './row.styles';
 

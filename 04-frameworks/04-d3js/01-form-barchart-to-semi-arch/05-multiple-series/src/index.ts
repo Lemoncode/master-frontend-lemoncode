@@ -14,25 +14,12 @@ const chartDimensions = {
   height: svgDimensions.height - margin.bottom - margin.top,
 };
 
-const updateChart = (data: ResultEntry[]) => {
-  d3.selectAll("path")
-    .data(pieChart(<any>data))
-    .transition()
-    .duration(500)
-    .attr("d", <any>arc);
-};
+const maxNumberSeats = resultCollectionSpainNov19.reduce(
+  (max, item) => (item.seats > max ? item.seats : max),
+  0
+);
 
-document
-  .getElementById("april")
-  .addEventListener("click", function handleResultsApril() {
-    updateChart(resultCollectionSpainApr19);
-  });
-
-document
-  .getElementById("november")
-  .addEventListener("click", function handleResultsNovember() {
-    updateChart(resultCollectionSpainNov19);
-  });
+const politicalPartiesCount = resultCollectionSpainNov19.length;
 
 const partiesColorScale = d3
   .scaleOrdinal([
@@ -70,13 +57,6 @@ const partiesColorScale = d3
     "Compromis",
   ]);
 
-// Define the div for the tooltip
-const div = d3
-  .select("body")
-  .append("div")
-  .attr("class", "tooltip")
-  .style("opacity", 0);
-
 const svg = d3
   .select("body")
   .append("svg")
@@ -106,31 +86,20 @@ const pieChart = d3
     return d.seats;
   })
   .sort(null);
-
+  
 const arcs = chartGroup
   .selectAll("slice")
   .data(pieChart(resultCollectionSpainNov19))
   .enter();
+
 arcs
   .append("path")
   .attr("d", <any>arc) // Hack typing: https://stackoverflow.com/questions/35413072/compilation-errors-when-drawing-a-piechart-using-d3-js-typescript-and-angular/38021825
   .attr("fill", (d, i) => {
+    console.log(d.data.party);
     return partiesColorScale(d.data.party);
-  })
-  .on("mouseover", function (mouseEvent: any, datum: any) {
-    d3.select(this).attr("transform", `scale(1.1, 1.1)`);
-    const partyInfo = datum.data;
-    const coords = { x: mouseEvent.clientX, y: mouseEvent.clientY };
-    div.transition().duration(200).style("opacity", 0.9);
-    div
-      .html(`<span>${partyInfo.party}: ${partyInfo.seats}</span>`)
-      .style("left", `${coords.x}px`)
-      .style("top", `${coords.y - 28}px`);
-  })
-  .on("mouseout", function (d, i) {
-    d3.select(this).attr("transform", ``);
-    div.transition().duration(500).style("opacity", 0);
   });
+
 // Legend
 const legendLeft = margin.left;
 const legendTop = radius + 5;
@@ -141,4 +110,24 @@ const legendGroup = svg
 
 var colorLegend = legendColor().scale(partiesColorScale);
 
-legendGroup.call(colorLegend);
+legendGroup.call(colorLegend as any);
+
+const updateChart = (data: ResultEntry[]) => {
+  d3.selectAll("path")
+    .data(pieChart(<any>data))
+    .transition()
+    .duration(500)
+    .attr("d", <any>arc);
+};
+
+document
+  .getElementById("april")
+  .addEventListener("click", function handleResultsApril() {
+    updateChart(resultCollectionSpainApr19);
+  });
+
+document
+  .getElementById("november")
+  .addEventListener("click", function handleResultsNovember() {
+    updateChart(resultCollectionSpainNov19);
+  });

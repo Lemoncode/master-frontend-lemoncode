@@ -79,27 +79,13 @@ docker container prune
 
 ```bash
 docker image rm <IMAGE ID>
+docker rmi <IMAGE ID>
 docker image prune
 ```
 > `prune`: Remove all dangling images, that is, all images with name equals <none>. Dangling images are not referenced by other images and are safe to delete
 
-- Let's run again the docker image:
 
-```bash
-docker images
-docker run hello-world
-```
 
-- Finally, we can run a container as interactive mode:
-
-```bash
-docker run ubuntu // exited automatically
-docker run -it ubuntu sh
-```
-
-> NOTE: Open new terminal and write `docker ps`.
-> sh: bash terminal
-> We will see in next examples how to connect with interactive mode to a running container using `docker exec -it <Container ID> sh
 
 # About Basefactor + Lemoncode
 

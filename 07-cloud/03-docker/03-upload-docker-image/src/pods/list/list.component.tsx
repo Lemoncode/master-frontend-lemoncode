@@ -1,6 +1,6 @@
 import React from 'react';
 import { cx } from '@emotion/css';
-import Typography from '@material-ui/core/Typography';
+import { Typography } from '@mui/material';
 import { TableComponent } from './components';
 import { Member } from './list.vm';
 import * as classes from './list.styles';

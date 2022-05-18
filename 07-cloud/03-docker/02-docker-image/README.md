@@ -6,10 +6,10 @@ We will start from `02-github-actions`.
 
 # Steps to build it
 
-- `npm install` to install previous sample packages:
+- `npm ci` to install previous sample packages:
 
 ```bash
-npm install
+npm ci
 ```
 
 - We can create our custom images. In this case, we will use [the node image](https://hub.docker.com/_/node), the alpine version as base image to create our custom one:
@@ -17,7 +17,7 @@ npm install
 _./Dockerfile_
 
 ```Docker
-FROM node:14-alpine
+FROM node:16-alpine
 ```
 
 > You can use [Docker VSCode extension](https://code.visualstudio.com/docs/containers/overview)
@@ -27,7 +27,7 @@ FROM node:14-alpine
 _./Dockerfile_
 
 ```diff
-FROM node:14-alpine
+FROM node:16-alpine
 + RUN mkdir -p /usr/app
 + WORKDIR /usr/app
 
@@ -42,15 +42,15 @@ FROM node:14-alpine
 _./.dockerignore_
 
 ```
+.github
 node_modules
-.vscode
 dist
 .editorconfig
+.gitignore
+.prettierrc
+dev.env
 .env
 .env.example
-.gitignore
-.github
-package-lock.json
 README.md
 
 ```
@@ -60,7 +60,7 @@ README.md
 _./Dockerfile_
 
 ```diff
-FROM node:14-alpine
+FROM node:16-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -73,12 +73,12 @@ WORKDIR /usr/app
 _./Dockerfile_
 
 ```diff
-FROM node:14-alpine
+FROM node:16-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
 COPY ./ ./
-+ RUN npm install
++ RUN npm ci
 + RUN npm run build
 
 ```
@@ -112,23 +112,24 @@ docker container rm my-app
 _./Dockerfile_
 
 ```diff
-FROM node:14-alpine
+FROM node:16-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
 COPY ./ ./
-RUN npm install
+RUN npm ci
 RUN npm run build
 
 + RUN cp -r ./dist ./server/public
 + RUN cd server
-+ RUN npm install
++ RUN npm ci
 
 + ENTRYPOINT [ "node", "server" ]
 
 ```
 
 > RUN vs ENTRYPOINT: I don't want to run `node server` when we build the image, we want to run it when run the container.
+> ENTRYPOINT VS CMD: https://docs.doppler.com/docs/dockerfile
 
 - Run the container:
 
@@ -168,7 +169,6 @@ _./Dockerfile_
 ...
 
 + ENV PORT=8083
-+ EXPOSE 8083
 ENTRYPOINT [ "node", "server" ]
 
 ```
@@ -178,6 +178,8 @@ ENTRYPOINT [ "node", "server" ]
 ```bash
 docker build -t my-app:1 .
 
+docker run --name my-app -p 8080:8083 my-app:1
+docker run --name my-app --rm -p 8080:8083 my-app:1
 docker run --name my-app --rm -d -p 8080:8083 my-app:1
 ```
 
@@ -203,39 +205,57 @@ docker images
 
 - On the other hand, we have an image with `384MB`, too much size isn't it?. We should use [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/) to decrease this size, with only the necessary info:
 
+> Change container project structure:
+
+```
+|-- /usr/app
+|------ config/
+|------ server/
+|----------- node_modules/
+|----------- public/
+|----------- index.js
+|----------- package.json
+|------ src/
+
+
+|-- /usr/app
+|------ public/
+|------ index.js
+|------ package.json
+```
+
 _./Dockerfile_
 
 ```diff
-- FROM node:14-alpine
-+ FROM node:14-alpine AS base
+- FROM node:16-alpine
++ FROM node:16-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
 + # Prepare static files
 + FROM base AS build-front
 COPY ./ ./
-RUN npm install
+RUN npm ci
 RUN npm run build
 
-- RUN cp -a ./dist/. ./server/public
+- RUN cp -r ./dist ./server/public
 - RUN cd server
-- RUN npm install
+- RUN npm ci
 + # Release
 + FROM base AS release
 + COPY --from=build-front /usr/app/dist ./public
 + COPY ./server/package.json ./
++ COPY ./server/package-lock.json ./
 + COPY ./server/index.js ./
-+ RUN npm install --only=production
++ RUN npm ci --only=production
 
 ENV PORT=8083
-EXPOSE 8083
-
 - ENTRYPOINT [ "node", "server" ]
 + ENTRYPOINT [ "node", "index" ]
 
 ```
 
-> We could use `npm ci` instead of `npm install` if we have a `package-lock.json` generated.
+> We could use `npm ci` instead of `npm ci` if we have a `package-lock.json` generated.
 
 - Run it:
 
@@ -245,6 +265,7 @@ docker images
 
 docker stop my-app
 docker run --name my-app --rm -d -p 8080:8083 my-app:2
+docker exec -it my-app sh
 ```
 
 We can add more env variables, for example feed the `public` folder.
@@ -258,7 +279,7 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
-- const staticFilesPath = path.resolve(__dirname, '../dist');
+- const staticFilesPath = path.resolve(__dirname, './public');
 + const staticFilesPath = path.resolve(__dirname, process.env.STATIC_FILES_PATH);
 app.use('/', express.static(staticFilesPath));
 
@@ -283,6 +304,17 @@ FROM base AS release
 COPY ./server/package.json ./
 ...
 
+```
+
+- Run again
+
+```bash
+docker build -t my-app:2 .
+docker images
+
+docker stop my-app
+docker run --name my-app --rm -d -p 8080:8083 my-app:2
+docker exec -it my-app sh
 ```
 
 # About Basefactor + Lemoncode

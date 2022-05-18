@@ -65,10 +65,7 @@ _./Dockerfile_
 ...
 
 - ENV PORT=8083
-- EXPOSE 8083
 + ENV PORT=8080
-+ EXPOSE 8080
-
 ENTRYPOINT [ "node", "index" ]
 
 ```
@@ -89,7 +86,7 @@ docker images
 docker push <user-name>/my-app
 ```
 
-- We could remove all local iamges and run the uploaded image version:
+- We could remove all local images and run the uploaded image version:
 
 ```bash
 docker rmi my-app:1 my-app:2 <user-name>/my-app:latest <user-name>/my-app:2 <user-name>/my-app:3

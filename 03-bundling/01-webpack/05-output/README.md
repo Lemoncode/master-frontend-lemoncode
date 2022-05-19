@@ -1,49 +1,21 @@
-# 05 Output
+## Generando un paquete en producción
 
-In this sample we are going to use webpack default _dist_ config and
-copy our main HTML page to that distribution path.
+Con lo que tenemos ahora si generamos un _npm run build_ tendríamos que copiar manualmente
+el fichero index.html a la carpeta _dist_, y además cambiar el _tag script_ del _index.html_,
+esto paso manual puede ser una fuente de errores a futuro.
 
-> Note down by default webpack uses _dist_ folder as default configuration.
+¿No sería bueno que _webpack_ pudiera inyectar automáticamente ese archivo _html_ dentro de la carpeta _dist_?
+¿Y si además añadiera el _tag scrip_ con la ruta correcta a nuestro punto de entrada en _JavaScript_? Existe un _plugin_ que lo hará por ti _html-webpack-plugin_, comencemos por instalarlo:
 
-We will start from sample _04 Server_,
+### Pasos
 
-Summary steps:
-
-- Redirect output (`main.js`) to "dist" folder.
-- Include into the build proccess: copying the `index.html` file to "dist" folder
-- Let webpack include the `main.js` script into the `index.html` file.
-- Add map support in order to enable ES6 files to be debugged directly on the browser.
-- Generate a minified version of the `bundle.js`.
-
-## Prerequisites
-
-You will need to have nodejs installed in your computer (at least 8.9.2). If you want to follow this step-by-step guide you will need to take as starting point sample _04 Server_.
-
-## steps
-
-- `npm install` to install previous sample packages:
+- Instalamos el plugin
 
 ```bash
-npm install
+$ npm install html-webpack-plugin --save-dev
 ```
 
-- If we run an npm build we will see that automatically the generated bundle is copied under the
-  _dist_ folder (we can add plumbing into our webpack.config to change this folder if needed).
-
-```bash
-npm run build
-```
-
-- That's fine, but we need to copy as well the HTML to the dist folder, and... wouldn't it
-  be nice that webpack could be able to automatically inject the bundle script into the dist
-  copy of the HTML file? There's a plugin that will do that for you _html-webpack-plugin_, let's
-  start by installing it.
-
-```bash
-npm install html-webpack-plugin --save-dev
-```
-
-- Let's remove from our base `index.html` the script tag:
+- Eliminamos de nuestro _index.html_ base la etiqueta de script:
 
 _./index.html_
 
@@ -54,32 +26,31 @@ _./index.html_
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Webpack by sample</title>
+    <title>Webpack 5.x by sample</title>
   </head>
   <body>
-    Hello Webpack!
--   <script src="main.js"></script>
+-   <script src="./main.js"></script>
   </body>
 </html>
-
 ```
 
-- This plugin (html-webpack-plugin) will take as template input our `index.html`, and we will point an output destination (`index.html` under dist folder). The plugin will copy `index.html` into destination and inject the script tag including a hash tag to avoid browser caching when new versions are being deployed. Once we have installed it, we need to require it on top of our `webpack.config.js` file:
+Este _plugin_ (_html-webpack-plugin_) tomará como entrada nuestro **`index.html`**, y señalaremos un punto de salida (_index.html_ en la carpeta _dist_). Una vez que lo hayamos instalado, debemos importarlo en nuestro
+fichero de configuración de _webpack_:
+
+_./webpack.config.js_
 
 ```diff
+const path = require("path");
 + const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: ['./students.js'],
-  output: {
-    filename: 'main.js',
-  },
+  .....
 ```
 
-- In order to configure it we have to add the following section
-  on our `webpack.config.js` (right after modules definition).
+Para configurarlo tenemos que agregar la siguiente sección en nuestro **`webpack.config.js`** (justo después de la definición de los módulos).
 
-_webpack.config.js_
+_/webpack.config.js_
 
 ```diff
   module: {
@@ -95,15 +66,29 @@ _webpack.config.js_
 +   //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
 +   new HtmlWebpackPlugin({
 +     filename: 'index.html', //Name of file in ./dist/
-+     template: 'index.html', //Name of template in ./src
-+     scriptLoading:'blocking', // Load the scripts correctly
++     template: "./src/index.html", //Name of template in ./src
++     scriptLoading:'blocking', // Just use the blocking approach (no modern defer or module)
 +    }),
 + ],
 ```
 
-We no longer need the devServer configuration to tell you the location of the ** `` index.html`` **.
+Aquí le indicamos:
+
+- El nombre del fichero que se generará en la carpeta _dist_.
+- El nombre del fichero que se utilizará como plantilla para generar el fichero _index.html_.
+- El modo de carga de los scripts, en este caso queremos asegurarnos la compatibilidad con
+  navegadores antiguos y elegimos la opción "_blocking_".
+
+Para saber más sobre que opciones tienes disponibles puede ir a la [documentación de este
+plugin](https://github.com/jantimon/html-webpack-plugin#options)
+
+Ya no necesitamos la configuración de _devServer_ para indicarle la ubicación del **`index.html`**,
+ya que el plugin lo va a copiar a la carpeta _dist_ o servirlo en memoria en el sitio correcto
+en el caso del _wepback-dev-server_.
 
 ```diff
+- const path = require("path");
+  .......
   plugins: [
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
@@ -113,22 +98,25 @@ We no longer need the devServer configuration to tell you the location of the **
     }),
   ],
   devServer: {
--    static: path.join(__dirname, "./"),
+-    static: path.join(__dirname, "./src"),
     port: 8080,
   },
 };
 ```
 
-- Now if we run webpack we will realize that `index.html` is copied under the dist folder and the script tag is automatically being generated. There is only one caveat... we are not getting any additional hash param to avoid browser caching, we can do that by setting the option hash to true:
+Ahora, si creamos la _build_, nos daremos cuenta de que `index.html` se copia en la carpeta _dist_ y la etiqueta del _script_ se genera automáticamente.
 
 ```bash
-npm run build
+$ npm run build
 ```
 
-- Let's add an additional param that will add a hash value to the generatd script entry in the HTML.
+Solo hay un tema que puede ser problemático... no estamos utilizando ningún parámetro _hash_ adicional para evitar que el _javascript_ acabe en la caché del navegador o _proxy_ y no detecte nuevas versiones
+del mismo, podemos evitar esto configurando la opción hash en el plugin:
+
+- Para evitar que nuevas versiones del fichero _js_ no se carguen y se tire por equivocación de la caché del navegador vamos a añadir un parámetro adicional que agregará un valor hash a los tags de _script_ en el _HTML_ que hemos creado (esto es un truco muy común para evitar problemas con versiones cacheadas en navegadores o _proxies_, en este caso sólo tenemos que añadir un _flag_ para activarlo).
 
 ```diff
-  plugins: [
+ plugins: [
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: 'index.html', //Name of file in ./dist/
@@ -139,14 +127,14 @@ npm run build
   ],
 ```
 
-- Let's run the build and check that now we get a hash on our script.
+- Ejecutamos la compilación y podemos verificar que ahora obtenemos un hash en nuestro script, para ello abrimos
 
-# About Basefactor + Lemoncode
+```bash
+$ npm run build
+```
 
-We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
+Si abrimos un navegador podemos apuntar la url a [http://localhost:8080](http://localhost:8080/) y navegaremos a nuestra aplicación web.
 
-[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
-
-[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
-
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+```bash
+$ npm start
+```

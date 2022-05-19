@@ -68,7 +68,7 @@ function main() {
   console.log(message);
 }
 main(); // undefined
-        // "hello"
+// "hello"
 
 // Si cambiamos la declaración a "let", no habrá hoisting y la función
 // lanzará un error:
@@ -135,7 +135,7 @@ NOTA:
 
 ///-- OPERADORES *******************************************************
 
-// *** Optional chaining (encadenamiento opcional). [!] Bajo implementación ES2020.
+// *** Optional chaining (encadenamiento opcional). [ES2020].
 
 /*
 El operador optional chaining nos permite acceder en profundidad a propiedades de
@@ -183,7 +183,7 @@ undefined, en caso contrario continúa.
 */
 
 
-// *** Nullish coalescing. [!] Bajo implementación ES2020.
+// *** Nullish coalescing. [ES2020].
 
 /*
 El operador nullish coalescing es un operador lógico que devuelve el operando derecho

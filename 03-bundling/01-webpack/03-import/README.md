@@ -1,189 +1,152 @@
-# 03 Import
+## Servidor web desarrollo
 
-In this sample we are going to start working with ES6 modules (import).
+Cuando estás programando una aplicación web no es idea el estar directamente pinchando ficheros _html_ desde el explorador para cargarlos en el navegador, cómo desarrollador es normal que queramos levantar un servidor web ligero en local para poder ir probando nuestro desarrollo. En este ejemplo veremos cómo hacer esto.
 
-We will start from sample _02 Boilerplate_ and add a new JavaScript service that will
-hold a simple algorithm to calculate the average of an score array.
+### Pasos
 
-We will use this JavaScript array into the main students.js file by importing
-it.
+- Vamos a instalar **`webpack-dev-server`**, el cual nos montará un servidor web ligero, donde correrá nuestra aplicación.
 
-Summary steps:
-
-- Add a new file `averageService.js`
-- Add an array on `students.js`
-- Import averageService into `students.js`
-- Use the averageService features inside the `students.js` code.
-- Transpile and test on `index.html`
-
-# Steps to build it
-
-## Prerequisites
-
-You will need to have Node.js (at least v 8.9) installed in your computer. In order to follow this step guides you will also need to take sample _02 BoilerPlate_ as a starting point.
-
-## Steps
-
-- `npm install` to install previous sample dependencies:
-
-```
-npm install
+```bash
+$ npm install webpack-dev-server --save-dev
 ```
 
-- Let's add a new file called `averageService.js`. This file will contain a function that will calculate the average value of a given array, this function will be exported (make it visible to other modules that need to consume them). So, add the following content to `averageService.js`:
+- Vamos a reconfigurar nuestro **`package.json`** añadiendo el comando **`start`** donde vamos a lanzar nuestra aplicación en modo desarrollo.
 
-_./averageService.js_
-
-```javascript
-export function getAvg(scores) {
-  return getTotalScore(scores) / scores.length;
-}
-
-function getTotalScore(scores) {
-  return scores.reduce((score, count) => score + count);
-}
-```
-
-- Now let's update `students.js` to import the previous file and consume it:
-
-_./students.js_
+./package.json
 
 ```diff
--  // Let's use some ES6 features
-+  import { getAvg } from './averageService';
-
-+  const scores = [90, 75, 60, 99, 94, 30];
--  const averageScore = "90";
-+  const averageScore = getAvg(scores);
-
-  const messageToDisplay = `average score ${averageScore}`;
-
-  document.write(messageToDisplay);
+  "scripts": {
++   "start": "webpack serve --mode development",
+-    "build": "webpack --mode development",
++    "build": "webpack --mode development"
+-   "test": "echo \"Error: no test specified\" && exit 1"
+  },
 ```
 
-- Finally, let's run webpack from the command prompt by executing the following command:
+- Antes de ejecutar el proyecto, tenemos que tener en cuenta de que éste servidor se ejecuta en memoria (así es muy rápido) y no
+  perderá tiempo en volcar la información en la carpeta _dist_, así pues, para referenciar al archivo _main.js_ que está en la memoria de
+  _webpack dev server_ tenemos que hacer un cambio de ruta en el tag script del _index.html_, más adelante
+  aprenderemos una forma más limpia de hacer esto (utilizando _HTMLWebpackPlugin_)
 
-```
-npm start
-```
-
-It is time to double-click on the `index.html` and check that the new average function is up and running and has been included in the `bundle.js` file.
-
-## Appendix - Module alternative usage
-
-We have covered a single named export usage in our previous example, but there are some other ways to use modules:
-
-### Default export
-
-One popular way is using **`export default`** as the export keyword. This will indicate that, by default, there will be just a **single export per module**. Then, we can directly use an import _alias_ (by omitting the curly braces) and this will point out to our default exported member (_averarge_ function in our example).
-
-- Default export usage in `averageService.js`:
-
-_./averageService.js_
+_./index.html_
 
 ```diff
-- export function getAvg(scores) {
-+ export default function getAvg(scores) {
-return getTotalScore(scores) / scores.length;
-}
-
-function getTotalScore(scores) {
-  return scores.reduce((score, count) => {
-    return score + count;
-  });
-}
-
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Webpack 5.x by sample</title>
+  </head>
+  <body>
+-    <script src="../dist/main.js"></script>
++    <script src="./main.js"></script>
+  </body>
+</html>
 ```
 
-- Default import usage in `students.js`:
+- Otra cosa que tenemos que hacer es modificar nuestro **`webpack.config.js`** porque por defecto **`webpack dev server`** busca el _index.html_ en la carpeta _public_ y tenemos que decirle que mire dentro de la carpeta _src_ de nuestra aplicación.
 
-_./students.js_
+Para ello:
+
+- Por un lado nos traemos una utilidad de _node_ que nos permite concatenar rutas (path).
+- Por otro utilizamos la variable **dirname** que nos da la ruta del proyecto.
+- Por último, obtenemos una ruta resultado de concatenar **dirname** con la ruta _src_,
+  esta será la que usemos en la sección _devServer_ para indicarle a _webpack_dev_server_
+  donde tiene que apuntar.
+
+[Documentación](https://webpack.js.org/configuration/dev-server/)
 
 ```diff
-- import {getAvg} from "./averageService";
-+ import getAvg from "./averageService";
++ const path = require("path");
 
-const scores = [90, 75, 60, 99, 94, 30];
-const averageScore = getAvg(scores);
-
-const messageToDisplay = `average score ${averageScore}`;
-
-document.write(messageToDisplay);
+module.exports = {
+  entry: ["./src/students.js"],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+      },
+    ],
+  },
++  devServer: {
++    static: path.join(__dirname, "./src"),
++  },
+};
 ```
 
-### Multiple named exports
+- Ahora si escribimos el comando desde la terminal de nuestro sistema.
 
-Let's consider two functions, _getAvg_ and _getTotalScore_, for the sake of this example. We can export both using named exports, just by adding the **export** keyword on each function.
+```bash
+$ npm start
+```
 
-- Multiple exports usage in `averageService.js`:
+<img src="./content/html-webpluging3.PNG" alt="html-webpluging3" style="zoom:67%;" />
 
-_./averageService.js_
+- Si abrimos un navegador, podemos apuntar la _url_ a [http://localhost:8080](http://localhost:8080/), esto nos llevará a nuestra aplicación.
+- Una característica interesante que incluye éste servidor de desarrollo es **live reloading**, así cualquier cambio introducido en algún archivo JavaScript será automáticamente detectado y _webpack dev server_ lanzará el proceso de _build_ en memoria y una vez terminado refrescará automáticamente la página que se muestra en el navegador (por ejemplo podemos cambiar el texto del _main_ y ver como automáticamente se lanza un _build_ y se refresca el contenido en el navegador).
+- Si queremos ejecutar la _build_ de _webpack_, solo necesitamos escribir los comandos desde la terminal de nuestro sistema:
+
+```bash
+$ npm run build
+```
+
+- Finalmente, si el puerto por defecto en el que corre _webpack-dev-server_ no nos cuadra, podemos
+  cambiarlo, tocando la entrada _devServer/port_ en el **`webpack.config.js`**:
+
+_./webpack.config.js_
 
 ```diff
-- export default function getAvg(scores) {
-+ export function getAvg(scores) {
-return getTotalScore(scores) / scores.length;
-}
-
-- function getTotalScore(scores) {
-+ export function getTotalScore(scores) {
-  return scores.reduce((score, count) => {
-    return score + count;
-  });
-}
+module.exports = {
+  entry: ['./src/students.js'],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+    ],
+  },
+  devServer: {
+    static: path.join(__dirname, "./src"),
++   port: 8081,
+  },
+};
 ```
 
-Now, we can import them in several ways into `students.js`:
+- Ahora, se está ejecutando en el puerto 8081.
 
-- Import both members into the current scope:
+```bash
+$ npm start
+```
 
-_./students.js_
+<img src="./content/webpack-dev-server.png" alt="webpack-dev-server" style="zoom:67%;" />
+
+- De cara a tener este ejemplo listo para siguientes pasos, vamos a volver a indicarle
+  que utilice el puerto por defecto:
+
+_./webpack.config.js_
 
 ```diff
-- import getAvg from "./averageService";
-+ import {getAvg, getTotalScore} from "./averageService";
-
-const scores = [90, 75, 60, 99, 94, 30];
-const averageScore = getAvg(scores);
-+ const totalScore = getTotalScore(scores);
-
-- const messageToDisplay = `average score ${averageScore}`;
-+ const messageToDisplayAvg = `average score ${averageScore} `;
-+ const messageToDisplayTotal = `total score ${totalScore}`;
-
-- document.write(messageToDisplay);
-+ document.write(messageToDisplayAvg);
-+ document.write(messageToDisplayTotal);
-
+module.exports = {
+  entry: ['./src/students.js'],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+    ],
+  },
+  devServer: {
+    static: path.join(__dirname, "./src"),
+-   port: 8081,
++   port: 8080,
+  },
+};
 ```
-
-- Import the entire module's content by using the wildcard `*` and a _name_ for our module. This _name_ will hold all the exported members in our current scope (_name_ is used as namespace):
-
-_./students.js_
-
-```diff
-- import {getAvg, getTotalScore} from "./averageService";
-+ import * as averageService from "./averageService";
-
-const scores = [90, 75, 60, 99, 94, 30];
-- const averageScore = getAvg(scores);
-- const totalScore = getTotalScore(scores);
-+ const averageScore = averageService.getAvg(scores);
-+ const totalScore = averageService.getTotalScore(scores);
-
-const messageToDisplayAvg = `average score ${averageScore} `;
-const messageToDisplayTotal = `total score ${totalScore}`;
-
-document.write(messageToDisplayAvg);
-document.write(messageToDisplayTotal);
-```
-
-# About Basefactor + Lemoncode
-
-We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
-
-[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
-
-[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
-
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend

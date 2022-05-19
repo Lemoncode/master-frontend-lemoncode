@@ -1,83 +1,95 @@
-# 02 Boilerplate
+## Boiler plate
 
-In this sample we are going to setup a web project that can be easily managed
-by webpack.
+En el paso anterior vimos que el _zero config_ es algo limitado, vamos a empezar a trabajar de verdad con _webpack_ y para ello tendremos que definir un fichero de configuración.
 
-We will setup an initial npm project, give support to ES6, and install webpack.
-Then we will create a `helloworld.js` sample.
+En este ejemplo vamos a crear un ejemplo desde cero:
 
-Summary steps:
+- Crearemos el proyecto inicial, utilizando _npm init_
+- Instalaremos las dependencias necesarias.
+- Definiremos un fichero de configuración para indicarle a _Webpack_ como queremos hacer el _bundling_ de nuestro proyecto.
+- Crearemos el típico punto de entrada de "Hola mundo".
 
-- Prerequisites: Install Node.js
-- Initialize `package.json` (npm init)
-- Create a simple HTML file.
+### Requisitos previos...
 
-# Steps to build it
+Para poder seguir estos ejemplos te hace falta tener instalado _nodejs_ en el _readme_ del ejemplo puedes encontrar el enlace
+donde te lo puedes descargar e instalar (si desarrollas Front puede que ya lo tengas instalado en tu máquina).
 
-## Prerequisites
+> Enlace: [Node.js](https://nodejs.org/).
 
-Install [Node.js and npm](https://nodejs.org/en/) (min v8.9) if they are not already installed on your computer.
+#### Pasos
 
-> Verify that you are running at least node v8.x.x and npm 5.x.x by running `node -v` and `npm -v` in a terminal/console window. Older versions may produce errors.
-
-## steps
-
-- Navigate to the folder where you are going to create the empty project.
-
-- Execute `npm init`, you will be prompted to answer some information request about the project (once you have successfully fulfilled them a **`package.json`** file will be generated).
+- Partimos de una carpeta vacía en la que crearemos nuestro proyecto.
+- Navegamos a esa carpeta.
+- Ejecutamos **`npm init -y`**, eso nos crear un fichero _package.json_ es decir la configuración de un proyecto de _node_.
 
 ```bash
-npm init -y
+$ npm init -y
 ```
 
-> by using "y" we agree with the default values the init ask for (beware if you have
-> created a folder name that contains uppercase characters or blank spaces it will fail).
+> Al usar "y" estamos de acuerdo con los valores predeterminados (ten cuidado si ha creado un nombre de carpeta que contenga caracteres en mayúsculas o espacios en blanco, fallará).
 
-- Install **webpack** and **webpack-cli** locally, as a development dependency (the reason to install it locally and not globally is to be easy to setup, e.g. can be launched on a clean machine without having to install anything globally but nodejs).
+- Vamos a instalar **`webpack`** y **`webpack-cli`** localmente, como una dependencia de desarrollo (la razón para instalarlo localmente y no globalmente es para que sea fácil de configurar, por ejemplo, se puede iniciar en una máquina limpia sin tener que instalar nada globalmente excepto **`nodejs`**), desde el terminal ejecutamos el siguiente comando:
 
 ```bash
-npm install webpack webpack-cli --save-dev
+$ npm install webpack webpack-cli --save-dev
 ```
 
-- In order to launch webpack, modify the **`package.json`** file and add the following property `"start": "webpack"` under the scripts object. It allows us to launch webpack from the command line through npm typing `npm start`.
+- El siguiente paso es añadir un comando en el _package.json_ para poder lanzar **`webpack`** usando nuestra configuración y poder ver así nuestro proyecto en funcionamiento, modificamos el archivo **`package.json`** y agregamos la siguiente propiedad **`"build": "webpack --mode development"`** justo debajo de la entrada _scripts_: una vez que hayamos introducido este, podemos lanzar **`webpack`** desde la línea de comandos ejecutando **`npm run build`**.
 
-> In webpack 5 now is mandatory to inform the mode we are working on development or production (minified, etc...) in the command line where we call it.
-
-Now, our **`package.json`** file should look something like:
+Ahora, nuestro archivo **`package.json`** debería de verse así:
 
 _./package.json_
 
 ```diff
 {
-...
+  ...
   "scripts": {
-+   "start": "webpack --mode development"
--   "test": "echo \"Error: no test specified\" && exit 1"
++   "build": "webpack --mode development"
+-    "test": "echo \"Error: no test specified\" && exit 1"
   },
-...
+  ...
 }
 ```
 
-> Webpack 5 offers a zero config entry point, this means: if you are not going to transpile your code
-> and you have a default entry point under _./src/index.js_ it will work by default. This is nice to get
-> some quick test code up and running, but on a real project is not enough, we will go the long way
-> in this sample (create and configure the webpack.config.js).
+> A partir de Webpack 5, éste nos ofrece un punto de entrada de configuración cero, esto significa: si no vas a transpilar tu código y tienes un punto de entrada bajo la ruta _./src/index.js_, este funcionará por defecto. Esto es bueno para conseguir algún código de prueba rápido en marcha, pero en un proyecto real no es suficiente, iremos por el camino largo en esta muestra (crear y configurar el webpack.config.js).
 
-- We will write es6 code but we need to transpile it to es5, in order to do that install `babel-core` plus `babel-preset-env` and save it as a dev dependency on the **`package.json`** file that has been previously generated.
+- En nuestro proyecto, vamos a programar utilizando el estándar de **`ES6`** pero cuando nos movamos a producción queremos que el código esté en **`ES5`** (una versión más antigua de JavaScript), así nos aseguramos
+  compatibilidad en navegadores antiguos, la librería que nos va a realizar esto es [Babel](https://babeljs.io/), arrancamos por instalar **`babel-cli`**, **`babel-core`** más **`babel-preset-env`**(es una configuración que Babel te da por defecto con los _setting_ más comunes que se usan para transpilar el código)
 
-We are going to start working with babel 7
+Para verlo más claro en un ejemplo, imaginemos que tenemos un usuario y queremos saludarlo, vamos a usar _backticks_ e _interpolación_ esto no está disponible en el estándar ES5.
 
-```bash
-npm install @babel/cli @babel/core @babel/preset-env --save-dev
+```js
+const userName = "Víctor";
+
+const hello = `Hello ${userName}`;
 ```
 
-- We need to install a "loader" (more on this in next modules) in order for webpack to be able to make use of `babel-core` transpiler.
+A la hora de transpilarlo, tenemos dos posibles opciones para generar el código _antiguo_:
 
-```bash
-npm install babel-loader --save-dev
+```js
+var hello = "Hello " + userName;
+
+var hello = "Hello ".concat(userName);
 ```
 
-Our **`package.json`** file should look something like:
+Yo podría decirle la opción que prefiero, pero Babel ya nos da una configuración recomendada para transpilar de **`ES6`** a **`ES5`**, está
+configuración la tenemos en el paquete npm que nos hemos bajado, en concreto él: **`babel-preset-env`**.
+
+- Vamos a instalarnos las dependencias y definirlo como dependencias de desarrollo en el archivo **`package.json`**:
+
+```bash
+$ npm install @babel/cli @babel/core @babel/preset-env --save-dev
+```
+
+- Necesitamos instalar un **`"loader"`** para que **`webpack`** pueda hacer uso del transpilador **`"babel-core"`**,
+  un _loader_ hace de puente entre _webpack_ y la herramienta final que usemos.
+
+```bash
+$ npm install babel-loader --save-dev
+```
+
+El área de dependencias de desarrollo de nuestro **`package.json`** debería tener el siguiente aspecto
+(puede que tengas versiones más modernas de cada librería)
 
 _./package.json_
 
@@ -85,58 +97,56 @@ _./package.json_
 {
 ...
   "devDependencies": {
-+    "@babel/cli": "^7.12.1",
-+    "@babel/core": "^7.12.3",
-+    "@babel/preset-env": "^7.12.1",
-+    "babel-loader": "^8.1.0",
-+    "webpack": "^5.3.1",
-+    "webpack-cli": "^4.1.0"
++    "@babel/cli": "^7.16.7",
++    "@babel/core": "^7.16.7",
++    "@babel/preset-env": "^7.16.7",
++    "babel-loader": "^8.2.3",
++    "webpack": "^5.65.0",
++    "webpack-cli": "^4.9.1"
   }
 }
 ```
 
-- Now create a JavaScript file named **`students.js`** that will include ES6 syntax.
+- Vamos a crear un archivo JavaScript llamado **`students.js`** que incluirá la sintaxis ES6.
 
-_./students.js_
+_./src/students.js_
 
 ```javascript
-// Let's use some ES6 features
+// Usemos algunas características de ES6
 const averageScore = "90";
 const messageToDisplay = `average score ${averageScore}`;
 
 document.write(messageToDisplay);
 ```
 
-- Now, it's time to add babel configuration file:
+- Vamos a saltar a la configuración de _webpack_, creamos un fichero de configuración que llamaremos **`webpack.config.js`**, e indicamos el punto de entrada: apuntamos al fichero _js_ que hemos creado justo en el paso anterior,
+  esto es necesario porque le hemos indicado un nombre no standar al punto de entrada, si el fichero se hubiese llamada _index.js_ y hubiera estado bajo la carpeta _src_ no sería necesario indicarlo.
 
-_./.babelrc_
+Lo mismo pasa con el bundle de salida, si no indicamos nada, el nombre predefinido será _main.js_
 
-```javascript
-{
-  "presets": ["@babel/preset-env"]
-}
-```
-
-> More info about this config: https://babeljs.io/docs/en/babel-preset-env
-> You can as well set this setting directly on webpack: https://blog.craftlab.hu/all-the-new-things-setting-up-webpack-4-with-babel-7-39a5225b8168
-
-- We can continue with webpack configuration. Create an empty skeleton on a file named **`webpack.config.js`**, and indicate the js entry point.
+Manos a la obra, abrimos el archivo **`webpack.config.js`** y definimos como valor para _entry_ la ruta al fichero **`./src/students.js`**.
 
 _./webpack.config.js_
 
 ```javascript
 module.exports = {
-  entry: ["./students.js"],
+  entry: ["./src/students.js"],
 };
 ```
 
-- Now add support for es6, we will ask webpack to handle all js files under the project folder (excluding the `node_modules` sub-folder) and transpile them from es6 to es5 (using the `babel-loader`).
+- Perfecto, ya tenemos el punto de entrada ¿Qué hacemos ahora con el _JavaScript_? ¿No queríamos pasarle _babel_ para convertirlo a ES5? Es hora de ponernos a definir _loaders_, si, esas herramientas que procesan fichero a fichero y realizan transformaciones.
+
+- En la configuración de _webpack_ podemos definir los _loaders_ que vamos a usar en la sección _module >> rules_, dentro de rules tenemos un array que contiene objetos con una configuración, en cada objeto indicamos:
+  - A que extensión aplican (en nuestro caso quiero que aplique a todas las extensiones que terminan en _.js_), esto lo hacemos en la propiedad _test_ y usamos expresiones regulares (así podemos introducir patrones más potentes, como por ejemplo quiero que ese loader se ejecute tanto para extension _.js_ como _.jsx_).
+  - En nuestro caso le vamos indicar que no husmee dentro de la carpeta _node-modules_ (por temas de rendimiento), y que transpile de ES6 a ES6 usando **`babel-loader`**.
+
+El código resultante sería el siguiente:
 
 _./webpack.config.js_
 
 ```diff
 module.exports = {
-  entry: ['./students.js'],
+  entry: ['./src/students.js'],
 + module: {
 +   rules: [
 +     {
@@ -149,15 +159,30 @@ module.exports = {
 };
 ```
 
-- Let's run webpack from the command line, type `npm start` and press enter.
+Una duda que te puede venir a la cabeza es ¿Qué es eso de _babel-loader_? Digamos que _webpack_ no sabe manejarse directamente con _babel_, y tenemos que usar un módulo intermedio que hace de puente entre _webpack_ y
+_babel_, esto lo veremos en más casos, por ejemplo cuando queremos transpilar _sass_ usaremos un paquete de _sass_ y un _loader_ intermedio
+de _webpack_.
 
-```bash
-npm start
+- Aunque esto no tiene que ver con _webpack_, para poder transpilar con _babel_ tenemos que añadir un fichero de configuración (en este caso le indicamos que utilize los presets estándares, esto te va a a valer para el 99% de tus desarrollos, si necesitas una configuración más fina puedes chequear la documentación del propio _babel_):
+
+_./.babelrc_
+
+```javascript
+{
+  "presets": ["@babel/preset-env"]
+}
 ```
 
-- We can check that a file named **`bundle.js`** has been generated.
+> Más información sobre esta configuración: https://babeljs.io/docs/en/babel-preset-env También puedes establecer este ajuste directamente en el webpack: https://blog.craftlab.hu/all-the-new-things-setting-up-webpack-4-with-babel-7-39a5225b8168
 
-- if we open the **`bundle.js`** file we can check that it contains (amongst other boiler plate code) the transpiled to es5 version of **`students.js`**.
+- Vamos a ejecutar webpack desde la línea de comandos, escribe **`npm run build`** y presiona enter.
+
+```bash
+$ npm run build
+```
+
+- Si todo ha ido bien, podemos ver que se ha creado una carpeta con el nombre _dist_ y dentro hay un archivo llamado **`main.js`**.
+- Si abrimos el archivo **`main.js`** podemos comprobar que contiene (entre un montón de código de _boiler plate_) la versión transpilada a es5 de **`students.js`**.
 
 _./dist/main.js_
 
@@ -176,7 +201,8 @@ eval("var averageScore = \"90\";\nvar messageToDisplay = \"average score \".conc
 ...
 ```
 
-- Create now a simple HTML file, **`index.html`**, and include a script tag that will point to our generated **`bundle.js`** file.
+- Más adelante veremos cómo levantar un servidor web ligero y probar esto, pero como prueba rápida, vamos a crear un archivo _HTML_ que llamaremos **`index.html`**, e
+  incluir una etiqueta de script que apuntará a nuestro archivo **`main.js`** generado. El archivo completo sería tal que así:
 
 _./index.html_
 
@@ -187,29 +213,16 @@ _./index.html_
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Webpack by sample</title>
+    <title>Webpack 5.x by sample</title>
   </head>
   <body>
-    Hello Webpack!
-    <script src="./dist/main.js"></script>
+    <script src="../dist/main.js"></script>
   </body>
 </html>
 ```
 
-> IMPORTANT: This is not the best way to include an HTML file and link it with webpack,
-> we will learn how to do this in a proper way later on.
+> IMPORTANTE: Esta no es la mejor manera de incluir un archivo HTML y enlazarlo con webpack, aprenderemos a hacer esto de una manera apropiada más adelante.
 
-- Now we can click on the html file and see our small piece of code up and running.
+- Ahora podemos hacer clic en el archivo _html_ y ver nuestro pequeño trozo de código en funcionamiento.
 
-> **Note down** this is not the optimal solution, in next steps we will properly generate
-> an HTML file and use a plugin to inject the starting scripts.
-
-# About Basefactor + Lemoncode
-
-We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
-
-[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
-
-[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
-
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+<img src="./content/average.PNG" alt="average" style="zoom:67%;" />

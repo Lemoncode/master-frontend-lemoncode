@@ -1,90 +1,79 @@
-# Zero config
+## Zero Config
 
-Is it possible to use webpack in _Zero Config_ mode? Well in theory yes, just
-following some conventions we
+¿Es posible usar _webpack_ en modo _Zero Config_? Bueno en teoría sí, nos va a permitir añadir un _bundle_ con cero configuración siguiendo algunas convenciones pero ojo... esto es muy limitado.
 
-Zero config bundlers webpack is the possibility of using this package with zero configuration,
-just if you follow some conventions you won't need to create a config file.
+Aunque esto suena muy bien, solo funcionará para casos muy simples (solo demostraciones o pruebas rápidas), p. Ej. No puedes transpilar usando babel con _zero config_.
 
-Altough this sounds cool, it only won't work for very simple cases (just quick demos or tests), e.g. you can't
-transpile using babel with zero config.
+Vamos a ver en esta demostración cómo podemos ejecutar una muestra simple.
 
-Let's check in this demo how we can run a simple sample.
+### Pasos para construirlo
 
-# Steps to build it
+#### Prerrequisitos
 
-## Prerequisites
+Instala [Node.js and npm](https://nodejs.org/en/) si aún no están instalados en tu computadora.
 
-Install [Node.js and npm](https://nodejs.org/en/) (min v8.9) if they are not already installed on your computer.
+> Verifica que estés ejecutando al menos node v8.x.x y npm 5.x.x ejecutando _node -v_ y _npm -v_ en una ventana de la terminal/consola. Las versiones anteriores pueden producir errores.
 
-> Verify that you are running at least node v8.x.x and npm 5.x.x by running `node -v` and `npm -v` in a terminal/console window. Older versions may produce errors.
+#### Pasos
 
-## Steps
-
-- Navigate to the folder where you are going to create the empty project.
-
-- Execute `npm init`, you will be prompted to answer some information request
-  about the project (once you have successfully fullfilled them a **`package.json`**
-  file we will generated).
+- Navega a la carpeta donde has creado tu proyecto vacío.
+- Ejecuta _npm init_, te pedirá que respondas alguna solicitud de información sobre el proyecto (una vez que lo hayas completado con éxito, generaremos un archivo **`package.json`**).
 
 ```bash
-npm init -y
+$ npm init -y
 ```
 
-> By using "y" we agree with the default values the init ask for (beware if you have
-> created a folder name that contains uppercase characters or blank spaces it will fail).
+> Al usar "y" estamos de acuerdo con los valores predeterminados (ten cuidado si has creado un nombre de carpeta que contenga caracteres en mayúsculas o espacios en blanco, fallará).
 
-- Install **webpack** and **webpack-cli** locally, as a development dependency (the reason to install it locally and not globally is to be easy to setup, e.g. can be launched on a clean machine without having to install anything globally but nodejs).
+Este fichero **`package.json`** va a ser muy importante, vamos a tener las dependencias que necesitamos para que nuestra aplicación funcione, los _scrips_ para hacer una _build_ o para arrancar el proyecto.
+
+Si abrimos nuestro navegador y entramos en https://www.npmjs.com/ vemos que es un administrador de paquetes de _node_, donde encontraremos librerías como _React_, _TypeScript_,... donde nos mostrará cómo debemos instalarlas y veremos documentación de las mismas.
+
+<img src="./content/npm.PNG" alt="npm" style="zoom: 33%;" />
+
+- En primero lugar vamos a instalar **`webpack`** y **`webpack-cli`** localmente, como una dependencia de desarrollo (la razón para instalarlo localmente y no globalmente es para que sea fácil de configurar, por ejemplo, se puede iniciar en una máquina limpia sin tener que instalar nada globalmente excepto **`nodejs`**).
 
 ```bash
-npm install webpack webpack-cli --save-dev
+$ npm install webpack webpack-cli --save-dev
 ```
 
-- In order to launch webpack, modify the **`package.json`** file and add the following property `"build": "webpack --mode development"` under the scripts object. It allows us to launch webpack from the command line through npm typing `npm run build`.
+- Para iniciar **`webpack`**, modifica el archivo **`package.json`** y agrega la siguiente propiedad **`"build": "webpack --mode development"`** debajo del objeto scripts. Nos permite lanzar **`webpack`** desde la línea de comandos a través de _npm_ escribiendo **`npm run build`**.
 
-> In webpack 5 now is mandatory to inform the mode we are working on development or production (minified, etc...) in the command line where we call it.
+> En _webpack 5_ ahora es obligatorio informar el modo en el que estamos trabajando en desarrollo o producción (minificado, etc...) en la línea de comando donde lo llamamos.
 
-Now, our **`package.json`** file should looks something like:
+Ahora, nuestro archivo **`package.json`** debería de verse así:
 
-### ./package.json
+_./package.json_
 
 ```diff
 {
   ...
   "scripts": {
-+   "build": "webpack --mode development"
++   "build": "webpack --mode development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   ...
 }
 ```
 
-- With this configuration webpack will, by default, search for an entry point located under
-  _./src/index.js_, let's create a dummy file:
+- Con esta configuración, webpack buscará, de forma predeterminada, un punto de entrada ubicado en **`./src/index.js`**, creemos un archivo ficticio:
 
 _./src/index.js_
 
-```javascript
-console.log("Look ma! Zero config");
+```tsx
+console.log("Hello webpack zero config!");
 ```
 
-- Now if we execute
+- Ahora si ejecutamos
 
 ```bash
-npm run build
+$ npm run build
 ```
 
-We will get the bundle under the _./dist_ path.
+> Nota: Si el script fuera start o test no haría falta poner _run_ delante.
 
-So far so good, in this version, this feature is nice for quick demos, but not to be used in real world
-scenarios, is expected that in further versions this zero config will be enhanced.
+Obtendremos el _bundle_ bajo la ruta **`./dist`** y con un archivo llamado **`main.js`** que es el nombre que le da por defecto.
 
-# About Basefactor + Lemoncode
+<img src="./content/dist1.png" alt="dist1" style="zoom:67%;" />
 
-We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
-
-[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
-
-[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
-
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+Hasta ahora todo va bien, en esta versión, esta función es buena para demostraciones rápidas, pero no para ser utilizada en escenarios del mundo real, se espera que en versiones posteriores esta configuración cero sea mejorada.

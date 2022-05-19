@@ -1,99 +1,87 @@
-# 07 Import Twitter Bootstrap
+## Añadiendo Twitter Bootstrap
 
-In this demo we will install and configure webpack to import the well known
-[Bootstrap](https://getbootstrap.com/) CSS library.
+Crear nuestro CSS de aplicación es algo muy interesante, pero hay ocasiones en las que nos hace falta consumir CSS de librerías de terceros ¿Cómo podemos integrarlas en nuestro proceso? En este ejemplo vamos a ver como integrar el CSS de la librería _Twitter Bootstrap_ en nuestra aplicación.
 
-We will start from sample _06-custom-css_.
+[Documentación](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
 
-Summary steps:
+### Pasos
 
-- Install Bootstrap.
-- Import the CSS library.
-- Use a jumbotron element from Bootstrap in our HTML.
-- Check that we get errors when running webpack.
-- Install additional loaders in order to manage fonts and other
-  files required by Bootstrap.
-- Check results.
+- Vamos a empezar instalando **`Boootstrap`**:
 
-# Steps to build it
-
-## Prerequisites
-
-Prerequisites, you will need to have nodejs (at least v 8.9.2) installed in your computer. If you want to follow this step guides you will need to take as starting point sample _06 Custom CSS_.
-
-## steps
-
-- `npm install` to install previous sample packages:
-
-```
-npm install
+```bash
+$ npm install bootstrap --save
 ```
 
-- Let's start by installing Bootstrap:
+- Ahora, importamos la biblioteca **`CSS`** para incluirla en nuestro proyecto:
 
-```
-npm install bootstrap --save
-```
-
-- Now, let's import the CSS library in order to include it in our project:
-
-_webpack.config.js_
+_./webpack.config.js_
 
 ```diff
 module.exports = {
   entry: {
-    app: ['regenerator-runtime/runtime', './students.js'],
-    appStyles: ['./mystyles.css'],
+    app: './students.js',
 +   vendorStyles: ['./node_modules/bootstrap/dist/css/bootstrap.css'],
   },
 ```
 
-- Let's modify our _index.html_ and include some specific Bootstrap component:
+- Modificamos nuestro index.html e incluimos un componente específico de **`Bootstrap`**, en este caso vamos a instalar un [Card](https://getbootstrap.com/docs/5.0/components/card/).
 
-_index.html_
+_./index.html_
 
 ```diff
 <body>
-+ <div class="card" style="width: 18rem;">
-+   <div class="card-body">
-+     <h5 class="card-title">Card title</h5>
-+     <p class="card-text">Some quick example text</p>
-+     <a href="#" class="btn btn-primary">Go somewhere</a>
-+   </div>
-+ </div>
+    <h1>Hello Webpack</h1>
+    <div class="red-background">Red background stuff</div>
 
-  Hello Webpack 5!
-  <div class="red-background">
-    RedBackground stuff
-  </div>
-</body>
++    <div class="card" style="width: 18rem">
++      <div class="card-body">
++        <h5 class="card-title">Card title</h5>
++        <p class="card-text">
++          Some quick example text to build on the card title and make up the
++          bulk of the card's content.
++        </p>
++        <a href="#" class="btn btn-primary">Go somewhere</a>
++      </div>
++    </div>
+  </body>
 ```
 
-- Now that we are using bootstrap that is located
-  under the _node_modules_ folder we need to
-  dig into that
+- Si ahora arrancamos nuestra aplicación:
+
+```bash
+$ npm start
+```
+
+- Nos daría un error:
+
+![error-bootstrap](./content/error-bootstrap.PNG)
+
+- Esto nos ocurre porque en el **`loader`** tenemos excluido **`node_modules`** y ahora sí necesitamos tratar un fichero que está en dicha carpeta.
+- Vamos a hacer un pequeño cambio en nuestra configuración de _webpack_. En vez que nos cree nuestro archivo **`css`** el **`bundling`** con **`MiniCssExtractPlugin`**, vamos a cambiarlo por **`style-loader`** para que la salida sea un archivo _javascript_, así simulamos que estamos trabajando en desarrollo.
+
+_webpack.config.js_
 
 ```diff
 {
   test: /\.css$/,
 -  exclude: /node_modules/,
-  use: [MiniCssExtractPlugin.loader, "css-loader"]
+  use: ["style-loader", "css-loader"],
 }
 ```
 
-- Try to run webpack now, just type in the command line:
+- Si arrancamos nuestra aplicación:
 
 ```bash
-npm start
+$ npm start
 ```
 
+- Y nuestra navegador ya mostrará el componente **`card`** de **`Bootstrap`**:
 
-# About Basefactor + Lemoncode
+<img src="./content/bootstrap.png" alt="bootstrap" style="zoom:67%;" />
 
-We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
+## Sumario
 
-[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
-
-[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
-
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+1. Instalamos **`Bootstrap`**.
+2. Añadimos un nuevo **`entry point`** en **`webpack.config.js`** para poder hacer uso de la librería.
+3. Introducimos un **`card`** en el HTML.
+4. Borramos de **`webpack.config.js`** el **`exclude`** a **`node_modules`** para que pueda mirar dentro de la carpeta y encontrar a **`Bootstrap`**.

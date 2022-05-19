@@ -1,123 +1,121 @@
-# 08 SASS
+## Incorporando soporte SASS a nuestra aplicación
 
-In this demo we will rename our css file to scss extension and add a simple SASS variable. We will learn how to add a loader that can
-make the SASS preprocess and then chain it to our css / style pipe.
+Los estilos en cascada tienen muchas limitaciones, por este motivo aparecieron herramientas que nos permiten escribir un código más avanzado, para más tarde ser compilados a nuestro conocido **`css`**. **`Sass`** es un preprocesador **`CSS`**, en el cual podemos utilizar desde variables, funciones, mixins, herencia,... etc. permitiendo que nuestro código sea mucho más legible y dinámico.
 
-We will start from sample _01 Styles/02 Twitter Bootstrap_.
+En este ejemplo vamos a renombrar el archivo **`css`** a la extensión **`scss`** y agregaremos una variable de **`SASS`**. Introduciremos un **`loader`** que pueda hacer el prepoceso de **`SASS`** y volveremos a configurar **`webpack.config.json`** para que todo funcione correctamente.
 
-Summary steps:
+### Pasos
 
-- Rename `mystyles.css` to scss.
-- Add some SASS specific code.
-- Install a SASS preprocessor loader.
-- Add this preprocessor to the pipe (update `webpack.config.js`).
+- Empezamos renombrando **`mystyles.css`** a **`mystyles.scss`**.
+- Abre **`mystyles.scss`** y agrega un código simple de _sass_ (en este caso creamos una variable que contendrá el color que utilizamos en la propiedad):
 
-# Steps to build it
-
-## Prerequisites
-
-Prerequisites, you will need to have nodejs installed in your computer (at least v 8.9.2). If you want to follow this step guides you will need to take as starting point sample _07 Twitter Bootstrap_.
-
-## steps
-
-- `npm install` to install previous sample packages:
-
-```bash
-npm install
-```
-
-- Let's start by renaming `mystyles.css` to `mystyles.scss`
-
-- Let's open `mystyles.scss` and add some sass simple code (in this case we will create a variable that will hold a blue background, this will introduce a change into our sample app, a blue background will be displayed instead of the former red one):
-
-### ./mystyles.scss
+_./mystyles.scss_
 
 ```diff
-+ $blue-color: teal;
++ $back-color: indianred;
 
 .red-background {
 - background-color: indianred;
-+ background-color: $blue-color;
++ background-color: $back-color;
 }
-
 ```
 
-- Once we have changed the extension of the css file to scss, we have to update the `webpack.config.js` file.
+- Vamos a renombrar la importación.
 
-### ./webpack.config.js
+_./src/students.js_
 
 ```diff
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const webpack = require('webpack');
+import { getAvg } from "./averageService";
+- import "./mystyles.css";
++ import "./mystyles.scss";
 
-//...
+const scores = [90, 75, 60, 99, 94, 30];
+const averageScore = getAvg(scores);
 
-module.exports = {
-  entry: {
-    app: ['regenerator-runtime/runtime', './students.js'],
-    appStyles: [
--     './mystyles.css',
-+     './mystyles.scss',
-      ...
-    ],
-  },
-  ...
-};
+const messageToDisplay = `average score ${averageScore}`;
+
+document.write(messageToDisplay);
 ```
 
-- Now it's time to start with the webpack plumbing. Let's install a [sass-loader](https://github.com/webpack-contrib/sass-loader) that requires [sass](https://github.com/sass/sass) as dependency:
+- Instalamos [sass-loader](https://github.com/webpack-contrib/sass-loader) y [sass](https://github.com/sass/sass), recuera los loaders hacen de puente entre _webpack_ y la herramienta que realmente el trabajo
+  (en este caso el paquete _sass_):
 
 ```bash
-npm install sass sass-loader --save-dev
+$ npm install sass sass-loader --save-dev
 ```
 
-- We only need one more step. Open our `webpack.config.js` and add a new entry (scss) to the loaders that will use the just installed sass-loader. Interesting to note down: we are chaining loaders, first we preprocess the scss, then we apply the previous loaders to the resulting css.
+Tenemos que actualizar el archivo **`webpack.config.js`**.
 
-- Important here, we need to split in two loaders, first one using `sass-loader` for appStyles and a second one using previous configuration for vendorStyles:
+- Agregamos una nueva entrada (_scss_) para el **`loader`** de **`sass`** recién instalado. Es interesante que
+  nos demos cuenta de que estamos encadenando _loaders_, primero preprocesamos el **`scss`** y luego aplicamos los **`loaders`** anteriores al **`css`** resultante (recordaros aquí que el orden importa, se ejecutan
+  empezando por el último elemento del array).
 
 ```diff
+ module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
       },
-+     {
-+       test: /\.scss$/,
-+       exclude: /node_modules/,
-+       use: [
-+         MiniCssExtractPlugin.loader,
-+         "css-loader",
-+         {
-+           loader: "sass-loader",
-+           options: {
-+             implementation: require("sass")
-+           }
-+         },
-+       ]
-+     },
++      {
++        test: /\.scss$/,
++        exclude: /node_modules/,
++        use: ["style-loader", "css-loader", "sass-loader"],
++      },
       {
         test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader"
-        ]
+        use: ["style-loader", "css-loader"],
       },
+    ],
+  },
 ```
 
-- If we run our app (`npm start`), we can check that now we are getting a blue background instead of a red one.
+- Si ejecutamos nuestra aplicación (**`npm start`**), veremos el mismo resultado que obteníamos en **`Twitter Bootstrap`**, eso si aplicando el valor de la variable SASS.
 
 ```bash
-npm start
+$ npm start
 ```
 
-# About Basefactor + Lemoncode
+- Esto nos muestra la salida de nuestro navegador:
 
-We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
+<img src="./content/bootstrap.png" alt="sass" style="zoom:67%;" />
 
-[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
+Vamos a cambiar **`style-loader`** por **`MiniCssExtractPlugin`** para que cree un archivo **`css`** cuando genere nuestro **`bundle`**. Si utilizamos **`style-loader`** nos incrustará el **`css`** dentro de un archivo **`javascript`** y será mucho menos legibles los resultados.
 
-[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
+- Configuramos **`webpack.config.js`**:
 
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+```diff
+.....
+{
+	test: /\.scss$/,
+	exclude: /node_modules/,
+-	use: ["style-loader", "css-loader", "sass-loader"],
++	use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+},
+.....
+```
+
+- Generamos nuestra **`build`**:
+
+```bash
+$ npm run build
+```
+
+- Como resultado nos generaría un archivo **`css`**.
+
+<img src="./content/dist-sass.png" alt="dist-sass" style="zoom:80%;" />
+
+- Y si vemos el interior del archivo quedaría transpilado a puro **`css`**.
+
+_./dist/app.css_
+
+<img src="./content/dist-css.PNG" alt="dist-css" style="zoom:80%;" />
+
+## Sumario
+
+1. Renombramos nuestra hoja de estilos de **`css`** a **`scss`**, añadimos una variable donde guardamos un color y la aplicamos.
+2. Cambiamos las importaciones de los archivos **`css`**.
+3. Instalamos **`sass-loader`** y **`sass`** que también nos hacía falta que funcionara el **`loader`**.
+4. Añadimos los **`loaders`** al **`webpack.config.json`**.
+5. Cambiamos **`style-loader`** por **`MiniCssExtractPlugin`** para que la salida del **`bundle`** contenga un archivo **`css`**.

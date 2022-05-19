@@ -1,127 +1,58 @@
-# 04 Server
+## Generando un paquete en producción
 
-In this sample we are going to enter into "dev mode". Working with files service
-is not ideal when you are developing a web application, we will learn how to launch
-a lite web server, how to deploy our bundle into a dist folder (including `index.html`)
-, how to debug our ES6 code directly into the browser debugger and minify
-our `bundle.js`.
+Con lo que tenemos ahora si generamos un _npm run build_ tendríamos que copiar manualmente
+el fichero index.html a la carpeta _dist_, y además cambiar el _tag script_ del _index.html_,
+esto paso manual puede ser una fuente de errores a futuro.
 
-We will start from sample _03 Import_, install `webpack-dev-server`, setup our config
-to deploy on config folder and support maps (debug), then we will minify
-our `bundle.js` file via webpack cli params.
+¿No sería bueno que _webpack_ pudiera inyectar automáticamente ese archivo _html_ dentro de la carpeta _dist_?
+¿Y si además añadiera el _tag scrip_ con la ruta correcta a nuestro punto de entrada en _JavaScript_? Existe un _plugin_ que lo hará por ti _html-webpack-plugin_, comencemos por instalarlo:
 
-Summary steps:
+### Pasos
 
-- Install via npm webpack-dev-server.
-- Execute webpack-dev-server with live reload.
-- Add start command to `package.json`.
+- Instalamos el plugin
 
-# Steps to build it
-
-## Prerequisites
-
-Prerequisites, you will need to have nodejs (at least v 8.9.2) installed in your computer. If you want to follow this step guides you will need to take as starting point sample _03 Import_.
-
-## steps
-
-- `npm install` to install previous sample packages:
-
-```
-npm install
+```bash
+$ npm install html-webpack-plugin --save-dev
 ```
 
-- Let's install `webpack-dev-server`, this package ships with a lite server that we
-  can use as dev web server.
+- Eliminamos de nuestro _index.html_ base la etiqueta de script:
 
-```
-npm install webpack-dev-server --save-dev
-```
-
-- Let's reconfigure our _package.json_ _start_ command and add a new custom command that we will call _build_.
-
-### ./package.json
-
-```diff
-  "scripts": {
--   "start": "webpack --mode development"
-+   "start": "webpack serve",
-+   "build": "webpack --mode development"
-  },
-```
-
-- Before running the project, we have to realize that this server runs in memory, and it won't dump info into the
-  _dist_ folder, right now we will make a workaround, update the path on the index.html file for the _bundle.js_
-  file, in later samples we will learn a better way to reference the bundled files into HTML (using HTMLWebpackPlugin)
-
-_index.html_
+_./index.html_
 
 ```diff
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Webpack 5.x by sample</title>
   </head>
   <body>
-    Hello Webpack 5!
--    <script src="./dist/main.js"></script>
-+    <script src="main.js"></script>
+-   <script src="./main.js"></script>
   </body>
 </html>
-
 ```
 
+Este _plugin_ (_html-webpack-plugin_) tomará como entrada nuestro **`index.html`**, y señalaremos un punto de salida (_index.html_ en la carpeta _dist_). Una vez que lo hayamos instalado, debemos importarlo en nuestro
+fichero de configuración de _webpack_:
 
-- We have to modify our ** `webpack.config.js` ** because by default **` `webpack dev server`` ** it looks in the _public_ folder.
+_./webpack.config.js_
 
 ```diff
 const path = require("path");
++ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
-  entry: ["./students.js"],
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: "babel-loader",
-      },
-    ],
-  },
-+  devServer: {
-+    static: path.join(__dirname, "./"),
-+  },
-};
-```
-
-- Now if we type from the command prompt.
-
-```bash
-npm start
-```
-
-- If we open a browser we can point the url to http://localhost:8080 and we will browse our web app.
-
-- One interesting feature that ships this dev server is **live reloading**, thus any changes introduced in any of the JavaScript files will be automatically detected and webpack dev server will launch the build process and once finished automatically refresh the page being display in the browser. In order to do this we don't need to do anything.
-
-- If we want to run _webpack_ build, we only need to type from the command prompt:
-
-```bash
-npm run build
-```
-
-- Finally, we can configure this server in _`webpack.config.js`_:
-
-_./webpack.config.js_
-
-```diff
 module.exports = {
   entry: ['./students.js'],
-  output: {
-    filename: 'bundle.js',
-  },
+  .....
+```
+
+Para configurarlo tenemos que agregar la siguiente sección en nuestro **`webpack.config.js`** (justo después de la definición de los módulos).
+
+_/webpack.config.js_
+
+```diff
   module: {
     rules: [
       {
@@ -129,51 +60,87 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
-    ],
+    ]
   },
-devServer: {
-    static: path.join(__dirname, "./"),
-+   port: 8081,
- },
-};
-
++ plugins: [
++   //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
++   new HtmlWebpackPlugin({
++     filename: 'index.html', //Name of file in ./dist/
++     template: "./src/index.html", //Name of template in ./src
++     scriptLoading:'blocking', // Just use the blocking approach (no modern defer or module)
++    }),
++ ],
 ```
 
-- Now, it's running on 8081 port.
+Aquí le indicamos:
 
-- We can restore default port:
+- El nombre del fichero que se generará en la carpeta _dist_.
+- El nombre del fichero que se utilizará como plantilla para generar el fichero _index.html_.
+- El modo de carga de los scripts, en este caso queremos asegurarnos la compatibilidad con
+  navegadores antiguos y elegimos la opción "_blocking_".
 
-_./webpack.config.js_
+Para saber más sobre que opciones tienes disponibles puede ir a la [documentación de este
+plugin](https://github.com/jantimon/html-webpack-plugin#options)
+
+Ya no necesitamos la configuración de _devServer_ para indicarle la ubicación del **`index.html`**,
+ya que el plugin lo va a copiar a la carpeta _dist_ o servirlo en memoria en el sitio correcto
+en el caso del _wepback-dev-server_.
 
 ```diff
-module.exports = {
-  entry: ['./students.js'],
-  output: {
-    filename: 'bundle.js',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-      },
-    ],
-  },
+- const path = require("path");
+  .......
+  plugins: [
+    //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
+    new HtmlWebpackPlugin({
+      filename: "index.html", //Name of file in ./dist/
+      template: "index.html", //Name of template in ./src
+      scriptLoading: "blocking", // Load the scripts correctly
+    }),
+  ],
   devServer: {
-    static: path.join(__dirname, "./"),
--   port: 8081,
-+   port: 8080,
+-    static: path.join(__dirname, "./src"),
+    port: 8080,
   },
 };
 ```
 
-# About Basefactor + Lemoncode
+Ahora, si creamos la _build_, nos daremos cuenta de que `index.html` se copia en la carpeta _dist_ y la etiqueta del _script_ se genera automáticamente.
 
-We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
+```bash
+$ npm run build
+```
 
-[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
+<img src="./content/html-webpluging1.PNG" alt="html-webpluging1" style="zoom:67%;" />
 
-[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
+Solo hay un tema que puede ser problemático... no estamos utilizando ningún parámetro _hash_ adicional para evitar que el _javascript_ acabe en la caché del navegador o _proxy_ y no detecte nuevas versiones
+del mismo, podemos evitar esto configurando la opción hash en el plugin:
 
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+- Para evitar que nuevas versiones del fichero _js_ no se carguen y se tire por equivocación de la caché del navegador vamos a añadir un parámetro adicional que agregará un valor hash a los tags de _script_ en el _HTML_ que hemos creado (esto es un truco muy común para evitar problemas con versiones cacheadas en navegadores o _proxies_, en este caso sólo tenemos que añadir un _flag_ para activarlo).
+
+```diff
+ plugins: [
+    //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
+    new HtmlWebpackPlugin({
+      filename: 'index.html', //Name of file in ./dist/
+      template: 'index.html', //Name of template in ./src
+      scriptLoading:'blocking',
++     hash:true,
+    }),
+  ],
+```
+
+- Ejecutamos la compilación y podemos verificar que ahora obtenemos un hash en nuestro script, para ello abrimos
+
+```bash
+$ npm run build
+```
+
+<img src="./content/html-webpluging2.PNG" alt="html-webpluging2" style="zoom:67%;" />
+
+Si abrimos un navegador podemos apuntar la url a [http://localhost:8080](http://localhost:8080/) y navegaremos a nuestra aplicación web.
+
+```bash
+$ npm start
+```
+
+<img src="./content/html-webpluging3.PNG" alt="html-webpluging3" style="zoom:67%;" />

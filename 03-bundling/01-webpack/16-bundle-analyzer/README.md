@@ -1,43 +1,22 @@
-# 16 Bundle Analyzer
+# Calculando el peso de nuestra compilación
 
-In this demo we are going to configure Webpack Bundle Analyzer plugin, this is a plugin that help us to visualize size of webpack output files with an interactive zoomable treemap.
+Cuando arrancamos un desarrollo web, nos las vemos muy felices, empezamos a usar librerías de terceros, lógica de nuestra aplicación, incluimos recursos tales como iconos o fuentes... todo en local funciona a las mil maravillas, sin embargo, cuando salimos a producción, podemos ver que si la conexión a internet no es muy buena (por ejemplo una conexión móvil en ciertas áreas) la aplicación va muy lenta... si abres el capó te puedes dar cuenta de que tu **`bundle`** puedes pesar ¡varios megas! en algunos desarrollos he llegado a ver ficheros JS que pesaban 7 o 14 megas, ¿Cuál es el problema de esto? Qué tu aplicación se vuelve pesada y tarda en cargar, incluso en algunos casos el que tu app tarde unos segundos de más en cargar puede hacer que tus clientes potenciales se vayan a la competencia (por ejemplo [Un segundo de retraso en carga le suponen perdidas millonarias a Amazon](https://www.fastcompany.com/1825005/how-one-second-could-cost-amazon-16-billion-sales)).
 
-We will start from sample _15-dotenv_.
+Con **`webpack`** contamos con _plugins_ que nos muestran de forma gráfica que partes ocupan más peso en nuestra aplicación, esto nos puede ser de gran ayuda para detectar posibles problemas.
 
-Summary steps:
+En este ejemplo vamos a configurar el **`plugin`** **`Wepback Bundle Analyzer`**, que nos ayuda a visualizar el tamaño de los archivos de salida de **`webpack`** con un mapa de árbol interactivo. Veremos las diferentes partes del **`bundle`**, y podremos chequear si hay módulos que pesan demasiado, o incluso, que estén en nuestro _bundle_ por error.
 
-- Install Webpack Bundle Analyzer plugin.
-- Add performance config file.
-- Add the configuration to performance config file.
-- Create execution script.
+## Pasos
 
-# Steps to build it
+- Vamos a instalar el plugin:
 
-## Prerequisites
-
-Prerequisites, you will need to have nodejs installed in your computer. If you want to follow this step guides you will need to take as starting point sample _15-dotenv_.
-
-## Steps
-
-- `npm install` to install previous sample packages:
-
-```
-npm install
+```bash
+$ npm install webpack-bundle-analyzer --save-dev
 ```
 
-- Let's go with the plugin installation
-
-```
-npm install webpack-bundle-analyzer --save-dev
-```
-
-- Now it's time to create performance configuration file, this will use our production configuration file as a base(prod.webpack.config.js).
-
-_./webpack.perf.js_
-
-We will use `webpack-merge` to combine `webpack.prod.js` with performance specific config settings.
-
-- Our performance config file look like:
+- Creamos una nueva configuración de **`webpack`**, la llamaremos **`webpack.perf.js`**.
+- El cálculo del peso lo haremos sobre el **`bundle`** que irá a producción, así tomaremos esa configuración como base.
+- E incorporaremos el **`plugin`** a nuestra nueva configuración.
 
 _./webpack.perf.js_
 
@@ -51,29 +30,41 @@ module.exports = merge(prod, {
 });
 ```
 
-Finally, we need to update command script:
+- Vamos a crear un nuevo **`script`** en el **`package.json`** que va a tirar del fichero
+  _webpack.perf.js_ que acabamos de crear.
 
 _./package.json_
 
 ```diff
-...
-    "build:prod": "npm run type-check && webpack --config webpack.prod.js",
+"scripts": {
+    "start": "run-p -l type-check:watch start:dev",
+    "build": "run-p -l type-check build:dev",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "start:dev": "webpack serve --config webpack.dev.js",
+    "start:prod": "webpack serve --config webpack.prod.js",
+    "build:dev": "webpack --config webpack.dev.js",
+    "build:prod": "webpack --config webpack.prod.js",
 +   "build:perf": "npm run type-check && webpack --config webpack.perf.js"
   },
 ```
 
-- Now we can see our interactive treemap working! Simply execute the command `npm run build:perf`
+- Ejecutamos el **`script`**:
 
 ```bash
-npm run build:perf
+$ npm run build:perf
 ```
 
-- As we can see, we have mixed `app` code with `vendor` code. We can use [Code Splitting](https://webpack.js.org/guides/code-splitting/#splitchunksplugin) webpack feature. Let's try all vendors in one bundle:
+- Y Directamente se abre una web en nuestro navegador, donde veremos cuánto pesa cada parte de la aplicación.
 
-_webpack.prod.js_
+<img src="./content/build-perf1.PNG" alt="build-perf1" style="zoom:67%;" />
+
+- Como podemos ver, hemos mezclado el código de la aplicación con el código de **`vendor`** (nuestra librería de terceros), podemos usar la función de **`webpack`** llamada [splitChunks](https://webpack.js.org/guides/code-splitting/#splitchunksplugin) que nos lo separara en dos archivos diferentes.
+
+_./webpack.prod.js_
 
 ```diff
-...
+.....
   output: {
     filename: "js/[name].[chunkhash].js",
     assetModuleFilename: "images/[hash][ext][query]",
@@ -93,9 +84,19 @@ _webpack.prod.js_
 + },
 ```
 
-- Each vendor on its own bundle (nice with HTTP 2):
+- Lanzamos de nuevo la **`build`**
 
-_webpack.prod.js_
+```bash
+$ npm run build:prod
+```
+
+- Ahora nos sacaría un **`bundle`** con el código de aplicación y otro con la librería de terceros.
+
+<img src="./content/split-build1.png" alt="split-build1" style="zoom: 67%;" />
+
+- Incluso podemos crear una carpeta donde cada **`vendor`** tenga su propio **`bundle`**:
+
+_./webpack.prod.js_
 
 ```diff
 ...
@@ -125,19 +126,22 @@ _webpack.prod.js_
   },
 ```
 
-
-> References:
+> Referencias
 >
-> [Webpack SplitChunks](https://webpack.js.org/plugins/split-chunks-plugin/#optimizationsplitchunks)
+> [SplitChunks](https://webpack.js.org/plugins/split-chunks-plugin/#optimizationsplitchunks)
 >
 > https://medium.com/hackernoon/the-100-correct-way-to-split-your-chunks-with-webpack-f8a9df5b7758
 
-# About Basefactor + Lemoncode
+<img src="./content/split-build2.png" alt="split-build2" style="zoom:67%;" />
 
-We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
+- Y ya lo vemos más detallado:
 
-[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
+<img src="./content/build-perf2.PNG" alt="build-perf2" style="zoom:67%;" />
 
-[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
+## Sumario
 
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+1. Instalamos **`webpack-bundle-analyzer`**.
+2. Creamos **`webpack.perf.js`**.
+3. Actualizamos el **`package.json`**.
+4. Añadimos [splitChunks](https://webpack.js.org/guides/code-splitting/#splitchunksplugin) a **`webpack.prod.js`**, y crea una compilación para la aplicación y otra para **`node_modules`**.
+5. Agregamos configuración a **`webpack.prod.js`** para que cree una carpeta llamada **`vendor`** y dentro de ella cree un **`bundle`** para cada librería de terceros.

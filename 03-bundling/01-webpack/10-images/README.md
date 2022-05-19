@@ -1,73 +1,46 @@
-# 10 Handling Images
+## Manejando imágenes
 
-In this demo we are going to include images in our project in two flavours: via JavaScript and via HTML.
-On the JavaScript side we will see it's something straightforward (using the same plugins we used for fonts), for the HTML we will use a new loader: [`html-loader`](https://github.com/webpack-contrib/html-loader).
+Hasta ahora hemos trabajado con ficheros de código, vamos a ver cómo podemos referenciar recursos estáticos y que estos se acaben volcando a la carpeta _dist_ de nuestra aplicación.
 
-We will start from sample _09-refactor-src_.
+En el siguiente punto vamos a incluir imágenes en nuestro proyecto de dos formas: vía _JavaScript_ y vía _HTML_. En el lado de _JavaScript_, veremos que es algo sencillo (usando un **`loader`** ya incluido en _webpack_) y para el HTML usaremos otro **`loader`**: el **`html-loader`**.
 
-Summary steps:
+### Pasos
 
-- Add two images to our project.
-- Add first image from JavaScript.
-- Add second image from HTML.
-- Install [`html-loader`](https://github.com/webpack-contrib/html-loader).
-- Configure the loader.
-
-# Steps to build it
-
-## Prerequisites
-
-You will need to have nodejs installed in your computer (at least v 8.9.2). If you want to follow the steps of this guide you must take as starting point the sample _09-refactor-src_.
-
-## Steps
-
-- Run `npm install` to install previous sample packages:
-
-```
-npm install
-```
-
-- Let's start by cleaning up our _`index.html`_. We are going to remove the Bootstrap's _jumbotron_ component and add a `<div>` element with a given `id`:
-
-_./src/index.html_
+- Vamos a agregar al **`index.html`** un elemento **`div`** con una **`id`** dada:
 
 ```diff
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Webpack 5.x by sample</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
   </head>
   <body>
--   <div class="jumbotron">
--     <h1>Testing Bootstrap</h1>
--     <p>
--       Bootstrap is the most popular ...
--     </p>
--   </div>
-+   <div id="imgContainer"></div>
-    Hello Webpack 5!
-    <div class="red-background">
-      RedBackground stuff
+    <h1>Hello Webpack</h1>
+    <div class="red-background">Red background stuff</div>
+
+    <div class="card" style="width: 18rem">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
     </div>
++    <div id="imgContainer"></div>
   </body>
 </html>
 ```
 
-- We will continue by creating a folder named **content** inside the **src** folder, and adding two images there: [`logo_1`](./src/content/logo_1.png) and [`logo_2`](./src/content/logo_2.png).
-
-- Let's jump into _`index.js`_ and import [`logo_1`](./src/content/logo_1.png) using JavaScript.
-  Then, let's place it under a `<div>` with a given `id`:
+- Continuamos creando una carpeta llamada **content** dentro de **src** y agregamos dos imágenes: **`logo_1`** y **`logo_2`**.
+- Vamos a **`index.js`** e importamos **`logo_1`** y añadimos la imagen al DOM mediante código _javascript_:
 
 _./src/index.js_
 
 ```diff
 import {getAvg} from "./averageService";
 + import logoImg from './content/logo_1.png';
-
-$('body').css('background-color', 'lightSkyBlue');
 
 const scores = [90, 75, 60, 99, 94, 30];
 const averageScore = getAvg(scores);
@@ -82,10 +55,10 @@ document.write(messageToDisplay);
 + document.getElementById('imgContainer').appendChild(img);
 ```
 
-- In webpack 5, now don't need to use loaders to load picture, we can use the build int asset module,
-  let's update our _`webpack.config.js`_ (note down this is a type, not a loader)
+- A partir de **`webpack 5`**, ya no es necesario usar **`loaders`** de terceros para cargar imágenes, directamente podemos añadir la entrada de la extensión e indicarle que es de tipo **`asset/resource`**, vamos a actualizar nuestro **`webpack.config.js`**, indicándole que hacer cuando se encuentro con un fichero
+  _png_ o _jpg_.
 
-_[webpack.config.js](webpack.config.js)_
+_webpack.config.js_
 
 ```diff
   module: {
@@ -101,70 +74,81 @@ _[webpack.config.js](webpack.config.js)_
 
 > [Reference](https://webpack.js.org/guides/asset-modules/)
 
-- Next, we will add some styles for the images in our CSS file:
+- A continuación, agregamos algunos estilos para las imágenes :
 
 _./src/mystyles.scss_
 
 ```diff
-$blue-color: teal;
+$back-color: indianred;
 
 .red-background {
- background-color: $blue-color;
+  background-color: $back-color;
 }
 
 + img {
-+   display: block;
-+   width: 200px;
++  width: 200px;
 + }
 ```
 
-- And run `npm start`. We should be able to view the image in the browser.
+- Y ejecutamos **`npm start`**. Deberíamos poder ver la imagen en el navegador.
 
 ```bash
-npm start
+$ npm start
 ```
 
-- That's fine but what if we had already the image referenced inside a HTML `<img>` tag? Let's add [`logo_2.png`](./src/content/logo_2.png) into the index.html file:
+<img src="./content/image-logo1.png" alt="image-logo1" style="zoom:50%;" />
 
-### ./index.html
+- Vamos a ejecutar la **`build`** y vemos que ha hecho **`webpack`**.
+
+```bash
+$ npm run build
+```
+
+- Si te fijas, en el **`bundle`**, el nombre que le pone al fichero de imagen es una secuencia de caracteres que nada tiene que ver con el nombre original, esto se debe a que _webpack_ le va dando nombre únicos para evitar colisiones con otros ficheros de imágenes.
+
+<img src="./content/logo_1-hash.png" alt="logo_1-hash" style="zoom:80%;" />
+
+Eso está bien, pero ¿y si ya tuviéramos la imagen referenciada dentro de una etiqueta **`<img>`**?
+
+- Agregamos **`logo_2.png`** en el archivo **`index.html`**:
 
 ```diff
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Webpack 5.x by sample</title>
-  </head>
+.....
   <body>
-    <div id="imgContainer"></div>
-    Hello Webpack!
-+   <img src="./src/content/logo_2.png"/>
-    <div class="red-background">
-      RedBackground stuff
+    <h1>Hello Webpack</h1>
+    <div class="red-background">Red background stuff</div>
+
+    <div class="card" style="width: 18rem">
+      <div class="card-body">
++       <img src="./content/logo_2.png" alt="logo_2">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
     </div>
+
+    <div id="imgContainer"></div>
   </body>
 </html>
 ```
 
-- Now if we run the app (`npm start`) we can check that both logo images are being shown.
+- Ahora, si ejecutamos la aplicación (**`npm start`**), podemos comprobar que sólo se está mostrando la primera imagen que introducimos anteriormente. Y en el _card_ no se estaría mostrando nada.
 
 ```bash
-npm start
+$ npm start
 ```
 
-- Finally, if we open the developer tools in our browser we can see that a `<img>` has been inserted under the `<div>` element, and also that its `src` attribute has changed:
+<img src="./content/imagen2error.png" alt="imagen2error" style="zoom: 67%;" />
 
-- But we are referencing [`logo_2`](./src/content/logo_2.png) from `./src..` path. What if we upload to production? We lose the reference so we need to process this kind of files using `html-loader`:
+- Esto sucede porque no tenemos ningún **`loader`** que esté buscando referencias dentro del **`HTML`**, **`webpack`** nos da solución para esto y utilizaremos **`html-loader`**.
+- Vamos a instalarlo y añadirlo a nuestra configuración de **`webpack.config.js`**, en este caso
+  le diremos que cuando se encuentre con un fichero con extensión _html_ ejecute el _html-loader_:
 
 ```bash
-npm install html-loader --save-dev
+$ npm install html-loader --save-dev
 ```
 
-- And configure the loader for the _.html_ files
-
-_webpack.config.js_
+_./webpack.config.js_
 
 ```diff
       ...
@@ -176,65 +160,29 @@ _webpack.config.js_
   },
 ```
 
-- And remember that the webpack `context` is over `./src` so:
-
-_./src/index.html_
-
-```diff
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Webpack 5.x by sample</title>
-  </head>
-  <body>
-    <div id="imgContainer"></div>
-    Hello Webpack 5!
--   <img src="./src/content/logo_2.png" />
-+   <img src="./content/logo_2.png" />
-    <div class="red-background">
-      RedBackground stuff
-    </div>
-  </body>
-</html>
-```
-
-- We can see now that image is auto referenced (F12 developer tools...).
-
-- Let's check that this is working fine in our generated bundle.
-
-- We are going to install a lite web server globally (lite-server).
+- Comprobamos que en efecto al hacer un _build_ se copia a _dist_ la imagen referenciada.
 
 ```bash
-npm install lite-server -g
+$ npm run build
 ```
 
-- Let's generate the bundle:
+<img src="./content/build-images.png" alt="build-images" style="zoom: 67%;" />
 
-```
-npm run build
-```
-
-- Let's open the terminal, hop in to _dist_ folder
+- Y ejecutamos **`npm start`** para ver que se muestra correctamente la imagen.
 
 ```bash
-cd dist
+$ npm start
 ```
 
-- Let's run connect and open a browser to check if the image is shown or not (lite server is running under http://localhost:3000).
+<img src="./content/referencia-automatica-imagen.png" alt="referencia-automatica-imagen" style="zoom:67%;" />
 
-```bash
-lite-server
-```
+## Sumario
 
-# About Basefactor + Lemoncode
-
-We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
-
-[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
-
-[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
-
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+1. Manejo de imágenes vía **`javascript`**.
+   1. Añadimos un **`<div>`** para la imagen.
+   2. Creamos una carpeta llamada **content** dentro de **src** y agregamos dos imágenes: **`logo_1`** y **`logo_2`**.
+   3. Importamos una imagen a **`index.js`** y añadimos código para mostrarla en el **`DOM`**.
+   4. Configuramos **`webpack.config.js`** y añadimos un estilo a las imágenes.
+2. Manejo de imágenes vía **`HTML`**.
+   1. Agregamos una etiqueta **`img`** al código **`HTML`**.
+   2. Instalamos **`html-loader`** y lo añadimos a **`webpack.config.js`**.

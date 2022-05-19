@@ -1,17 +1,16 @@
 {
   "name": "01-zero-config",
   "version": "1.0.0",
-  "description": "Is it possible to use webpack in _Zero Config_ mode? Well in theory yes, just\r following some conventions we",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode development",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --mode development"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "webpack": "^5.4.0",
-    "webpack-cli": "^4.2.0"
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2"
   }
 }

@@ -1,1 +1,1 @@
-console.log("Look ma! Zero config");
+console.log("Hello webpack zero config!");

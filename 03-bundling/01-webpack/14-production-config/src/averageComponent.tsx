@@ -2,7 +2,7 @@ import React from "react";
 import { getAvg } from "./averageService";
 import classes from "./averageComponentStyles.scss";
 
-export const AverageComponent = () => {
+export const AverageComponent: React.FC = () => {
   const [average, setAverage] = React.useState(0);
 
   React.useEffect(() => {
@@ -15,9 +15,6 @@ export const AverageComponent = () => {
       <span className={classes.resultBackground}>
         Students average: {average}
       </span>
-      <div className={`jumbotron ${classes.resultBackground}`}>
-        <h1>Jumbotron students average: {average}</h1>
-      </div>
     </div>
   );
 };

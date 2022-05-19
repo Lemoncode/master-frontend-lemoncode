@@ -1,5 +1,7 @@
+const path = require("path");
+
 module.exports = {
-  entry: ["./students.js"],
+  entry: ["./src/students.js"],
   module: {
     rules: [
       {
@@ -10,6 +12,7 @@ module.exports = {
     ],
   },
   devServer: {
+    static: path.join(__dirname, "./src"),
     port: 8080,
   },
 };

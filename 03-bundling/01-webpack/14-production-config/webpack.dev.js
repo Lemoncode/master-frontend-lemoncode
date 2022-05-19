@@ -1,19 +1,9 @@
 const { merge } = require("webpack-merge");
-const path = require("path");
 const common = require("./webpack.common.js");
+const path = require("path");
 
 module.exports = merge(common, {
   mode: "development",
-  devtool: "eval-source-map",
-  devServer: {
-    port: 8080,
-    devMiddleware: {
-      stats: "errors-only",
-    },
-  },
-  output: {
-    filename: "[name].js",
-  },
   module: {
     rules: [
       {
@@ -26,23 +16,19 @@ module.exports = merge(common, {
             options: {
               modules: {
                 exportLocalsConvention: "camelCase",
-                localIdentName: "[path][name]__[local]",
+                localIdentName: "[path][name]__[local]--[hash:base64:5]",
                 localIdentContext: path.resolve(__dirname, "src"),
               },
             },
           },
-          {
-            loader: "sass-loader",
-            options: {
-              implementation: require("sass"),
-            },
-          },
+          "sass-loader",
         ],
       },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
-      },
     ],
+  },
+  stats: "errors-only",
+  devtool: "eval-source-map",
+  devServer: {
+    port: 8080,
   },
 });

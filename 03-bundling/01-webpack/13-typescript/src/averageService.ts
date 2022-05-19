@@ -6,4 +6,3 @@ export function getTotalScore(scores: number[]) {
   return scores.reduce((score, count) => score + count);
 }
 
-const a: number = "this is a string"

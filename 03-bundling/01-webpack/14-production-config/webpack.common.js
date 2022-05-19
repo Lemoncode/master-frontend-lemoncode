@@ -2,20 +2,17 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
 
-const basePath = __dirname;
-
 module.exports = {
-  context: path.join(basePath, "src"),
+  context: path.resolve(__dirname, "./src"),
   resolve: {
     extensions: [".js", ".ts", ".tsx"],
   },
   entry: {
     app: "./index.tsx",
-    appStyles: ["./mystyles.scss"],
-    vendorStyles: ["../node_modules/bootstrap/dist/css/bootstrap.css"],
   },
   output: {
-    path: path.resolve(process.cwd(), "dist"),
+    filename: "[name].[chunkhash].js",
+    path: path.resolve(__dirname, "dist"),
   },
   module: {
     rules: [
@@ -38,8 +35,8 @@ module.exports = {
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: "index.html", //Name of file in ./dist/
-      template: "index.html", //Name of template in ./src
-      scriptLoading:"blocking",
+      template: "./index.html", //Name of template in ./src
+      scriptLoading: "blocking", // Just use the blocking approach (no modern defer or module)
     }),
     new CleanWebpackPlugin(),
   ],

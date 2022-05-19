@@ -1,20 +1,17 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
 
-const basePath = __dirname;
-
 module.exports = {
-  context: path.join(basePath, "src"),
+  context: path.resolve(__dirname, "./src"),
   entry: {
     app: "./index.js",
-    appStyles: ["./mystyles.scss"],
     vendorStyles: ["../node_modules/bootstrap/dist/css/bootstrap.css"],
   },
   output: {
     filename: "[name].[chunkhash].js",
-    path: path.resolve(process.cwd(), "dist"),
+    path: path.resolve(__dirname, "dist"),
   },
   module: {
     rules: [
@@ -26,20 +23,11 @@ module.exports = {
       {
         test: /\.scss$/,
         exclude: /node_modules/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader",
-          {
-            loader: "sass-loader",
-            options: {
-              implementation: require("sass"),
-            },
-          },
-        ],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.(png|jpg)$/,
@@ -51,20 +39,20 @@ module.exports = {
       },
     ],
   },
-  devServer: {
-    port: 8080,
-  },
   plugins: [
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: "index.html", //Name of file in ./dist/
-      template: "index.html", //Name of template in ./src
-      scriptLoading:"blocking",
+      template: "./index.html", //Name of template in ./src
+      scriptLoading: "blocking", // Just use the blocking approach (no modern defer or module)
     }),
-    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css",
     }),
+    new CleanWebpackPlugin(),
   ],
+  devServer: {
+    port: 8080,
+  },
 };

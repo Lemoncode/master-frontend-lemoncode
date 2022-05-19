@@ -1,73 +1,76 @@
-# 09 Refactor SRC
+## Refactorizando SRC y punto de entrada
 
-So far we have been doing progress without following conventions, this time
-we are going to setup our project structure following naming and folder
-conventions.
+Hasta ahora hemos estado avanzando con pies y manos, pero es hora de pararnos y organizar nuestro proyecto, sino va a acabar convirtiéndose en algo difícil de gestionar. Si nos fijamos, estamos repitiendo la ruta _`./src/`_ en distintas partes de nuestro \**``*webpack.config.js``\* y esto nos puede traer problemas de mantenibilidad, es mejor indicarle un sólo sitio cual va a ser nuestro directorio de trabajo.
 
-We will start from sample _08-sass_.
+Por otro lado el fichero \*_`students.js`_ es el punto de entrada de nuestra aplicación, para seguir una aproximación más estándar vamos a renombrarlo a _`index.js`_, que es más conocido y utilizado habitualmente por nosotros, manos a la obra.
 
-Summary steps:
+### Pasos
 
-- Move _js_ and _css_ file under a new folder called _src_
-- Configure _webpack.config_ to set _src_ as working folder.
-
-# Steps to build it
-
-## Prerequisites
-
-Prerequisites, you will need to have nodejs installed in your computer (at least v 8.9.2). If you want to follow this step guides you will need to take as starting point sample _08 Sass_.
-
-## steps
-
-- `npm install` to install previous sample packages:
-
-```bash
-npm install
-```
-
-- It's time to refactor a bit our solution to make it more maintainable.
-
-- To keep maintainable our source code, let's create a `src` folder and move the following files into:
-
-  - Move to `./src/averageService.js`.
-  - Move to `./src/index.html`.
-  - Move to `./src/mystyles.scss`.
-  - Move to `./src/students.js` and rename it to `./src/index.js`
-
-- After this, we must modify the path into our _webpack.config.js_ file, for these files to be found.
+- Es hora de refactorizar nuestra solución para que sea más fácil de mantener.
+- Le decimos a _webpack_ en que contexto estamos y refactorizamos.
 
 ```diff
-...
-
-+ const basePath = __dirname;
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const path = require("path");
 
 module.exports = {
-+ context: path.join(basePath, 'src'),
++  context: path.resolve(__dirname, "./src"),
   entry: {
--    app: ['./students.js'],
-+    app: ['./index.js'],
-    appStyles: ['./mystyles.scss'],
-    vendorStyles: [
--     './node_modules/bootstrap/dist/css/bootstrap.css',
-+     '../node_modules/bootstrap/dist/css/bootstrap.css',
-    ],
+-    app: "./src/students.js",
++    app: "./students.js",
+-    vendorStyles: ["./node_modules/bootstrap/dist/css/bootstrap.css"],
++	 vendorStyles: ["../node_modules/bootstrap/dist/css/bootstrap.css"],
   },
+.....
+ plugins: [
+    //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
+    new HtmlWebpackPlugin({
+      filename: "index.html", //Name of file in ./dist/
+-     template: "./src/index.html", //Name of template in ./src
++	  template: "./index.html",
+      scriptLoading: "blocking", // Load the scripts correctly
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css",
+    }),
+    new CleanWebpackPlugin(),
+  ],
+  .....
 ```
 
-- Let's check that the app is still working after this folder structure refactor.
+Fíjate que al establecer como directorio global de trabajo _./src_ para referenciar
+_bootstrap_ tenemos que subir un nivel para llegar a **`node_modules`**
+
+- Lo más normal es que nuestro punto de entrada se llame **`index.js`**, refactorizamos:
+
+```diff
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const path = require("path");
+
+module.exports = {
+  context: path.resolve(__dirname, "./src"),
+  entry: {
+- 	 app: "./students.js",
++    app: "./index.js",
+    vendorStyles: ["../node_modules/bootstrap/dist/css/bootstrap.css"],
+  },
+.....
+```
+
+- Y renombramos de **`students.js`** a **`index.js`**.
+- Comprobemos que la aplicación sigue funcionando después de esta refactorización.
 
 ```bash
-npm start
+$ npm start
 ```
 
-- We did it!
+## Sumario
 
-# About Basefactor + Lemoncode
-
-We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
-
-[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
-
-[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
-
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+1. Agregamos un contexto y refactorizamos **`webpack.config.json`**.
+2. Cambiamos el nombre del **`entry point`** de **`students.js`** a **`index.js`**.
+3. Renombramos el archivo **`students.js`** a **`index.js`**.

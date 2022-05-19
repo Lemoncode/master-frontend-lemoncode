@@ -1,65 +1,59 @@
-# 15 Environment variables
+# Añadiendo Variables de Entorno
 
-In this demo we are going to setup environment variable each type of build
-(e.g. rest api base url), we will make use of _dotenv_
+- Imaginemos que tenemos una _api rest_ para desarrollo local, y tenemos otra en la nube para el entorno de producción, y nos gustaría poder cambiar de una a otra sin tener que ponernos a tocar código, sin tirar de ayudas podríamos pensar en poner un _flag_, y llenar nuestra aplicación de _"if"_ como el que puedes ver más abajo, esto se convertiría en algo inmanejable (no te digo nada... si encima tenemos entornos de preproducción etc...)
 
-We will start from sample _14-production_.
+```javascript
+if (isDevelopment) {
+  fetch("http://localhost:3000/api/members");
+} else {
+  fetch("http://myapp.com/api/members");
+}
+```
 
-Summary steps:
+- Deberíamos tener alguna forma de gestionar ciertas variables que hicieran esto por nosotros y me despreocupara si estoy en desarrollo o en producción. Este ejemplo (que no funciona, al llamarse las dos variable igual), nos sirve para hacernos a la idea, que según en el entorno que estemos, utilizamos diferentes declaraciones:
 
-- Install webpackdotenv.
-- Generate env files.
-- Add base config.
-- Add dev config.
-- Add prod config.
+```javascript
+const API_BASE = http://localhost:3000/api;
+const API_BASE = http://myapp.com/api;
 
-# Steps to build it
+fetch(`${API_BASE}/members`);
 
-## Prerequisites
+```
 
-Prerequisites, you will need to have nodejs installed in your computer. If you want to follow this step guides you will need to take as starting point sample _14 production config_.
+- Ya que tenemos los ficheros separados para cada entorno, sería interesante decirle a la variable **`API_BASE`** que apunte a un lugar o a otro, según estemos trabajando en desarrollo o en producción, a esto se le conoce como **variables de entorno**. Para esto **`Webpack`** nos provee un paquete que lo hace por nosotros **`dotenv-webpack`**.
 
-## steps
+> [Documentación](https://www.npmjs.com/package/dotenv-webpack)
 
-- `npm install` to install previous sample packages:
+## Pasos
+
+- Vamos a instalar **`dotenv-webpack`**:
 
 ```bash
-npm install
+$ npm install dotenv-webpack --save-dev
 ```
 
-- Let's install dotenv-webpack
+- Vamos a crear dos archivos para nuestros entornos, uno para desarrollo y otro para producción.
 
-```bash
-npm install dotenv-webpack --save-dev
+_./dev.env_
+
+```env
+API_BASE=http://localhost:3000/api
 ```
 
-- Let's create two simple environment files.
+_./prod.env_
 
-_dev.env_
-
-```
-API_BASE=http://localhost:8081/
+```env
+API_BASE = http://myapp.com/api
 ```
 
-_prod.env_
-
-```
-API_BASE=https://myapp.api/
-```
-
-- Let's setup the plugin dev config.
+- Agregamos el entorno a la configuración de desarrollo:
 
 _./webpack.dev.js_
 
 ```diff
 const { merge } = require("webpack-merge");
+const common = require("./webpack.common.js");
 + const Dotenv = require('dotenv-webpack');
-...
-```
-
-_./webpack.dev.js_
-
-```diff
 ...
 + plugins: [
 +   new Dotenv({
@@ -69,25 +63,20 @@ _./webpack.dev.js_
 });
 ```
 
-- Let's setup the plugin prod config.
+- Ahora a **`webpack.prod.js`**:
 
 _./webpack.prod.js_
 
 ```diff
 const { merge } = require("webpack-merge");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const common = require("./webpack.common.js");
 + const Dotenv = require('dotenv-webpack');
-...
-
-```
-
-_./webpack.prod.js_
-
-```diff
 ...
   plugins: [
     new MiniCssExtractPlugin({
       filename: "css/[name].[chunkhash].css",
-      chunkFilename: "[id].[chunkhash].css",
+      chunkFilename: "[id].css",
     }),
 +   new Dotenv({
 +     path: "./prod.env",
@@ -96,60 +85,69 @@ _./webpack.prod.js_
 });
 ```
 
-- Let's introduce a test in our code (console log).
+- Introducimos un test en nuestro código para ver que está funcionando correctamente.
 
 _./src/averageService.ts_
 
 ```diff
+.....
 + console.log(`Api base: ${process.env.API_BASE}`);
 ```
 
-- Let's add a config entry line in our package.json to start our
-  server in production mode.
+- Agregamos una nueva línea de configuración al **`package.json`** para iniciar nuestro servidor en modo producción.
 
 _./package.json_
 
 ```diff
-  "scripts": {
+"scripts": {
     "start": "run-p -l type-check:watch start:dev",
+    "build": "run-p -l type-check build:dev",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
     "start:dev": "webpack serve --config webpack.dev.js",
 +   "start:prod": "webpack serve --config webpack.prod.js",
-    "build:dev": "npm run type-check && webpack --config webpack.dev.js",
-    "build:prod": "npm run type-check && webpack --config webpack.prod.js"
+    "build:dev": "webpack --config webpack.dev.js",
+    "build:prod": "webpack --config webpack.prod.js"
   },
 ```
 
-- Let's test dev config, run the following command from terminal and open your browser
-  console:
+- Probamos la configuración de desarrollo, ejecuta el siguiente comando desde la terminal y abre la consola de tu navegador:
 
 ```bash
-npm start
+$ npm start
 ```
 
-- Now let's test production:
+<img src="./content/dev-env.PNG" alt="dev-env" style="zoom:50%;" />
+
+- Ahora lo probamos en producción:
 
 ```bash
-npm run start:prod
+$ npm run start:prod
 ```
 
-- And let's check the code generated:
+<img src="./content/dev-prod.PNG" alt="dev-prod" style="zoom:50%;" />
+
+Y vamos a ver las diferencias entre el código generado.
+
+- Después de crear la **`build`** de desarrollo vemos la referencia, dentro del archivo generado, a la variable de entorno:
 
 ```bash
-npm run build:dev
+$ npm run build:dev
 ```
+
+<img src="./content/env-build-dev.png" alt="env-build-dev" style="zoom:67%;" />
+
+- Aquí vemos referencia a nuestra **`API`** en producción:
 
 ```bash
-npm run build:prod
+$ npm run build:prod
 ```
 
-# About Basefactor + Lemoncode
+<img src="./content/dev-build-prod.png" alt="dev-build-prod" style="zoom:67%;" />
 
-We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
+## Sumario
 
-[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
-
-[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
-
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+1. Instalamos **`dotenv-webpack`**.
+2. Creamos entornos para desarrollo y producción.
+3. Configuramos **`webpack.dev.js`** y **`webpack.prod.js`**.
+4. Actualizamos **`package.json`**.

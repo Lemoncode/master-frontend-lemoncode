@@ -167,6 +167,12 @@ Si abrimos el navegador y vamos a la dirección que indica _lite-server_ (normal
 - Esto sucede porque no tenemos ningún **`loader`** que esté buscando referencias dentro del **`HTML`** y extraiga esas imágenes al bundle de producción, **`webpack`** nos da solución para esto y utilizaremos **`html-loader`**.
 - Vamos a instalarlo y añadirlo a nuestra configuración de **`webpack.config.js`**, en este caso
   le diremos que cuando se encuentre con un fichero con extensión _html_ ejecute el _html-loader_:
+  
+Si estamos en la carpeta _dist_ subimos un nivel:
+
+```bash
+cd dist
+```
 
 ```bash
 $ npm install html-loader --save-dev

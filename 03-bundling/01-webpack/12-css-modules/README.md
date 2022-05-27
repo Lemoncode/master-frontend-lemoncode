@@ -507,7 +507,7 @@ _./webpack.config.js_
 ```diff
   entry: {
     app: "./index.jsx",
-+   vendorStyles: ['./node_modules/bootstrap/dist/css/bootstrap.css'],    
++   vendorStyles: ['../node_modules/bootstrap/dist/css/bootstrap.css'],    
     appStyles: "./averageComponentStyles.scss",
   },
 ```

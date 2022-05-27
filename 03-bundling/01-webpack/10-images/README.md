@@ -176,6 +176,21 @@ $ npm start
 
 <img src="./content/referencia-automatica-imagen.png" alt="referencia-automatica-imagen" style="zoom:67%;" />
 
+Antes de abandonar este ejemplo, vamos a ver como hacer que webpack recargue en el navegador web si hay cambios
+(este era el funcionamiento por defecto en Webpack 4, en 5 tenemos que añadir la siguiente configuración):
+
+_./webpack.config.js_
+
+```js
+  devServer: {
+    open: true,
+    hot: true,
+    static: {
+      directory: path.join(__dirname, "src"),
+    },
+  },
+```
+
 ## Sumario
 
 1. Manejo de imágenes vía **`javascript`**.

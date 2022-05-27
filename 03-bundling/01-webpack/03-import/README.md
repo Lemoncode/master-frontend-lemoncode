@@ -1,152 +1,158 @@
-## Servidor web desarrollo
+## Manejando imports
 
-Cuando estás programando una aplicación web no es idea el estar directamente pinchando ficheros _html_ desde el explorador para cargarlos en el navegador, cómo desarrollador es normal que queramos levantar un servidor web ligero en local para poder ir probando nuestro desarrollo. En este ejemplo veremos cómo hacer esto.
+En el paso anterior vimos como transpilar de ES6 a ES5 en un mismo fichero, pero ¿Qué pasa si tengo varios ficheros (modulos) y estoy usando _imports_? Vamos a ver como resuelve esto _webpack_.
+
+Tomamos como punto de partida el ejemplo anterior, vamos a añadir un nuevo archivo de JavaScript que contendrá un simple algoritmo para calcular la puntuación media un _array_ de notas.
 
 ### Pasos
 
-- Vamos a instalar **`webpack-dev-server`**, el cual nos montará un servidor web ligero, donde correrá nuestra aplicación.
+- Añadimos un nuevo archivo llamado **`averageService.js`**. Este archivo contendrá una función que calculará el valor promedio de un _array_ dado, esta función será exportada (haciéndola visible a otros módulos que necesiten usarla). Por lo tanto, añade el siguiente contenido a **`averageService.js`**:
 
-```bash
-$ npm install webpack-dev-server --save-dev
+_./averageService.js_
+
+```javascript
+export function getAvg(scores) {
+  return getTotalScore(scores) / scores.length;
+}
+
+function getTotalScore(scores) {
+  return scores.reduce((score, count) => score + count);
+}
 ```
 
-- Vamos a reconfigurar nuestro **`package.json`** añadiendo el comando **`start`** donde vamos a lanzar nuestra aplicación en modo desarrollo.
+- Es hora se actualizar **`students.js`** e importar el archivo anterior invocando la función _getAvg_ del mismo:
 
-./package.json
+_./students.js_
 
 ```diff
-  "scripts": {
-+   "start": "webpack serve --mode development",
--    "build": "webpack --mode development",
-+    "build": "webpack --mode development"
--   "test": "echo \"Error: no test specified\" && exit 1"
-  },
+-  // Usemos algunas características de ES6
++  import { getAvg } from './averageService';
+
++  const scores = [90, 75, 60, 99, 94, 30];
+-  const averageScore = "90";
++  const averageScore = getAvg(scores);
+
+  const messageToDisplay = `average score ${averageScore}`;
+
+  document.write(messageToDisplay);
 ```
 
-- Antes de ejecutar el proyecto, tenemos que tener en cuenta de que éste servidor se ejecuta en memoria (así es muy rápido) y no
-  perderá tiempo en volcar la información en la carpeta _dist_, así pues, para referenciar al archivo _main.js_ que está en la memoria de
-  _webpack dev server_ tenemos que hacer un cambio de ruta en el tag script del _index.html_, más adelante
-  aprenderemos una forma más limpia de hacer esto (utilizando _HTMLWebpackPlugin_)
-
-_./index.html_
-
-```diff
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Webpack 5.x by sample</title>
-  </head>
-  <body>
--    <script src="../dist/main.js"></script>
-+    <script src="./main.js"></script>
-  </body>
-</html>
-```
-
-- Otra cosa que tenemos que hacer es modificar nuestro **`webpack.config.js`** porque por defecto **`webpack dev server`** busca el _index.html_ en la carpeta _public_ y tenemos que decirle que mire dentro de la carpeta _src_ de nuestra aplicación.
-
-Para ello:
-
-- Por un lado nos traemos una utilidad de _node_ que nos permite concatenar rutas (path).
-- Por otro utilizamos la variable **dirname** que nos da la ruta del proyecto.
-- Por último, obtenemos una ruta resultado de concatenar **dirname** con la ruta _src_,
-  esta será la que usemos en la sección _devServer_ para indicarle a _webpack_dev_server_
-  donde tiene que apuntar.
-
-[Documentación](https://webpack.js.org/configuration/dev-server/)
-
-```diff
-+ const path = require("path");
-
-module.exports = {
-  entry: ["./src/students.js"],
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: "babel-loader",
-      },
-    ],
-  },
-+  devServer: {
-+    static: path.join(__dirname, "./src"),
-+  },
-};
-```
-
-- Ahora si escribimos el comando desde la terminal de nuestro sistema.
-
-```bash
-$ npm start
-```
-
-<img src="./content/html-webpluging3.PNG" alt="html-webpluging3" style="zoom:67%;" />
-
-- Si abrimos un navegador, podemos apuntar la _url_ a [http://localhost:8080](http://localhost:8080/), esto nos llevará a nuestra aplicación.
-- Una característica interesante que incluye éste servidor de desarrollo es **live reloading**, así cualquier cambio introducido en algún archivo JavaScript será automáticamente detectado y _webpack dev server_ lanzará el proceso de _build_ en memoria y una vez terminado refrescará automáticamente la página que se muestra en el navegador (por ejemplo podemos cambiar el texto del _main_ y ver como automáticamente se lanza un _build_ y se refresca el contenido en el navegador).
-- Si queremos ejecutar la _build_ de _webpack_, solo necesitamos escribir los comandos desde la terminal de nuestro sistema:
+- Por último, vamos a ejecutar _webpack_ desde el terminal ejecutando el siguiente comando:
 
 ```bash
 $ npm run build
 ```
 
-- Finalmente, si el puerto por defecto en el que corre _webpack-dev-server_ no nos cuadra, podemos
-  cambiarlo, tocando la entrada _devServer/port_ en el **`webpack.config.js`**:
+Como vemos no nos ha generado en la carpeta _dist_ un fichero **`students.js`** ni un **`averageService.js`**, **`webpack`** se va a ir encargando de concatenar los ficheros en uno sólo. Y como resultado obtenemos dentro de la carpeta _dist_ un fichero llamado **`main.js`** (más adelante veremos que podemos trocear este _bundle_ en varios ficheros).
 
-_./webpack.config.js_
+Es hora de probar el **`index.html`** en el navegador y comprobar que la nueva función de cálculo de media está en marcha y ha sido incluida en el archivo **`main.js`**.
 
-```diff
-module.exports = {
-  entry: ['./src/students.js'],
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-      },
-    ],
-  },
-  devServer: {
-    static: path.join(__dirname, "./src"),
-+   port: 8081,
-  },
-};
-```
+<img src="./content/averageScore.PNG" alt="averageScore" style="zoom:67%;" />
 
-- Ahora, se está ejecutando en el puerto 8081.
+### Apéndice - Módulo de uso alternativo
 
-```bash
-$ npm start
-```
+En nuestro ejemplo anterior hemos cubierto un solo uso nombrado de exportación, pero hay otras formas de usar módulos:
 
-<img src="./content/webpack-dev-server.png" alt="webpack-dev-server" style="zoom:67%;" />
+### Exportación por defecto
 
-- De cara a tener este ejemplo listo para siguientes pasos, vamos a volver a indicarle
-  que utilice el puerto por defecto:
+Una forma popular es usar **`export default`** como la palabra clave de exportación. Esto indicará que, por defecto, sólo habrá una **exportación única por módulo**. Entonces, podremos usar directamente un importar _alias_ (omitiendo las llaves {}) y esto apuntará a nuestro elemento exportado por defecto (función _averarge_ en nuestro ejemplo).
 
-_./webpack.config.js_
+- Uso de la exportación por defecto en **`averageService.js`**:
+
+_./averageService.js_
 
 ```diff
-module.exports = {
-  entry: ['./src/students.js'],
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-      },
-    ],
-  },
-  devServer: {
-    static: path.join(__dirname, "./src"),
--   port: 8081,
-+   port: 8080,
-  },
-};
+- export function getAvg(scores) {
++ export default function getAvg(scores) {
+return getTotalScore(scores) / scores.length;
+}
+
+function getTotalScore(scores) {
+  return scores.reduce((score, count) => {
+    return score + count;
+  });
+}
+```
+
+- Uso de importar por defecto en **`students.js`**:
+
+_./students.js_
+
+````diff
+- import {getAvg} from "./averageService";
++ import getAvg from "./averageService";
+
+const scores = [90, 75, 60, 99, 94, 30];
+const averageScore = getAvg(scores);
+
+const messageToDisplay = `average score ${averageScore}`;
+
+document.write(messageToDisplay);
+```nt.write(messageToDisplay);
+````
+
+### Múltiple named exports
+
+Consideremos dos funciones, **`getAvg`** y **`getTotalScore`**, por el bien de este ejemplo. Podemos exportar ambas usando exportaciones nombradas, sólo añadiendo la palabra clave **export** en cada función.
+
+- Uso de múltiples exportaciones en **`averageService.js`**:
+
+_./averageService.js_
+
+```diff
+- export default function getAvg(scores) {
++ export function getAvg(scores) {
+return getTotalScore(scores) / scores.length;
+}
+
+- function getTotalScore(scores) {
++ export function getTotalScore(scores) {
+  return scores.reduce((score, count) => {
+    return score + count;
+  });
+}
+```
+
+Ahora, podemos importarlos de varias maneras en **`students.js`**:
+
+- Importar ambos elementos en el ámbito actual:
+
+`_./students.js_
+
+```diff
+- import getAvg from "./averageService";
++ import {getAvg, getTotalScore} from "./averageService";
+
+const scores = [90, 75, 60, 99, 94, 30];
+const averageScore = getAvg(scores);
++ const totalScore = getTotalScore(scores);
+
+- const messageToDisplay = `average score ${averageScore}`;
++ const messageToDisplayAvg = `average score ${averageScore} `;
++ const messageToDisplayTotal = `total score ${totalScore}`;
+
+- document.write(messageToDisplay);
++ document.write(messageToDisplayAvg);
++ document.write(messageToDisplayTotal);
+```
+
+- Importa el contenido de todo el módulo usando el comodín `*` y un _name_ para nuestro módulo. Este _name_ contendrá todos los elementos exportados en nuestro ámbito actual (se utiliza _name_ como espacio de nombres):
+
+_./students.js_
+
+```diff
+- import {getAvg, getTotalScore} from "./averageService";
++ import * as averageService from "./averageService";
+
+const scores = [90, 75, 60, 99, 94, 30];
+- const averageScore = getAvg(scores);
+- const totalScore = getTotalScore(scores);
++ const averageScore = averageService.getAvg(scores);
++ const totalScore = averageService.getTotalScore(scores);
+
+const messageToDisplayAvg = `average score ${averageScore} `;
+const messageToDisplayTotal = `total score ${totalScore}`;
+
+document.write(messageToDisplayAvg);
+document.write(messageToDisplayTotal);
 ```

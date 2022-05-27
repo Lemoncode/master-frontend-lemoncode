@@ -132,15 +132,39 @@ Eso está bien, pero ¿y si ya tuviéramos la imagen referenciada dentro de una 
 </html>
 ```
 
-- Ahora, si ejecutamos la aplicación (**`npm start`**), podemos comprobar que sólo se está mostrando la primera imagen que introducimos anteriormente. Y en el _card_ no se estaría mostrando nada.
+- Ahora, si ejecutamos la aplicación (**`npm start`**), parece que fucniona, se muestra la segunda imagen...
 
 ```bash
 $ npm start
 ```
 
+Peeero si inspeccionamos el elemento _img_ en el navegador podemos ver que apunta a una ruta que en dist no tendríamos...
+
+Vamos a probar el paquete de _dist_, para ello hacemos un build:
+
+_npm run build_
+
+Vamos al terminal, nos metemos en la carpeta _dist_
+
+_cd dist_
+
+Si hacemos un _ls_ ya vemos que algo nos huele mal, sólo hay un fichero de imagen.
+
+Vamos a instalar de manera gloval (si no lo tenemos ya) un servidor web ligero:
+
+_npm install lite-server -g_
+
+> Ojo aquí si estás en linux o mac puede que te haga falta meter el prefijo _sudo_
+
+Y lo lanzamos
+
+_lite-server_
+
+Si abrimos el navegador y vamos a la dirección que indica _lite-server_ (normalmente localhost:3000) veremos que la imagen no se ve.
+
 <img src="./content/imagen2error.png" alt="imagen2error" style="zoom: 67%;" />
 
-- Esto sucede porque no tenemos ningún **`loader`** que esté buscando referencias dentro del **`HTML`**, **`webpack`** nos da solución para esto y utilizaremos **`html-loader`**.
+- Esto sucede porque no tenemos ningún **`loader`** que esté buscando referencias dentro del **`HTML`** y extraiga esas imágenes al bundle de producción, **`webpack`** nos da solución para esto y utilizaremos **`html-loader`**.
 - Vamos a instalarlo y añadirlo a nuestra configuración de **`webpack.config.js`**, en este caso
   le diremos que cuando se encuentre con un fichero con extensión _html_ ejecute el _html-loader_:
 

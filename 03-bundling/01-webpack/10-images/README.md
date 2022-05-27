@@ -171,7 +171,7 @@ Si abrimos el navegador y vamos a la dirección que indica _lite-server_ (normal
 Si estamos en la carpeta _dist_ subimos un nivel:
 
 ```bash
-cd dist
+cd ..
 ```
 
 ```bash

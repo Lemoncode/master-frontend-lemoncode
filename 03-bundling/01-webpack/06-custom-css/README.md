@@ -284,6 +284,8 @@ También existe una tercera opción, que nos la aporta webpack, llamada [_clean_
 
 - Para esto lo único que tenemos que añadir es el siguiente comando dentro de _output_ en nuestro _webpack.config.js_:
 
+_./webpack.config.js_
+
 ```diff
 .....
   entry: {
@@ -309,7 +311,7 @@ Ahora vemos que los estilos están encuentran en un archivo _js_, ¿qué pasa si
 
 ```bash
 $ npm install mini-css-extract-plugin --save-dev
-````
+```
 
 - Para utilizar de forma correcta esta librería tenemos que hacer uso de un _loader_ y un _plugin_.Vamos a añadimos sustituimos el **`style-loader`** por el **`MiniCSSExtractPlugin.loader`**.
 

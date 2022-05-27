@@ -1,8 +1,8 @@
 ## Refactorizando SRC y punto de entrada
 
-Hasta ahora hemos estado avanzando con pies y manos, pero es hora de pararnos y organizar nuestro proyecto, sino va a acabar convirtiéndose en algo difícil de gestionar. Si nos fijamos, estamos repitiendo la ruta _`./src/`_ en distintas partes de nuestro \**``*webpack.config.js``\* y esto nos puede traer problemas de mantenibilidad, es mejor indicarle un sólo sitio cual va a ser nuestro directorio de trabajo.
+Hasta ahora hemos estado avanzando con pies y manos, pero es hora de pararnos y organizar nuestro proyecto, sino va a acabar convirtiéndose en algo difícil de gestionar. Si nos fijamos, estamos repitiendo la ruta _`./src/`_ en distintas partes de nuestro *``webpack.config.js``* y esto nos puede traer problemas de mantenibilidad, es mejor indicarle un sólo sitio cual va a ser nuestro directorio de trabajo.
 
-Por otro lado el fichero \*_`students.js`_ es el punto de entrada de nuestra aplicación, para seguir una aproximación más estándar vamos a renombrarlo a _`index.js`_, que es más conocido y utilizado habitualmente por nosotros, manos a la obra.
+Por otro lado el fichero _`students.js`_ es el punto de entrada de nuestra aplicación, para seguir una aproximación más estándar vamos a renombrarlo a _`index.js`_, que es más conocido y utilizado habitualmente por nosotros, manos a la obra.
 
 ### Pasos
 

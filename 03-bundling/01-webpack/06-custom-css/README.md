@@ -280,7 +280,7 @@ $ npm install rimraf --save-dev
 $ npm run build
 ```
 
-También existe una tercera opción, que nos la aporta webpack, llamada _clean_ y que también nos permite borrar el interior de la carpeta _dist_ cada vez que generamos el bundle.
+También existe una tercera opción, que nos la aporta webpack, llamada [_clean_](https://webpack.js.org/configuration/output/#outputclean) y que también nos permite borrar el interior de la carpeta _dist_ cada vez que generamos el bundle.
 
 - Para esto lo único que tenemos que añadir es el siguiente comando dentro de _output_ en nuestro _webpack.config.js_:
 

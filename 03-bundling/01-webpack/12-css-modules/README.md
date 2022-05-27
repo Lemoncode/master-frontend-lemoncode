@@ -500,6 +500,18 @@ _./src/totalScoreComponent.jsx_
 $ npm start
 ```
 
+Si no aparece nada, vamos a ver si sigue la entrada a Bootstrap en nuestro webpack.config.js
+
+_./webpack.config.js_
+
+```diff
+  entry: {
+    app: "./index.jsx",
++   vendorStyles: ['./node_modules/bootstrap/dist/css/bootstrap.css'],    
+    appStyles: "./averageComponentStyles.scss",
+  },
+```
+
 <img src="./content/css-modules-6.png" alt="css-modules-6" style="zoom: 50%;" />
 
 Fíjate que para la extensión CSS usamos configuración de _css-loader_

@@ -280,13 +280,36 @@ $ npm install rimraf --save-dev
 $ npm run build
 ```
 
+También existe una tercera opción, que nos la aporta webpack, llamada _clean_ y que también nos permite borrar el interior de la carpeta _dist_ cada vez que generamos el bundle.
+
+- Para esto lo único que tenemos que añadir es el siguiente comando dentro de _output_ en nuestro _webpack.config.js_:
+
+```diff
+.....
+  entry: {
+    app: "./src/students.js",
+    appStyles: "./src/mystyles.css",
+  },
+  output: {
+    filename: "[name].[chunkhash].js",
++    clean: true,
+  },
+.......
+```
+
+- Y si ejetutamos nuestra _build_ vemos que se borra la carpeta _dist_ y se genera la _build_ limpia.
+
+```bash
+$ npm run build
+```
+
 Ahora vemos que los estilos están encuentran en un archivo _js_, ¿qué pasa si queremos mantenerlo como un archivo css separado? Haciendo uso de [**`MiniCssExtractPlugin`**](https://webpack.js.org/plugins/mini-css-extract-plugin/) podemos conseguirlo. ¡Vamos al lio!
 
 - Vamos a instalar este plugin
 
 ```bash
 $ npm install mini-css-extract-plugin --save-dev
-```
+````
 
 - Para utilizar de forma correcta esta librería tenemos que hacer uso de un _loader_ y un _plugin_.Vamos a añadimos sustituimos el **`style-loader`** por el **`MiniCSSExtractPlugin.loader`**.
 

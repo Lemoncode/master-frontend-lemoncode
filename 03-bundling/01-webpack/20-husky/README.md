@@ -55,27 +55,13 @@ npm install --save-dev prettier pretty-quick
 - Add husky to dev devepencies and install it
 
 ```bash
-npm install husky --save-dev
-npx husky install
-```
-
-- Create a script for husky in package.json and run it
-
-```bash
-npm set-script prepare "husky install"
-npm run prepare
+npx husky-init
 ```
 
 - Create a pre-commit hook that run pretty quick only with staged files
 
 ```bash
-npx husky add .husky/pre-commit "npx pretty-quick --staged"
-```
-
-- Add pre-commmit file to git
-
-```bash
-git add .husky/pre-push
+npx husky set .husky/pre-commit "npx pretty-quick --staged"
 ```
 
 - Next commit you run in console we will check modified files and apply prettier.

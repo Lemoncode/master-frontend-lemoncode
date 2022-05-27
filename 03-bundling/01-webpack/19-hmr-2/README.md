@@ -1,9 +1,9 @@
 # 19 Hot Module Replacement with css
 
-In this demo we are going to start working with css in hmr modules, when you are working on a page and you change a style, 
-webpack server reloads the whole page and that makes us lose focus or the inputs lose their content, or we lose the console messages, etc. 
+In this demo we are going to start working with css in hmr modules, when you are working on a page and you change a style,
+webpack server reloads the whole page and that makes us lose focus or the inputs lose their content, or we lose the console messages, etc.
 
-We will start from sample _18-hmr-1
+We will start from sample \_18-hmr-1
 
 Summary steps:
 
@@ -15,7 +15,7 @@ Summary steps:
 
 ## Prerequisites
 
-Prerequisites, you will need to have nodejs installed in your computer. If you want to follow this step guides you will need to take as starting point sample _18-hmr-1.
+Prerequisites, you will need to have nodejs installed in your computer. If you want to follow this step guides you will need to take as starting point sample \_18-hmr-1.
 
 ## Steps
 
@@ -42,11 +42,11 @@ npm install --save-dev style-loader css-loader
 
 ```css
 .text-color {
-    color: red;
+  color: red;
 }
 
-body{
-    background-color: aquamarine;
+body {
+  background-color: aquamarine;
 }
 ```
 
@@ -73,6 +73,7 @@ if (module.hot){
     })
 }
 ```
+
 - Now we execute the command `npm start`
 
 ```bash

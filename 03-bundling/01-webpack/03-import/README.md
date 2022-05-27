@@ -8,7 +8,7 @@ Tomamos como punto de partida el ejemplo anterior, vamos a añadir un nuevo arch
 
 - Añadimos un nuevo archivo llamado **`averageService.js`**. Este archivo contendrá una función que calculará el valor promedio de un _array_ dado, esta función será exportada (haciéndola visible a otros módulos que necesiten usarla). Por lo tanto, añade el siguiente contenido a **`averageService.js`**:
 
-_./averageService.js_
+_./src/averageService.js_
 
 ```javascript
 export function getAvg(scores) {
@@ -59,7 +59,7 @@ Una forma popular es usar **`export default`** como la palabra clave de exportac
 
 - Uso de la exportación por defecto en **`averageService.js`**:
 
-_./averageService.js_
+_./src/averageService.js_
 
 ```diff
 - export function getAvg(scores) {
@@ -76,7 +76,7 @@ function getTotalScore(scores) {
 
 - Uso de importar por defecto en **`students.js`**:
 
-_./students.js_
+_./src/students.js_
 
 ````diff
 - import {getAvg} from "./averageService";
@@ -97,7 +97,7 @@ Consideremos dos funciones, **`getAvg`** y **`getTotalScore`**, por el bien de e
 
 - Uso de múltiples exportaciones en **`averageService.js`**:
 
-_./averageService.js_
+_./src/averageService.js_
 
 ```diff
 - export default function getAvg(scores) {

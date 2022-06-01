@@ -75,3 +75,15 @@ root.render(
 ```
 
 - Actualicemos _index.html_
+
+```diff
+-    <script type="module" src="./index.ts"></script>
++    <script type="module" src="./index.tsx"></script>
+  </body>
+```
+
+- Arranquemos la aplicación
+
+```bash
+npm start
+```

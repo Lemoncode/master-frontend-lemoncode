@@ -38,7 +38,7 @@ _./src/hello.tsx_
 import React from "react";
 
 export const HelloComponent: React.FC = () => {
-  return <h2>Hello from React</h2>;
+  return <h1>Hello from React</h1>;
 };
 ```
 
@@ -51,7 +51,8 @@ _./src/index.html_
 <body>
 +  <div id="root">
 +  </div>
-   <script type="module" src="./index.ts"></script>
+-   <script type="module" src="./index.ts"></script>
++   <script type="module" src="./index.tsx"></script>
 </body>
 </html>
 ```
@@ -61,14 +62,16 @@ _./src/index.html_
 _./src/index.tsx_
 
 ```typescript
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { HelloComponent } from './hello';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { HelloComponent } from "./hello";
 
-   ReactDOM.render(
-     <HelloComponent />,
-     document.getElementById('root')
-   );
+const root = createRoot(document.getElementById("root"));
+root.render(
+  <div>
+    <HelloComponent />
+  </div>
+);
 ```
 
 - Actualicemos _index.html_

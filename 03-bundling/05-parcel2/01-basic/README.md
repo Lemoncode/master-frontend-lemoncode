@@ -89,17 +89,16 @@ npm run build:prod
 What did we do wrong, if the command line we used is apparently OK?
 
 ```
-    5 |   "browserslist": "> 0.5%, last 2 versions, not dead",
-  > 6 |   "main": "index.js",
-  >   |           ^^^^^^^^^^ Did you mean "index.html"?
-    7 |   "scripts": {
-    8 |     "build": "parcel ./src/index.html",
+  🚨 Build failed.
+@parcel/namer-default: Target "main" declares an output file path of "index.js" which does not match the compiled bundle type "html".
+  C:\Users\gatop\OneDrive\Escritorio\prueba\package.json:5:11
+    4 |   "description": "",
+  > 5 |   "main": "index.js",
 ```
 
 Our _package.json_ contains a _main_ field, which gives us the entry point to our application. But _Parcel_ uses our application as a library and treats that _main_ field as an exit point. When we create the _bundle_, it gives us an error and shows us _Did you mean index.html?_. So the solution is to remove it and save us errors.
 
 ```diff
-"browserslist": "> 0.5%, last 2 versions, not dead",
 -  "main": "index.js",
   "scripts": {
     "build": "parcel ./src/index.html",
@@ -113,11 +112,11 @@ Our _package.json_ contains a _main_ field, which gives us the entry point to ou
 npm run build:prod
 ```
 
-But if we open the generated _javascript_ file we see that our code is in _es6_ and has not been transpiled. 
+But if we open the generated _javascript_ file we see that our code is in _es6_ and has not been transpiled.
 
 ```javascript
-const user="John Doe";console.log(`Hello ${user}!`);
-//# sourceMappingURL=index.6b00e545.js.map
+console.log("Hello John Doe!");
+//# sourceMappingURL=index.ce3782bb.js.map
 ```
 
 Why does this happen? We have to tell _Parcel_ to transpile the code for us. And how do we solve it? We go to _package.json_ and add another command line called browserslist.
@@ -131,7 +130,9 @@ _[./package.json](./package.json)_
   "name": "parcel",
   "version": "1.0.0",
   "description": "",
-+  "browserslist": "> 0.5%, last 2 versions, not dead",
++    "browserslist": [
++    "defaults"
++  ],
   "main": "index.js",
   "scripts": {
     "build": "parcel ./src/index.html"
@@ -147,7 +148,8 @@ npm run build:prod
 - We get a minified and transpiled version of our code.
 
 ```javascript
-var user="John Doe";console.log("Hello ".concat(user,"!"));
+var user = "John Doe";
+console.log("Hello ".concat(user, "!"));
 //# sourceMappingURL=index.c90810f0.js.map
 ```
 

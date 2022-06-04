@@ -2,13 +2,13 @@
 
 Vamos a comprobar lo fácil que es integrar los módulos css en el _bundle_.
 
-# Pasos para contruirlo
+# Pasos para construirlo
 
 ## Prerequisitos
 
 Instala [Node.js and npm](https://nodejs.org/en/) (min v8.9) si aún no está instalado en tu computadora.
 
-> Verifica que estás ejecuatando al menos node v8.x.x and npm 5.x.x ejecutando `node -v` and `npm -v` en una terminal/consola. Las versiones anteriores pueden producir errores.
+> Verifica que estás ejecutando al menos node v8.x.x and npm 5.x.x ejecutando `node -v` and `npm -v` en una terminal/consola. Las versiones anteriores pueden producir errores.
 
 ## Pasos
 
@@ -18,7 +18,7 @@ Instala [Node.js and npm](https://nodejs.org/en/) (min v8.9) si aún no está in
 npm install
 ```
 
-- Vamos a intalar _postcss-modules_
+- Vamos a instalar _postcss-modules_
 
 ```bash
 npm install postcss-modules --save-dev
@@ -56,8 +56,8 @@ _./.postcssrc_
 
 ```javascript
 import React from "react";
-const logo = require("./content/logo_1.png");
-const classes = require("./mystyles.scss");
+import logo from './content/logo_1.png';
+import * as classes from './mystyles.scss';
 
 export const HelloComponent: React.FC = () => {
   return (
@@ -70,6 +70,17 @@ export const HelloComponent: React.FC = () => {
 ```
 
 > Si recibes una advertencia sobre el uso de _required_, prueba: npm i @types/node --save-dev
+
+- Visual Studio Code nos marca errores porque no sabe cómo importar archivos _png_ y _scss_, vamos a declararlo como módulos.
+
+_./src/declaration.d.ts_	
+
+```typescript
+declare module "*.scss";
+declare module "*.png";
+```
+
+ 
 
 - Vamos a ejecutar el ejemplo.
 

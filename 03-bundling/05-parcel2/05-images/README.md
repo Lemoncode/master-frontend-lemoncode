@@ -38,7 +38,7 @@ _./src/index.js_
 
 ```diff
 import './mystyles.scss';
-+ import logoImg from 'url:./assets/logo_1.png';
++ import logoImg from './assets/logo_1.png';
 
 const user = "John Doe";
 

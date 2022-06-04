@@ -61,14 +61,16 @@ _./src/index.html_
 _./src/index.tsx_
 
 ```typescript
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { HelloComponent } from './hello';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { HelloComponent } from "./hello";
 
-   ReactDOM.render(
-     <HelloComponent />,
-     document.getElementById('root')
-   );
+const root = createRoot(document.getElementById("root"));
+root.render(
+  <div>
+    <HelloComponent />
+  </div>
+);
 ```
 
 - Let's update _index.html_

@@ -1,0 +1,29 @@
+{
+  "name": "hello-vite",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Let's start with a very basic sample, just add an html plus a simple console log (E5). This is what you can find in the getting started tutorial.",
+  "scripts": {
+    "start": "run-p -l type-check:watch start:dev",
+    "start:dev": "vite",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "tsc --noEmit --watch",
+    "prebuild": "npm run type-check",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.12",
+    "@types/react-dom": "^18.0.5",
+    "@vitejs/plugin-react": "^1.3.2",
+    "npm-run-all": "^4.1.5",
+    "sass": "^1.52.2",
+    "typescript": "^4.7.3",
+    "vite": "^2.9.9"
+  },
+  "dependencies": {
+    "bootstrap": "^5.1.3",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
+  }
+}

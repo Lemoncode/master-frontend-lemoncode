@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.css";
 import "./mystyles.scss";
 import logoImg from "./content/logo_1.png";
 

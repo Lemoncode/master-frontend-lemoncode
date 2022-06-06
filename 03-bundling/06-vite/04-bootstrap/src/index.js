@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.css";
 import "./mystyles.scss";
 
 const user = "John Doe";

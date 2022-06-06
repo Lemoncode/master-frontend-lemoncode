@@ -28,9 +28,9 @@ npm init -y
 npm install vite --save-dev
 ```
 
-- Let's create a basic [index.js](./src/index.js) file **at the root of the project**:
+- Let's create a basic [index.js](./src/index.js) file:
 
-_[/index.js](./index.js)_
+_[/src/index.js](./src/index.js)_
 
 ```js
 const user = "John Doe";
@@ -38,9 +38,9 @@ const user = "John Doe";
 console.log(`Hello ${user}!`);
 ```
 
-- Let's create a dummy [/index.html](./src/index.html) file also **at the root folder**:
+- Let's create a dummy [/index.html](./index.html) file **at the root folder**:
 
-_[/src/index.html](./src/index.html)_
+_[/index.html](./index.html)_
 
 ```html
 <!DOCTYPE html>
@@ -53,7 +53,7 @@ _[/src/index.html](./src/index.html)_
   </head>
   <body>
     <div id="app"></div>
-    <script type="module" src="/index.js"></script>
+    <script type="module" src="/src/index.js"></script>
   </body>
 </html>
 ```

@@ -12,95 +12,141 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
 
 ## Steps
 
-- Navigate to the folder where you want to create the project folder (don't create it yet! Vite will create it for us).
+- Navigate to the folder where you are going to create the empty project.
 
-- Execute `vite create vite@latest my-app`:
+- Execute `npm init`, you will be prompted to answer some questions about the project. Once you have successfully answered, a **[package.json](./package.json)** file we will generated.
 
 ```bash
-vite create vite@latest hello-vite
+npm init -y
 ```
 
-An interactive terminal interface will be presented to select a framework / template. Choose `vanilla` by pressing enter, then `vanilla` again.
+> Ensure your parent folder does not include any space or uppercase (if that's the case you can just run `npm init` and change the project name).
 
-The folder `hello-vite` will be created with next structure:
+- Let's install parcel
 
-```
-hello-vite
-├── favicon.svg
-├── index.html
-├── main.js
-├── package.json
-└── style.css
+```bash
+npm install vite --save-dev
 ```
 
-Note all files are at the root folder. This is because Vite's dev server uses the concept of "root directory" from other web servers like Apache or Nginx where `index.html` is at root directory. This can be changed via config file.
+- Let's create a basic [index.js](./src/index.js) file **at the root of the project**:
 
-In `package.json` you can see we have `vite` dependency and some scripts:
+_[/index.js](./index.js)_
 
-- `dev` is used to start development server
-- `build` is used to create the production bundle
-- `preview` is used to start production server that uses the bundle created by `build` script
+```js
+const user = "John Doe";
 
-It also created `main.js` as the entrypoint of the project. This `main.js` already uses ES modules syntax and is already referenced in `index.html`:
+console.log(`Hello ${user}!`);
+```
+
+- Let's create a dummy [/index.html](./src/index.html) file also **at the root folder**:
+
+_[/src/index.html](./src/index.html)_
 
 ```html
-<script type="module" src="/main.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello Vite</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/index.js"></script>
+  </body>
+</html>
 ```
 
-Notice the script path in `index.html` starts with absolute value `/`. Let's change the contents for `index.html`:
+- Now let's add the following command to our [package.json](./package.json)
+
+_[package.json](./package.json)_
 
 ```diff
-- import './style.css'
--
-- document.querySelector('#app').innerHTML = `
--   <h1>Hello Vite!</h1>
--   <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-- `
-+ const user = "John Doe";
-+
-+ console.log(`Hello ${user}!`);
+  "scripts": {
++   "build": "vite build",
+-   "test": "echo \"Error: no test specified\" && exit 1"
+  },
 ```
 
-- Let's install the dependencies with:
-
-```bash
-npm install
-```
-
-- And let's run the build to create our first production build:
+- Let's run the build
 
 ```bash
 npm run build
 ```
 
-A new folder, _[/dist](./dist)_, is generated. It contains the production-ready bundled solution:
+> A new folder, _[/dist](./dist)_, is generated. It contains the bundled solution:
 
 ```
 dist
 ├── assets
-│   ├── favicon.17e50649.svg
-│   └── index.2e9bd398.js
+│   └── index.2e9bd398.js
 └── index.html
 ```
 
-Notice `index.html` is at the root folder and all static files are in `assets` folder. If we take a look at `index.html` you will see all files are correctly referenced in `<head>`:
+If we inspect `index.2e9bd398.js` we can notice the file is already production ready because:
 
-```html
-<meta charset="UTF-8" />
-<link rel="icon" type="image/svg+xml" href="/assets/favicon.17e50649.svg" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Vite App</title>
-<script type="module" crossorigin src="/assets/index.2e9bd398.js"></script>
+- It's already hashed.
+- File is minified.
+
+This bundle is created using Rollup under the hood.
+
+If we inspect `index.html` we can notice our JavaScript bundled is pointing to the right location in assets folder.
+
+Let's test our production bundle with adding this to `package.json`:
+
+```diff
+  "build": "vite build",
++ "preview": "vite preview"
 ```
 
-All assets are automatically hashed and our `main.js` is automatically converted into `index.js`. This bundle is created using Rollup.
-
-One pros of using Vite is that it cleans `dist` folder automatically on every production build so we don't need to install tools like `rimraf` or `prebuild` hooks.
-
-- Let's start our _production server_ that uses our new generated bundle:
+And then execute in the console:
 
 ```bash
 npm run preview
 ```
 
 We can access to [http://localhost:4173](http://localhost:4173) and check the console to see our `console.log` call.
+
+Vite uses the concept of "root directory" from other web servers like Apache or Nginx where `index.html` is at root directory. This could be changed via some options in config file.
+
+One pros of using Vite is that it cleans `dist` folder automatically on every production build so we don't need to install tools like `rimraf` or `prebuild` hooks.
+
+We can start a development server by adding next command to our package.json file:
+
+```diff
++ "start": "vite",
+  "build": "vite build",
+  "preview": "vite preview"
+```
+
+And the running in the console:
+
+```bash
+npm start
+```
+
+We can access to the dev server at [http://localhost:3000](http://localhost:3000) (Notice it uses a different port than the production server to avoid conflicts).
+
+By default the server is started only at `localhost`. We could expose our server to the local network by using the `--host`:
+
+```diff
+- "start": "vite",
++ "start": "vite --host",
+  "build": "vite build",
+```
+
+Then stop our local server and start it again with:
+
+```bash
+npm start
+```
+
+If we inspect the broser's dev tools we can check our `console.log` call is there. Let's change the `index.js` content:
+
+```diff
+  console.log(`Hello ${user}!`);
++ console.log("This app is using Vite");
+```
+
+After saving you can check in the browser our second `console.log` calls. Vite's dev-server automatically reloads the app on change.

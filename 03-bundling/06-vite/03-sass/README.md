@@ -1,6 +1,8 @@
 # SASS
 
-Let's see how to add [SASS](https://sass-lang.com/) support
+So far so good. Now it's time to use a more powerful CSS preprocessor like [SASS](https://sass-lang.com/). Will `vite` handle it? Let's check it out!
+
+📌 We start from sample `02-custom-css`.
 
 # Steps to build it
 
@@ -8,7 +10,7 @@ Let's see how to add [SASS](https://sass-lang.com/) support
 
 Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not already installed on your computer.
 
-> Verify that you are running at least latest Node LTS version and npm. You can check your current version by running `node -v` and `npm -v` in a terminal/console window. Older versions may produce errors.
+> ⚠ Verify that you are running at least latest Node LTS version and npm. You can check your current version by running `node -v` and `npm -v` in a terminal/console window. Older versions may produce errors.
 
 ## Steps
 
@@ -77,5 +79,7 @@ npm run build
 Notice in `dist/assets/index.<hash>.css` the file has been transpiled correctly.
 
 ```css
-.red-background{background-color:teal}
+.red-background {
+  background-color: teal;
+}
 ```

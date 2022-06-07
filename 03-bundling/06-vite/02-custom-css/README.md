@@ -1,14 +1,12 @@
 # Custom CSS
 
-Let's start working with styles.
+Let's work with styles. In this demo, we create a custom CSS file which contains a simple demo style for our app.
 
-In this demo we create a custom CSS file which contains a simple css class to set the background color to red.
-
-We start from sample _01-basic_.
+📌 We start from sample `01-basic`.
 
 Summary steps:
 
-- Use a custom style it in our main page.
+- Use a custom style for our main page.
 
 # Steps to build it
 
@@ -20,69 +18,68 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
 
 ## Steps
 
-- We start from _01-basic_. Just copy the project and execute _npm install_
+- Just copy/paste seed project `01-basic` and install:
 
-```cmd
-npm install
-```
+  ```cmd
+  npm install
+  ```
 
-- Let's create the file _mystyles.css_:
+- Let's create the file `mystyles.css`:
 
-_./src/mystyles.css_
+  _src/mystyles.css_
 
-```css
-.red-background {
-  background-color: indianred;
-}
-```
+  ```css
+  .red-background {
+    background-color: indianred;
+  }
+  ```
 
-- We import the css to our index.js file:
+- Import the css from our `index.js` file:
 
-_./src/index.js_
+  _src/index.js_
 
-```diff
-+ import "./mystyles.css";
+  ```diff
+  + import "./mystyles.css";
 
-  const user = "John Doe";
+    const user = "John Doe";
 
-  console.log(`Hello ${user}!`);
-  console.log("This app is using Vite");
-```
+    console.log(`Hello ${user}!`);
+    console.log("This app is using Vite");
+  ```
 
-- And now we can just use this style directly in our HTML file. Let's update `index.html`.
+- Now we can use our new style classes directly in our html index file, let's update it:
 
-_./src/index.html_
+  _src/index.html_
 
-```diff
-  <body>
-    <h1>Check the console log</h1>
-+   <div class="red-background">RedBackground stuff</div>
-    <script type="module" src="/index.js"></script>
-  </body>
-```
+  ```diff
+    <body>
+      <h1>Check the console log</h1>
+  +   <div class="red-background">RedBackground stuff</div>
+      <script type="module" src="/index.js"></script>
+    </body>
+  ```
 
-- Once we modified the html file, let's start the project
+- Now it's time to check it out! Run the development server:
 
-```bash
-npm start
-```
+  ```bash
+  npm start
+  ```
 
-- Finally, we could check the built files. Run the build script:
+  👍🏼 `vite` supports css out of the box! No need for plugins or configuration.
 
-```bash
-npm run build
-```
+  🔍 Pay attention to the requests made by your browser, a new `mystyles.css` module is now being requested.
+  You can also check `Elements` tab to see how your new styles are injected in the `<head>` tag.
 
-Notice in `dist/index.html` a new `<link>` tag has been created to reference the CSS file:
+- Finally, let's check the production bundle as well. Run the build script like this:
 
-```html
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vite App</title>
-  <script type="module" crossorigin src="/assets/index.5f512ab2.js"></script>
+  ```bash
+  npm run build
+  ```
+
+  🔍 Open file `dist/index.html` and notice how there is a new `<link>` tag created for us to reference the CSS file:
+
+  ```html
   <link rel="stylesheet" href="/assets/index.29b4e7b8.css" />
-</head>
-```
+  ```
 
-Also notice our CSS file has been renamed to `index.<hash>.css` and contents have been minified.
+  🔍 Also notice our CSS file has been renamed to `index.<hash>.css` and its content has been minified.

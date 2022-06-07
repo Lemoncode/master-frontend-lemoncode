@@ -177,7 +177,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
 
   > ⚡ `vite` dev-server automatically reloads the app on every saved change
 
-- Finally, pay attention to the browser `dev tools` to verify the concepts about `vite` we learned in the theory introduction:
+- 🔍 Finally, pay attention to the browser `dev tools` to verify the concepts about `vite` we learned in the theory introduction:
 
   - Go to `Network` tab and refresh (F5) the app to populate the requests panel (if necessary).
   - Check how your browser is dowloading:

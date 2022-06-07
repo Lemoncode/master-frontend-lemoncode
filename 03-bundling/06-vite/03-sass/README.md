@@ -14,72 +14,74 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
 
 ## Steps
 
-- We start from _02-custom-css_. Just copy the project and execute _npm install_
+- We start from `02-custom-css`. Just copy the project and install:
 
-```bash
-npm install
-```
+  ```bash
+  npm install
+  ```
 
-- Let's rename _mystyles.css_ to _mystyles.scss_ and update the content.
+- Let's rename `mystyles.css` to `mystyles.scss` and update the content:
 
-_mystyles.scss_
+  _src/mystyles.scss_
 
-```diff
-+ $blue-color: teal;
+  ```diff
+  + $blue-color: teal;
 
-.red-background {
-- background-color: indianred;
-+ background-color: $blue-color;
-}
-```
+  .red-background {
+  - background-color: indianred;
+  + background-color: $blue-color;
+  }
+  ```
 
-- Let's update _index.js_ to point out the sass file
+- Now remember to update `index.js` to point out our new `sass` file:
 
-_./src/index.js_
+  _src/index.js_
 
-```diff
-- import './mystyles.css';
-+ import './mystyles.scss';
+  ```diff
+  - import './mystyles.css';
+  + import './mystyles.scss';
 
-const user = "John Doe";
-console.log(`Hello ${user}!`);
-```
+  const user = "John Doe";
+  console.log(`Hello ${user}!`);
+  ```
 
-- Let's start the dev server with:
+- Will it work? Let's start the dev server with:
 
-```bash
-npm start
-```
+  ```bash
+  npm start
+  ```
 
-Notice we got an error here:
+  💥 Notice we got an error here:
 
-```
-[vite] Internal server error: Preprocessor dependency "sass" not found. Did you install it?
-  Plugin: vite:css
-```
+  ```cmd
+  [vite] Internal server error: Preprocessor dependency "sass" not found. Did you install it?
+    Plugin: vite:css
+  ```
 
-That means we need to install `sass` into our project. Stop the server and run:
+  👍🏼 In fact is a `vite` reminder to install `sass` preprocessor dependency. We forgot to do it!
 
-```bash
-npm install sass --save-dev
-```
+- Let's go then! Just add `sass` to our project as development dependency. First, stop the server and then run:
 
-Let's start the server again:
+  ```bash
+  npm install sass --save-dev
+  ```
 
-```bash
-npm start
-```
+- Now run the dev server again:
 
-Let's build the project with:
+  ```bash
+  npm start
+  ```
 
-```bash
-npm run build
-```
+- Let's build the project with:
 
-Notice in `dist/assets/index.<hash>.css` the file has been transpiled correctly.
+  ```bash
+  npm run build
+  ```
 
-```css
-.red-background {
-  background-color: teal;
-}
-```
+  🔍 Notice in `dist/assets/index.<hash>.css` the file has been transpiled correctly.
+
+  ```css
+  .red-background {
+    background-color: teal;
+  }
+  ```

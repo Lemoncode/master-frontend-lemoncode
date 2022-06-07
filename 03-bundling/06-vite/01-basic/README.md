@@ -30,7 +30,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
 
 - Let's create a basic `index.js` file **whithin a `src` folder**:
 
-  *src/index.js*
+  _src/index.js_
 
   ```js
   const bundler = "vite";
@@ -40,29 +40,27 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
 
 - Let's create a dummy `index.html` file **at the root folder**:
 
-  *index.html*
+  _index.html_
 
   ```html
   <!DOCTYPE html>
   <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Vite App</title>
+    </head>
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-
-  <body>
-    <h1>Check the console log</h1>
-    <script type="module" src="/src/index.js"></script>
-  </body>
-
+    <body>
+      <h1>Check the console log</h1>
+      <script type="module" src="/src/index.js"></script>
+    </body>
   </html>
   ```
 
 - Now let's add the following command to our `package.json`:
 
-  *package.json*
+  _package.json_
 
   ```diff
     "scripts": {
@@ -99,7 +97,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
 
 - Let's test our **production bundle** by adding this to `package.json`:
 
-  *package.json*
+  _package.json_
 
   ```diff
     "build": "vite build",
@@ -118,11 +116,11 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
   npm run preview -- --port 1234
   ```
 
-   > ⚡ `vite preview` command locally previews your production build (whatever is in `dist` folder)
+  > ⚡ `vite preview` command locally previews your production build (whatever is in `dist` folder)
 
 - Now it's time to access to [http://localhost:4173](http://localhost:4173) and check our **production app running** (check console as well).
 
-  💡 `vite` uses the concept of "root directory" from other web servers like `apache` or `nginx` where `index.html` is at root directory. This could be changed via some options in config file.
+  ⚙ `vite` uses the concept of "root directory" from other web servers like `apache` or `nginx` where `index.html` is at root directory. This could be changed via some options in config file.
 
   👍🏼 One advantage of using `vite` is that it cleans `dist` folder automatically on every production build so we don't need to install extra tools like `rimraf` or setting up `prebuild` hooks.
 
@@ -145,14 +143,14 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
   ```bash
   npm start -- --port 1234
   ```
-  
+
   > ⚡ `vite` command will start the dev server, you can also use `vite dev` or `vite serve` as alternative commands
 
 - We can access to the dev server at [http://localhost:3000](http://localhost:3000). Notice that, to avoid conflicts, it uses a different port than the production server by default.
 
-  💡 The server is started only at `localhost` by default. We could expose our server to the local network by using the `--host` modifier, either in the script:
+  ⚙ The server is started only at `localhost` by default. We could expose our server to the local network by using the `--host` modifier, either in the script:
 
-  *package.json*
+  _package.json_
 
   ```diff
   - "start": "vite",
@@ -168,7 +166,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
 
 - With the dev server running, let's change the `index.js` content to make sure code updates and "hot reloading" is working:
 
-  *src/index.js*
+  _src/index.js_
 
   ```diff
     console.log(`Hello world from ${bundler}!`);
@@ -187,7 +185,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
     - Module `client` which is a `vite` runtime to add an overlay on top of your app to give you error feedback. This module imports another one called `env.mjs` for environment variables.
   - Reload the app again several times (F5). Now check that modules requests are returning `304 Not modified` so `vite` dev server is telling your browser to grab those modules from its cache. No data is transfered over the network apart from the request response. Cache is working for source code!
   - Now make a new modification in `index.js` to trigger a code update and reload:
-    *src/index.js*
+    _src/index.js_
 
     ```diff
     - console.log(`Code updated !!!`);

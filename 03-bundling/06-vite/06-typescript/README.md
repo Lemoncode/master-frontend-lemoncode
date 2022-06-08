@@ -116,7 +116,7 @@ Notice the last `export` line. Our TypeScript configuration has `"isolatedModule
 npm start
 ```
 
-- Now if we introduce a type error, Vite won't complain. Vite uses `esbuild` under the hood and `esbuild` just removes type annotation like babel so we won't have compilation errors. We have to do _tsc_ by our selves,let's got for that:
+- Now if we introduce a type error, Vite won't complain. Vite uses `esbuild` under the hood and `esbuild` just removes type annotation like babel so we won't have compilation errors.
 
 _./src/index.ts_
 
@@ -125,53 +125,68 @@ _./src/index.ts_
 + const numberA: string = 2;
 ```
 
-- Let's install _npm-run-all_ a package that will let us execute to this tasks in parallel from the script command section in our package.json.
+In order get compilation errors we'll need to run `tsc` by ourselves. For the dev-server it would require to install some development tools like `npm-run-all` and extra scripts setup in `package.json`. We'll use a Vite plugin called `vite-esbuild-typescript-checker`.
+
+- Let's install the plugin:
 
 ```bash
-npm install npm-run-all --save-dev
+npm install vite-esbuild-typescript-checker --save-dev
 ```
 
-- Now let's ellaborate a bit more our package section, we will create a new command just to transpile our babel:
+- Let's create a Vite's config file at the root folder called `vite.config.ts`:
 
-```diff
-  "scripts": {
--   "start": "vite",
-+   "start": "run-p -l type-check:watch start:dev",
-+   "start:dev": "vite",
-+   "type-check": "tsc --noEmit",
-+   "type-check:watch": "npm run type-check -- --noEmit --watch",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
+_vite.config.ts_
+
+```ts
+import { defineConfig } from "vite";
+import checker from "vite-plugin-checker";
+
+export default defineConfig({
+  plugins: [checker({ typescript: true })],
+});
 ```
 
-- Now if we start the project, the error will be spotted.
+- Let's start the app with:
 
 ```bash
 npm start
+```
+
+- Notice now we can see compilation errors in console:
+
+```
+ ERROR(TypeScript)  Type 'number' is not assignable to type 'string'.
+ FILE  /project/src/index.ts:4:7
+
+    2 |
+    3 | const numberA: number = 2;
+  > 4 | const numberB: string = 3;
+      |       ^^^^^^^
+    5 |
+    6 | console.log(numberA + numberB);
+    7 |
+
+[TypeScript] Found 1 error. Watching for file changes.
+```
+
+- If we take a look at the browser at [http://localhost:3000](http://localhost:3000) you'll notice the overlay with the compilation error too.
+
+Now, this unfortunately doesn't prevent generating the production bundle. Let's update the `package.json` to run `tsc` before production build:
+
+```diff
+  "scripts": {
+    "start": "vite",
++   "type-check": "tsc --noEmit",
++   "prebuild": "npm run type-check",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
 ```
 
 - Let's do a production build:
 
 ```bash
 npm run build
-```
-
-Notice even if we introduce compilation error the bundling process succeeded. We can impose to not generate the project if TSC fails. Let's update `package.json`:
-
-_./package.json_
-
-```diff
-  "scripts": {
-    "start": "vite",
-    "start": "run-p -l type-check:watch start:dev",
-    "start:dev": "vite",
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --noEmit --watch",
-+   "prebuild": "npm run type-check",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
 ```
 
 - Let's fix the compilation error:

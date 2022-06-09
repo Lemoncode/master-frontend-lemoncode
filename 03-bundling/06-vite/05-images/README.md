@@ -1,8 +1,8 @@
 # Handling images
 
-In this demo we are going to include images in our project in two flavours: via JavaScript and via HTML.
+It's time to handle static assets like images or fonts, as we rely on them for most of the projects out there. In this demo we are going to include images in our project in two flavours: either via JavaScript or HTML.
 
-We start from sample _04-bootstrap_.
+📌 We start from sample `04-bootstrap`.
 
 # Steps to build it
 
@@ -14,97 +14,113 @@ Install [Node.js and npm](https://nodejs.org/en/) (min v8.9) if they are not alr
 
 ## Steps
 
-- We start from _04-bootstrap_. Just copy the project and execute _npm install_
+- We start from `04-bootstrap`. Just copy the project and install:
 
-```bash
-npm install
-```
+  ```bash
+  npm install
+  ```
 
-- Let's run the sample.
+- Let's run the project again:
 
-```bash
-npm start
-```
+  ```bash
+  npm start
+  ```
 
-- We continue by creating a folder named **content** inside the **src** folder, and adding two images there: [`logo_1`](./src/content/logo_1.png) and [`logo_2`](./src/content/logo_2.png).
+- We continue by creating a folder named `content` inside the `src` folder, and adding two images there: [`logo_1`](./src/content/logo_1.png) and [`logo_2`](./src/content/logo_2.png):
 
-- Let's add a div container to place an image.
+  _src/_
 
-_./src/index.html_
+  ```bash
+  COPY src/content/logo_1.png
+  COPY src/content/logo_2.png
+  ```
 
-```diff
-  <h1>Check the console log</h1>
-+ <div id="imgContainer"></div>
-  <div class="card" style="width: 18rem">
-```
+- First flavour: JavaScript. Let's add a div container to place an image.
 
-- Let's jump into _`index.js`_ and import [`logo_1`](./src/content/logo_1.png) using JavaScript. Then, let's place it under a `<div>` with a given `id`:
+  _index.html_
 
-_./src/index.js_
+  ```diff
+    <h1>Check the console log</h1>
+  + <div id="imgContainer"></div>
+    <br />
+    <div class="card" style="width: 18rem">
+  ```
 
-```diff
-+ import "bootstrap/dist/css/bootstrap.css";
-  import "./mystyles.scss";
-  import logoImg from "./content/logo_1.png";
+- Let's jump into `index.js` and import [`logo_1`](./src/content/logo_1.png) using JavaScript. Then, let's place it under a `<div>` with a given `id`:
 
-  const user = "John Doe";
+  _src/index.js_
 
-  console.log(`Hello ${user}!`);
-  console.log("This app is using Vite");
+  ```diff
+    import "./mystyles.scss";
+  + import logoImg from "./content/logo_1.png";
 
-+ const img = document.createElement("img");
-+ img.src = logoImg;
-+
-+ document.getElementById("imgContainer").appendChild(img);
-```
+    const user = "John Doe";
 
-- Let's add styles for the image im our sass file:
+    console.log(`Hello ${user}!`);
+    console.log("This app is using Vite");
 
-_./src/mysyles.scss_
+  + const img = document.createElement("img");
+  + img.src = logoImg;
+  +
+  + document.getElementById("imgContainer").appendChild(img);
+  ```
 
-```diff
-  $blue-color: teal;
+  🔎 Check the result in the browser!
 
-  .red-background {
-    background-color: $blue-color;
-  }
-+
-+ img {
-+   width: 150px;
-+ }
-```
+- Finally, let's add styles for the image in our sass file:
 
-- Now, what if we had already the image referenced inside a HTML `<img>` tag? Let's add [`logo_2.png`](./src/content/logo_2.png) into the index.html file:
+  _src/mysyles.scss_
 
-_./src/index.html_
+  ```diff
+    $blue-color: teal;
 
-```diff
-  <h1>Check the console log</h1>
-  <div id="imgContainer"></div>
-+ <img src="/src/content/logo_2.png" alt="logo lemoncode" />
-  <div class="card" style="width: 18rem">
-```
+    .red-background {
+      background-color: $blue-color;
+    }
+  +
+  + img {
+  +   width: 150px;
+  + }
+  ```
 
-- Let's do a production build:
+  🔎 Check again, image should appear resized.
 
-```bash
-npm run build
-```
+- Now, what if we embedd the second image directly into an HTML `<img>` tag? Let's add [`logo_2.png`](./src/content/logo_2.png) to our `index.html`:
 
-Notice in `dist/index.html` `logo_2.png` path has been updated and file now is hashed:
+  _src/index.html_
 
-```html
-<img src="/assets/logo_2.cce7736d.png" alt="logo lemoncode" />
-```
+  ```diff
+    <h1>Check the console log</h1>
+    <div id="imgContainer"></div>
+  + <img src="/src/content/logo_2.png" alt="logo lemoncode" />
+    <br />
+    <div class="card" style="width: 18rem">
+  ```
 
-Also all images are included in `dist/assets` folder
+  🔎 Check the result, we have a second image now.
 
-```
-dist
-├── assets
-│   ├── index.269d697a.css
-│   ├── index.78986298.js
-│   ├── logo_1.6bb1b83d.png
-│   └── logo_2.cce7736d.png
-└── index.html
-```
+  🔎 Also, check dev tools `Network` tab and see how both `png` assets are downloaded as modules and HTTP cache is applied as well.
+
+- Finally, let's update our **production** build:
+
+  ```bash
+  npm run build
+  ```
+
+  🔎 Check both images are included in `dist/assets` folder and, as the rest of the assets, hashing has been added as a cache busting pattern:
+
+  ```bash
+  dist
+  ├── assets
+  │   ├── index.269d697a.css
+  │   ├── index.78986298.js
+  │   ├── logo_1.6bb1b83d.png
+  │   └── logo_2.cce7736d.png
+  └── index.html
+  ```
+
+  🔎 Also notice in `dist/index.html` how `logo_2.png` source path has been added with its corresponding hash:
+
+  ```html
+  <img src="/assets/logo_2.cce7736d.png" alt="logo lemoncode" />
+  ```

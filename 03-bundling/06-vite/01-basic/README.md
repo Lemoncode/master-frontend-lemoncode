@@ -33,9 +33,9 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
   _src/index.js_
 
   ```js
-  const bundler = "vite";
+  const user = "John Doe";
 
-  console.log(`Hello world from ${bundler}!`);
+  console.log(`Hello ${user}!`);
   ```
 
 - Let's create a dummy `index.html` file **at the root folder**:
@@ -169,8 +169,8 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
   _src/index.js_
 
   ```diff
-    console.log(`Hello world from ${bundler}!`);
-  + console.log('Code updated !!!');
+    console.log(`Hello ${user}!`);
+  + console.log("This app is using Vite");
   ```
 
   Now **save changes** and check console again!
@@ -188,8 +188,8 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
     _src/index.js_
 
     ```diff
-    - console.log(`Code updated !!!`);
-    + console.log('New update to defeat cache !!!');
+    - console.log("This app is using Vite");
+    + console.log("New code update, it will to defeat cache !!!");
     ```
 
   - Check again the last request for `index.js`, now the URL changed, cache busting has been applied and a new hash in the form or query param has been added with the purpose of defeating browser cache and force a download of this modified module. **Status for that request is now 200**.

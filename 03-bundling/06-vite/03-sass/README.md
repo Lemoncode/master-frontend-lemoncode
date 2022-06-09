@@ -42,7 +42,9 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
   + import './mystyles.scss';
 
   const user = "John Doe";
+
   console.log(`Hello ${user}!`);
+  console.log("This app is using Vite");
   ```
 
 - Will it work? Let's start the dev server with:

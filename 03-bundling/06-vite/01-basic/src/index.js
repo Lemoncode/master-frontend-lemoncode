@@ -1,3 +1,4 @@
-const bundler = "vite";
+const user = "John Doe";
 
-console.log(`Hello world from ${bundler}!`);
+console.log(`Hello ${user}!`);
+console.log("This app is using Vite");

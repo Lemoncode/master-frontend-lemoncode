@@ -203,15 +203,25 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
 
   🔎 If we take a look at the browser at [http://localhost:3000](http://localhost:3000) you'll notice the overlay with the compilation error too.
 
-## ⚠ Deprecated
-
-- However, this is just type checking feedback. Unfortunately, it doesn't prevent us from generating the production bundle. You can try it:
+- Production flow relies on `rollup` where TS is also supported out-of-the-box and type check is performed to proceed with a green build. Leave the error in the code and try to build for production:
 
   ```bash
   npm run build
   ```
 
-- But there is something we can do. Let's update the `package.json` to run `tsc` before production build:
+  🔎 Check how we also get error feedback in the console.
+
+- Unfortunately, it doesn't prevent us from generating the production bundle, eventhough the `build` script apparently failed. Actually you can run it with:
+
+  ```bash
+  npm run preview
+  ```
+
+- But there are a couple of alternatives we can do:
+
+### Alternative 1
+
+- Let's update the `package.json` to run `tsc` before production build:
 
   ```diff
     "scripts": {
@@ -240,3 +250,32 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
   ```
 
   🔎 Run now a production build and check how it goes smoothly.
+
+### Alternative 2
+
+- Let's tweak `rollup`, which is run under the hood for bundling in production, and let's configure its typescript plugin to prevent emitting any artifact if transpilation fails. First, install the plugin and a required `tslib` dependency:
+
+  ```bash
+  npm install @rollup/plugin-typescript tslib --save-dev
+  ```
+
+- Then, add the following to `vite` config file:
+
+  _vite.config.ts_
+
+  ```diff
+    import { defineConfig } from "vite";
+    import checker from "vite-plugin-checker";
+  + import typescript from "@rollup/plugin-typescript";
+
+    export default defineConfig({
+      plugins: [checker({ typescript: true })],
+  +   build: {
+  +     rollupOptions: {
+  +       plugins: [typescript({ noEmitOnError: true })],
+  +     },
+  +   },
+    });
+  ```
+
+  🔎 Now try the build with and without errors to see the difference.

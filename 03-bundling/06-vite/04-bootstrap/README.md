@@ -1,8 +1,8 @@
 # Import bootstrap
 
-In this demo we will install and configure parcel to import the well known [Bootstrap](https://getbootstrap.com/) CSS library.
+In this demo, we will install and configure vite to import the well known [Bootstrap](https://getbootstrap.com/) CSS library.
 
-We start from sample _03 SASS_.
+📌 We start from sample `03-sass`.
 
 # Steps to build it
 
@@ -14,83 +14,90 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
 
 ## Steps
 
-- We start from _03-sass_. Just copy the project and execute _npm install_
+- We start from `03-sass`. Just copy the project and install:
 
-```cmd
-npm install
-```
+  ```cmd
+  npm install
+  ```
 
-- Let's install bootstrap
+- Let's install bootstrap dependency:
 
-```bash
-npm install bootstrap --save
-```
+  ```bash
+  npm install bootstrap --save
+  ```
 
-- Let's update our `index.js` to include a link to bootstrap CSS file:
+- And now update our `index.js` to include a link to bootstrap CSS file:
 
-_./index.html_
+  _src/index.js_
 
-```diff
-+ import "bootstrap/dist/css/bootstrap.css";
-  import "./mystyles.scss";
+  ```diff
+  + import "bootstrap/dist/css/bootstrap.css";
+    import "./mystyles.scss";
 
-  const user = "John Doe";
-```
+    const user = "John Doe";
+  ```
 
-- Let's modify our _index.html_ and include some specific bootstrap component.
+- Let's modify our `index.html` and include some specific `bootstrap` component:
 
-```diff
-...
-  <body>
-    <h1>Check the console log</h1>
-+   <div class="card" style="width: 18rem">
-+     <div class="card-body">
-+       <h5 class="card-title">Card title</h5>
-+       <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-+       <a href="#" class="btn btn-primary">Go somewhere</a>
-+     </div>
-+   </div>
-    <div class="red-background">RedBackground stuff</div>
-    <script type="module" src="/src/index.js"></script>
-  </body>
-```
+  _index.html_
 
-- Let's start the project and verify Bootstrap styles work properly.
+  ```diff
+  ...
+  + <body class="m-3">
+      <h1>Check the console log</h1>
+  +   <br/>
+  +   <div class="card" style="width: 18rem">
+  +     <div class="card-body">
+  +       <h5 class="card-title">Card title</h5>
+  +       <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  +       <a href="#" class="btn btn-primary">Go somewhere</a>
+  +     </div>
+  +   </div>
+      <div class="red-background">RedBackground stuff</div>
+      <script type="module" src="/src/index.js"></script>
+    </body>
+  ```
 
-```
-npm start
-```
+- Let's start the project then:
 
-We could also import bootstrap from `index.html`. Let's remove the `import` sentence from `index.js`:
+  ```bash
+  npm start
+  ```
 
-_./src/index.js_
+  🔎 Verify `bootstrap` styles work properly and you see the new component.
 
-```diff
-- import "bootstrap/dist/css/bootstrap.css";
-  import "./mystyles.scss";
+  > Important: we have not added a depencency (in vite context) yet, even if the css is comming from `node_modules` and it won't change frequently. CSS files are not pre-bundled but treated as source modules, unless we adjust under-the-hood `esbuild` options and add a plugin for bundling css. See [this issue](https://github.com/vitejs/vite/issues/7719).
 
-  const user = "John Doe";
-```
+- ⚙ As an alternative, we could also import bootstrap from `index.html`. Let's first remove the `import` clause from `index.js`:
 
-And link the CSS in `index.html`:
+  _src/index.js_
 
-_./index.html_
+  ```diff
+  - import "bootstrap/dist/css/bootstrap.css";
+    import "./mystyles.scss";
 
-```diff
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-+   <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css" />
-    <title>Vite App</title>
-  </head>
-```
+    const user = "John Doe";
+  ```
 
-Check in the browser everything keeps unchanged.
+  And link the library in the `index.html` entrypoint:
+
+  _index.html_
+
+  ```diff
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  +   <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css" />
+      <title>Vite App</title>
+    </head>
+  ```
+
+  🔎 Check in the browser everything keeps unchanged.
 
 - Let's do a production build now:
 
-```bash
-npm run build
-```
+  ```bash
+  npm run build
+  ```
 
-Notice in `dist/assets/index.<hash>.css` Bootstrap's CSS is included.
+  Notice in `dist/assets/index.<hash>.css` Bootstrap's CSS is included.

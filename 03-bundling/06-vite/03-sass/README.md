@@ -72,6 +72,8 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
   npm start
   ```
 
+  🔍 Check the style is modified according to changes.
+
 - Let's build the project with:
 
   ```bash
@@ -85,3 +87,5 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
     background-color: teal;
   }
   ```
+
+  👍🏼 `vite` supports `sass` with not as much hassle.

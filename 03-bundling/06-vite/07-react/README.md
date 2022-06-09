@@ -88,7 +88,7 @@ _./src/index.tsx_
 npm start
 ```
 
-- By default `esbuild` does not makes extra code generation for React components so we'll create our first Vite config file and add a plugin.
+- By default `esbuild` does not makes extra code generation for React components so we'll modify our Vite config file and add a plugin.
 
 - Let's install react plugin
 
@@ -96,13 +96,15 @@ npm start
 npm install @vitejs/plugin-react --save-dev
 ```
 
-- Let's create _./vite.config.ts_
+- Let's modify _./vite.config.ts_
 
-```ts
-import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
+```diff
+  import react from "@vitejs/plugin-react";
+  import { defineConfig } from "vite";
++ import checker from "vite-plugin-checker";
 
-export default defineConfig({
-  plugins: [react()],
-});
+  export default defineConfig({
+-   plugins: [react()],
++   plugins: [checker({ typescript: true }), react()],
+  });
 ```

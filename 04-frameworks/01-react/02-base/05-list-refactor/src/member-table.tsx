@@ -1,6 +1,6 @@
 import React from "react";
 import { MemberEntity } from "./model";
-import { MemberTableRow } from "./member-grid-row";
+import { MemberTableRow } from "./member-table-row";
 
 export const MemberTable = () => {
   const [members, setMembers] = React.useState<MemberEntity[]>([]);

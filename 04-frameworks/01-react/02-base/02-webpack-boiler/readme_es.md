@@ -2,7 +2,7 @@
 
 ## Resumen
 
-En este ejempo hay montado un boiler plate en webpack con soporte a Typescript, justo en el paso previo
+En este ejemplo hay montado un boiler plate en webpack con soporte a Typescript, justo en el paso previo
 a añadirle soporte a React.
 
 Está basado en los ejemplos de Webpack.

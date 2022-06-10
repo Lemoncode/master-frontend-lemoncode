@@ -65,7 +65,7 @@ export const App = () => {
   en la tabla a un componente, esto lo podemos dejar en el mismo fichero o sacarlo
   a un fichero aparte, vamos a ello:
 
-_./src/member-grid-row.tsx_
+_./src/member-table-row.tsx_
 
 ```tsx
 import React from "react";
@@ -98,7 +98,7 @@ _./src/app.tsx_
 ```diff
 import React from "react";
 import { MemberEntity } from './model';
-+ import { MemberTableRow} from './member-grid-row';
++ import { MemberTableRow } from './member-table-row';
 ```
 
 ```diff
@@ -131,7 +131,7 @@ _./src/member-table.tsx_
 ```tsx
 import React from "react";
 import { MemberEntity } from "./model";
-import { MemberTableRow } from "./member-grid-row";
+import { MemberTableRow } from "./member-table-row";
 
 export const MemberTable = () => {
   const [members, setMembers] = React.useState<MemberEntity[]>([]);

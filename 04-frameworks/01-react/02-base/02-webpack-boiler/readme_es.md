@@ -8,7 +8,7 @@ a añadirle soporte a React.
 Está basado en los ejemplos de Webpack.
 
 Este ejemplo es el único que no tiene un paso a paso (si necesitas guía puedes ir a los ejemplos
-de webpack que econtrarás en este repositorio).
+de webpack que encontrarás en este repositorio).
 
 A destacar:
 

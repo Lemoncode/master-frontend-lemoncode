@@ -1,187 +1,28 @@
-# Ejercicio
+# Resumen
 
-Vamos a refactorizar este layout, en vez de usar tablas, vamos a usar CSS-Grid.
+Ahora es tu turno de mojarte las manos codificando :)
 
-A tener en cuenta:
+# Desafíos
 
-Parte de la carpeta _06-list-refactor_.
+# Ejercicio A
 
-Podemos usar estilos, lo tenemos preconfigurado en webpack y el fichero del que puedes tirar para añadirlos es _styles.css_.
+- El componente memberTable era una cosa genial, y contiene
+  la cabecera y el subcomponente member Item, ¿podrías crear
+  un subcomponente para la cabecera (jugaremos con esto de tener
+  el componente en el mismo archivo o en uno separado).
 
-Como usar estilos en react:
+# Ejercicio B
 
-Por ejemplo tenemos en _styles.css_ la siguiente clase:
+- Queremos en el CSS grid un enlace al perfil de Github de cada
+  miembro:
 
-```css
-.my-text {
-  color: blue;
-}
-```
+  - Puedes extraer la información de: https://api.github.com/orgs/lemoncode/members
 
-En el JSX debemos usar el atributo _className_ (_class_ es una palabra reservada de XML),
-con lo que sería algo así como:
+  - Recuerda crear un elemento HTML _anchor_.
 
-```diff
-export const App = () => {
-  return (
-    <>
-+      <h1 className="my-text">prueba</h1>
-      <MemberTable />
-    </>
-  );
-};
-```
+Pistas ¿ Qué tienes que tocar?
 
-¿Qué pasa si queremos añadir más de un estilo?
-
-por ejemplo en nuestro CSS tenemos, otra clase
-
-```css
-.my-font {
-  font-family: sans-serif;
-}
-```
-
-Como quedaría el componente:
-
-```diff
-export const App = () => {
-  return (
-    <>
--      <h1 className="my-text">prueba</h1>
-+      <h1 className="my-text my-font">prueba</h1>
-      <MemberTable />
-    </>
-  );
-};
-```
-
-Más info: https://es.reactjs.org/docs/faq-styling.html
-
-Y cuando terminos, ¿Te animas a hacer una media query para adaptar
-el layout a movil (todo en una columna).
-
-# Pistas
-
-Pasos:
-
-- Pongamos en el body una fuente sans-serif para que se vea mejor.
-- Crear un contenedor de grid en styles.
-- Definir 3 columnas.
-- Definir un autorow.
-- Definir la primer fila en una fuente bold o lo que sea.
-- Añadir el estilo para el resto de filas en las que ponemos foto, id y nombre.
-
-Vamos a cambiar la fuente
-
-_./src/styles_
-
-```css
-body {
-  font-family: sans-serif;
-}
-```
-
-Vamos a crear un contenedor de css grid en styles:
-
-_./src/styles_
-
-```css
-body {
-  font-family: sans-serif;
-}
-
-.my-text {
-  color: blue;
-}
-
-.grid-container {
-  display: grid;
-  overflow: auto;
-  grid-template-columns: 1fr 1fr 2fr;
-  grid-template-rows: auto;
-}
-```
-
-Vamos a probar a sacar la cabecera a esta css grid (se verá doble):
-
-_./src/member-table.tsx_
-
-```diff
-+ <>
-+   <div class="grid-container">
-+     <div>Avatar</div>
-+     <div>Id</div>
-+     <div>Name</div>
-+   </div>
-    <table className="table">
-      <thead>
-        <tr>
-          <th>Avatar</th>
-          <th>Id</th>
-          <th>Name</th>
-        </tr>
-      </thead>
-      <tbody>
-        {members.map((member) => (
-          <MemberTableRow member={member} />
-        ))}
-      </tbody>
-    </table>
-+ </>
-```
-
-- Vamos a crearnos un componente: _member-grid-row_
-
-_./member-grid-row.tsx_
-
-```tsx
-import React from "react";
-import { MemberEntity } from "./model";
-
-interface Props {
-  member: MemberEntity;
-}
-
-export const MemberGridRow: React.FC<Props> = (props) => {
-  const { member } = props;
-
-  return (
-    <>
-      <div>
-        <img src={member.avatar_url} style={{ width: "5rem" }} />
-      </div>
-      <div>
-        <span>{member.id}</span>
-      </div>
-      <div>
-        <span>{member.login}</span>
-      </div>
-    </>
-  );
-};
-```
-
-Y le damos uso en _member-table_
-
-```diff
-import { MemberTableRow } from "./member-table-row";
-import { MemberGridRow } from "./member-grid-row";
-
-// (...)
-
-  return (
-    <>
-      <div className="grid-container">
-        <div className="header-foto">Avatar</div>
-        <div className="header-id ">Id</div>
-        <div className="header-nombre">Name</div>
-        {members.map((member) => (
-          <MemberGridRow key={member.id} member={member} />
-        ))}
-      </div>
-```
-
-Ya podemos borrar el código de member table y el del subcomponente de table row.
-
-Y como haríamos
+1. Actualiza el modelo y añade el campo de perfil
+2. Actualiza el componente member-grid-row, añade una columna más
+3. En esa columna muestra el nuevo campo y metelo
+   dentro de un anchor (un enlace de html)

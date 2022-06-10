@@ -38,7 +38,7 @@ https://api.github.com/orgs/lemoncode/members
 
 - Vamos a crear un set de datos parecido que mueste dos miembros de una organización.
 
-_./src/app.js_
+_./src/app.tsx_
 
 ```diff
 import React from "react";
@@ -64,7 +64,7 @@ export const App = () => {
 - Ahora que tenemos los datos, vamos a añadirle estado a nuestro componente
   y cargarle estos datos por defecto.
 
-_./src/app.js_
+_./src/app.tsx_
 
 ```diff
 export const App = () => {
@@ -74,10 +74,10 @@ export const App = () => {
 };
 ```
 
-- Ya tenemos los datos en nuestro estado, vamos a mostrar el primero elemento
-  y vemos si el nombre que aparee por pantalla es _antonio06_:
+- Ya tenemos los datos en nuestro estado, vamos a mostrar el primer elemento
+  y vemos si el nombre que aparece por pantalla es _antonio06_:
 
-_./src/app.js_
+_./src/app.tsx_
 
 ```diff
 export const App = () => {
@@ -98,7 +98,7 @@ npm start
 - Esto no esta mal, pero igual la lista no trae elementos, que igual puede traer 5, ¿Cómo iterar por los
   elementos de la lista? Usando _map_ de ES6.
 
-_./src/app.js_
+_./src/app.tsx_
 
 ```diff
 export const App = () => {
@@ -125,7 +125,39 @@ a tener en cuenta:
 
 - Ahora que vemos que funciona vamos a encajar esto en un tabla:
 
-_./src/app.js_
+- Ahora que vemos que funciona vamos a encajar esto en un _grid_, vamos a definir algunos estilos gobales
+  (revisa [Ejemplo de módulos CSS](https://github.com/Lemoncode/master-frontend-lemoncode/tree/master/03-bundling/01-webpack/12-css-modules), para aprender a configurar el CSS aislado de los componentes).
+
+_./src/styles.css_
+
+```css
+body {
+  font-family: Sans-Serif;
+}
+
+.user-list-container {
+  display: grid;
+  grid-template-columns: 80px 1fr 3fr;
+  grid-template-rows: 20px;
+  grid-auto-rows: 80px;
+  grid-gap: 10px 5px;
+  max-width: 40vw;
+}
+
+.header {
+  background-color: #2f4858;
+  color: white;
+  font-weight: bold;
+}
+
+.user-list-container > img {
+  width: 80px;
+}
+```
+
+- Y vamos a integrarlo en el componente de nuestra aplicación:
+
+_./src/app.tsx_
 
 ```diff
 export const App = () => {
@@ -133,42 +165,22 @@ export const App = () => {
 
 -  return members.map((member) => <span key={member.id}>{member.login}</span>);
 +  return (
-+          <table className="table">
-+            <thead>
-+                <tr>
-+                    <th>
-+                        Avatar
-+                    </th>
-+                    <th>
-+                        Id
-+                    </th>
-+                    <th>
-+                        Name
-+                    </th>
-+                </tr>
-+            </thead>
-+            <tbody>
-+           {members.map((member) => (
-+              <tr>
-+                <td>
-+                  <img src={member.avatar_url} style ={{width: '5rem'}}/>
-+                </td>
-+                <td>
-+                  <span>{member.id}</span>
-+                </td>
-+                <td>
-+                  <span>{member.login}</span>
-+                </td>
-+              </tr>
-+          ))}
-+        </tbody>
-+      </table>
++    <div className="user-list-container">
++      <span className="header">Avatar</span>
++      <span className="header">Id</span>
++      <span className="header">Name</span>
++      {members.map((member) => (
++        <>
++          <img src={member.avatar_url} />
++          <span>{member.id}</span>
++          <span>{member.login}</span>
++        </>
++      ))}
++    </div>
 +  )
-};
 ```
 
-Fijaros aquí hemos creado una tabla, con su cabecera y iterado por todo los elementos de la colección
-creando una fila en la tabla por cada elemento de la fila.
+Así que hemos creado aquí un contenedor CSS Grid añadimos la cabecera y un bucle de todos los elementos de la lista de usuarios.
 
 - Hasta aquí muy bien pero... yo quiero tirar de la API de Github no de datos mockeados, vamos a empezar
   por eliminar los datos mock e inicializar el estado de nuestro componente a un array vacio:

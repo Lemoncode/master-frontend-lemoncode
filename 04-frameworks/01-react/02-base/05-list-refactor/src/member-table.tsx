@@ -1,6 +1,6 @@
 import React from "react";
 import { MemberEntity } from "./model";
-import { MemberTableRow } from "./member-table-row";
+import { MemberTableRow } from "./member-grid-row";
 
 export const MemberTable = () => {
   const [members, setMembers] = React.useState<MemberEntity[]>([]);
@@ -12,19 +12,13 @@ export const MemberTable = () => {
   }, []);
 
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>Avatar</th>
-          <th>Id</th>
-          <th>Name</th>
-        </tr>
-      </thead>
-      <tbody>
-        {members.map((member) => (
-          <MemberTableRow member={member} />
-        ))}
-      </tbody>
-    </table>
+    <div className="user-list-container">
+      <span className="header">Avatar</span>
+      <span className="header">Id</span>
+      <span className="header">Name</span>
+      {members.map((member) => (
+        <MemberTableRow key={member.id} member={member} />
+      ))}
+    </div>
   );
 };

@@ -10,29 +10,17 @@ export const App = () => {
   }, []);
 
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>Avatar</th>
-          <th>Id</th>
-          <th>Name</th>
-        </tr>
-      </thead>
-      <tbody>
-        {members.map((member) => (
-          <tr>
-            <td>
-              <img src={member.avatar_url} style={{ width: "5rem" }} />
-            </td>
-            <td>
-              <span>{member.id}</span>
-            </td>
-            <td>
-              <span>{member.login}</span>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="user-list-container">
+      <span className="header">Avatar</span>
+      <span className="header">Id</span>
+      <span className="header">Name</span>
+      {members.map((member) => (
+        <>
+          <img src={member.avatar_url} />
+          <span>{member.id}</span>
+          <span>{member.login}</span>
+        </>
+      ))}
+    </div>
   );
 };

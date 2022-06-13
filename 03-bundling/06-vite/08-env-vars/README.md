@@ -1,8 +1,10 @@
 # Environment variables
 
-Let's check how we can use environment variables in Vite.
+In this example, we are going to support the use of environment variables for our application using `vite`.
 
-📌 We start from sample `05-images`.
+📌 We start from sample `07-react`.
+
+# Steps to build it
 
 ## Prerequisites
 
@@ -12,117 +14,124 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
 
 ## Steps
 
-- We start from _07-react. Just copy the project and execute \_npm install_
+- We start from `07-react`. Just copy the project and install:
 
-```bash
-npm install
-```
+  ```bash
+  npm install
+  ```
 
-Vite uses `dotenv` under the hood for loading environment variables, like Parcel, but we can only load variables starting with `VITE_`. Other variables won't be replaced. This constraint prevents for accidentally replacing unwated system environment variables (e.g., `USER`, `PATH`, `HOME` on some unix systems). Let's create our _.env_ file.
+- Let's create our `.env` file:
 
-_.env_
+  _.env_
 
-```ini
-VITE_API_BASE=http://localhost:8080
-```
+  ```ini
+  VITE_API_BASE=http://localhost:8080
+  ```
+
+  ⚡ `vite` uses `dotenv` under the hood for loading environment variables, like `parcel`, but we can only load variables starting with `VITE_` prefix. Other variables won't be replaced. This constraint prevents for accidentally replacing unwated system environment variables (e.g., `USER`, `PATH`, `HOME` on some unix systems).
 
 - Let's modify our `HelloComponent` to display the environment value:
 
-_./src/hello.tsx_
+  _src/hello.tsx_
 
-```diff
-  export const HelloComponent: FC = () => {
--   return <h2>Hello from React</h2>;
-+   return (
-+     <>
-+       <h2>Hello from React</h2>
-+       <p>Api server is {import.meta.env.VITE_API_BASE}</p>
-+     </>
-+   );
-  };
-```
+  ```diff
+    export const HelloComponent: FC = () => {
+  -   return <h2>Hello from React</h2>;
+  +   return (
+  +     <>
+  +       <h2>Hello from React</h2>
+  +       <p>Api server is {import.meta.env.VITE_API_BASE}</p>
+  +     </>
+  +   );
+    };
+  ```
 
-Let's start the project with
+- Now start the project with:
 
-```bash
-npm start
-```
+  ```bash
+  npm start
+  ```
 
-If you navigate to [http://localhost:3000](http://localhost:3000) you'll see the value has been interpolated.
+  🔎 Navigate to [http://localhost:3000](http://localhost:3000) and you'll see the value has been interpolated.
 
-But also notice we have a compilation error here. TypeScript doesn't know about `env` object in `import.meta`. In order to tell TypeScript the existence of this object
-we'll import Vite's definition types to our project.
+  💥 However, notice we have a compilation error here. TypeScript doesn't know about `env` object in `import.meta`, neither any of the variables whithin `env`. In order to tell TypeScript the existence of this object and its variables, we should add `vite` definition types to our project.
 
-- First let's create the typings file _./src/vite-env.d.ts_
+- First, let's create the typings file `src/vite-env.d.ts`:
 
-_./src/vite-env.d.ts_
+  _src/vite-env.d.ts_
 
-```ts
-/// <reference types="vite/client" />
-```
-
-When we save the file now the error is gone.
-
-We could even improve what variables are available in environment if we extend Vite's typings. Let's modify `_./src/vite-env.d.ts`:
-
-```diff
+  ```ts
   /// <reference types="vite/client" />
-+
-+ // We'll add here our environment variables. Remember all have string values.
-+ interface ImportMetaEnv {
-+   readonly VITE_API_BASE: string;
-+ }
-```
+  ```
 
-One important thing to note here is all variables are **strings**. If you need some variables as `boolean` or `number` you may prefer to create your own `environment.ts` or `config.ts` to pre-process and parse them.
+  🔎 Save the file and check the error is gone!
 
-- Let's add another variable to our _.env_ file:
+  🔎 Also check intellisense through `import.meta.env` to discover a few out-of-the-box variables ready to be consumed.
 
-_.env_
+- We could further improve this typing by indicating what variables are available whithin the `env` object if we extend `vite` typings. Let's modify `src/vite-env.d.ts` like this:
 
-```diff
-  VITE_API_BASE=http://localhost:8080
-+ VITE_ENABLE_FEATURE_A=true
-```
+  _src/vite-env.d.ts_
 
-- Let's also add it in _./src/vite-env.d.ts_ file:
+  ```diff
+    /// <reference types="vite/client" />
+  +
+  + // We'll add here our environment variables. Remember all have string values.
+  + interface ImportMetaEnv {
+  +   readonly VITE_API_BASE: string;
+  + }
+  ```
 
-_src/vite-env.d.ts_
+  ⚡ One important thing to note here is that all variables are **strings**. If you need some variables as `boolean` or `number` you may prefer to create your own `environment.ts` or `config.ts` to pre-process and parse them.
 
-```diff
-  interface ImportMetaEnv {
-    readonly VITE_API_BASE: string
-+   readonly VITE_ENABLE_FEATURE_A: string;
-  }
-```
+- Let's add another variable to our `.env` file:
 
-- Let's create _./src/env-config.ts_ with next content:
+  _.env_
 
-```ts
-const config = {
-  API_BASE: import.meta.env.VITE_API_BASE,
-  IS_FEATURE_A_ENABLED: import.meta.env.VITE_ENABLE_FEATURE_A === "true",
-} as const;
+  ```diff
+    VITE_API_BASE=http://localhost:8080
+  + VITE_ENABLE_FEATURE_A=true
+  ```
 
-export default config;
-```
+- Let's also add it in `src/vite-env.d.ts` file:
 
-> Note: We're typed `config` as `const` to be a constant object with read-only keys to avoid accidental rewrite.
+  _src/vite-env.d.ts_
 
-- Let's update our `HelloComponent` to use our new `config` object:
+  ```diff
+    interface ImportMetaEnv {
+      readonly VITE_API_BASE: string
+  +   readonly VITE_ENABLE_FEATURE_A: string;
+    }
+  ```
 
-```diff
-  import { FC } from "react";
-+ import config from "./env-config";
+- Now let's create an `src/env-config.ts` file with the following content to properly handle environment variables:
 
-  export const HelloComponent: FC = () => {
-    return (
-      <>
-        <h2>Hello from React</h2>
--       <p>Api server is {import.meta.env.VITE_API_BASE}</p>
-+       <p>Api server is {config.API_BASE}</p>
-+       <p>Feature A is {config.IS_FEATURE_A_ENABLED ? "enabled" : "disabled"}</p>
-      </>
-    );
-  };
-```
+  _src/env-config.ts_
+
+  ```ts
+  const config = {
+    API_BASE: import.meta.env.VITE_API_BASE,
+    IS_FEATURE_A_ENABLED: import.meta.env.VITE_ENABLE_FEATURE_A === "true",
+  } as const;
+
+  export default config;
+  ```
+
+  > Note: ⚠ We've typed `config` as `const` to be a constant object with read-only keys to avoid accidental rewrite.
+
+- Finally, let's update our `HelloComponent` to use our new `config` object:
+
+  ```diff
+    import { FC } from "react";
+  + import config from "./env-config";
+
+    export const HelloComponent: FC = () => {
+      return (
+        <>
+          <h2>Hello from React</h2>
+  -       <p>Api server is {import.meta.env.VITE_API_BASE}</p>
+  +       <p>Api server is {config.API_BASE}</p>
+  +       <p>Feature A is {config.IS_FEATURE_A_ENABLED ? "enabled" : "disabled"}</p>
+        </>
+      );
+    };
+  ```

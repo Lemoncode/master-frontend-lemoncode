@@ -45,8 +45,6 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
   ...
   + <body class="m-3">
       <h1>Check the console log</h1>
-
-  +   <br />
   +   <div class="card" style="width: 18rem">
   +     <div class="card-body">
   +       <h5 class="card-title">Card title</h5>

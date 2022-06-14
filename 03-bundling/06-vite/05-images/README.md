@@ -42,7 +42,6 @@ Install [Node.js and npm](https://nodejs.org/en/) (min v8.9) if they are not alr
   ```diff
     <h1>Check the console log</h1>
   + <div id="imgContainer"></div>
-    <br />
     <div class="card" style="width: 18rem">
   ```
 
@@ -93,7 +92,6 @@ Install [Node.js and npm](https://nodejs.org/en/) (min v8.9) if they are not alr
     <h1>Check the console log</h1>
     <div id="imgContainer"></div>
   + <img src="/src/content/logo_2.png" alt="logo lemoncode" />
-    <br />
     <div class="card" style="width: 18rem">
   ```
 

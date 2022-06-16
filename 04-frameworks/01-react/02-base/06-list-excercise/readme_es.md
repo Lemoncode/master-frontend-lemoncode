@@ -13,8 +13,7 @@ Ahora es tu turno de mojarte las manos codificando :)
 
 # Ejercicio B
 
-- Queremos en el CSS grid un enlace al perfil de Github de cada
-  miembro:
+- Queremos en cada fila de la tabla un enlace al perfil de Github del miembro que representa la fila:
 
   - Puedes extraer la información de: https://api.github.com/orgs/lemoncode/members
 

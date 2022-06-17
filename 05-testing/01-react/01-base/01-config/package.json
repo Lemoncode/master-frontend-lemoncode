@@ -11,7 +11,7 @@
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
     "clean": "rimraf dist",
-    "test": "jest -c ./config/test/jest.js --verbose",
+    "test": "jest -c ./config/test/jest.js",
     "test:watch": "npm run test -- --watchAll -i"
   },
   "author": "Lemoncode",
@@ -38,7 +38,6 @@
     "npm-run-all": "^4.1.5",
     "react-refresh": "^0.14.0",
     "rimraf": "^3.0.2",
-    "ts-jest": "^28.0.5",
     "typescript": "^4.7.3",
     "url-loader": "^4.1.1",
     "webpack": "^5.73.0",

@@ -28,9 +28,12 @@ npm install
 - [ts-jest](https://github.com/kulshekhar/ts-jest): A preprocessor with sourcemap support to help use TypeScript with Jest.
 
 ```bash
-npm install jest @types/jest ts-jest --save-dev
+npm install jest @types/jest --save-dev
 ```
 
+> If we are using `@babel/preset-typescript` it
+> Optionally you could install `ts-jest`
+> [Official docs](https://jestjs.io/docs/getting-started)
 > NOTE: [Since jest v26.x it drops support for Node 8](https://github.com/facebook/jest/releases/tag/v26.0.0)
 
 # Config
@@ -66,22 +69,6 @@ npm install jest @types/jest ts-jest --save-dev
   ...
 }
 ```
-
-- [ts-jest basic configuration](https://kulshekhar.github.io/ts-jest/docs/getting-started/presets#basic-usage):
-
-### ./package.json
-
-```diff
-{
-    ...
-- }
-+ },
-+ "jest": {
-+   "preset": "ts-jest"
-+ }
-```
-
-> [Jest configuration options](https://facebook.github.io/jest/docs/en/configuration.html#options)
 
 # Dummy spec
 
@@ -136,43 +123,22 @@ describe('dummy specs', () => {
 
 # External config
 
-- One step over, we could be moved jest config outside `package.json` to improve maintainability.
+We could create a jest config outside `package.json` to improve maintainability.
+
+> [Jest configuration options](https://facebook.github.io/jest/docs/en/configuration.html#options)
 
 - Move config to `config/test/jest.js` file:
-
-### ./package.json
-
-```diff
-...
-- },
-+ }
-- "jest": {
--   "preset": "ts-jest"
-- }
-}
-
-```
 
 ### ./config/test/jest.js
 
 ```js
 module.exports = {
-  preset: 'ts-jest',
+  rootDir: '../../',
+  verbose: true,
 };
 ```
-
-- We only need a detail to keep working with this Jest config, we need to use `rootDir`:
-
-### ./config/test/jest.js
-
-```diff
-module.exports = {
-+ rootDir: '../../',
-  preset: 'ts-jest',
-};
-
-
-```
+> Check `verbose: false` to see differences
+> We will add some configuration in next examples when needed
 
 - And use that file:
 
@@ -184,7 +150,7 @@ module.exports = {
   "scripts": {
     ...
 -   "test": "jest --verbose",
-+   "test": "jest -c ./config/test/jest.js --verbose",
++   "test": "jest -c ./config/test/jest.js",
     "test:watch": "npm run test -- --watchAll -i"
   },
   ...

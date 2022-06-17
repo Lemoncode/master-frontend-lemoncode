@@ -300,7 +300,7 @@ Instead of use `restoreAllMocks` on each spec file, we could configure it global
 ```diff
 module.exports = {
   rootDir: '../../',
-  preset: 'ts-jest',
+  verbose: true,
 + restoreMocks: true,
 };
 

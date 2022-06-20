@@ -1,5 +1,5 @@
 module.exports = {
   rootDir: '../../',
-  preset: 'ts-jest',
+  verbose: true,
   restoreMocks: true,
 };

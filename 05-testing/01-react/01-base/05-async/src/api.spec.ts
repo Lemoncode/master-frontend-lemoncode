@@ -19,7 +19,6 @@ describe('api specs', () => {
 
     // Act
     const result = await getMembers();
-
     // Assert
     expect(getStub).toHaveBeenCalledWith(
       'https://api.github.com/orgs/lemoncode/members'

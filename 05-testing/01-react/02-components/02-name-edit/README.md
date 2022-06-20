@@ -89,7 +89,7 @@ describe('NameEdit component specs', () => {
 ```
 
 > It fails because it found multiple elements
-> We could try `getAllByText` too.
+> We could try `getAllByText` too but we should follow the priority
 
 - Let's use `byRole`:
 
@@ -109,7 +109,7 @@ describe('NameEdit component specs', () => {
 
 -   const h3Element = screen.getByText('');
 +   const h3Element = screen.getByRole('heading', { level: 3 });
-+   const inputElement = screen.getByRole('textbox', { name: '' });
++   const inputElement = screen.getByRole('textbox');
 
     // Assert
 +   expect(h3Element).toBeInTheDocument();
@@ -134,22 +134,20 @@ import { render, screen } from '@testing-library/react';
 import { NameEdit } from './name-edit';
 
 ...
-+ it('should update h3 text when input changes', () => {
++ it('should update h3 text when input changes', async () => {
 +   // Arrange
 
 +   // Act
 +   render(<NameEdit />);
 
-+   const h3Element = screen.getByRole('heading', { name: '' });
-+   const inputElement = screen.getByRole('textbox', {
-+     name: '',
-+   }) as HTMLInputElement;
++   const inputElement = screen.getByRole('textbox') as HTMLInputElement;
 
-+   userEvent.type(inputElement, 'John');
++   await userEvent.type(inputElement, 'John');
++   const h3Element = screen.getByRole('heading', { level: 3 });
 
 +   // Assert
-+   expect(h3Element.textContent).toEqual('John');
 +   expect(inputElement.value).toEqual('John');
++   expect(h3Element.textContent).toEqual('John');
 + });
 
 ```

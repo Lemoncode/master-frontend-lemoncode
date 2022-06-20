@@ -3,38 +3,20 @@ import * as viewModel from './view-model';
 import { mapMemberListFromApiToVm } from './mapper';
 
 describe('mapper specs', () => {
-  it('should return empty array when it feeds undefined', () => {
-    // Arrange
-    const members: apiModel.Member[] = undefined;
+  it.each<apiModel.Member[]>([undefined, null, []])(
+    'should return empty array when it feeds members equals %p',
+    (members: any) => {
+      // Arrange
 
-    // Act
-    const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
+      // Act
+      const result: viewModel.Member[] = mapMemberListFromApiToVm(
+        members as apiModel.Member[]
+      );
 
-    // Assert
-    expect(result).toEqual([]);
-  });
-
-  it('should return empty array when it feeds null', () => {
-    // Arrange
-    const members: apiModel.Member[] = null;
-
-    // Act
-    const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
-
-    // Assert
-    expect(result).toEqual([]);
-  });
-
-  it('should return empty array when it feeds empty array', () => {
-    // Arrange
-    const members: apiModel.Member[] = [];
-
-    // Act
-    const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
-
-    // Assert
-    expect(result).toEqual([]);
-  });
+      // Assert
+      expect(result).toEqual([]);
+    }
+  );
 
   it('should return array one mapped item when it feed array with one item', () => {
     // Arrange

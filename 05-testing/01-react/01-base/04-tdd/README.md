@@ -294,27 +294,67 @@ export const mapMemberListFromApiToVm = (
 
 ```
 
-- It's time to use it:
+- Another tool provided by jest is the [each](https://jestjs.io/docs/api#testeachtablename-fn-timeout) method.
 
-### ./src/app.tsx
+> We could have some issues typing arrays.
+> That's why the `any` casting
+
+### ./src/mapper.spec.ts
 
 ```diff
-import * as React from 'react';
-import { getMembers } from './api';
-+ import { mapMemberListFromApiToVm } from './mapper';
+...
 
-export const App: React.FunctionComponent = () => {
-  React.useEffect(() => {
-    getMembers().then(members => {
--     console.log(members);
-+     console.log(mapMemberListFromApiToVm(members));
-    });
-  });
+describe('mapper specs', () => {
++ it.each<apiModel.Member[]>([undefined, null, []])(
++   'should return empty array when it feeds members equals %p',
++   (members: any) => {
++     // Arrange
 
-  return <h1>React testing by sample</h1>;
-};
++     // Act
++     const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
+
++     // Assert
++     expect(result).toEqual([]);
++   }
++ );
+
+- it('should return empty array when it feeds undefined', () => {
+-   // Arrange
+-   const members: apiModel.Member[] = undefined;
+
+-   // Act
+-   const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
+
+-   // Assert
+-   expect(result).toEqual([]);
+- });
+
+- it('should return empty array when it feeds null', () => {
+-   // Arrange
+-   const members: apiModel.Member[] = null;
+
+-   // Act
+-   const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
+
+-   // Assert
+-   expect(result).toEqual([]);
+- });
+
+- it('should return empty array when it feeds empty array', () => {
+-   // Arrange
+-   const members: apiModel.Member[] = [];
+
+-   // Act
+-   const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
+
+-   // Assert
+-   expect(result).toEqual([]);
+- });
+
+...
 
 ```
+
 
 # About Basefactor + Lemoncode
 

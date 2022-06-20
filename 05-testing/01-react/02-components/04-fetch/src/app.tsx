@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { NameEdit } from './name-edit';
 import { NameCollection } from './name-collection';
 

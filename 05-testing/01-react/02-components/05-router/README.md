@@ -188,7 +188,7 @@ import { NameCollection } from './name-collection';
 +   const links = await screen.findAllByRole('link');
 
 +   const secondUser = links[1];
-+   userEvent.click(secondUser);
++   await userEvent.click(secondUser);
 
 +   const userEditElement = screen.getByRole('heading', {
 +     name: 'User name: Jane Doe',
@@ -211,7 +211,7 @@ import { NameCollection } from './name-collection';
 +   screen.debug()
 
     const secondUser = links[1];
-    userEvent.click(secondUser);
+    await userEvent.click(secondUser);
 
 +   screen.debug()
 

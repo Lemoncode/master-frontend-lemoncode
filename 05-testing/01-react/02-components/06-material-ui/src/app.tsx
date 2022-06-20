@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Router } from './router';
 import { CookiesDialog } from './cookies-dialog';
 

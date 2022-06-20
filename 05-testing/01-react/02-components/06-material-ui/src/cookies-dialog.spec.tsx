@@ -21,7 +21,7 @@ describe('CookiesDialog component specs', () => {
     expect(buttonElement).toBeInTheDocument();
   });
 
-  it('should open dialog when click on "Learn more about our cookies" button', () => {
+  it('should open dialog when click on "Learn more about our cookies" button', async () => {
     // Arrange
     const props = {
       onAgreeClick: () => {},
@@ -33,7 +33,7 @@ describe('CookiesDialog component specs', () => {
     const buttonElement = screen.getByRole('button', {
       name: /learn more about our cookies/i,
     });
-    userEvent.click(buttonElement);
+    await userEvent.click(buttonElement);
 
     const dialogElement = screen.getByRole('dialog');
 
@@ -41,7 +41,7 @@ describe('CookiesDialog component specs', () => {
     expect(dialogElement).toBeInTheDocument();
   });
 
-  it('should call onAgreeClick when it clicks on "Agree" button', () => {
+  it('should call onAgreeClick when it clicks on "Agree" button', async () => {
     // Arrange
     const props = {
       onAgreeClick: jest.fn(),
@@ -52,12 +52,12 @@ describe('CookiesDialog component specs', () => {
 
     // The only button available at this moment
     const buttonElement = screen.getByRole('button');
-    userEvent.click(buttonElement);
+    await userEvent.click(buttonElement);
 
     const dialogElement = screen.getByRole('dialog');
 
     const agreeButtonElement = within(dialogElement).getByRole('button');
-    userEvent.click(agreeButtonElement);
+    await userEvent.click(agreeButtonElement);
 
     // Assert
     expect(props.onAgreeClick).toHaveBeenCalled();

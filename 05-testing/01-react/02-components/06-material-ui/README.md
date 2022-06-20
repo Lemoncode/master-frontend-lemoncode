@@ -148,7 +148,7 @@ describe('CookiesDialog component specs', () => {
 ```diff
 ...
 
-+ it('should open dialog when click on "Learn more about our cookies" button', () => {
++ it('should open dialog when click on "Learn more about our cookies" button', async () => {
 +   // Arrange
 +   const props = {
 +     onAgreeClick: () => {},
@@ -160,7 +160,7 @@ describe('CookiesDialog component specs', () => {
 +   const buttonElement = screen.getByRole('button', {
 +     name: /learn more about our cookies/i,
 +   });
-+   userEvent.click(buttonElement);
++   await userEvent.click(buttonElement);
 
 +   const dialogElement = screen.getByRole('dialog');
 
@@ -177,7 +177,7 @@ describe('CookiesDialog component specs', () => {
 ```diff
 ...
 
-+ it('should call onAgreeClick when it clicks on "Agree" button', () => {
++ it('should call onAgreeClick when it clicks on "Agree" button', async () => {
 +   // Arrange
 +   const props = {
 +     onAgreeClick: jest.fn(),
@@ -189,10 +189,10 @@ describe('CookiesDialog component specs', () => {
 +   const buttonElement = screen.getByRole('button', {
 +     name: /learn more about our cookies/i,
 +   });
-+   userEvent.click(buttonElement);
++   await userEvent.click(buttonElement);
 
 +   const agreeButtonElement = screen.getByRole('button', { name: /agree/i });
-+   userEvent.click(agreeButtonElement);
++   await userEvent.click(agreeButtonElement);
 
 +   // Assert
 +   expect(props.onAgreeClick).toHaveBeenCalled();
@@ -213,7 +213,7 @@ import { CookiesDialog } from './cookies-dialog';
 
 
 
-  it('should call onAgreeClick when it clicks on "Agree" button', () => {
+  it('should call onAgreeClick when it clicks on "Agree" button', async () => {
     // Arrange
     const props = {
       onAgreeClick: jest.fn(),
@@ -227,13 +227,13 @@ import { CookiesDialog } from './cookies-dialog';
 -   });
 +   // The only button available at this moment
 +   const buttonElement = screen.getByRole('button');
-    userEvent.click(buttonElement);
+    await userEvent.click(buttonElement);
 
 +   const dialogElement = screen.getByRole('dialog');
 
 -   const agreeButtonElement = screen.getByRole('button', { name: /agree/i });
 +   const agreeButtonElement = within(dialogElement).getByRole('button');
-    userEvent.click(agreeButtonElement);
+    await userEvent.click(agreeButtonElement);
 
     // Assert
     expect(props.onAgreeClick).toHaveBeenCalled();

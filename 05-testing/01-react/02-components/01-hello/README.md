@@ -61,14 +61,26 @@ describe('SayHello component specs', () => {
 });
 ```
 
-- Why it's failing? Because the default `jest running environment` is NodeJS, we could select `jsdom`:
+- Running:
+
+```bash
+npm run test:watch
+
+```
+
+- Why it's failing? Because the default `jest running environment` is NodeJS, we could select `jsdom`.
+Since [jest v28](https://jestjs.io/docs/upgrading-to-jest28#jsdom) we have to install this environment separately:
+
+```bash
+npm install --save-dev jest-environment-jsdom
+```
 
 ### ./config/test/jest.js
 
 ```diff
 module.exports = {
   rootDir: '../../',
-  preset: 'ts-jest',
+  verbose: true,
   restoreMocks: true,
 + testEnvironment: 'jsdom',
 };
@@ -78,6 +90,14 @@ module.exports = {
 > [Jest Docs](https://jestjs.io/docs/configuration#testenvironment-string)
 >
 > [jsdom Docs](https://github.com/jsdom/jsdom)
+
+
+- Running again:
+
+```bash
+npm run test:watch
+
+```
 
 - Another approach is to use `snapshot testing`:
 
@@ -116,6 +136,26 @@ exports[`SayHello component specs should display the person name using snapshot 
 
 ```
 
+Or even, we could use `inline snapshots`:
+
+### ./src/say-hello.spec.tsx
+
+```diff
+...
+
++ it('should display the person name using inline snapshot testing', () => {
++   // Arrange
++   const person = 'John';
+
++   // Act
++   const { asFragment } = render(<SayHello person={person} />);
+
++   // Assert
++   expect(asFragment()).toMatchInlineSnapshot();
++ });
+
+```
+
 - This kind of tests are useful when we want to make sure the UI does not change. The snapshot should be committed to be reviewed as part of the pull request.
 
 - On the other hand, this could be a `bad idea` in complex scenarios due to it could be complicated review the whole snapshot and we could fall into a bad habit of updating snapshot tests blindly.
@@ -142,7 +182,7 @@ import '@testing-library/jest-dom';
 ```diff
 module.exports = {
   rootDir: '../../',
-  preset: 'ts-jest',
+  verbose: true,
   restoreMocks: true,
   testEnvironment: 'jsdom',
 + setupFilesAfterEnv: ['<rootDir>/config/test/setup-after.ts'],
@@ -150,6 +190,7 @@ module.exports = {
 
 ```
 
+> [setupFilesAfterEnv](https://jestjs.io/docs/configuration#setupfilesafterenv-array)
 > We need to setup after jest environment execution.
 
 - Now, we could write it like:

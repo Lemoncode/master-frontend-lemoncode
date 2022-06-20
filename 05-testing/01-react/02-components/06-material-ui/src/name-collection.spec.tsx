@@ -10,18 +10,15 @@ import * as api from './name-api';
 import { UserEdit } from './user-edit';
 import { NameCollection } from './name-collection';
 
-const renderWithRouter = (component) => {
-  return {
-    ...render(
-      <HashRouter>
-        <Routes>
-          <Route path="/" element={component} />
-          <Route path="users/:name" element={<UserEdit />} />
-        </Routes>
-      </HashRouter>
-    ),
-  };
-};
+const renderWithRouter = (component) =>
+  render(
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={component} />
+        <Route path="users/:name" element={<UserEdit />} />
+      </Routes>
+    </HashRouter>
+  );
 
 describe('NameCollection component specs', () => {
   it('should display a list with one item when it mounts the component and it resolves the async call', async () => {
@@ -60,7 +57,6 @@ describe('NameCollection component specs', () => {
     expect(initialItems[0].textContent).toEqual('initial-user');
 
     await waitForElementToBeRemoved(screen.queryByText('initial-user'));
-
     // Assert
     expect(screen.queryByText('initial-user')).not.toBeInTheDocument();
   });
@@ -77,7 +73,7 @@ describe('NameCollection component specs', () => {
     const links = await screen.findAllByRole('link');
 
     const secondUser = links[1];
-    userEvent.click(secondUser);
+    await userEvent.click(secondUser);
 
     const userEditElement = screen.getByRole('heading', {
       name: 'User name: Jane Doe',

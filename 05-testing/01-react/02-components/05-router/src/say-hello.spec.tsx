@@ -27,6 +27,26 @@ describe('SayHello component specs', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
+  it('should display the person name using inline snapshot testing', () => {
+    // Arrange
+    const person = 'John';
+
+    // Act
+    const { asFragment } = render(<SayHello person={person} />);
+
+    // Assert
+    expect(asFragment()).toMatchInlineSnapshot(`
+<DocumentFragment>
+  <h1>
+    Hello 
+    <strong>
+      John
+    </strong>
+  </h1>
+</DocumentFragment>
+`);
+  });
+
   it('should display the person name using jest-dom', () => {
     // Arrange
     const person = 'John';

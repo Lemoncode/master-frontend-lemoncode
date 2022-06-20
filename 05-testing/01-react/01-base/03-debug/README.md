@@ -6,8 +6,7 @@ We will start from `02-calculator`.
 
 Summary steps:
 
-- Adding `launch.json` in VS Code.
-- Update `launch.json` to work with Jest.
+- Using JavaScript Debug Terminal
 
 # Steps to build it
 
@@ -24,6 +23,8 @@ Jest is running over node, so we could use VS Code for debugging jest specs:
 ### Using JavaScript Debug Terminal
 
 Since `jest` is a nodejs process, we could use the integraded `JavaScript Debug Terminal` provided by VS Code.
+
+> More info [here](https://www.lemoncode.tv/curso/vs-code-js-debugging/leccion/javascript-debug-terminal)
 
 We could run all specs as `single run` in this terminal and adding some breakpoints:
 
@@ -53,8 +54,8 @@ describe('second specs', () => {
 ```
 
 ```bash
-npm run test:watch calculator
-npm run test:watch calculator.spec
+npm run test:watch second
+npm run test:watch second.spec
 npm run test:watch spec
 
 ```

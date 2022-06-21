@@ -5,7 +5,7 @@ export const mapHotelFromApiToVm = (
   hotel: apiModel.Hotel
 ): viewModel.Hotel => ({
   id: hotel.id,
-  picture: `${process.env.BASE_PICTURES_URL}/${hotel.thumbNailUrl}`,
+  picture: hotel.thumbNailUrl,
   name: hotel.name,
   description: hotel.shortDescription,
   rating: hotel.hotelRating,
@@ -16,10 +16,7 @@ export const mapHotelFromApiToVm = (
 export const mapHotelFromVmToApi = (hotel: viewModel.Hotel): apiModel.Hotel =>
   ({
     id: hotel.id,
-    thumbNailUrl: hotel.picture.replace(
-      `${process.env.BASE_PICTURES_URL}/`,
-      ''
-    ),
+    thumbNailUrl: hotel.picture,
     name: hotel.name,
     shortDescription: hotel.description,
     hotelRating: hotel.rating,

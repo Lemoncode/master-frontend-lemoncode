@@ -26,7 +26,7 @@ export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
 - const { data } = await Axios.get<HotelEntityApi[]>(url);
 - return data;
 + const promise = new Promise<HotelEntityApi[]>((resolve) => {
-+   Axios.get(url).then(({ data }) => setTimeout(() => resolve(data), 3000));
++   Axios.get(url).then(({ data }) => setTimeout(() => resolve(data), 4000));
 + });
 
 + return promise;

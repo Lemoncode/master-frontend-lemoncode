@@ -25,8 +25,9 @@ Cypress.Commands.add('loadAndVisit', () => {
 });
 
 ```
+> Note: we will fix typings errors adding a d.ts file
 
-### ./cypress/support/index.ts
+### ./cypress/support/e2e.ts
 
 ```diff
 import '@testing-library/cypress/add-commands';
@@ -35,7 +36,7 @@ import '@testing-library/cypress/add-commands';
 
 - Use it:
 
-### ./cypress/integration/hotel-collection.spec.ts
+### ./cypress/e2e/hotel-collection.spec.ts
 
 ```diff
 ...
@@ -91,7 +92,7 @@ declare namespace Cypress {
 
 - Update specs:
 
-### ./cypress/integration/hotel-collection.spec.ts
+### ./cypress/e2e/hotel-collection.spec.ts
 
 ```diff
 ...
@@ -151,7 +152,7 @@ declare namespace Cypress {
 
 - Update it:
 
-### ./cypress/integration/hotel-collection.spec.ts
+### ./cypress/e2e/hotel-collection.spec.ts
 
 ```diff
 ...

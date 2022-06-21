@@ -4,6 +4,7 @@ export const root = css`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 1rem;
 `;
 
 export const picture = css`

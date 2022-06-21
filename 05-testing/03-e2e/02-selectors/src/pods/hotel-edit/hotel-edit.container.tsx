@@ -12,7 +12,7 @@ import { Lookup } from 'common/models';
 export const HotelEditContainer: React.FunctionComponent = (props) => {
   const [hotel, setHotel] = React.useState<Hotel>(createEmptyHotel());
   const [cities, setCities] = React.useState<Lookup[]>([]);
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<any>();
   const navigate = useNavigate();
 
   const handleLoadData = async () => {

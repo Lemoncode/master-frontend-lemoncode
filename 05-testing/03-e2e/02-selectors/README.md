@@ -14,7 +14,7 @@ npm install
 
 - Let's add some specs to login page:
 
-### ./cypress/integration/login.spec.ts
+### ./cypress/e2e/login.spec.ts
 
 ```diff
 ...
@@ -37,7 +37,7 @@ npm install
 
 - Notice that we are using selectors like css selectors, the first refactor that we could think is assign selectors to a variable like:
 
-### ./cypress/integration/login.spec.ts
+### ./cypress/e2e/login.spec.ts
 
 ```diff
 ...
@@ -68,7 +68,7 @@ npm install
 
 - This doesn't work, because `cypress commands` are enqueued and run it in async way. Let's refator it:
 
-### ./cypress/integration/login.spec.ts
+### ./cypress/e2e/login.spec.ts
 
 ```diff
 ...
@@ -115,30 +115,25 @@ npm install @testing-library/cypress --save-dev
 ```diff
 {
   "compilerOptions": {
-    "strict": true,
-    "baseUrl": "../node_modules",
     "target": "es5",
     "lib": ["es5", "dom"],
-    "esModuleInterop": true,
-    "noImplicitAny": false,
-    "allowJs": true,
--   "types": ["cypress"]
-+   "types": ["cypress", "@testing-library/cypress"]
+-   "types": ["cypress", "node"]
++   "types": ["cypress", "node", "@testing-library/cypress"]
   },
   "include": ["**/*.ts"]
 }
 
 ```
 
-### ./cypress/support/index.ts
+### ./cypress/support/e2e.ts
 
-```javascript
-import '@testing-library/cypress/add-commands';
+```diff
++ import '@testing-library/cypress/add-commands'
 ```
 
 - Update specs:
 
-### ./cypress/integration/login.spec.ts
+### ./cypress/e2e/login.spec.ts
 
 ```diff
 describe('Login specs', () => {
@@ -187,7 +182,7 @@ describe('Login specs', () => {
 
 - Checking modal error message when click on button with invalid credentials:
 
-### ./cypress/integration/login.spec.ts
+### ./cypress/e2e/login.spec.ts
 
 ```diff
 ...
@@ -219,10 +214,11 @@ describe('Login specs', () => {
 ```
 
 > More info in [event-types](https://docs.cypress.io/api/events/catalog-of-events.html#Event-Types)
+> This stub is not necessary if we use the Snackbar component or similar.
 
 - Now, we could test when it's a succeded login:
 
-### ./cypress/integration/login.spec.ts
+### ./cypress/e2e/login.spec.ts
 
 ```diff
 ...

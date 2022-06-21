@@ -123,6 +123,7 @@ describe('Hotel edit specs', () => {
 ```
 
 > Notice: some this has to wait until it has some value.
+> [Wait default timeouts](https://docs.cypress.io/api/commands/wait#Timeouts)
 
 - Refactor command:
 

@@ -21,6 +21,7 @@ Cypress.Commands.add(
 
       return alias;
     });
+
     cy.visit(visitUrl);
     if (callbackAfterVisit) {
       callbackAfterVisit();

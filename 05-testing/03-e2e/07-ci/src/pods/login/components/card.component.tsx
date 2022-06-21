@@ -1,10 +1,9 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
+import { Card, CardHeader, CardContent } from '@mui/material';
 
 interface Props {
   title: string;
+  children: React.ReactNode;
 }
 
 export const CardComponent: React.FunctionComponent<Props> = (props) => {

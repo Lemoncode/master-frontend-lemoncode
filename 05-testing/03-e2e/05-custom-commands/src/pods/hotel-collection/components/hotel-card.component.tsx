@@ -52,7 +52,6 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
       </CardContent>
       <CardActions>
         <IconButton
-          aria-label="Edit hotel"
           onClick={() => navigate(linkRoutes.hotelEdit(hotel.id))}
         >
           <EditIcon />

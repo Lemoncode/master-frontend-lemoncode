@@ -1,10 +1,11 @@
 describe('Hotel edit specs', () => {
   it('should navigate to second hotel when click on edit second hotel', () => {
     // Arrange
+
     // Act
     cy.loadAndVisit('/hotel-collection', [{ path: '/api/hotels' }]);
-    cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {
-      buttons[1].click();
+    cy.findAllByRole('button', { name: 'Edit hotel' }).then(($buttons) => {
+      $buttons[1].click();
     });
 
     // Assert
@@ -23,11 +24,12 @@ describe('Hotel edit specs', () => {
         { path: '/api/cities' },
       ],
       () => {
-        cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {
-          buttons[1].click();
+        cy.findAllByRole('button', { name: 'Edit hotel' }).then(($buttons) => {
+          $buttons[1].click();
         });
       }
     );
+
     cy.findByLabelText('Name').should('not.have.value', '');
 
     cy.findByLabelText('Name').clear().type('Updated hotel two');

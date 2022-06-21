@@ -7,14 +7,18 @@ interface Context {
 
 export const SessionContext = React.createContext<Context>({
   login: 'no user',
-  updateLogin: value => {
+  updateLogin: (value) => {
     console.warn(
       'if you are reading this, likely you forgot to add the provider on top of your app'
     );
   },
 });
 
-export const SessionProvider: React.FunctionComponent = props => {
+interface Props {
+  children: React.ReactNode;
+}
+
+export const SessionProvider: React.FunctionComponent<Props> = (props) => {
   const [login, setLogin] = React.useState('');
 
   return (

@@ -6,8 +6,6 @@ test-report.*
 junit.xml
 *.log
 *.orig
-package-lock.json
-yarn.lock
 .awcache
 cypress/screenshots
 cypress/videos

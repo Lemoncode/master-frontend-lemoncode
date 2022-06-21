@@ -1,15 +1,15 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
+import { Button } from '@mui/material';
 import {
   TextFieldComponent,
   SelectComponent,
   RatingComponent,
 } from 'common/components';
-import { Button } from '@material-ui/core';
+import { Lookup } from 'common/models';
 import { formValidation } from './hotel-edit.validations';
 import { Hotel } from './hotel-edit.vm';
 import * as classes from './hotel-edit.styles';
-import { Lookup } from 'common/models';
 
 interface Props {
   hotel: Hotel;
@@ -39,7 +39,7 @@ export const HotelEditComponent: React.FunctionComponent<Props> = (props) => {
             label="Description"
             multiline={true}
             rows={3}
-            rowsMax={5}
+            maxRows={5}
           />
           <Button type="submit" variant="contained" color="primary">
             Save

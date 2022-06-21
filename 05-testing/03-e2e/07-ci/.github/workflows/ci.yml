@@ -9,7 +9,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Install
-        run: npm install
+        run: npm ci
       - name: Tests e2e
         run: npm run test:e2e:ci
       - name: Upload screenshots when specs fail

@@ -1,10 +1,6 @@
 import React from 'react';
-import { useField } from 'formik';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select, { SelectProps } from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
+import { useField } from 'formik'
+import {FormControl, InputLabel, Select, SelectProps, MenuItem, FormHelperText} from '@mui/material';
 import { Lookup } from 'common/models';
 import * as classes from './select.styles';
 

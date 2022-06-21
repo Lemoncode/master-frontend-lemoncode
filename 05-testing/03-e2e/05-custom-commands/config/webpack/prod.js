@@ -1,17 +1,32 @@
 const { merge } = require('webpack-merge');
-const Dotenv = require('dotenv-webpack');
 const base = require('./base');
-const helpers = require('./helpers');
 
 module.exports = merge(base, {
   mode: 'production',
   output: {
-    path: helpers.resolveFromRootPath('dist'),
-    filename: './js/[name].[chunkhash].js',
+    filename: 'js/[name].[chunkhash].js',
+    assetModuleFilename: 'images/[hash][ext][query]',
   },
-  plugins: [
-    new Dotenv({
-      path: 'prod.env',
-    }),
-  ],
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          chunks: 'all',
+          name: 'vendor',
+          test: /[\\/]node_modules[\\/]/,
+          enforce: true,
+        },
+      },
+    },
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+    ],
+  },
 });

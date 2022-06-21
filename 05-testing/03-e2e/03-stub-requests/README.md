@@ -14,7 +14,7 @@ npm install
 
 - We will create `hotel-collection` specs:
 
-### ./cypress/integration/hotel-collection.spec.ts
+### ./cypress/e2e/hotel-collection.spec.ts
 
 ```javascript
 describe('Hotel collection specs', () => {
@@ -28,7 +28,7 @@ describe('Hotel collection specs', () => {
 
 - Update spec:
 
-### ./cypress/integration/hotel-collection.spec.ts
+### ./cypress/e2e/hotel-collection.spec.ts
 
 ```diff
 describe('Hotel collection specs', () => {
@@ -61,7 +61,7 @@ describe('Hotel collection specs', () => {
 
 - But in some scenarios, maybe we need to simulate this fetch. How can we simulate, fetching 2 hotels?:
 
-### ./cypress/integration/hotel-collection.spec.ts
+### ./cypress/e2e/hotel-collection.spec.ts
 
 ```diff
 + import { HotelEntityApi } from '../../src/pods/hotel-collection/api';
@@ -134,7 +134,7 @@ describe('Hotel collection specs', () => {
 
 - Update spec:
 
-### ./cypress/integration/hotel-collection.spec.ts
+### ./cypress/e2e/hotel-collection.spec.ts
 
 ```diff
 - import { HotelEntityApi } from '../../src/pods/hotel-collection/api';
@@ -177,7 +177,7 @@ describe('Hotel collection specs', () => {
 
 - Or a shorted way:
 
-### ./cypress/integration/hotel-collection.spec.ts
+### ./cypress/e2e/hotel-collection.spec.ts
 
 ```diff
   it('should fetch two hotels when visit /hotel-collection url', () => {

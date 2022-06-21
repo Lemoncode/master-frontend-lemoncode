@@ -101,10 +101,10 @@ export const useLogin = () => {
 ### ./src/login.hooks.spec.ts
 
 ```diff
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 + import * as api from './api';
-- import { Credential } from 'model';
-+ import { Credential, User } from 'model';
+- import { Credential } from './model';
++ import { Credential, User } from './model';
 import { useLogin } from './login.hooks';
 
 ...
@@ -128,12 +128,18 @@ import { useLogin } from './login.hooks';
 
 ```
 
-- Why does not current spec fail? Because we have to `wait` until async call will be resolved:
+- Why does current spec fail? Because we have to `wait` until async call will be resolved:
 
 ### ./src/login.hooks.spec.ts
 
 ```diff
+- import { renderHook, act } from '@testing-library/react';
++ import { renderHook, act, waitFor } from '@testing-library/react';
+import * as api from './api';
+import { Credential, User } from './model';
+import { useLogin } from './login.hooks';
 ...
+
 - it('should update user when it send valid credentials using onLogin', () => {
 + it('should update user when it send valid credentials using onLogin', async () => {
     // Arrange
@@ -143,18 +149,17 @@ import { useLogin } from './login.hooks';
     };
 
     // Act
--   const { result } = renderHook(() => useLogin());
-+   const { result, waitForNextUpdate } = renderHook(() => useLogin());
+    const { result } = renderHook(() => useLogin());
 
     act(() => {
       result.current.onLogin();
     });
 
-+   await waitForNextUpdate();
-
     // Assert
     expect(loginStub).toHaveBeenCalled();
-    expect(result.current.user).toEqual(adminUser);
++   await waitFor(() => {
+      expect(result.current.user).toEqual(adminUser);
++   });
   });
   ...
 

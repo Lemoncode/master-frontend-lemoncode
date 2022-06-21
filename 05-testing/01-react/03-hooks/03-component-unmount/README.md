@@ -45,7 +45,7 @@ export const usePolling = (pollingTime: number) => {
 ### ./src/polling.hooks.spec.ts
 
 ```javascript
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { usePolling } from './polling.hooks';
 
 describe('usePolling specs', () => {
@@ -55,6 +55,7 @@ describe('usePolling specs', () => {
     // Assert
   });
 });
+
 ```
 
 - should return count equals 0 when initialize the hook:
@@ -83,18 +84,23 @@ describe('usePolling specs', () => {
 ### ./src/polling.hooks.spec.ts
 
 ```diff
+- import { renderHook } from '@testing-library/react';
++ import { renderHook, waitFor } from '@testing-library/react';
+import { usePolling } from './polling.hooks';
+
 ...
+
 + it('should return count equals 1 when it waits for next update', async () => {
 +   // Arrange
 +   const pollingTime = 500;
 
 +   // Act
-+   const { result, waitForNextUpdate } = renderHook(() => usePolling(pollingTime));
-
-+   await waitForNextUpdate();
++   const { result } = renderHook(() => usePolling(pollingTime));
 
 +   // Assert
-+   expect(result.current.count).toEqual(1);
++   await waitFor(() => {
++     expect(result.current.count).toEqual(1);
++   });
 + });
 
 ```
@@ -110,14 +116,12 @@ describe('usePolling specs', () => {
 +   const pollingTime = 500;
 
 +   // Act
-+   const { result, waitForNextUpdate } = renderHook(() => usePolling(pollingTime));
-
-+   await waitForNextUpdate();
-+   await waitForNextUpdate();
-+   await waitForNextUpdate();
++   const { result } = renderHook(() => usePolling(pollingTime));
 
 +   // Assert
-+   expect(result.current.count).toEqual(3);
++   await waitFor(() => {
++     expect(result.current.count).toEqual(3);
++   });
 + });
 
 ```
@@ -133,18 +137,15 @@ describe('usePolling specs', () => {
     const pollingTime = 500;
 
     // Act
--   const { result, waitForNextUpdate } = renderHook(() => usePolling(pollingTime));
-+   const { result, waitForValueToChange } = renderHook(() => usePolling(pollingTime));
-
--   await waitForNextUpdate();
--   await waitForNextUpdate();
--   await waitForNextUpdate();
-+   await waitForValueToChange(() => result.current.count === 3, {
-+     timeout: 2000,
-+   });
+    const { result } = renderHook(() => usePolling(pollingTime));
 
     // Assert
-    expect(result.current.count).toEqual(3);
+    await waitFor(
+      () => {
+        expect(result.current.count).toEqual(3);
+      },
++     { timeout: 2000 }
+    );
   });
 
 ```
@@ -171,6 +172,27 @@ describe('usePolling specs', () => {
 + });
 
 ```
+
+- If we don't want to wait all `ms` of the pollingTime, we can play with `fakeTimers`:
+
+```diff
+...
+
+describe('usePolling specs', () => {
++ beforeEach(() => {
++   jest.useFakeTimers();
++ });
+
++ afterEach(() => {
++   jest.runOnlyPendingTimers();
++   jest.useRealTimers();
++ });
+
+  it('should return count equals 0 when initialize the hook', () => {
+...
+```
+
+> Using [fake timers](https://testing-library.com/docs/using-fake-timers)
 
 # About Basefactor + Lemoncode
 

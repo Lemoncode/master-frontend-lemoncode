@@ -1,5 +1,5 @@
-import { renderHook, act } from '@testing-library/react-hooks';
-import { Credential } from 'model';
+import { renderHook, act } from '@testing-library/react';
+import { Credential } from './model';
 import { useLogin } from './login.hooks';
 
 describe('useLogin specs', () => {

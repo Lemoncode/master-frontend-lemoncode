@@ -1,6 +1,6 @@
 import React from 'react';
-import { HashRouter, Switch, Route } from 'react-router-dom';
-import { AuthRouterComponent } from 'common-app/auth';
+import { HashRouter, Routes, Route } from 'react-router-dom';
+import { AuthRoute } from 'common-app/auth';
 import { routes } from './routes';
 import {
   LoginScene,
@@ -14,38 +14,20 @@ import {
 export const RouterComponent: React.FunctionComponent = () => {
   return (
     <HashRouter>
-      <Switch>
+      <Routes>
+        <Route path={routes.root} element={<LoginScene />} />
+        <Route path={routes.login} element={<LoginScene />} />
         <Route
-          exact={true}
-          path={[routes.root, routes.login]}
-          component={LoginScene}
-        />
-        <AuthRouterComponent
-          exact={true}
           path={routes.submoduleList}
-          component={SubmoduleListScene}
+          element={<AuthRoute>
+            <SubmoduleListScene />
+          </AuthRoute>}
         />
-        <Route
-          exact={true}
-          path={routes.projects}
-          component={ProjectListScene}
-        />
-        <Route
-          exact={true}
-          path={routes.employees}
-          component={EmployeeListScene}
-        />
-        <Route
-          exact={true}
-          path={routes.editProject()}
-          component={ProjectScene}
-        />
-        <Route
-          exact={true}
-          path={routes.editEmployee()}
-          component={EmployeeScene}
-        />
-      </Switch>
+        <Route path={routes.projects} element={<ProjectListScene />} />
+        <Route path={routes.employees} element={<EmployeeListScene />} />
+        <Route path={routes.editProject()} element={<ProjectScene />} />
+        <Route path={routes.editEmployee()} element={<EmployeeScene />} />
+      </Routes>
     </HashRouter>
   );
 };

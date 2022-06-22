@@ -1,13 +1,14 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuIcon from '@material-ui/icons/Menu';
+import {
+  AppBar,
+  Divider,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+} from '@mui/material';
+import { AccountCircle, Menu as MenuIcon } from '@mui/icons-material';
 import { literals } from 'core/i18n';
 import { AuthContext, useLogout } from 'common-app/auth';
 import { SideMenuComponent } from './components';
@@ -26,7 +27,7 @@ export const AppBarComponent: React.FC = () => {
     onLogout();
   };
 
-  const handleSideMenu = () => setOpen(prev => !prev);
+  const handleSideMenu = () => setOpen((prev) => !prev);
 
   return (
     <>

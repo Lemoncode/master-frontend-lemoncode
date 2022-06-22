@@ -1,9 +1,11 @@
 import React from 'react';
+import {
+  AccountBalance as AccountBalanceIcon,
+  Group as GroupIcon,
+} from '@mui/icons-material';
 import { SumoduleListComponent } from './submodule-list.component';
 import { DashboardItemProps } from 'common/components';
 import { routes } from 'core/router';
-import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-import GroupIcon from '@material-ui/icons/Group';
 
 export const SubmoduleListContainer: React.FunctionComponent = () => {
   const items: DashboardItemProps[] = React.useMemo(

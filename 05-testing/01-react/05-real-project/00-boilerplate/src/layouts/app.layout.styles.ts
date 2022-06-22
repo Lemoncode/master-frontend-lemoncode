@@ -9,5 +9,5 @@ export const container = css`
 
 export const main = css`
   flex: 1;
-  padding: ${theme.spacing(0.2)}rem;
+  padding: ${theme.spacing(0.5)};
 `;

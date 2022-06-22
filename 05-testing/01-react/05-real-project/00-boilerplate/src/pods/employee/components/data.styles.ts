@@ -22,10 +22,10 @@ export const form = (props: Props) => css`
     'isActive'
     'commands'
     'commands';
-  grid-row-gap: ${theme.spacing(2)}px;
-  grid-column-gap: ${theme.spacing(3)}px;
+  grid-row-gap: ${theme.spacing(2)};
+  grid-column-gap: ${theme.spacing(3)};
 
-  @media (min-width: ${theme.breakpoints.values.md}px) {
+  ${theme.breakpoints.up('md')} {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
       ${getDynamicAreaNames(props)}

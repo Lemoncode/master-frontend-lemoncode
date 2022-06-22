@@ -16,7 +16,7 @@ interface Props {
   dataTestId?: string;
 }
 
-export const DashboardComponent: React.StatelessComponent<Props> = props => {
+export const DashboardComponent: React.FC<Props> = props => {
   const { items, classes, dataTestId } = props;
   return (
     <div

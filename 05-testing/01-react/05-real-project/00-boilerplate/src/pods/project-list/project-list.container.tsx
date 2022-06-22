@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ProjectListComponent } from './project-list.component';
 import { getProjectList, deleteProject } from './api';
 import { Project } from './project-list.vm';
@@ -6,13 +7,12 @@ import { useSnackbarContext } from 'common/components';
 import { trackPromise } from 'react-promise-tracker';
 import { mapProjectListFromApiToVm } from './project-list.mappers';
 import { routes } from 'core/router';
-import { useHistory } from 'react-router-dom';
 const editProjectId = '0';
 
 export const ProjectListContainer: React.FunctionComponent = () => {
   const [projects, setProjects] = React.useState<Project[]>([]);
   const { showMessage } = useSnackbarContext();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const onLoadProjectList = async () => {
     try {
@@ -26,11 +26,11 @@ export const ProjectListContainer: React.FunctionComponent = () => {
   };
 
   const handleCreate = () => {
-    history.push(routes.editProject(editProjectId));
+    navigate(routes.editProject(editProjectId));
   };
 
   const handleEdit = (id: string) => {
-    history.push(routes.editProject(id));
+    navigate(routes.editProject(id));
   };
 
   const handleDelete = async (id: string) => {

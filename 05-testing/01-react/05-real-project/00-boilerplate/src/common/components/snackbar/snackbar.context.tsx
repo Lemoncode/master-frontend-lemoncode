@@ -11,7 +11,11 @@ interface Context {
 
 export const SnackbarContext = React.createContext<Context>(null);
 
-export const SnackbarProvider: React.FunctionComponent = props => {
+interface Props {
+  children: React.ReactNode;
+}
+
+export const SnackbarProvider: React.FunctionComponent<Props> = (props) => {
   const { children } = props;
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState<SnackbarOptions>({

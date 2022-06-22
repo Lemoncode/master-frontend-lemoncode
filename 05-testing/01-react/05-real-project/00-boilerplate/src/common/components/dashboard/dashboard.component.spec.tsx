@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import { PeopleAlt as PeopleAltIcon } from '@mui/icons-material';
 import { Route } from 'react-router-dom';
 import { renderWithRouter } from 'common/test';
 import { DashboardComponent } from './dashboard.component';
@@ -24,7 +24,7 @@ describe('common/DashboardComponent', () => {
       <>
         <Route
           path={props.items[0].linkTo}
-          component={() => <h1>Test route destination</h1>}
+          element={<h1>Test route destination</h1>}
         />
       </>
     );
@@ -57,7 +57,7 @@ describe('common/DashboardComponent', () => {
       <>
         <Route
           path={props.items[0].linkTo}
-          component={() => <h1>Test route destination</h1>}
+          element={<h1>Test route destination</h1>}
         />
       </>
     );
@@ -105,18 +105,9 @@ describe('common/DashboardComponent', () => {
     const { getByText } = renderWithRouter(
       <DashboardComponent {...props} />,
       <>
-        <Route
-          path={props.items[0].linkTo}
-          component={() => <h1>Test route 1</h1>}
-        />
-        <Route
-          path={props.items[1].linkTo}
-          component={() => <h1>Test route 2</h1>}
-        />
-        <Route
-          path={props.items[2].linkTo}
-          component={() => <h1>Test route 3</h1>}
-        />
+        <Route path={props.items[0].linkTo} element={<h1>Test route 1</h1>} />
+        <Route path={props.items[1].linkTo} element={<h1>Test route 2</h1>} />
+        <Route path={props.items[2].linkTo} element={<h1>Test route 3</h1>} />
       </>
     );
 

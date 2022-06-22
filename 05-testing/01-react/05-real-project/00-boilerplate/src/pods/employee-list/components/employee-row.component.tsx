@@ -1,13 +1,11 @@
 import React from 'react';
+import { Checkbox, IconButton } from '@mui/material';
+import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import {
   RowRendererProps,
   RowComponent,
   CellComponent,
 } from 'common/components';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { Employee } from '../employee-list.vm';
 
 type Props = RowRendererProps<Employee>;

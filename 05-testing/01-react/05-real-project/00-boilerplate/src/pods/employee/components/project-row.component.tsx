@@ -1,10 +1,10 @@
 import React from 'react';
+import { Checkbox } from '@mui/material';
 import {
   RowRendererProps,
   RowComponent,
   CellComponent,
 } from 'common/components';
-import Checkbox from '@material-ui/core/Checkbox';
 import { ProjectSummary } from '../employee.vm';
 
 type Props = RowRendererProps<ProjectSummary>;

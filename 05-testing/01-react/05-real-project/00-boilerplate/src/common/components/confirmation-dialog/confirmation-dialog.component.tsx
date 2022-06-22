@@ -1,9 +1,11 @@
 import React from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+} from '@mui/material';
 
 interface LabelProps {
   closeButton: string;
@@ -16,9 +18,12 @@ interface Props {
   onClose: () => void;
   title: string | React.ReactNode;
   labels: LabelProps;
+  children: React.ReactNode;
 }
 
-export const ConfirmationDialogComponent: React.FunctionComponent<Props> = props => {
+export const ConfirmationDialogComponent: React.FunctionComponent<Props> = (
+  props
+) => {
   const { isOpen, onAccept, onClose, title, labels, children } = props;
 
   const handleAccept = () => {

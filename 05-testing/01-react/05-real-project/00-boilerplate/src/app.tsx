@@ -1,5 +1,5 @@
 import React from 'react';
-import { StylesProvider } from '@material-ui/styles';
+import { StyledEngineProvider } from '@mui/material';
 import { setValidatorsMessagesToSpanish } from 'core/i18n';
 import { RouterComponent } from 'core/router';
 import { ThemeProviderComponent } from 'core/theme';
@@ -14,7 +14,7 @@ setValidatorsMessagesToSpanish();
 
 const App: React.FunctionComponent = () => {
   return (
-    <StylesProvider injectFirst>
+    <StyledEngineProvider injectFirst>
       <ThemeProviderComponent>
         <AuthProvider>
           <SnackbarProvider>
@@ -24,7 +24,7 @@ const App: React.FunctionComponent = () => {
           </SnackbarProvider>
         </AuthProvider>
       </ThemeProviderComponent>
-    </StylesProvider>
+    </StyledEngineProvider>
   );
 };
 

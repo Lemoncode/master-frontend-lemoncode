@@ -1,18 +1,18 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { EmployeeListComponent } from './employee-list.component';
 import { getEmployeeList, deleteEmployee } from './api';
 import { Employee } from './employee-list.vm';
 import { useSnackbarContext } from 'common/components';
 import { trackPromise } from 'react-promise-tracker';
 import { mapEmployeeListFromApiToVm } from './employee-list.mappers';
-import { useHistory } from 'react-router-dom';
 import { routes } from 'core/router';
 const editEmployeeId = '0';
 
 export const EmployeeListContainer: React.FunctionComponent = () => {
   const [employees, setEmployees] = React.useState<Employee[]>([]);
   const { showMessage } = useSnackbarContext();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const onLoadEmployeeList = async () => {
     try {
@@ -26,11 +26,11 @@ export const EmployeeListContainer: React.FunctionComponent = () => {
   };
 
   const handleCreate = () => {
-    history.push(routes.editEmployee(editEmployeeId));
+    navigate(routes.editEmployee(editEmployeeId));
   };
 
   const handleEdit = (id: string) => {
-    history.push(routes.editEmployee(id));
+    navigate(routes.editEmployee(id));
   };
 
   const handleDelete = async (id: string) => {

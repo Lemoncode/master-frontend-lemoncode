@@ -1,10 +1,10 @@
 import React from 'react';
+import { AppBar } from '@mui/material';
 import {
   TabComponent,
   TabListComponent,
   TabPanelComponent,
 } from 'common/components';
-import AppBar from '@material-ui/core/AppBar';
 import { DataComponent, ProjectComponent, ReportComponent } from './components';
 import { Employee, Report } from './employee.vm';
 import * as classes from './employee.styles';

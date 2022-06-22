@@ -1,9 +1,12 @@
 import React from 'react';
 import { useField } from 'formik';
-import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
+import {
+  Checkbox,
+  CheckboxProps,
+  FormControlLabel,
+  FormControl,
+  FormHelperText,
+} from '@mui/material';
 import * as classes from './checkbox.styles';
 
 interface Props extends CheckboxProps {
@@ -13,7 +16,7 @@ interface Props extends CheckboxProps {
   helperText?: string;
 }
 
-export const CheckboxComponent: React.FunctionComponent<Props> = props => {
+export const CheckboxComponent: React.FunctionComponent<Props> = (props) => {
   const {
     label,
     labelPlacement,

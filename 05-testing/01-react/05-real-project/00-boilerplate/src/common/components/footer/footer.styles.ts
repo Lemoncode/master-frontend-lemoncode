@@ -3,6 +3,6 @@ import { theme } from 'core/theme';
 
 export const footer = css`
   background-color: ${theme.palette.primary.light};
-  padding: ${theme.spacing(2)}px;
+  padding: ${theme.spacing(2)};
   color: ${theme.palette.common.white};
 `;

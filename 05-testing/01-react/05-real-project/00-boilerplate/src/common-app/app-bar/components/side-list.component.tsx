@@ -1,7 +1,5 @@
 import React from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import { List, ListItem, ListItemText } from '@mui/material';
 import * as classes from './side-list.styles';
 
 interface Props {
@@ -18,7 +16,7 @@ export const SideListComponent: React.FC<Props> = ({ onClick, onKeyDown }) => (
     onKeyDown={onKeyDown}
   >
     <List>
-      {['Calendario', 'Proyectos', 'Vacaciones'].map(text => (
+      {['Calendario', 'Proyectos', 'Vacaciones'].map((text) => (
         <ListItem button key={text}>
           <ListItemText primary={text} />
         </ListItem>

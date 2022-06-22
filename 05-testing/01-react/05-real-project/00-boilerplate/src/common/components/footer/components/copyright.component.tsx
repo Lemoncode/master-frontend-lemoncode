@@ -1,6 +1,5 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
+import { Typography, Link } from '@mui/material';
 import { literals } from 'core/i18n';
 
 export const CopyrightComponent: React.FC = () => (

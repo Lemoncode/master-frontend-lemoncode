@@ -38,7 +38,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Install
-        run: npm install
+        run: npm ci
       - name: Tests
         run: npm test
 
@@ -49,7 +49,7 @@ jobs:
 ```bash
 git add .
 git commit -m "add ci file"
-git push
+git push -u origin feature/add-ci-file
 ```
 
 - Create a pull request.

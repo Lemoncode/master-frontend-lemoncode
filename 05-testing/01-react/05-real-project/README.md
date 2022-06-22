@@ -144,7 +144,8 @@ import React from 'react';
 + import userEvent from '@testing-library/user-event';
 ...
 
-  it('should render a menu with three item when it clicks on select element', () => {
+- it('should render a menu with three item when it clicks on select element', () => {
++ it('should render a menu with three item when it clicks on select element', async () => {
     // Arrange
     const props = {
       items: [
@@ -163,7 +164,7 @@ import React from 'react';
 -   fireEvent.click(selectElement);
 +   expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
     
-+   userEvent.click(selectElement);
++   await userEvent.click(selectElement);
     const menuElement = screen.getByRole('listbox');
 +   const itemElementList = screen.getAllByRole('option');
 
@@ -180,7 +181,7 @@ import React from 'react';
 ```diff
 ...
 
-+ it('should calls onChange method with value equals 2 when it clicks on second item', () => {
++ it('should calls onChange method with value equals 2 when it clicks on second item', async () => {
 +   // Arrange
 +   const props = {
 +     items: [
@@ -198,9 +199,9 @@ import React from 'react';
 
 +   const selectElement = screen.getByRole('button', { name: 'Test label' });
 
-+   userEvent.click(selectElement);
++   await userEvent.click(selectElement);
 +   const itemElementList = screen.getAllByRole('option');
-+   userEvent.click(itemElementList[1]);
++   await userEvent.click(itemElementList[1]);
 
 +   // Assert
 +   expect(props.onChange).toHaveBeenCalledWith(
@@ -253,7 +254,8 @@ import { Lookup } from 'common/models';
 +   );
 ...
 
-  it('should update selected item when it clicks on third item using Formik', () => {
+- it('should update selected item when it clicks on third item using Formik', () => {
++ it('should update selected item when it clicks on third item using Formik', async () => {
     ...
     // Act
 -   render(<SelectComponent {...props} />);
@@ -263,9 +265,9 @@ import { Lookup } from 'common/models';
 
 +   expect(selectElement.textContent).toEqual('Item 1');
 
-+   userEvent.click(selectElement);
++   await userEvent.click(selectElement);
 +   const itemElementList = screen.getAllByRole('option');
-+   userEvent.click(itemElementList[2]);
++   await userEvent.click(itemElementList[2]);
 
 +   // Assert
 +   expect(selectElement.textContent).toEqual('Item 3');
@@ -398,7 +400,7 @@ import { render, screen } from '@testing-library/react';
 + import userEvent from '@testing-library/user-event';
 ...
 
-+ it('should call onSearch prop when it types on input change event', () => {
++ it('should call onSearch prop when it types on input change event', async () => {
 +   // Arrange
 +   const props = {
 +     search: '',
@@ -412,7 +414,8 @@ import { render, screen } from '@testing-library/react';
 +   render(<SearchBarComponent {...props} />);
 
 +   const inputElement = screen.getByRole('textbox');
-+   userEvent.paste(inputElement, 'new text search');
++   inputElement.focus();
++   await userEvent.paste('new text search');
 
 +   // Assert
 +   expect(props.onSearch).toHaveBeenCalledWith('new text search');
@@ -426,7 +429,7 @@ import { render, screen } from '@testing-library/react';
 ### ./src/common/components/search-bar/search-bar.hook.spec.tsx
 
 ```javascript
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook } from "@testing-library/react";
 import { useSearchBar } from "./search-bar.hook";
 
 describe("common/components/search-bar/search-bar.hook specs", () => {
@@ -443,7 +446,7 @@ describe("common/components/search-bar/search-bar.hook specs", () => {
 ### ./src/common/components/search-bar/search-bar.hook.spec.tsx
 
 ```diff
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { useSearchBar } from './search-bar.hook';
 
 describe('common/components/search-bar/search-bar.hook specs', () => {
@@ -478,8 +481,8 @@ describe('common/components/search-bar/search-bar.hook specs', () => {
 > It's async because we are using useDebounce hook.
 
 ```diff
-- import { renderHook } from '@testing-library/react-hooks';
-+ import { renderHook, act } from '@testing-library/react-hooks';
+- import { renderHook } from '@testing-library/react';
++ import { renderHook, act, waitFor } from '@testing-library/react';
 import { useSearchBar } from './search-bar.hook';
 
 ...
@@ -501,11 +504,11 @@ import { useSearchBar } from './search-bar.hook';
 +     result.current.onSearch('red');
 +   });
 
-+   await waitForNextUpdate();
-
 +   // Assert
-+   expect(result.current.search).toEqual('red');
-+   expect(result.current.filteredList).toEqual([{ id: 1, name: 'red' }]);
++   await waitFor(() => {
++     expect(result.current.search).toEqual('red');
++     expect(result.current.filteredList).toEqual([{ id: 1, name: 'red' }]);
++   });
 + });
 
 ```
@@ -519,7 +522,7 @@ import { useSearchBar } from './search-bar.hook';
 > https://github.com/babel/babel/issues/8363
 
 ```diff
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 + import * as commonHooks from 'common/hooks/debounce.hook';
 import { useSearchBar } from './search-bar.hook';
 ...
@@ -576,7 +579,7 @@ import { useSearchBar } from './search-bar.hook';
 ### ./src/common/components/search-bar/search-bar.hook.spec.tsx
 
 ```diff
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act, waitFor } from '@testing-library/react';
 import * as commonHooks from 'common/hooks/debounce.hook';
 + import * as filterHelpers from 'common/helpers/filter.helpers';
 import { useSearchBar } from './search-bar.hook';

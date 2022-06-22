@@ -1,6 +1,6 @@
 import React from 'react';
 import { usePromiseTracker } from 'react-promise-tracker';
-import Modal from '@material-ui/core/Modal';
+import { Modal } from '@mui/material';
 import Loader from 'react-spinners/ScaleLoader';
 import * as classes from './spinner.styles';
 

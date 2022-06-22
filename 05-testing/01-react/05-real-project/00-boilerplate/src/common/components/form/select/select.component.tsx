@@ -1,10 +1,13 @@
 import React from 'react';
 import { useField } from 'formik';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select, { SelectProps } from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  SelectProps,
+  MenuItem,
+  FormHelperText,
+} from '@mui/material';
 import { Lookup } from 'common/models';
 import * as classes from './select.styles';
 
@@ -13,7 +16,7 @@ interface Props extends SelectProps {
   helperText?: string;
 }
 
-export const SelectComponent: React.FunctionComponent<Props> = props => {
+export const SelectComponent: React.FunctionComponent<Props> = (props) => {
   const {
     name,
     items,
@@ -52,7 +55,7 @@ export const SelectComponent: React.FunctionComponent<Props> = props => {
         onBlur={onBlur || field?.onBlur}
         value={value}
       >
-        {items.map(item => (
+        {items.map((item) => (
           <MenuItem key={item.id} value={item.id}>
             {item.name}
           </MenuItem>

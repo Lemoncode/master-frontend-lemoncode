@@ -1,9 +1,8 @@
-import * as React from 'react';
-import ThemeProvider from '@material-ui/styles/ThemeProvider';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import React from 'react';
+import { ThemeProvider, CssBaseline } from '@mui/material';
 import { theme } from './theme';
 
-export const ThemeProviderComponent = props => {
+export const ThemeProviderComponent = (props) => {
   const { children } = props;
 
   return (

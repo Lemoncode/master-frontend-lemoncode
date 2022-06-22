@@ -12,13 +12,10 @@ We will start from `00-boilerplate`.
 npm install
 ```
 
-- Let's install [react-hooks-testing-library](https://github.com/testing-library/react-hooks-testing-library) and [react-test-renderer](https://www.npmjs.com/package/react-test-renderer) as dependency.
+- It exists [react-hooks-testing-library](https://github.com/testing-library/react-hooks-testing-library) that allows you to create a simple test for React hooks but since [it is not fully supported by React 18](https://github.com/testing-library/react-hooks-testing-library#a-note-about-react-18-support), for now, we will use the [renderHook](https://testing-library.com/docs/react-testing-library/api/#renderhook) included in `@testing-library/react`
 
-```bash
-npm install @testing-library/react-hooks react-test-renderer -D
-```
 
-- When to use this library? We are writing custom hooks outside components. So let's create a simple custom hook:
+- When to use this method? We are writing custom hooks outside components. So let's create a simple custom hook:
 
 ### ./src/model.ts
 
@@ -55,8 +52,8 @@ export const useLogin = () => {
 ### ./src/login.hooks.spec.ts
 
 ```javascript
-import { renderHook } from '@testing-library/react-hooks';
-import { Credential } from 'model';
+import { renderHook } from '@testing-library/react';
+import { Credential } from './model';
 import { useLogin } from './login.hooks';
 
 describe('useLogin specs', () => {
@@ -113,16 +110,16 @@ describe('useLogin specs', () => {
 
 ```
 
-- The test passes but we see a warning about to use `act` method.
+- The test fails and we see a warning about to use `act` method.
 
 > [Read more](https://reactjs.org/docs/test-utils.html#act)
 
 ### ./src/login.hooks.spec.ts
 
 ```diff
-- import { renderHook } from '@testing-library/react-hooks';
-+ import { renderHook, act } from '@testing-library/react-hooks';
-import { Credential } from 'model';
+- import { renderHook } from '@testing-library/react';
++ import { renderHook, act } from '@testing-library/react';
+import { Credential } from './model';
 import { useLogin } from './login.hooks';
 
 ...

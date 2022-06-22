@@ -1,12 +1,11 @@
 import React from 'react';
-import Container from '@material-ui/core/Container';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { Container, Avatar, Typography } from '@mui/material';
+import { LockOutlined as LockOutlinedIcon } from '@mui/icons-material';
 import * as classes from './container.styles';
 
 interface Props {
   title: string;
+  children: React.ReactNode;
 }
 
 export const ContainerComponent: React.FC<Props> = ({ children, title }) => (

@@ -3,9 +3,10 @@ import React from 'react';
 interface Props {
   onSubmit: () => void;
   className?: string;
+  children: React.ReactNode;
 }
 
-export const FormComponent: React.FunctionComponent<Props> = props => {
+export const FormComponent: React.FunctionComponent<Props> = (props) => {
   const { onSubmit, className, children } = props;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

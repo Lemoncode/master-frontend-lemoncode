@@ -3,7 +3,11 @@ import { AppBarComponent } from 'common-app/app-bar';
 import { FooterComponent } from 'common/components';
 import * as classes from './app.layout.styles';
 
-export const AppLayout: React.FC = ({ children }) => (
+interface Props {
+  children: React.ReactNode;
+}
+
+export const AppLayout: React.FC<Props> = ({ children }) => (
   <div className={classes.container}>
     <AppBarComponent />
     <main className={classes.main}>{children}</main>

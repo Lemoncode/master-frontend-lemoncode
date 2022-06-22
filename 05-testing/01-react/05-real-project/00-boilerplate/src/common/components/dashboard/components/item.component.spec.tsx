@@ -1,5 +1,5 @@
 import React from 'react';
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import { PeopleAlt as PeopleAltIcon } from '@mui/icons-material';
 import { fireEvent } from '@testing-library/react';
 import { renderWithRouter } from 'common/test';
 import { Route } from 'react-router-dom';
@@ -24,7 +24,7 @@ describe('common/dashboard/ItemComponent', () => {
       <>
         <Route
           path={props.item.linkTo}
-          component={() => <h1>Test route destination</h1>}
+          element={<h1>Test route destination</h1>}
         />
       </>
     );
@@ -57,7 +57,7 @@ describe('common/dashboard/ItemComponent', () => {
       <>
         <Route
           path={props.item.linkTo}
-          component={() => <h1>Test route destination</h1>}
+          element={<h1>Test route destination</h1>}
         />
       </>
     );
@@ -94,7 +94,7 @@ describe('common/dashboard/ItemComponent', () => {
       <>
         <Route
           path={props.item.linkTo}
-          component={() => <h1>Test route destination</h1>}
+          element={<h1>Test route destination</h1>}
         />
       </>
     );

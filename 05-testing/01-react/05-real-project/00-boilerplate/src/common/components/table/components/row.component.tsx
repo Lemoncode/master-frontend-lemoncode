@@ -1,5 +1,5 @@
 import React from 'react';
-import TableRow, { TableRowProps } from '@material-ui/core/TableRow';
+import { TableRow, TableRowProps } from '@mui/material';
 import { cx } from '@emotion/css';
 import * as classes from './row.component.styles';
 
@@ -8,7 +8,7 @@ interface Props extends TableRowProps {
   'data-testid'?: string;
 }
 
-export const RowComponent: React.FunctionComponent<Props> = props => {
+export const RowComponent: React.FunctionComponent<Props> = (props) => {
   const { className, children, ...rest } = props;
   return (
     <TableRow

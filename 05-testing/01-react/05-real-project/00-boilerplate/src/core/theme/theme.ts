@@ -2,25 +2,10 @@ import merge from 'lodash.merge';
 import {
   createTheme,
   Theme as DefaultTheme,
-} from '@material-ui/core/styles';
-import { PaletteColor } from '@material-ui/core/styles/createPalette';
+  PaletteColor,
+} from '@mui/material';
 
-const defaultTheme = createTheme();
-
-type Theme = DefaultTheme & {
-  palette: {
-    primary: PaletteColor;
-    secondary: PaletteColor;
-    success: PaletteColor;
-    info: PaletteColor;
-    warning: PaletteColor;
-    table: {
-      row: PaletteColor;
-    };
-  };
-};
-
-export const theme: Theme = merge(defaultTheme, {
+const defaultTheme = createTheme({
   palette: {
     primary: {
       light: '#4a8089',
@@ -41,6 +26,37 @@ export const theme: Theme = merge(defaultTheme, {
     warning: {
       main: '#ffa000',
     },
+  },
+  components: {
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          color: '#ffffff',
+          '&.Mui-selected': {
+            color: '#ffffff',
+            textDecoration: 'underline',
+          },
+        },
+      },
+    },
+  },
+});
+
+type Theme = DefaultTheme & {
+  palette: {
+    primary: PaletteColor;
+    secondary: PaletteColor;
+    success: PaletteColor;
+    info: PaletteColor;
+    warning: PaletteColor;
+    table: {
+      row: PaletteColor;
+    };
+  };
+};
+
+export const theme: Theme = merge(defaultTheme, {
+  palette: {
     table: {
       row: {
         main: '#ddd',

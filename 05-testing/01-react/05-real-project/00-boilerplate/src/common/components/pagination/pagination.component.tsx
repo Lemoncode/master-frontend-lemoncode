@@ -1,5 +1,5 @@
 import React from 'react';
-import Pagination from '@material-ui/lab/Pagination';
+import { Pagination } from '@mui/material';
 
 interface Props {
   pageIndex: number;
@@ -8,7 +8,7 @@ interface Props {
   className?: string;
 }
 
-export const PaginationComponent: React.FunctionComponent<Props> = props => {
+export const PaginationComponent: React.FunctionComponent<Props> = (props) => {
   const { pageIndex, pageCount, onChange, className } = props;
 
   const handleChange = (event, value) => {

@@ -1,13 +1,13 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import { Typography, Box } from '@mui/material';
 
 interface Props {
   index: number;
   value: any;
+  children: React.ReactNode;
 }
 
-export const TabPanelComponent: React.FunctionComponent<Props> = props => {
+export const TabPanelComponent: React.FunctionComponent<Props> = (props) => {
   const { children, value, index, ...other } = props;
 
   return (

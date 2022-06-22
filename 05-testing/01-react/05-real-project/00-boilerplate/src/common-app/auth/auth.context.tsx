@@ -17,7 +17,10 @@ export const AuthContext = React.createContext<Context>({
     ),
 });
 
-export const AuthProvider: React.FC = ({ children }) => {
+interface Props {
+  children: React.ReactNode
+}
+export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [userSession, setUserSession] = React.useState<UserSession>(
     createEmptyUserSession()
   );

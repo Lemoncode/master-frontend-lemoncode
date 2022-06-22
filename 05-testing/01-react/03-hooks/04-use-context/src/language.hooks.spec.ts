@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import { LanguageProvider } from './language.context';
 import { useLanguage } from './language.hooks';
 

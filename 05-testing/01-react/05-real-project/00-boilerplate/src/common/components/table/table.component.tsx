@@ -1,11 +1,12 @@
 import React from 'react';
-import { cx } from '@emotion/css';
 import { TableProps, HeaderGroup, Row } from 'react-table';
-import Paper from '@material-ui/core/Paper';
-import TableContainer from '@material-ui/core/TableContainer';
-import Table from '@material-ui/core/Table';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import {
+  Paper,
+  TableContainer,
+  Table,
+  Button,
+  Typography,
+} from '@mui/material';
 import { SearchBarComponent } from '../search-bar';
 import { PaginationComponent } from '../pagination';
 import { ConfirmationDialogComponent } from '../confirmation-dialog';
@@ -35,7 +36,7 @@ interface Props<T extends object = {}> {
   className?: string;
 }
 
-export const TableComponent: React.FunctionComponent<Props> = props => {
+export const TableComponent: React.FunctionComponent<Props> = (props) => {
   const {
     tableProps,
     headerGroups,

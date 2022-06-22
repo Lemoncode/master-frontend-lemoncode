@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import Button from '@material-ui/core/Button';
+import { Button } from '@mui/material';
 import { TextFieldComponent } from 'common/components';
 import { Login, createEmptyLogin } from '../login.vm';
 import { formValidation } from '../login.validation';
@@ -11,7 +11,7 @@ interface Props {
   onLogin: (login: Login) => void;
 }
 
-export const LoginFormComponent: React.FunctionComponent<Props> = props => {
+export const LoginFormComponent: React.FunctionComponent<Props> = (props) => {
   const { onLogin } = props;
   return (
     <Formik

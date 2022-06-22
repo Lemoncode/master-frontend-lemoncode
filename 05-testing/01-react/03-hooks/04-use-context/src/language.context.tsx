@@ -12,7 +12,11 @@ export const LanguageContext = React.createContext<Context>({
   },
 });
 
-export const LanguageProvider: React.FunctionComponent = props => {
+interface Props {
+  children: React.ReactNode;
+}
+
+export const LanguageProvider: React.FC<Props> = props => {
   const [language, setLanguage] = React.useState('es');
 
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import SearchIcon from '@material-ui/icons/Search';
+import { TextField } from '@mui/material';
+import { Search as SearchIcon } from '@mui/icons-material';
 
 interface LabelProps {
   placeholder: string;
@@ -13,14 +13,14 @@ interface Props {
   className?: string;
 }
 
-export const SearchBarComponent: React.FunctionComponent<Props> = props => {
+export const SearchBarComponent: React.FunctionComponent<Props> = (props) => {
   const { search, onSearch, labels, className } = props;
 
   return (
     <TextField
       className={className}
       value={search}
-      onChange={e => onSearch(e.target.value)}
+      onChange={(e) => onSearch(e.target.value)}
       placeholder={labels.placeholder}
       InputProps={{
         startAdornment: <SearchIcon />,

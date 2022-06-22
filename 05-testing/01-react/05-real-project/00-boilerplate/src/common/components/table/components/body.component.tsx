@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row } from 'react-table';
-import TableBody from '@material-ui/core/TableBody';
+import { TableBody } from '@mui/material';
 import { RowRendererProps } from '../table.vm';
 
 interface Props<T extends object = {}> {
@@ -9,11 +9,11 @@ interface Props<T extends object = {}> {
   rowRenderer: (props: RowRendererProps<T>) => React.ReactNode;
 }
 
-export const BodyComponent: React.FunctionComponent<Props> = props => {
+export const BodyComponent: React.FunctionComponent<Props> = (props) => {
   const { rows, prepareRow, rowRenderer } = props;
   return (
     <TableBody>
-      {rows.map(row => {
+      {rows.map((row) => {
         prepareRow(row);
         return rowRenderer({
           ...row.getRowProps(),

@@ -1,24 +1,37 @@
 const { merge } = require('webpack-merge');
 const Dotenv = require('dotenv-webpack');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const base = require('./base');
-const helpers = require('./helpers');
 
 module.exports = merge(base, {
   mode: 'development',
-  devtool: 'inline-source-map',
+  devtool: 'eval-source-map',
   output: {
-    path: helpers.resolveFromRootPath('dist'),
     filename: '[name].js',
   },
   devServer: {
-    inline: true,
     host: 'localhost',
     port: 8080,
-    stats: 'minimal',
+    hot: true,
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            plugins: [require.resolve('react-refresh/babel')],
+          },
+        },
+      },
+    ],
   },
   plugins: [
     new Dotenv({
       path: 'dev.env',
     }),
+    new ReactRefreshWebpackPlugin(),
   ],
 });

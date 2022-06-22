@@ -31,7 +31,11 @@ export const LanguageContext = React.createContext<Context>({
   },
 });
 
-export const LanguageProvider: React.FunctionComponent = props => {
+interface Props {
+  children: React.ReactNode;
+}
+
+export const LanguageProvider: React.FC<Props> = props => {
   const [language, setLanguage] = React.useState('es');
 
   return (
@@ -40,7 +44,6 @@ export const LanguageProvider: React.FunctionComponent = props => {
     </LanguageContext.Provider>
   );
 };
-
 ```
 
 - If we want to use this `context`, we have to write something like this on top of our app:
@@ -80,7 +83,7 @@ export const useLanguage = () => {
 ### ./src/language.hooks.spec.ts
 
 ```javascript
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import { useLanguage } from './language.hooks';
 
 describe('useLanguage specs', () => {
@@ -101,8 +104,6 @@ describe('useLanguage specs', () => {
 ### ./src/language.hooks.spec.ts
 
 ```diff
-- import { renderHook } from '@testing-library/react-hooks';
-+ import { renderHook, act } from '@testing-library/react-hooks';
 ...
 - it('', () => {
 + it('should return a message with language equals "en" when it renders the hook', () => {
@@ -128,14 +129,14 @@ describe('useLanguage specs', () => {
 
 ```diff
 + import React from 'react';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 + import { LanguageProvider } from './language.context';
 import { useLanguage } from './language.hooks';
 
 describe('useLanguage specs', () => {
   it('should return a message with language equals "en" when it renders the hook', () => {
     // Arrange
-+   const provider: React.FunctionComponent = props => (
++   const provider = props => (
 +     <LanguageProvider>{props.children}</LanguageProvider>
 +   );
 
@@ -162,14 +163,14 @@ describe('useLanguage specs', () => {
 
 ```diff
 - import React from 'react';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import { LanguageProvider } from './language.context';
 import { useLanguage } from './language.hooks';
 
 describe('useLanguage specs', () => {
   it('should return a message with language equals "en" when it renders the hook', () => {
     // Arrange
--   const provider: React.FunctionComponent = props => (
+-   const provider = props => (
 -     <LanguageProvider>{props.children}</LanguageProvider>
 -   );
 

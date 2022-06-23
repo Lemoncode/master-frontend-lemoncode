@@ -84,7 +84,7 @@ a function:
 +      setNumber((number) => number + 1);
 
     }, 1500);
-    setNumero(1);
+    setNumber(1);
   }, []);
 ```
 

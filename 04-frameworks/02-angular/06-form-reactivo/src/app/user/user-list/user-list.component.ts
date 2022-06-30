@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MemberEntity } from 'src/app/model/MemberEntity';
 import { MembersService } from 'src/app/services/members.service';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-user-list',
@@ -14,12 +14,12 @@ export class UserListComponent implements OnInit {
   newMember: MemberEntity;
   memberSelected: MemberEntity;
 
-  editForm: FormGroup;
-  idControl: FormControl;
-  loginControl: FormControl;
-  avatarControl: FormControl;
+  editForm: UntypedFormGroup;
+  idControl: UntypedFormControl;
+  loginControl: UntypedFormControl;
+  avatarControl: UntypedFormControl;
 
-  constructor(private membersService: MembersService, private fb: FormBuilder) {
+  constructor(private membersService: MembersService, private fb: UntypedFormBuilder) {
     this.membersService.getAll().then(
       members => this.members = members
     );
@@ -51,9 +51,9 @@ export class UserListComponent implements OnInit {
       avatar_url: ''
     });
 
-    this.idControl = this.editForm.get('id') as FormControl;
-    this.loginControl = this.editForm.get('login') as FormControl;
-    this.avatarControl = this.editForm.get('avatar_url') as FormControl;
+    this.idControl = this.editForm.get('id') as UntypedFormControl;
+    this.loginControl = this.editForm.get('login') as UntypedFormControl;
+    this.avatarControl = this.editForm.get('avatar_url') as UntypedFormControl;
   }
 
   add() {

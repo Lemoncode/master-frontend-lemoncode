@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/services/user.service';
 import { map, filter, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-search',
@@ -13,7 +13,7 @@ export class SearchComponent implements OnInit {
 
   errorMessage: string;
   users: User[];
-  emailControl: FormControl = new FormControl();
+  emailControl: UntypedFormControl = new UntypedFormControl();
 
   constructor(private userService: UserService) {
     this.getUsers().subscribe(users => this.users = users);

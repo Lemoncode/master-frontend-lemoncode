@@ -119,6 +119,6 @@
           }
         }
       }
-    }},
-  "defaultProject": "lemoncode-master-angular"
+    }
+  }
 }

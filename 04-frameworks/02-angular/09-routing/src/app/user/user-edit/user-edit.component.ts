@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MemberEntity } from 'src/app/model/MemberEntity';
 
 @Component({
@@ -15,12 +15,12 @@ export class UserEditComponent implements OnInit, OnChanges {
   @Output()
   saveEvent: EventEmitter<MemberEntity> = new EventEmitter();
 
-  editForm: FormGroup;
-  idControl: FormControl;
-  loginControl: FormControl;
-  avatarControl: FormControl;
+  editForm: UntypedFormGroup;
+  idControl: UntypedFormControl;
+  loginControl: UntypedFormControl;
+  avatarControl: UntypedFormControl;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: UntypedFormBuilder) {
     this.createEditForm();
   }
 
@@ -39,9 +39,9 @@ export class UserEditComponent implements OnInit, OnChanges {
       avatar_url: ''
     });
 
-    this.idControl = this.editForm.get('id') as FormControl;
-    this.loginControl = this.editForm.get('login') as FormControl;
-    this.avatarControl = this.editForm.get('avatar_url') as FormControl;
+    this.idControl = this.editForm.get('id') as UntypedFormControl;
+    this.loginControl = this.editForm.get('login') as UntypedFormControl;
+    this.avatarControl = this.editForm.get('avatar_url') as UntypedFormControl;
   }
 
   handleEditFileInput(files: FileList) {

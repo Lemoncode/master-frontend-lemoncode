@@ -46,7 +46,6 @@ _./src/components/app.layout.tsx_
 ```diff
 import React from 'react';
 + import Image from 'next/image';
-import AppBar from '@material-ui/core/AppBar';
 ...
 
 export const AppLayout: React.FunctionComponent = (props) => {
@@ -72,30 +71,6 @@ export const AppLayout: React.FunctionComponent = (props) => {
 > Blur effect supported since Next v11.
 > [Nextjs Issue not supported](https://github.com/vercel/next.js/issues/18858) > [plaiceholder](https://github.com/joe-bell/plaiceholder) and [example with Nextjs](https://github.com/joe-bell/plaiceholder/tree/main/examples/next) > [Vanilla Blur Example](https://codepen.io/darajava/pen/GRZzpbB?editors=0110)
 
-- Let's try `blur` effect:
-
-_./src/components/app.layout.tsx_
-
-```diff
-import React from 'react';
-import Image from 'next/image';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-+ import logo from '../../public/home-logo.png'
-import * as classes from './app.layout.styles';
-
-...
-
-  return (
-    <>
-      <AppBar position="fixed">
-        <Toolbar className={classes.toolbar} variant="dense">
--         <Image src="/home-logo.png" layout="fill" objectFit="contain" />
-+         <Image src={logo} layout="fill" objectFit="contain" placeholder="blur" />
-...
-
-```
 
 - Let's move this image inside a button:
 
@@ -104,11 +79,8 @@ _./src/components/app.layout.tsx_
 ```diff
 import React from 'react';
 import Image from 'next/image';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-+ import IconButton from '@material-ui/core/IconButton';
-import logo from '../../public/home-logo.png'
+- import { AppBar, Toolbar, Typography } from '@mui/material';
++ import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
 import * as classes from './app.layout.styles';
 ...
 
@@ -120,7 +92,7 @@ export const AppLayout: React.FunctionComponent = (props) => {
       <AppBar position="fixed">
         <Toolbar className={classes.toolbar} variant="dense">
 +         <IconButton>
-            <Image src={logo} layout="fill" objectFit="contain" placeholder="blur" />
+            <Image src="/home-logo.png" layout="fill" objectFit="contain" />
 +         </IconButton>
 ...
 
@@ -154,8 +126,7 @@ _./src/components/app.layout.tsx_
 ...
 -         <IconButton>
 +         <IconButton className={classes.iconButton}>
-            <Image src={logo} layout="fill" objectFit="contain" placeholder="blur" />
-          </IconButton>
+...
 ```
 
 # About Basefactor + Lemoncode

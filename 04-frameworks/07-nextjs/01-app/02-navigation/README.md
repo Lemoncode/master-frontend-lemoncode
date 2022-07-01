@@ -37,7 +37,7 @@ export default CarListPage;
 - Run app:
 
 ```bash
-npm run start:dev
+npm start
 ```
 
 - We have two ways of navigations in Nextjs. Using `link` component:

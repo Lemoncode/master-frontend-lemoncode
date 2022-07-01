@@ -1,26 +1,28 @@
 import React from 'react';
-import StylesProvider from '@material-ui/styles/StylesProvider';
-import ThemeProvider from '@material-ui/styles/ThemeProvider';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { cache } from '@emotion/css';
+import { CacheProvider } from '@emotion/react';
+import {
+  ThemeProvider as MuiThemeProvider,
+  StyledEngineProvider,
+  CssBaseline,
+} from '@mui/material';
 import { theme } from './theme';
 
-export const ThemeProviderComponent = (props) => {
+interface Props {
+  children: React.ReactNode;
+}
+
+export const ThemeProvider: React.FC<Props> = (props) => {
   const { children } = props;
 
-  React.useEffect(() => {
-    // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
-    }
-  }, []);
-
   return (
-    <StylesProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
-    </StylesProvider>
+    <StyledEngineProvider injectFirst>
+      <CacheProvider value={cache}>
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          {children}
+        </MuiThemeProvider>
+      </CacheProvider>
+    </StyledEngineProvider>
   );
 };

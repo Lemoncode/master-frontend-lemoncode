@@ -1,29 +1,33 @@
 import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-import { extractCritical } from '@emotion/server';
-import { ServerStyleSheets } from '@material-ui/core/styles';
+import { CacheProvider } from '@emotion/react';
+import { cache } from '@emotion/css';
+import createEmotionServer from '@emotion/server/create-instance';
+
+const { extractCritical } = createEmotionServer(cache);
 
 class CustomDocument extends Document {
   static async getInitialProps(ctx) {
-    const sheets = new ServerStyleSheets();
     const originalRenderPage = ctx.renderPage;
     ctx.renderPage = () =>
       originalRenderPage({
-        enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
+        enhanceApp: (App) => (props) =>
+          (
+            <CacheProvider value={cache}>
+              <App {...props} />
+            </CacheProvider>
+          ),
       });
-
     const initialProps = await Document.getInitialProps(ctx);
-    const styles = extractCritical(initialProps.html);
-
+    const { css, ids } = extractCritical(initialProps.html);
     return {
       ...initialProps,
       styles: (
         <>
           {initialProps.styles}
-          {sheets.getStyleElement()}
           <style
-            data-emotion-css={styles.ids.join(' ')}
-            dangerouslySetInnerHTML={{ __html: styles.css }}
+            data-emotion={`${cache.key} ${ids.join(' ')}`}
+            dangerouslySetInnerHTML={{ __html: css }}
           />
         </>
       ),

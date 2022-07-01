@@ -81,19 +81,6 @@ const CarListPage = () => {
 
 ```
 
-> Check Chrome Devtools > Network > Slow 3G
-
-- It looks great but let's try on production mode:
-
-```bash
-npm run build
-npm run start:prod
-```
-
-> Check Chrome Devtools > Network > Slow 3G
-
-- That means that styles are supported by server side rendering.
-
 - Let's install [emotion](https://emotion.sh/docs/introduction) to works with CSS-in-JS:
 
 ```bash
@@ -113,6 +100,9 @@ _./.babelrc_
   "plugins": ["@emotion"]
 }
 ```
+
+> Note: by default use [swc](https://swc.rs/)
+> NextJs is working to [port @emotion/babel-plugin](https://nextjs.org/docs/advanced-features/compiler#emotion) to next compiler
 
 - Update styles (rename to `car-list.styles.ts`):
 
@@ -205,25 +195,38 @@ _./src/pages/\_document.tsx_
 ```diff
 import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-+ import { extractCritical } from '@emotion/server';
++ import { CacheProvider } from '@emotion/react';
++ import { cache } from '@emotion/css';
++ import createEmotionServer from '@emotion/server/create-instance';
+
++ const { extractCritical } = createEmotionServer(cache);
 
 class CustomDocument extends Document {
   static async getInitialProps(ctx) {
++   const originalRenderPage = ctx.renderPage;
++   ctx.renderPage = () =>
++     originalRenderPage({
++       enhanceApp: App => props =>
++         (
++           <CacheProvider value={cache}>
++             <App {...props} />
++           </CacheProvider>
++         ),
++     });
     const initialProps = await Document.getInitialProps(ctx);
-+   const styles = extractCritical(initialProps.html);
--   return { ...initialProps };
-+   return {
-+     ...initialProps,
++   const { css, ids } = extractCritical(initialProps.html);
+    return {
+      ...initialProps,
 +     styles: (
 +       <>
 +         {initialProps.styles}
 +         <style
-+           data-emotion-css={styles.ids.join(' ')}
-+           dangerouslySetInnerHTML={{ __html: styles.css }}
++           data-emotion={`${cache.key} ${ids.join(' ')}`}
++           dangerouslySetInnerHTML={{ __html: css }}
 +         />
 +       </>
 +     ),
-+   };
+    };
   }
 ...
 
@@ -236,8 +239,6 @@ npm run build
 npm run start:prod
 
 ```
-
-> Take a look that if we render `Home page` first, we don't have cars styles yet.
 
 - We can follow similar approach for `material-ui` styles. Let's add an `app layout`:
 
@@ -262,12 +263,14 @@ _./src/components/app.layout.tsx_
 
 ```javascript
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import { AppBar, Toolbar, Typography } from '@mui/material';
 import * as classes from './app.layout.styles';
 
-export const AppLayout: React.FunctionComponent = (props) => {
+interface Props {
+  children: React.ReactNode;
+}
+
+export const AppLayout: React.FC<Props> = (props) => {
   const { children } = props;
 
   return (
@@ -286,6 +289,7 @@ export const AppLayout: React.FunctionComponent = (props) => {
     </>
   );
 };
+
 ```
 
 - Update barrel file:
@@ -338,61 +342,12 @@ npm run build
 npm run start:prod
 ```
 
-- Let's add SSR for `material-ui`:
-
-_./src/pages/\_document.tsx_
-
-```diff
-import React from 'react';
-import Document, { Html, Head, Main, NextScript } from 'next/document';
-import { extractCritical } from '@emotion/server';
-+ import { ServerStyleSheets } from '@material-ui/core/styles';
-
-class CustomDocument extends Document {
-  static async getInitialProps(ctx) {
-+   const sheets = new ServerStyleSheets();
-+   const originalRenderPage = ctx.renderPage;
-+   ctx.renderPage = () =>
-+     originalRenderPage({
-+       enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
-+     });
-
-    const initialProps = await Document.getInitialProps(ctx);
-    const styles = extractCritical(initialProps.html);
-
-    return {
-      ...initialProps,
-      styles: (
-        <>
-          {initialProps.styles}
-+         {sheets.getStyleElement()}
-          <style
-            data-emotion-css={styles.ids.join(' ')}
-            dangerouslySetInnerHTML={{ __html: styles.css }}
-          />
-        </>
-      ),
-    };
-  }
-...
-
-```
-
-> [SSR material-ui docs](https://material-ui.com/guides/server-rendering/#server-rendering) > [Nextjs-material-ui SSR example](https://github.com/mui-org/material-ui/tree/master/examples/nextjs)
-
-- Start prod:
-
-```bash
-npm run build
-npm run start:prod
-```
-
 - A common feature using `material-ui` is define our custom theme:
 
 _./src/common/theme/theme.ts_
 
 ```javascript
-import { createTheme, Theme } from '@material-ui/core/styles';
+import { createTheme, Theme } from '@mui/material';
 
 const defaultTheme = createTheme({
   palette: {
@@ -403,6 +358,7 @@ const defaultTheme = createTheme({
 });
 
 export const theme: Theme = defaultTheme;
+
 ```
 
 > We can use this object in our component's styles that it uses `emotion`.
@@ -413,31 +369,34 @@ _./src/common/theme/theme-provider.component.tsx_
 
 ```javascript
 import React from 'react';
-import StylesProvider from '@material-ui/styles/StylesProvider';
-import ThemeProvider from '@material-ui/styles/ThemeProvider';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { cache } from '@emotion/css';
+import { CacheProvider } from '@emotion/react';
+import {
+  ThemeProvider as MuiThemeProvider,
+  StyledEngineProvider,
+  CssBaseline,
+} from '@mui/material';
 import { theme } from './theme';
 
-export const ThemeProviderComponent = (props) => {
+interface Props {
+  children: React.ReactNode;
+}
+
+export const ThemeProvider: React.FC<Props> = (props) => {
   const { children } = props;
 
-  React.useEffect(() => {
-    // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
-    }
-  }, []);
-
   return (
-    <StylesProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
-    </StylesProvider>
+    <StyledEngineProvider injectFirst>
+      <CacheProvider value={cache}>
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          {children}
+        </MuiThemeProvider>
+      </CacheProvider>
+    </StyledEngineProvider>
   );
 };
+
 ```
 
 - Add barrel file:
@@ -457,7 +416,7 @@ _./src/pages/\_app.tsx_
 import React from 'react';
 import { AppProps } from 'next/app';
 
-const App: React.FunctionComponent<AppProps> = (props) => {
+const App: React.FC<AppProps> = (props) => {
   const { Component, pageProps } = props;
 
   return <Component {...pageProps} />;
@@ -475,16 +434,16 @@ _./src/pages/\_app.tsx_
 ```diff
 import React from 'react';
 import { AppProps } from 'next/app';
-+ import { ThemeProviderComponent } from '../common/theme';
++ import { ThemeProvider } from '../common/theme';
 
 const App: React.FunctionComponent<AppProps> = (props) => {
   const { Component, pageProps } = props;
 
 - return <Component {...pageProps} />;
 + return (
-+   <ThemeProviderComponent>
++   <ThemeProvider>
 +     <Component {...pageProps} />
-+   </ThemeProviderComponent>
++   </ThemeProvider>
 + );
 };
 

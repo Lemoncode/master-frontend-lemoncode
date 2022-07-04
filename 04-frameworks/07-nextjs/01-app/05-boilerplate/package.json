@@ -22,7 +22,8 @@
     "axios": "^0.27.2",
     "next": "^12.2.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "sharp": "^0.30.7"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.9.2",

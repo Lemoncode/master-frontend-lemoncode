@@ -12,9 +12,9 @@ We will start from `07-server-side-rendering`.
 npm install
 ```
 
-# Server Side Rendering
+# Client Side Rendering
 
-If we don't need to pre-render the data and frequently updating data. 
+If we don't need to pre-render the data and frequently updating data.
 
 - The page is generated on client side.
 - Available on pages and internal components.
@@ -22,61 +22,17 @@ If we don't need to pre-render the data and frequently updating data.
 
 > SWR is a strategy to first return the data from cache (stale), then send the fetch request (revalidate), and finally come with the up-to-date data
 
-- Let's implement the api method to book a car:
+- Let's look up the api method to book a car:
 
 _./src/api/car.api.ts_
 
-```diff
+```javascript
 ...
 
-+ export const bookCar = async (car: Car): Promise<boolean> => {
-+   await Axios.put(`${url}/${car.id}`, car);
-+   return true;
-+ };
-
-```
-
-- Create mapper from `Vm to Api`:
-
-_./src/mappers/car.mappers.ts_
-
-```diff
-...
-
-+ export const mapCarFromVmToApi = (car: viewModel.Car): apiModel.Car => ({
-+   id: car.id,
-+   name: car.name,
-+   imageUrl: car.imageUrl.split(envConstants.BASE_PICTURES_URL)[1],
-+   features: car.features,
-+   isBooked: car.isBooked,
-+ });
-```
-
-- And use it:
-
-_./src/components/car.container.ts_
-
-```diff
-import React from 'react';
-import { useRouter } from 'next/router';
-import * as api from '../api';
-import { routeConstants } from '../common/constants';
-- import { mapCarFromApiToVm } from '../mappers';
-+ import { mapCarFromApiToVm, mapCarFromVmToApi } from '../mappers';
-...
-
-  const handleBook = async () => {
-+   try {
-+     const apiCar = mapCarFromVmToApi({ ...car, isBooked: !car.isBooked });
-+     await api.bookCar(apiCar);
--     // TODO: Book a car
-      router.push(routeConstants.carList);
-+   } catch (error) {
-+     console.error({ error });
-+   }
-  };
-
-...
+export const bookCar = async (car: Car): Promise<boolean> => {
+  await Axios.put(`${url}/${car.id}`, car);
+  return true;
+};
 
 ```
 
@@ -212,7 +168,6 @@ npm run start:prod
 ```
 
 - Open two browser tabs in `http://localhost:8080/cars`
-
 
 - Add new car:
 

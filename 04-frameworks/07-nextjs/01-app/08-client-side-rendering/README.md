@@ -75,7 +75,6 @@ import { AppLayout, CarListContainer } from '../components';
 +   onLoad();
 + }, []);
 
-- console.log('Render car list Page');
 + console.log(`Render car list: ${carList.length}`);
   return (
     <AppLayout>
@@ -118,7 +117,7 @@ npm install swr --save
 
 - Let's export cars url:
 
-_./src/api/car.api.ts_
+_./src/pods/car-list/api/car-list.api.ts_
 
 ```diff
 import Axios from 'axios';
@@ -137,8 +136,7 @@ _./src/pages/cars.ts_
 import React from 'react';
 + import useSWR from 'swr';
 import Head from 'next/head';
-import * as api from '../api';
-import { AppLayout, CarListContainer } from '../components';
+...
 
 const CarListPage: React.FunctionComponent = () => {
 - const [carList, setCarList] = React.useState<api.Car[]>([]);

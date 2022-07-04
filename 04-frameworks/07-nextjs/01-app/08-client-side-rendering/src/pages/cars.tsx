@@ -1,12 +1,13 @@
 import React from 'react';
 import useSWR from 'swr';
 import Head from 'next/head';
-import * as api from '../api';
-import { AppLayout, CarListContainer } from '../components';
+import { AppLayout } from 'layouts';
+import { CarListContainer, api } from 'pods/car-list';
 
 const CarListPage: React.FunctionComponent = () => {
   const { data } = useSWR(api.url, api.getCarList);
   const carList = data || [];
+
   console.log(`Render car list: ${carList.length}`);
 
   return (

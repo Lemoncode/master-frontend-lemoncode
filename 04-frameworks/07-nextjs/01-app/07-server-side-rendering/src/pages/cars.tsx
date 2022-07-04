@@ -1,16 +1,16 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import * as api from '../api';
-import { AppLayout, CarListContainer } from '../components';
+import { AppLayout } from 'layouts';
+import { CarListContainer, api } from 'pods/car-list';
 
 interface Props {
   carList: api.Car[];
 }
 
-const CarListPage: React.FunctionComponent<Props> = (props) => {
+const CarListPage: React.FC<Props> = (props) => {
   const { carList } = props;
-  console.log('Render car list Page');
+  console.log(`Car list on component: `, { carList });
 
   return (
     <AppLayout>

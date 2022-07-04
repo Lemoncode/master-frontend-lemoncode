@@ -1,14 +1,14 @@
 import React from 'react';
 import { AppProps } from 'next/app';
-import { ThemeProviderComponent } from '../common/theme';
+import { ThemeProvider } from 'core/theme';
 
-const App: React.FunctionComponent<AppProps> = (props) => {
+const App: React.FC<AppProps> = (props) => {
   const { Component, pageProps } = props;
 
   return (
-    <ThemeProviderComponent>
+    <ThemeProvider>
       <Component {...pageProps} />
-    </ThemeProviderComponent>
+    </ThemeProvider>
   );
 };
 

@@ -2,7 +2,7 @@
 
 Let's works with Nextjs using client side rendering.
 
-We will start from `06-server-side-rendering`.
+We will start from `07-server-side-rendering`.
 
 # Steps to build it
 

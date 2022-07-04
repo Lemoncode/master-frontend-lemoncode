@@ -2,7 +2,7 @@
 
 Let's works with Nextjs using server side rendering.
 
-We will start from `05-static-site-generation`.
+We will start from `06-static-site-generation`.
 
 # Steps to build it
 
@@ -28,12 +28,6 @@ _./src/pages/cars.tsx_
 import React from 'react';
 - import { GetStaticProps } from 'next';
 + import { GetServerSideProps } from 'next';
-...
-
-const CarListPage: React.FunctionComponent<Props> = (props) => {
-  const { carList } = props;
-+ console.log('Render car list Page');
-
 ...
 
 - export const getStaticProps: GetStaticProps = async () => {
@@ -64,58 +58,10 @@ npm run build
 npm run start:prod
 ```
 
+> Check `.next` folder, it doesn't have `cars.json` file
 > Checks that first time it renders the page on `server side` but after navigate and come back it renders on `client side`.
-> But every request fetch data
+> But every request fetch data (`cars.json`)
 > Check navigation from index to `/cars`
-
-- We can migrate use it on `car details` too:
-
-_./src/pages/cars/[carId].tsx_
-
-```diff
-import React from 'react';
-- import { GetStaticProps, GetStaticPaths } from 'next';
-+ import { GetServerSideProps } from 'next';
-...
-
-
-const CarPage: React.FunctionComponent<Props> = (props) => {
-  const { car } = props;
-+ console.log(`Render car details page: ${car?.id}`);
-  return (
-...
-
-- export const getStaticProps: GetStaticProps = async (context) => {
-+ export const getServerSideProps: GetServerSideProps = async (context) => {
-  const carId = context.params.carId as string;
-  const car = await api.getCar(carId);
-...
-
-- export const getStaticPaths: GetStaticPaths = async () => {
--   return {
--     paths: [
--       { params: { carId: '1' } },
--       { params: { carId: '2' } },
--       { params: { carId: '3' } },
--     ],
--     fallback: true,
--   };
-- };
-
-export default CarPage;
-
-```
-
-- Run:
-
-```bash
-npm run start:api-server
-npm run build
-npm run start:prod
-```
-
-> Check first load
-> Check navigation
 
 # About Basefactor + Lemoncode
 

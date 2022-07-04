@@ -6,8 +6,8 @@ test-report.*
 junit.xml
 *.log
 *.orig
-package-lock.json
-yarn.lock
 .cache
 .env
 .next
+.swc
+.env.local

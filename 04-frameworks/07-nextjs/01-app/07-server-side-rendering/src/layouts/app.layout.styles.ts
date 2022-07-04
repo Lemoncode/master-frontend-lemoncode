@@ -5,6 +5,10 @@ export const toolbar = css`
   flex-direction: row;
   column-gap: 1rem;
   row-gap: 1rem;
+
+  & > :nth-child(3) {
+    margin-left: auto;
+  }
 `;
 
 export const iconButton = css`

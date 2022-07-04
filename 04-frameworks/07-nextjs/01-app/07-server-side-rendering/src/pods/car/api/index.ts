@@ -1,2 +1,2 @@
-export * from './car.api';
 export * from './car.api-model';
+export * from './car.api';

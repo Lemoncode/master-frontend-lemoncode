@@ -1,8 +1,8 @@
 import React from 'react';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
-import * as api from '../../api';
-import { AppLayout, CarContainer } from '../../components';
+import { AppLayout } from 'layouts';
+import { CarContainer, api } from 'pods/car';
 
 interface Props {
   car: api.Car;
@@ -10,7 +10,6 @@ interface Props {
 
 const CarPage: React.FunctionComponent<Props> = (props) => {
   const { car } = props;
-  console.log(`Render car details page: ${car?.id}`);
   return (
     <AppLayout>
       <Head>
@@ -21,7 +20,7 @@ const CarPage: React.FunctionComponent<Props> = (props) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const carId = context.params.carId as string;
   const car = await api.getCar(carId);
   console.log(`Fetch car: ${JSON.stringify(car, null, 2)}`);
@@ -30,6 +29,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       car,
     },
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [
+      { params: { carId: '1' } },
+      { params: { carId: '2' } },
+      { params: { carId: '3' } },
+    ],
+    fallback: true,
   };
 };
 

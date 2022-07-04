@@ -1,21 +1,25 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import AvailableIcon from '@material-ui/icons/CheckCircle';
-import BookedIcon from '@material-ui/icons/Cancel';
-import { routeConstants } from '../common/constants';
-import { Car } from '../view-models';
+import {
+  Card,
+  CardHeader,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+} from '@mui/material';
+import {
+  CheckCircle as AvailableIcon,
+  Cancel as BookedIcon,
+} from '@mui/icons-material';
+import { routeConstants } from 'core/constants';
+import { Car } from '../car-list.vm';
 import * as classes from './car-item.styles';
 
 interface Props {
   car: Car;
 }
 
-export const CarItem: React.FunctionComponent<Props> = (props) => {
+export const CarItem: React.FC<Props> = (props) => {
   const { car } = props;
   const router = useRouter();
 

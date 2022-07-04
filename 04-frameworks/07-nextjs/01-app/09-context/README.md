@@ -2,7 +2,7 @@
 
 Let's works with Nextjs using React Context.
 
-We will start from `07-client-side-rendering`.
+We will start from `08-client-side-rendering`.
 
 # Steps to build it
 

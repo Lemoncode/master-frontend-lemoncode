@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import { theme } from '../common/theme';
+import { theme } from 'core/theme';
 
 export const cardMedia = css`
   height: 0;

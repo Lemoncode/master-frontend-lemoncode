@@ -1,13 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import logo from '../../public/home-logo.png';
+import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
 import * as classes from './app.layout.styles';
 
-export const AppLayout: React.FunctionComponent = (props) => {
+interface Props {
+  children: React.ReactNode;
+}
+
+export const AppLayout: React.FC<Props> = (props) => {
   const { children } = props;
 
   return (
@@ -15,12 +15,7 @@ export const AppLayout: React.FunctionComponent = (props) => {
       <AppBar position="fixed">
         <Toolbar className={classes.toolbar} variant="dense">
           <IconButton className={classes.iconButton}>
-            <Image
-              src={logo}
-              layout="fill"
-              objectFit="contain"
-              placeholder="blur"
-            />
+            <Image src="/home-logo.png" layout="fill" objectFit="contain" />
           </IconButton>
           <Typography variant="h6" color="inherit">
             Rent a car

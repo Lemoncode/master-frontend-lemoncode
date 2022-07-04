@@ -2,7 +2,7 @@
 
 Let's works with Nextjs using pages generated at build time.
 
-We will start from `04-images`.
+We will start from `05-boilerplate`.
 
 # Steps to build it
 

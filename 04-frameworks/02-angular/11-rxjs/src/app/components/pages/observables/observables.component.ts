@@ -13,24 +13,24 @@ export class ObservablesComponent implements OnInit {
 
   ngOnInit() {
 
-    // const Obs1$: Observable<string> = new Observable( (observer: Observer<string>) => {
+    // const obs1$: Observable<string> = new Observable( (observer: Observer<string>) => {
     //   observer.next('Hello');
     //   observer.next('World');
     //   observer.complete();
     // });
 
-    // const Obs1$ = from(['Hello', 'World']);
+    // const obs1$ = from(['Hello', 'World']);
 
-    // Obs1$.subscribe({
+    // obs1$.subscribe({
     //   next: (x:string) => { console.log('Emisión:', x) },
     //   error: (e: string) => { console.log('Error:', e); },
     //   complete: () => { console.log('Fin'); }
     // });
 
     // Creación de observable "infinito"
-    // const Obs2$ = new Observable((observer: Observer<number>) => {
+    // const obs2$ = new Observable((observer: Observer<number>) => {
     //   let value = 0;
-    //   const interval = setInterval(() => {
+    //   const intervalId = setInterval(() => {
     //     if (value % 2 === 0) {
     //       observer.next(value);
     //     }
@@ -38,14 +38,14 @@ export class ObservablesComponent implements OnInit {
     //   }, 1000);
 
     //   return () => {
-    //     clearInterval(interval);
+    //     clearInterval(intervalId);
     //     console.log('Me he quedado sin observador');
     //    }
     // });
     
-    // const Obs2$ = interval(1000).pipe( filter( x => x % 2 === 0) )
+    // const obs2$ = interval(1000).pipe( filter( x => x % 2 === 0) )
 
-    // const subs2 = Obs2$.subscribe(x => console.log('subs2:',x));
+    // const subs2 = obs2$.subscribe(x => console.log('subs2:',x));
 
     // Nos des-suscribimos a los 10 segundos
     // setTimeout(() => {
@@ -53,7 +53,7 @@ export class ObservablesComponent implements OnInit {
     // }, 10000);
 
     // setTimeout(() => {
-    //   Obs2$.subscribe(x => console.log('subs3:',x));
+    //   obs2$.subscribe(x => console.log('subs3:',x));
     // }, 5000);
 
     // Son Observables fríos:
@@ -63,7 +63,7 @@ export class ObservablesComponent implements OnInit {
 
 
     // Introducción a los operadores
-    // Obs1$.pipe(
+    // obs1$.pipe(
     //   map( (x:string) => x.toUpperCase() )
     // )
     // .subscribe({
@@ -72,7 +72,7 @@ export class ObservablesComponent implements OnInit {
     //   complete: () => { console.log('Fin'); }
     // });
 
-    // Obs1$.pipe(
+    // obs1$.pipe(
     //   map( (x:string) => x.toUpperCase() ),
     //   map( (x:string) => x.split("").reverse().join("") )
     // )

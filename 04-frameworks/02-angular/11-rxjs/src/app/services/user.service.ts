@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { retry } from 'rxjs/operators';
-import { User } from '../model/user';
+import { TypicodeUser, User } from '../model/user';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +20,8 @@ export class UserService {
     return this.http.get<User[]>(this.apiUrl);
   }
 
-  getFiltered(filter = ''): Observable<any> {
-    return this.http.get(this.apiUrl + '?' + filter)
+  getFiltered(filter = ''): Observable<TypicodeUser[]> {
+    return this.http.get<TypicodeUser[]>(this.apiUrl + '?' + filter)
     .pipe(
       retry(1)
     );

@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { User } from 'src/app/model/user';
+import { TypicodeUser, User } from 'src/app/model/user';
 import { UserService } from 'src/app/services/user.service';
 import { map, filter, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { UntypedFormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -12,7 +13,7 @@ import { UntypedFormControl } from '@angular/forms';
 export class SearchComponent implements OnInit {
 
   errorMessage: string;
-  users: User[];
+  users: TypicodeUser[];
   emailControl: UntypedFormControl = new UntypedFormControl();
 
   constructor(private userService: UserService) {
@@ -44,7 +45,7 @@ export class SearchComponent implements OnInit {
     //   );
   }
 
-  getUsers(email?: string) {
+  getUsers(email?: string): Observable<TypicodeUser[]> {
     let filter = '';
     if (email) {
       filter = 'email=' + email;

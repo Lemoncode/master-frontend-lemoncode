@@ -14,14 +14,17 @@
       <h1>{{ whatever }}</h1>
     </div>
 
-    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/vue@3"></script>
     <script>
-      const app = new Vue({
-        el: '#simplest-example',
-        data: {
-          whatever: 'Hello world!! 🔥🔥',
+      const { createApp } = Vue
+
+      createApp({
+        data() {
+          return {
+            whatever: 'Hello world! 🔥🔥',
+          }
         },
-      })
+      }).mount('#simplest-example')
     </script>
   </body>
 </html>

@@ -1,5 +1,5 @@
 <template>
-  <nav class="nav">
+  <nav class="nav flex align-items-center justify-content-between container">
     <div>Logo</div>
     <div>Cart</div>
   </nav>

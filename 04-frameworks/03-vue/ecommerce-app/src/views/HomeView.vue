@@ -1,7 +1,9 @@
 <script setup lang="ts">
-const message = 'Hello Vue!'
+import ProductList from '@/components/ProductList.vue'
 </script>
 
 <template>
-  <main>{{ message }}</main>
+  <main>
+    <ProductList></ProductList>
+  </main>
 </template>

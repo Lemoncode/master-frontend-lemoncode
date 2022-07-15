@@ -35,6 +35,10 @@ ul {
   display: flex;
 }
 
+.column {
+  flex-direction: column;
+}
+
 .grid {
   display: grid;
 }

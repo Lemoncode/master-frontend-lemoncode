@@ -1,5 +1,5 @@
 <template>
-  <button @click="addItem">Add to cart</button>
+  <button @click.prevent="addItem">Add to cart</button>
 </template>
 
 <script lang="ts">

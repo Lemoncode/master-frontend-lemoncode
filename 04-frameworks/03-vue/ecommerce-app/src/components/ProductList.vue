@@ -7,71 +7,62 @@
 
     <ul class="product-list">
       <li v-for="product in products" :key="product.id">
-        <!-- Añadimos una capa de contenedor y unas clases -->
-        <article
-          :class="{
-            'product-container--has-discount': product.discount !== '0.0',
-          }"
-          class="grid product-container card"
-        >
-          <div class="image">
-            <img :src="`https://picsum.photos/id/${product.id}/200`" alt="" />
-          </div>
-          <div class="product-container__content">
-            <h2>
-              {{ product.title }}
-            </h2>
-            <p>
-              <span class="grey-text">Author: </span>
-              <strong>{{ product.author }}</strong>
-            </p>
-            <p>
-              <span class="grey-text">Publisher: </span>
-              {{ product.publisher }}
-            </p>
-            <p><span class="grey-text">Year: </span>{{ product.published }}</p>
-          </div>
-          <div class="flex product-container__aside flex column">
-            <div class="text-align-end aside__price">
-              <StaticPrice :quantity="product.price" />
+        <!-- <a ></a> -->
+        <router-link :to="`/detail/${product.id}`">
+          <article
+            :class="{
+              'product-container--has-discount': product.discount !== '0.0',
+            }"
+            class="grid product-container card"
+          >
+            <div class="image">
+              <img :src="`https://picsum.photos/id/${product.id}/200`" alt="" />
             </div>
-            <AddToCartButton class="button" @addItem="onAddItem(product)" />
-          </div>
-        </article>
+            <div class="product-container__content">
+              <h2>
+                {{ product.title }}
+              </h2>
+              <p>
+                <span class="grey-text">Author: </span>
+                <strong>{{ product.author }}</strong>
+              </p>
+              <p>
+                <span class="grey-text">Publisher: </span>
+                {{ product.publisher }}
+              </p>
+              <p>
+                <span class="grey-text">Year: </span>{{ product.published }}
+              </p>
+            </div>
+            <div class="flex product-container__aside flex column">
+              <div class="text-align-end aside__price">
+                <StaticPrice :quantity="product.price" />
+              </div>
+              <AddToCartButton class="button" @addItem="onAddItem(product)" />
+            </div>
+          </article>
+        </router-link>
       </li>
     </ul>
   </section>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { productService } from '../services/products'
+<script setup lang="ts">
+import type { Product } from '@/types'
+
 import StaticPrice from './StaticPrice.vue'
 import AddToCartButton from './AddToCartButton.vue'
 
-import type { Product } from '../types'
+import useProductsApi from '@/composables/productsApi'
+import { useCartStore } from '@/stores/cart'
 
-export default defineComponent({
-  components: { StaticPrice, AddToCartButton },
-  data() {
-    return {
-      products: [] as Product[],
-    }
-  },
-  computed: {
-    totalProducts() {
-      return this.products.length
-    },
-  },
-  async created() {
-    this.products = await productService.get()
-  },
-  methods: {
-    onAddItem(product: Product) {
-      console.log(product)
-    },
-  },
-})
+const { products, totalProducts } = await useProductsApi()
+
+const cartStore = useCartStore()
+const onAddItem = (product: Product) => {
+  cartStore.addItemToCart(product)
+  console.log(cartStore.items)
+}
 </script>
 
 <style lang="scss">

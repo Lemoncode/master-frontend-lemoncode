@@ -1,11 +1,15 @@
 <template>
   <nav class="nav flex align-items-center justify-content-between container">
     <div>Logo</div>
-    <div>Cart</div>
+    <div>Cart – {{ cartStore.totalItems }}</div>
   </nav>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useCartStore } from '@/stores/cart'
+
+const cartStore = useCartStore()
+</script>
 
 <style scoped lang="scss">
 .nav {

@@ -7,4 +7,9 @@ export const productService = {
     )
     return books
   },
+  async getProduct(id: Product['id']): Promise<Product | undefined> {
+    return this.get().then((products) =>
+      products.find((product) => product.id === id)
+    )
+  },
 }

@@ -68,7 +68,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (min v8.9) if they are not alr
 
 - Finally, let's add styles for the image in our sass file:
 
-  _src/mysyles.scss_
+  _src/mystyles.scss_
 
   ```diff
     $blue-color: teal;

@@ -43,7 +43,10 @@
               <div class="text-align-end aside__price">
                 <StaticPrice :quantity="product.price" />
               </div>
-              <AddToCartButton class="button" @addItem="onAddItem(product)">
+              <AddToCartButton
+                class="button adsf"
+                @addItem="onAddItem(product)"
+              >
                 <span>Add to cart</span>
               </AddToCartButton>
             </div>

@@ -42,7 +42,7 @@
   [CREATE] core/index.ts
   ```
 
-`[app] pods/dashboard.component.tsx`
+`[app] pods/dashboard/dashboard.component.tsx`
 
 - Arreglamos el import del svg y eliminamos las microapps de aqui. Ahora no se van a mostrar en el dashboard sino en páginas separadas.
 

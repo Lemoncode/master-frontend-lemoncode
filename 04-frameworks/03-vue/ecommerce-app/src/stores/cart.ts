@@ -14,6 +14,7 @@ export const useCartStore = defineStore<
   'cart',
   {
     items: CartItemRecord
+    filterValue: string
   },
   {
     totalItems: (state: state) => number
@@ -25,6 +26,7 @@ export const useCartStore = defineStore<
   id: 'cart',
   state: () => ({
     items: {},
+    filterValue: '',
   }),
   getters: {
     totalItems: (state: state) => {

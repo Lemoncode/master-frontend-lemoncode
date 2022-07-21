@@ -1,5 +1,7 @@
 <template>
-  <button @click.prevent="addItem">Add to cart</button>
+  <button @click.prevent="addItem">
+    <slot />
+  </button>
 </template>
 
 <script lang="ts">

@@ -5,8 +5,13 @@
       total: {{ totalProducts }}
     </div>
 
+    <form>
+      <label for="filter"></label>
+      <input id="filter" v-model="cartStore.filterValue" />
+    </form>
+
     <ul class="product-list">
-      <li v-for="product in products" :key="product.id">
+      <li v-for="product in filteredProducts" :key="product.id">
         <!-- <a ></a> -->
         <router-link :to="`/detail/${product.id}`">
           <article
@@ -38,7 +43,9 @@
               <div class="text-align-end aside__price">
                 <StaticPrice :quantity="product.price" />
               </div>
-              <AddToCartButton class="button" @addItem="onAddItem(product)" />
+              <AddToCartButton class="button" @addItem="onAddItem(product)">
+                <span>Add to cart</span>
+              </AddToCartButton>
             </div>
           </article>
         </router-link>
@@ -48,6 +55,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { Product } from '@/types'
 
 import StaticPrice from './StaticPrice.vue'
@@ -56,13 +64,24 @@ import AddToCartButton from './AddToCartButton.vue'
 import useProductsApi from '@/composables/productsApi'
 import { useCartStore } from '@/stores/cart'
 
-const { products, totalProducts } = await useProductsApi()
+const { products } = await useProductsApi()
 
 const cartStore = useCartStore()
 const onAddItem = (product: Product) => {
   cartStore.addItemToCart(product)
   console.log(cartStore.items)
 }
+
+const filteredProducts = computed(() => {
+  const filter = cartStore.filterValue?.toLowerCase()
+  return products.value.filter((product) => {
+    return product.title.toLowerCase().includes(filter)
+  })
+})
+
+const totalProducts = computed(() => {
+  return filteredProducts.value.length
+})
 </script>
 
 <style lang="scss">

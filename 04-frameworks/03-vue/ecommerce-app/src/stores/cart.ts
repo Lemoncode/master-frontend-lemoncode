@@ -1,21 +1,21 @@
-import type { Product } from '@/types'
-import { defineStore } from 'pinia'
 import type { PiniaCustomStateProperties } from 'pinia'
+import type { Product } from '@/types'
+
+import { defineStore } from 'pinia'
+
 export type CartItem = { quantity: number; product: Product }
 export type CartItemRecord = Record<Product['id'], CartItem>
 
-type state = {
+interface CartState {
   items: CartItemRecord
-} & PiniaCustomStateProperties<{
-  items: CartItemRecord
-}>
+  filterValue: string
+}
+
+export type state = CartState & PiniaCustomStateProperties<CartState>
 
 export const useCartStore = defineStore<
   'cart',
-  {
-    items: CartItemRecord
-    filterValue: string
-  },
+  CartState,
   {
     totalItems: (state: state) => number
   },

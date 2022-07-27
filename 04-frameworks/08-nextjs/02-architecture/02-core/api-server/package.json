@@ -1,0 +1,14 @@
+{
+  "name": "car-api",
+  "version": "1.0.0",
+  "description": "Car API",
+  "main": "index.js",
+  "scripts": {
+    "mock-server": "json-server --routes ./config/routes.json --watch mock-data/data.json --port 3001"
+  },
+  "author": "Lemoncode",
+  "license": "MIT",
+  "devDependencies": {
+    "json-server": "^0.16.3"
+  }
+}

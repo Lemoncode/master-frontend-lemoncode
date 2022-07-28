@@ -1,10 +1,10 @@
-# 00 - Bloques de código reactivos
+# 03 - Bloques de código reactivos
 
 ## Resumen
 
 Hemos visto la reactividad de _Svelte_ por **asignación** de valores a variables. Pero, ¿cómo podemos tener un bloque de código reactivo a ciertos cambios de estado?
 
-Partiremos del ejemplo [01-clean-boiler](../01-clean-boiler/README.md).
+Partiremos del ejemplo [01-clean-boiler](../01-clean-boiler/).
 
 ## Paso a paso
 

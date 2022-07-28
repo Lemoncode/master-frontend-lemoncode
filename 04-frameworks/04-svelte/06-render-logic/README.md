@@ -1,10 +1,10 @@
-# 00 - Lógica en el Render
+# 06 - Lógica en el Render
 
 ## Resumen
 
 ¿Cómo podemos hacer un **render condicional**? ¿Cómo **crear un bucle para renderizar elementos** de una lista?
 
-Vamos a partir del ejemplo [01-clean-boiler](../01-clean-boiler/README.md).
+Vamos a partir del ejemplo [01-clean-boiler](../01-clean-boiler/).
 
 ## Paso a paso
 

@@ -1,10 +1,10 @@
-# 00 - Declarando Props
+# 05 - Declarando Props
 
 ## Resumen
 
 Muy bien, ya tenemos un componente reactivo a cambios de estado... Pero... ¿Cómo podemos pasarle `props` desde el componente padre?
 
-Partiremos del ejemplo anterior [04-reactive-declarations](../04-reactive-declarations/README.md).
+Partiremos del ejemplo anterior [04-reactive-declarations](../04-reactive-declarations/).
 
 ## Paso a paso
 

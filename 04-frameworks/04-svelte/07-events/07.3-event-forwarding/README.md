@@ -1,10 +1,10 @@
-# 07.2 - Forwarding de Eventos
+# 07.3 - Forwarding de Eventos
 
 ## Resumen
 
 Los eventos de los componentes no burbujean. Si quieres escuchar un evento en algún componente profundamente anidado, **los componentes intermedios deben reenviar el evento**. Esto se conoce como **event forwarding**.
 
-Vamos a partir del ejemplo justo anterior [07.02-component-events](../07.2-component-events/README.md).
+Vamos a partir del ejemplo justo anterior [07.02-component-events](../07.2-component-events/).
 
 ## Paso a paso
 

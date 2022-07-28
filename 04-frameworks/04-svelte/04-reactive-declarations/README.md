@@ -1,10 +1,10 @@
-# 00 - Declaraciones reactivas
+# 04 - Declaraciones reactivas
 
 ## Resumen
 
 ¿Cómo podemos conseguir estados que sean reactivos a cambios de otros estados?
 
-Partiremos del ejemplo anterior [03-reactive-statements](../03-reactive-statements/README.md).
+Partiremos del ejemplo anterior [03-reactive-statements](../03-reactive-statements/).
 
 ## Paso a paso
 

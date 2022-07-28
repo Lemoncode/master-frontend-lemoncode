@@ -4,7 +4,7 @@
 
 ¿Cómo podemos manejar eventos de los elementos del DOM?
 
-Vamos a partir del ejemplo [01-clean-boiler](../../01-clean-boiler/README.md).
+Vamos a partir del ejemplo [01-clean-boiler](../../01-clean-boiler/).
 
 ## Paso a paso
 

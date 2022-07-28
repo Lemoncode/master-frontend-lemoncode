@@ -1,10 +1,10 @@
-# 00 - Reactividad
+# 02 - Reactividad
 
 ## Resumen
 
 Vamos a ver cómo funciona la reactividad en un componente de Svelte cuando, por ejemplo, cambia un _estado_ del componente.
 
-Partiremos del ejemplo anterior [01-clean-boiler](../01-clean-boiler/README.md).
+Partiremos del ejemplo anterior [01-clean-boiler](../01-clean-boiler/).
 
 ## Paso a paso
 

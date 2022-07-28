@@ -1,12 +1,16 @@
-# 01 - Limpiar el Boilerplate
+# 08.4 - Bind this
 
 ## Resumen
 
-Ya tenemos creado y corriendo nuestro primer proyecto de **Svelte**. Vamos a echar un ojo a lo que nos ha creado y hacer una limpieza para seguir con los siguientes ejemplos.
+¿Cómo podemos bindear una variable a un elemento del render para acceder a sus atributos?
+
+Vamos a partir del ejemplo [01-clean-boiler](../../01-clean-boiler/).
 
 ## Paso a paso
 
-### ¿Qué nos ha creado la plantilla?
+### Usando `bind:this`
+
+Podemos utilizar `bind:this` para referenciar a un elemento del DOM y acceder o manipular sus atributos:
 
 ```diff
 <script lang="ts">

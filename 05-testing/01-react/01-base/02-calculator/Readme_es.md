@@ -5,12 +5,12 @@ y poder así dar nuestros primeros pasos con Jest.
 
 Tomamos como punto de partido el ejemplo `01-config`.
 
-Resumen de los pasos que vamos a realizar::
+Resumen de los pasos que vamos a realizar:
 
 - Vamos a crear una lógica de negocio tipo `calculadora`.
 - Vamos añadirle pruebas unitarias.
 
-# Steps to build it
+# Manos a la obra
 
 - Ya hemos copiado el ejemplo anterior, vamos a ejecutar desde la línea de
   comandos `npm install` para instalar los paquetes de npm que ya teníamos

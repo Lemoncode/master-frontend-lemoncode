@@ -1,25 +1,31 @@
 # 01 Hello
 
-In this example we will setup react testing library and create a simple test over a component that
-just display and _h1_
+Probar código en vanilla javascript y lógica de negocio está muy bien, pero en Front End tenemos
+también componentes de interfaz de usuario, toca arremangarnos y ponernos a probar React :).
 
-We will start from `00-boilerplate`.
+En este ejemplo haremos el setup de react testing library y crearemos un test simple sobre
+un componente que mostrará un _h1_
 
-# Steps
+Tomamos como punto de partida `00-boilerplate`.
 
-- `npm install` to install previous sample packages:
+# Manos a la obra
+
+- Ya hemos copiado el ejemplo anterior, vamos a ejecutar desde la línea de
+  comandos `npm install` para instalar los paquetes de npm que ya teníamos
+  en nuestro _package.json_ en el proyecto anterior:
 
 ```bash
 npm install
 ```
 
-- Let's install [react-testing-library](https://github.com/testing-library/react-testing-library)
+- Vamos a instalar [react-testing-library](https://github.com/testing-library/react-testing-library)
 
 ```bash
 npm install @testing-library/react -D
 ```
 
-- We will create a simple component.
+- Creamos un componente sencillo que simplemente va a aceptar como prop un nombre, y va a mostrar
+  un h1 saludando a esa persona.
 
 ### ./src/say-hello.tsx
 
@@ -36,7 +42,15 @@ export const SayHello: React.FunctionComponent<Props> = (props) => {
 };
 ```
 
-- Let's add our first test, we want to instantiate _SayHello_ and check that we are getting an h1 that contains the name of the person that we are passing.
+- Vamos a añadir nuestra primera prueba, para ello instanciamos el componente que acabamos de crear, y comprobamos
+  que nos devuelve un _h1_ que tiene el nombre de la persona que le estamos pasando como prop.
+
+¿Qué hacemos?
+
+- Con _render_ pintamos el componente.
+- Con _getByText_ obtenemos el elemento _h1_ asociado haciendo una busqueda por texto.
+- Sobre ese elemento hacemos una serie de comprobaciones, si existe, y si es un _h1_ (no tenemos que comprobar el texto ya que esto lo hemos hecho
+  al realizar la búsqueda de _getByText_)
 
 ### ./src/say-hello.spec.tsx
 
@@ -61,15 +75,17 @@ describe('SayHello component specs', () => {
 });
 ```
 
-- Running:
+- Vamos a ejecutar el test:
 
 ```bash
 npm run test:watch
 
 ```
 
-- Why it's failing? Because the default `jest running environment` is NodeJS, we could select `jsdom`.
-Since [jest v28](https://jestjs.io/docs/upgrading-to-jest28#jsdom) we have to install this environment separately:
+- Y.... ¡El test falla! ¿Por qué? por que por defecto el `jest running environment` es NodeJS, y si queremos
+  probar UI nos hace falta tirar de un DOM, nos hace falta tirar de `jsdom`, que a partir de
+  [jest v28](https://jestjs.io/docs/upgrading-to-jest28#jsdom) lo tenemos que instalar aparte (lo han sacado
+  del core de `Jest`)
 
 ```bash
 npm install --save-dev jest-environment-jsdom
@@ -91,15 +107,30 @@ module.exports = {
 >
 > [jsdom Docs](https://github.com/jsdom/jsdom)
 
-
-- Running again:
+- Vamos a darle caña a los test:
 
 ```bash
 npm run test:watch
-
 ```
 
-- Another approach is to use `snapshot testing`:
+Ahora si, ... verde :)
+
+- Probar así igual te puede parecer un poco "farragoso", así que puede que estés pensando en
+  atajos, bueno... los chicos de Jest se sacaron de la manga los `snapshot testing`, ¿Cómo funcionan?
+
+  - Tu haces una primera ejecución de tu componente.
+  - Guardas el HTML resultante.
+  - La próxima vez que ejecutes el test se comprueba que el HTML sigue siendo el mismo.
+  - Si Hay cambios falla y tienes tu que comprobar si es que hay un fallo o si es que se ha actualizado
+    el componente.
+
+¿A qué te sientes como si estuvieras haciendo trampas? Pues un poco, puede llevar a problemas, lo que si
+que es rápido de implementar y te sube la cobertura de tu código (lo que mal usado puede servir sólo
+para engañarte a ti mismo).
+
+- Veamos como funciona en código:
+  - Hago un render.
+  - Le digo que lo compare con el snapshot anterior en el expect (si no hubiera fragmento anterior este se crear por primera vez)
 
 ### ./src/say-hello.spec.tsx
 
@@ -119,7 +150,8 @@ npm run test:watch
 
 ```
 
-- It will add a file like:
+- Fíjate que se genera un fichero asociado al test que tiene el _html_ esperado para ese test, esto
+  lo tenemos que subir a nuestro repositorio de código fuente.
 
 ### ./src/\_\_snapshots\_\_/say-hello.spec.tsx.snap
 
@@ -136,7 +168,10 @@ exports[`SayHello component specs should display the person name using snapshot 
 
 ```
 
-Or even, we could use `inline snapshots`:
+- Si no nos gusta la idea de tener el resultado del test en un fichero aparte, podemos indicarle
+  a Jest que lo ponga en línea en el mismo test (`inline snapshots`), fijate que curioso este código:
+  - De primeras en _toMatchInlineSnapshot_ no ponemos nada, y una vez que ejecutemos,
+    añade el snapshot como parámetro.
 
 ### ./src/say-hello.spec.tsx
 
@@ -156,23 +191,30 @@ Or even, we could use `inline snapshots`:
 
 ```
 
-- This kind of tests are useful when we want to make sure the UI does not change. The snapshot should be committed to be reviewed as part of the pull request.
+- Este tipo de tests pueden estar bien si sabemos que el interfaz de usuario va a cambiar poco, podemos dejar un snapshot revisar manualmente que
+  está bien y ya dejarlo ahí.
 
-- On the other hand, this could be a `bad idea` in complex scenarios due to it could be complicated review the whole snapshot and we could fall into a bad habit of updating snapshot tests blindly.
+- ¿Qué pasa con esto? Pues que en escenario más complejos nos podemos volver locos evaluando si ese _html_ es el esperado, y además que podemos
+  caer en la tentación de decirle "tira para adelante y da como bueno el nuevo snapshot" si algo falla, y revisar, revisar... poco.
 
-- A third approach is using [jest-dom](https://github.com/testing-library/jest-dom) from testing-library. It provides a set of custom jest matchers to create declarative and clear to read expects.
+- Dejemos los snapshot testing y volvamos a probar como al inicio de este tutoríal, react testing library nos ofrece
+  [jest-dom](https://github.com/testing-library/jest-dom), que nos hace un poco más fácil poder implementar nuestras pruebas, nos
+  da un conjunto de `jest matchers` que nos permite escribir un código de forma más declarativa y se hace más fácil poder leer
+  los `expects`, vamos a instalar esta librería
 
 ```bash
 npm install @testing-library/jest-dom --save-dev
 ```
 
-- Configure it:
+- La configuramos:
+  - Nos creamos un fichero en el que indicamos que se import dicha librería para todos los tests.
+  - En la configuración de testing de nuestro proyecto le indicamos que incluya ese fichero en la lista de ficheros
+    de setup que se tienen que ejecutar justo después de que se haya montado el entorno de test.
 
 ### ./config/test/setup-after.ts
 
 ```javascript
 import '@testing-library/jest-dom';
-
 ```
 
 - Update `jest` config:
@@ -191,9 +233,11 @@ module.exports = {
 ```
 
 > [setupFilesAfterEnv](https://jestjs.io/docs/configuration#setupfilesafterenv-array)
-> We need to setup after jest environment execution.
+> Así nos aseguramos que se crea después de que el entorno esté levantado.
 
-- Now, we could write it like:
+- Vamos a hacer uso de unos de los atajos de `testing library jest-dom`, en este
+  caso vamos a comprobar si el elemento está el presente en el DOM para ello usaremos
+  `toBeInDocument`
 
 ### ./src/say-hello.spec.tsx
 
@@ -215,9 +259,12 @@ module.exports = {
 
 ```
 
-- Here, there are some [best practices using react-testing-library](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library), like using `screen`:
+- Toca optimizar como usar `react-testing-library`, en este enlace te explican bienas prácticas: [best practices using react-testing-library](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library), una de ellas es que usemos `screen`:
 
-> The benefit of using `screen` is you no longer need to keep the `render` call destructure up-to-date as you add/remove the queries you need.
+> ¿Qué ventaja obtenemos usando `screen`? Pues que no te hace falta ir haciendo destructuring del `render` y puedes ir añadiendo y eliminando
+> querys conforme las necesites.
+
+- Veamos cómo funciona esto
 
 ### ./src/say-hello.spec.tsx
 
@@ -263,10 +310,15 @@ describe('SayHello component specs', () => {
 
 ```
 
+- Otra opción que tenemos es usar `getByRole` en vez de `getByText`, esto nos va a permitir por ejemplo localizar
+  un `heading` o un `button` por su `aria-label`
+
 - Using `getByRole`:
 
-> [ARIA roles](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles)
-> [Which query should I use?](https://testing-library.com/docs/guide-which-query)
+> Más info acerca de [ARIA roles](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles) > [Que tipo de query usar en React Testing Library](https://testing-library.com/docs/guide-which-query)
+
+Para ver esto en acción vamos a modificar el código de nuestro componente, en el _h1_ añadimos un tag _strong_ para mostrar en negrita el nombre
+de la persona.
 
 ### ./src/say-hello.tsx
 
@@ -285,9 +337,14 @@ export const SayHello: React.FunctionComponent<Props> = (props) => {
 
 ```
 
-- We have to update the snapshot test: ok! it's not a big deal, we press `u` key.
+- ¡Upa!, si ahora ejecutamos los tests nos fallan, vamos a ponernos a arreglarlos.
 
-- But we have two specs still failling because the text is broken up by multiple elements. We can use `getByRole` that it`s a more flexible function and we are testing screen readers too.
+- Primero, cerremos los ojitos y actualizemos los test de snapshot, nada le damos a la `u`en el terminal y a tirar millas
+  (en la vida real seríamos buenos boy scouts y chequearíamos al milímetro que el _html_ generado es el esperado ¿Verdad?)
+
+- Pero ahora los specs implementados con `react testing library` fallan, porque al usar _strong_ dentro del _h1_ el texto se rompe
+  en multiples elementos _html_, para paliar esto podemos utilizar `getByRole`, una función más flexible, además esto también nos
+  probar lectores de pantalla.
 
 ### ./src/say-hello.tsx
 

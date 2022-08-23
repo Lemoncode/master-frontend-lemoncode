@@ -125,7 +125,7 @@ We could create a jest config outside `package.json` to improve maintainability.
 
 > [Jest configuration options](https://facebook.github.io/jest/docs/en/configuration.html#options)
 
-- Move config to `config/test/jest.js` file:
+- Create config in `config/test/jest.js` file:
 
 ### ./config/test/jest.js
 

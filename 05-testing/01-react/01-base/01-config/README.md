@@ -25,14 +25,13 @@ npm install
 
 - [jest](https://github.com/facebook/jest): JavaScript Testing library with runner, assertion, mocks, etc.
 - [@types/jest](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/df38f202a0185eadfb6012e47dd91f8975eb6151/types/jest): Typings for jest.
-- [ts-jest](https://github.com/kulshekhar/ts-jest): A preprocessor with sourcemap support to help use TypeScript with Jest.
 
 ```bash
 npm install jest @types/jest --save-dev
 ```
 
 > If we are using `@babel/preset-typescript` it
-> Optionally you could install `ts-jest`
+> Optionally you could install [ts-jest](https://github.com/kulshekhar/ts-jest): A preprocessor with sourcemap support to help use TypeScript with Jest.
 > [Official docs](https://jestjs.io/docs/getting-started)
 > NOTE: [Since jest v26.x it drops support for Node 8](https://github.com/facebook/jest/releases/tag/v26.0.0)
 

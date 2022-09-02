@@ -72,7 +72,7 @@ npm run test:watch
   Since [jest v28](https://jestjs.io/docs/upgrading-to-jest28#jsdom) we have to install this environment separately:
 
 ```bash
-npm install --save-dev jest-environment-jsdom
+npm install --save-dev jest-environment-jsdom@28
 ```
 
 ### ./config/test/jest.js

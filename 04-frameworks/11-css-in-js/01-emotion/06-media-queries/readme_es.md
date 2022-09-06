@@ -67,7 +67,7 @@ de corte, podríamos incluso crear un hook para esto y permitir hacer cambios en
 + bpValues[bp.md] = 1199;
 + bpValues[bp.lg] = 1200;
 +
-+ const mq: string[] = bpValues.map((bp) => `@media(min-width: ${bp}px`);
++ const mq: string[] = bpValues.map((bp) => `@media(min-width: ${bp}px)`);
 +
 - const breakpointSm = 420;
 

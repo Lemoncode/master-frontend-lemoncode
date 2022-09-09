@@ -18,11 +18,13 @@ Si arrancamos el proyecto:
 npm start
 ```
 
+**Ojo primero hay que hacer setup del .env (ya listo)**
+
 Podemos ver que hay dos endpoints interesantes:
 
-http://localhost:8081
+http://localhost:3000
 
-http://localhost:8081/api
+http://localhost:3000/api
 
 En uno se muestra una página, en la otra tenemos un endpoint que devuelve json
 
@@ -177,7 +179,7 @@ con la autenticación contra Google:
 
 - Recibimos la respuesta de google cuando se ha autenticado con éxito.
 - Ahí tenemos la info de la cuenta, profile Id, EMail...
-- Lo guardamos en una supuesta base de datos de usuarios (si no éxiste ya).
+- Lo guardamos en una supuesta base de datos de usuarios (si no existe ya).
 - El identificador del usuario lo almacena en una cookie (httpOnly) en el navegador, cuyo valor será un token JWT.
 - Después solamente tenemos que:
   - Recuperar el valor de la cookie, es decir, obtener el token JWT y verificar que el token es correcto.

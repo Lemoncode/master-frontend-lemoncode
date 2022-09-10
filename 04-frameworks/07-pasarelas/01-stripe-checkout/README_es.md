@@ -157,7 +157,7 @@ _./static/index.html_
 npm start
 ```
 
-- El siguiente paso es el de crear una sesión en stripe para esta compra en conreto, el flujo:
+- El siguiente paso es el de crear una sesión en stripe para esta compra en concreto, el flujo:
 
   - La sesión se crea vía back channel (de servidor nuestro a servidor de stripe, así podemos firmar la petición con
     un secreto compartido).

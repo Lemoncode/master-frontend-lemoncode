@@ -227,7 +227,7 @@ import { Router } from 'express';
 
 + // https://github.com/stripe/stripe-node#usage-with-typescript
 + const stripe = new Stripe(envConstants.STRIPE_SECRET, {
-+  apiVersion: '2020-08-27',
++  apiVersion: null,
 + });
 
 export const api = Router();

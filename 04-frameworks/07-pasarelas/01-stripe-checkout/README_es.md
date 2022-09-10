@@ -350,7 +350,7 @@ _./src/static/index.html_
     </section>
 +  <script type="text/javascript">
 +    // Aquí usamos la clave publica de stripe que hay genérica
-+    // En el siguiente ejemnplo reemplazaremos por la nuestra
++    // En el siguiente ejemplo reemplazaremos por la nuestra
 +    // Es buena idea en un proyecto que tenga proceso de bundling meter este valor en una variable de entorno
 +    var stripe = Stripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 +    var checkoutButton = document.getElementById("checkout-button");

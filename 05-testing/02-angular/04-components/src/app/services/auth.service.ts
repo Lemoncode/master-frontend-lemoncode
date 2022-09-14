@@ -10,7 +10,7 @@ interface UserCredentials {
 })
 export class AuthService {
 
-  private lastLoginErrorMessage: string;
+  private lastLoginErrorMessage: string = '';
 
   constructor() {}
 
@@ -39,11 +39,11 @@ export class AuthService {
   }
 
   getUsername(): string {
-    return localStorage.getItem('username');
+    return localStorage.getItem('username') ?? '';
   }
 
   getToken(): string {
-    return localStorage.getItem('token');
+    return localStorage.getItem('token') ?? '';
   }
 
   getLastLoginErrorMessage(): string {

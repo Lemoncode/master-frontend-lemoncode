@@ -10,10 +10,10 @@
         <label>Name </label>
         <input name="name" [formControl]="loginControl"/>
         <div *ngIf="loginControl.invalid">
-          <div *ngIf="loginControl.errors.required">El nombre es obligatorio</div>
-          <div *ngIf="loginControl.errors.minlength">
-            El nombre debe tener {{ loginControl.errors.minlength.requiredLength }} caracteres mínimo.
-            Tiene sólamente {{ loginControl.errors.minlength.actualLength }}
+          <div *ngIf="loginControl.errors!['required']">El nombre es obligatorio</div>
+          <div *ngIf="loginControl.errors!['minlength']">
+            El nombre debe tener {{ loginControl.errors!['minlength'].requiredLength }} caracteres mínimo.
+            Tiene sólamente {{ loginControl.errors!['minlength'].actualLength }}
           </div>
         </div>
     </div>

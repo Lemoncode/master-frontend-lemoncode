@@ -10,8 +10,8 @@ import { MembersService } from 'src/app/services/members.service';
 export class UserListComponent implements OnInit {
 
   members: MemberEntity[] = [];
-  newMember: MemberEntity;
-  memberSelected: MemberEntity;
+  newMember!: MemberEntity;
+  memberSelected!: MemberEntity;
 
   constructor(private membersService: MembersService) {}
 

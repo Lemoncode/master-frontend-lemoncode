@@ -6,7 +6,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchByLoginPipe } from 'src/app/pipes/search-by-login.pipe';
 import { FormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA, Injectable } from '@angular/core';
-import { mocked } from 'ts-jest/utils';
+import 'jest';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 
@@ -30,12 +30,23 @@ const fakeMembers: MemberEntity[] = [
 
 @Injectable()
 class MockMembersService extends MembersService {
-  getAll(): Observable<MemberEntity[]> {
+  constructor(_: any) {
+    super(_);
+  }
+
+  override getAll(): Observable<MemberEntity[]> {
     return of(fakeMembers);
   }
 }
 
 describe('Tests unitarios de la clase', () => {
+
+
+  jest.mock('src/app/services/members.service', () => {
+    return function () {
+      return {getAll: () => of(fakeMembers)};
+    };
+  });
 
   it('get Members from service on init', () => {
     const mock = new MockMembersService(null);
@@ -46,7 +57,8 @@ describe('Tests unitarios de la clase', () => {
 
   it('method add() adds newMember to members', () => {
     // Setup
-    const component = new UserListComponent(null);
+    const mock = new MockMembersService(null);
+    const component = new UserListComponent(mock);
     component.members = [...fakeMembers];
     component.newMember = {login: 'carlos', id: '8', avatar_url: 'url'};
 
@@ -65,9 +77,11 @@ describe('Tests unitarios de la clase', () => {
 
 describe('Tests del comportamiento en el DOM', () => {
 
-  jest.mock('src/app/services/members.service');
-  const mockService = mocked(MembersService, true);
-  mockService['getAll'] = jest.fn(() => of(fakeMembers));
+  jest.mock('src/app/services/members.service', () => {
+    return function () {
+      return {getAll: () => of(fakeMembers)};
+    };
+  });
 
   let component: UserListComponent;
   let fixture: ComponentFixture<UserListComponent>;
@@ -84,7 +98,7 @@ describe('Tests del comportamiento en el DOM', () => {
       ],
       providers: [
         // {provide: MembersService, useClass: MockMembersService},
-        {provide: MembersService, useValue: mockService},
+        //{provide: MembersService, useValue: mockService},
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     }).compileComponents();

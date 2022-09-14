@@ -10,15 +10,15 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 export class UserEditComponent implements OnInit, OnChanges {
 
   @Input()
-  member: MemberEntity;
+  member!: MemberEntity;
 
   @Output()
   saveEvent: EventEmitter<MemberEntity> = new EventEmitter();
 
-  editForm: FormGroup;
-  idControl: FormControl;
-  loginControl: FormControl;
-  avatarControl: FormControl;
+  editForm!: FormGroup;
+  idControl!: FormControl;
+  loginControl!: FormControl;
+  avatarControl!: FormControl;
 
   constructor(private fb: FormBuilder) {
     this.createEditForm();

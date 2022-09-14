@@ -74,7 +74,7 @@ import { render, screen } from '@testing-library/react';
 import { NameEdit } from './name-edit';
 
 describe('NameEdit component specs', () => {
-  it('should display a label and input elements with empty userName value', () => {
+  it('should display a heading and input elements with empty userName value', () => {
     // Arrange
 
     // Act
@@ -109,7 +109,7 @@ describe('NameEdit component specs', () => {
 
 -   const h3Element = screen.getByText('');
 +   const h3Element = screen.getByRole('heading', { level: 3 });
-+   const inputElement = screen.getByRole('textbox');
++   const inputElement = screen.getByRole('textbox') as HTMLInputElement;
 
     // Assert
 +   expect(h3Element).toBeInTheDocument();

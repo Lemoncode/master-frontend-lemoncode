@@ -1,5 +1,5 @@
 <div>
-  <h2>Datos de {{ member?.login }}</h2>
+  <h2>Datos de {{ member.login }}</h2>
   <br/>{{ editForm.value | json }}
   <br/>{{ editForm.valid }}
   <form [formGroup]="editForm">
@@ -19,7 +19,7 @@
     </div>
     <div>
         <label>Avatar </label>
-        <input name="avatar" type="file" (change)="handleEditFileInput($event.target.files)" accept="image/*"/>
+        <input name="avatar" type="file" (change)="handleEditFileInput($any($event.target).files)" accept="image/*"/>
         <div><img [src]="avatarControl.value" width="50" /></div>
     </div>
     <button [disabled]="editForm.invalid" (click)="save()">Guardar</button>

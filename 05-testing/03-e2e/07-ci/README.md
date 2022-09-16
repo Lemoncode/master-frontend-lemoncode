@@ -20,7 +20,7 @@ npm install
 ...
 "scripts": {
     "start:e2e": "cypress open",
-+   "test:e2e:ci": "npm run start -- -r start:e2e:ci",
++   "test:e2e:ci": "npm start -- -r start:e2e:ci",
 +   "start:e2e:ci": "cypress run"
   },
 ...

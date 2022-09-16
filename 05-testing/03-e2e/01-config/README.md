@@ -89,7 +89,7 @@ export default defineConfig({
 "scripts": {
 ...
 -   "test:e2e": "cypress open"
-+   "test:e2e": "npm run start -- start:e2e",
++   "test:e2e": "npm start -- start:e2e",
 +   "start:e2e": "cypress open"
   },
 ```

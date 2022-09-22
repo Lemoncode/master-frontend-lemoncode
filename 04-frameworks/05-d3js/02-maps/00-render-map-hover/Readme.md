@@ -62,11 +62,11 @@ const svg = d3
 const svg = d3
   .select("body")
   .append("svg")
-+  .attr("width", 1024)
--  .attr("width", 500)
-+  .attr("height", 800)
--  .attr("height", 500);
-+  .attr("style", "background-color: #FBFAF0");
++ .attr("width", 1024)
+- .attr("width", 500)
++ .attr("height", 800)
+- .attr("height", 500);
++ .attr("style", "background-color: #FBFAF0");
 ```
 
 - Now we need the data (arcs) to draw an Europe map in topojson format, hopefully there are a lot of maps avaiable in this
@@ -104,8 +104,7 @@ _./src/index.ts_
 ```diff
 const europeJson = require("./europe.json");
 
-+ const aProjection = d3
-+  .geoMercator();
++ const aProjection = d3.geoMercator();
 ```
 
 > more about projections: https://d3-wiki.readthedocs.io/zh_CN/master/Geo-Projections/
@@ -116,7 +115,7 @@ _./src/index.ts_
 
 ```diff
 const aProjection = d3.geoMercator();
-+   const geoPath = d3.geoPath().projection(aProjection);
++ const geoPath = d3.geoPath().projection(aProjection);
 ```
 
 - Now we need to convert from _topoJson_ to _geoJson_:
@@ -159,7 +158,7 @@ We got two options:
 
 ```diff
 const aProjection = d3.geoMercator()
-+     // Let's make the map bigger to fit in our resolution
++    // Let's make the map bigger to fit in our resolution
 +    .scale(500)
 +    // Let's center the map
 +    .translate([300, 900]);
@@ -196,7 +195,7 @@ _./src/index.html_
 
 ```diff
   <head>
-+    <link rel="stylesheet" type="text/css" href="./map.css" />
++   <link rel="stylesheet" type="text/css" href="./map.css" />
     <link rel="stylesheet" type="text/css" href="./base.css" />
   </head>
 ```
@@ -228,7 +227,7 @@ _./src/map.css_
 }
 ```
 
-- Let's update the style of the country using two events _mouseover_ _mouseout_
+- Let's update the style of the country using two events, _mouseover_ and _mouseout_:
 
 ```diff
 svg

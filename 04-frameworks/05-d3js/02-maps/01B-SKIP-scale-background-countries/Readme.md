@@ -17,7 +17,7 @@ Codesandbox: https://codesandbox.io/s/aged-sunset-y8n63
 npm start
 ```
 
-We have the following information (07 March)
+We have the following information (07 March 2020)
 
 | Country         | Infected |
 | --------------- | :------: |
@@ -179,7 +179,6 @@ svg
 +  .style("fill", function(d: any) {
 +    return assignCountryBackgroundColor(d.properties.geounit);
 +  })
-
   // data loaded from json file
   .attr("d", geoPath as any)
 ```

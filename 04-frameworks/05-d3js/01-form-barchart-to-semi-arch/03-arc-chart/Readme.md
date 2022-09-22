@@ -23,8 +23,7 @@ of layouts is that you can easily preprocess the data the way you need it to dis
 npm install
 ```
 
-- Let's keep a fresh cut, wipe _index.ts_ and let's get started with
-  the following boiler plate:
+- Let's keep a fresh cut, wipe _index.ts_ and let's get started with the following boiler plate:
 
 _index.ts_
 
@@ -39,13 +38,6 @@ const chartDimensions = {
   width: svgDimensions.width - margin.left - margin.right,
   height: svgDimensions.height - margin.bottom - margin.top,
 };
-
-const maxNumberSeats = resultCollectionSpainNov19.reduce(
-  (max, item) => (item.seats > max ? item.seats : max),
-  0
-);
-
-const politicalPartiesCount = resultCollectionSpainNov19.length;
 
 const partiesColorScale = d3
   .scaleOrdinal([
@@ -89,7 +81,6 @@ const svg = d3
 
 const chartGroup = svg
   .append("g")
-  .attr("transform", `translate(${margin.left}, ${margin.top})`)
   .attr("width", chartDimensions.width)
   .attr("height", chartDimensions.height);
 ```
@@ -100,10 +91,10 @@ const chartGroup = svg
 const radius = Math.min(chartDimensions.width, chartDimensions.height) / 2;
 ```
 
-- Now we need to move the center of the pie chart, from 0,0 to radius, radius
+- Now we need to move the center of the pie chart, from 0,0 to radius, radius (plus our margin)
 
 ```typescript
-chartGroup.attr("transform", `translate(${radius},${radius})`);
+chartGroup.attr("transform", `translate(${radius+margin.left},${radius+margin.top})`);
 ```
 
 - Now we want to create a ring (doughnut), it will have an _innerRadius_ and _outerRadius_.
@@ -143,7 +134,7 @@ const arcs = chartGroup
 arcs
   .append("path")
   .attr("d", <any>arc) // Hack typing: https://stackoverflow.com/questions/35413072/compilation-errors-when-drawing-a-piechart-using-d3-js-typescript-and-angular/38021825
-  .attr("fill", (d, i) => {
+  .attr("fill", (d) => {
     console.log(d.data.party);
     return partiesColorScale(d.data.party);
   });
@@ -157,7 +148,8 @@ npm start
 
 # Additional resources
 
-Check this great example from Saninn: https://jsfiddle.net/Saninn/15pwLf7u/
+- Check this great example from Saninn: https://jsfiddle.net/Saninn/15pwLf7u/
+- Check this example from Jane Pong on [bl.ocks.org](https://bl.ocks.org/officeofjane/b60c6d0fa49f0834ec7de47e5eb1a1d9)
 
 # About Basefactor + Lemoncode
 

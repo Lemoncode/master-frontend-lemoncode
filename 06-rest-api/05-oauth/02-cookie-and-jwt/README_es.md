@@ -442,7 +442,7 @@ app.listen(envConstants.PORT, () => {
 npm start
 ```
 
-Lo ideal aquí es depurarlo, para poner un break point en el primero api.get:
+Lo ideal aquí es depurarlo, para poner un break point (nodejs debugging console) en el primero api.get:
 
 añadimos esto
 
@@ -458,6 +458,20 @@ api.get(
     })
 );
 ```
+
+Sitios interesantes donde poner breakpoints:
+
+_./setup/passport-config.ts_
+
+Definición y callback
+
+_./api.ts_
+
+End point /google
+
+End point /callback
+
+End point /user-profile
 
 # ¿Con ganas de ponerte al día con Backend?
 

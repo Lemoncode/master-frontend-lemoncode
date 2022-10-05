@@ -442,6 +442,23 @@ app.listen(envConstants.PORT, () => {
 npm start
 ```
 
+Lo ideal aquí es depurarlo, para poner un break point en el primero api.get:
+
+añadimos esto
+
+_./src/setup/api.ts_
+
+```diff
+api.get(
+  '/google',
++  () =>
+    passport.authenticate('google', {
+      scope: ['profile', 'email'],
+      session: false, // Default value: true
+    })
+);
+```
+
 # ¿Con ganas de ponerte al día con Backend?
 
 Apuntate a nuestro [Bootcamp Backend Online Lemoncode](https://lemoncode.net/bootcamp-backend#bootcamp-backend/banner)

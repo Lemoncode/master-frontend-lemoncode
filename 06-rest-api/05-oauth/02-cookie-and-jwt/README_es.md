@@ -54,7 +54,7 @@ _./env_
 
 ```env
 NODE_ENV=development
-PORT=8081
+PORT=3000
 GOOGLE_CLIENT_ID = <pega aquí tu client Id de tu panel de Google accounts>
 GOOGLE_CLIENT_SECRET = <pega aquí tu client Secret de tu panel de Google accounts>
 ```

@@ -142,6 +142,8 @@ Y el proyecto:
 https://github.com/amritb/socketio-client-tool/tree/master/react-client-tool
 ```
 
+Conectamos en dos pestañas del navegador
+
 ![choose url /port and settings](./readme-pics/init.png)
 
 Podemos ver como nos hemos conectado y recibido el mensaje _CONNECTION_SUCCEEDED_

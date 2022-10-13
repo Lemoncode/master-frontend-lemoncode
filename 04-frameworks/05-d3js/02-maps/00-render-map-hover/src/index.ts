@@ -3,9 +3,7 @@ import * as topojson from "topojson-client";
 const europejson = require("./europe.json");
 
 const aProjection = d3.geoMercator();
-
 const geoPath = d3.geoPath().projection(aProjection);
-
 const geojson = topojson.feature(
   europejson,
   europejson.objects.continent_Europe_subunits

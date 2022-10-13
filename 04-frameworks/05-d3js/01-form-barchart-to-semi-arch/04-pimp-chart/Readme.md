@@ -24,7 +24,7 @@ npm install
 - We could just create the legend by ourselves or use some library (in this case
   we will go for the easy path), let's install
 
-```
+```bash
 npm i d3-svg-legend --save
 ```
 
@@ -34,7 +34,7 @@ _./src/index.ts_
 
 ```diff
 import * as d3 from "d3";
-+ import {legendColor} from 'd3-svg-legend';
++ import { legendColor } from 'd3-svg-legend';
 import { resultCollectionSpainNov19, ResultEntry } from "./data";
 ```
 
@@ -49,7 +49,7 @@ const legendTop = radius + 5;
 
 const legendGroup = svg
   .append("g")
-  .attr("transform", `translate(${legendLeft},${legendTop})`);
+  .attr("transform", `translate(${legendLeft+margin.left},${legendTop+margin.top})`);
 
 var colorLegend = legendColor().scale(partiesColorScale);
 
@@ -63,22 +63,21 @@ _Invokes the specified function exactly once, passing in this selection along wi
 
 More info: https://stackoverflow.com/questions/12805309/javascript-library-d3-call-function
 
-- Let's go for one more goodie, we want to highlight the piece of arc where the mouse point
-  is on.
+- Let's go for one more goodie, we want to highlight the piece of arc where the cursor is on.
 
 ```diff
 arcs
   .append("path")
   .attr("d", <any>arc) // Hack typing: https://stackoverflow.com/questions/35413072/compilation-errors-when-drawing-a-piechart-using-d3-js-typescript-and-angular/38021825
-  .attr("fill", (d, i) => {
+  .attr("fill", (d) => {
     return partiesColorScale(d.data.party);
   })
 + .on("mouseover", function (mouseEvent: MouseEvent, datum) { {
 +   d3.select(this).attr("transform", `scale(1.1, 1.1)`);
 + })
-+  .on("mouseout", function() {
-+    d3.select(this).attr("transform", ``);
-+  });
++ .on("mouseout", function() {
++   d3.select(this).attr("transform", ``);
++ });
 ```
 
 - Now we want to add a tooltip when the mouse is over a party and display the
@@ -110,7 +109,7 @@ _./src/index.html_
 ```diff
   <head>
     <link rel="stylesheet" type="text/css" href="./base.css" />
-+    <link rel="stylesheet" type="text/css" href="./styles.css" />
++   <link rel="stylesheet" type="text/css" href="./styles.css" />
   </head>
 ```
 
@@ -136,14 +135,14 @@ _./src/index.ts_
 ```diff
   .on("mouseover", function (mouseEvent: MouseEvent, datum) { {
     d3.select(this).attr("transform", `scale(1.1, 1.1)`);
-+    const partyInfo = datum.data;
++   const partyInfo = datum.data;
 +
-+    const coords = { x: mouseEvent.clientX, y: mouseEvent.clientY };
-+    div.transition().duration(200).style("opacity", 0.9);
-+    div
-+      .html(`<span>${partyInfo.party}: ${partyInfo.seats}</span>`)
-+      .style("left", `${coords.x}px`)
-+      .style("top", `${coords.y - 28}px`);
++   const coords = { x: mouseEvent.pageX, y: mouseEvent.pageY };
++   div.transition().duration(200).style("opacity", 0.9);
++   div
++     .html(`<span>${partyInfo.party}: ${partyInfo.seats}</span>`)
++     .style("left", `${coords.x}px`)
++     .style("top", `${coords.y - 28}px`);
   })
 ```
 
@@ -154,9 +153,7 @@ _./src/index.ts_
 ```diff
   .on("mouseout", function(datum) {
     d3.select(this).attr("transform", ``);
-+   div.transition()
-+                .duration(500)
-+                .style("opacity", 0);
++   div.transition().duration(500).style("opacity", 0);
   });
 ```
 

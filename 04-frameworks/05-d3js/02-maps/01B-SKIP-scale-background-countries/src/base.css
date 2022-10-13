@@ -1,0 +1,293 @@
+/*
+	Theme Name: ReClean
+	Theme URI: http://www.codenx.com/
+	Theme Version: 1.0
+	Theme Date: 2013-03-12
+	Theme Author: CodeNx
+	Theme Author URI: http://www.codenx.com/
+	Theme License: GPLv2
+*/
+
+/*---[ Start: global css ]---*/
+
+/* Import Google Web Fonts
+@import url(http://fonts.googleapis.com/css?family=Maven+Pro:400);
+-------------------------------------------------- @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800);
+*/
+/**
+    * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
+    * http://cssreset.com
+    */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.clearfix {
+  display: inline-table;
+}
+/* Hides from IE-mac \*/
+* html .clearfix {
+  height: 1%;
+}
+.clearfix {
+  display: block;
+}
+/* End hide from IE-mac */
+
+:-moz-placeholder {
+  color: #aaa !important;
+  font-style: italic;
+  line-height: 20px;
+}
+::-webkit-input-placeholder {
+  color: #aaa !important;
+  font-style: italic;
+  line-height: 20px;
+}
+body {
+  background: none repeat scroll 0% 0% rgb(255, 255, 255);
+  font: 400 100%/1.625 "Open Sans", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  font-size: 13px;
+  color: #3b3b3b;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+h1 {
+  font-weight: 400;
+  line-height: 1.1em;
+  border-bottom: 1px dashed #0077bb;
+  position: relative;
+  padding: 14px 25px 5px 0;
+  font-size: 2.5em;
+  text-transform: uppercase;
+  line-height: 1.2em;
+  margin: 0.2em 0px 20px -2px;
+  color: rgb(0, 170, 238);
+  text-decoration: none;
+}
+h2 {
+  font-size: 16px;
+  color: #111;
+  padding: 5px 20px !important;
+  clear: both;
+  background: #eee;
+  font-weight: 700;
+}
+h3 {
+  margin: 0 0 10px 0;
+  color: #111;
+}
+blockquote {
+  background: #eee;
+  padding: 15px;
+  margin: 30px auto;
+  border: 1px solid #aaa;
+  font-size: 16px;
+  font-style: italic;
+  color: #000;
+  position: relative;
+}
+blockquote p {
+  margin: 0;
+  padding: 0;
+}
+img {
+  border: none;
+}
+ul.left {
+}
+
+ul.right {
+  text-align: right;
+}
+a:link,
+a:visited {
+  text-decoration: none;
+  color: #0077bb;
+}
+a:hover,
+a:active {
+  color: #0099cc;
+  text-decoration: underline;
+}
+button::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+form,
+fieldset {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+.header {
+  background-color: #fff;
+  height: 10%;
+}
+.header-wrapper {
+  width: 998px;
+  margin: 0 auto;
+  background-color: #fff;
+}
+.logo {
+  width: 200px;
+  margin-top: 10px;
+}
+.search {
+  margin-top: 10px;
+}
+.nav {
+  height: 10%;
+  background-color: #00aeec;
+}
+.nav-wrapper {
+  margin: 0 auto;
+  width: 998px;
+}
+.nav ul,
+.header ul,
+.sidebar ul {
+  list-style: none;
+  list-style-type: none;
+}
+.nav ul li,
+.header ul li {
+  display: inline;
+  padding: 0px 10px 0px 10px;
+}
+.nav ul li {
+  padding: 0 20px;
+}

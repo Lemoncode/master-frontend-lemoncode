@@ -69,7 +69,7 @@ npm run test:watch
 ```
 
 - Why it's failing? Because the default `jest running environment` is NodeJS, we could select `jsdom`.
-Since [jest v28](https://jestjs.io/docs/upgrading-to-jest28#jsdom) we have to install this environment separately:
+  Since [jest v28](https://jestjs.io/docs/upgrading-to-jest28#jsdom) we have to install this environment separately:
 
 ```bash
 npm install --save-dev jest-environment-jsdom
@@ -90,7 +90,6 @@ module.exports = {
 > [Jest Docs](https://jestjs.io/docs/configuration#testenvironment-string)
 >
 > [jsdom Docs](https://github.com/jsdom/jsdom)
-
 
 - Running again:
 
@@ -172,7 +171,6 @@ npm install @testing-library/jest-dom --save-dev
 
 ```javascript
 import '@testing-library/jest-dom';
-
 ```
 
 - Update `jest` config:
@@ -265,8 +263,7 @@ describe('SayHello component specs', () => {
 
 - Using `getByRole`:
 
-> [ARIA roles](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles)
-> [Which query should I use?](https://testing-library.com/docs/guide-which-query)
+> [ARIA roles](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles) > [Which query should I use?](https://testing-library.com/docs/guide-which-query)
 
 ### ./src/say-hello.tsx
 

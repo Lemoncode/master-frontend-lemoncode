@@ -1,13 +1,12 @@
 import { UserListComponent } from './user-list.component';
-import { of, Observable } from 'rxjs';
 import { MemberEntity } from 'src/app/model/MemberEntity';
-import { MembersService } from 'src/app/services/members.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchByLoginPipe } from 'src/app/pipes/search-by-login.pipe';
 import { FormsModule } from '@angular/forms';
-import { CUSTOM_ELEMENTS_SCHEMA, Injectable } from '@angular/core';
-import { mocked } from 'ts-jest/utils';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import 'jest';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { of } from 'rxjs';
 
 
 const fakeMembers: MemberEntity[] = [
@@ -28,46 +27,13 @@ const fakeMembers: MemberEntity[] = [
   }
 ];
 
-@Injectable()
-class MockMembersService extends MembersService {
-  getAll(): Observable<MemberEntity[]> {
-    return of(fakeMembers);
-  }
-}
-
-describe('Tests unitarios de la clase', () => {
-
-  it('get Members from service on init', () => {
-    const mock = new MockMembersService(null);
-    const component = new UserListComponent(mock);
-    component.ngOnInit();
-    expect(component.members).toBe(fakeMembers);
-  });
-
-  it('method add() adds newMember to members', () => {
-    // Setup
-    const component = new UserListComponent(null);
-    component.members = [...fakeMembers];
-    component.newMember = {login: 'carlos', id: '8', avatar_url: 'url'};
-
-    // Act
-    component.add();
-
-    // Assert
-    expect(component.members.length).toBe(4);
-    expect(component.members[3].login).toBe('carlos');
-  });
-
-  it('method select() stores his argument in memberSelected', () => {
-    // ...
-  });
-});
-
 describe('Tests del comportamiento en el DOM', () => {
 
-  jest.mock('src/app/services/members.service');
-  const mockService = mocked(MembersService, true);
-  mockService['getAll'] = jest.fn(() => of(fakeMembers));
+  jest.mock('src/app/services/members.service', () => {
+    return function () {
+      return {getAll: () => of(fakeMembers)};
+    };
+  });
 
   let component: UserListComponent;
   let fixture: ComponentFixture<UserListComponent>;
@@ -84,13 +50,13 @@ describe('Tests del comportamiento en el DOM', () => {
       ],
       providers: [
         // {provide: MembersService, useClass: MockMembersService},
-        {provide: MembersService, useValue: mockService},
+        // {provide: MembersService, useValue: mockService},
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UserListComponent);
-    component = fixture.componentInstance;
+    // component = fixture.componentInstance;
     fixture.detectChanges();
   });
 

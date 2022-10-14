@@ -168,10 +168,9 @@ import React from "react";
 + import { Formik, Form } from 'formik';
 ```
 
-- Envolveremos el formulario con el componente _Formik_ (este componente se encarga de configurar los valores iniciales
-  y controla el botón de envío), este componente proporciona un render prop donde definimos el formulario y los campos.
-  Reemplazaremos el elemento _form_ estándar por el elemento _Form_ de _Formik_, este componente engancha automáticamente
-  Formik's _handleSubmit_ y _handleReset_.
+- Envolveremos el formulario con el componente _Formik_ (este componente se encarga de configurar los valores iniciales y controla el botón de envío), este componente proporciona un render prop donde definimos el formulario y los campos.
+
+Reemplazaremos el elemento _form_ estándar por el elemento _Form_ de _Formik_, este componente engancha automáticamente Formik's _handleSubmit_ y _handleReset_.
 
 _./src/pods/login.component.tsx_
 
@@ -220,12 +219,51 @@ _./src/pods/login.component.tsx_
   );
 ```
 
-Ahora podemos actualizar las entradas para soportar
-_Formik_, ya que más adelante nos beneficiaremos de algunas características de _Formik_
-construiremos una envoltura alrededor del campo de entrada,
-ya que esta envoltura podría
-ser reutilizado en otros proyectos lo añadiremos a la carpeta _root_
-_./src/common_
+Ahora podemos actualizar las entradas para soportar _Formik_, ya que más adelante nos beneficiaremos de algunas características de _Formik_ construiremos una envoltura alrededor del campo de entrada (un wrapper),
+ya que esta envoltura podría ser reutilizado en otros proyectos lo añadiremos a la carpeta _root_
+
+¿Qué hacemos aquí?
+
+- Nuestro objetivo es poder utilizar este campo como si fuera un elemento*input*, pero que
+  además nos incorporé la gestión de _Formik_ para ese componente y campo.
+
+- Para ello nos creamos un componete que llamaremos _InputFormik_ y lo que hacemos es que herede
+  las propiedades de un _Input_ (esto lo puedes ver en la definición de componente donde tenemos
+  `React.DetailedHTMProps`).
+
+- Este wrapper queremos que funcione tanto si tenemos el formulario envuelto por Formik como si no
+  (así no nos tenemos que preocupar de que de un error si no está Formik instalado)
+
+- Formik incorpora un hook que se llama _useField_ que nos permite en base al nombre del campo que
+  estemos enlazando (que debe de venir en la propiedad _name_ del input) obtener la información del mismo
+  así como metadatos asociados (si ese campo ha sido modificado alguna vez, o si por el contrario está
+  limpio , etc...) ¿Qué pasa si ese nombre de campo no existe o si el componente Formik no wrapea al formulario
+  que estamos editando? Pues que lo que devuelve (field y meta) serán campos undefined o nulos.
+
+- Ahora queremos sacar las popiedades el input field, y tenemos dos posibilidades:
+
+  - Si el formulario no está wrapeado con Formik, el campo _field_ será nulo, y podemos directamente
+    devolver las propis del input original.
+
+  - Si el formulario está wrapeado con Formik, devolvemos las props de field (ahí
+    formik se encarga de manejar el estado del formulario por nosotros).
+
+  - El siguiente paso es saber si el campo tiene errores, ¿Qué vamos a hacer aquí? Por usabilidad, sólo vamos a mostrar el error si el campo está _tocado_ es decir si el usuario ha puesto foco en el campo y al perderlo
+    el valor no es válido, o si ya le ha dado a submit y el valor no es válido (Queremos evitar el escenario
+    en que se cargue el formulario en blanco y ni le demos opcíon al usuario a rellenarlo y ya salgan errores,
+    esto genera frustración), fijate que usamos el valor _meta_ comprobarmos si el campo está _tocado_ y si
+    tiene errores.
+
+  - Ahora pasamos al aparte de JSX, como usamos un input, lo vamos a enriquecer para añadir una etiqueta
+    que muestra el mensaje de erro en caso de que lo haya (de ahí que lo envolvamos en un DIV y le añadimos
+    un elemento span adicional).
+
+  - En el input:
+    - Por un lado copiamos todas las propiedades que no venían informadas (para ello usamos el spread
+      operator), así por ejemplo si tenemos un atributo de tipo _type_ _password_ no los copiaría.
+    - Y después machacamos los atributos que necesitamos para que Formik tenga control sobre el formulario.
+    - Este componente es mejorable, ya que por ejemplo, sería buena idea que en vez de usar un style
+      para el input, usáramos una clase.
 
 _./src/common/components/forms/input-formik.component.tsx_
 

@@ -10,13 +10,13 @@
         <label>Name </label>
         <input name="name" [(ngModel)]="newMember.login" required minlength="6" #name="ngModel"/>
         <div *ngIf="name.invalid && name.touched">
-          <div *ngIf="name.errors.required">El nombre es obligatorio</div>
-          <div *ngIf="name.errors.minlength">El nombre debe tener {{ name.errors.minlength.requiredLength }} caracteres mínimo. Tiene sólamente {{ name.errors.minlength.actualLength }}</div>
+          <div *ngIf="name.errors!['required']">El nombre es obligatorio</div>
+          <div *ngIf="name.errors!['minlength']">El nombre debe tener {{ name.errors!['minlength'].requiredLength }} caracteres mínimo. Tiene sólamente {{ name.errors!['minlength'].actualLength }}</div>
         </div>
     </div>
     <div>
         <label>Avatar </label>
-        <input name="avatar" (change)="handleFileInput($event.target.files)" type="file" accept="image/*"/>
+        <input name="avatar" (change)="handleFileInput($any($event.target).files)" type="file" accept="image/*"/>
         <div><img [src]="newMember.avatar_url" width="50" /></div>
     </div>
     <button [disabled]="addForm.invalid" (click)="add()">Añadir</button>

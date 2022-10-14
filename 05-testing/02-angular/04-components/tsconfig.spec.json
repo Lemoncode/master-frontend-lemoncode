@@ -4,9 +4,10 @@
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "types": [
-      "jest"
-    ],
-    "emitDecoratorMetadata": true
+      "jasmine",
+      "jest",
+      "zone"
+    ]
   },
   "files": [
     "src/polyfills.ts"

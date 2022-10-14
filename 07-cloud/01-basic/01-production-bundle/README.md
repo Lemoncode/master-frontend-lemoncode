@@ -128,8 +128,8 @@ _./package.json_
   "scripts": {
     "start": "run-p -l type-check:watch start:dev",
     "start:dev": "webpack-dev-server --config ./config/webpack/dev.js",
-+   "build": "run-p -l type-check build:prod",
-+   "build:prod": "npm run clean && webpack --config ./config/webpack/prod.js",
++   "build": "npm run type-check && npm run clean && build:prod",
++   "build:prod": "webpack --config ./config/webpack/prod.js",
     "type-check": "tsc --noEmit",
     ...
   },

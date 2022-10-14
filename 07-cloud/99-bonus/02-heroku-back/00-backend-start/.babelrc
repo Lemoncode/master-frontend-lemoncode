@@ -28,9 +28,6 @@
   "env": {
     "development": {
       "sourceMaps": "inline"
-    },
-    "production": {
-      "ignore": ["seed-data"]
     }
   }
 }

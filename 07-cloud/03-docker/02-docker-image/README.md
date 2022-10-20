@@ -124,7 +124,7 @@ RUN npm run build
 + RUN cd server
 + RUN npm ci
 
-+ ENTRYPOINT [ "node", "server" ]
++ CMD node server/index.js
 
 ```
 
@@ -169,7 +169,7 @@ _./Dockerfile_
 ...
 
 + ENV PORT=8083
-ENTRYPOINT [ "node", "server" ]
+CMD node server/index.js
 
 ```
 
@@ -250,8 +250,8 @@ RUN npm run build
 + RUN npm ci --only=production
 
 ENV PORT=8083
-- ENTRYPOINT [ "node", "server" ]
-+ ENTRYPOINT [ "node", "index" ]
+- CMD node server/index.js
++ CMD node index.js
 
 ```
 

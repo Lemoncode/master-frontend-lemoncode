@@ -66,7 +66,7 @@ _./Dockerfile_
 
 - ENV PORT=8083
 + ENV PORT=8080
-ENTRYPOINT [ "node", "index" ]
+CMD node index.js
 
 ```
 

@@ -96,12 +96,12 @@ docker build -t my-app:1 .
 ```bash
 docker images
 
-docker run --name my-app -it my-app:1 sh
+docker run --name my-app-container -it my-app:1 sh
 
 > ls
 > exit
 
-docker container rm my-app
+docker container rm my-app-container
 ```
 
 > Tag is optionally.
@@ -144,10 +144,10 @@ docker images
 - Run new container:
 
 ```bash
-docker run --name my-app my-app:1
+docker run --name my-app-container my-app:1
 
 // In another terminal
-docker exec -it my-app sh
+docker exec -it my-app-container sh
 
 > ls
 > exit
@@ -159,8 +159,8 @@ docker exec -it my-app sh
 - Why can't we access to `http://localhost:8081`? Because this process is executing itself inside container, we need to expose to our machine:
 
 ```
-docker container stop my-app
-docker container rm my-app
+docker container stop my-app-container
+docker container rm my-app-container
 ```
 
 _./Dockerfile_
@@ -178,9 +178,9 @@ ENTRYPOINT [ "node", "server" ]
 ```bash
 docker build -t my-app:1 .
 
-docker run --name my-app -p 8080:8083 my-app:1
-docker run --name my-app --rm -p 8080:8083 my-app:1
-docker run --name my-app --rm -d -p 8080:8083 my-app:1
+docker run --name my-app-container -p 8080:8083 my-app:1
+docker run --name my-app-container --rm -p 8080:8083 my-app:1
+docker run --name my-app-container --rm -d -p 8080:8083 my-app:1
 ```
 
 > [Docker run options](https://docs.docker.com/engine/reference/commandline/run/)
@@ -263,9 +263,9 @@ ENV PORT=8083
 docker build -t my-app:2 .
 docker images
 
-docker stop my-app
-docker run --name my-app --rm -d -p 8080:8083 my-app:2
-docker exec -it my-app sh
+docker stop my-app-container
+docker run --name my-app-container --rm -d -p 8080:8083 my-app:2
+docker exec -it my-app-container sh
 ```
 
 We can add more env variables, for example feed the `public` folder.
@@ -312,9 +312,9 @@ COPY ./server/package.json ./
 docker build -t my-app:2 .
 docker images
 
-docker stop my-app
-docker run --name my-app --rm -d -p 8080:8083 my-app:2
-docker exec -it my-app sh
+docker stop my-app-container
+docker run --name my-app-container --rm -d -p 8080:8083 my-app:2
+docker exec -it my-app-container sh
 ```
 
 # About Basefactor + Lemoncode

@@ -1,4 +1,4 @@
-///-- PROMISE INTRODUCTION ***********************************************
+///-- ASYNCHRONOUS JAVASCRIPT ***********************************************
 
 // Para dominar JavaScript es imprescindible tener unas buenas nociones
 // de asincronía y conocer el "Event Loop" que implementa el lenguaje

@@ -129,8 +129,8 @@ RESUMEN:
     + Reasignable: NO
 
 NOTA:
-- Ámbito de función: sólo las funciones representan un scope privado para ellas.
-- Ámbito de bloque: cualquier bloque, incluidas funciones, representan scope privado para ellas.
+- Ámbito de función: sólo las funciones representan un ámbito privado para ellas.
+- Ámbito de bloque: cualquier bloque, incluidas funciones, representan ámbito privado para ellas.
 */
 
 ///-- OPERADORES *******************************************************

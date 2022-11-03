@@ -354,7 +354,7 @@ var me = {
   },
 };
 
-console.log(me.sayAge()); // "I'm 36 years old"
+me.sayAge(); // "I'm 36 years old"
 
 ///-- GETTERS & SETTERS *******************************************************
 

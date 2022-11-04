@@ -21,10 +21,35 @@ type Whatever<T> = {
   value: T;
 }
 
-// Muy util para abstraernos de definiciones complejas. No crea nuevos
+// -- Caso Práctico --
+
+// Alias es muy util para abstraernos de definiciones complejas. No crea nuevos
 // tipos, solo nuevos nombres para referirse a ellos.
 type ReducerFunction<S> = (previousState: S, update: Partial<S>) => S;
 
+interface User {
+  id: number;
+  name: string;
+  surname: string;
+  email: string;
+}
+
+const javi: User = {
+  id: 238943,
+  name: "Javier",
+  surname: "Calzado",
+  email: "javi.calzado@lemoncode.net",
+};
+
+const updateUser: ReducerFunction<User> = (
+  previousState,
+  update
+) => ({
+  ...previousState,
+  ...update,
+});
+
+console.log(updateUser(javi, { name: "Francisco Javier" }));
 
 
 

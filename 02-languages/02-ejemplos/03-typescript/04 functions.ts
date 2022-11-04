@@ -86,21 +86,28 @@ const r3 = switchType({}); // [ts] Argument of type '{}' is not assignable to pa
 // *** Tipando funciones en un interfaz, o lo que es lo mismo, usando
 // interfaces para diseñar funciones.
 interface RepeatString {
-  (value: string, times: number): string;
+  (text: string, n: number): string;
 }
 
-const repeatString: RepeatString = (value, times) => Array(times).fill(value).join(" ");
+const repeatString: RepeatString = (text, n) =>
+  Array(n).fill(text).join(" ");
+  
+
 console.log(repeatString("echo", 3)); // "echo echo echo"
 
 // ¿Para que es útil esto?
 // Para añadirle propiedades a una función. Las funciones no dejan de ser objetos, de esta forma
 // podríamos obligar a que una función tenga ciertas propiedades:
 
-interface RepeatString {
-  (value: string, times: number): string;
+interface RepeatStringFunction {
+  (text: string, n: number): string;
   description: string;
+  maxLimit: number;
 }
 
-const repeatFunction = (value, times) => Array(times).fill(value).join(" ");
-repeatFunction.description = 'Function to repeat n times a value'; // Si omito esto, el tipado fallará.
-const repeatString: RepeatString = repeatFunction;
+const repeatString: RepeatStringFunction = (text, n) =>
+  Array(Math.min(repeatString.maxLimit, n)).fill(text).join(" ");
+repeatString.maxLimit = 4;
+repeatString.description = 'Function to repeat n times a text'; // Si omito esto, el tipado fallará.
+
+console.log(repeatString("echo", 8)); // "echo echo echo echo"

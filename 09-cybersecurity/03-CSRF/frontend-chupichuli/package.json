@@ -1,0 +1,19 @@
+{
+  "name": "front-end-chupichuli",
+  "version": "1.0.0",
+  "description": "",
+  "browserslist": [
+    "defaults"
+  ],
+  "source": "src/index.html",
+  "scripts": {
+    "start": "rimraf dist && parcel --port 1235"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.6.2",
+    "rimraf": "^3.0.2"
+  }
+}

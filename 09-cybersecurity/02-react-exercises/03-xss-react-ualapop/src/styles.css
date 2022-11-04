@@ -1,0 +1,12 @@
+html {
+	box-sizing: border-box;
+	font-family: "Roboto", sans-serif;
+	background-color: #eceff1;
+}
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+	padding: 0;
+	margin: 0;
+}

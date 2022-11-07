@@ -23,7 +23,7 @@ git init
 git remote add origin git@github.com...
 git add .
 git commit -m "initial commit"
-git push -u origin master
+git push -u origin main
 ```
 
 - Run build command:

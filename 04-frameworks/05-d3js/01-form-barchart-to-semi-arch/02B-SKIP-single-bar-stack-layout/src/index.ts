@@ -75,8 +75,6 @@ const partiesColorScale = d3
     "Teruel Existe",
   ]);
 
-const politicalPartiesCount = resultCollectionSpainNov19.length;
-
 const barHeight = 200; // We could calculate this based on svg height
 
 const svg = d3
@@ -114,8 +112,6 @@ const stack = d3.stack().keys(politicalPartiesKeys);
 //]
 const series = stack(data);
 
-let currentXPosition = 0;
-
 chartGroup
   .selectAll("rect")
   .data(series)
@@ -127,10 +123,10 @@ chartGroup
     return xScale(d[0][1] - d[0][0]);
   })
   .attr("height", barHeight)
-  .attr("x", (d, i) => {
+  .attr("x", (d) => {
     // We take as starting point the first coordinate
     // e.g. PP 120, 208 -> we start at 120 (where PSOE ended, and on the width param sum up that value)
     return xScale(d[0][0]);
   })
-  .attr("y", (d) => chartDimensions.height - barHeight)
+  .attr("y", () => chartDimensions.height - barHeight)
   .attr("fill", (d) => partiesColorScale(d.key));

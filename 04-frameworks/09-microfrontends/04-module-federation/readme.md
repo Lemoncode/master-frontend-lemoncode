@@ -101,7 +101,7 @@ const helpers = require("./helpers");
     exposes: {
       "./ClockWidget": "./microapp-clock.entrypoint",
     },
-    shared: ["react", "react-dom", "react-router-dom", "emotion"],
+    shared: ["react", "react-dom", "emotion"],
   }),
 ```
 
@@ -112,7 +112,7 @@ const helpers = require("./helpers");
     exposes: {
       "./QuoteWidget": "./microapp-quote.entrypoint",
     },
-    shared: ["react", "react-dom", "react-router-dom", "emotion"],
+    shared: ["react", "react-dom", "emotion"],
   }),
 ```
 
@@ -430,7 +430,7 @@ const helpers = require("./helpers");
 - Y actualizamos nuestra configuración de webpack:
 
   ```diff
-  + entry: "./app.bootstrap.tsx",
+  + entry: ["regenerator-runtime/runtime", "./app.bootstrap.tsx"],
   ```
 
 `[app]`

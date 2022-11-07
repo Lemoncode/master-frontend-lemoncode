@@ -2,13 +2,9 @@
 
 In the previous example we create a single stacked bar chart.
 
-We just used a variable to store the previous position. But... Is there any
-standard way of doing somethin like that, what if I have to hop in into
-more complex scenarios like showing a stack bar chart comparing several
-years election results? .... StackLayout to the rescue.
+We just used a variable to store the previous position. But... Is there any standard way of doing something like that? What if I have to hop in into more complex scenarios like showing a stack bar chart comparing several years election results? StackLayout to the rescue.
 
-We are going to recreate the same chart as in the previous sample but
-using d3js stack layout:
+We are going to recreate the same chart as in the previous sample but using d3js stack layout:
 
 ![single horizontal stack bar chart](./content/chart.png "single horizontal stack bar chart")
 
@@ -18,8 +14,7 @@ Let's give a try.
 
 # Steps
 
-- Let's continue from example _02A-single-bar-stack-layout_, copy the example to
-  a new folder and execute
+- Let's continue from example _02A-single-bar-stack-layout_, copy the example to a new folder and execute
 
 ```bash
 npm install
@@ -93,47 +88,47 @@ const series = stack(data);
 - Let's update chart group:
 
 ```diff
+- let currentXPosition = 0;
+
 chartGroup
   .selectAll("rect")
--  .data(resultCollectionSpainNov19)
-+  .data(series)
+- .data(resultCollectionSpainNov19)
++ .data(series)
   .enter()
   .append("rect")
--  .attr("width", (d) => xScale(d.seats))
-+  .attr("width", (d) => {
+- .attr("width", (d) => xScale(d.seats))
++ .attr("width", (d) => {
 +    // To get the width of the current item we have to substract
 +    // the final stack value - the initial stack value
 +    return xScale(d[0][1] - d[0][0]);
-+  })
++ })
   .attr("height", barHeight)
--  .attr("x", (d, i) => {
+- .attr("x", (d) => {
 -    const position = currentXPosition;
 -    currentXPosition += xScale(d.seats);
 -    return position;
--  })
-+  .attr("x", (d, i) => {
+- })
++  .attr("x", (d) => {
 +    // We take as starting point the first coordinate
 +    // e.g. PP 120, 208 -> we start at 120 (where PSOE ended, and on the width param sum up that value)
 +    return xScale(d[0][0]);
 +  })
-  .attr("y", (d) => chartDimensions.height - barHeight)
--  .attr("fill", (d) => partiesColorScale(d.party));
-+  .attr("fill", (d) => partiesColorScale(d.key));
+  .attr("y", () => chartDimensions.height - barHeight)
+- .attr("fill", (d) => partiesColorScale(d.party));
++ .attr("fill", (d) => partiesColorScale(d.key));
 ```
 
 # Excercise
 
 Same as in previous example (just in case you didn't implement it)
 
-Couldn't it be cool to add an indicator showing how many seat are needed to
-get overall majority? Something like:
+Couldn't it be cool to add an indicator showing how many seat are needed to get overall majority? Something like:
 
 Tips:
 
 - The number of seats to get overall majority is half of the aviable seat + 1.
 - You can use the xScale to get the exact position where to draw a line.
-- you can draw a vertical line (check svg attribute to give it the right
-  widht and color).
+- you can draw a vertical line (check svg attribute to give it the right widht and color).
 
 ¡That's all!
 

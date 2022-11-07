@@ -2418,16 +2418,9 @@
           "properties": { "type": "Sovereigncountry", "geounit": "Austria" }
         },
         {
-          "type": null,
-          "properties": {
-            "type": "Geounit",
-            "geounit": "BrusselsCapitalRegion"
-          }
-        },
-        {
-          "arcs": [[18, 19, 20, 21, 22, 23, 24, 25]],
+          "arcs": [[20, 21, 22, 23, 24, 25, 51, -17, 52, 53, 54, 55]],
           "type": "Polygon",
-          "properties": { "type": "Geounit", "geounit": "FlemishRegion" }
+          "properties": { "type": "Sovereigncountry", "geounit": "Belgium" }
         },
         {
           "arcs": [[26, 27, 28, 29, 30]],
@@ -2448,11 +2441,6 @@
           "arcs": [[46, 47, 48, 49, 50]],
           "type": "Polygon",
           "properties": { "type": "Sovereigncountry", "geounit": "Belarus" }
-        },
-        {
-          "arcs": [[51, -17, 52, 53, 54, 55, -19]],
-          "type": "Polygon",
-          "properties": { "type": "Geounit", "geounit": "WalloonRegion" }
         },
         {
           "arcs": [[-14, 57, -12, 58, 59, 60]],
@@ -2480,11 +2468,6 @@
           "arcs": [[[73]], [[74]], [[75]], [[-73, 76]]],
           "type": "MultiPolygon",
           "properties": { "type": "Country", "geounit": "Denmark" }
-        },
-        {
-          "arcs": [[77, 78, 79, 80]],
-          "type": "Polygon",
-          "properties": { "type": "Geounit", "geounit": "England" }
         },
         {
           "arcs": [[[82]], [[83, 84, 85, 86, 87]]],
@@ -2623,7 +2606,7 @@
         {
           "arcs": [[-29, -113, -2, -132, 146]],
           "type": "Polygon",
-          "properties": { "type": "Sovereigncountry", "geounit": "Macedonia" }
+          "properties": { "type": "Sovereigncountry", "geounit": "NorthMacedonia" }
         },
         {
           "type": null,
@@ -2635,11 +2618,6 @@
           "properties": { "type": "Sovereigncountry", "geounit": "Montenegro" }
         },
         {
-          "arcs": [[-125, 149]],
-          "type": "Polygon",
-          "properties": { "type": "Geounit", "geounit": "NorthernIreland" }
-        },
-        {
           "type": null,
           "properties": { "type": "Geounit", "geounit": "JanMayen" }
         },
@@ -2649,14 +2627,9 @@
           "properties": { "type": "Geocore", "geounit": "Netherlands" }
         },
         {
-          "arcs": [[[152]], [[153]], [[154]], [[155, -99, 156, 157]]],
+          "arcs": [[[152]], [[153]], [[154]], [[155, -99, 156, 157]], [[158]], [[159]], [[160]], [[161]]],
           "type": "MultiPolygon",
           "properties": { "type": "Geounit", "geounit": "Norway" }
-        },
-        {
-          "arcs": [[[158]], [[159]], [[160]], [[161]]],
-          "type": "MultiPolygon",
-          "properties": { "type": "Geounit", "geounit": "Svalbard" }
         },
         {
           "arcs": [[162, -137, -49, 163, 164, -62, -68, 165, -65, 166]],
@@ -2683,34 +2656,20 @@
             [[180]],
             [[181]],
             [[182]],
-            [[183]]
+            [[183]],
+            [[-163, 184, -135, 185, -138]]
           ],
           "type": "MultiPolygon",
           "properties": { "type": "Geosubunit", "geounit": "Russia" }
-        },
-        {
-          "arcs": [[-163, 184, -135, 185, -138]],
-          "type": "Polygon",
-          "properties": { "type": "Geosubunit", "geounit": "Russia" }
-        },
-        {
-          "arcs": [[[186]], [[187]], [[188]], [[-80, 189]]],
-          "type": "MultiPolygon",
-          "properties": { "type": "Geounit", "geounit": "Scotland" }
         },
         {
           "type": null,
           "properties": { "type": "Sovereigncountry", "geounit": "SanMarino" }
         },
         {
-          "arcs": [[-171, -30, -147, -134, -148, -43, 190]],
+          "arcs": [[-171, -30, -147, -134, -148, -43, -42, -117, -122, -172]],
           "type": "Polygon",
           "properties": { "type": "Geounit", "geounit": "Serbia" }
-        },
-        {
-          "arcs": [[-172, -191, -42, -117, -122]],
-          "type": "Polygon",
-          "properties": { "type": "Geounit", "geounit": "Vojvodina" }
         },
         {
           "arcs": [[191, -124, -8, -63, -165]],
@@ -2733,13 +2692,9 @@
           "properties": { "type": "Sovereigncountry", "geounit": "Ukraine" }
         },
         {
-          "type": null,
-          "properties": { "type": "Sovereigncountry", "geounit": "Vatican" }
-        },
-        {
-          "arcs": [[-78, 196]],
-          "type": "Polygon",
-          "properties": { "type": "Geounit", "geounit": "Wales" }
+          "arcs": [[[-78, 196]], [[77, 78, 79, 80]], [[186]], [[187]], [[188]], [[-80, 189]], [[-125, 149]]],
+          "type": "MultiPolygon",
+          "properties": { "type": "Geounit", "geounit": "UnitedKingdom" }
         }
       ]
     }

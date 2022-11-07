@@ -66,7 +66,7 @@ _./Dockerfile_
 
 - ENV PORT=8083
 + ENV PORT=8080
-ENTRYPOINT [ "node", "index" ]
+CMD node index.js
 
 ```
 
@@ -93,7 +93,7 @@ docker rmi my-app:1 my-app:2 <user-name>/my-app:latest <user-name>/my-app:2 <use
 
 docker images
 
-docker run --name my-app --rm -d -p 8080:8080 <user-name>/my-app:3
+docker run --name my-app-container --rm -d -p 8080:8080 <user-name>/my-app:3
 ```
 
 Open `http://localhost:8080`

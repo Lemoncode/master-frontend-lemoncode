@@ -3,7 +3,6 @@
 // Destructuring es una técnica rápida para asignar propiedades de objetos a
 // variables, o items de un array a variables.
 
-
 // "DESTRUCTURING" SOBRE OBJETOS
 
 // Ejemplo a mano, sin "destructuring":
@@ -74,23 +73,22 @@ const student = {
   country: "USA",
 };
 const getName = ({ name }) => name;
-console.log(getName(student));  // "Evan"
-
+console.log(getName(student)); // "Evan"
 
 // "DESTRUCTURING" SOBRE ARRAYS
 
 // Ejemplo a mano, sin "destructuring":
 const students = ["Alan", "Evan", "Ana"];
-const alan = students[0];
-const evan = students[1];
-const ana = students[2];
-const nobody = students[3];
-console.log(alan); // "Alan"
-console.log(evan); // "Evan"
-console.log(ana); // "Ana"
-console.log(nobody); // undefined
+const first = students[0];
+const second = students[1];
+const third = students[2];
+const fourth = students[3];
+console.log(first); // "Alan"
+console.log(second); // "Evan"
+console.log(third); // "Ana"
+console.log(fourth); // undefined
 
-// Pero con "destructuring" podemos asignar elementos existentes en 
+// Pero con "destructuring" podemos asignar elementos existentes en
 // el array a variables de forma directa, en una línea:
 // [!] El orden en la asignación se mantiene
 const students = ["Alan", "Evan", "Ana"];
@@ -109,19 +107,18 @@ console.log(third); // "Ana"
 // argumento de una función:
 const students = ["Alan", "Evan", "Ana"];
 const getSecond = ([, second]) => second;
-console.log(getSecond(students));  // "Evan"
+console.log(getSecond(students)); // "Evan"
 
 // También se puede aplicar "destructuring" profundo en
 // arrays bidimensionales.
 const matrix = [
   [0, 0, 0],
   [0, 10, 0],
-  [0, 0, 0]
+  [0, 0, 0],
 ];
 
 const [, [, center]] = matrix;
 console.log(center); // 10;
-
 
 // "DESTRUCTURING" PARA REASIGNAR VARIABLES
 
@@ -145,3 +142,6 @@ console.log(b);
 
 console.log(a);
 console.log(b);
+
+// El equivalente con destructuring de objetos podría ser:
+({ a: b, b: a } = { a, b });

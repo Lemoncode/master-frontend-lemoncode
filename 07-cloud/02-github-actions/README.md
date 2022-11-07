@@ -21,7 +21,7 @@ git init
 git remote add origin git@github.com...
 git add .
 git commit -m "initial commit"
-git push -u origin master
+git push -u origin main
 ```
 
 - Install [gh-pages](https://github.com/tschaub/gh-pages) as dev dependency to deploy to Github pages:
@@ -63,7 +63,7 @@ name: Continuos Deployment workflow
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   cd:

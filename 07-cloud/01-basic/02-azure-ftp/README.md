@@ -54,6 +54,7 @@ _./server/package.json_
 
 - Before running, we need to copy `./dist` folder content to `./server/public`.
 
+```
 |server/
 |-- node_modules/
 |-- public/
@@ -63,6 +64,7 @@ _./server/package.json_
 |-- index.js
 |-- package-lock.json
 |-- package.json
+```
 
 - Run it:
 

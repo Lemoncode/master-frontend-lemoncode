@@ -19,7 +19,6 @@ $ npm install webpack-dev-server --save-dev
 +   "start": "webpack serve --mode development",
 -    "build": "webpack --mode development",
 +    "build": "webpack --mode development"
--   "test": "echo \"Error: no test specified\" && exit 1"
   },
 ```
 
@@ -28,7 +27,7 @@ $ npm install webpack-dev-server --save-dev
   _webpack dev server_ tenemos que hacer un cambio de ruta en el tag script del _index.html_, más adelante
   aprenderemos una forma más limpia de hacer esto (utilizando _HTMLWebpackPlugin_)
 
-_./index.html_
+_./src/index.html_
 
 ```diff
 <!DOCTYPE html>
@@ -57,6 +56,8 @@ Para ello:
   donde tiene que apuntar.
 
 [Documentación](https://webpack.js.org/configuration/dev-server/)
+
+_./webpack.config.js_
 
 ```diff
 + const path = require("path");

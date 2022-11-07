@@ -1,6 +1,6 @@
 ## Refactorizando SRC y punto de entrada
 
-Hasta ahora hemos estado avanzando con pies y manos, pero es hora de pararnos y organizar nuestro proyecto, sino va a acabar convirtiéndose en algo difícil de gestionar. Si nos fijamos, estamos repitiendo la ruta _`./src/`_ en distintas partes de nuestro *``webpack.config.js``* y esto nos puede traer problemas de mantenibilidad, es mejor indicarle un sólo sitio cual va a ser nuestro directorio de trabajo.
+Hasta ahora hemos estado avanzando con pies y manos, pero es hora de pararnos y organizar nuestro proyecto, sino va a acabar convirtiéndose en algo difícil de gestionar. Si nos fijamos, estamos repitiendo la ruta _`./src/`_ en distintas partes de nuestro _`webpack.config.js`_ y esto nos puede traer problemas de mantenibilidad, es mejor indicarle un sólo sitio cual va a ser nuestro directorio de trabajo.
 
 Por otro lado el fichero _`students.js`_ es el punto de entrada de nuestra aplicación, para seguir una aproximación más estándar vamos a renombrarlo a _`index.js`_, que es más conocido y utilizado habitualmente por nosotros, manos a la obra.
 
@@ -9,11 +9,13 @@ Por otro lado el fichero _`students.js`_ es el punto de entrada de nuestra aplic
 - Es hora de refactorizar nuestra solución para que sea más fácil de mantener.
 - Le decimos a _webpack_ en que contexto estamos y refactorizamos.
 
+_./webpack.config.js_
+
 ```diff
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const path = require("path");
++ const path = require("path");
 
 module.exports = {
 +  context: path.resolve(__dirname, "./src"),
@@ -29,14 +31,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: "index.html", //Name of file in ./dist/
 -     template: "./src/index.html", //Name of template in ./src
-+	  template: "./index.html",
++	  template: "index.html",
       scriptLoading: "blocking", // Load the scripts correctly
     }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css",
     }),
-    new CleanWebpackPlugin(),
   ],
   .....
 ```
@@ -45,6 +46,8 @@ Fíjate que al establecer como directorio global de trabajo _./src_ para referen
 _bootstrap_ tenemos que subir un nivel para llegar a **`node_modules`**
 
 - Lo más normal es que nuestro punto de entrada se llame **`index.js`**, refactorizamos:
+
+_./webpack.config.js_
 
 ```diff
 const HtmlWebpackPlugin = require("html-webpack-plugin");

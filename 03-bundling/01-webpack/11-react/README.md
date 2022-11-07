@@ -7,6 +7,8 @@ En esta demo añadiremos soporte para **`React`** a nuestra aplicación.
 - Comenzamos haciendo una limpieza en nuestro ejemplo inicial:
 - Eliminamos todo el contenido del **`body`** en nuestro archivo **`HTML`**.
 
+_./src/index.html_
+
 ```diff
 .....
   <body>

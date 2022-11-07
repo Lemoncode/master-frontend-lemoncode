@@ -15,7 +15,7 @@ $ npm install
 
 - Ahora creamos un archivo CSS simple que agregará un fondo rojo, lo llamaremos mystyles.css
 
-_./mystyles.css_
+_./src/mystyles.css_
 
 ```css
 .red-background {
@@ -25,7 +25,7 @@ _./mystyles.css_
 
 - Pasamos a utilizar este estilo directamente en nuestro archivo HTML: si probamos usarlo en un tag de HTML veremos cómo estos no se aplican, tenemos que pasar por configurar webpack.
 
-_./index.html_
+_./src/index.html_
 
 ```diff
 <!DOCTYPE html>
@@ -212,6 +212,7 @@ Ahora tenemos que indicar:
 
 - La carpeta de salida de nuestro _bundle_.
 
+_./webpack.config.json_
 ```diff
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 + const path = require("path");
@@ -230,6 +231,7 @@ module.exports = {
 
 - Y utilizar el _plugin_
 
+_./webpack.config.json_
 ```diff
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 + const { CleanWebpackPlugin } = require("clean-webpack-plugin");
@@ -265,6 +267,8 @@ $ npm install rimraf --save-dev
 ```
 
 - Agreguemos el siguiente comando a nuestra _build_:
+
+_package.json_
 
 ```diff
   "scripts": {
@@ -326,6 +330,7 @@ module.exports = {
 
 - Configuramos el _loader_ para la extensión _.css_.
 
+_webpack.config.js_
 ```diff
   module: {
     rules: [
@@ -354,16 +359,14 @@ module.exports = {
 
 - Finalmente, agregamos el objeto del _plugin_ a la sección de _plugins_ de nuestro _webpack.config.js_:
 
+_webpack.config.js_
 ```diff
 plugins: [
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: 'index.html', //Name of file in ./dist/
       template: 'index.html', //Name of template in ./src
-    }),
-    new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery"
+      scriptLoading: "blocking", // Just use the blocking approach (no modern defer or module)
     }),
 +   new MiniCssExtractPlugin({
 +     filename: "[name].css",
@@ -383,6 +386,7 @@ Pero ahora nos preguntaremos, ¿por qué se sigue generando el _appStyles.js_? Y
 
 ¿Y si lo quito?
 
+_webpack.config.js_
 ```diff
 .....
 module.exports = {

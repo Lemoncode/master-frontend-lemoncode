@@ -132,8 +132,19 @@ _./webpack.prod.js_
 >
 > https://medium.com/hackernoon/the-100-correct-way-to-split-your-chunks-with-webpack-f8a9df5b7758
 
+- Lanzamos de nuevo la **`build`**
+
+```bash
+$ npm run build:prod
+```
+
 <img src="./content/split-build2.png" alt="split-build2" style="zoom:67%;" />
 
+- Vemos ahora que tenemos un **`bundle`** para cada **`vendor`**.
+
+```bash
+$ npm run build:perf
+```
 - Y ya lo vemos más detallado:
 
 <img src="./content/build-perf2.PNG" alt="build-perf2" style="zoom:67%;" />

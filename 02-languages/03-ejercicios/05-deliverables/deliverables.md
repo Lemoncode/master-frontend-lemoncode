@@ -135,7 +135,7 @@ En caso contrario deberá mostrar otro mensaje:
 #### Ejemplo de uso
 
 ```js
-class SlothMachine {
+class SlotMachine {
   /* ... */
 }
 

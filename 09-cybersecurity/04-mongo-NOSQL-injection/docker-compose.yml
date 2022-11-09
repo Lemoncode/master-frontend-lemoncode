@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  expenses-store-db:
+    container_name: nosql-injection
+    image: mongo:5
+    ports:
+      - "27017:27017"
+    volumes:
+      - "./mongo-data:/data/db"
+      - "./backups:/backups"

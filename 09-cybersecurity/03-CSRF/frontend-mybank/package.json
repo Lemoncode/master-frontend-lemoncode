@@ -1,0 +1,40 @@
+{
+  "name": "00-react-seed",
+  "version": "1.0.0",
+  "description": "",
+  "browserslist": [
+    "defaults"
+  ],
+  "source": "src/index.html",
+  "alias": {
+    "core": "/src/core",
+    "common": "/src/common",
+    "pods": "/src/pods",
+    "layouts": "/src/layouts",
+    "scenes": "/src/scenes"
+  },
+  "scripts": {
+    "start": "run-p -l type-check:watch start:dev",
+    "start:dev": "rimraf dist && parcel --open",
+    "build": "rimraf dist && parcel build",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "parcel": "^2.6.2",
+    "process": "^0.11.10",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@types/react": "17.0.1",
+    "@types/react-dom": "17.0.1",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-router-dom": "^6.3.0"
+  }
+}

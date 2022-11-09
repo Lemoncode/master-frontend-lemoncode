@@ -1,0 +1,146 @@
+.corral {
+  margin: 0 auto;
+  width: 460px;
+}
+
+.contentContainer {
+  position: relative;
+  margin: 130px auto 0;
+  padding: 30px 10% 50px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.textInput input,
+.textInput textarea {
+  height: 44px;
+  width: 100%;
+  padding: 0 10px;
+  border: 1px solid #9da3a6;
+  background: #fff;
+  text-overflow: ellipsis;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  color: #000;
+  font-size: 1em;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  direction: ltr;
+}
+.textInput {
+  position: relative;
+  margin: 0 0 10px;
+}
+.textInput .fieldLabel {
+  position: absolute;
+  color: #6c7378;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+
+a.button:hover,
+a.button:link:hover,
+a.button:visited:hover,
+.button:hover {
+  background-color: #005ea6;
+  outline: 0;
+}
+a.button,
+a.button:link,
+a.button:visited,
+.button {
+  width: 100%;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  display: block;
+  background-color: #0070ba;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  color: #fff;
+  font-size: 1em;
+  text-align: center;
+  font-weight: 700;
+  font-family: HelveticaNeue-Medium, "Helvetica Neue Medium", HelveticaNeue,
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-shadow: none;
+  text-decoration: none;
+  -webkit-transition: background-color 0.4s ease-out;
+  -moz-transition: background-color 0.4s ease-out;
+  -o-transition: background-color 0.4s ease-out;
+  transition: background-color 0.4s ease-out;
+  -webkit-font-smoothing: antialiased;
+}
+
+.actionsSpaced {
+  margin-top: 30px;
+}
+
+.fieldWrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.forgotLink {
+  margin: 20px auto;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #cbd2d6;
+  text-align: center;
+}
+
+a.button.secondary,
+a.button.secondary:link,
+a.button.secondary:visited,
+.button.secondary {
+  background-color: #e1e7eb;
+  color: #2c2e2f;
+}
+a.button,
+a.button:link,
+a.button:visited {
+  padding-top: 11px;
+}
+
+a,
+a:link,
+a:visited {
+  color: #0070ba;
+  font-family: HelveticaNeue, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  text-decoration: none;
+  -webkit-transition: color 0.2s ease-out;
+  -moz-transition: color 0.2s ease-out;
+  -o-transition: color 0.2s ease-out;
+  transition: color 0.2s ease-out;
+}

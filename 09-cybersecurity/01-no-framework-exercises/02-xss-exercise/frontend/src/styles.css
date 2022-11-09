@@ -1,0 +1,95 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.root {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: 1;
+  width: 100%;
+  height: 100vh;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.resultContainer {
+  background-image: url(img/hacker-background.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+}
+
+#resultPrivateData {
+  display: flex;
+  width: 50%;
+  height: 200px;
+  border: 5px solid #95c3d3;
+  border-radius: 8px;
+  margin-bottom: 5%;
+  color: aliceblue;
+  padding: 10px;
+}
+
+#MyForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  width: 50%;
+}
+#AddBio {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  width: 50%;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 40%;
+}
+
+.input input {
+  width: 100%;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid #95c3d3;
+  padding: 5px;
+}
+#name {
+  padding: 10px;
+  border: 1px solid #a3acaf;
+  border-radius: 4px;
+}
+
+.button {
+  width: 250px;
+  height: 30px;
+  background-color: #416269;
+  color: aliceblue;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.textarea {
+  height: 200px;
+  width: 300px;
+  border-radius: 5px;
+  border: 1px solid #95c3d3;
+  text-align: left;
+  padding: 5px;
+}

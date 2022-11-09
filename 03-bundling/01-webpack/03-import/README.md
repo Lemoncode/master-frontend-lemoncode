@@ -22,7 +22,7 @@ function getTotalScore(scores) {
 
 - Es hora se actualizar **`students.js`** e importar el archivo anterior invocando la función _getAvg_ del mismo:
 
-_./students.js_
+_./src/students.js_
 
 ```diff
 -  // Usemos algunas características de ES6
@@ -117,7 +117,7 @@ Ahora, podemos importarlos de varias maneras en **`students.js`**:
 
 - Importar ambos elementos en el ámbito actual:
 
-`_./students.js_
+_./src/students.js_
 
 ```diff
 - import getAvg from "./averageService";
@@ -138,7 +138,7 @@ const averageScore = getAvg(scores);
 
 - Importa el contenido de todo el módulo usando el comodín `*` y un _name_ para nuestro módulo. Este _name_ contendrá todos los elementos exportados en nuestro ámbito actual (se utiliza _name_ como espacio de nombres):
 
-_./students.js_
+_./src/students.js_
 
 ```diff
 - import {getAvg, getTotalScore} from "./averageService";

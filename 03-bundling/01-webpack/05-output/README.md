@@ -86,6 +86,7 @@ Ya no necesitamos la configuración de _devServer_ para indicarle la ubicación 
 ya que el plugin lo va a copiar a la carpeta _dist_ o servirlo en memoria en el sitio correcto
 en el caso del _wepback-dev-server_.
 
+_/webpack.config.js_
 ```diff
 - const path = require("path");
   .......
@@ -115,6 +116,7 @@ del mismo, podemos evitar esto configurando la opción hash en el plugin:
 
 - Para evitar que nuevas versiones del fichero _js_ no se carguen y se tire por equivocación de la caché del navegador vamos a añadir un parámetro adicional que agregará un valor hash a los tags de _script_ en el _HTML_ que hemos creado (esto es un truco muy común para evitar problemas con versiones cacheadas en navegadores o _proxies_, en este caso sólo tenemos que añadir un _flag_ para activarlo).
 
+_/webpack.config.js_
 ```diff
  plugins: [
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin

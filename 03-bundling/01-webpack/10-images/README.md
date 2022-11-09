@@ -8,6 +8,7 @@ En el siguiente punto vamos a incluir imágenes en nuestro proyecto de dos forma
 
 - Vamos a agregar al **`index.html`** un elemento **`div`** con una **`id`** dada:
 
+_./src/index.html_
 ```diff
 <!DOCTYPE html>
 <html lang="en">
@@ -41,6 +42,7 @@ _./src/index.js_
 ```diff
 import {getAvg} from "./averageService";
 + import logoImg from './content/logo_1.png';
+import "./mystyles.scss";
 
 const scores = [90, 75, 60, 99, 94, 30];
 const averageScore = getAvg(scores);
@@ -111,6 +113,8 @@ $ npm run build
 Eso está bien, pero ¿y si ya tuviéramos la imagen referenciada dentro de una etiqueta **`<img>`**?
 
 - Agregamos **`logo_2.png`** en el archivo **`index.html`**:
+
+_./src/index.html_
 
 ```diff
 .....

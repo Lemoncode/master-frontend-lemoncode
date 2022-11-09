@@ -121,7 +121,7 @@ _./webpack.config.js_
 
   - totalScoreComponent.jsx >> totalScoreComponent.tsx
 
-- Instalamos los **`typings`** para **``React```** y **`React DOM`**:
+- Instalamos los **`typings`** para **`React`** y **`React DOM`**:
 
 ```bash
 $ npm install @types/react @types/react-dom --save-dev
@@ -229,6 +229,11 @@ _./webpack.config.js_
 ...
    devServer: {
     port: 8080,
+    open: true,
+    hot: true,
+    static: {
+      directory: path.join(__dirname, "src"),
+    },
 +   devMiddleware: {
 +     stats: "errors-only",
 +   },

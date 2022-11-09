@@ -18,7 +18,6 @@ _./webpack.common.js_
 ```diff
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 - const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
 
 module.exports = {
@@ -76,12 +75,18 @@ module.exports = {
 -      filename: "[name].css",
 -      chunkFilename: "[id].css",
 -    }),
-    new CleanWebpackPlugin(),
--  ],
--  stats: "errors-only",
--  devtool: 'eval-source-map',
+ ],
+-  devtool: "eval-source-map",
 -  devServer: {
 -    port: 8080,
+-    open: true,
+-    hot: true,
+-    static: {
+-      directory: path.join(__dirname, "src"),
+-    },
+-    devMiddleware: {
+-      stats: "errors-only",
+-    },
 -  },
 };
 
@@ -108,7 +113,7 @@ const path = require("path");
 
 module.exports = {
 +  ...common,
-+  module: {
++  module.exports: {
 +    rules: [
 +      {
 +        test: /\.scss$/,
@@ -130,10 +135,17 @@ module.exports = {
 +      },
 +    ],
 +  },
-+  stats: "errors-only",
 +  devtool: "eval-source-map",
 +  devServer: {
 +    port: 8080,
++    open: true,
++    hot: true,
++    static: {
++      directory: path.join(__dirname, "src"),
++    },
++    devMiddleware: {
++      stats: "errors-only",
++    },
 +  },
 };
 ```
@@ -152,9 +164,11 @@ $ npm install webpack-merge --save-dev
 
 - Y para utilizarlo lo hacemos de la siguiente forma:
 
+_webpack.dev.js_
 ```diff
 + const { merge } = require("webpack-merge");
 const common = require("./webpack.common.js");
+const path = require("path");
 
 - module.exports = {
 + module.exports = merge(common, {
@@ -190,6 +204,7 @@ _./webpack.prod.js_
 ```javascript
 const { merge } = require("webpack-merge");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const path = require("path");
 const common = require("./webpack.common.js");
 
 module.exports = merge(common, {
@@ -205,6 +220,8 @@ module.exports = merge(common, {
             options: {
               modules: {
                 exportLocalsConvention: "camelCase",
+                localIdentName: "[path][name]__[local]--[hash:base64:5]",
+                localIdentContext: path.resolve(__dirname, "src"),
               },
             },
           },
@@ -363,10 +380,10 @@ _./webpack.prod.js_
 ...
 module.exports = merge(common, {
   mode: "production",
-  output: {
++  output: {
 +   filename: "js/[name].[chunkhash].js",
 +   assetModuleFilename: "images/[hash][ext][query]",
-  },
++  },
 ...
   plugins: [
     new MiniCssExtractPlugin({

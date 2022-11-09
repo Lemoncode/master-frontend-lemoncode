@@ -26,7 +26,7 @@ module.exports = {
 
 - Modificamos nuestro index.html e incluimos un componente específico de **`Bootstrap`**, en este caso vamos a instalar un [Card](https://getbootstrap.com/docs/5.0/components/card/).
 
-_./index.html_
+_./src/index.html_
 
 ```diff
 <body>

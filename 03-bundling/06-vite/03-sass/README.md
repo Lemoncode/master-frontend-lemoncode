@@ -8,7 +8,7 @@ So far so good. Now it's time to use a more powerful CSS preprocessor like [SASS
 
 ## Prerequisites
 
-Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not already installed on your computer.
+Install [Node.js and npm](https://nodejs.org/en/) (min >=16) if they are not already installed on your computer.
 
 > ⚠ Verify that you are running at least latest Node LTS version and npm. You can check your current version by running `node -v` and `npm -v` in a terminal/console window. Older versions may produce errors.
 

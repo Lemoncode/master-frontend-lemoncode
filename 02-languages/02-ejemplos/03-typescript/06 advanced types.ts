@@ -231,6 +231,9 @@ const throwDice = (): 1 | 2 | 3 | 4 | 5 | 6 => {
   return 6; // Dado trucado MUAHAHAHAHA.
 }
 
+// *** TEMPLATE LITERALS ************************
+type DayMood = "happy" | "sad" | "crazy" | "frenzy" | "chaotic";
+type MyWorkDay = `${DayMood} ${LabourDay}`;
 
 
 

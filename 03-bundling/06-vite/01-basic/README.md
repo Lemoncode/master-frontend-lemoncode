@@ -146,7 +146,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
 
   > ⚡ `vite` command will start the dev server, you can also use `vite dev` or `vite serve` as alternative commands
 
-- We can access to the dev server at [http://localhost:3000](http://localhost:3000). Notice that, to avoid conflicts, it uses a different port than the production server by default.
+- We can access to the dev server at [http://localhost:5173](http://localhost:5173). Notice that, to avoid conflicts, it uses a different port than the production server by default.
 
   ⚙ The server is started only at `localhost` by default. We could expose our server to the local network by using the `--host` modifier, either in the script:
 

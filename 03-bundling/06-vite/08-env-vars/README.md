@@ -52,7 +52,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
   npm start
   ```
 
-  🔎 Navigate to [http://localhost:3000](http://localhost:3000) and you'll see the value has been interpolated.
+  🔎 Navigate to [http://localhost:5173](http://localhost:5173) and you'll see the value has been interpolated.
 
   💥 However, notice we have a compilation error here. TypeScript doesn't know about `env` object in `import.meta`, neither any of the variables whithin `env`. In order to tell TypeScript the existence of this object and its variables, we should add `vite` definition types to our project.
 

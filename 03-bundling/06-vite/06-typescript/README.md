@@ -75,6 +75,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
   -     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css" />
         <title>Vite App</title>
       </head>
+
       <body>
   -     <h1>Check the console log</h1>
   -     <div id="imgContainer"></div>
@@ -200,7 +201,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
   [TypeScript] Found 1 error. Watching for file changes.
   ```
 
-  🔎 If we take a look at the browser at [http://localhost:3000](http://localhost:3000) you'll notice the overlay with the compilation error too.
+  🔎 If we take a look at the browser at [http://localhost:5173](http://localhost:5173) you'll notice the overlay with the compilation error too.
 
 - Production flow relies on `rollup` where TS is also supported out-of-the-box and type check is performed to proceed with a green build. Leave the error in the code and try to build for production:
 

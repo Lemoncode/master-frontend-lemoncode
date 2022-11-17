@@ -6,7 +6,7 @@ Let's start with a very basic sample, just add an html plus a simple console log
 
 ## Prerequisites
 
-Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not already installed on your computer.
+Install [Node.js and npm](https://nodejs.org/en/) (min >=16) if they are not already installed on your computer.
 
 > ⚠ Verify that you are running at least latest Node LTS version and npm. You can check your current version by running `node -v` and `npm -v` in a terminal/console window. Older versions may produce errors.
 
@@ -146,7 +146,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
 
   > ⚡ `vite` command will start the dev server, you can also use `vite dev` or `vite serve` as alternative commands
 
-- We can access to the dev server at [http://localhost:3000](http://localhost:3000). Notice that, to avoid conflicts, it uses a different port than the production server by default.
+- We can access to the dev server at [http://localhost:5173](http://localhost:5173). Notice that, to avoid conflicts, it uses a different port than the production server by default.
 
   ⚙ The server is started only at `localhost` by default. We could expose our server to the local network by using the `--host` modifier, either in the script:
 

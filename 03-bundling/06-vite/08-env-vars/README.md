@@ -8,7 +8,7 @@ In this example, we are going to support the use of environment variables for ou
 
 ## Prerequisites
 
-Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not already installed on your computer.
+Install [Node.js and npm](https://nodejs.org/en/) (min >=16) if they are not already installed on your computer.
 
 > ⚠ Verify that you are running at least latest Node LTS version and npm. You can check your current version by running `node -v` and `npm -v` in a terminal/console window. Older versions may produce errors.
 
@@ -52,7 +52,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (min >=12.2.0) if they are not
   npm start
   ```
 
-  🔎 Navigate to [http://localhost:3000](http://localhost:3000) and you'll see the value has been interpolated.
+  🔎 Navigate to [http://localhost:5173](http://localhost:5173) and you'll see the value has been interpolated.
 
   💥 However, notice we have a compilation error here. TypeScript doesn't know about `env` object in `import.meta`, neither any of the variables whithin `env`. In order to tell TypeScript the existence of this object and its variables, we should add `vite` definition types to our project.
 

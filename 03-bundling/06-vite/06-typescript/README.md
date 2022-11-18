@@ -279,3 +279,26 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
   ```
 
   🔎 Now try the build with and without errors to see the difference.
+
+  Also as an alternative we can just use this plugin to inform `rollup` to use the `tsconfig.json` file as the TS configuration file:
+
+  _vite.config.ts_
+
+  ```diff
+    rollupOptions: {
+  -    plugins: [typescript({ noEmitOnError: true })],
+  +    plugins: [typescript({ tsconfig: "tsconfig.json" })],
+    },
+  ```
+
+  And finally add the `noEmitOnError` setting in that file:
+
+  _tsconfig.json_
+
+  ```diff
+    "moduleResolution": "Node",
+    "noEmit": true,
+  + "noEmitOnError": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+  ```

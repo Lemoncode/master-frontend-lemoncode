@@ -192,4 +192,10 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
     + console.log("New code update, it will to defeat cache !!!");
     ```
 
-  - Check again the last request for `index.js`, now the URL changed, cache busting has been applied and a new hash in the form or query param has been added with the purpose of defeating browser cache and force a download of this modified module. **Status for that request is now 200**.
+  - Check again the last request for `index.js`, now the URL changed, cache busting has been applied and a new hash in the form of a query param has been added to the URL with the purpose of defeating browser cache and force a download of this modified module. This hash is just a timestamp in `ms` with the date and time of the change (compilation timestamp).You can convert it back to `Date` to check it out by doing:
+
+    ```js
+    console.log(new Date(t));
+    ```
+
+    **Status for that request is now 200**.

@@ -8,7 +8,7 @@ export class Vehicle {
         // Default acceleration functionality
     }
 
-    changeGear(gear) {
+    changeGear(gear: number) {
         // Default acceleration functionality
     }
 }

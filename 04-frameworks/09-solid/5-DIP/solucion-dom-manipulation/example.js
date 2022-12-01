@@ -5,12 +5,6 @@ const modifyHTMLView = {
     }
 }
 
-function setValuesFromServer(url, view) {
-    fetch(url).then(data => view.setValues(data));
-}
-
-setValuesFromServer('url', modifyHTMLView);
-
 // Además de cumplir DIP también cumple SRP y OCP
 const modifyLocalStorage = {
     setValues: function(data) {
@@ -19,5 +13,23 @@ const modifyLocalStorage = {
     }
 }
 
-setValuesFromServer('url2', modifyHTMLView);
-setValuesFromServer('url3', modifyLocalStorage);
+const apiSource = {
+    getData: function() {
+        return fetch('a-concrete-url');
+    }
+}
+
+const otherSource = {
+    getData: function() {
+        return Promise.resolve(localStorage.getItem('data'));
+    }
+}
+
+function setValuesFromServer(source, view) {
+    source.getData().then(data => view.setValues(data));
+}
+
+setValuesFromServer(apiSource, modifyHTMLView);
+setValuesFromServer(apiSource, modifyLocalStorage);
+setValuesFromServer(otherSource, modifyHTMLView);
+

@@ -25,6 +25,7 @@ export class Customer
         if(!this.currentOrder) {
             return;
         }
+
         return processor.checkout(this.currentOrder);
     }
 }

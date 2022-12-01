@@ -2,7 +2,7 @@ import {StorageService} from "./storage-service.interface";
 
 export class CartStorage
 {
-    private storage;
+    private storage: StorageService;
 
     setStorageService(storage: StorageService) {
         this.storage = storage;

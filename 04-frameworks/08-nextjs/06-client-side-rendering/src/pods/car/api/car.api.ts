@@ -2,7 +2,7 @@ import Axios from 'axios';
 import { envConstants } from 'core/constants';
 import { Car } from './car.api-model';
 
-export const url = `${envConstants.BASE_API_URL}/cars`;
+const url = `${envConstants.BASE_API_URL}/cars`;
 
 export const getCar = async (id: string): Promise<Car[]> => {
   const { data } = await Axios.get<Car[]>(`${url}/${id}`);

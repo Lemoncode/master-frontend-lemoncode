@@ -40,6 +40,7 @@ export const CarListComponent: React.FunctionComponent = (props) => {
     </ul>
   );
 };
+
 ```
 
 - Add barrel file:
@@ -48,6 +49,7 @@ _./src/components/index.ts_
 
 ```javascript
 export * from './car-list.component';
+
 ```
 
 - Update `cars` page:
@@ -85,24 +87,27 @@ const CarListPage = () => {
 
 ```bash
 npm i @emotion/css --save
-npm i @emotion/babel-plugin --save-dev
+
 ```
 
+> NextJs has a configuration to [port @emotion/babel-plugin](https://nextjs.org/docs/advanced-features/compiler#emotion) because they want to avoid compiling with babel
+>
 > [@emotion/babel-plugin](https://emotion.sh/docs/@emotion/babel-plugin)
 
 - Configure it:
 
-_./.babelrc_
+_./next.config.js_
 
-```json
-{
-  "presets": ["next/babel"],
-  "plugins": ["@emotion"]
-}
+```javascript
+module.exports = {
+  compiler: {
+    emotion: true,
+  },
+};
+
 ```
 
 > Note: by default use [swc](https://swc.rs/)
-> NextJs is working to [port @emotion/babel-plugin](https://nextjs.org/docs/advanced-features/compiler#emotion) to next compiler
 
 - Update styles (rename to `car-list.styles.ts`):
 
@@ -132,7 +137,7 @@ import React from 'react';
 
 ```
 
-> Check Chrome Devtools > Network > Slow 3G
+> Check Chrome Devtools > Network > Fast 3G
 
 - It looks great but let's try on production mode:
 
@@ -143,7 +148,7 @@ npm run start:prod
 ```
 
 > Open `http://localhost:8080/cars` with
-> Check Chrome Devtools > Network > Slow 3G
+> Check Chrome Devtools > Network > Fast 3G
 
 - In this case, Nextjs will apply styles after render page on client.
 
@@ -153,7 +158,12 @@ npm run start:prod
 npm install @emotion/server --save
 ```
 
-> [@emotion/server](https://emotion.sh/docs/@emotion/server) > [SSR Docs](https://emotion.sh/docs/ssr) and [Nextjs-emotion example](https://emotion.sh/docs/ssr#nextjs) > [Nextjs custom document](https://nextjs.org/docs/advanced-features/custom-document)
+> [@emotion/server](https://emotion.sh/docs/@emotion/server)
+>
+> [SSR Docs](https://emotion.sh/docs/ssr) and [Nextjs-emotion example](https://emotion.sh/docs/ssr#nextjs)
+>
+> [Nextjs custom document](https://nextjs.org/docs/advanced-features/custom-document)
+>
 > Note: If we use `@emotion/react` it supports SSR by default (without install @emotion/server) but you need to provide css prop instead of standard classNames. [@emotion/react examples](https://emotion.sh/docs/@emotion/react)
 
 - Let's create a Nextjs custom document:
@@ -332,7 +342,7 @@ export default CarListPage;
 - Start dev:
 
 ```bash
-npm run start:dev
+npm start
 ```
 
 - Start prod:
@@ -406,6 +416,7 @@ _./src/common/theme/index.ts_
 ```javascript
 export * from './theme-provider.component';
 export * from './theme';
+
 ```
 
 - But we need the app entry point to use `ThemeProvider` only once, in this case [pages/\_app.tsx](https://nextjs.org/docs/advanced-features/custom-app) (recommended for global styles):
@@ -423,6 +434,7 @@ const App: React.FC<AppProps> = (props) => {
 };
 
 export default App;
+
 ```
 
 > Default value.
@@ -449,6 +461,13 @@ const App: React.FunctionComponent<AppProps> = (props) => {
 
 export default App;
 
+```
+
+- Start prod:
+
+```bash
+npm run build
+npm run start:prod
 ```
 
 # About Basefactor + Lemoncode

@@ -1,4 +1,4 @@
-# 03 Styles
+# 01 Styles
 
 Let's add styles to pages and how it works with Nextjs.
 

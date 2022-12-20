@@ -1,8 +1,8 @@
-# 04 Images
+# 02 Images
 
 Let's add some images and how it works with Nextjs.
 
-We will start from `03-styles`.
+We will start from `01-styles`.
 
 # Steps to build it
 
@@ -33,6 +33,16 @@ export const AppLayout: React.FunctionComponent = (props) => {
 ...
 ```
 
+Run:
+
+```
+npm start
+```
+
+> Check Chrome Devtools > Network > Fast 3G
+>
+> The page load is waiting for image load.
+
 - Issues related with approach:
 
   - The size needed for the design.
@@ -56,7 +66,12 @@ export const AppLayout: React.FunctionComponent = (props) => {
       <AppBar position="fixed">
         <Toolbar className={classes.toolbar} variant="dense">
 -         <img src="/home-logo.png" />
-+         <Image src="/home-logo.png" layout="fill" objectFit="contain"  />
++         <Image
++           alt="Lemoncode logo"
++           src="/home-logo.png"
++           fill={true}
++           style={{ objectFit: 'contain' }}
++         />
           <Typography variant="h6" color="inherit">
             Rent a car
           </Typography>
@@ -64,12 +79,20 @@ export const AppLayout: React.FunctionComponent = (props) => {
 ```
 
 > [Image docs](https://nextjs.org/docs/api-reference/next/image) > [Image examples github](https://github.com/vercel/next.js/tree/canary/examples/image-component/pages)
+>
 > It adapts image to the design
+>
 > Size `214kB` vs `44.5kB`
+>
 > First load the page and then the image.
 >
 > Blur effect supported since Next v11.
-> [Nextjs Issue not supported](https://github.com/vercel/next.js/issues/18858) > [plaiceholder](https://github.com/joe-bell/plaiceholder) and [example with Nextjs](https://github.com/joe-bell/plaiceholder/tree/main/examples/next) > [Vanilla Blur Example](https://codepen.io/darajava/pen/GRZzpbB?editors=0110)
+>
+> [Nextjs Issue not supported](https://github.com/vercel/next.js/issues/18858)
+>
+> [plaiceholder](https://github.com/joe-bell/plaiceholder) and [example with Nextjs](https://github.com/joe-bell/plaiceholder/tree/main/examples/next)
+>
+> [Vanilla Blur Example](https://codepen.io/darajava/pen/GRZzpbB?editors=0110)
 
 
 - Let's move this image inside a button:
@@ -92,7 +115,12 @@ export const AppLayout: React.FunctionComponent = (props) => {
       <AppBar position="fixed">
         <Toolbar className={classes.toolbar} variant="dense">
 +         <IconButton>
-            <Image src="/home-logo.png" layout="fill" objectFit="contain" />
+            <Image
+              alt="Lemoncode logo"
+              src="/home-logo.png"
+              fill={true}
+              style={{ objectFit: 'contain' }}
+            />
 +         </IconButton>
 ...
 
@@ -116,6 +144,10 @@ export const toolbar = css`
 +   width: 3rem;
 +   height: 3rem;
 + `;
+
++ export const image = css`
++   object-fit: contain;
++ `;
 ...
 
 ```
@@ -126,6 +158,14 @@ _./src/components/app.layout.tsx_
 ...
 -         <IconButton>
 +         <IconButton className={classes.iconButton}>
+            <Image
++             className={classes.image}
+              alt="Lemoncode logo"
+              src="/home-logo.png"
+              fill={true}
+-             style={{ objectFit: 'contain' }}
+            />
+          </IconButton>
 ...
 ```
 

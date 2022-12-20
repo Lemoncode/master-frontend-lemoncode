@@ -15,3 +15,7 @@ export const iconButton = css`
   width: 3rem;
   height: 3rem;
 `;
+
+export const image = css`
+  object-fit: contain;
+`;

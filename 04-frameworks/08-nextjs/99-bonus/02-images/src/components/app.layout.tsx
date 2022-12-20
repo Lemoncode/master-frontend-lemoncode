@@ -15,7 +15,13 @@ export const AppLayout: React.FC<Props> = (props) => {
       <AppBar position="fixed">
         <Toolbar className={classes.toolbar} variant="dense">
           <IconButton className={classes.iconButton}>
-            <Image src="/home-logo.png" layout="fill" objectFit="contain" />
+            <Image
+              className={classes.image}
+              alt="Lemoncode logo"
+              src="/home-logo.png"
+              fill={true}
+              style={{ objectFit: 'contain' }}
+            />
           </IconButton>
           <Typography variant="h6" color="inherit">
             Rent a car

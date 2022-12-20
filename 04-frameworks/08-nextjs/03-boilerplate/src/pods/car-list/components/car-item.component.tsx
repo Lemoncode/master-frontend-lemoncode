@@ -30,9 +30,9 @@ export const CarItem: React.FC<Props> = (props) => {
           title={car.name}
           avatar={
             car.isBooked ? (
-              <BookedIcon className={classes.bookedIcon} />
+              <BookedIcon style={{ fill: '#d32f2f' }} />
             ) : (
-              <AvailableIcon className={classes.availableIcon} />
+              <AvailableIcon style={{ fill: '#2e7d32' }} />
             )
           }
         />

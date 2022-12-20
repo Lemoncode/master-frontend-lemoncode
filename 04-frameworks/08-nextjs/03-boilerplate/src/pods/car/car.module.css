@@ -10,20 +10,25 @@
   column-gap: 2rem;
   row-gap: 2rem;
   align-items: center;
+}
 
-  @media (min-width: 900px) {
+@media (min-width: 900px) {
+  .root {
     grid-template-columns: repeat(2, 1fr);
     grid-template-areas:
-      'name .'
-      'image features'
-      'book book';
+    'name .'
+    'image features'
+    'book book';
   }
 }
 
 .name {
   grid-area: name;
-  justify-self: center;
-  @media (min-width: 900px) {
+  justify-self: center; 
+}
+
+@media (min-width: 900px) {
+  .name {
     justify-self: stretch;
   }
 }

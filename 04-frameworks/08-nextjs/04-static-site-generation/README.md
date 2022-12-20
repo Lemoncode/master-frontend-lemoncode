@@ -71,6 +71,7 @@ junit.xml
 .cache
 .env
 .next
+.swc
 + .env.local
 ```
 
@@ -186,7 +187,10 @@ _./.env.local_
 
 ```
 
-> Prefix `NEXT_PUBLIC_` > [Client side env](https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser)
+> Prefix `NEXT_PUBLIC_`
+>
+> [Client side env](https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser)
+>
 > NOTE: We are using axios because we can fetch data with it on client and backend side.
 
 _./src/common/constants/env.constants.ts_
@@ -220,6 +224,7 @@ import React from 'react';
 - import { useRouter } from 'next/router';
 + import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import { AppLayout } from 'layouts';
 + import { CarContainer, api } from 'pods/car';
 
 + interface Props {
@@ -350,19 +355,6 @@ npm run start:prod
 
 - With `fallback true`, will fetch data on user request and add this new "static page" to the `pre-renders` one. It means that it will be fetch data only once. Check `.next/server/pages/cars`.
 
-> NOTE: We can use something like:
->
-> ```javascript
-> export const getStaticPaths: GetStaticPaths = async () => {
->   const carList = await api.getCarList();
->   const paths = carList.map((c) => ({ params: { carId: c.id } }));
->   return {
->     paths,
->     fallback: true,
->   };
-> };
-> ```
-
 - What's if `api-server` has new data, let's use [Incremental Static Regeneration](https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration):
 
 _./src/pages/cars.tsx_
@@ -455,6 +447,7 @@ module.exports = {
 ```
 
 > [Image domains](https://nextjs.org/docs/basic-features/image-optimization#domains)
+>
 > [Next config file](https://nextjs.org/docs/api-reference/next.config.js/introduction)
 
 - Run app dev mode:

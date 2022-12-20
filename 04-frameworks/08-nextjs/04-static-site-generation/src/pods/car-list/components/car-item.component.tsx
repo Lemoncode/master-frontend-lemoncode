@@ -13,7 +13,7 @@ import {
 } from '@mui/icons-material';
 import { routeConstants } from 'core/constants';
 import { Car } from '../car-list.vm';
-import * as classes from './car-item.styles';
+import classes from './car-item.module.css';
 
 interface Props {
   car: Car;
@@ -30,9 +30,9 @@ export const CarItem: React.FC<Props> = (props) => {
           title={car.name}
           avatar={
             car.isBooked ? (
-              <BookedIcon className={classes.bookedIcon} />
+              <BookedIcon style={{ fill: '#d32f2f' }} />
             ) : (
-              <AvailableIcon className={classes.availableIcon} />
+              <AvailableIcon style={{ fill: '#2e7d32' }} />
             )
           }
         />

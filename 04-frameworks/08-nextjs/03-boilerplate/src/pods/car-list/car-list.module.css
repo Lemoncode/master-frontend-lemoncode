@@ -6,12 +6,16 @@
   list-style: none;
   margin: 0;
   padding: 0;
+}
 
-  @media (min-width: 600px) {
+@media (min-width: 600px) {
+  .root {
     grid-template-columns: repeat(2, 1fr);
   }
+}
 
-  @media (min-width: 900px) {
+@media (min-width: 900px) {
+  .root {
     grid-template-columns: repeat(3, 1fr);
   }
 }

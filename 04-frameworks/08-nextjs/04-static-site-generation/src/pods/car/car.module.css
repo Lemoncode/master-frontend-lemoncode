@@ -1,7 +1,4 @@
-import { css } from '@emotion/css';
-import { theme } from 'core/theme';
-
-export const root = css`
+.root {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr auto auto;
@@ -13,38 +10,43 @@ export const root = css`
   column-gap: 2rem;
   row-gap: 2rem;
   align-items: center;
+}
 
-  @media (min-width: ${theme.breakpoints.values.md}px) {
+@media (min-width: 900px) {
+  .root {
     grid-template-columns: repeat(2, 1fr);
     grid-template-areas:
-      'name .'
-      'image features'
-      'book book';
+    'name .'
+    'image features'
+    'book book';
   }
-`;
+}
 
-export const name = css`
+.name {
   grid-area: name;
-  justify-self: center;
-  @media (min-width: ${theme.breakpoints.values.md}px) {
+  justify-self: center; 
+}
+
+@media (min-width: 900px) {
+  .name {
     justify-self: stretch;
   }
-`;
+}
 
-export const book = css`
+.book {
   grid-area: book;
   align-self: center;
   justify-self: center;
-`;
+}
 
-export const image = css`
+.image {
   grid-area: image;
   position: relative;
   justify-self: stretch;
   align-self: stretch;
-`;
+}
 
-export const features = css`
+.features {
   grid-area: features;
   list-style: none;
-`;
+}

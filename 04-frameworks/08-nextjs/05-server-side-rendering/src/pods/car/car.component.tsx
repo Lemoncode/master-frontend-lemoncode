@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Typography, Button } from '@mui/material';
 import { Car } from './car.vm';
-import * as classes from './car.styles';
+import classes from './car.module.css';
 
 interface Props {
   car: Car;
@@ -18,12 +18,7 @@ export const CarComponent: React.FunctionComponent<Props> = (props) => {
         {car.name}
       </Typography>
       <div className={classes.image}>
-        <Image
-          src={car.imageUrl}
-          layout="responsive"
-          width={350}
-          height={200}
-        />
+        <Image alt={car.name} src={car.imageUrl} width={350} height={200} />
       </div>
       <ul className={classes.features}>
         {car.features.map((feature) => (

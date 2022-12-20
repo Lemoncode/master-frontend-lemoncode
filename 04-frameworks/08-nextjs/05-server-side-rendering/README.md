@@ -1,8 +1,8 @@
-# 06 Server side rendering
+# 05 Server side rendering
 
 Let's works with Nextjs using server side rendering.
 
-We will start from `06-static-site-generation`.
+We will start from `04-static-site-generation`.
 
 # Steps to build it
 
@@ -59,8 +59,11 @@ npm run start:prod
 ```
 
 > Check `.next` folder, it doesn't have `cars.json` file
+>
 > Checks that first time it renders the page on `server side` but after navigate and come back it renders on `client side`.
+>
 > But every request fetch data (`cars.json`)
+>
 > Check navigation from index to `/cars`
 
 - We can migrate use it on `car details` too:

@@ -1,8 +1,8 @@
-# 05 Static sites
+# 04 Static sites
 
 Let's works with Nextjs using pages generated at build time.
 
-We will start from `05-boilerplate`.
+We will start from `03-boilerplate`.
 
 # Steps to build it
 

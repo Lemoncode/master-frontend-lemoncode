@@ -20,7 +20,6 @@ export const AppLayout: React.FC<Props> = (props) => {
               alt="Lemoncode logo"
               src="/home-logo.png"
               fill={true}
-              style={{ objectFit: 'contain' }}
             />
           </IconButton>
           <Typography variant="h6" color="inherit">

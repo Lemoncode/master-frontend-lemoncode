@@ -20,7 +20,8 @@ npm install @types/node --save-dev
 ```
 
 > [Or using create-next-app](https://nextjs.org/docs/getting-started)
-
+>
+> [Most of the new Nextjs v13 features are in beta or alpha](https://nextjs.org/blog/next-13)
 - Now, we can add the necessary npm scripts:
 
 _./package.json_
@@ -56,34 +57,6 @@ npm start
 ```
 
 > NOTE: Since we are using typescript, nextjs add automatically `tsconfig.json`, `next-env.d.ts` files with default values.
-
-- To solve `Option '--resolveJsonModule' cannot be specified without 'node' module resolution strategy`, we should update tsconfig:
-
-_./tsconfig.json_
-
-```diff
-{
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "incremental": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-+   "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve"
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
-}
-
-```
 
 - This is great to work with Nextjs in dev mode, but we need to add more commands to works with production mode:
 

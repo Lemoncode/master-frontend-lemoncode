@@ -1,0 +1,52 @@
+.root {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-areas:
+    'name'
+    'image'
+    'features'
+    'book';
+  column-gap: 2rem;
+  row-gap: 2rem;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .root {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+    'name .'
+    'image features'
+    'book book';
+  }
+}
+
+.name {
+  grid-area: name;
+  justify-self: center; 
+}
+
+@media (min-width: 900px) {
+  .name {
+    justify-self: stretch;
+  }
+}
+
+.book {
+  grid-area: book;
+  align-self: center;
+  justify-self: center;
+}
+
+.image {
+  grid-area: image;
+  position: relative;
+  justify-self: stretch;
+  align-self: stretch;
+}
+
+.features {
+  grid-area: features;
+  list-style: none;
+}

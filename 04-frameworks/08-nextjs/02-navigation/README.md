@@ -61,15 +61,8 @@ const HomePage = () => {
 export default HomePage;
 
 ```
-> [Next link](https://nextjs.org/docs/api-reference/next/link) >
-> Important for SEO purpose. You can replace the styles like:
-
-```javascript
-  <Link href={href} passHref>
-    <a className={classes}>{name}</a>
-  </Link>
-```
-
+> [Next link](https://nextjs.org/docs/api-reference/next/link)
+>
 > [Routing](https://nextjs.org/docs/routing/introduction)
 
 - Or programmatically:
@@ -123,7 +116,9 @@ const CarPage = () => {
 export default CarPage;
 ```
 
-> [Dynamic routes](https://nextjs.org/docs/routing/dynamic-routes) > [i18n-routing](https://nextjs.org/docs/advanced-features/i18n-routing)
+> [Dynamic routes](https://nextjs.org/docs/routing/dynamic-routes)
+>
+> [i18n-routing](https://nextjs.org/docs/advanced-features/i18n-routing)
 
 - Check route `http://localhost:3000/cars/3`;
 

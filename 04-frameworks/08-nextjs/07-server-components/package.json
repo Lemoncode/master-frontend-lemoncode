@@ -19,7 +19,7 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.0",
     "axios": "^1.2.1",
-    "next": "^13.0.7",
+    "next": "13.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sharp": "^0.31.2"

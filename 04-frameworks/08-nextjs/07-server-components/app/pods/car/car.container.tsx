@@ -1,5 +1,7 @@
+"use client";
+
 import React from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { routeConstants } from 'core/constants';
 import * as api from './api';
 import { mapCarFromApiToVm, mapCarFromVmToApi } from './car.mappers';

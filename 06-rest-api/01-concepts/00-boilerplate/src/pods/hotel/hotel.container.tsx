@@ -9,7 +9,7 @@ import { HotelComponent } from './hotel.component';
 export const HotelContainer: React.FunctionComponent = (props) => {
   const [hotel, setHotel] = React.useState<Hotel>(createEmptyHotel());
   const [cities, setCities] = React.useState<Lookup[]>([]);
-  const { id } = useParams();
+  const { id } = useParams<any>();
   const history = useHistory();
 
   const handleLoadCityCollection = async () => {

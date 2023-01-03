@@ -46,7 +46,7 @@
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.13",
     "@types/react-router-dom": "^5.3.3",
-    "babel-loader": "^8.2.3",
+    "babel-loader": "^8.3.0",
     "dotenv-webpack": "^7.1.0",
     "html-webpack-plugin": "^5.5.0",
     "jest": "^27.5.1",

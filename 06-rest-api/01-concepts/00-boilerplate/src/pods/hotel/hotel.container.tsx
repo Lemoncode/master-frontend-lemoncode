@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import * as api from './api';
 import { createEmptyHotel, Hotel } from './hotel.vm';
 import { mapHotelFromApiToVm, mapHotelFromVmToApi } from './hotel.mappers';
@@ -10,7 +10,7 @@ export const HotelContainer: React.FunctionComponent = (props) => {
   const [hotel, setHotel] = React.useState<Hotel>(createEmptyHotel());
   const [cities, setCities] = React.useState<Lookup[]>([]);
   const { id } = useParams<any>();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleLoadCityCollection = async () => {
     const apiCities = await api.getCities();
@@ -33,7 +33,7 @@ export const HotelContainer: React.FunctionComponent = (props) => {
     const apiHotel = mapHotelFromVmToApi(hotel);
     const success = await api.saveHotel(apiHotel);
     if (success) {
-      history.goBack();
+      navigate(-1);
     } else {
       alert('Error on save hotel');
     }

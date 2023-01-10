@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "run-p -l type-check:watch start:dev start:server",
-    "start:dev": "webpack-dev-server --config ./config/webpack/dev.js",
+    "start:dev": "webpack serve --config ./config/webpack/dev.js",
     "start:server": "cd server && npm run mock-server",
     "build": "run-p -l type-check build:prod",
     "build:prod": "npm run clean && webpack --config ./config/webpack/prod.js",
@@ -23,13 +23,12 @@
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.60",
-    "axios": "^0.19.2",
+    "axios": "^1.2.2",
     "emotion": "^10.0.27",
     "formik": "^2.1.4",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-hot-loader": "^4.12.21",
-    "react-router-dom": "^5.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.6.1",
     "regenerator-runtime": "^0.13.5"
   },
   "devDependencies": {
@@ -38,7 +37,7 @@
     "@babel/preset-env": "^7.10.2",
     "@babel/preset-react": "^7.10.1",
     "@babel/preset-typescript": "^7.10.1",
-    "@hot-loader/react-dom": "^16.13.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@types/react": "^16.9.38",
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.5",
@@ -49,13 +48,14 @@
     "html-webpack-plugin": "^4.3.0",
     "mini-css-extract-plugin": "^0.9.0",
     "npm-run-all": "^4.1.5",
+    "react-refresh": "^0.14.0",
     "rimraf": "^3.0.2",
     "style-loader": "^1.2.1",
     "typescript": "^4.9.4",
     "url-loader": "^4.1.0",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^4.2.2"
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1",
+    "webpack-merge": "^5.8.0"
   }
 }

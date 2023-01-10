@@ -1,10 +1,10 @@
 import React from 'react';
 import { useField } from 'formik';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select, { SelectProps } from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select, { SelectProps } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
 import { Lookup } from 'common/models';
 import * as classes from './select.styles';
 
@@ -29,6 +29,8 @@ export const SelectComponent: React.FunctionComponent<Props> = (props) => {
   const hasError = error || Boolean(meta && meta.touched && meta.error);
   const helperText = Boolean(field) ? meta?.error : props.helperText;
   const labelId = `${name}-label`;
+  const targetValue =
+    items.filter((x) => x.name === (value || field?.value))[0]?.name || '';
 
   return (
     <FormControl
@@ -46,11 +48,11 @@ export const SelectComponent: React.FunctionComponent<Props> = (props) => {
           select: classes.select,
         }}
         id={name}
-        labelId={labelId}
+        label={label}
         name={name}
         onChange={onChange || field?.onChange}
         onBlur={onBlur || field?.onBlur}
-        value={value || field?.value}
+        value={targetValue}
       >
         {items.map((item) => (
           <MenuItem key={item.id} value={item.id}>

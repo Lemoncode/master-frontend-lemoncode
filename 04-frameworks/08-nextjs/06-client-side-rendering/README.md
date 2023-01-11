@@ -18,7 +18,7 @@ If we don't need to pre-render the data and frequently updating data.
 
 - The page is generated on client side.
 - Available on pages and internal components.
-- You can use [SWR](https://swr.vercel.app/) (stale-while-revalidate) or [React query](https://react-query-v3.tanstack.com/) for handle cache
+- You can use [SWR](https://swr.vercel.app/) (stale-while-revalidate) or [React query](https://tanstack.com/query/latest) for handle cache
 
 > SWR is a strategy to first return the data from cache (stale), then send the fetch request (revalidate), and finally come with the up-to-date data
 

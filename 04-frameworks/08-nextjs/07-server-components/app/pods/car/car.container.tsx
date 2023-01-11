@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
@@ -14,7 +14,6 @@ interface Props {
 export const CarContainer: React.FunctionComponent<Props> = (props) => {
   const router = useRouter();
   const car = mapCarFromApiToVm(props.car);
-  
   const handleBook = async () => {
     try {
       const apiCar = mapCarFromVmToApi({ ...car, isBooked: !car.isBooked });

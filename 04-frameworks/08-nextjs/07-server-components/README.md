@@ -14,8 +14,6 @@ npm install
 
 # Server Components
 
-// TODO: Introduccion
-
 Enable `appDir`:
 
 _./next.config.js_
@@ -207,6 +205,8 @@ export default CarListPage;
 
 ```
 
+Remove previous page `./src/pages/cars.tsx`.
+
 Why it fails? Because all components inside `app` folder are server components by default but if we need to use client hooks such as `useState`, `useEffect`, `React context`, etc we need to mark it as [Client Component](https://beta.nextjs.org/docs/rendering/server-and-client-components#convention):
 
 
@@ -244,8 +244,6 @@ _./app/cars/page.tsx_
 export default CarListPage;
 
 ```
-
-Remove previous page `./src/pages/cars.tsx`.
 
 Why it fails? The error is _You have a Server Component that imports next/router. Use next/navigation instead._ Now, if we need a navigation different than `Link` component we have to use router from [next/navigation](https://beta.nextjs.org/docs/routing/linking-and-navigating#userouter-hook) and it will always be a "client" navigation, [next/router will be legacy](https://beta.nextjs.org/docs/upgrade-guide#step-5-migrating-routing-hooks).
 

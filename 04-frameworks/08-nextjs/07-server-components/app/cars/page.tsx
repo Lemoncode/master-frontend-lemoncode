@@ -6,8 +6,7 @@ import { CarListContainer, api } from '../pods/car-list';
 
 const CarListPage = async () => {
   const carList = await api.getCarList({ cache: 'no-store' });
-  console.log('Car list build time?', { carList });
-
+  console.log('Car list build time', { carList });
   return <CarListContainer carList={carList} />;
 };
 

@@ -1,0 +1,22 @@
+<table>
+  <thead>
+    <tr>
+      <th>Avatar</th>
+      <th>Id</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let member of members">
+        <td>
+          <img [src]="member.avatar_url" width="80"/>
+        </td>
+        <td>
+          <span>{{ member.id }}</span>
+        </td>
+        <td>
+          <span>{{ member.login }}</span>
+        </td>
+      </tr>
+  </tbody>
+</table>

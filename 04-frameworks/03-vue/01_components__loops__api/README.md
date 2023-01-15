@@ -2,7 +2,7 @@
 
 Resultado de la primera sesión del módulo.
 
-<!-- // Todo -->
+![screenshot](./screenshot.png)
 
 ## Inicio
 

@@ -18,13 +18,15 @@
     <script>
       const { createApp } = Vue
 
-      createApp({
+      const app = createApp({
         data() {
           return {
             whatever: 'Hello world! 🔥🔥',
           }
         },
-      }).mount('#simplest-example')
+      })
+
+      app.mount('#simplest-example')
     </script>
   </body>
 </html>

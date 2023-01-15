@@ -17,13 +17,15 @@
     <script type="module">
       import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
 
-      createApp({
+      const app = createApp({
         data() {
           return {
             whatever: 'Hello browser modules! 🔥🔥',
           }
         },
-      }).mount('#simplest-example')
+      })
+
+      app.mount('#simplest-example')
     </script>
   </body>
 </html>

@@ -293,8 +293,8 @@ _src/app/user/user-list/user-list.component.html_
 -        <input name="name" [(ngModel)]="newMember.login" required minLength="6"/>
 +        <input name="name" [(ngModel)]="newMember.login" required minlength="6" #name="ngModel"/>
 +        <div *ngIf="name.invalid && name.touched">
-+          <div *ngIf="name.errors.required">El nombre es obligatorio</div>
-+          <div *ngIf="name.errors.minlength">El nombre debe tener {{ name.errors.minlength.requiredLength }} caracteres mínimo. Tiene sólamente {{ name.errors.minlength.actualLength }}</div>
++          <div *ngIf="name.errors!['required']">El nombre es obligatorio</div>
++          <div *ngIf="name.errors!['minlength']">El nombre debe tener {{ name.errors!['minlength'].requiredLength }} caracteres mínimo. Tiene sólamente {{ name.errors!['minlength'].actualLength }}</div>
 +        </div>
     </div>
     <div>

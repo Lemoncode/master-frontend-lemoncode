@@ -15,25 +15,25 @@ export class HeaderComponent implements OnInit {
     this.numItems = this.shoppingCartService.getNumItems();
     this.total = this.shoppingCartService.getTotal();
     
-    this.shoppingCartService.getNumItems$().subscribe(
-      nuevoNumero => this.numItems = nuevoNumero
-    );
+    // this.shoppingCartService.getNumItems$().subscribe(
+    //   nuevoNumero => this.numItems = nuevoNumero
+    // );
 
-    this.shoppingCartService.getTotal$().subscribe(
-      nuevoPrecio => this.total = nuevoPrecio
-    );
+    // this.shoppingCartService.getTotal$().subscribe(
+    //   nuevoPrecio => this.total = nuevoPrecio
+    // );
   }
 
   ngOnInit(): void {
   }
 
+  // getNumItems() {
+  //   return this.shoppingCartService.getNumItems();
+  // }
+
   // ngDoCheck() {
   //   this.numItems = this.shoppingCartService.getNumItems();
   //   this.total = this.shoppingCartService.getTotal();
   // }
-
-  getNumItems() {
-    return this.shoppingCartService.getNumItems();
-  }
 
 }

@@ -13,20 +13,20 @@ export class ObservablesComponent implements OnInit {
 
   ngOnInit() {
 
-    const obs1$: Observable<string> = new Observable( (observer: Observer<string>) => {
-      observer.next('Hello');
-      observer.next('World');
-      observer.complete();
-    });
+    // const obs1$: Observable<string> = new Observable( (observer: Observer<string>) => {
+    //   observer.next('Hello');
+    //   observer.next('World');
+    //   observer.complete();
+    // });
 
     // const obs1$ = from(['Hello', 'World']);
     // const obs1$ = of(['Hello', 'World']);
 
-    obs1$.subscribe({
-      next: (x:any) => { console.log('Emisión:', x) },
-      error: (e: string) => { console.log('Error:', e); },
-      complete: () => { console.log('Fin'); }
-    });
+    // obs1$.subscribe({
+    //   next: (x:any) => { console.log('Emisión:', x) },
+    //   error: (e: string) => { console.log('Error:', e); },
+    //   complete: () => { console.log('Fin'); }
+    // });
 
     // Creación de observable "infinito"
     // const obs2$ = new Observable((observer: Observer<number>) => {
@@ -45,9 +45,9 @@ export class ObservablesComponent implements OnInit {
     //    }
     // });
     
-    const obs2$ = interval(1000).pipe( filter( x => x % 2 === 0) )
+    // const obs2$ = interval(1000).pipe( filter( x => x % 2 === 0) )
 
-    const subs2 = obs2$.subscribe(x => console.log('subs2:',x));
+    // const subs2 = obs2$.subscribe(x => console.log('subs2:',x));
 
     // Nos des-suscribimos a los 10 segundos
     // setTimeout(() => {
@@ -64,25 +64,25 @@ export class ObservablesComponent implements OnInit {
     // - Desuscribirse del observable para liberar memoria
 
 
-    // Introducción a los operadores
-    obs1$.pipe(
-      map( (x:string) => x.toUpperCase() )
-    )
-    .subscribe({
-      next: (x:string) => { console.log('Emisión:', x) },
-      error: (e: string) => { console.log('Error:', e); },
-      complete: () => { console.log('Fin'); }
-    });
+    // // Introducción a los operadores
+    // obs1$.pipe(
+    //   map( (x:string) => x.toUpperCase() )
+    // )
+    // .subscribe({
+    //   next: (x:string) => { console.log('Emisión:', x) },
+    //   error: (e: string) => { console.log('Error:', e); },
+    //   complete: () => { console.log('Fin'); }
+    // });
 
-    obs1$.pipe(
-      map( (x:string) => x.toUpperCase() ),
-      map( (x:string) => x.split("").reverse().join("") )
-    )
-    .subscribe({
-      next: (x:string) => { console.log('Emisión:', x) },
-      error: (e: string) => { console.log('Error:', e); },
-      complete: () => { console.log('Fin'); }
-    });
+    // obs1$.pipe(
+    //   map( (x:string) => x.toUpperCase() ),
+    //   map( (x:string) => x.split("").reverse().join("") )
+    // )
+    // .subscribe({
+    //   next: (x:string) => { console.log('Emisión:', x) },
+    //   error: (e: string) => { console.log('Error:', e); },
+    //   complete: () => { console.log('Fin'); }
+    // });
 
   }
 

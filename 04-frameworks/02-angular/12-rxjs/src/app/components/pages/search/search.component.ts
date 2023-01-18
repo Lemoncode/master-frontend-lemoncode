@@ -21,23 +21,27 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.emailControl.valueChanges
-    .pipe(
-      debounceTime(500),
-      filter(x => x.length > 3 || x.length === 0), 
-      distinctUntilChanged(),
-      switchMap((value) => this.getUsers(value))
-    )
+    
     .subscribe(
-        users => this.users = users,
-        error => this.errorMessage =  error as string
+        value => this.getUsers(value).subscribe(
+          users => this.users = users,
+          error => this.errorMessage =  error as string
+        ) 
     );
 
-    // valueInputPromise
-    // .then( value => this.getUsers(value) )    
-    // .then( users => ... )
-
-
+    // this.emailControl.valueChanges
+    // .pipe(
+    //   debounceTime(500),
+    //   filter(x => x.length > 3 || x.length === 0), 
+    //   distinctUntilChanged(),
+    //   switchMap((value) => this.getUsers(value))
+    // )
+    // .subscribe(
+    //     users => this.users = users,
+    //     error => this.errorMessage =  error as string
+    // );
 
     // this.emailControl.valueChanges
     //   .pipe(

@@ -14,8 +14,8 @@ const Catalog: Product[] = [
 export class ShoppingCartService {
 
   private cart: Product[] = [];
-  private numItems$: BehaviorSubject<number> = new BehaviorSubject(0);
-  private totalPrice$: BehaviorSubject<number> = new BehaviorSubject(0);
+  // private numItems$: BehaviorSubject<number> = new BehaviorSubject(0);
+  // private totalPrice$: BehaviorSubject<number> = new BehaviorSubject(0);
 
   constructor() { } 
 
@@ -26,8 +26,8 @@ export class ShoppingCartService {
   addProduct(product: Product) {
     this.cart.push(product);
     console.table(this.cart);
-    this.numItems$.next(this.cart.length);
-    this.totalPrice$.next(this.getTotal());
+    // this.numItems$.next(this.cart.length);
+    // this.totalPrice$.next(this.getTotal());
   }
 
   removeProduct() {
@@ -48,11 +48,11 @@ export class ShoppingCartService {
     return this.cart.reduce( (total, item) => total + item.price, 0);
   }
 
-  getNumItems$(): Observable<number> {
-    return this.numItems$.asObservable();
-  }
+  // getNumItems$(): Observable<number> {
+  //   return this.numItems$.asObservable();
+  // }
 
-  getTotal$(): Observable<number> {
-    return this.totalPrice$.asObservable();
-  }
+  // getTotal$(): Observable<number> {
+  //   return this.totalPrice$.asObservable();
+  // }
 }

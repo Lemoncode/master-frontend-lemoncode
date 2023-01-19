@@ -1,10 +1,16 @@
-import { Product } from '~~/types'
+import { Product, ProductsApiResponse } from '~~/types'
 
 export const productService = {
   async get() {
-    const { products } = await fetch('https://dummyjson.com/products').then(
-      (r) => r.json()
+    const { products } = await $fetch<ProductsApiResponse>(
+      'https://dummyjson.com/products'
     )
-    return products as Product[]
+    return products
+  },
+  async getProductById(id: string) {
+    const product = await $fetch<Product>(
+      `https://dummyjson.com/products/${id}`
+    )
+    return product
   },
 }

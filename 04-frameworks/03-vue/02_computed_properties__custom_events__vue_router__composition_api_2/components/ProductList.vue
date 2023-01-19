@@ -1,38 +1,62 @@
 <template>
-  <ul class="product-list">
-    <li v-for="product in list" :key="product.id">
-      <article class="grid product-container card">
-        <div class="image">
-          <img :src="product.images[0]" alt="" loading="lazy" />
-        </div>
-        <div class="product-container__content">
-          <h2>
-            {{ product.title }}
-          </h2>
-          <p>
-            <span class="grey-text">Description: </span>
-            <strong>{{ product.description }}</strong>
-          </p>
-          <p>
-            <span class="grey-text">Brand: </span>
-            {{ product.brand }}
-          </p>
-          <p><span class="grey-text">Category: </span>{{ product.category }}</p>
-        </div>
-        <div class="flex product-container__aside">
-          <div class="text-align-end aside__price">
-            {{ product.price }}
-          </div>
-        </div>
-      </article>
-    </li>
-  </ul>
+  <section class="wrapper">
+    <div class="flex align-items-center justify-content-between">
+      <h1>Products</h1>
+      total: {{ totalProducts }}
+    </div>
+    <ul class="product-list">
+      <li v-for="product in list" :key="product.id">
+        <NuxtLink :to="`/product/${product.id}`">
+          <article
+            class="grid product-container card"
+            :class="{
+              'product-container--has-discount':
+                product.discountPercentage > 15,
+            }"
+          >
+            <div class="image">
+              <img :src="product.images[0]" alt="" loading="lazy" />
+            </div>
+            <div class="product-container__content">
+              <h2>
+                {{ product.title }}
+              </h2>
+              <p>
+                <span class="grey-text">Description: </span>
+                <strong>{{ product.description }}</strong>
+              </p>
+              <p>
+                <span class="grey-text">Brand: </span>
+                {{ product.brand }}
+              </p>
+              <p>
+                <span class="grey-text">Category: </span>{{ product.category }}
+              </p>
+            </div>
+            <div class="flex product-container__aside">
+              <div class="text-align-end aside__price">
+                <StaticPrice :quantity="product.price" />
+              </div>
+              <AddToCartButton :product="product" @addItem="onAddItem" />
+            </div>
+          </article>
+        </NuxtLink>
+      </li>
+    </ul>
+  </section>
 </template>
 
 <script setup lang="ts">
 import { productService } from '@/services/products'
+import { Product } from '~~/types'
 
 const list = await productService.get()
+
+const totalProducts = computed(() => list.length)
+
+const onAddItem = (product: Product) => {
+  console.log('onAddItem', product)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -51,6 +75,12 @@ const list = await productService.get()
   padding: 0 1em;
 }
 
+.product-container__aside {
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
 .image {
   display: flex;
   height: 100%;
@@ -61,5 +91,9 @@ const list = await productService.get()
     aspect-ratio: 1/1;
     object-fit: cover;
   }
+}
+
+.product-container--has-discount {
+  background-color: rgba(yellow, 0.5);
 }
 </style>

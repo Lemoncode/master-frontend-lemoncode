@@ -354,6 +354,11 @@ Y en el mismo archivo `.vue`, unos estilos:
   padding: 0 1em;
 }
 
+.product-container__aside {
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
 .image {
   display: flex;
   height: 100%;
@@ -371,7 +376,7 @@ Y en el mismo archivo `.vue`, unos estilos:
 #### Siguientes pasos:
 
 - [ ] Añadir computed property `totalProducts`
-- [ ] Binding de clases de manera dinámica: `product.discountPercentage > 10,`
+- [ ] Binding de clases de manera dinámica: `product.discountPercentage > 15,`
 - [ ] Añadir un botón de compra como componente, `AddToCartButton`
 - [ ] Añadir la página detalle
 - [ ] cambiar `fetch` a `$fetch` para ser _SSR-friendly_.

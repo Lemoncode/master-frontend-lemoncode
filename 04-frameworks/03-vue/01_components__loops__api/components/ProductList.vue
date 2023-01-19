@@ -51,6 +51,12 @@ const list = await productService.get()
   padding: 0 1em;
 }
 
+.product-container__aside {
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
 .image {
   display: flex;
   height: 100%;

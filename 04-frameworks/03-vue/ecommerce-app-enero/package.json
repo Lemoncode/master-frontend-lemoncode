@@ -5,10 +5,20 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "vitest"
   },
   "devDependencies": {
+    "@nuxt/test-utils": "^3.0.0",
+    "jsdom": "^21.0.0",
     "nuxt": "^3.0.0",
-    "sass": "^1.57.1"
+    "sass": "^1.57.1",
+    "vitest": "^0.27.2"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.4.6",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/test-utils": "^2.2.7",
+    "pinia": "^2.0.29"
   }
 }

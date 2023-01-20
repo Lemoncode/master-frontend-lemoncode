@@ -4,8 +4,13 @@
       <h1>Products</h1>
       total: {{ totalProducts }}
     </div>
+
+    <hr />
+    <input type="text" v-model="textFilter" />
+    <hr />
+
     <ul class="product-list">
-      <li v-for="product in list" :key="product.id">
+      <li v-for="product in filteredList" :key="product.id">
         <NuxtLink :to="`/product/${product.id}`">
           <article
             class="grid product-container card"
@@ -37,7 +42,9 @@
               <div class="text-align-end aside__price">
                 <StaticPrice :quantity="product.price" />
               </div>
-              <AddToCartButton :product="product" @addItem="onAddItem" />
+              <AddToCartButton :product="product" @addItem="onAddItem">
+                Add to cart
+              </AddToCartButton>
             </div>
           </article>
         </NuxtLink>
@@ -47,15 +54,27 @@
 </template>
 
 <script setup lang="ts">
-import { productService } from '@/services/products'
 import { Product } from '~~/types'
-const list = await productService.get()
 
-const totalProducts = computed(() => list.length)
+// Service API
+const { list } = await useProductsApi()
+
+// Cart
+const { addToCart } = useCartStore()
 
 const onAddItem = (product: Product) => {
-  console.log('onAddItem', product)
+  addToCart(product)
 }
+
+// Filtering
+const textFilter = ref('')
+const filteredList = computed(() => {
+  return list.filter((product) => {
+    if (!textFilter.value) return list
+    return product.title.toLowerCase().includes(textFilter.value.toLowerCase())
+  })
+})
+const totalProducts = computed(() => filteredList.value.length)
 </script>
 
 <style lang="scss" scoped>

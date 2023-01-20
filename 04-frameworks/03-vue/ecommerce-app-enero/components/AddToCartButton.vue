@@ -1,7 +1,9 @@
 <template>
-  <button class="button" type="button" @click.prevent="addItem">
-    Add to Cart
-  </button>
+  <div>
+    <button class="button" type="button" @click.prevent="addItem">
+      <slot name="default" />
+    </button>
+  </div>
 </template>
 
 <script lang="ts" setup>

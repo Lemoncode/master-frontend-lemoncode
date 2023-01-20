@@ -47,12 +47,10 @@
 </template>
 
 <script setup lang="ts">
-import { productService } from '@/services/products'
 import { Product } from '~~/types'
+import useProductsApi from '@/composables/useProductsApi'
 
-const list = await productService.get()
-
-const totalProducts = computed(() => list.length)
+const { list, totalProducts } = await useProductsApi()
 
 const onAddItem = (product: Product) => {
   console.log('onAddItem', product)

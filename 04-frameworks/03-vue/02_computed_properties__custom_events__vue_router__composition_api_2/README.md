@@ -79,7 +79,7 @@ De esta manera le quitamos responsabilidad a `ProductList` a la hora de cómo re
 
 Esta es la implementación del componente:
 
-- `src/components/StaticPrice.vue`
+- `components/StaticPrice.vue`
 
 ```vue
 <template>
@@ -143,7 +143,7 @@ Vamos a añadir un botón para añadir nuestros productos al "carrito". Añadimo
 
 Quizá de momento, no tiene mucho sentido: estamos recibiendo el objeto de producto como `prop` y al clickar, lanzamos un evento con el mismo objeto "p'arriba". Podríamos no estar pasando el objeto y añadir el event listener de click al nivel de `ProductList`, pero al igual que con el `StaticPrice.vue`
 
-- `src/components/AddToCartButton.vue`:
+- `components/AddToCartButton.vue`:
 
 ```vue
 <template>
@@ -335,7 +335,7 @@ Con la API que estamos usando, haremos uso de un endpoint diferente para hacer u
 Añadimos una propiedad más en el objeto, `getProductById`:
 
 ```ts
-// src/services/products.ts
+// services/products.ts
 export const productService = {
   // ...async get() {},
   async getProductById(id: string) {
@@ -368,13 +368,13 @@ Al llamarlo "default", estamos indicando que es el layout por defecto. Si no esp
 
 Vemos que usa un `<slot>` para renderizar el contenido de cada página.
 
-Como le hemos añadido el id `app` al layout, tenemos que eliminarlo en la página de inicio:
+Como le hemos añadido el id `app` al layout, tenemos que eliminarlo en la página de inicio (`pages/index.vue`). Y también, tenemos que eliminar el `Header`, ya que lo estamos renderizando en el layout.
 
 ```diff
 <template>
 -  <div id="app">
 +  <div>
-    <Header />
+-    <Header />
     <ProductList />
   </div>
 </template>
@@ -382,123 +382,150 @@ Como le hemos añadido el id `app` al layout, tenemos que eliminarlo en la pági
 
 ## Composables
 
-Por hoy, como hemos dicho al principio, no vamos a añadir más features en la app de ecommerce. Pero vamos a empezar a usar la nueva tecnología de Vue 3: Composition API.
+Por hoy, como hemos dicho al principio, no vamos a añadir más features en la app de ecommerce. Pero vamos a empezar a usar la nueva tecnología de Vue 3: Composition API, para crear "composables"
 
 Volvemos a los slides, para ver una pequeña introducción.
 
----
+El único problema es que hemos dado con un caso particular. Cuando utilizamos `script setup` con Tol level `await`, tenemos que englobar el componente en un `Suspense` para que funcione.
 
-Nota, no es recomendable hacer un refactor de aplicaciones completas a la Composition API, ya que ambas no son excluyentes. Y la composition API no reemplaza a la Options API (basada en objetos).
+Pero lo bueno es que Nuxt ya lo hace por nosotros, si usamos el top level `await` en el `script setup` de una página o componente.
 
-Por ejemplo, un refactor del ProductList:
-
-```vue
-<script lang="ts">
-import { defineComponent, computed, Ref, ref } from 'vue'
-import { productService } from '@/services/products'
-import { Product } from '@/types'
-
-import AddToCartButton from '@/components/AddToCartButton.vue'
-import StaticPrice from '@/components/StaticPrice.vue'
-
-export default defineComponent({
-  components: { AddToCartButton, StaticPrice },
-  async setup() {
-    const list: Ref<Product[]> = ref([])
-    list.value = await productService.get()
-
-    const totalProducts = computed<number>(() => list.value.length)
-
-    const onAddItem = (product: Product) => {
-      console.log(product.title)
-    }
-
-    return {
-      list,
-      totalProducts,
-      onAddItem,
-    }
-  },
-})
-</script>
-```
-
-El único problema es que hemos dado con un caso particular. Cuando utilizamos `setup` con `async`, no devuelve un objeto, sino una promesa. Por lo tanto, necesitamos usar el componente `Suspense` que viene con Vue 3, alrededor de `ProductList`, para que funcione:
-
-```diff
-  <template>
-    <div class="home">
--     <ProductList />
-+     <div v-if="error">Error :(</div>
-+     <Suspense>
-+       <template #default>
-+         <ProductList />
-+       </template>
-+       <template #fallback>loading...</template>
-+     </Suspense>
-    </div>
-  </template>
-
-  <script lang="ts">
-- import { defineComponent } from 'vue'
-+ import { defineComponent, onErrorCaptured, ref, Ref } from 'vue'
-  import ProductList from '@/components/ProductList.vue'
-
-  export default defineComponent({
-    name: 'Home',
-    components: {
-      ProductList,
-    },
-+   setup() {
-+     const error: Ref<unknown> = ref()
-+     onErrorCaptured(errorCaptured => {
-+       error.value = errorCaptured
-+     })
-+     return {
-+       error,
-+     }
-+   },
-  })
-  </script>
-```
-
-De esta manera, tenemos una forma de controlar el estado de "cargando" y los errores que devolvería promesa.
-
-Ahora, si queremos, podemos extraer de `ProductList` la lógica de la llamada a la API a su propio "módulo". Normalmente se estructuran estos archivos en una carpeta `src/use/` o en `src/composables/`. Pero la arquitectura está abierta a diferentes implementaciones. Por ejemplo, podemos optar a separar features por "dominios", siguiendo DDD.
+Ahora, si queremos, podemos extraer de `ProductList` la lógica de la llamada a la API a su propio "módulo". Normalmente se estructuran estos archivos en una carpeta `use/` o en `composables/`. Pero la arquitectura está abierta a diferentes implementaciones. Por ejemplo, podemos optar a separar features por "dominios", siguiendo DDD.
 
 El `script` de nuestro `ProductList` quedaría así:
 
 ```diff
-  <script lang="ts">
--  import { defineComponent, computed, Ref, ref } from 'vue'
-+  import { defineComponent } from 'vue'
-  import { Product } from '@/types'
+<script setup lang="ts">
+import { Product } from '@/types'
+- import { productService } from '@/services/products'
++ import useProductsApi from '@/composables/useProductsApi'
 
-  import AddToCartButton from '@/components/AddToCartButton.vue'
-  import StaticPrice from '@/components/StaticPrice.vue'
-+ import useProductsApi from '@/use/productsApi'
+- const list = await productService.get()
+- const totalProducts = computed(() => list.length)
 
-  export default defineComponent({
-    components: { AddToCartButton, StaticPrice },
-    async setup() {
--     const list: Ref<Product[]> = ref([])
--     list.value = await productService.get()
--
--     const totalProducts = computed<number>(() => list.value.length)
-+     const { list, totalProducts } = await useProductsApi()
++ const { list, totalProducts } = await useProductsApi()
 
-      const onAddItem = (product: Product) => {
-        console.log(product.title)
-      }
-
-      return {
-        list,
-        totalProducts,
-        onAddItem,
-      }
-    },
-  })
-  </script>
+// ...
+</script>
 ```
 
 De esta manera, el componente no tiene tanta responsabilidad como tenía antes. Lo que se llama _Dependency Inversion_, si no me equivoco. Ahora, hemos "abstraído" la responsabilidad de la llamada a la API y su implementación a otro módulo.
+
+## Pinia
+
+Vamos a empezar por añadir un "Store", como habréis visto en otros frameworks, Pinia sirve para controlar la gestión de estado global de la aplicación.
+
+Os lo enseño con un gráfico: https://miro.com/app/board/o9J_lZFBPQQ=/
+
+Pinia "se sienta" horizontalmente en la app y desde cualquier componente (o página) podemos acceder a los datos que allí guardamos.
+
+Los datos siempre deben fluir en el mismo sentido: `actions ->  state`. Os recordará a Redux, seguramente. Y es que Pinia, Vuex y Redux están basados en la ["Flux Arquitecture"](https://facebook.github.io/flux/).
+
+### Instalación
+
+Para instalarlo, ejecutamos:
+
+```bash
+yarn add pinia @pinia/nuxt
+# or with npm
+npm install pinia @pinia/nuxt
+```
+
+Docs: https://pinia.vuejs.org/ssr/nuxt.html
+
+## Actions
+
+Desde los componentes (o páginas) llamamos a "actions", para que se ejecute un cambio de estado.
+
+Las `actions` deberían describir acciones que se realizan en la interfaz, como "addToCart()".
+
+## State
+
+Es donde definimos nuestro estado inicial. Se define como una función que devuelve un Objeto.
+
+Gracias a que usamos Pinia, el estado es reactivo, por lo que si lo cambiamos , se actualizará en la interfaz.
+
+## Getters
+
+Pinia nos brinda unos "helpers" para acceder a partes del estado. Podemos considerar a los "getters" de Vuex o Pinia como las "computed properties" de los componentes. Pero en este caso, no podemos hacer un "setter", sólo acceder a valores de forma reactiva.
+
+Vamos a ver una implementación de un store completo:
+
+En nuestra carpeta de `composables/`, añadiremos un nuevo módulo llamado `useCartStore.ts`:
+
+```ts
+import { defineStore } from 'pinia'
+import { Product } from '~~/types'
+
+export type CartItem = { quantity: number; data: Product }
+export type CartItemRecord = Record<Product['id'], CartItem>
+
+export const useCartStore = defineStore('cart', {
+  state: () => ({
+    items: {} as CartItemRecord,
+  }),
+  getters: {
+    totalItems: (state) =>
+      Object.values(state.items).reduce((acc, item) => {
+        return acc + item.quantity
+      }, 0),
+  },
+  actions: {
+    addItem(item: Product) {
+      this.items[item.id] = {
+        quantity: this.items[item.id]?.quantity + 1 || 1,
+        data: item,
+      }
+    },
+  },
+})
+```
+
+Vamos a ver una feature muy importante de Vue: `v-model` (formularios, en general).
+
+Vamos a empezar por `v-model`
+
+### `v-model`
+
+`v-model` es la manera de sincronizar los formularios de la interfaz con el estado de nuestra aplicación. Lo veremos normalmente asociado a `<input>`s, `<textarea>`s y `<select>`s...; pero también en componentes propios asociados a estos elementos típicos de los formularios.
+
+Vemos un ejemplo:
+
+```vue
+<template>
+  <input type="text" v-model="myName" />
+  <p>Mi nombre es: {{ myName }}</p>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+const myName = ref('Pepe')
+</script>
+```
+
+Cada vez que l@s usuari@s cambien el valor del input (escribiendo), el estado del componente cambiara acorde.
+
+Asímismo, cada vez que cambie el valor `myName` dentro de nuestro componente (imaginad, en un `method`), cambiaría el formulario en la interfaz también. Por eso lo llaman "2 way", cambie uno u otro, actualizará su reflejo.
+
+Algo a tener en cuenta, para finalizar la introducción a `v-model` es: v-model, en realidad es el equivalente a hacer:
+
+```vue
+<template>
+  <textarea :value="myValue" @input="myValue = $event" />
+</template>
+```
+
+Tened en cuenta que:
+
+- el evento `input` (en _Vanilla Javascript_) lo usaríamos en `input`s y `textarea`s
+- pero en un `select` sería el evento `change`...
+
+`v-model` trata todos los casos de los elementos relacionados con los formularios.
+
+## Parte práctica
+
+Para la sesión de hoy no la voy a dejar definida con los pasos en el README. Pero podéis ver exactamente los cambios que haremos en estos commits:
+
+### v-model
+
+- "añadir filtro de lista con v-model" [c133ed1](https://github.com/Lemoncode/master-frontend-lemoncode/commit/c133ed1)

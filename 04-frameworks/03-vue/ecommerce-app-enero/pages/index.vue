@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div id="app">
+    <Header />
     <ProductList />
   </div>
 </template>

@@ -47,10 +47,11 @@
 </template>
 
 <script setup lang="ts">
+import { productService } from '@/services/products'
 import { Product } from '~~/types'
-import useProductsApi from '@/composables/useProductsApi'
+const list = await productService.get()
 
-const { list, totalProducts } = await useProductsApi()
+const totalProducts = computed(() => list.length)
 
 const onAddItem = (product: Product) => {
   console.log('onAddItem', product)
@@ -78,7 +79,6 @@ const onAddItem = (product: Product) => {
   justify-content: space-between;
   height: 100%;
 }
-
 .image {
   display: flex;
   height: 100%;
@@ -90,7 +90,6 @@ const onAddItem = (product: Product) => {
     object-fit: cover;
   }
 }
-
 .product-container--has-discount {
   background-color: rgba(yellow, 0.5);
 }

@@ -5,11 +5,15 @@
       {{ error?.message }}
     </p>
     <p>
-      {{ error?.statusCode }}
+      {{ (error as CustomError)?.statusCode }}
     </p>
   </div>
 </template>
 
 <script setup lang="ts">
+type CustomError = {
+  statusCode: string
+}
+
 const error = useError()
 </script>

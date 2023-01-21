@@ -3,11 +3,16 @@
     class="nav nav flex align-items-center justify-content-between container"
   >
     <div>Logo</div>
-    <div>Cart</div>
+    <div>Cart {{ totalItems }}</div>
   </nav>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+
+const cart = useCartStore()
+const { totalItems } = storeToRefs(cart)
+</script>
 
 <style lang="scss" scoped>
 .nav {

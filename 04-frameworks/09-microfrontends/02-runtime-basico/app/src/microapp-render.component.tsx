@@ -2,7 +2,7 @@ import React from "react";
 
 // Tipado común de la interfaz de Microapps.
 type MicroappRenderFunction = (container: Element) => void;
-type MicroappUnmountFunction = (container: Element) => boolean;
+type MicroappUnmountFunction = (container?: Element) => void;
 
 interface MicroappInterface {
   render: MicroappRenderFunction;

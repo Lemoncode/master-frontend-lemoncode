@@ -1,4 +1,4 @@
-import { injectGlobal } from "emotion";
+import { injectGlobal } from "@emotion/css";
 import PoppinsFont from "./assets/font/poppins-regular.ttf";
 
 injectGlobal`

@@ -3,8 +3,8 @@ const configCommon = require("./common");
 const configMicroapp = require("./microapp");
 
 module.exports = (env = {}) =>
-  // Indicar al url-loader que siempre embeba los assets
-  merge(configCommon({ ...env, assetEmbedLimit: true }), configMicroapp(env), {
+  // Indicar que siempre embeba los assets
+  merge(configCommon({ ...env, embedAssets: true }), configMicroapp(env), {
     mode: "development",
     devtool: "eval-source-map",
     optimization: {

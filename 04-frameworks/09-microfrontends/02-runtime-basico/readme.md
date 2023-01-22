@@ -10,14 +10,13 @@
 
 En un entorno real, es probable que tengamos un servidor estático dedicado (distinto al que aloja la aplicación _host_) a servir los bundles de vuestras microapps. También podría ser el mismo server o, incluso, un servicio o API Rest que nos devuelva el _bundle_ del microfrontend que buscamos. Al final, tendremos una URL que localiza a cada uno de nuestros _bundles_.
 
-Por agilizar las cosas y puesto que estamos haciendo pruebas de concepto en un entorno de desarrollo, vamos a aprovechar que ya tenemos un servidor ligero de desarrollo `webpack-dev-server` y vamos a servir directamente desde ahí los _bundles_ generados.
+Por agilizar las cosas y puesto que estamos haciendo pruebas de concepto en un entorno de desarrollo, vamos a aprovechar que ya tenemos un servidor ligero de desarrollo (`webpack-dev-server`) y vamos a servir directamente desde ahí los _bundles_ generados.
 
 `[app] webpack.dev.js`
 
-- Para ello tocamos la configuración de `webpack` y le indicamos que ficheros queremos que nos sirva de forma estática (`contentBase`) y bajo que ruta (`contentBasePublicPath`):
+- Para ello tocamos la configuración de `webpack` y le indicamos que ficheros queremos que nos sirva de forma estática y bajo que ruta:
 
   ```diff
-  const webpack = require("webpack");
   const { merge } = require("webpack-merge");
   + const helpers = require("./helpers");
   const configCommon = require("./webpack.common");
@@ -25,15 +24,18 @@ Por agilizar las cosas y puesto que estamos haciendo pruebas de concepto en un e
   ...
 
     devServer: {
-  +   contentBase: [
-  +     helpers.resolveFromRootPath("../microapp-clock/build/microapp/"),
-  +     helpers.resolveFromRootPath("../microapp-quote/build/microapp/"),
+  +   static: [
+  +     {
+  +       directory: helpers.resolveFromRootPath("../microapp-clock/build/microapp/"),
+  +       publicPath: "/microapps",
+  +     },
+  +     {
+  +       directory: helpers.resolveFromRootPath("../microapp-quote/build/microapp/"),
+  +       publicPath: "/microapps",
+  +     },
   +   ],
-  +   contentBasePublicPath: "/microapps",
-      inline: true,
       host: "localhost",
       port: 3000,
-      stats: "minimal",
       historyApiFallback: true,
       hot: true,
     },
@@ -120,7 +122,7 @@ Por agilizar las cosas y puesto que estamos haciendo pruebas de concepto en un e
 
   // Tipado común de la interfaz de Microapps.
   type MicroappRenderFunction = (container: Element) => void;
-  type MicroappUnmountFunction = (container: Element) => boolean;
+  type MicroappUnmountFunction = (container?: Element) => void;
 
   interface MicroappInterface {
     render: MicroappRenderFunction;

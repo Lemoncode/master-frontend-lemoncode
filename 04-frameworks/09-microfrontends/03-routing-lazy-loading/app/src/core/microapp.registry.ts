@@ -1,3 +1,4 @@
+// Registro de microapps disponibles con sus settings de carga.
 export interface MicroappLoadSettings {
   bundleUrl: string;
   exportName: string;

@@ -1,4 +1,3 @@
-const webpack = require("webpack");
 const { merge } = require("webpack-merge");
 const configCommon = require("./common");
 const configStandalone = require("./standalone");
@@ -8,15 +7,15 @@ module.exports = (env = {}) =>
     mode: "development",
     devtool: "eval-source-map",
     output: {
+      // Nombre para los bundles de salida.
       filename: "[name].[contenthash].js",
+      // Nombre para los assets de salida.
+      assetModuleFilename: `assets/[name].[contenthash][ext]`,
     },
     devServer: {
-      inline: true,
       host: "localhost",
       port: 3002,
-      stats: "minimal",
       historyApiFallback: true,
       hot: true,
     },
-    plugins: [new webpack.HotModuleReplacementPlugin()],
   });

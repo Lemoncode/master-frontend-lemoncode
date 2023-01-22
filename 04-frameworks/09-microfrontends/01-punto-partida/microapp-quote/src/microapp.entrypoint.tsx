@@ -1,6 +1,6 @@
 import "./microapp.styles";
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot, Root } from "react-dom/client";
 import { Quote } from "./components";
 
 /**
@@ -12,14 +12,19 @@ const Microapp: React.FC = () => <Quote />;
  * Microapp public interface
  */
 export type MicroappRenderFunction = (container: Element) => void;
-export type MicroappUnmountFunction = (container: Element) => boolean;
+export type MicroappUnmountFunction = (container?: Element) => void;
 
 export interface MicroappInterface {
   render: MicroappRenderFunction;
   unmount: MicroappUnmountFunction;
 }
 
+let root: Root;
+
 export const MicroappInterface: MicroappInterface = {
-  render: (container) => ReactDOM.render(<Microapp />, container),
-  unmount: (container) => ReactDOM.unmountComponentAtNode(container),
+  render: (container) => {
+    root = createRoot(container);
+    root?.render(<Microapp />);
+  },
+  unmount: () => root?.unmount(),
 };

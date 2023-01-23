@@ -5,6 +5,7 @@ const helpers = require("./helpers");
 
 module.exports = (env = {}) => ({
   entry: "./microapp-clock.entrypoint.tsx",
+  cache: false,
   output: {
     path: helpers.buildMicroappPath,
     filename: `${helpers.bundleName}.js`,
@@ -17,7 +18,7 @@ module.exports = (env = {}) => ({
       exposes: {
         "./ClockWidget": "./microapp-clock.entrypoint",
       },
-      shared: ["react", "react-dom", "react-router-dom", "emotion"],
+      shared: ["react", "react-dom", "@emotion/css"],
     }),
     new CopyWebpackPlugin({
       patterns: [

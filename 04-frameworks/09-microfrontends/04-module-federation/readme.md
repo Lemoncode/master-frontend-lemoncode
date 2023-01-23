@@ -6,11 +6,11 @@
 
 ## Federación de módulos
 
-La federación de módulos es una nueva feature que incorpora Webpack v5 explicitamente orientada hacia la arquitectura de microfrontends. Nos permitirá la ejecución de módulos en _runtime_ procedentes de otros _builds_ o _bundles_. Además, al consumirse un módulo federado, sus dependencias podrían ser compartidas, es decir, proporcionadas por el _build_ que lo consume si dispone de una versión compatible. En caso contrario, el módulo federado aportará las suyas propias.
+La federación de módulos es una nueva feature que incorpora Webpack v5 explicitamente orientada hacia la arquitectura de microfrontends. Nos permitirá la descarga y ejecución de módulos en _runtime_ procedentes de otros _builds_ o _bundles_. Además, al consumirse un módulo federado, sus dependencias podrían ser compartidas, es decir, proporcionadas por el _build_ que lo consume si dispone de una versión compatible. En caso contrario, el módulo federado aportará las suyas propias.
 
-Un módulo de webpack no es más que código empaquetado en un bundle. Un módulo federado, es un paquete de código que puede ser consumido en _runtime_ desde otros _builds_ distintos, y por tanto desde otras aplicaciones diferentes. El código federado puede cargar sus dependencias propias, pero intentará utilizar primero las dependencias que proporciona aquel que lo consuma, y de este modo minimizamos la descarga de código redundante.
+Un módulo de webpack no es más que código empaquetado en un _bundle_. Un módulo federado, es un _bundle_ que puede ser consumido en _runtime_ desde otros _builds_ distintos, y por tanto desde otras aplicaciones diferentes. El código federado puede cargar sus dependencias propias, pero intentará utilizar primero las dependencias que proporciona aquel que lo consuma, y de este modo minimizamos la descarga de código redundante.
 
-La clave está en entender que, a partir de ahora, cada _build_ que construyamos no será un único _bundle_ monolítico, sino una composición de módulos federados, cada uno en un _bundle_ independiente, junto con las dependencias que se quieran compartir. Webpack se aprovecha de su _feature_ de `code-splitting` a tal efecto. Ahora deberemos entender cada _build_ como un contenedor de módulos federados y dependencias 'compartibles'.
+La clave está en entender que, a partir de ahora, cada _build_ que construyamos no será un único _bundle_ monolítico, sino una composición de módulos federados, cada uno en un _bundle_ independiente, junto con las dependencias que se quieran compartir. Webpack hace suo de su _feature_ de `code-splitting` para proporcionar tal partición, y entiende el resultado de cada _build_ como un **contenedor de módulos federados y dependencias 'compartibles'**.
 
 Cada uno de estos contenedores ofrece módulos al mundo, pero también puede consumir módulos de otros contenedores. La forma en que webpack orquesta estas transferencias es mediante la generación de un _bundle_ específico (el contenedor propiamente dicho es también un _bundle_) que describirá cada módulo que se ha federado en un _build_, las dependencias que necesita consumir, y si requiere de otros módulos federados procedentes de otros contenedores. Este build además incorporará un pequeño _runtime_ (aplicación) a modo de capa de orquestación que se encargará de gestionar la búsqueda y carga de los módulos federados y sus dependencias.
 
@@ -42,10 +42,25 @@ Se requieren de algunos cambios para adaptar las microapps a la nueva _feature_ 
   ```diff
   ...
 
-  export const MicroappInterface: MicroappInterface = {
-    render: container => ReactDOM.render(<Microapp />, container),
-    unmount: container => ReactDOM.unmountComponentAtNode(container),
-  };
+    export const MicroappInterface: MicroappInterface = {
+      render: (container) => {
+        root = createRoot(container);
+        root?.render(<Microapp />);
+      },
+      unmount: () => root?.unmount(),
+    };
+
+  + export default MicroappInterface;
+  ```
+
+`[microapp-<clock|quote>] microapp.entrypoint.d.ts`
+
+- [OPCIONAL] Aunque este paso no es estrictamente necesario puesto que no estamos consumiendo el tipado de las microapps desde el exterior, para mantener la consistencia, deberiamos actualizar también el fichero de tipos `d.ts`:
+
+  ```diff
+    ...
+
+    export declare const MicroappInterface: MicroappInterface;
   + export default MicroappInterface;
   ```
 
@@ -72,49 +87,48 @@ Se requieren de algunos cambios para adaptar las microapps a la nueva _feature_ 
 3. Eliminamos los settings de libreria (`library`), dejamos que lo configure por defecto.
 4. Ajustamos explícitamente `filename` (para el módulo inicial) y `chunkFilename` (para todos los módulos _splitted_). Le añadimos como prefijo el nombre de nuestro proyecto para distinguir fácilmente los ficheros de otros ficheros federados.
 
-```tsx
-  entry: "./microapp-<clock|quote>.entrypoint.tsx",
-  cache: false,
-  output: {
-    path: helpers.buildMicroappPath,
-    filename: `${helpers.bundleName}.js`,
-    chunkFilename: `${helpers.bundleName}.[id].js`,
-  },
-
-```
+   ```tsx
+     entry: "./microapp-<clock|quote>.entrypoint.tsx",
+     cache: false,
+     output: {
+       path: helpers.buildMicroappPath,
+       filename: `${helpers.bundleName}.js`,
+       chunkFilename: `${helpers.bundleName}.[id].js`,
+     },
+   ```
 
 - Pues bien, ahora sí, por fin, vamos a configurar nuestra federación de módulos. Añadimos el plugin:
 
-```diff
-+ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const helpers = require("./helpers");
-```
+  ```diff
+  + const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+  const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+  const CopyWebpackPlugin = require("copy-webpack-plugin");
+  const helpers = require("./helpers");
+  ```
 
 - Y configuramos, añadiéndolo como nuevo plugin:
 
-```tsx
-  new ModuleFederationPlugin({
-    name: "ClockContainer",
-    filename: "clock-container.js",
-    exposes: {
-      "./ClockWidget": "./microapp-clock.entrypoint",
-    },
-    shared: ["react", "react-dom", "emotion"],
-  }),
-```
+  ```tsx
+    new ModuleFederationPlugin({
+      name: "ClockContainer",
+      filename: "clock-container.js",
+      exposes: {
+        "./ClockWidget": "./microapp-clock.entrypoint",
+      },
+      shared: ["react", "react-dom", "@emotion/css"],
+    }),
+  ```
 
-```tsx
-  new ModuleFederationPlugin({
-    name: "QuoteContainer",
-    filename: "quote-container.js",
-    exposes: {
-      "./QuoteWidget": "./microapp-quote.entrypoint",
-    },
-    shared: ["react", "react-dom", "emotion"],
-  }),
-```
+  ```tsx
+    new ModuleFederationPlugin({
+      name: "QuoteContainer",
+      filename: "quote-container.js",
+      exposes: {
+        "./QuoteWidget": "./microapp-quote.entrypoint",
+      },
+      shared: ["react", "react-dom", "@emotion/css"],
+    }),
+  ```
 
 ¿Qué estamos haciendo aqui?
 
@@ -154,7 +168,10 @@ const helpers = require("./helpers");
     merge(configCommon(env), {
       mode: "production",
   -   output: {
+  -     // Nombre para los bundles de salida.
   -     filename: `[name]-${helpers.versionName}.js`,
+  -     // Nombre para los assets de salida.
+  -     assetModuleFilename: `assets/[name].[contenthash][ext]`,
   -   },
   -   optimization: {
   -     splitChunks: {
@@ -183,7 +200,6 @@ const helpers = require("./helpers");
 - En la configuración de desarrollo, eliminamos también el `output`, ahora será común, y vamos a servir todos los _bundles_ de nuestras microapps directamente del raiz, para evitar posibles problemas, por lo que eliminamos el `contentBasePublicPath`:
 
   ```diff
-  const webpack = require("webpack");
   const { merge } = require("webpack-merge");
   const helpers = require("./helpers");
   const configCommon = require("./webpack.common");
@@ -193,22 +209,27 @@ const helpers = require("./helpers");
       mode: "development",
       devtool: "eval-source-map",
   -   output: {
-  -     filename: "[name].[hash].js",
-  -   },
+  -     // Nombre para los bundles de salida.
+  -     filename: "[name].[contenthash].js",
+  -     // Nombre para los assets de salida.
+  -     assetModuleFilename: `assets/[name].[contenthash][ext]`,
+      },
       devServer: {
-        contentBase: [
-          helpers.resolveFromRootPath("../microapp-clock/build/microapp/"),
-          helpers.resolveFromRootPath("../microapp-quote/build/microapp/"),
+        static: [
+          {
+            directory: helpers.resolveFromRootPath("../microapp-clock/build/microapp/"),
+  -         publicPath: "/microapps",
+          },
+          {
+            directory: helpers.resolveFromRootPath("../microapp-quote/build/microapp/"),
+  -         publicPath: "/microapps",
+          },
         ],
-  -     contentBasePublicPath: "/microapps",
-        inline: true,
         host: "localhost",
         port: 3000,
-        stats: "minimal",
         historyApiFallback: true,
         hot: true,
       },
-      plugins: [new webpack.HotModuleReplacementPlugin()],
     });
   ```
 
@@ -273,7 +294,7 @@ const helpers = require("./helpers");
         ClockContainer: "ClockContainer@http://localhost:3000/clock-container.js",
         QuoteContainer: "QuoteContainer@http://localhost:3000/quote-container.js",
       },
-      shared: ["react", "react-dom", "react-router-dom", "emotion"],
+      shared: ["react", "react-dom", "react-router-dom", "@emotion/css"],
     }),
   ```
 
@@ -353,18 +374,18 @@ const helpers = require("./helpers");
   + const isMicroappLoaded = (microapp: RegisteredMicroapps) =>
   +   Boolean(microappInterfacesCache[microapp]);
 
-  + const renderMicroapp = (microapp: RegisteredMicroapps, container: HTMLElement) =>
-  +   microappInterfacesCache[microapp]?.render(container);
-
   + const downloadMicroapp = async (microapp: RegisteredMicroapps): Promise<void> => {
   +   try {
-  +     const getFederatedMicroapp = microappRegistry[microapp];
-  +     const { MicroappInterface } = await getFederatedMicroapp?.();
+  +     const getMicroapp = microappRegistry[microapp];
+  +     const { MicroappInterface } = await getMicroapp?.();
   +     microappInterfacesCache[microapp] = MicroappInterface;
   +   } catch {
   +     Promise.reject();
   +   }
   + };
+
+  + const renderMicroapp = (microapp: RegisteredMicroapps, container: HTMLElement) =>
+  +   microappInterfacesCache[microapp]?.render(container);
 
   + const unmountMicroapp = (microapp: RegisteredMicroapps, container: HTMLElement) =>
   +   microappInterfacesCache[microapp]?.unmount(container);
@@ -394,14 +415,14 @@ const helpers = require("./helpers");
 - Entendamos que es el `eager consumption`. Este es un error habitual que nos indica que se está intentando cargar alguna de las dependencias compartidas de forma "ansiosa". ¿Qué queire decir? ¿Por qué pasa esto? Veamos, nuestra `app` va a consumir módulos federados que permiten reemplazo de dependencias. Nos interesa que las dependencias de `app` sean intercambiables con la de los módulos federados, para optimizar la carga de código. Y así se lo hemos expresado en la configuración del plugin de módulos federados:
 
   ```tsx
-    shared: ["react", "react-dom", "react-router-dom", "emotion"],
+    shared: ["react", "react-dom", "react-router-dom", "@emotion/css"],
   ```
 
 - Debemos entender que **webpack va a extraer todas estas dependencias en _bundles_ separados**, por si un módulo federado quisiera hacer uso de ellas. Pero la forma por defecto de cargarlas es mediante **carga asíncrona**.
 
 - Asi pues, cuando nuestra `app` se pone en marcha (se carga el _bundle_ `app.js`) se pone en marcha la descarga asíncrona de todas las dependencias 'shareables', pero no significa que las tengamos inmediatamente disponibles. Sin embargo `app` las "necesita" ya, las quiere consumir de forma "ansiosa".
 
-`[app] app.bootstrap.tsx`
+`[app] app.bootstrap.ts`
 
 - ¿Cómo se resuelve este problema? Haciendo que nuestra `app` también se cargue de forma asíncrona (_lazy_), con el uso de un sencillo `bootstrap`. Sustituimos nuestro punto de entrada de la `app` por otro que use un import dinámico:
 
@@ -420,7 +441,8 @@ const helpers = require("./helpers");
 
   ```diff
   ...
-  ReactDOM.render(<App />, document.getElementById("root"));
+  const root = createRoot(document.getElementById("root"));
+  root.render(<App />);
 
   + export default App;
   ```
@@ -430,7 +452,7 @@ const helpers = require("./helpers");
 - Y actualizamos nuestra configuración de webpack:
 
   ```diff
-  + entry: ["regenerator-runtime/runtime", "./app.bootstrap.tsx"],
+  + entry: ["regenerator-runtime/runtime", "./app.bootstrap.ts"],
   ```
 
 `[app]`
@@ -451,40 +473,80 @@ Es importante ver como sucede la carga de bundles en el tab _Network_ de las `de
 2. Nuestra aplicación _host_ tiene como dependencia 2 contenedores remotos para su consumo en _runtime_. Por lo tanto, pone en marcha la descarga de sendos _containers_ remotos: `clock-container-js` y `quote-container.js`. Estos _bundles_ apenas suponen _overhead_ en el tiempo de carga incial ya que su peso es mínimo, pero son cruciales ya que su ejecución permiten establecer un contexto en _runtime_ con todos los módulos federados de los que se puede hacer uso, asi como sus dependencias.
 3. De forma asíncrona, comienza la descarga y ejecución de nuestro `app.entrypoint`, que ahora estará segregado en un _bundle_ aparte debido al _bootstraping_ para evitar _eager consumption_.
 4. En paralelo al punto anterior, comienza la descarga de todas las dependencias que la aplicación _host_ necesita para trabajar.
+5. ¿Qué sucede cuando navegamos? Cuando entramos en las páginas de Clock o Quote, se descargará y ejecutará el _bundle_ correspondiente del módulos federado ... pero ¡reutilizando las dependencias de app!
 
-¿Qué sucede cuando navegamos?
+## Problemas Conocidos
 
-5. Cuando entramos en las páginas de Clock o Quote, se descargará y ejecutará el _bundle_ correspondiente del módulos federado ... pero ¡reutilizando las dependencias de app!
+### Warning acerca de la versión requerida de `react-dom` (`react-dom` 18.2)
 
-### Problema y último refinamiento
+- Con la versión 18.2 de `react-dom` puede aparecer el siguiente warning:
+
+  > ⚠ WARNING in shared module react-dom. No required version specified and unable to automatically determine one. Unable to find required version for "react-dom" in description file.
+
+- Por algún motivo el plugin para federación de módulos no es capaz de extraer adecuadamente la versión de `react-dom` de su `package.json`. Podemos arreglar este problema si lo seteamos nosotros mismos a mano.
+
+`[app] config/webpack.common.js`
+
+- Para ello tendremos que utilizar la notación de objeto para las dependencias compartidas `shared` en el plugin de la siguiente manera:
+
+  ```diff
+    const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+  + const deps = require("../package.json").dependencies;
+    const helpers = require("./helpers");
+
+    ...
+
+    new ModuleFederationPlugin({
+      // name: "AppContainer",
+      remotes: {
+        ClockContainer: "ClockContainer@http://localhost:3000/clock-container.js",
+        QuoteContainer: "QuoteContainer@http://localhost:3000/quote-container.js",
+      },
+  +   shared: {
+  +     react: {},
+  +     "react-dom": {
+  +       requiredVersion: deps["react-dom"],
+  +     },
+  +     "react-router-dom": {},
+  +     "@emotion/css": {},
+  +   },
+    }),
+
+  ```
+
+### Error al desmontar microapp (`react` 18.2)
+
+- Al navegar entre las rutas `/clock` y `/quote` procedemos a la carga y renderizado de una nueva microapp al tiempo que se desmonta la antigua. Con la versión 18.2 de `react` aparece el siguiente error:
+
+  > ❌ Warning: Attempted to synchronously unmount a root while React was already rendering. React cannot finish unmounting the root until the current render has completed, which may lead to a race condition.
+
+- Aparentemente es un falso positivo y este error [está reportado](https://github.com/facebook/react/issues/25675) a `react`.
+
+  > A fecha de Enero-2023 no hay fix y/o solución.
+
+### Error al navegar entre microapp (`react` < 18)
 
 - Si realizamos numerosos cambios de página para provocar el montado y desmontado de las microapps, veremos que React muestra por consola errores referentes al renderizado.
 
 - Esto sucede porque ahora tenemos una misma dependencia de `ReactDOM` siendo reusada por la aplicación _host_ y por los módulos federados, y esa misma instancia de `ReactDOM` está intentando renderizar tanto el `<div id="root">` de `app` como otros nodos que son descendientes de ese _root_: en este caso, los `<divs>` contenedores donde va cada `microapp`. **Esto no se debe hacer**. El nodo del DOM que pasamos a `ReactDOM.render()` debe ser siempre un nodo _top level_ (como los llama `react`) lo que significa que no debe pertenecer a un árbol de componentes previamente renderizado por dicha instancia de `ReactDOM`.
 
-- La solución más sencilla consiste en reemplazar el actual _container_ que pasamos a las `microapps` por un nodo creado manualmente (con la API nativa del DOM). Al haber sido creado manualmente a bajo nivel, no formará parte del arbol de componentes de la instancia de `ReactDOM` y por tanto será un nodo _top level_:
+- La solución más sencilla consiste en reemplazar el actual _container_ que pasamos a las `microapps` por un nodo creado manualmente (con la API nativa del DOM). Al haber sido creado manualmente a bajo nivel, no formará parte del arbol de componentes de la instancia de `ReactDOM` y por tanto será un nodo _top level_.
 
 `[app] core/microapp-loader.component.tsx`
 
-```diff
-...
+- Aplicar el siguiente cambio:
 
-const renderMicroapp = (microapp: RegisteredMicroapps, container: HTMLElement) =>
-+ microappInterfacesCache[microapp]?.render(container.appendChild(document.createElement("div")));
+  ```diff
+  ...
 
-...
+  const renderMicroapp = (microapp: RegisteredMicroapps, container: HTMLElement) =>
+  + microappInterfacesCache[microapp]?.render(container.appendChild(document.createElement("div")));
 
-const unmountMicroapp = (microapp: RegisteredMicroapps, container: HTMLElement) => {
-+ microappInterfacesCache[microapp]?.unmount(container.children?.[0]);
-+ container.children?.[0].remove();
-};
+  ...
 
-```
+  const unmountMicroapp = (microapp: RegisteredMicroapps, container: HTMLElement) => {
+  + microappInterfacesCache[microapp]?.unmount(container.children?.[0]);
+  + container.children?.[0].remove();
+  };
 
-`[app]`
-
-- ✅ **CHECKPOINT**: Ahora todo debe funcionar sin errores:
-
-  ```text
-  npm start
   ```

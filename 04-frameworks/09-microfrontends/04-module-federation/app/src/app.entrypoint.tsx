@@ -1,10 +1,11 @@
 import "./app.styles";
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { AppRouter } from "./app.router";
 
 const App: React.FC = () => <AppRouter />;
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const root = createRoot(document.getElementById("root"));
+root.render(<App />);
 
 export default App;

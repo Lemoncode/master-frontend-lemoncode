@@ -7,4 +7,3 @@ export interface MicroappInterface {
 }
 
 export declare const MicroappInterface: MicroappInterface;
-export default MicroappInterface;

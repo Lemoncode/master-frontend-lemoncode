@@ -1,5 +1,5 @@
 import React from "react";
-import { css } from "emotion";
+import { css } from "@emotion/css";
 import { Link } from "react-router-dom";
 import { routes } from "../../core";
 
@@ -16,7 +16,11 @@ const styles = {
   `,
 };
 
-export const AppFrame: React.FC = ({ children }) => {
+export interface AppFrameProps {
+  children?: React.ReactNode;
+}
+
+export const AppFrame: React.FC<AppFrameProps> = ({ children }) => {
   return (
     <>
       <div className={styles.container}>

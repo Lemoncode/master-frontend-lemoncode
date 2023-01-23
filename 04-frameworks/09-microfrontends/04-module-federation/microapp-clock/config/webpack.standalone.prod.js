@@ -7,7 +7,10 @@ module.exports = (env = {}) =>
   merge(configCommon(env), configStandalone(env), {
     mode: "production",
     output: {
+      // Nombre para los bundles de salida.
       filename: `[name]-${helpers.versionName}.js`,
+      // Nombre para los assets de salida.
+      assetModuleFilename: `assets/[name].[contenthash][ext]`,
     },
     optimization: {
       splitChunks: {

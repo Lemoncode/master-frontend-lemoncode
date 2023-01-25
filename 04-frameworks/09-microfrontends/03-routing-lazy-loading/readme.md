@@ -148,48 +148,52 @@ export * from "./microapp-render.component";
 
 `[app] pods/app-frame/app-frame.component.tsx`
 
-```ts
-import React from "react";
-import { css } from "@emotion/css";
-import { Link } from "react-router-dom";
-import { routes } from "../../core";
+- Una posible implementación sencilla sería esta:
 
-const styles = {
-  container: css`
-    margin: 2rem 1rem;
-    display: grid;
-    grid-auto-flow: column;
-    grid-gap: 2rem;
-    justify-content: center;
-    align-items: center;
-    font-family: Montserrat, sans-serif;
-    font-size: 1.25rem;
-  `,
-};
+  ```ts
+  import React from "react";
+  import { css } from "@emotion/css";
+  import { Link } from "react-router-dom";
+  import { routes } from "../../core";
 
-export interface AppFrameProps {
-  children?: React.ReactNode;
-}
+  const styles = {
+    container: css`
+      margin: 2rem 1rem;
+      display: grid;
+      grid-auto-flow: column;
+      grid-gap: 2rem;
+      justify-content: center;
+      align-items: center;
+      font-family: Montserrat, sans-serif;
+      font-size: 1.25rem;
+    `,
+  };
 
-export const AppFrame: React.FC = ({ children }) => {
-  return (
-    <>
-      <div className={styles.container}>
-        <Link to={routes.home}>Home</Link>
-        <Link to={routes.clock}>Clock</Link>
-        <Link to={routes.quote}>Quote</Link>
-      </div>
-      {children}
-    </>
-  );
-};
-```
+  export interface AppFrameProps {
+    children?: React.ReactNode;
+  }
+
+  export const AppFrame: React.FC<AppFrameProps> = ({ children }) => {
+    return (
+      <>
+        <div className={styles.container}>
+          <Link to={routes.home}>Home</Link>
+          <Link to={routes.clock}>Clock</Link>
+          <Link to={routes.quote}>Quote</Link>
+        </div>
+        {children}
+      </>
+    );
+  };
+  ```
 
 `[app] pods/app-frame/index.ts`
 
-```ts
-export * from "./app-frame.component";
-```
+- No olvidemos el barrel por comodidad:
+
+  ```ts
+  export * from "./app-frame.component";
+  ```
 
 `[app] app.router.tsx`
 

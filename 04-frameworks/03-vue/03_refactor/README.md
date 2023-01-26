@@ -1,246 +1,228 @@
 # ecommerce-app
 
-## Vitest
+## Refactor
 
-Vamos a testear los componentes de nuestra aplicación con la librería Vitest. Vitest está basada en Vite y Jest, por lo que es muy rápida y fácil de configurar.
+Vamos a hacer un pequeño refactor de nuestra app y, por el camino, vamos a repasar los conceptos que vimos en las sesiones 1 y 2:
 
-### Instalación
+- Binding de atributos
+- Componentes propios
+- Comunicación entre componentes:
+  - Props
+  - Custom Events
 
-Para instalar [Vitest](https://vitest.dev/guide/), ejecutamos el siguiente comando:
+### Separar componente hijo
 
-```bash
-yarn add -D vitest
+Os decía que el componente de `components/ProductList.vue` estaba quedando un poco grande. Vamos a extraer cada uno de los items de la lista a un componente. Mi consejo es hacer este tipo de refactor sólo cuando sea necesario, para evitar sobre-ingeniería y optimización prematura.
+
+En nuestro `ProductList`, vamos a extraer lo que va dentro de los cada `NuxtLink` en los `li`, la etiqueta `article`:
+
+```html
+<article
+  class="grid product-container card"
+  :class="{
+    'product-container--has-discount':
+      product.discountPercentage > 15,
+  }"
+>
+  <div class="image">
+    <img :src="product.images[0]" alt="" loading="lazy" />
+  </div>
+  <div class="product-container__content">
+    <h2>{{ product.title }}</h2>
+    <p>
+      <span class="grey-text">Description: </span>
+      <strong>{{ product.description }}</strong>
+    </p>
+    <p>
+      <span class="grey-text">Brand: </span>
+      {{ product.brand }}
+    </p>
+    <p><span class="grey-text">Category: </span>{{ product.category }}</p>
+  </div>
+  <div class="flex product-container__aside">
+    <div class="text-align-end aside__price">
+      <StaticPrice :quantity="product.price" />
+    </div>
+    <AddToCartButton :product="product" @addItem="onAddItem" />
+  </div>
+</article>
 ```
 
-Pero antes de empezar a testear, necesitamos instalar las dependencias de desarrollo que necesitamos para testear componentes de Vue y Nuxt. Para ello, ejecutamos el siguiente comando:
+Creamos el componente `ProductListItem.vue` y en el template, vamos a "pegar" ese markup:
 
-```bash
-yarn add -D vitest-environment-nuxt @testing-library/vue
+```vue
+<template>
+  <!-- Aquí -->
+</template>
 ```
 
-- `vitest-environment-nuxt`: nos permite testear componentes de Nuxt sin necesidad de configurar los `auto-imports` u otras opciones del framework: https://github.com/danielroe/vitest-environment-nuxt/
-- `@testing-library/vue`: nos permite testear componentes de Vue de una manera más sencilla a `@vue/test-utils` y asemejando la interacción del usuario con la app: https://testing-library.com/docs/
+Inmediatamente, veremos como todas las referencias a `product` se marcan en rojo, ya que el componente no tiene esa información todavía. Se la tenemos que pasar con una `prop`:
 
-### Configuración
+```vue
+<script setup lang="ts">
+import { Product } from '~~/types'
 
-Para configurar Vitest, creamos un archivo `vitest.config.mjs` (importante, tiene que ser `.mjs`) en la raíz del proyecto. Utilizaremos la función `defineConfigWithNuxtEnv` para configurar Vitest. Esta función nos permite configurar Vitest para que entienda los componentes y el contexto de Nuxt.
-
-```ts
-import { defineConfigWithNuxtEnv } from 'vitest-environment-nuxt/config'
-
-export default defineConfigWithNuxtEnv({
-  test: {
-    globals: true,
-  },
-})
+const props = defineProps<{
+  product: Product
+}>()
+</script>
 ```
 
-Con `globals: true`, estamos indicando que queremos que los métodos de Vitest (`describe`, `it`, `expect`...) sean accesibles de manera global.
+Añadimos también el `import` de los tipos.
 
-También tenemos que indicarlo en nuestro `tsconfig.json`:
+Y por último, para que no nos de más errores la plantilla, tenemos que definir el método `onAddItem`. Así que vamos a "cortar y pegar" esa lógica del `ProductList` al `ProductListItem`:
 
-```json
-{
-  // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": "./.nuxt/tsconfig.json",
-  "compilerOptions": {
-    "types": ["vitest/globals"]
-  }
-}
-```
-
-### `vitest-environment-nuxt`
-
-Gracias a que usamos `vitest-environment-nuxt`, podemos testear los componentes de Vue sin necesidad de configurar los `auto-imports` de Nuxt.
-
-Pero una cosa a tener en cuenta es que esta librería existe de momento de [manera temporal](https://twitter.com/danielcroe/status/1616939322921390082?s=20). El equipo de Nuxt está trabajando en la experiencia de testing para mejorarla y dar una solución oficial: https://nuxt.com/docs/getting-started/testing
-
-## Testear componentes
-
-Por ejemplo, vamos a testear nuestro componente `Header.vue` que utilizaba el composable `useCartStore`:
-
-```ts
-import { render } from '@testing-library/vue'
-import Header from './Header.vue'
-
-describe('Header', () => {
-  it('renders the header', () => {
-    const { getByText } = render(Header)
-
-    getByText('Cart 0')
-  })
-})
-```
-
-Todos los tests tienen la misma estructura:
-
-```ts
-describe('Nombre del componente', () => {
-  it('describe el caso de test', () => {
-    // ...
-  })
-})
-```
-
-A veces, si queremos realizar una acción antes de ejecutar el test o reutilizar una misma instancia de algún objeto, podemos utilizar el método `beforeEach`:
-
-```ts
-// EJEMPLO
-describe('Header', () => {
-  let getByText: any
-
-  beforeEach(() => {
-    const renderResult = render(Header)
-    getByText = renderResult.getByText
-  })
-
-  it('renders the header', () => {
-    getByText('Cart 0')
-  })
-})
-```
-
-Y si necesitamos realizar una acción después de ejecutar el test, podemos utilizar el método `afterEach`:
-
-```ts
-// EJEMPLO
-describe('Header', () => {
-  let getByText: any
-
-  beforeEach(() => {
-    const renderResult = render(Header)
-    getByText = renderResult.getByText
-  })
-
-  afterEach(() => {
-    getByText = null
-  })
-
-  it('renders the header', () => {
-    getByText('Cart 0')
-  })
-})
-```
-
-Para comprobar que funciona, ejecutamos el siguiente comando:
-
-```bash
-yarn vitest
-```
-
-Pero, en realidad, lo recomendado es que añadamos un alias para ejecutar los tests. Para ello, añadimos el siguiente script en nuestro `package.json`:
-
-```json
-{
-  "scripts": {
-    "test": "vitest --config vitest.config.mjs"
-  }
-}
-```
-
-Aprovecharemos para decirle dónde está nuestro archivo de configuración, ya que es como lo indican en la guía de Vitest: https://vitest.dev/config/#configuration
-
-La próxima vez que ejecutemos `yarn test` (o `npm t`), se ejecutarán los tests de Vitest con nuestra configuración.
-
-Vamos a añadir otro caso en el test de `Header.vue` para comprobar que el número de productos en el carrito se actualiza correctamente:
-
-```ts
-it('reflects correctly the number of products in the cart after the store has been updated', async () => {
-  const cart = useCartStore()
-  const { getByText } = render(Header)
-
-  getByText('Cart 0')
-
-  const fakeProduct = {
-    id: 1,
-    title: 'Product 1',
-    price: 10,
-    description: '',
-    discountPercentage: 1,
-    rating: 2,
-    stock: 1,
-    brand: '',
-    category: '',
-    thumbnail: '',
-    images: [],
-  }
-
-  await cart.addItem(fakeProduct)
-
-  getByText('Cart 1')
-})
-```
-
-Hemos utilizado el composable `useCartStore` para añadir un producto al carrito. Como podemos ver, Vitest y `vitest-environment-nuxt` nos permiten utilizar los _composables_ de Nuxt sin necesidad de configurar los `auto-imports`.
-
-## Testear componentes con props
-
-Vamos a testear otro componente para practicar un poco más. Vamos a testear el componente `StaticPrice.vue`.
-
-Primero añadiremos el caso más sencillo. Vamos a comprobar que el componente muestra el precio en euros:
-
-```ts
-import StaticPrice from './StaticPrice.vue'
-import { render } from '@testing-library/vue'
-
-describe('StaticPrice', () => {
-  it('should render euros by default', () => {
-    const { getByText } = render(StaticPrice, {
-      props: {
-        quantity: 15.4,
-      },
-    })
-
-    getByText('15,40 €')
-  })
-})
-```
-
-El segundo parámetro de `render` es la _configuración_ ("mount options"). En realidad, es la misma configuración que se pasa a `mount` de `@vue/test-utils`: https://v1.test-utils.vuejs.org/api/options.html#mounting-options
-
-En este caso, estamos pasando el precio a través de la prop `quantity`.
-
-Con `getByText`, estamos comprobando que el componente muestra el precio en euros. Ahora vamos a añadir un caso para comprobar que el componente muestra el precio en dólares, con la prop opcional `coin`:
-
-```ts
-it('renders dollars if coin USD is passed', () => {
-  const { getByText } = render(StaticPrice, {
-    props: {
-      quantity: 15.4,
-      coin: 'USD',
-    },
-  })
-
-  getByText('$15.40')
-})
-```
-
-Vamos a ver otro ejemplo de testeo de un componente con Vitest. En este caso, comprobaremos que el componente tiene la estructura esperada. Para ello, utilizamos el método `toMatchInlineSnapshot`:
-
-```ts
-it('produces the expected snapshot for euros', () => {
-  const { container } = render(StaticPrice, {
-    props: {
-      quantity: 1_000_000_000,
-    },
-  })
-
-  expect(container).toMatchInlineSnapshot()
-})
-```
-
-Cuando le demos a guardar, se va a generar un snapshot en el argumento de la función `toMatchInlineSnapshot`. Si ejecutamos el test, veremos que el snapshot se ha generado correctamente auto-mágicamente, cambiando nuestro test:
+En el `ProductList`:
 
 ```diff
-- expect(container).toMatchInlineSnapshot()
-+ expect(container).toMatchInlineSnapshot(`
-+ expect(container).toMatchInlineSnapshot(`
-+   <div>
-+     <div>
-+       1.000.000.000,00 €
-+     </div>
-+   </div>
-+ `)
+- // Cart
+- const { addToCart } = useCartStore()
+-
+- const onAddItem = (product: Product) => {
+-   addToCart(product)
+- }
 ```
 
-Si ejecutamos el test de nuevo, veremos que el snapshot se ha generado correctamente. Si cambiamos el precio en las `props` del test, el test fallará porque el snapshot no coincide con el resultado actual.
+En `ProductListItem`:
+
+```diff
++ // Cart
++ const { addToCart } = useCartStore()
++
++ const onAddItem = (product: Product) => {
++   addToCart(product)
++ }
+```
+
+Ahora, ya estamos list@s para sustituir en `ProductList`, la sección del markup del `<article></article>` por nuestro nuevo componente `<ProductListItem />`:
+
+```diff
+<template>
+  <section class="wrapper">
+    <div class="flex align-items-center justify-content-between">
+      <h1>Products</h1>
+      total: {{ totalProducts }}
+    </div>
+
+    <hr />
+    <input type="text" v-model="textFilter" />
+    <hr />
+
+    <ul class="product-list">
+      <li v-for="product in filteredList" :key="product.id">
+        <NuxtLink :to="`/product/${product.id}`">
+-          <article
+-            class="grid product-container card"
+-            :class="{
+-              'product-container--has-discount':
+-                product.discountPercentage > 15,
+-            }"
+-          >
+-            <div class="image">
+-              <img :src="product.images[0]" alt="" loading="lazy" />
+-            </div>
+-            <div class="product-container__content">
+-              <h2>
+-                {{ product.title }}
+-              </h2>
+-              <p>
+-                <span class="grey-text">Description: </span>
+-                <strong>{{ product.description }}</strong>
+-              </p>
+-              <p>
+-                <span class="grey-text">Brand: </span>
+-                {{ product.brand }}
+-              </p>
+-              <p>
+-                <span class="grey-text">Category: </span>{{ product.category }}
+-              </p>
+-            </div>
+-            <div class="flex product-container__aside">
+-              <div class="text-align-end aside__price">
+-                <StaticPrice :quantity="product.price" />
+-              </div>
+-              <AddToCartButton :product="product" @addItem="onAddItem">
+-                Add to cart
+-              </AddToCartButton>
+-            </div>
+-          </article>
++          <ProductListItem :product="product" />
+        </NuxtLink>
+      </li>
+    </ul>
+  </section>
+</template>
+```
+
+De esta manera, nos queda mucho más pequeña la plantilla. Y hemos eliminado del `ProductList` la lógica que tenía que ver con el carrito. Nos ayudará a que el mantenimiento del código sea más sencillo, ya que no estamos mezclando _concerns_ y los archivos son más pequeños (en _LoC_).
+
+Ahora el ProductListItem tiene 1 responsabilidad, que es pintar cada uno de los productos de la lista.
+
+Vamos a ver qué tiene el ProductList: Tiene la lógica de la lista, y también de filtrado de la lista.
+
+Por último, migraremos los estilos que pertenecen al componente hijo. Las reglas de CSS con los selectores:
+
+- `.product-container`
+- `.product-container__content`
+- `.product-container__aside`
+- `.image`
+- `.product-container--has-discount`
+
+```diff
++ <style lang="scss" scoped>
++ .product-container {
++   align-items: flex-start;
++   grid-template-columns: 210px 1fr 100px;
++ }
++
++ .product-container__content {
++   padding: 0 1em;
++ }
++
++ .product-container__aside {
++   flex-direction: column;
++   justify-content: space-between;
++   height: 100%;
++ }
++ .image {
++   display: flex;
++   height: 100%;
++   flex-direction: column;
++   justify-content: center;
++   img {
++     width: 100%;
++     aspect-ratio: 1/1;
++     object-fit: cover;
++   }
++ }
++ .product-container--has-discount {
++   background-color: rgba(yellow, 0.5);
++ }
++ </style>
+```
+
+Ahora debería estar completamente migrado un verse como antes.
+
+Vamos a arreglar un par de cosas que no quedaron del todo bien. Normalmente, en una revisión de código no pasarían desapercibidas.
+
+### Evitar lógica en las plantillas
+
+En el ProductListItem, estábamos dando un color diferente a los que tenían un descuanto. Con `:class`:
+
+```tsx
+  :class="{
+    'product-container--has-discount': product.discountPercentage > 15,
+  }"
+```
+
+Recordamos, que lo que hace esta sintaxis de clases dinámicas es aplicar a ese elemento de HTML la clase `product-container--has-discount` sólo cuando la condición que la acompaña se cumple.
+
+Pero quedaría más limpio si sacamos el `product.discountPercentage > 15` de la plantilla y lo definimos en el `script` del componente.
+
+En general, se recomienda intentar no poner nada de lógica de JavaScript en la plantilla.
+
+Utilizaremos el meetodo `computed` para definir esta constante reactiva.
+
+```ts
+const hasDiscount = computed(() => product.discountPercentage > 15)
+```

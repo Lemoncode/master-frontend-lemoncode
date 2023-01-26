@@ -1,9 +1,9 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest'
 import { productService } from './products'
 
 describe('Product Service', () => {
   it('should get a list of products', async () => {
     global.$fetch = vitest.fn().mockResolvedValue(() => ({ products: [] }))
+
     const products = await productService.get()
     expect(global.$fetch).toHaveBeenCalledWith('https://dummyjson.com/products')
   })

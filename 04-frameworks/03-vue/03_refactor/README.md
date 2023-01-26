@@ -226,3 +226,10 @@ Utilizaremos el meetodo `computed` para definir esta constante reactiva.
 ```ts
 const hasDiscount = computed(() => product.discountPercentage > 15)
 ```
+
+- Debatir si pasar el `discount` como prop o si debería ser una _computed property_.
+
+## ToDo
+
+- Mover filtrado a composable con Pinia para que persista entre navegaciones
+- Usar composición de composables para usar `localStorage` y persistir el valor entre sesiones.

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { linkRoutes } from 'core/router';
 import { deleteHotel } from './api';
 import { useHotelCollection } from './hotel-collection.hook';
@@ -7,18 +7,18 @@ import { HotelCollectionComponent } from './hotel-collection.component';
 
 export const HotelCollectionContainer = () => {
   const { hotelCollection, loadHotelCollection } = useHotelCollection();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     loadHotelCollection();
   }, []);
 
   const handleCreateHotel = () => {
-    history.push(linkRoutes.createHotel);
+    navigate(linkRoutes.createHotel);
   };
 
   const handleEdit = (id: string) => {
-    history.push(linkRoutes.editHotel(id));
+    navigate(linkRoutes.editHotel(id));
   };
 
   const handleDelete = async (id: string) => {

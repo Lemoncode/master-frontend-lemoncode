@@ -1,8 +1,9 @@
 import "./app.styles";
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { Dashboard } from "./dashboard.component";
 
 const App: React.FC = () => <Dashboard />;
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const root = createRoot(document.getElementById("root"));
+root.render(<App />);

@@ -19,8 +19,8 @@
 - Necesitamos instalar nuestra dependencia para el router, y por comodidad, sus tipos también:
 
   ```text
-  npm i react-router-dom@5.x
-  npm i -D @types/react-router-dom@5.x
+  npm i react-router-dom@6.x
+  npm i -D @types/react-router-dom@6.x
   ```
 
 - Ahora que añadimos complejidad, vamos a estructurar mejor nuestro proyecto maestro, creando carpeta para los `pods` y para código `core`
@@ -42,7 +42,7 @@
   [CREATE] core/index.ts
   ```
 
-`[app] pods/dashboard.component.tsx`
+`[app] pods/dashboard/dashboard.component.tsx`
 
 - Arreglamos el import del svg y eliminamos las microapps de aqui. Ahora no se van a mostrar en el dashboard sino en páginas separadas.
 
@@ -103,24 +103,18 @@ export * from "./microapp-render.component";
 
   ```tsx
   import React from "react";
-  import { HashRouter, Route, Switch } from "react-router-dom";
+  import { HashRouter, Routes, Route } from "react-router-dom";
   import { MicroappRender, routes } from "./core";
   import { Dashboard } from "./pods/dashboard";
 
   export const AppRouter: React.FC = () => {
     return (
       <HashRouter>
-        <Switch>
-          <Route exact path={routes.home}>
-            <Dashboard />
-          </Route>
-          <Route exact path={routes.clock}>
-            <MicroappRender microapp="MicroappClock" />
-          </Route>
-          <Route exact path={routes.quote}>
-            <MicroappRender microapp="MicroappQuote" />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path={routes.home} element={<Dashboard />} />
+          <Route path={routes.clock} element={<MicroappRender microapp="MicroappClock" />} />
+          <Route path={routes.quote} element={<MicroappRender microapp="MicroappQuote" />} />
+        </Routes>
       </HashRouter>
     );
   };
@@ -154,44 +148,52 @@ export * from "./microapp-render.component";
 
 `[app] pods/app-frame/app-frame.component.tsx`
 
-```ts
-import React from "react";
-import { css } from "emotion";
-import { Link } from "react-router-dom";
-import { routes } from "../../core";
+- Una posible implementación sencilla sería esta:
 
-const styles = {
-  container: css`
-    margin: 2rem 1rem;
-    display: grid;
-    grid-auto-flow: column;
-    grid-gap: 2rem;
-    justify-content: center;
-    align-items: center;
-    font-family: Montserrat, sans-serif;
-    font-size: 1.25rem;
-  `,
-};
+  ```ts
+  import React from "react";
+  import { css } from "@emotion/css";
+  import { Link } from "react-router-dom";
+  import { routes } from "../../core";
 
-export const AppFrame: React.FC = ({ children }) => {
-  return (
-    <>
-      <div className={styles.container}>
-        <Link to={routes.home}>Home</Link>
-        <Link to={routes.clock}>Clock</Link>
-        <Link to={routes.quote}>Quote</Link>
-      </div>
-      {children}
-    </>
-  );
-};
-```
+  const styles = {
+    container: css`
+      margin: 2rem 1rem;
+      display: grid;
+      grid-auto-flow: column;
+      grid-gap: 2rem;
+      justify-content: center;
+      align-items: center;
+      font-family: Montserrat, sans-serif;
+      font-size: 1.25rem;
+    `,
+  };
+
+  export interface AppFrameProps {
+    children?: React.ReactNode;
+  }
+
+  export const AppFrame: React.FC<AppFrameProps> = ({ children }) => {
+    return (
+      <>
+        <div className={styles.container}>
+          <Link to={routes.home}>Home</Link>
+          <Link to={routes.clock}>Clock</Link>
+          <Link to={routes.quote}>Quote</Link>
+        </div>
+        {children}
+      </>
+    );
+  };
+  ```
 
 `[app] pods/app-frame/index.ts`
 
-```ts
-export * from "./app-frame.component";
-```
+- No olvidemos el barrel por comodidad:
+
+  ```ts
+  export * from "./app-frame.component";
+  ```
 
 `[app] app.router.tsx`
 
@@ -199,7 +201,7 @@ export * from "./app-frame.component";
 
   ```diff
   import React from "react";
-  import { HashRouter, Route, Switch } from "react-router-dom";
+  import { HashRouter, Routes, Route } from "react-router-dom";
   import { MicroappRender, routes } from "./core";
   + import { AppFrame } from "./pods/app-frame";
   import { Dashboard } from "./pods/dashboard";
@@ -208,17 +210,11 @@ export * from "./app-frame.component";
     return (
       <HashRouter>
   +     <AppFrame>
-          <Switch>
-            <Route exact path={routes.home}>
-              <Dashboard />
-            </Route>
-            <Route exact path={routes.clock}>
-              <MicroappRender microapp="MicroappClock" />
-            </Route>
-            <Route exact path={routes.quote}>
-              <MicroappRender microapp="MicroappQuote" />
-            </Route>
-          </Switch>
+          <Routes>
+            <Route path={routes.home} element={<Dashboard />} />
+            <Route path={routes.clock} element={<MicroappRender microapp="MicroappClock" />} />
+            <Route path={routes.quote} element={<MicroappRender microapp="MicroappQuote" />} />
+          </Routes>
   +     </AppFrame>
       </HashRouter>
     );
@@ -236,7 +232,7 @@ export * from "./app-frame.component";
 
 ### Conclusión
 
-Ahora que tenemos distintas páginas, se pone claramente de manifiesto lo ineficiente que resulta hacer una carga de todos los microapps al principio.
+Ahora que tenemos distintas páginas, se pone claramente de manifiesto lo ineficiente que resulta hacer una carga de todas los microapps al principio.
 
 Este ejemplo es sencillo y las microapps son ligeras y poco numerosas. Pero si imaginamos un proyecto con decenas de microapps repartidas por diferentes páginas, se ve claramente que hacer una carga de todas ellas al principio penalizaría mucho el tiempo inicial de carga y no aporta realmente nada ya que muchos de esos microfrontends puede que ni lleguen a visualizarse nunca (dependerá de la navegación que siga el usuario).
 
@@ -294,34 +290,28 @@ Para este apartado tomaremos la segunda solución e implementaremos un cargador 
 
 `[app] app.router.tsx`
 
-- Arreglamos estos cambios en el router:
+- Nos aseguramos que el renombrado está aplicado en el router:
 
   ```diff
-  import React from "react";
-  import { HashRouter, Route, Switch } from "react-router-dom";
+    import React from "react";
+    import { HashRouter, Routes, Route } from "react-router-dom";
   + import { MicroappLoader, routes } from "./core";
-  import { AppFrame } from "./pods/app-frame";
-  import { Dashboard } from "./pods/dashboard";
+    import { AppFrame } from "./pods/app-frame";
+    import { Dashboard } from "./pods/dashboard";
 
-  export const AppRouter: React.FC = () => {
-    return (
-      <HashRouter>
-        <AppFrame>
-          <Switch>
-            <Route exact path={routes.home}>
-              <Dashboard />
-            </Route>
-            <Route exact path={routes.clock}>
-  +           <MicroappLoader microapp="clock" />
-            </Route>
-            <Route exact path={routes.quote}>
-  +           <MicroappLoader microapp="quote" />
-            </Route>
-          </Switch>
-        </AppFrame>
-      </HashRouter>
-    );
-  };
+    export const AppRouter: React.FC = () => {
+      return (
+        <HashRouter>
+          <AppFrame>
+            <Routes>
+              <Route path={routes.home} element={<Dashboard />} />
+  +           <Route path={routes.clock} element={<MicroappLoader microapp="clock" />} />
+  +           <Route path={routes.quote} element={<MicroappLoader microapp="quote" />} />
+            </Routes>
+          </AppFrame>
+        </HashRouter>
+      );
+    };
   ```
 
 `[app] core/microapp.registry.ts`
@@ -461,11 +451,6 @@ Esta implementación básica y primitiva de un posible loader trae algunos probl
   const isMicroappLoaded = (microapp: RegisteredMicroapps) =>
     Boolean(window[microappRegistry[microapp]?.exportName]);
 
-  const renderMicroapp = (microapp: RegisteredMicroapps, container: HTMLElement) => {
-    const { exportName } = microappRegistry[microapp] ?? {};
-    if (exportName) window[exportName]?.MicroappInterface?.render(container);
-  };
-
   const downloadMicroapp = (microapp: RegisteredMicroapps): Promise<void> => {
     return new Promise((resolve, reject) => {
       const { bundleUrl } = microappRegistry[microapp] ?? {};
@@ -483,9 +468,14 @@ Esta implementación básica y primitiva de un posible loader trae algunos probl
     });
   };
 
-  const unmountMicroapp = (microapp: RegisteredMicroapps, container: HTMLElement) => {
+  const renderMicroapp = (microapp: RegisteredMicroapps, container: HTMLElement) => {
     const { exportName } = microappRegistry[microapp] ?? {};
-    if (exportName) window[exportName]?.MicroappInterface?.unmount(container);
+    if (exportName) window[exportName]?.MicroappInterface?.render(container);
+  };
+
+  const unmountMicroapp = (microapp: RegisteredMicroapps) => {
+    const { exportName } = microappRegistry[microapp] ?? {};
+    if (exportName) window[exportName]?.MicroappInterface?.unmount();
   };
 
   // Componente Microapp Loader
@@ -497,18 +487,13 @@ Esta implementación básica y primitiva de un posible loader trae algunos probl
     const containerRef = React.useRef<HTMLDivElement>();
 
     React.useEffect(() => {
-      const mountMicroapp = async () => {
-        if (!isMicroappLoaded(microapp))
-          try {
-            await downloadMicroapp(microapp);
-          } catch {
-            console.error(`Error downloading microfrontend bundle for ${microapp}`);
-          }
-        renderMicroapp(microapp, containerRef.current);
-      };
-      mountMicroapp();
+      if (!isMicroappLoaded(microapp)) {
+        downloadMicroapp(microapp)
+          .then(() => renderMicroapp(microapp, containerRef.current))
+          .catch(() => console.error(`Error downloading microfrontend bundle for ${microapp}`));
+      } else renderMicroapp(microapp, containerRef.current);
 
-      return () => unmountMicroapp(microapp, containerRef.current);
+      return () => unmountMicroapp(microapp);
     }, [microapp]);
 
     return <div ref={containerRef} />;

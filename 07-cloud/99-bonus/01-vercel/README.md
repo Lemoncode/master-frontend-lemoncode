@@ -21,7 +21,7 @@ git init
 git remote add origin git@github.com...
 git add .
 git commit -m "initial commit"
-git push -u origin master
+git push -u origin main
 ```
 
 - If we navigate to `https://vercel.com/`, it provides deploy project from `Git repository` or `Clone a template`, but what if we want to use `Github Actions`?
@@ -86,7 +86,7 @@ name: Vercel Continuos Deployment workflow
 on:
   push:
     branches:
-      - master
+      - main
 env:
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}

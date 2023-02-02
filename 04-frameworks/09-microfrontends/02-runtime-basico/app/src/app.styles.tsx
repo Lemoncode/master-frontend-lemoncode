@@ -1,4 +1,4 @@
-import { injectGlobal } from "emotion";
+import { injectGlobal } from "@emotion/css";
 import AntonFont from "./assets/font/anton-regular.ttf";
 
 injectGlobal`

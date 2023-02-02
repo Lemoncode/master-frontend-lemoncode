@@ -15,3 +15,4 @@ yarn.lock
 # Output artifacts
 build/
 transpiled/
+dist/

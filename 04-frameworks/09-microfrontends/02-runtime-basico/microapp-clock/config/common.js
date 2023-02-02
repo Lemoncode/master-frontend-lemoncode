@@ -1,7 +1,7 @@
 const helpers = require("./helpers");
 
 module.exports = (env = {}) => {
-  const { assetEmbedLimit = 5000 } = env;
+  const { embedAssets = false } = env;
 
   return {
     context: helpers.srcPath, // src
@@ -22,89 +22,10 @@ module.exports = (env = {}) => {
           include: /node_modules/,
           use: [{ loader: "style-loader" }, { loader: "css-loader" }],
         },
-        // Generic rules for assets.
+        // Generic rule for assets.
         {
-          test: /\.(woff)(\?v=\d+\.\d+\.\d+)?$/,
-          use: [
-            {
-              loader: "url-loader",
-              options: {
-                limit: assetEmbedLimit,
-                outputPath: "assets",
-                mimetype: "font/woff",
-                name: "[name].[contenthash].[ext]",
-              },
-            },
-          ],
-        },
-        {
-          test: /\.(woff2)(\?v=\d+\.\d+\.\d+)?$/,
-          use: [
-            {
-              loader: "url-loader",
-              options: {
-                limit: assetEmbedLimit,
-                outputPath: "assets",
-                mimetype: "font/woff2",
-                name: "[name].[contenthash].[ext]",
-              },
-            },
-          ],
-        },
-        {
-          test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-          use: [
-            {
-              loader: "url-loader",
-              options: {
-                limit: assetEmbedLimit,
-                outputPath: "assets",
-                mimetype: "font/ttf",
-                name: "[name].[contenthash].[ext]",
-              },
-            },
-          ],
-        },
-        {
-          test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-          use: [
-            {
-              loader: "url-loader",
-              options: {
-                limit: assetEmbedLimit,
-                outputPath: "assets",
-                mimetype: "font/otf",
-                name: "[name].[contenthash].[ext]",
-              },
-            },
-          ],
-        },
-        {
-          test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-          use: [
-            {
-              loader: "url-loader",
-              options: {
-                limit: assetEmbedLimit,
-                outputPath: "assets",
-                mimetype: "image/svg+xml",
-                name: "[name].[contenthash].[ext]",
-              },
-            },
-          ],
-        },
-        {
-          test: /\.(png|jpe?g|ico|gif)?$/,
-          use: [
-            {
-              loader: "url-loader",
-              options: {
-                limit: assetEmbedLimit,
-                outputPath: "assets",
-                name: "[name].[contenthash].[ext]",
-              },
-            },
-          ],
+          test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff|woff2?)(\?v=\d+\.\d+\.\d+)?$/i,
+          type: embedAssets ? 'asset/inline' : 'asset/resource',
         },
       ],
     },

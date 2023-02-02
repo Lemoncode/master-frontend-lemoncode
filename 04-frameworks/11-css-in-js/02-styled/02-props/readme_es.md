@@ -53,7 +53,7 @@ import React from "react";
 import styled from "styled-components";
 
 interface ButtonProps {
--  color?: boolean;
+-  alert?: boolean;
 +  color: string;
 }
 

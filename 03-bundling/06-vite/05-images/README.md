@@ -8,9 +8,9 @@ It's time to handle static assets like images or fonts, as we rely on them for m
 
 ## Prerequisites
 
-Install [Node.js and npm](https://nodejs.org/en/) (min v8.9) if they are not already installed on your computer.
+Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not already installed on your computer.
 
-> ⚠ Verify that you are running at least node v8.x.x and npm 5.x.x by running `node -v` and `npm -v` in a terminal/console window. Older versions may produce errors.
+> ⚠ Verify that you are running at least latest Node LTS version and npm. You can check your current version by running `node -v` and `npm -v` in a terminal/console window. Older versions may produce errors.
 
 ## Steps
 
@@ -68,7 +68,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (min v8.9) if they are not alr
 
 - Finally, let's add styles for the image in our sass file:
 
-  _src/mysyles.scss_
+  _src/mystyles.scss_
 
   ```diff
     $blue-color: teal;
@@ -97,7 +97,10 @@ Install [Node.js and npm](https://nodejs.org/en/) (min v8.9) if they are not alr
 
   🔎 Check the result, we have a second image now.
 
-  🔎 Also, check dev tools `Network` tab and see how both `png` assets are downloaded as modules and HTTP cache is applied as well.
+  🔎 Also, check dev tools `Network` tab and see how both `png` assets are downloaded as modules and HTTP cache is applied as well. There is a subtle difference between both approaches in the development flow:
+
+  - The image embedded in HTML is directly requested once the HTML is parsed. Then, the initiator is the HTML itself.
+  - The image embedded in runtime via DOM manipulation is imported via `import` statement. `Vite` creates a barrel ES Module called `logo_1.png?import` which is the one that really target the `png` resource.
 
 - Finally, let's update our **production** build:
 

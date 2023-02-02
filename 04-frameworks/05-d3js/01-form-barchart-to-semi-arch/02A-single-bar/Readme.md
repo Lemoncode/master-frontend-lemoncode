@@ -26,15 +26,20 @@ npm install
 First let's remove how we calculated the fixed bar width (now height will be fixed):
 
 ```diff
-+ const barHeight = 200; // We could calculate this based on svg height
-
+- const politicalPartiesCount = resultCollectionSpainNov19.length;
 - const barPadding = 5; // We could calculate this value as well
 - const barWidth =
 -  (chartDimensions.width - barPadding * politicalPartiesCount) /
 -  politicalPartiesCount;
++ const barHeight = 200; // We could calculate this based on svg height
 ```
 
 ```diff
+- const maxNumberSeats = resultCollectionSpainNov19.reduce(
+-   (max, item) => (item.seats > max ? item.seats : max),
+-   0
+- );
+...
 - const yScale = d3
 -   .scaleLinear()
 -  .domain([0, maxNumberSeats])
@@ -70,14 +75,14 @@ chartGroup
 -  .attr("height", (d) => yScale(d.seats))
 +  .attr("height", barHeight)
 -  .attr("x", (d, i) => i * (barWidth + barPadding))
-+    .attr("x", (d, i) => {
++  .attr("x", (d) => {
 +    const position = currentXPosition;
 +    currentXPosition += xScale(d.seats);
 +    return position;
 +  })
 
 -  .attr("y", (d) => chartDimensions.height - yScale(d.seats))
-+  .attr("y", (d) => chartDimensions.height - barHeight)
++  .attr("y", () => chartDimensions.height - barHeight)
   .attr("fill", (d) => partiesColorScale(d.party));
 ```
 

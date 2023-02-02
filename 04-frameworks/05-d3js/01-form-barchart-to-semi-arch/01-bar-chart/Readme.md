@@ -75,7 +75,7 @@ _./src/index.ts_
 ```diff
 svg
   .selectAll("rect")
-+  .data(resultCollectionSpainNov19)
++ .data(resultCollectionSpainNov19)
 ```
 
 > In d3js when we talk about **data** we are talking about an array of items, when we talk about
@@ -99,9 +99,9 @@ svg
   .selectAll("rect")
   .data(resultCollectionSpainNov19)
   .enter()
-+  .append("rect")
-+  .attr("width", 50)
-+  .attr("height", d => d.seats);
++ .append("rect")
++ .attr("width", 50)
++ .attr("height", d => d.seats);
   ;
 ```
 
@@ -137,7 +137,7 @@ svg
   .attr("width", 50)
   .attr("height", d => d.seats);
   .attr("x", (d,i) => i * 60)
-+  .attr("y", (d) => 490 - d.seats)
++ .attr("y", (d) => 490 - d.seats)
   ;
 ```
 
@@ -169,11 +169,11 @@ svg
   .enter()
   .append("rect")
   .attr("width", 50)
--  .attr("height", d => d.seats)
-+  .attr("height", d => yScale(d.seats))
+- .attr("height", d => d.seats)
++ .attr("height", d => yScale(d.seats))
   .attr("x", (d, i) => i * 60)
--  .attr("y", d => 490 - d.seats);
-+  .attr("y", d => 490 - yScale(d.seats));
+- .attr("y", d => 490 - d.seats);
++ .attr("y", d => 490 - yScale(d.seats));
 ```
 
 - Adding magic harcoded numbers can be a bit dangerous, e.g. if you decide to change the height of your canvas, or add different margin everyting can be screwn up.
@@ -187,19 +187,18 @@ svg
 +    width: svgDimensions.width - margin.left - margin.right,
 +    height: svgDimensions.height - margin.bottom - margin.top
 +  };
-+  const maxNumberSeats = resultCollectionSpainNov19.reduce((max, item) => (item.seats > max) ?
-+                                                                item.seats
-+                                                                :
-+                                                                max
-+ , 0);
++  const maxNumberSeats = resultCollectionSpainNov19.reduce(
++   (max, item) => (item.seats > max ? item.seats : max),
++   0
++  );
 
 const svg = d3
   .select("body")
   .append("svg")
--  .attr("width", 500)
-+  .attr("width", svgDimensions.width)
--  .attr("height", 500)
-+  .attr("height", svgDimensions.height)
+- .attr("width", 500)
++ .attr("width", svgDimensions.width)
+- .attr("height", 500)
++ .attr("height", svgDimensions.height)
   .attr("style", "background-color: red");
 ```
 
@@ -208,10 +207,10 @@ const svg = d3
 ```diff
 const yScale = d3
   .scaleLinear()
--  .domain([0, 150])
+- .domain([0, 150])
 + .domain([0, maxNumberSeats])
--  .range([0, 490]);
-+  .range([0, chartDimensions.height]);
+- .range([0, 490]);
++ .range([0, chartDimensions.height]);
 ```
 
 - Let's create a group that will add the top margin offset.
@@ -249,8 +248,7 @@ const yScale = d3
 
 > In order to resize charts and keep aspect ratio, you can calculate new sizes or use svg ViewBox.
 
-- That was great for the y scale, what about X axis? In this case since we get a fix width
-  per bar we can just setup a formula to calculate this.
+- That was great for the y scale, what about X axis? In this case since we get a fix width per bar we can just setup a formula to calculate this.
 
 ```diff
 const svgDimensions = { width: 500, height: 500 };
@@ -279,17 +277,15 @@ chartGroup
   .data(resultCollectionSpainNov19)
   .enter()
   .append("rect")
--  .attr("width", 50)
-+  .attr("width", barWidth)
-
+- .attr("width", 50)
++ .attr("width", barWidth)
   .attr("height", d => yScale(d.seats))
--  .attr("x", (d, i) => i * 60)
-+  .attr("x", (d, i) => i * (barWidth + barPadding) )
+- .attr("x", (d, i) => i * 60)
++ .attr("x", (d, i) => i * (barWidth + barPadding) )
   .attr("y", d => chartDimensions.height - yScale(d.seats));
 ```
 
-- Now let's give some color to this chart, we can setup a wide range of color scales,
-  e.g. based on value ranges or based on ordinal values, or...
+- Now let's give some color to this chart, we can setup a wide range of color scales, e.g. based on value ranges or based on ordinal values, or...
 
 - In this case we will create a discrete color palette based on the political parties:
 
@@ -334,25 +330,23 @@ chartGroup
 
 ```diff
 const partiesColorScale = d3
-  .scaleOrdinal(
--    d3.schemeCategory10
-+ [
-+    "#ED1D25",
-+    "#0056A8",
-+    "#5BC035",
-+    "#6B2E68",
-+    "#F3B219",
-+    "#FA5000",
-+    "#C50048",
-+    "#029626",
-+    "#A3C940",
-+    "#0DDEC5",
-+    "#FFF203",
-+    "#FFDB1B",
-+    "#E61C13",
-+    "#73B1E6"
-+  ]
-  ])
+- .scaleOrdinal(d3.schemeCategory10)
++ .scaleOrdinal([
++   "#ED1D25",
++   "#0056A8",
++   "#5BC035",
++   "#6B2E68",
++   "#F3B219",
++   "#FA5000",
++   "#C50048",
++   "#029626",
++   "#A3C940",
++   "#0DDEC5",
++   "#FFF203",
++   "#FFDB1B",
++   "#E61C13",
++   "#73B1E6"
++ ])
   .domain([
     "PSOE",
     "PP",
@@ -371,8 +365,7 @@ const partiesColorScale = d3
   ]);
 ```
 
-- We feel proud about this chart, we could now add a legend, x/y axis... but we will
-  stop by now:
+- We feel proud about this chart, we could now add a legend, x/y axis... but we will stop by now:
   - We could used a histogram layout to create this and save some time.
   - If we talk to our boss (remember that we are simulating that we are working on a newspaper), he would say this is not the type of chart optimal to display election results (crap !).
 

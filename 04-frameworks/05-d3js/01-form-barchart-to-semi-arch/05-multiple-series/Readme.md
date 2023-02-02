@@ -33,15 +33,18 @@ _./src/index.html_
   </body>
 ```
 
-- Let's import April's result and _ResultEntry_ entity:
+- Let's import April's results. We are going to increase height too, since the legend may be cut because of the buttons we've just added:
 
 ```diff
 import * as d3 from "d3";
 import {
   resultCollectionSpainNov19,
-+  resultCollectionSpainApr19,
++ resultCollectionSpainApr19,
   ResultEntry
 } from "./data";
+
+- const svgDimensions = { width: 500, height: 500 };
++ const svgDimensions = { width: 500, height: 550 };
 ```
 
 - In April's election there's a political party that is not in novembers election, we need to include all parties:
@@ -63,7 +66,7 @@ const partiesColorScale = d3
     "#FFDB1B",
     "#E61C13",
     "#73B1E6",
-+    "#FFA500"
++   "#FFA500"
   ])
   .domain([
     "PSOE",
@@ -80,7 +83,7 @@ const partiesColorScale = d3
     "CC",
     "BNG",
     "Teruel Existe",
-+    "Compromis",
++   "Compromis",
   ]);
 ```
 
@@ -90,6 +93,7 @@ const partiesColorScale = d3
 _./src/index.ts_
 
 ```typescript
+// Update chart functionality
 const updateChart = (data: ResultEntry[]) => {
   d3.selectAll("path")
     .data(pieChart(<any>data))
@@ -104,15 +108,11 @@ const updateChart = (data: ResultEntry[]) => {
 ```typescript
 document
   .getElementById("april")
-  .addEventListener("click", function handleResultsApril() {
-    updateChart(resultCollectionSpainApr19);
-  });
+  .addEventListener("click", () => updateChart(resultCollectionSpainApr19));
 
 document
   .getElementById("november")
-  .addEventListener("click", function handleResultsNovember() {
-    updateChart(resultCollectionSpainNov19);
-  });
+  .addEventListener("click", () => updateChart(resultCollectionSpainNov19));
 ```
 
 - Let's give a try...
@@ -129,7 +129,7 @@ const pieChart = d3
   .startAngle(-90 * (Math.PI / 180))
   .endAngle(90 * (Math.PI / 180))
   .value(d => d["seats"])
-+  .sort(null);
++ .sort(null);
 ```
 
 - Now looks better, it still not perfect you can work it out to get it perfect by following this example: https://bl.ocks.org/tezzutezzu/c2653d42ffb4ecc01ffe2d6c97b2ee5e

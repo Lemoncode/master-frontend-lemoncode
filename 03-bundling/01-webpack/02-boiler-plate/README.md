@@ -204,7 +204,7 @@ eval("var averageScore = \"90\";\nvar messageToDisplay = \"average score \".conc
 - Más adelante veremos cómo levantar un servidor web ligero y probar esto, pero como prueba rápida, vamos a crear un archivo _HTML_ que llamaremos **`index.html`**, e
   incluir una etiqueta de script que apuntará a nuestro archivo **`main.js`** generado. El archivo completo sería tal que así:
 
-_./index.html_
+_./src/index.html_
 
 ```html
 <!DOCTYPE html>

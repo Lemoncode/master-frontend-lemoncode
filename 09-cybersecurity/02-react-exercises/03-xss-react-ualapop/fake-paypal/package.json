@@ -1,0 +1,26 @@
+{
+  "name": "boilerplate-parce-xss",
+  "version": "1.0.0",
+  "description": "",
+  "browserslist": [
+    "defaults"
+  ],
+  "source": "src/index.html",
+  "scripts": {
+    "start": "run-p -l type-check:watch start:dev",
+    "start:dev": "rimraf dist && parcel --port 1235",
+    "build": "rimraf dist && parcel build",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.6.2",
+    "npm-run-all": "^4.1.5",
+    "parcel": "^2.6.2",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.7.4"
+  }
+}

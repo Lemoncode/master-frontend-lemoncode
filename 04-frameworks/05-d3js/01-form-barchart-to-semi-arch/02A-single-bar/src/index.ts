@@ -8,11 +8,6 @@ const chartDimensions = {
   height: svgDimensions.height - margin.bottom - margin.top,
 };
 
-const maxNumberSeats = resultCollectionSpainNov19.reduce(
-  (max, item) => (item.seats > max ? item.seats : max),
-  0
-);
-
 const partiesColorScale = d3
   .scaleOrdinal([
     "#ED1D25",
@@ -47,8 +42,6 @@ const partiesColorScale = d3
     "Teruel Existe",
   ]);
 
-const politicalPartiesCount = resultCollectionSpainNov19.length;
-
 const barHeight = 200; // We could calculate this based on svg height
 
 const svg = d3
@@ -82,10 +75,10 @@ chartGroup
   .append("rect")
   .attr("width", (d) => xScale(d.seats))
   .attr("height", barHeight)
-  .attr("x", (d, i) => {
+  .attr("x", (d) => {
     const position = currentXPosition;
     currentXPosition += xScale(d.seats);
     return position;
   })
-  .attr("y", (d) => chartDimensions.height - barHeight)
+  .attr("y", () => chartDimensions.height - barHeight)
   .attr("fill", (d) => partiesColorScale(d.party));

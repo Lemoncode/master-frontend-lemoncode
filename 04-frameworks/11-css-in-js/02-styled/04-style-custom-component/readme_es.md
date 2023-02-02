@@ -71,10 +71,10 @@ const Link: React.FC<Props> = ({ className, children }) => {
 export const App = () => {
 -  return <Link>Soy un enlace normal</Link>;
 +  return (
-+    <div container>
++    <div>
 +     <Link>Soy un enlace normal</Link>
 +     <StyledLink>Hola estoy estilado</StyledLink>
-+    </>
++    </div>
 +  );
 };
 ```
@@ -94,14 +94,14 @@ const Link: React.FC<Props> = ({ className, children }) => {
 -  return <a className={className}>{children}</a>;
 +  return (
 +     <div className={className}>
-+      <a >{children}</a>
++      <a>{children}</a>
 +     </div>
 + )
 };
 ```
 
 Imaginate que queremos mostrar el _div_ con color
-de fondo grid y el ancho con un color azul.
+de fondo gris y el anchor con un color azul.
 
 ```diff
 const StyledLink = styled(Link)`

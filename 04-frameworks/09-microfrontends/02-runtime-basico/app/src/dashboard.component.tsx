@@ -1,5 +1,5 @@
 import React from "react";
-import { css } from "emotion";
+import { css } from "@emotion/css";
 import WorldImage from "./assets/img/world.svg";
 import { MicroappRender } from "./microapp-render.component";
 

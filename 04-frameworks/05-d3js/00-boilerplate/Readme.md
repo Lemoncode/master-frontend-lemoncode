@@ -74,10 +74,10 @@ _./package.json_
 
 ```diff
   "scripts": {
-+    "start": "run-p -l type-check:watch start:dev",
-+    "type-check": "tsc --noEmit",
-+    "type-check:watch": "npm run type-check -- --watch",
-+    "start:dev": "parcel ./src/index.html",
++   "start": "run-p -l type-check:watch start:dev",
++   "type-check": "tsc --noEmit",
++   "type-check:watch": "npm run type-check -- --watch",
++   "start:dev": "rimraf dist && parcel ./src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
 ```

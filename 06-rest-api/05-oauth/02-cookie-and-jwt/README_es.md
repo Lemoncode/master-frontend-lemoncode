@@ -18,11 +18,13 @@ Si arrancamos el proyecto:
 npm start
 ```
 
+**Ojo primero hay que hacer setup del .env (ya listo)**
+
 Podemos ver que hay dos endpoints interesantes:
 
-http://localhost:8081
+http://localhost:3000
 
-http://localhost:8081/api
+http://localhost:3000/api
 
 En uno se muestra una página, en la otra tenemos un endpoint que devuelve json
 
@@ -52,7 +54,7 @@ _./env_
 
 ```env
 NODE_ENV=development
-PORT=8081
+PORT=3000
 GOOGLE_CLIENT_ID = <pega aquí tu client Id de tu panel de Google accounts>
 GOOGLE_CLIENT_SECRET = <pega aquí tu client Secret de tu panel de Google accounts>
 ```
@@ -177,7 +179,7 @@ con la autenticación contra Google:
 
 - Recibimos la respuesta de google cuando se ha autenticado con éxito.
 - Ahí tenemos la info de la cuenta, profile Id, EMail...
-- Lo guardamos en una supuesta base de datos de usuarios (si no éxiste ya).
+- Lo guardamos en una supuesta base de datos de usuarios (si no existe ya).
 - El identificador del usuario lo almacena en una cookie (httpOnly) en el navegador, cuyo valor será un token JWT.
 - Después solamente tenemos que:
   - Recuperar el valor de la cookie, es decir, obtener el token JWT y verificar que el token es correcto.
@@ -439,6 +441,37 @@ app.listen(envConstants.PORT, () => {
 ```bash
 npm start
 ```
+
+Lo ideal aquí es depurarlo, para poner un break point (nodejs debugging console) en el primero api.get:
+
+añadimos esto
+
+_./src/setup/api.ts_
+
+```diff
+api.get(
+  '/google',
++  () =>
+    passport.authenticate('google', {
+      scope: ['profile', 'email'],
+      session: false, // Default value: true
+    })
+);
+```
+
+Sitios interesantes donde poner breakpoints:
+
+_./setup/passport-config.ts_
+
+Definición y callback
+
+_./api.ts_
+
+End point /google
+
+End point /callback
+
+End point /user-profile
 
 # ¿Con ganas de ponerte al día con Backend?
 

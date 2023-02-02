@@ -163,6 +163,7 @@ $background: indianred;
 
 - Y los importamos los estilos en el componente **`TotalScoreComponent`** .
 
+_./src/totalScoreComponent.jsx_
 ```diff
 import React from "react";
 import { getTotalScore } from "./averageService";
@@ -442,6 +443,7 @@ $ npm start
   - **localIdentContent**: le da un contexto para indicar la ubicación de la carpeta donde están los archivos. Y de esta manera no introducirá **`src`** delante de los ficheros de clase que haya creado (así los nombres de nuestros selectores serán un poco más
     cortos).
 
+_./webpack.config.js_
 ```diff
   {
     loader: "css-loader",

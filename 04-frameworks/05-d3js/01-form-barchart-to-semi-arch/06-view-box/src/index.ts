@@ -1,5 +1,4 @@
 import * as d3 from "d3";
-import { legendColor } from "d3-svg-legend";
 import {
   resultCollectionSpainNov19,
   resultCollectionSpainApr19,
@@ -13,13 +12,6 @@ const chartDimensions = {
   width: svgDimensions.width - margin.left - margin.right,
   height: svgDimensions.height - margin.bottom - margin.top,
 };
-
-const maxNumberSeats = resultCollectionSpainNov19.reduce(
-  (max, item) => (item.seats > max ? item.seats : max),
-  0
-);
-
-const politicalPartiesCount = resultCollectionSpainNov19.length;
 
 const partiesColorScale = d3
   .scaleOrdinal([
@@ -65,9 +57,8 @@ const svg = d3
   .attr("preserveAspectRatio", "xMinYMin meet")
   .attr(
     "viewBox",
-    `${margin.left} ${margin.top} ${svgDimensions.width - margin.right} ${
-      svgDimensions.height - margin.bottom
-    }`
+    `${margin.left} ${margin.top} ${svgDimensions.width - margin.right}
+      ${svgDimensions.height - margin.bottom}`
   );
 
 svg

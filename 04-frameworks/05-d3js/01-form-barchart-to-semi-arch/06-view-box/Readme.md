@@ -20,9 +20,12 @@ Live demo: [codesandbox](https://codesandbox.io/s/musing-wilson-ymnv7)
 npm install
 ```
 
-- Let's remove the legend (that would need additional tweaking)
+- Let's remove the legend (that would need additional tweaking) and the import of _d3-svg-legend_ library:
 
 ```diff
+import * as d3 from "d3";
+- import { legendColor } from "d3-svg-legend";
+...
 - // Legend
 - const legendLeft = margin.left;
 - const legendTop = radius + 5;
@@ -39,7 +42,7 @@ npm install
 - Let's update the size of our svg (this will be enclosed in a viewbox, inside the viewBox we will play with exact coordinates, outside with percentages)
 
 ```diff
-- const svgDimensions = { width: 800, height: 500 };
+- const svgDimensions = { width: 500, height: 550 };
 + const svgDimensions = { width: 500, height: 500 };
 ```
 
@@ -49,16 +52,15 @@ npm install
 const svg = d3
   .select("body")
   .append("svg")
--  .attr("width", svgDimensions.width)
--  .attr("height", svgDimensions.height)
-+  .attr("width", "100%")
-+  .attr("height", "100%")
--  .attr("style", "background-color: #FBFAF0");
-+  .attr("preserveAspectRatio", "xMinYMin meet")
-+  .attr(
-+    "viewBox",
-+    `${margin.left} ${margin.top} ${svgDimensions.width -
-+      margin.right} ${svgDimensions.height - margin.bottom}`
+- .attr("width", svgDimensions.width)
+- .attr("height", svgDimensions.height)
++ .attr("width", "100%")
++ .attr("height", "100%")
++ .attr("preserveAspectRatio", "xMinYMin meet")
++ .attr(
++   "viewBox",
++   `${margin.left} ${margin.top} ${svgDimensions.width - margin.right}
++     ${svgDimensions.height - margin.bottom}`
 +  );
 ```
 

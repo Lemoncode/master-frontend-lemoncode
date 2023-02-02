@@ -157,7 +157,7 @@ _./static/index.html_
 npm start
 ```
 
-- El siguiente paso es el de crear una sesión en stripe para esta compra en conreto, el flujo:
+- El siguiente paso es el de crear una sesión en stripe para esta compra en concreto, el flujo:
 
   - La sesión se crea vía back channel (de servidor nuestro a servidor de stripe, así podemos firmar la petición con
     un secreto compartido).
@@ -227,7 +227,7 @@ import { Router } from 'express';
 
 + // https://github.com/stripe/stripe-node#usage-with-typescript
 + const stripe = new Stripe(envConstants.STRIPE_SECRET, {
-+  apiVersion: '2020-08-27',
++  apiVersion: null,
 + });
 
 export const api = Router();
@@ -350,7 +350,7 @@ _./src/static/index.html_
     </section>
 +  <script type="text/javascript">
 +    // Aquí usamos la clave publica de stripe que hay genérica
-+    // En el siguiente ejemnplo reemplazaremos por la nuestra
++    // En el siguiente ejemplo reemplazaremos por la nuestra
 +    // Es buena idea en un proyecto que tenga proceso de bundling meter este valor en una variable de entorno
 +    var stripe = Stripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 +    var checkoutButton = document.getElementById("checkout-button");

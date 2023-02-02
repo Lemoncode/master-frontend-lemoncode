@@ -12,7 +12,7 @@ export class UserListComponent implements OnInit {
   members: MemberEntity[] = [];
   newMember: MemberEntity;
   memberSelected: MemberEntity;
-
+ 
   constructor(private membersService: MembersService) {}
 
   ngOnInit(): void {

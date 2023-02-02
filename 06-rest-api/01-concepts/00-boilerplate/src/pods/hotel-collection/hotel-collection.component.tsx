@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import { HotelEntityVm } from './hotel-collection.vm';
 import { HotelCard } from './components/hotel-card.component';
 import * as classes from './hotel-collection.styles';

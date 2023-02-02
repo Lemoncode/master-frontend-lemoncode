@@ -6,20 +6,13 @@ import {
   ResultEntry,
 } from "./data";
 
-const svgDimensions = { width: 800, height: 500 };
+const svgDimensions = { width: 500, height: 550 };
 const margin = { left: 5, right: 5, top: 10, bottom: 10 };
 
 const chartDimensions = {
   width: svgDimensions.width - margin.left - margin.right,
   height: svgDimensions.height - margin.bottom - margin.top,
 };
-
-const maxNumberSeats = resultCollectionSpainNov19.reduce(
-  (max, item) => (item.seats > max ? item.seats : max),
-  0
-);
-
-const politicalPartiesCount = resultCollectionSpainNov19.length;
 
 const partiesColorScale = d3
   .scaleOrdinal([
@@ -71,7 +64,7 @@ const chartGroup = svg
 
 const radius = Math.min(chartDimensions.width, chartDimensions.height) / 2;
 
-chartGroup.attr("transform", `translate(${radius},${radius})`);
+chartGroup.attr("transform", `translate(${radius+margin.left},${radius+margin.top})`);
 
 const arc = d3
   .arc()
@@ -86,7 +79,14 @@ const pieChart = d3
     return d.seats;
   })
   .sort(null);
-  
+
+// Define the div for the tooltip
+const div = d3
+  .select("body")
+  .append("div")
+  .attr("class", "tooltip")
+  .style("opacity", 0);
+
 const arcs = chartGroup
   .selectAll("slice")
   .data(pieChart(resultCollectionSpainNov19))
@@ -95,9 +95,24 @@ const arcs = chartGroup
 arcs
   .append("path")
   .attr("d", <any>arc) // Hack typing: https://stackoverflow.com/questions/35413072/compilation-errors-when-drawing-a-piechart-using-d3-js-typescript-and-angular/38021825
-  .attr("fill", (d, i) => {
+  .attr("fill", (d) => {
     console.log(d.data.party);
     return partiesColorScale(d.data.party);
+  })
+  .on("mouseover", function (mouseEvent: MouseEvent, datum) {
+    d3.select(this).attr("transform", `scale(1.1, 1.1)`);
+    const partyInfo = datum.data;
+
+    const coords = { x: mouseEvent.pageX, y: mouseEvent.pageY };
+    div.transition().duration(200).style("opacity", 0.9);
+    div
+    .html(`<span>${partyInfo.party}: ${partyInfo.seats}</span>`)
+    .style("left", `${coords.x}px`)
+    .style("top", `${coords.y - 28}px`);
+  })
+  .on("mouseout", function() {
+    d3.select(this).attr("transform", ``);
+    div.transition().duration(500).style("opacity", 0);
   });
 
 // Legend
@@ -106,12 +121,13 @@ const legendTop = radius + 5;
 
 const legendGroup = svg
   .append("g")
-  .attr("transform", `translate(${legendLeft},${legendTop})`);
+  .attr("transform", `translate(${legendLeft+margin.left},${legendTop+margin.top})`);
 
 var colorLegend = legendColor().scale(partiesColorScale);
 
 legendGroup.call(colorLegend as any);
 
+// Update chart functionality
 const updateChart = (data: ResultEntry[]) => {
   d3.selectAll("path")
     .data(pieChart(<any>data))
@@ -122,12 +138,8 @@ const updateChart = (data: ResultEntry[]) => {
 
 document
   .getElementById("april")
-  .addEventListener("click", function handleResultsApril() {
-    updateChart(resultCollectionSpainApr19);
-  });
+  .addEventListener("click", () => updateChart(resultCollectionSpainApr19));
 
 document
   .getElementById("november")
-  .addEventListener("click", function handleResultsNovember() {
-    updateChart(resultCollectionSpainNov19);
-  });
+  .addEventListener("click", () => updateChart(resultCollectionSpainNov19));

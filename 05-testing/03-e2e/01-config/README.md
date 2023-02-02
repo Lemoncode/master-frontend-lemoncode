@@ -79,6 +79,8 @@ export default defineConfig({
 });
 ```
 
+> [Config API](https://docs.cypress.io/guides/references/configuration#Testing-Type-Specific-Options)
+
 - An important note is that we need to running the app to execute the e2e tests:
 
 ### ./package.json
@@ -87,7 +89,7 @@ export default defineConfig({
 "scripts": {
 ...
 -   "test:e2e": "cypress open"
-+   "test:e2e": "npm run start -- start:e2e",
++   "test:e2e": "npm start -- start:e2e",
 +   "start:e2e": "cypress open"
   },
 ```

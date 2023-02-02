@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>No Framework 02</title>
+  </head>
+  <body>
+    <div class="root">
+      <div class="resultContainer">
+        <button id="getPrivateData" class="button" type="button">
+          Obtener mis datos
+        </button>
+        <span id="resultPrivateData"></span>
+      </div>
+      <form id="MyForm" action="" method="get">
+        <h1>Demo 02 XSS Ejercicio</h1>
+        <div class="input">
+          <label for="user">Usuario:</label>
+          <input type="text" id="user" name="user" />
+        </div>
+        <div class="input">
+          <label for="password">Contraseña:</label>
+          <input type="password" id="password" name="password" />
+        </div>
+        <div>
+          <button id="submit" class="button" type="submit">Login</button>
+        </div>
+      </form>
+
+      <div id="AddBio">
+        <h2>Añade tu biografía</h2>
+        <div class="input">
+          <textarea id="bio" name="bio" class="textarea" />
+          <button id="sendBio" class="button" type="button">Enviar</button>
+        </div>
+        <span id="result" class="result"></span>
+      </div>
+    </div>
+    <script type="module" src="./index.ts"></script>
+  </body>
+</html>

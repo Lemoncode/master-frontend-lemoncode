@@ -135,11 +135,11 @@ En caso contrario deberá mostrar otro mensaje:
 #### Ejemplo de uso
 
 ```js
-class SlothMachine {
+class SlotMachine {
   /* ... */
 }
 
-const machine1 = new SlothMachine();
+const machine1 = new SlotMachine();
 machine1.play(); // "Good luck next time!!"
 machine1.play(); // "Good luck next time!!"
 machine1.play(); // "Congratulations!!!. You won 3 coins!!"

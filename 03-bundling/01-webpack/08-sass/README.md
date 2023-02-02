@@ -9,7 +9,7 @@ En este ejemplo vamos a renombrar el archivo **`css`** a la extensión **`scss`*
 - Empezamos renombrando **`mystyles.css`** a **`mystyles.scss`**.
 - Abre **`mystyles.scss`** y agrega un código simple de _sass_ (en este caso creamos una variable que contendrá el color que utilizamos en la propiedad):
 
-_./mystyles.scss_
+_./src/mystyles.scss_
 
 ```diff
 + $back-color: indianred;
@@ -50,6 +50,8 @@ Tenemos que actualizar el archivo **`webpack.config.js`**.
   nos demos cuenta de que estamos encadenando _loaders_, primero preprocesamos el **`scss`** y luego aplicamos los **`loaders`** anteriores al **`css`** resultante (recordaros aquí que el orden importa, se ejecutan
   empezando por el último elemento del array).
 
+_./webpack.config.js_
+
 ```diff
  module: {
     rules: [
@@ -85,6 +87,7 @@ Vamos a cambiar **`style-loader`** por **`MiniCssExtractPlugin`** para que cree 
 
 - Configuramos **`webpack.config.js`**:
 
+_./webpack.config.js_
 ```diff
 .....
 {

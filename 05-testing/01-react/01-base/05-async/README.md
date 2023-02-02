@@ -277,6 +277,7 @@ import { getMembers } from './api';
 
 ```diff
 ...
+
 + it('should return undefined when it rejects the request with different status code', async () => {
 +   // Arrange
 +   const getStub = jest.spyOn(Axios, 'get').mockRejectedValue({

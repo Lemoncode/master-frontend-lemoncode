@@ -26,6 +26,7 @@ describe('Calculator tests', () => {
       // Arrange
       const a = 2;
       const b = 2;
+
       // Act
       const result = calculator.add(a, b);
 

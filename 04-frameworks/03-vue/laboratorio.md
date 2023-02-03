@@ -16,19 +16,20 @@ Mostrar un listado de miembros que pertenencen a una organización en Github. Pa
 
 ## Enunciado
 
-- Crear una aplicación que muestre un listado de miembros de `Lemoncode` en Github, utilizando la API de Github.
+- Crear una aplicación que muestre, pro defecto, el listado de los miembros de `Lemoncode` en Github, utilizando la API de Github.
 - Añadir un campo de búsqueda para buscar por nombre de organización, este campo tiene como valor por defecto "Lemoncode".
 - Y un botón para realizar la búsqueda cuando se pulse.
-- Mostrar, al menos, una foto de cada miembro y su nombre cuando se obtenga respuesta.
+- Mostrar, al menos, una foto de cada miembro y su nombre.
 - Si no se encuentra ningún miembro o dicha organización, mostrar un mensaje de error.
-- El usuario puede teclear otro nombre de organizacíon, por ejemplo, "microsoft"; y al pulsar el botón
-  de busqueda, te muestra los miembros de dicha organización.
+- El usuario puede teclear otro nombre de organizacíon, por ejemplo, "microsoft" en el campo de búsqueda; y al pulsar el botón, te muestra los miembros de dicha organización.
 - Al clickar en uno de los miembros, navegar a una vista de detalle de ese miembro.
 - En la vista de detalle, mostrar la foto del miembro, su nombre, mail, bio, y el nombre de la organización.
-- Al volver a la vista de listado, se debería seguir mostrando el listado que había, sin necesidad de tener que realizar la búsqueda de nuevo.
+- Al volver a la vista de listado, se debería seguir mostrando el listado que había, sin necesidad de tener que realizar la búsqueda de nuevo y el formulario debería conservar el valor de búsqueda que se había usado.
+
+## Recomendado
+
+- Hacer el ejercicio con Nuxt 3 (y Pinia).
 
 ## Opcional
 
-- Hacer el mismo ejercicio pero con Nuxt\* (versión [2](https://nuxtjs.org/docs/get-started/installation) o 3, pero os recomiendo la [3](https://v3.nuxtjs.org/getting-started/quick-start#new-project), que es la más reciente, aunque esté en RC todavía).
-
-\* Nuxt es un framework de Vue, que nos ayuda a crear webapps de manera más rápida.
+- Añadir tests unitarios de componentes de Vue o composables.

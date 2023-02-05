@@ -53,16 +53,16 @@ Ahora, cuando añadimos un producto al carrito, lo que hacemos es guardar el est
 
 Y cuando inicializamos el store, lo que hacemos es cargar el estado del carrito desde el `localStorage` del navegador, gracias a la función `hydrate` de Pinia.
 
-Fijaros que en las dos ocasiones que usamos `useLocalStorage` lo hacemos de la siguiente forma:
+Fijaros que al usar `useLocalStorage` lo hacemos de la siguiente forma:
 
 ```ts
 useLocalStorage('cart', {} as CartItemRecord)
 ```
 
-- El primer parámetro es el nombre de la clave en el `localStorage`
-- y el segundo es el valor por defecto que va a tener esa clave si no existe. Es obligatorio pasarle un valor por defecto, por cómo está implementado el composable.
+- El primer parámetro es el nombre de la clave en el `localStorage`, que en este caso es `cart`,
+- y el segundo es el "valor por defecto" que va a tener esa clave si no existe. Es obligatorio pasarle un valor por defecto, por cómo está implementado el composable.
 
-Con esto ya tenemos persistido el estado de la aplicación (en el cliente). Si recargamos la página, el estado del carrito se mantiene. Y es hasta aquí lo que os quería enseñar el otro día!
+Con esto ya tenemos persistido el estado de la aplicación (**en el cliente**). Si recargamos la página, el estado del carrito se mantiene. Y es hasta aquí lo que os quería enseñar el otro día! 🎉
 
 Os dejo los enlaces a la documentación de Pinia y de Vueuse:
 

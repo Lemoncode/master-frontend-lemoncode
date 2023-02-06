@@ -1,7 +1,7 @@
 # 03 Integration testing
 
 So far we have just unit tested components, what about making an integration test?
-We can mount a bunch of components and test them all together !
+We can mount a bunch of components and test them all together!
 
 We will start from `02-name-edit`.
 

@@ -42,6 +42,7 @@ describe('NameCollection component specs', () => {
     expect(initialItems[0].textContent).toEqual('initial-user');
 
     await waitForElementToBeRemoved(screen.queryByText('initial-user'));
+
     // Assert
     expect(screen.queryByText('initial-user')).not.toBeInTheDocument();
   });

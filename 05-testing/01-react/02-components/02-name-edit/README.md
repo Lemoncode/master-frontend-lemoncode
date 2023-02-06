@@ -89,6 +89,7 @@ describe('NameEdit component specs', () => {
 ```
 
 > It fails because it found multiple elements
+>
 > We could try `getAllByText` too but we should follow the priority
 
 - Let's use `byRole`:
@@ -123,6 +124,7 @@ describe('NameEdit component specs', () => {
 
 ```bash
 npm install @testing-library/user-event @testing-library/dom --save-dev
+
 ```
 
 ### ./src/name-edit.spec.tsx

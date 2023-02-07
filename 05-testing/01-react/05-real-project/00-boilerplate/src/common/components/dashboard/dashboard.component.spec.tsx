@@ -46,7 +46,9 @@ describe('common/DashboardComponent', () => {
       classes: {
         root: 'test-root-class',
         items: 'test-items-class',
-        item: 'test-item-class',
+        item: {
+          root: 'test-item-class',
+        },
       },
       dataTestId: 'dashboard-id',
     };

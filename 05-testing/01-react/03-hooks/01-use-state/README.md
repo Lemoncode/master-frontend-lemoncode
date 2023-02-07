@@ -15,7 +15,7 @@ npm install
 - It exists [react-hooks-testing-library](https://github.com/testing-library/react-hooks-testing-library) that allows you to create a simple test for React hooks but since [it is not fully supported by React 18](https://github.com/testing-library/react-hooks-testing-library#a-note-about-react-18-support), for now, we will use the [renderHook](https://testing-library.com/docs/react-testing-library/api/#renderhook) included in `@testing-library/react`
 
 
-- When to use this method? We are writing custom hooks outside components. So let's create a simple custom hook:
+- When to use this method? When we are writing custom hooks outside components. So let's create a simple custom hook:
 
 ### ./src/model.ts
 

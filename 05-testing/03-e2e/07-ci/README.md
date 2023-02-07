@@ -138,20 +138,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install
         run: npm ci
       - name: Tests e2e
         run: npm run test:e2e:ci
 +     - name: Upload screenshots when specs fail
 +       if: ${{ failure()}}
-+       uses: actions/upload-artifact@v2
++       uses: actions/upload-artifact@v3
 +       with:
 +         name: screenshots
 +         path: ./cypress/screenshots
 +     - name: Upload videos when specs fail
 +       if: ${{ failure()}}
-+       uses: actions/upload-artifact@v2
++       uses: actions/upload-artifact@v3
 +       with:
 +         name: videos
 +         path: ./cypress/videos

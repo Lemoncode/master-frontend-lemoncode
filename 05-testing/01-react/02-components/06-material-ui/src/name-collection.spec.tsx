@@ -57,6 +57,7 @@ describe('NameCollection component specs', () => {
     expect(initialItems[0].textContent).toEqual('initial-user');
 
     await waitForElementToBeRemoved(screen.queryByText('initial-user'));
+
     // Assert
     expect(screen.queryByText('initial-user')).not.toBeInTheDocument();
   });
@@ -72,8 +73,12 @@ describe('NameCollection component specs', () => {
 
     const links = await screen.findAllByRole('link');
 
+    screen.debug();
+
     const secondUser = links[1];
     await userEvent.click(secondUser);
+
+    screen.debug();
 
     const userEditElement = screen.getByRole('heading', {
       name: 'User name: Jane Doe',

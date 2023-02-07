@@ -1,7 +1,6 @@
 # 01 Hello
 
-In this example we will setup react testing library and create a simple test over a component that
-just display and _h1_
+In this example we will setup react testing library and create a simple test over a component that just display and _h1_
 
 We will start from `00-boilerplate`.
 
@@ -16,7 +15,7 @@ npm install
 - Let's install [react-testing-library](https://github.com/testing-library/react-testing-library)
 
 ```bash
-npm install @testing-library/react -D
+npm install @testing-library/react --save-dev
 ```
 
 - We will create a simple component.
@@ -34,6 +33,7 @@ export const SayHello: React.FunctionComponent<Props> = (props) => {
   const { person } = props;
   return <h1>Hello {person}</h1>;
 };
+
 ```
 
 - Let's add our first test, we want to instantiate _SayHello_ and check that we are getting an h1 that contains the name of the person that we are passing.
@@ -72,7 +72,8 @@ npm run test:watch
   Since [jest v28](https://jestjs.io/docs/upgrading-to-jest28#jsdom) we have to install this environment separately:
 
 ```bash
-npm install --save-dev jest-environment-jsdom
+npm install jest-environment-jsdom --save-dev
+
 ```
 
 ### ./config/test/jest.js
@@ -163,6 +164,7 @@ Or even, we could use `inline snapshots`:
 
 ```bash
 npm install @testing-library/jest-dom --save-dev
+
 ```
 
 - Configure it:
@@ -171,6 +173,7 @@ npm install @testing-library/jest-dom --save-dev
 
 ```javascript
 import '@testing-library/jest-dom';
+
 ```
 
 - Update `jest` config:
@@ -263,7 +266,9 @@ describe('SayHello component specs', () => {
 
 - Using `getByRole`:
 
-> [ARIA roles](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles) > [Which query should I use?](https://testing-library.com/docs/guide-which-query)
+> [ARIA roles](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles)
+>
+> [Which query should I use?](https://testing-library.com/docs/guide-which-query)
 
 ### ./src/say-hello.tsx
 

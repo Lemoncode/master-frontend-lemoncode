@@ -45,7 +45,7 @@ npm run test:e2e
   - **fixtures**
   - **support**
 
-- Let's remove `fixtures/example.json`, `support/commands.ts` and clear `support/e2e.ts` file content.
+- Let's remove `downloads`, `fixtures/example.json`, `support/commands.ts` and clear `support/e2e.ts` file content.
 
 > We will use `support/e2e.ts`
 

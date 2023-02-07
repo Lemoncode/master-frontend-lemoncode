@@ -9,9 +9,7 @@ describe('mapper specs', () => {
       // Arrange
 
       // Act
-      const result: viewModel.Member[] = mapMemberListFromApiToVm(
-        members as apiModel.Member[]
-      );
+      const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
 
       // Assert
       expect(result).toEqual([]);

@@ -496,7 +496,7 @@ import { useSearchBar } from './search-bar.hook';
 +   ];
 
 +   // Act
-+   const { result, waitForNextUpdate } = renderHook(() =>
++   const { result } = renderHook(() =>
 +     useSearchBar(colors, ['name'])
 +   );
 

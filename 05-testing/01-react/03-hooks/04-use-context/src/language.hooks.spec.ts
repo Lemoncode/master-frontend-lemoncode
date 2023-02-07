@@ -7,7 +7,9 @@ describe('useLanguage specs', () => {
     // Arrange
 
     // Act
-    const { result } = renderHook(() => useLanguage(), { wrapper: LanguageProvider });
+    const { result } = renderHook(() => useLanguage(), {
+      wrapper: LanguageProvider,
+    });
 
     act(() => {
       result.current.setLanguage('en');

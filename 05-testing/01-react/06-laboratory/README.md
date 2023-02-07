@@ -9,16 +9,16 @@ El laboratorio lo hemos divido en dos secciones
 
 ## Introducción
 
-Partiendo del ejemplo [05-testing/01-react/05-real-project/00-boilerplate](https://github.com/Lemoncode/master-frontend-lemoncode/tree/master/05-testing/01-react/05-real-project/00-boilerplate) del repositorio, recordad que es una copia del proyecto real de `origin-front-admin`
+Partiendo del ejemplo [05-testing/01-react/05-real-project/00-boilerplate](https://github.com/Lemoncode/master-frontend-lemoncode/tree/master/05-testing/01-react/05-real-project/00-boilerplate) del repositorio.
 
 ### Pasos a seguir
 
 - Copiar los ficheros de la carpeta `00-boilerplate` del repositorio anterior, en local.
-- Subir esos ficheros a un repositorio vuestro propio en la rama `master`.
+- Subir esos ficheros a un repositorio vuestro propio en la rama `main`.
 - Acordaros de hacer la configuración para los alias de webpack y jest.
 - Crear nueva rama llamada `feature/laboratorio-testing-obligatorio`.
 - Implementar los ejercicios obligatorios.
-- Una vez lista la entrega, podéis crear una pull request desde la rama `feature/laboratorio-testing-obligatorio` hacia la rama `master` para que se vean los nuevos cambios.
+- Una vez lista la entrega, podéis crear una pull request desde la rama `feature/laboratorio-testing-obligatorio` hacia la rama `main` para que se vean los nuevos cambios.
 - Por último, entregar el laboratorio en el campus dejando dicha pull request abierta para su corrección.
 
 ## Obligatorio

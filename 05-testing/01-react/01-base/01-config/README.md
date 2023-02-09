@@ -62,7 +62,7 @@ npm install jest @types/jest --save-dev
 -   "clean": "rimraf dist"
 +   "clean": "rimraf dist",
 +   "test": "jest --verbose",
-+   "test:watch": "npm run test -- --watchAll -i"
++   "test:watch": "npm test -- --watchAll -i"
   },
   ...
 }

@@ -40,7 +40,6 @@ import { Credential, User } from './model';
 export const login = (credential: Credential): Promise<User> => {
   return Promise.reject('Pending to implement');
 };
-
 ```
 
 - Let's update `useLogin` hook to use `React.useEffect`:
@@ -143,10 +142,8 @@ import { useLogin } from './login.hooks';
 - it('should update user when it send valid credentials using onLogin', () => {
 + it('should update user when it send valid credentials using onLogin', async () => {
     // Arrange
-    const initialUser: User = {
-      name: 'John',
-      surname: 'Doe',
-    };
+    const adminUser: User = { email: 'admin@email.com', role: 'admin' };
+    const loginStub = jest.spyOn(api, 'login').mockResolvedValue(adminUser);
 
     // Act
     const { result } = renderHook(() => useLogin());

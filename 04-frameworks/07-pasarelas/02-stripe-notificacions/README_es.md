@@ -2,199 +2,193 @@
 
 [🇬🇧 English version](./README.md)
 
-# Que vamos a cubrir
+## Que vamos a cubrir
 
 Vamos a configurar un webhook para recibir notificaciones en nuestro backend cuando
 una compra se complete
 
-# Pasos
+## Pasos
 
 - Tomamos como punto de partida el ejemplo anterior, lo copiamos y hacemos un
 
-```bash
-npm install
-```
+  ```bash
+  npm install
+  ```
 
-- Vamos parsear el cuerpo de lo que nos venga con JSON para ello hacemos
-  uso del middleware de _json_ de express.
+- Vamos parsear el cuerpo de lo que nos venga con JSON para ello hacemos uso del middleware de _json_ de express. **No olvidar quitar bodyparser !!**
 
-> No olvidar quitar bodyparser !!
+  _./src/express.server.ts_
 
-_./src/express.server.ts_
+  ```diff
+  import express from 'express';
+  - import bodyParser from 'body-parser';
+  const app = express();
+  + app.use(express.json());
+  - app.use(bodyParser.urlencoded({ extended: false }));
+  - app.use(bodyParser.json());
 
-```diff
-const app = createApp();
-
-+ app.use(express.json());
-
-app.use('/', express.static(path.join(__dirname, 'static')));
-```
+  return app;
+  ```
 
 - En nuestro fichero de API vamos a definir un nuevo endpoint.
 
-_./src/api.ts_
+  _./src/api.ts_
 
-```diff
-api.get('/', async (req, res) => {
-  res.send({ id: '1', name: 'test data' });
-});
+  ```diff
+  api.get('/', async (req, res) => {
+    res.send({ id: '1', name: 'test data' });
+  });
 
-+ // Este va a ser el punto de entrada que buscará stripe
-+ api.post('/webhook', (request, response) => {
-+  const payload = request.body;
-+
-+  // Aquí simplemente mostramos por consola lo que nos devuelve Stripe
-+  console.log(`Got payload: ${JSON.stringify(payload)}`);
-+
-+  response.status(200);
-+ });
-```
+  + // Este va a ser el punto de entrada que buscará stripe
+  + api.post('/webhook', (req, res) => {
+  +   const payload = req.body;
+  +
+  +   // Aquí simplemente mostramos por consola lo que nos devuelve Stripe
+  +   console.log(`Got payload: ${JSON.stringify(payload)}`);
+  +
+  +   res.status(200).end();
+  + });
+  ```
 
-- Si ejecutamos esto y completamos una compra podemos ver que no se llama,
-  ¿Qué esta pasando? Que stripe de primeras no es capaz de encontrar localhost,
-  esto es normal, podríamos probar a subirlo a un entorno en la nube y desde el
-  dashbaord de stripe definirselo, pero... es un poco rollo tener que hacer esto
-  ¿No hay forma de poder probar en local? La respuesta es sí, usando el
-  stripe-cli.
-
+- Si ejecutamos esto y completamos una compra podemos ver que no se llama, ¿Qué esta pasando? Que Stripe de primeras no es capaz de encontrar localhost, lo cual es normal
+- Podríamos probar a subirlo a un entorno en la nube y desde el dashbaord de Stripe definírselo, pero... es un poco rollo tener que hacer esto
+- ¿No hay otra forma de poder probar en local? La respuesta es sí, usando el `stripe-cli`.
 - Primero tenemos que instalarlo, para ello puedes seguir la guía que
   hay en la [página de stripe](https://stripe.com/docs/stripe-cli) esto cambia
   si estas en Windows, Mac o Linux.
 
-En mac:
+  - _En mac_:
 
-```bash
-brew install stripe/stripe-cli/stripe
-```
+    ```bash
+    brew install stripe/stripe-cli/stripe
+    ```
 
-Si estás en Windows puedes usar scoop para instalarlo o [descargarlo de este enlace](https://github.com/stripe/stripe-cli/releases/tag/v1.5.6), elegir de la lista el fichero stripe_1.5.5_windows_x86_64.zip descomprimirlo y ejecutar el fichero exe para instalarlo.
+  - _En windows_:
 
-- También te va a hacer falta crearte una cuenta de stripe y obtener tus claves de desarrollo,
-  tanto la publica, como la privada.
+    [Descargarlo de este enlace](https://github.com/stripe/stripe-cli/releases/latest), elegir de la lista el fichero stripe_1.X.X_windows_x86_64.zip descomprimirlo y ejecutar el fichero exe.
 
-- En nuestro clase copiaremos la clave privada a nuestro fichero de entorno, y la publicable a nuestro
-  js.
+    Para tener acceso al CLI en cualquier directorio de tu máquina puedes añadir a la variable de entorno `PATH` la ruta en la que tengas el fichero exe.
 
-_./src/.env_
+- También te va a hacer falta crearte una cuenta de Stripe y obtener tus claves de desarrollo.
+- En nuestro clase copiaremos la clave privada a nuestro fichero de entorno.
 
-```diff
-NODE_ENV=development
-PORT=8081
-- STRIPE_SECRET=sk_test_4eC39HqLyjWDarjtT1zdp7dc
-+ STRIPE_SECRET=**PEGA AQUI CLAVE PRIVADA DE STRIPE empieza por sk_text**
-```
+  _./src/.env_
 
-- También debemos de pegar la clave publica asociada en el index.html
+  ```diff
+  NODE_ENV=development
+  PORT=8081
+  - STRIPE_SECRET=sk_test_7mJuPfZsBzc3JkrANrFrcDqC
+  + STRIPE_SECRET=**PEGA AQUI TU CLAVE PRIVADA DE STRIPE (empieza por sk_text)**
+  ```
 
-_./src/static/index.html_
+- Hacemos un `stripe login` ([más info de como esto funciona en este enlace, sección notificaciones](https://lemoncode.net/lemoncode-blog/2021/1/13/pasarelas-de-pago-ii-stripe)) y autorizamos vía navegador
 
-```diff
+  ```bash
+  stripe login
+  ```
 
-      var stripe = Stripe(
--        'pk_test_TYooMQauvdEDq54NiTphI7jx'
-+        '** PEGA AQUI TU CLAVE PUBLICA***'
-      );
-      var checkoutButton = document.getElementById('checkout-button');
-```
+- Y ahora vamos a decirle usando al CLI de Stripe que todas las notificaciones de desarollo que vayan a nuestra cuenta las rediriga a `localhost:8081/api/webhook`
 
-- Hacemos un stripe login ([más info de como esto funciona en este enlace, sección notificaciones](https://lemoncode.net/lemoncode-blog/2021/1/13/pasarelas-de-pago-ii-stripe))
+  ```bash
+  stripe listen --forward-to localhost:8081/api/webhook
+  ```
 
-```bash
-stripe login
-```
+- Ahora ya podemos ver en la consola el payload recibido después de volver de la pasarela de pago. Podemos incluir otros `console.log` para ver con más claridad campos del objeto recibido tales como el id, el tipo, la fecha de creación o la versión de la API usada
 
-Autorizamos via navegador
+  ```diff
+  api.post('/webhook', (req, res) => {
+    const payload = req.body;
 
-- Y ahora vamos a decirle usando el stripe cli que todas las notificaciones de desarollo
-  que vayan a nuestra cuenta las rediriga a
+    console.log(`Got payload: ${JSON.stringify(payload)}`);
 
-```bash
-stripe listen --forward-to localhost:8081/api/webhook
-```
+  + console.log(`Id: ${req.body.id}`);
+  + console.log(`Type: ${req.body.type}`);
+  + console.log(`Creation date: ${new Date(req.body.created)}`);
+  + console.log(`API version: ${req.body.api_version}`);
 
-- Esto nos da un secreto para validar que las notificaciones vienen de Stripe y no de un impostor,
-  lo copiamos de la consola.
+    res.status(200).end();
+  });
+  ```
 
-- Volvemos a api.ts en el post webhook, verificamos la firma.
+- El comando `stripe listen` nos da un secreto para validar que las notificaciones vienen de Stripe y no de un impostor. Lo copiamos de la consola (empieza por _whsec\__).
 
-_./src/api.ts_
+  ![stripe listen](./resources/stripe_listen.png)
 
-```diff
-+ // Aquí copiamos y pegamos el código que nos dió el comando _stripe listen --forward_ (el que empieza + por whsec_)
-+ // Lo suyo sería que estuvieran en una variable de entorno
-+ const endpointSecret = "whsec_...";
+- Volvemos al fichero api.ts, al endpoint POST `webhook` para verificamos la firma.
 
-api.post('/webhook', (request, response) => {
-+  const sig = request.headers['stripe-signature'];
-  const payload = request.body;
+  _./src/api.ts_
 
-  // Aquí simplemente mostramos por consola lo que nos devuelve Stripe
-  console.log('Got payload: ' + JSON.stringify(payload));
+  ```diff
+  + // Aquí copiamos y pegamos el código que nos dió el comando _stripe listen --forward_ (el que empieza + por whsec_)
+  + // Lo suyo sería que estuvieran en una variable de entorno
+  + const signingSecret = "whsec_...";
 
-+    let event;
+  api.post('/webhook', (req, res) => {
+  + const sig = req.headers['stripe-signature'];
+    const payload = request.body;
 
-+    try {
-+      // Tiramos de la librería de stripe para validar la respuesta usando el endPointSecret
-+      // esto nos permite ver si el mensaje no viene de un impostor
-+      event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
-+    } catch (err) {
-+      return response.status(400).send(`Webhook Error: ${err.message}`);
-+    }
+    // Aquí simplemente mostramos por consola lo que nos devuelve Stripe
+    console.log('Got payload: ' + JSON.stringify(payload));
 
-  response.status(200);
-});
-```
+  +  try {
+  +    // Tiramos de la librería de stripe para validar la respuesta usando el signingSecret
+  +    // esto nos permite ver si el mensaje no viene de un impostor
+  +    const event = stripe.webhooks.constructEvent(payload, sig, signingSecret);
+  +  } catch (err) {
+  +    return res.status(400).send(`Webhook Error: ${err.message}`);
+  +  }
 
-- Vamos a ejecutar y comprobar que haciendo una compra nos sale por la notificacion por la consola
-  del servidor de express (no cierres el terminal de stripe listen...).
+    res.status(200).end();
+  });
+  ```
 
-```
-npm start
-```
+- Vamos a ejecutar y comprobar que haciendo una compra nos sale por la notificacion por la consola del servidor de express (no cierres el terminal en el que se está ejecutando `stripe listen`).
 
-- Peero si lo paramos y depuramos vemos que la verificación no funciona :-@, ¿Qué es lo que pasa?
-  Que el body que le estamos pasando a stripe para que verifique esta ya parseado a JSON y nos hace
-  falta el original, ¿Qué podemos hacer? Además de traernos el contenido en JSON, traernos también
-  el contenido en crudo, para ello tocamos el body parser de express:
+  ```bash
+  npm start
+  ```
 
-_./src/express.server.ts_
+- Peero si lo paramos y depuramos vemos que la verificación no funciona (también podemos comprobarlo en la consola de `stripe listen`, veremos los errores 400 en el log) :-@, ¿Qué es lo que pasa? Que el body que le estamos pasando a Stripe para que verifique esta ya parseado a JSON y nos hace falta el original, ¿Qué podemos hacer? Además de traernos el contenido en JSON, traernos también el contenido en crudo, para ello tocamos el body parser de express:
 
-```diff
-  app.use(
--    express.json({
-+    express.json({
-+      verify: function (req, res, buf, enconding) {
-+        req['raw'] = buf;
-+      },
-+    })
--    )
-  );
-```
+  _./src/express.server.ts_
+
+  ```diff
+    app.use(
+  -    express.json({
+  +    express.json({
+  +      verify: function (req, res, buf) {
+  +        req['raw'] = buf;
+  +      },
+  +    })
+  -    )
+    );
+  ```
 
 - Y en el webhook tiramos del raw content para validar:
 
-_./src/api.ts_
+  _./src/api.ts_
 
-```diff
-api.post('/webhook', (request, response) => {
-  const sig = request.headers['stripe-signature'];
-  const payload = request.body;
-+ const rawBody = request['raw'];
+  ```diff
+  api.post('/webhook', (req, res) => {
+    const sig = req.headers['stripe-signature'];
+    const payload = req.body;
+  + const rawBody = req['raw'];
 
-  // Aquí simplemente mostramos por consola lo que nos devuelve Stripe
-  console.log('Got payload: ' + JSON.stringify(payload));
-
-    let event;
+    // Aquí simplemente mostramos por consola lo que nos devuelve Stripe
+    console.log('Got payload: ' + JSON.stringify(payload));
 
     try {
       // Tiramos de la librería de stripe para validar la respuesta usando el endPointSecret
       // esto nos permite ver si el mensaje no viene de un impostor
--      event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
-+      event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret);
+  -   const event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+  +   const event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret);
     } catch (err) {
-      return response.status(400).send(`Webhook Error: ${err.message}`);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
     }
-```
+
+    response.status(200).end();
+  });
+  ```
 
 - Si probamos ahora podemos ver que la validación es correcta.
 

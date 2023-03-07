@@ -48,7 +48,6 @@ export default defineConfig({
 
 We can split vendor chunks if we want:
 
-
 _./vite.config.js_
 
 ```diff

@@ -6,7 +6,7 @@ We will start from `01-production-bundle`.
 
 # Steps to build it
 
-- We have a `dist` folder with app files, but to public this files in a production server, we need some kind of `server` to serve this static files. In this case, we are going to use a `nodejs` server.
+We have a `dist` folder with app files, but to public this files in a production server, we need some kind of `server` to serve this static files. In this case, we are going to use a `nodejs` server.
 
 - Create new `server` folder and:
 

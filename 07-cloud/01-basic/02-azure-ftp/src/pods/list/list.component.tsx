@@ -11,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-export const ListComponent: React.FunctionComponent<Props> = (props) => {
+export const ListComponent: React.FC<Props> = (props) => {
   const { organization, memberList, className } = props;
 
   return (

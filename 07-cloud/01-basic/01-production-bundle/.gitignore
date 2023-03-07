@@ -8,3 +8,4 @@ junit.xml
 *.orig
 .awcache
 .env
+server/public

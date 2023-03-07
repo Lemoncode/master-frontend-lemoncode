@@ -58,9 +58,9 @@ _./server/package.json_
 |server/
 |-- node_modules/
 |-- public/
-|----- images
-|----- js
+|----- assets/
 |----- index.html
+|----- logo.png
 |-- index.js
 |-- package-lock.json
 |-- package.json
@@ -96,7 +96,7 @@ npm start
 
 - Remove `hostingstart.html`:
 
-![06-remove-file](./readme-resources/06-remove-file.png)
+![07-remove-file](./readme-resources/07-remove-file.png)
 
 - Copy inner `./server` folders and files.
 

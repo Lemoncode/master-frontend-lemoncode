@@ -1,6 +1,6 @@
 # 01 Production bundle
 
-In this example we are going to create a production bundle using webpack.
+In this example we are going to create a production bundle using vite.
 
 We will start from `00-boilerplate`.
 
@@ -12,75 +12,43 @@ We will start from `00-boilerplate`.
 npm install
 ```
 
-- First, we will check the current `base` and `dev` webpack configuration.
+First, we will check the current `vite config`
 
-- Then, we need to add a new file `prod.js` using `production` mode:
-
-_./config/webpack/prod.js_
+_./vite.config.js_
 
 ```javascript
-const { merge } = require('webpack-merge');
-const base = require('./base');
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
-module.exports = merge(base, {
-  mode: 'production',
-});
-
-```
-
-- As we did on `dev`, we have to configure the ouput:
-
-_./config/webpack/prod.js_
-
-```diff
-const { merge } = require('webpack-merge');
-const base = require('./base');
-+ const helpers = require('./helpers');
-
-module.exports = merge(base, {
-  mode: 'production',
-+ output: {
-+   path: helpers.resolveFromRootPath('dist'),
-+   filename: './js/[name].[chunkhash].js',
-+   assetModuleFilename: "./images/[hash][ext][query]",
-+ },
-});
-
-```
-
-> NOTE: Remember to add `chunkhash` to avoid cache issues.
-
-- Next one, it's apply optimization to split `node_modules` as different chunk from `app`:
-
-_./config/webpack/prod.js_
-
-```diff
-...
-  output: {
-    path: helpers.resolveFromRootPath('dist'),
-    filename: './js/[name].[chunkhash].js',
-    assetModuleFilename: './images/[hash][ext][query]',
+export default defineConfig({
+  envPrefix: 'PUBLIC_',
+  plugins: [
+    react({
+      babel: {
+        plugins: ['@emotion'],
+      },
+    }),
+  ],
+  resolve: {
+    alias: {
+      common: path.resolve(__dirname, 'src/common'),
+      core: path.resolve(__dirname, 'src/core'),
+      layouts: path.resolve(__dirname, 'src/layouts'),
+      pods: path.resolve(__dirname, 'src/pods'),
+      scenes: path.resolve(__dirname, 'src/scenes'),
+      'common-app': path.resolve(__dirname, 'src/common-app'),
+    },
   },
-+ optimization: {
-+   runtimeChunk: 'single',
-+   splitChunks: {
-+     cacheGroups: {
-+       vendor: {
-+         chunks: 'all',
-+         name: 'vendor',
-+         test: /[\\/]node_modules[\\/]/,
-+         enforce: true,
-+       },
-+     },
-+   },
-+ },
 });
 
 ```
 
-- Finally, we will provide a different env variables for `production`:
+> [Vite env variables](https://vitejs.dev/guide/env-and-mode.html)
 
-_./prod.env_
+Let's add a different env variables for `production`:
+
+_./env.production_
 
 ```env
 NODE_ENV=production

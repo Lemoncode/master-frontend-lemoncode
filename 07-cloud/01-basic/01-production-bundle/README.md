@@ -46,48 +46,42 @@ export default defineConfig({
 
 > [Vite env variables](https://vitejs.dev/guide/env-and-mode.html)
 
-Let's add a different env variables for `production`:
+We can split vendor chunks if we want:
 
-_./env.production_
 
-```env
-NODE_ENV=production
-ORGANIZATION=facebook
-
-```
-
-- And use it:
-
-_./config/webpack/prod.js_
+_./vite.config.js_
 
 ```diff
-const { merge } = require('webpack-merge');
-+ const Dotenv = require('dotenv-webpack');
-const base = require('./base');
-...
-  optimization: {
-    runtimeChunk: 'single',
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          chunks: 'all',
-          name: 'vendor',
-          test: /[\\/]node_modules[\\/]/,
-          enforce: true,
-        },
+- import { defineConfig } from 'vite';
++ import { defineConfig, splitVendorChunkPlugin } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
+export default defineConfig({
+  envPrefix: 'PUBLIC_',
+  plugins: [
+    react({
+      babel: {
+        plugins: ['@emotion'],
       },
-    },
-  },
-+ plugins: [
-+   new Dotenv({
-+     path: 'prod.env',
-+   }),
-+ ],
+    }),
++   splitVendorChunkPlugin(),
+  ],
+...
 });
 
 ```
 
-- Now, we can add the `build` command:
+Let's add a different env variables for `production`:
+
+_./.env.production_
+
+```env
+PUBLIC_ORGANIZATION=facebook
+
+```
+
+Now, we can add the `build` command:
 
 _./package.json_
 
@@ -95,18 +89,29 @@ _./package.json_
 ...
   "scripts": {
     "start": "run-p -l type-check:watch start:dev",
-    "start:dev": "webpack-dev-server --config ./config/webpack/dev.js",
-+   "build": "npm run type-check && npm run clean && build:prod",
-+   "build:prod": "webpack --config ./config/webpack/prod.js",
+    "start:dev": "vite --port 8080",
++   "build": "npm run type-check && npm run clean && npm run build:prod",
++   "build:prod": "vite build",
     "type-check": "tsc --noEmit",
     ...
   },
 ```
 
-- Run it:
+Run it:
 
 ```bash
 npm run build
+
+```
+
+> Search env variable value in the production bundle.
+
+Let's try to run the production bundle:
+
+```bash
+cd dist
+npx lite-server
+
 ```
 
 # About Basefactor + Lemoncode

@@ -6,6 +6,8 @@
   "scripts": {
     "start": "run-p -l type-check:watch start:dev",
     "start:dev": "vite --port 8080",
+    "build": "npm run type-check && npm run clean && npm run build:prod",
+    "build:prod": "vite build",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
     "clean": "rimraf dist",

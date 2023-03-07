@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
@@ -10,6 +10,7 @@ export default defineConfig({
         plugins: ['@emotion'],
       },
     }),
+    splitVendorChunkPlugin(),
   ],
   resolve: {
     alias: {

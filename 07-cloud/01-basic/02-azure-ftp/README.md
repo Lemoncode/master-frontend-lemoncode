@@ -60,7 +60,6 @@ Before running, we need to copy `./dist` folder content to `./server/public`.
 |-- public/
 |----- assets/
 |----- index.html
-|----- logo.png
 |-- index.js
 |-- package-lock.json
 |-- package.json

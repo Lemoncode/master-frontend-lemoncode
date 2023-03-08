@@ -46,7 +46,6 @@ _./server_
 |-- public/
 |----- assets/
 |----- index.html
-|----- logo.png
 |-- index.js
 |-- package-lock.json
 |-- package.json
@@ -71,7 +70,6 @@ _Root path of the deploy repository_
 |-- public/
 |----- assets/
 |----- index.html
-|----- logo.png
 |-- index.js
 |-- package-lock.json
 |-- package.json

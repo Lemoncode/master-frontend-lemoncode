@@ -14,7 +14,23 @@ npm install
 
 [Render](https://render.com/) is a cloud provider that allows you to deploy different types of apps based on git repository changes.
 
-First, we need to prepare the final files that we want to deploy:
+First, we need to prepare the final files that we want to deploy, let's restore the vite configuration:
+
+_./vite.config.js_
+
+```diff
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
+export default defineConfig({
+- base: './',
+  envPrefix: 'PUBLIC_',
+  ...
+
+```
+
+Run build:
 
 ```bash
 npm run build

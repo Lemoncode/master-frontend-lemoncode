@@ -39,7 +39,6 @@ Remove all files except `dist` folder. And move `dist` folder's files to root pa
 ```
 |--assets/
 |--index.html
-|--logo.png
 
 ```
 
@@ -113,6 +112,8 @@ export default defineConfig({
 Run build command:
 
 ```bash
+npm install
+
 npm run build
 
 ```

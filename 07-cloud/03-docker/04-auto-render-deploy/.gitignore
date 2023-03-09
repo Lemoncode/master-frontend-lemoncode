@@ -7,5 +7,5 @@ junit.xml
 *.log
 *.orig
 .awcache
-public
 .env
+server/public

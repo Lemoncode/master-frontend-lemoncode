@@ -1,0 +1,36 @@
+name: CD Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  IMAGE_NAME: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+  FRONT_PATH: ./front
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Checkout front repository
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ secrets.FRONT_REPOSITORY_NAME }}
+          path: ${{ env.FRONT_PATH }}
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Heroku login
+        run: heroku container:login
+
+      - name: Build and push docker image
+        run: |
+          docker build -t ${{env.IMAGE_NAME}} .
+          docker push ${{env.IMAGE_NAME}}
+
+      - name: Deploy to Heroku
+        run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}

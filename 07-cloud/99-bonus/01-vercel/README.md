@@ -1,20 +1,22 @@
-# 05 Vercel
+# 01 Vercel
 
-In this example we are going to upload Docker image with a front app to Vercel.
+In this example we are going to upload a front app to Vercel.
 
-We will start from `04-heroku-front`.
+We will start from `04-manual-render-deploy`.
 
 # Steps to build it
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- We will configure the [Github Actions](https://docs.github.com/en/free-pro-team@latest/actions) as we did in `02-github-actions` example.
+[Vercel](https://vercel.com/) is a cloud provider that allows you to deploy front end apps based on git repository changes.
 
-- Create new repository and upload files:
+Create new repository and upload files:
+
+![01-create-repo](./readme-resources/01-create-repo.png)
 
 ```bash
 git init
@@ -22,96 +24,26 @@ git remote add origin git@github.com...
 git add .
 git commit -m "initial commit"
 git push -u origin main
+
 ```
 
-- If we navigate to `https://vercel.com/`, it provides deploy project from `Git repository` or `Clone a template`, but what if we want to use `Github Actions`?
+Create a new _Vercel_ app:
 
-- We can use [Vercel CLI](https://vercel.com/docs/cli):
+![02-create-vercel-app](./readme-resources/02-create-vercel-app.png)
 
-```bash
-npm i -g vercel
-```
+After give permissions to Vercel, we can import the repository:
 
-- Link current code with a new project in vercel:
+![03-import-repository](./readme-resources/03-import-repository.png)
 
-```bash
-vercel login
-vercel link
-```
+Configure basic project settings:
 
-> It creates a `.vercel` folder with `projectId` and `orgId` info
-> and new project in `vercel.com`
+![04-configure-project](./readme-resources/04-configure-project.png)
 
-- Following official docs for [custom workflows](https://vercel.com/support/articles/using-vercel-cli-for-custom-workflows) we will add `ProjectId` to repository as secrets:
+Check build options and deploy:
 
-![01-project-id-github-secret](./readme-resources/01-project-id-github-secret.png)
+![05-check-build-options](./readme-resources/05-check-build-options.png)
 
-- Add `OrgId` to repository secrets:
-
-![02-org-id-github-secret](./readme-resources/02-org-id-github-secret.png)
-
-- Create new workflow
-
-_./.github/workflows/vercel-cd.yml_
-
-```yml
-name: Vercel Continuos Deployment workflow
-
-on:
-  push:
-    branches:
-      - master
-env:
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-```
-
-- Remove `.vercel` folder from repository.
-
-- Create token in [your account](https://vercel.com/account/tokens)
-
-> [Token API docs](https://vercel.com/docs/cli#introduction/global-options/token)
-
-- Add `token` to repository secrets:
-
-![03-token-github-secret](./readme-resources/03-token-github-secret.png)
-
-- Update workflow:
-
-_./.github/workflows/vercel-cd.yml_
-
-```diff
-name: Vercel Continuos Deployment workflow
-
-on:
-  push:
-    branches:
-      - main
-env:
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-
-+ jobs:
-+   vercel-cd:
-+     runs-on: ubuntu-latest
-+     steps:
-+       - name: Checkout repository
-+         uses: actions/checkout@v3
-+       - name: Deploy
-+         run: vercel -t ${{ secrets.VERCEL_TOKEN }}
-```
-
-- Review builds steps on deploy in Vercel Project Settings:
-
-![04-build-steps](./readme-resources/04-build-steps.png)
-
-- Git commit and push:
-
-```bash
-git add .
-git commit -m "update vercel cd file"
-git push
-```
+After the successful deploy, open `https://<app-name>.vercel.app`.
 
 > [Not supported Docker deploys](https://vercel.com/support/articles/does-vercel-support-docker-deployments)
 

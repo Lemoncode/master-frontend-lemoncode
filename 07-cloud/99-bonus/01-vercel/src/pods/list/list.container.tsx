@@ -1,4 +1,5 @@
 import React from 'react';
+import { envConstants } from 'core/constants';
 import * as api from './api';
 import { mapMemberListFromApiToVm } from './list.mappers';
 import { ListComponent } from './list.component';
@@ -8,9 +9,9 @@ interface Props {
   className?: string;
 }
 
-export const ListContainer: React.FunctionComponent<Props> = (props) => {
+export const ListContainer: React.FC<Props> = (props) => {
   const { className } = props;
-  const [organization] = React.useState(process.env.ORGANIZATION);
+  const [organization] = React.useState(envConstants.ORGANIZATION);
   const [memberList, setMemberList] = React.useState<Member[]>([]);
 
   const handleLoadMemberList = async () => {

@@ -9,7 +9,7 @@ interface Props {
   className?: string;
 }
 
-export const TableComponent: React.FunctionComponent<Props> = (props) => {
+export const TableComponent: React.FC<Props> = (props) => {
   const { memberList, className } = props;
 
   return (

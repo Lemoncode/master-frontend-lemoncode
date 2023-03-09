@@ -1,4 +1,4 @@
-# 06-heroku-onde-dyno
+# 04 Heroku one dyno
 
 In this example we are going to upload backend and frontend apps to one Heroku Dyno
 

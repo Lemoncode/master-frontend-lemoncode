@@ -1,8 +1,8 @@
-# 05-heroku-back
+# 03-heroku-back
 
 In this example we are going to upload Docker image with a backend app to Heroku.
 
-We will start from `04-heroku-front` and `00-backend-start`.
+We will start from `024-heroku-front` and `00-backend-start`.
 
 # Steps to build it
 

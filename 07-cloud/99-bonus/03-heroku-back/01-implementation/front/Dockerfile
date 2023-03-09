@@ -1,11 +1,11 @@
-FROM node:16-alpine AS base
+FROM node:18-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
 # Prepare static files
 FROM base AS build-front
 ARG BASE_API_URL
-ENV BASE_API_URL=$BASE_API_URL
+ENV PUBLIC_BASE_API_URL=$BASE_API_URL
 COPY ./ ./
 RUN npm ci
 RUN npm run build
@@ -20,4 +20,4 @@ COPY ./server/index.js ./
 RUN npm ci --only=production
 
 ENV PORT=8080
-ENTRYPOINT [ "node", "index" ]
+CMD node index.js

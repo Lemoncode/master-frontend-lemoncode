@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "es6",
+    "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "declaration": false,
     "noImplicitAny": false,
     "sourceMap": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "noLib": false,
     "allowJs": true,
     "suppressImplicitAnyIndexErrors": true,
@@ -14,13 +14,15 @@
     "esModuleInterop": true,
     "baseUrl": "./src/",
     "paths": {
+      "assets": ["assets"],
       "common": ["common"],
       "core": ["core"],
+      "frames": ["frames"],
       "layouts": ["layouts"],
       "pods": ["pods"],
       "scenes": ["scenes"],
       "common-app": ["common-app"]
     }
   },
-  "include": ["./src/**/*", "./config/test/setup.ts", "./global.types.d.ts"]
+  "include": ["./src/**/*", "./vite-env.d.ts"]
 }

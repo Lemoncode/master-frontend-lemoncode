@@ -132,12 +132,13 @@ heroku authorizations:create -d <description>
 _./.github/workflows/cd.yml_
 
 ```yml
-name: Continuos Deployment workflow
+name: CD Workflow
 
 on:
   push:
     branches:
-      - master
+      - main
+
 env:
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
   IMAGE_NAME: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
@@ -148,13 +149,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
       - name: Heroku login
         run: heroku container:login
-      - name: Build docker image
-        run: docker build -t ${{ env.IMAGE_NAME }} .
-      - name: Deploy docker image
-        run: docker push ${{ env.IMAGE_NAME }}
-      - name: Release
+
+      - name: Build and push docker image
+        run: |
+          docker build -t ${{env.IMAGE_NAME}} .
+          docker push ${{env.IMAGE_NAME}}
+
+      - name: Deploy to Heroku
         run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
 
 ```
@@ -166,7 +170,7 @@ jobs:
 _./Dockerfile_
 
 ```Dockerfile
-FROM node:16-alpine AS base
+FROM node:18-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -183,8 +187,7 @@ COPY ./package.json ./
 COPY ./package-lock.json ./
 RUN npm ci --only=production
 
-ENTRYPOINT [ "node", "index" ]
-
+CMD node index
 
 ```
 
@@ -232,8 +235,9 @@ _./src/pods/list/api/list.api.ts_
 ```diff
 import Axios from 'axios';
 import { Member } from './list.api-model';
++ import { envConstants } from 'core/constants';
 
-+ const url = `${process.env.BASE_API_URL}/members`;
++ const url = `${envConstants.BASE_API_URL}/members`;
 
 export const getMemberList = async (
   organization: string
@@ -247,39 +251,38 @@ export const getMemberList = async (
 
 ```
 
-_./dev.env_
+_./src/core/constants/env.constants.ts_
 
 ```diff
-NODE_ENV=development
-ORGANIZATION=lemoncode
-+ BASE_API_URL=http://localhost:8081
+export const envConstants = {
+  ORGANIZATION: import.meta.env.PUBLIC_ORGANIZATION,
++ BASE_API_URL: import.meta.env.PUBLIC_BASE_API_URL,
+};
 
 ```
 
-_./config/webpack/prod.js_
+_./.env.development_
 
 ```diff
-...
-  plugins: [
-    new Dotenv({
-      path: 'prod.env',
-+     systemvars: true,
-    }),
-  ],
-});
+PUBLIC_ORGANIZATION=lemoncode
++ PUBLIC_BASE_API_URL=http://localhost:8081
+
 ```
 
-- Update `cd workflow`:
+- Update front `cd workflow`:
 
 _./.github/workflows/cd.yml_
 
 ```diff
 ...
 
-      - name: Build docker image
--       run: docker build -t ${{ env.IMAGE_NAME }} .
-+       run: docker build -t ${{ env.IMAGE_NAME }} --build-arg BASE_API_URL=${{secrets.BASE_API_URL}} .
-...
+      - name: Build and push docker image
+        run: |
+-         docker build -t ${{env.IMAGE_NAME}} .
++         docker build -t ${{env.IMAGE_NAME}} --build-arg BASE_API_URL=${{secrets.BASE_API_URL}} .
+          docker push ${{env.IMAGE_NAME}}
+          
+          ...
 ```
 
 - And Docker:
@@ -292,7 +295,7 @@ _./Dockerfile_
 # Prepare static files
 FROM base AS build-front
 + ARG BASE_API_URL
-+ ENV BASE_API_URL=$BASE_API_URL
++ ENV PUBLIC_BASE_API_URL=$BASE_API_URL
 COPY ./ ./
 RUN npm install
 RUN npm run build

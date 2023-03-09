@@ -1,7 +1,8 @@
 import Axios from 'axios';
 import { Member } from './list.api-model';
+import { envConstants } from 'core/constants';
 
-const url = `${process.env.BASE_API_URL}/members`;
+const url = `${envConstants.BASE_API_URL}/members`;
 
 export const getMemberList = async (
   organization: string

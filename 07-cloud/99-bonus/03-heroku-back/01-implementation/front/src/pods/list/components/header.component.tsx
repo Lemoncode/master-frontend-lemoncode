@@ -2,7 +2,7 @@ import React from 'react';
 import { TableHead, TableRow, TableCell } from '@mui/material';
 import * as classes from './header.styles';
 
-export const HeaderComponent: React.FunctionComponent = (props) => {
+export const HeaderComponent: React.FC = (props) => {
   return (
     <TableHead>
       <TableRow>

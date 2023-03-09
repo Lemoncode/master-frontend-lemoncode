@@ -49,6 +49,18 @@ Clicks on `Create Web Service` button.
 
 After the successful deploy, open `https://<app-name>.onrender.com`.
 
+As you can see, _Render_ does not care about the _PORT_ environment variable in the Dockerfile, it uses the port 10000 by default. We can remove it:
+
+_./Dockerfile_
+
+```diff
+...
+
+- ENV PORT=8080
+CMD node index.js
+
+```
+
 # About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.

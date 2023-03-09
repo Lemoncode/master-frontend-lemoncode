@@ -2,7 +2,7 @@
 
 In this example we are going to create a production server using Github pages and Github actions.
 
-We will start from `04-manual-render-deploy`.
+We will start from `03-github-branch`.
 
 # Steps to build it
 
@@ -36,10 +36,13 @@ _./package.json_
 
 ```diff
   "scripts": {
+    "start": "run-p -l type-check:watch start:dev",
+    "start:dev": "vite --port 8080",
+    "build": "npm run type-check && npm run clean && npm run build:prod",
+    "build:prod": "vite build",
++   "build:dev": "vite build --mode development",
++   "deploy": "gh-pages -d dist",
     ...
-    "test:watch": "npm run test ---watchAll -i --no-cache",
-+   "build:dev": "npm run clean && webpack --config ./config/webpack/dev.js",
-+   "deploy": "gh-pages -d dist"
   },
 ```
 
@@ -51,6 +54,7 @@ npm run deploy
 ```
 
 > NOTE: We can run deploy because we have access to repository
+>
 > since we are logged in Github
 
 Add GitHub actions CD workflow:
@@ -58,25 +62,29 @@ Add GitHub actions CD workflow:
 _./.github/workflows/cd.yml_
 
 ```yml
-name: Continuos Deployment workflow
+name: CD workflow
 
 on:
   push:
     branches:
-      main
+      - main
 
 jobs:
   cd:
     runs-on: ubuntu-latest
     steps:
-      name: Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v3
-      name: Install
+
+      - name: Install
         run: npm ci
-      name: Build
+
+      - name: Build
         run: npm run build
-      name: Deploy
+
+      - name: Deploy
         run: npm run deploy
+
 ```
 
 Add commit with changes:
@@ -125,34 +133,39 @@ Now, we can use this shh private key to do a commit/push in Github's job:
 _./.github/workflows/cd.yml_
 
 ```diff
-name: Continuos Deployment workflow
+name: CD workflow
 
 on:
   push:
     branches:
-      master
+      - main
 
 jobs:
   cd:
     runs-on: ubuntu-latest
     steps:
-      name: Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v3
-+     name: Use SSH key
+
++     - name: Use SSH key
 +       run: |
 +         mkdir -p ~/.ssh/
 +         echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
 +         sudo chmod 600 ~/.ssh/id_rsa
-+     name: Git config
+
++     - name: Git config
 +       run: |
 +         git config --global user.email "cd-user@my-app.com"
 +         git config --global user.name "cd-user"
-      name: Install
+
+      - name: Install
         run: npm ci
-      name: Build
+
+      - name: Build
         run: npm run build
-      name: Deploy
-      run: npm run deploy
+
+      - name: Deploy
+-       run: npm run deploy
 +       run: npm run deploy --r git@github.com:<owner>/<repository-name>.git
 
 ```

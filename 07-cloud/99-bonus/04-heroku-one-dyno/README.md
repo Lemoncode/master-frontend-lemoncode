@@ -175,12 +175,13 @@ Result Backend's secrets:
 _./.github/workflows/cd.yml_
 
 ```diff
-name: Continuos Deployment workflow
+name: CD Workflow
 
 on:
   push:
     branches:
-      - master
+      - main
+
 env:
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
   IMAGE_NAME: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
@@ -192,22 +193,24 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
 +     - name: Checkout front repository
 +       uses: actions/checkout@v3
 +       with:
 +         repository: ${{ secrets.FRONT_REPOSITORY_NAME }}
 +         path: ${{ env.FRONT_PATH }}
 +         ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: Heroku login
         run: heroku container:login
-      - name: Build docker image
--       run: docker build -t ${{ env.IMAGE_NAME }} .
-+       run: docker build --build-arg BASE_API_URL=${{secrets.BASE_API_URL}} --build-arg FRONT_PATH=${{env.FRONT_PATH}} -t ${{ env.IMAGE_NAME }} .
-      - name: Deploy docker image
-        run: docker push ${{ env.IMAGE_NAME }}
-      - name: Release
-        run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
 
+      - name: Build and push docker image
+        run: |
+-         docker build -t ${{env.IMAGE_NAME}} .
++         docker build --build-arg BASE_API_URL=${{secrets.BASE_API_URL}} --build-arg FRONT_PATH=${{env.FRONT_PATH}} -t ${{ env.IMAGE_NAME }} .
+          docker push ${{env.IMAGE_NAME}}
+
+          ...
 ```
 
 > [Docker build-arg](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg)
@@ -217,7 +220,7 @@ jobs:
 _./Dockerfile_
 
 ```diff
-FROM node:16-alpine AS base
+FROM node:18-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -245,7 +248,7 @@ COPY ./package.json ./
 COPY ./package-lock.json ./
 RUN npm ci --only=production
 
-ENTRYPOINT [ "node", "index" ]
+CMD node index
 
 ```
 

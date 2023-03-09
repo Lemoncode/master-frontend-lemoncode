@@ -6,15 +6,15 @@ We will start from `03-upload-docker-image`.
 
 # Steps to build it
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- We will configure the [Github Actions](https://docs.github.com/en/free-pro-team@latest/actions) as we did in `02-github-actions` example.
+We will configure the [Github Actions](https://docs.github.com/en/free-pro-team@latest/actions) as we did in `02-github-actions` example.
 
-- Create new repository and upload files:
+Create new repository and upload files:
 
 ```bash
 git init
@@ -22,63 +22,42 @@ git remote add origin git@github.com...
 git add .
 git commit -m "initial commit"
 git push -u origin main
+
 ```
 
-- We need to create a [new heroku app](https://dashboard.heroku.com/) to deploy it.
+We need to create a [new heroku app](https://dashboard.heroku.com/) to deploy it.
 
 ![01-create-heroku-app](./readme-resources/01-create-heroku-app.png)
 
 ![02-create-heroku-app](./readme-resources/02-create-heroku-app.png)
 
-- Now, we can update the `Continuos Deployment workflow`:
+Now we can create a Github Action workflow to deploy our app to Heroku:
 
 _./.github/workflows/cd.yml_
 
-```diff
-...
-jobs:
-  cd:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
--     - name: Use SSH key
--       run: |
--         mkdir -p ~/.ssh/
--         echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
--         sudo chmod 600 ~/.ssh/id_rsa
--     - name: Git config
--       run: |
--         git config --global user.email "cd-user@my-app.com"
--         git config --global user.name "cd-user"
--     - name: Install
--       run: npm ci
--     - name: Build
--       run: npm run build
--     - name: Deploy
--       run: npm run deploy -- -r git@github.com:<owner>/<repository-name>.git
+```yml
+name: CD Workflow
+
+on:
+  push:
+    branches:
+      - main
 
 ```
 
 _./.github/workflows/cd.yml_
 
 ```diff
-name: Continuos Deployment workflow
+name: CD Workflow
 
 on:
   push:
     branches:
-      - master
+      - main
+
 + env:
 +   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 +   IMAGE_NAME: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
-
-jobs:
-  cd:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
 
 ```
 > NOTE: You don't need to run `heroku login` using `HEROKU_API_KEY env variable`.
@@ -130,30 +109,34 @@ heroku authorizations:create -d <description>
 _./.github/workflows/cd.yml_
 
 ```diff
-name: Continuos Deployment workflow
+name: CD Workflow
 
 on:
   push:
     branches:
-      - master
-  env:
-    HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-    IMAGE_NAME: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+      - main
 
-jobs:
-  cd:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-+     - name: Heroku login
-+       run: heroku container:login
-+     - name: Build docker image
-+       run: docker build -t ${{ env.IMAGE_NAME }} .
-+     - name: Deploy docker image
-+       run: docker push ${{ env.IMAGE_NAME }}
-+     - name: Release
-+       run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  IMAGE_NAME: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+
++ jobs:
++   cd:
++     runs-on: ubuntu-latest
++     steps:
++       - name: Checkout repository
++         uses: actions/checkout@v3
+
++       - name: Heroku login
++         run: heroku container:login
+
++       - name: Build and push docker image
++         run: |
++           docker build -t ${{env.IMAGE_NAME}} .
++           docker push ${{env.IMAGE_NAME}}
+
++       - name: Deploy to Heroku
++         run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
 
 ```
 

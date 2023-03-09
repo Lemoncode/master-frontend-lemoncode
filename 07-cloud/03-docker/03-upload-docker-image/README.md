@@ -6,13 +6,13 @@ We will start from `02-docker-image`.
 
 # Steps to build it
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- First, we need to login in Docker Hub registry:
+First, we need to login in Docker Hub registry:
 
 ```bash
 docker login
@@ -22,7 +22,7 @@ docker login <registry>
 > `<registry>`: By default is docker.io.
 > We can use `docker info` to see it.
 
-- Then we need tag the image with registry and path information to match with the `DockerHub` repository name that we would like to upload:
+Then we need tag the image with registry and path information to match with the `DockerHub` repository name that we would like to upload:
 
 ```bash
 docker tag <app-name>:<tag> <registry>/<path-to-repository>
@@ -35,21 +35,21 @@ docker tag my-app:2 <user-name>/<app-name>
 > `<registry>`: By default is docker.io.
 > `<path-to-repository>`: In the DockerHub case is <user-name>/<app-name> > `<tag>`: is optionally, by default would be latest.
 
-- Check image list now:
+Check image list now:
 
 ```bash
 docker images
 ```
 
-- Check image in Docker hub: `https://hub.docker.com/repository/docker/<user-name>/my-app/tags`
+Check image in Docker hub: `https://hub.docker.com/repository/docker/<user-name>/my-app/tags`
 
-- Now, we can use docker `push` to upload it:
+Now, we can use docker `push` to upload it:
 
 ```bash
 docker push <user-name>/<app-name>
 ```
 
-- We can use same image to tag `DockerHub` versions:
+We can use same image to tag `DockerHub` versions:
 
 ```bash
 docker tag my-app:2 <user-name>/<app-name>:2
@@ -57,7 +57,7 @@ docker images
 docker push <user-name>/<app-name>:2
 ```
 
-- Let's update the version:
+Let's update the version:
 
 _./Dockerfile_
 
@@ -70,7 +70,7 @@ CMD node index.js
 
 ```
 
-- Built and upload again:
+Built and upload again:
 
 ```bash
 docker build -t <user-name>/my-app:3 .
@@ -78,7 +78,7 @@ docker images
 docker push <user-name>/my-app:3
 ```
 
-- We should update the `latest` version to tag equals `3`:
+We should update the `latest` version to tag equals `3`:
 
 ```bash
 docker tag <user-name>/my-app:3 <user-name>/my-app
@@ -86,9 +86,11 @@ docker images
 docker push <user-name>/my-app
 ```
 
-- We could remove all local images and run the uploaded image version:
+We could remove all local images and run the uploaded image version:
 
 ```bash
+docker stop my-app-container
+
 docker rmi my-app:1 my-app:2 <user-name>/my-app:latest <user-name>/my-app:2 <user-name>/my-app:3
 
 docker images

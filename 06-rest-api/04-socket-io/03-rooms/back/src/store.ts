@@ -9,25 +9,29 @@ export interface ConnectionConfig {
   room: string;
 }
 
-let userSession = [];
+let userSessions: UserSession[] = [];
 
 export const addUserSession = (
   connectionId: string,
   config: ConnectionConfig
 ) => {
-  userSession = [...userSession, { connectionId, config }];
+  userSessions = [...userSessions, {
+    connectionId,
+    nickname: config.nickname,
+    room: config.room,
+  }];
 };
 
 export const getUserInfo = (connectionId: string): UserSession => {
-  const session = userSession.find(
+  const session = userSessions.find(
     (session) => session.connectionId === connectionId
   );
 
-  return session
+  return session && session.nickname !== ""
     ? {
         connectionId: session.connectionId,
-        nickname: session.config.nickname,
-        room: session.config.room,
+        nickname: session.nickname,
+        room: session.room,
       }
-    : { connectionId: -1, nickname: 'ANONYMOUS :-@', room: 'devops' };
+    : { connectionId: '-1', nickname: 'ANONYMOUS :-@', room: 'devops' };
 };

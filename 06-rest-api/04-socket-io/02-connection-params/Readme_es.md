@@ -4,7 +4,7 @@ Vamos a ver como puedo pasarle parametros con información a la hora de conectar
 
 # Pasos
 
-- Copiamos el ejemplo anterior de Hello socket.
+- Copiamos el ejemplo anterior, 01-hello-socket-io.
 
 - Entramos en el back, instalamos paquetes
 
@@ -22,12 +22,10 @@ npm install
 
 - En el Front vamos a probar a informar de un parametro harcodeado en la conexión:
 
-_./frontend/src/api.ts_
+_./front/src/api.ts_
 
 ```diff
 export const createSocket = (): globalThis.SocketIOClient.Socket => {
-  const url = baseSocketUrl;
-
   const options: Partial<ManagerOptions & SocketOptions> = {
 +   query: { nickname: "pepe" },
     timeout: 60000,
@@ -39,12 +37,12 @@ export const createSocket = (): globalThis.SocketIOClient.Socket => {
 
 - En el backend vamos a probar a recoger este valor y mostrarlo por consola.
 
-_./backend/src/app.ts_
+_./back/src/app.ts_
 
 ```diff
 io.on('connection', function (socket: Socket) {
   console.log('** connection recieved');
-+  console.log(socket.handshake.query['nickname']);
++ console.log(socket.handshake.query['nickname']);
   socket.emit('message', { type: 'CONNECTION_SUCCEEDED' });
 ```
 
@@ -76,27 +74,27 @@ export interface ConnectionConfig {
   nickname: string;
 }
 
-let userSession = [];
+let userSessions: UserSession[] = [];
 
 export const addUserSession = (
   connectionId: string,
   config: ConnectionConfig
 ) => {
-  userSession = [...userSession, { connectionId, config }];
+  userSessions = [...userSessions, { connectionId, nickname: config.nickname }];
 };
 
 export const getNickname = (connectionId: string) => {
-  const session = userSession.find(
+  const session = userSessions.find(
     (session) => session.connectionId === connectionId
   );
 
-  return session ? session.config.nickname : "ANONYMOUS :-@";
+  return session ? session.nickname : "ANONYMOUS :-@";
 };
 ```
 
 - Ahora lo guardamos.
 
-_./backend/src/app.ts_
+_./back/src/app.ts_
 
 ```diff
 import { createApp } from './express.server';
@@ -110,7 +108,7 @@ import cors from 'cors';
 + import { addUserSession, getNickname, ConnectionConfig } from './store';
 ```
 
-_./backend/src/app.ts_
+_./back/src/app.ts_
 
 ```diff
 io.on('connection', function (socket: Socket) {
@@ -138,10 +136,10 @@ io.on('connection', function (socket: Socket) {
 
 - En el Front ya lo podemos mostrar
 
-_./src/front/app.ts_
+_./front/src/app.tsx_
 
 ```diff
-    case "CHAT_MESSAGE":
+    case wsBodyTypes.chatMessage:
 -      setChatlog((chatlog) => `${chatlog}\n${body.payload.content}`);
 +      setChatlog((chatlog) => `${chatlog}\n[${body.payload.nickname}]${body.payload.content}`);
       break;
@@ -151,7 +149,7 @@ _./src/front/app.ts_
 - ¡Oye! pero aquí sale siempre PEPE :D, nada vamos a añadir una caja de texto cuando un usuario se una
   para indicar el nickname
 
-_./src/app.tsx_
+_./front/src/app.tsx_
 
 ```diff
 export const App = () => {
@@ -161,25 +159,19 @@ export const App = () => {
   const [socket, setSocket] = React.useState<globalThis.SocketIOClient.Socket>(
     null
   );
-+  const [nickname, setNickname] = React.useState("Pepe");
++  const [nickname, setNickname] = React.useState("");
 ```
 
-_./src/app.tsx_
+_./front/src/app.tsx_
 
 ```diff
   <>
-+    <label>Enter Nickname: </label>
-+    <input
-+      value={nickname}
-+      onChange={(e) => setNickname(e.target.value)}
-+    />
-    <button onClick={handleConnect} disabled={isConnected}>
-      Join
-    </button>
-
++   <label>Enter Nickname: </label>
++   <input value={nickname} onChange={(e) => setNickname(e.target.value)} />
+    <button onClick={handleConnect} disabled={isConnected}>Join</button>
 ```
 
-_./src/app.tsx_
+_./front/src/app.tsx_
 
 ```diff
   const establishConnection = () => {
@@ -187,28 +179,57 @@ _./src/app.tsx_
 +    const socketConnection = createSocket(nickname);
 ```
 
-_./src/api.ts_
+_./front/src/api.ts_
 
 ```diff
 - export const createSocket = (): Socket => {
-+ export const createSocket = (nickname:string): Socket => {
-
-  const url = baseSocketUrl;
-
++ export const createSocket = (nickname: string): Socket => {
   const options: SocketIOClient.ConnectOpts = {
--    query: "nickname=pepe",
-+    query: {nickname},
+-   query: { nickname: "pepe" },
++   query: { nickname },
     timeout: 60000,
   };
 ```
 
 - Vamos a probar:
 
-_en front y back_
+  _en front y back_
 
-```bash
-npm start
-```
+  ```bash
+  npm start
+  ```
+
+- ¿Y si también queremos añadir una etiqueta a nuestros mensajes en el chat log?
+
+  _./front/src/app.tsx_
+
+  ```diff
+    const sendMessage = (content: string) => {
+  -   setChatlog(`${chatlog}\n${content}`);
+  +   setChatlog(`${chatlog}\n[Me - ${nickname}]: ${content}`);
+      socket.emit("message", {
+        type: wsBodyTypes.chatMessage,
+        payload: { content },
+      });
+
+      setMessage("");
+    };
+  ```
+
+- ¿Y si nos unimos al chat sin introducir un nickname? Deberíamos de controlar ese caso también. Una forma de hacerlo es en la función `getNickname` de la store del backend.
+
+  _./back/src/store.ts_
+
+  ```diff
+  export const getNickname = (connectionId: string) => {
+    const session = userSessions.find(
+      (session) => session.connectionId === connectionId
+    );
+
+  - return session  ? session.nickname : 'ANONYMOUS :-@';
+  + return session && session.nickname !== "" ? session.nickname : 'ANONYMOUS :-@';
+  };
+  ```
 
 > Ejercicios: si os queréis divertir...
 

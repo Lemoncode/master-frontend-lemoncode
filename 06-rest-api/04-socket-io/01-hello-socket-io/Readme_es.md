@@ -29,7 +29,7 @@ npm install socket.io --save
 
 - Vamos a por el fichero principal y levantar nuestro websocket.
 
-_./src/app.ts_
+_./back/src/app.ts_
 
 ```diff
 import { createApp } from './express.server';
@@ -85,18 +85,18 @@ app.listen(envConstants.PORT, () => {
 Vamos ahora quedarnos escuchando en el puerto 3000 (esto podría ir a variables
 de entorno), añadir al final de app.ts
 
-_./src/app.ts_
+_./back/src/app.ts_
 
 ```typescript
-const server = socketapp.listen(3000, function () {
-  console.log("listening on *:3000");
+const server = socketapp.listen(envConstants.WS_PORT, function () {
+  console.log(`listening on *:${envConstants.WS_PORT}`);
 });
 ```
 
 Y vamos a quedarnos atentos a que un usuario se conecte, en cuanto se
 conecte le indicamos que la conexión ha tenido éxito (añadir al final de _app.ts_):
 
-_./src/app.ts_
+_./back/src/app.ts_
 
 ```typescript
 // whenever a user connects on port 3000 via
@@ -107,24 +107,21 @@ io.on("connection", function (socket: Socket) {
 });
 ```
 
-> Fijate que con socket.emit se lo envío sólo la usuario que se conecto
+> Fijate que con `socket.emit` se lo envío sólo al usuario que se conectó
 
-- Ahora vamos a implementar nuestra aplicación de chat básica, nos quedamos
-  esperando a que un usuario envíe un mensaje de chat, cuando recibamos dicho mensaje
-  lo reenviamos a todos los usarios
+- Ahora vamos a implementar nuestra aplicación de chat básica, nos quedamos esperando a que un usuario envíe un mensaje de chat, cuando recibamos dicho mensaje lo reenviamos a todos los usuarios
 
 ```diff
 // whenever a user connects on port 3000 via
 // a websocket, log that a user has connected
 io.on("connection", function (socket: Socket) {
-console.log("\*\* connection recieved");
-socket.emit("message", { type: "CONNECTION_SUCCEEDED" });
-
-+   socket.on('message', function (body: any) {
-+     console.log(body);
-+     socket.broadcast.emit('message', body);
-+   });
-  });
+  console.log("\*\* connection recieved");
+  socket.emit("message", { type: "CONNECTION_SUCCEEDED" });
++ socket.on('message', function (body: any) {
++   console.log(body);
++   socket.broadcast.emit('message', body);
++ });
+});
 ```
 
 > Aquí podríamos enviar el mensaje a todo el mundo menos al que envío el mensaje,
@@ -173,17 +170,15 @@ npm install socket.io-client --save
 
 - Vamos a hacernos una función de ayuda para crear la conexión.
 
-_./src/api.ts_
+_./front/src/api.ts_
 
 ```typescript
 import { io, SocketOptions, Socket, ManagerOptions } from "socket.io-client";
 
 // TODO: Add env variable
-export const baseSocketUrl = "http://localhost:3000";
+const baseSocketUrl = "http://localhost:3000";
 
 export const createSocket = (): Socket => {
-  const url = baseSocketUrl;
-
   const options: Partial<ManagerOptions & SocketOptions> = {
     timeout: 60000,
   };
@@ -196,8 +191,9 @@ export const createSocket = (): Socket => {
 
 ```diff
 import React from "react";
-+ import { Socket} from "socket.io-client";
++ import { Socket } from "socket.io-client";
 + import { createSocket } from "./api";
++ import { wsBodyTypes } from "./consts";
 
 export const App = () => {
 +  const [message, setMessage] = React.useState("");
@@ -213,8 +209,9 @@ export const App = () => {
 
 ```diff
 import React from "react";
-import { createSocket } from "./api";
 import { Socket } from "socket.io";
+import { createSocket } from "./api";
+import { wsBodyTypes } from "./consts";
 
 export const App = () => {
   const [message, setMessage] = React.useState("");
@@ -228,11 +225,11 @@ export const App = () => {
 +    socketConnection.on("message", (body) => {
 +      if (body && body.type) {
 +        switch (body.type) {
-+          case "CONNECTION_SUCCEEDED":
++          case wsBodyTypes.connectionSucceded:
 +            setIsConnected(true);
 +            console.log("Connection succeded");
 +            break;
-+          case "CHAT_MESSAGE":
++          case wsBodyTypes.chatMessage:
 +              setChatlog((chatlog) => `${chatlog}\n${body.payload.content}`);
 +            break;
 +        }
@@ -263,7 +260,7 @@ Y vamos a dar un punto de entrada para enviar mensajes:
 +  const sendMessage = (content: string) => {
 +    setChatlog(`${chatlog}\n${content}`);
 +    socket.emit("message", {
-+      type: "CHAT_MESSAGE",
++      type: wsBodyTypes.chatMessage,
 +      payload: { content },
 +    });
 +
@@ -273,11 +270,10 @@ Y vamos a dar un punto de entrada para enviar mensajes:
   return <h1>Hello</h1>;
 ```
 
-- Hora de tocar el HTML, vamos a añadir un botón para conectar,
-  una caja de texto para añadir un mensaje y otro para mostrar el log del chat
+- Hora de tocar el HTML, vamos a añadir un botón para conectar, una caja de texto para añadir un mensaje y otro para mostrar el log del chat
 
 ```diff
--  return <h1>Hello</h1>;
+- return <h1>Hello</h1>;
 + return (
 +      <>
 +          <button onClick={handleConnect} disabled={isConnected}>Join</button>

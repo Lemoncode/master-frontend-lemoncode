@@ -46,8 +46,8 @@ app.listen(envConstants.PORT, () => {
   console.log(`Server ready at http://localhost:${envConstants.PORT}/api`);
 });
 
-const server = socketapp.listen(3000, function () {
-  console.log('listening on *:3000');
+const server = socketapp.listen(envConstants.WS_PORT, function () {
+  console.log(`listening on *:${envConstants.WS_PORT}`);
 });
 
 // whenever a user connects on port 3000 via

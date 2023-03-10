@@ -60,7 +60,7 @@ io.on('connection', function (socket: Socket) {
     room: socket.handshake.query['room'] as string,
   };
   addUserSession(socket.id, config);
-  socket.join(socket.handshake.query['room']);
+  socket.join(config.room);
 
   socket.emit('message', { type: 'CONNECTION_SUCCEEDED' });
 

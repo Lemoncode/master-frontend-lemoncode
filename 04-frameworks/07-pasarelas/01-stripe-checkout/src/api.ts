@@ -34,5 +34,7 @@ api.post('/create-checkout-session', async (req, res) => {
     cancel_url: `http://localhost:${envConstants.PORT}/cancel.html`,
   });
 
-  res.json({ id: session.id });
+  console.log("Session id:", session.id);
+  console.log("Session URL:", session.url);
+  res.redirect(303, session.url);
 });

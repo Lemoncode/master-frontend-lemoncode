@@ -4,10 +4,10 @@ import { envConstants } from './env.constants';
 
 // https://github.com/stripe/stripe-node#usage-with-typescript
 const stripe = new Stripe(envConstants.STRIPE_SECRET, {
-  apiVersion: '2020-08-27',
+  apiVersion: null,
 });
-const endpointSecret =
-  'whsec_23168133d52e1c4583202e1654855f9ac7ac6d28e8828de251e07a9937890fe9';
+
+const endpointSecret = 'whsec_...';
 
 export const api = Router();
 
@@ -46,19 +46,16 @@ api.post('/webhook', async (request, response) => {
   const rawBody = request['raw'];
 
   // Aquí simplemente mostramos por consola lo que nos devuelve Stripe
-  //console.log('Got payload: ' + JSON.stringify(payload));
-
-  let event;
+  console.log('Got payload: ' + JSON.stringify(payload));
 
   try {
     // Tiramos de la librería de stripe para validar la respuesta usando el endPointSecret
     // esto nos permite ver si el mensaje no viene de un impostor
-    //const stripeEvent = await stripe.events.retrieve(payload.id);
-    event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret);
+    const event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret);
   } catch (err) {
     console.log(`*** Web Hook validation failed: ${err.message}`);
     return response.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  response.status(200);
+  response.status(200).end();
 });

@@ -18,35 +18,7 @@ Si arrancamos el proyecto:
 npm start
 ```
 
-**Ojo primero hay que hacer setup del .env (ya listo)**
-
-Podemos ver que hay dos endpoints interesantes:
-
-http://localhost:3000
-
-http://localhost:3000/api
-
-En uno se muestra una página, en la otra tenemos un endpoint que devuelve json
-
-Vamos a arrancar por instalar las dependencias que necesitamos:
-
-En este caso:
-
-- Vamos a trabajar con cookies y token jwt para guardar el id del usuario autenticado.
-- Vamos a usar passport para gestionar la autenticación.
-- Vamos a usar la extension de passport para gestionar la autenticación con Google
-
-```bash
-npm install cookie-parser jsonwebtoken passport passport-google-oauth20 --save
-```
-
-Y sus typings:
-
-```bash
-npm install @types/jsonwebtoken @types/passport @types/passport-google-oauth20 --save-dev
-```
-
-Pasamos a configurar las variables de entorno, creamos un fichero env
+**Ojo! Primero tenemos que crearnos un fichero .env con el siguiente contenido:**
 
 **No mostrar esto por pantalla, ni almacenar O:-)**
 
@@ -67,9 +39,33 @@ _./src/env.constants.ts_
 export const envConstants = {
   NODE_ENV: process.env.NODE_ENV,
   PORT: process.env.PORT,
-+  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
-+  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET
++ GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
++ GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET
 };
+```
+
+Ahora sí, volvemos a ejecutar el `npm install`. Podemos ver que hay dos endpoints interesantes:
+
+http://localhost:3000
+
+http://localhost:3000/api
+
+En uno se muestra una página, en la otra tenemos un endpoint que devuelve json
+
+Ahora vamos a parar la ejecución e instalar las dependencias que necesitamos, que en este caso son las siguientes:
+
+- Vamos a trabajar con cookies y token jwt para guardar el id del usuario autenticado.
+- Vamos a usar passport para gestionar la autenticación.
+- Vamos a usar la extension de passport para gestionar la autenticación con Google
+
+```bash
+npm install cookie-parser jsonwebtoken passport passport-google-oauth20 --save
+```
+
+Y sus typings:
+
+```bash
+npm install @types/jsonwebtoken @types/passport @types/passport-google-oauth20 --save-dev
 ```
 
 Vamos a crearnos un repo mock (en memoria) para almacenar
@@ -119,7 +115,7 @@ export const userProfileExists = async (
   const index =
     userCollection.findIndex(
       (user) => user.googleId === googleProfileId
-    ) ?? null;
+    );
 
   return index !== -1;
 };
@@ -137,15 +133,14 @@ export const addNewUser = async (user: User): Promise<User> => {
   return newUser;
 };
 
-export const getUserByGoogleId = async (googleId: string): Promise<User> => {
-  const user =
-    userCollection.find((user) => user.googleId === googleId) ?? null;
+export const getUser = async (id: number): Promise<User> => {
+  const user = userCollection.find((user) => user.id === id);
 
   return user;
 };
 
-export const getUser = async (id: number): Promise<User> => {
-  const user = userCollection.find((user) => user.id === id) ?? null;
+export const getUserByGoogleId = async (googleId: string): Promise<User> => {
+  const user = userCollection.find((user) => user.googleId === googleId);
 
   return user;
 };
@@ -364,8 +359,8 @@ api.get(
   '/callback',
   passport.authenticate('google', { failureRedirect: '/', session: false }),
   (req, res) => {
-    console.log(req.user);
-    console.log('Llego respuesta de google');
+    console.log('Ha llegado la respuesta de Google');
+    console.log(req.user);  
     const user = req.user as User;
     const token = createAccessToken(user.id);
     res.cookie(COOKIE_NAME, token, {
@@ -442,9 +437,23 @@ app.listen(envConstants.PORT, () => {
 npm start
 ```
 
-Lo ideal aquí es depurarlo, para poner un break point (nodejs debugging console) en el primero api.get:
+Lo ideal aquí es, después de probar el funcionamiento de nuestro ejemplo.
 
-añadimos esto
+Algunos sitios interesantes donde poner breakpoints:
+
+_./setup/passport-config.ts_
+
+Definición y callback
+
+_./api.ts_
+
+End point `/google`
+
+End point `/callback`
+
+End point `/user-profile`
+
+Para depurar el endpoint `/google` tenemos que añadir esto:
 
 _./src/setup/api.ts_
 
@@ -458,20 +467,6 @@ api.get(
     })
 );
 ```
-
-Sitios interesantes donde poner breakpoints:
-
-_./setup/passport-config.ts_
-
-Definición y callback
-
-_./api.ts_
-
-End point /google
-
-End point /callback
-
-End point /user-profile
 
 # ¿Con ganas de ponerte al día con Backend?
 

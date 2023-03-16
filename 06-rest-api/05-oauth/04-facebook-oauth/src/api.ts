@@ -17,6 +17,14 @@ api.get(
   })
 );
 
+api.get(
+  '/facebook',
+  passport.authenticate('facebook', {
+    scope: ['public_profile', 'email'],
+    session: false, // Default value: true
+  })
+);
+
 const JWT_SECRET = 'MY_SECRET'; // TODO: Move to env variable
 const COOKIE_NAME = 'authorization';
 interface TokenPayload {
@@ -45,6 +53,22 @@ api.get(
     });
     res.redirect('/mainapp.html');
   }
+);
+
+api.get(
+  '/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/', session: false }),
+  (req, res) => {
+    console.log('Ha llegado la respuesta de Facebook');
+    console.log(req.user);
+    const user = req.user as User;
+    const token = createAccessToken(user.id);
+    res.cookie(COOKIE_NAME, token, {
+      httpOnly: true,
+      secure: false, // TODO: Enable in production
+    });
+    res.redirect('/mainapp.html');
+  },
 );
 
 const getTokenPayload = async (token: string): Promise<TokenPayload> =>

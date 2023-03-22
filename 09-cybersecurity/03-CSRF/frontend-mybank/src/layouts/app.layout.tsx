@@ -11,9 +11,6 @@ export const AppLayout: React.FC = (props) => {
 
   const navigate = useNavigate();
 
-  const handleEditEmailNavigate = () => {
-    navigate(routes.editEmail);
-  };
   return (
     <>
       <header>
@@ -31,9 +28,10 @@ export const AppLayout: React.FC = (props) => {
               <nav>
                 <ul className="navbar-nav">
                   <li>
-                    <a onClick={handleEditEmailNavigate}>Change Email</a>
+                    <a onClick={() => navigate(routes.root)}>My accounts</a>
+                    <a onClick={() => navigate(routes.editEmail)}>Change Email</a>
                     <a onClick={logout}>Logout</a>
-                    <a onClick={() => setIsShow(false)}>&larr; Back</a>
+                    <a onClick={() => setIsShow(false)}>&#10006; Close</a>
                   </li>
                 </ul>
               </nav>

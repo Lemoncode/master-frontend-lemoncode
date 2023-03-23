@@ -166,7 +166,7 @@ jobs:
 
       - name: Deploy
 -       run: npm run deploy
-+       run: npm run deploy -- -r git@github.com:nasdan/to-rm-gh-auto.git
++       run: npm run deploy -- -r git@github.com:<your-repo>
 
 ```
 

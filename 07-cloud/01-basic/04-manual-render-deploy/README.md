@@ -58,9 +58,11 @@ Let's create a new empty repository:
 Clone repository:
 
 ```bash
-git clone git@github.com...
+git clone git@github.com<your-url>.git .
 
 ```
+
+> Note: you can use a dot at the end of the command to clone the repository in the current folder.
 
 Let's copy the `server` files into the deploy repository root path.
 
@@ -81,7 +83,7 @@ Commit and push:
 ```bash
 git add .
 git commit -m "initial commit"
-git push -u origin main
+git push
 
 ```
 

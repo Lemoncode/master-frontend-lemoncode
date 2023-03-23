@@ -52,6 +52,7 @@ dev.env
 .env
 .env.example
 README.md
+readme-resources
 
 ```
 
@@ -137,6 +138,7 @@ docker images
 
 ```
 > It creates a <none> image due to replace same tag.
+>
 > We can remove it with `docker image prune`
 
 Run new container:

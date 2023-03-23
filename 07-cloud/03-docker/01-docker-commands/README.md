@@ -15,7 +15,9 @@ docker pull hello-world
 ```
 
 > `hello-world` is an existing image.
+>
 > By default it downloads all images from [Docker hub](https://hub.docker.com/) registry.
+>
 > [Pull from different registry](https://docs.docker.com/engine/reference/commandline/pull/#pull-from-a-different-registry): docker pull myregistry.local:5000/testing/test-image
 
 Check now the availables images:
@@ -33,7 +35,9 @@ docker ps -a
 ```
 
 > ps: Process Status
+>
 > `docker ps`: List current active containers
+>
 > `docker ps -a / --all`: List all containers (active and deactive)
 
 Let's run the image:
@@ -55,6 +59,7 @@ docker start <Container ID> -i
 ```
 
 > -i / --interactive: Attach container’s STDIN
+>
 > We can use the 4 first digits of the Container ID.
 
 Creating new container with same image:

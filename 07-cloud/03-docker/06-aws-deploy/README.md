@@ -51,8 +51,6 @@ Execute Docker image uploaded to Docker Hub in example `03-upload-docker-image`:
 sudo docker run --name my-app-container --rm -d -p 80:8080 <user-name>/<app-name>:3
 ```
 
-> In `tag 3` we had setted the port to `8080`
-
 Open `http://<ec2-instance>.<region>.compute.amazonaws.com` remember with `HTTP` instead of `HTTPS`
 
 # About Basefactor + Lemoncode

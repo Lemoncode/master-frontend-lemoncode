@@ -50,3 +50,5 @@ Módulo 6: Librerías y Herramientas
 - [Cache](https://developer.mozilla.org/en-US/docs/Web/API/Cache)
 - [Notifications](https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API)
 - [Battery Status](https://w3c.github.io/battery/)
+
+- [Notificaciones push en iOS](https://www.theverge.com/2023/2/16/23603042/apple-push-notifications-web-apps-ios-ipados-safari-16-4-beta-webkit)

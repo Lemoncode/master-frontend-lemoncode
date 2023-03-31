@@ -1,6 +1,7 @@
 import React from "react";
 import { Socket } from "socket.io-client";
 import { createSocket } from "./api";
+import { wsBodyTypes } from "./consts";
 
 export const App = () => {
   const [message, setMessage] = React.useState("");
@@ -16,11 +17,11 @@ export const App = () => {
     socketConnection.on("message", (body) => {
       if (body && body.type) {
         switch (body.type) {
-          case "CONNECTION_SUCCEEDED":
+          case wsBodyTypes.connectionSucceded:
             setIsConnected(true);
             console.log("Connection succeded");
             break;
-          case "CHAT_MESSAGE":
+          case wsBodyTypes.chatMessage:
             setChatlog(
               (chatlog) =>
                 `${chatlog}\n[${body.payload.nickname}]${body.payload.content}`
@@ -38,9 +39,9 @@ export const App = () => {
   };
 
   const sendMessage = (content: string) => {
-    setChatlog(`${chatlog}\n${content}`);
+    setChatlog(`${chatlog}\n[Me - ${nickname}]: ${content}`);
     socket.emit("message", {
-      type: "CHAT_MESSAGE",
+      type: wsBodyTypes.chatMessage,
       payload: { content },
     });
 
@@ -58,9 +59,7 @@ export const App = () => {
         <option value="Devops">Devops</option>
         <option value="Random">Random</option>
       </select>
-      <button onClick={handleConnect} disabled={isConnected}>
-        Join
-      </button>
+      <button onClick={handleConnect} disabled={isConnected}>Join</button>
       {isConnected && (
         <div style={{ marginTop: "40px" }}>
           <label>Message:</label>

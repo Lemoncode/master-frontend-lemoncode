@@ -16,8 +16,7 @@ En cuanto a funcionalidad:
 
 A nivel de back:
 
-- Para el store utilizamos una base de datos mongoDB (fijate que usamos docker para lenvantarla en desarrollo,
-  veremos más sobre docker en el módulo de cloud).
+- Para el store utilizamos una base de datos mongoDB (fíjate que usamos un contenedor Docker para levantarla en desarrollo, veremos más sobre Docker en el módulo de cloud).
 
 ## App
 
@@ -31,32 +30,26 @@ Llamos a createSocketServer
 
 _./src/socket.server.ts_
 
-Fijate que aquí ya sólo nos conectamos y delegamos en un pod de gestión de mensajes
-(el _messagesocketEvents_)
+Fijate que aquí ya sólo nos conectamos y delegamos en un pod de gestión de mensajes (el _messagesocketEvents_)
 
 ## pod messages
 
 _messageSocketEvents_
 
-Aquí de entrada en la conexión manejamos el evento de me he conectdo como profesor
-o estudiante:
+Aquí de entrada en la conexión manejamos el evento de me he conectado como profesor o estudiante:
 
 - Fijate que la lógica la delegamos en _processInputMessage_ (aquí podemos guardar el id de la conexión del alumno y ponerlo a escuchar de la habitación que toque, etc...).
-- Lo que devuelva _processInputMessage_ lo pasamos a _processOutputMessage_ (por ejemplo podríamos notificar al profesor
-  que un estudiante se ha conectado).
+- Lo que devuelva _processInputMessage_ lo pasamos a _processOutputMessage_ (por ejemplo podríamos notificar al profesor que un estudiante se ha conectado).
 
-Después para los mensajes que recibamos (envío código, o quiero leer código del profesor), nos quedamos escuchando y mismo procedmiento
-llamamos a _processInputMessage_ y el resultado lo pasamos a _processOutputMessage_
+Después para los mensajes que recibamos (envío código, o quiero leer código del profesor), nos quedamos escuchando y mismo procedmiento llamamos a _processInputMessage_ y el resultado lo pasamos a _processOutputMessage_
 
 ### ProcessInputMessage
 
-En el input tenemos un switch donde manejamos cada mensaje de entrada (esto se puede dividir si crece), realizamos la acción
-que toque contra base de datos y si hace falta generamos una lista de acciones de salida.
+En el input tenemos un switch donde manejamos cada mensaje de entrada (esto se puede dividir si crece), realizamos la acción que toque contra base de datos y si hace falta generamos una lista de acciones de salida.
 
 ### ProcessOutputMessage
 
-Aquí recibimos que mensajes de salida queremos enviar (por ejemplo que el profesoer envía nuevo código, o que quiere reenviar
-todo el código) y lo lanzamos por los sockets.
+Aquí recibimos que mensajes de salida queremos enviar (por ejemplo que el profesoer envía nuevo código, o que quiere reenviar todo el código) y lo lanzamos por los sockets.
 
 ## Room pod
 

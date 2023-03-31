@@ -58,7 +58,7 @@ describe('Hotel edit specs', () => {
 +   });
 
     // Assert
-+   cy.url().should('eq', 'http://localhost:8080/#/hotel-edit/2');
++   cy.url().should('equal', 'http://localhost:8080/#/hotel-edit/2');
   });
 
 ```

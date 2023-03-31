@@ -12,7 +12,7 @@ export const userProfileExists = async (
   const index =
     userCollection.findIndex(
       (user) => user.googleId === googleProfileId
-    ) ?? null;
+    );
 
   return index !== -1;
 };
@@ -30,15 +30,15 @@ export const addNewUser = async (user: User): Promise<User> => {
   return newUser;
 };
 
-export const getUserByGoogleId = async (googleId: string): Promise<User> => {
-  const user =
-    userCollection.find((user) => user.googleId === googleId) ?? null;
+export const getUser = async (id: number): Promise<User> => {
+  const user = userCollection.find((user) => user.id === id);
 
   return user;
 };
 
-export const getUser = async (id: number): Promise<User> => {
-  const user = userCollection.find((user) => user.id === id) ?? null;
+export const getUserByGoogleId = async (googleId: string): Promise<User> => {
+  const user =
+    userCollection.find((user) => user.googleId === googleId);
 
   return user;
 };

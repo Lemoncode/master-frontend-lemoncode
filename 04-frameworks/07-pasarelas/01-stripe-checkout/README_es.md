@@ -25,14 +25,13 @@ npm start
 
 en http://localhost:8081 tenemos la página home
 
-en http://localhost:8081/api tenemos un edpoint que devuelve datos
+en http://localhost:8081/api tenemos un endpoint que devuelve datos
 
 - Vamos a instalar la librería de servidor de stripe (esta ya trae los typings incorporados):
 
 ```bash
 npm install stripe --save
 ```
-
 
 - Creamos una hoja de estilo para que nuestras páginas tengan buena pinta (la del ejemplo de Stripe):
 
@@ -167,14 +166,15 @@ npm start
   y otra privada, la privada la almacenamos cómo variable de entorno (**Muy importante la clave privada de producción JAMAS la almacenamos
   en el repositorio**, de hecho incluso de te podrías plantear añadir a .gitignore el .env).
 
-Para este ejemplo vamos a usar una clave genérica de stripe:
+Para este ejemplo vamos a usar una clave genérica de stripe
+(Chequear [este enlace](https://stripe.com/docs/checkout/quickstart?lang=node#init-stripe) para ver si hay una clave diferente):
 
 _./.env_
 
 ```diff
 NODE_ENV=development
 PORT=8081
-+STRIPE_SECRET=sk_test_4eC39HqLyjWDarjtT1zdp7dc
++STRIPE_SECRET=sk_test_7mJuPfZsBzc3JkrANrFrcDqC
 ```
 
 Y enlazarla a nuestro fichero de constantes:
@@ -273,7 +273,9 @@ api.get('/', async (req, res) => {
 +    cancel_url: `http://localhost:${envConstants.PORT}/cancel.html`,
 +  });
 +
-+  res.json({ id: session.id });
++  console.log("Session id:", session.id)
++  console.log("Session URL:", session.url);
++  res.redirect(303, session.url);
 +});
 ```
 
@@ -332,7 +334,7 @@ _./src/static/index.html_
     <title>Buy cool new product</title>
     <link rel="stylesheet" href="style.css" />
     <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
-+    <script src="https://js.stripe.com/v3/"></script>
++   <script src="https://js.stripe.com/v3/"></script>
   </head>
   <body>
     <section>
@@ -346,38 +348,10 @@ _./src/static/index.html_
           <h5>$20.00</h5>
         </div>
       </div>
-      <button id="checkout-button">Checkout</button>
++     <form action="/api/create-checkout-session" method="POST">
+        <button id="checkout-button">Checkout</button>
++     </form>
     </section>
-+  <script type="text/javascript">
-+    // Aquí usamos la clave publica de stripe que hay genérica
-+    // En el siguiente ejemplo reemplazaremos por la nuestra
-+    // Es buena idea en un proyecto que tenga proceso de bundling meter este valor en una variable de entorno
-+    var stripe = Stripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
-+    var checkoutButton = document.getElementById("checkout-button");
-+
-+    checkoutButton.addEventListener("click", function () {
-+      fetch("/api/create-checkout-session", {
-+        method: "POST",
-+      })
-+        .then(function (response) {
-+          return response.json();
-+        })
-+        .then(function (session) {
-+          return stripe.redirectToCheckout({ sessionId: session.id });
-+        })
-+        .then(function (result) {
-+          // If redirectToCheckout fails due to a browser or network
-+          // error, you should display the localized error message to your
-+          // customer using error.message.
-+          if (result.error) {
-+            alert(result.error.message);
-+          }
-+        })
-+        .catch(function (error) {
-+          console.error("Error:", error);
-+        });
-+    });
-+  </script>
   </body>
 </html>
 ```
@@ -388,12 +362,13 @@ _./src/static/index.html_
 npm start
 ```
 
-Tarjetas para probar
+Tarjetas para probar (ver [aquí](https://stripe.com/docs/checkout/quickstart?lang=node#testing)):
 
-No authentication (default U.S. card): 4242 4242 4242 4242.
-Authentication required: 4000 0027 6000 3184.
+- El pago se efectúa correctamente: 4242 4242 4242 4242
+- El pago requiere autenticación: 4000 0025 0000 3155
+- Se rechaza el pago: 4000 0000 0000 9995
 
-más tarjetas: https://stripe.com/docs/testing
+Para ver más tarjetas: [https://stripe.com/docs/testing?testing-method=card-numbers](https://stripe.com/docs/testing?testing-method=card-numbers)
 
 # ¿Con ganas de ponerte al día con Backend?
 

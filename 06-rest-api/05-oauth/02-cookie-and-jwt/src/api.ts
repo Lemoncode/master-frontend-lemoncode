@@ -35,8 +35,8 @@ api.get(
   '/callback',
   passport.authenticate('google', { failureRedirect: '/', session: false }),
   (req, res) => {
+    console.log('Ha llegado la respuesta de Google');
     console.log(req.user);
-    console.log('Llego respuesta de google');
     const user = req.user as User;
     const token = createAccessToken(user.id);
     res.cookie(COOKIE_NAME, token, {

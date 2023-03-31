@@ -3,7 +3,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 import { switchRoutes } from './routes';
 import { ListScene } from 'scenes';
 
-export const RouterComponent: React.FunctionComponent = () => {
+export const RouterComponent: React.FC = () => {
   return (
     <HashRouter>
       <Routes>

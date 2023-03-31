@@ -1,6 +1,7 @@
 import React from "react";
 import { Socket } from "socket.io-client";
 import { createSocket } from "./api";
+import { wsBodyTypes } from "./consts";
 
 export const App = () => {
   const [message, setMessage] = React.useState("");
@@ -14,11 +15,11 @@ export const App = () => {
     socketConnection.on("message", (body) => {
       if (body && body.type) {
         switch (body.type) {
-          case "CONNECTION_SUCCEEDED":
+          case wsBodyTypes.connectionSucceded:
             setIsConnected(true);
             console.log("Connection succeded");
             break;
-          case "CHAT_MESSAGE":
+          case wsBodyTypes.chatMessage:
             setChatlog((chatlog) => `${chatlog}\n${body.payload.content}`);
             break;
         }
@@ -35,7 +36,7 @@ export const App = () => {
   const sendMessage = (content: string) => {
     setChatlog(`${chatlog}\n${content}`);
     socket.emit("message", {
-      type: "CHAT_MESSAGE",
+      type: wsBodyTypes.chatMessage,
       payload: { content },
     });
 

@@ -1,33 +1,33 @@
-# 02 Use docker image
+# 02 Docker image
 
 In this example we are going to create and run Docker images.
 
-We will start from `02-github-actions`.
+We will start from `04-manual-render-deploy`.
 
 # Steps to build it
 
-- `npm ci` to install previous sample packages:
+`npm ci` to install previous sample packages:
 
 ```bash
 npm ci
 ```
 
-- We can create our custom images. In this case, we will use [the node image](https://hub.docker.com/_/node), the alpine version as base image to create our custom one:
+We can create our custom images. In this case, we will use [the node image](https://hub.docker.com/_/node), the alpine version as base image to create our custom one:
 
 _./Dockerfile_
 
 ```Docker
-FROM node:16-alpine
+FROM node:18-alpine
 ```
 
 > You can use [Docker VSCode extension](https://code.visualstudio.com/docs/containers/overview)
 
-- Let's create the path where we are going to copy our app:
+Let's create the path where we are going to copy our app:
 
 _./Dockerfile_
 
 ```diff
-FROM node:16-alpine
+FROM node:18-alpine
 + RUN mkdir -p /usr/app
 + WORKDIR /usr/app
 
@@ -37,7 +37,7 @@ FROM node:16-alpine
 > WORKDIR: all commands after that will be executed in this path
 
 
-- Let's add the `.dockerignore` to avoid unnecessary files:
+Let's add the `.dockerignore` to avoid unnecessary files:
 
 _./.dockerignore_
 
@@ -52,15 +52,16 @@ dev.env
 .env
 .env.example
 README.md
+readme-resources
 
 ```
 
-- Copy all files:
+Copy all files:
 
 _./Dockerfile_
 
 ```diff
-FROM node:16-alpine
+FROM node:18-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -68,12 +69,12 @@ WORKDIR /usr/app
 
 ```
 
-- Execute install and build:
+Execute install and build:
 
 _./Dockerfile_
 
 ```diff
-FROM node:16-alpine
+FROM node:18-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -83,7 +84,7 @@ COPY ./ ./
 
 ```
 
-- How we can run this image? We need to `build` our custom image before run it to be accesible by a docker container.
+How we can run this image? We need to `build` our custom image before run it to be accesible by a docker container.
 
 ```bash
 docker build -t my-app:1 .
@@ -91,7 +92,7 @@ docker build -t my-app:1 .
 
 > -t: Give a name to image. We can use `-t name:tag`
 
-- How to run this image? Right now, we haven't a web server to resolve this static files, so we can use the interactive mode to see inside container:
+How to run this image? Right now, we haven't a web server to resolve this static files, so we can use the interactive mode to see inside container:
 
 ```bash
 docker images
@@ -99,20 +100,18 @@ docker images
 docker run --name my-app-container -it my-app:1 sh
 
 > ls
+> ls dist
 > exit
 
 docker container rm my-app-container
 ```
 
-> Tag is optionally.
-> We can see the files after build in `cd ./dist && ls`
-
-- We can create some docker steps to install server and execute it:
+We can create some docker steps to install server and execute it:
 
 _./Dockerfile_
 
 ```diff
-FROM node:16-alpine
+FROM node:18-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -121,17 +120,17 @@ RUN npm ci
 RUN npm run build
 
 + RUN cp -r ./dist ./server/public
-+ RUN cd server
-+ RUN npm ci
++ RUN cd server && npm ci
 
 + CMD node server/index.js
 
 ```
 
-> RUN vs ENTRYPOINT: I don't want to run `node server` when we build the image, we want to run it when run the container.
-> ENTRYPOINT VS CMD: https://docs.doppler.com/docs/dockerfile
+> RUN vs CMD: I don't want to run `node server` when we build the image, we want to run it when run the container.
+>
+> CMD VS ENTRYPOINT: https://docs.doppler.com/docs/dockerfile
 
-- Run the container:
+Run the container:
 
 ```bash
 docker build -t my-app:1 .
@@ -139,9 +138,10 @@ docker images
 
 ```
 > It creates a <none> image due to replace same tag.
+>
 > We can remove it with `docker image prune`
 
-- Run new container:
+Run new container:
 
 ```bash
 docker run --name my-app-container my-app:1
@@ -150,13 +150,14 @@ docker run --name my-app-container my-app:1
 docker exec -it my-app-container sh
 
 > ls
+> ls server
 > exit
 ```
 
-- Try to access `http://localhost:8081`
+Try to access `http://localhost:8081`
 
 
-- Why can't we access to `http://localhost:8081`? Because this process is executing itself inside container, we need to expose to our machine:
+Why can't we access to `http://localhost:8081`? Because this process is executing itself inside container, we need to expose to our machine:
 
 ```
 docker container stop my-app-container
@@ -173,7 +174,7 @@ CMD node server/index.js
 
 ```
 
-- Run it:
+Run it:
 
 ```bash
 docker build -t my-app:1 .
@@ -192,9 +193,9 @@ docker run --name my-app-container --rm -d -p 8080:8083 my-app:1
 > `-d`: To start a container in detached mode
 
 
-- Open `http://localhost:8080`
+Open `http://localhost:8080`
 
-- If we check `docker images` we can see dangling images, due to use same tags for each build.
+If we check `docker images` we can see dangling images, due to use same tags for each build.
 
 ```bash
 docker images
@@ -203,7 +204,7 @@ docker images
 
 ```
 
-- On the other hand, we have an image with `384MB`, too much size isn't it?. We should use [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/) to decrease this size, with only the necessary info:
+On the other hand, we have an image with `~382MB`, too much size isn't it?. We should use [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/) to decrease this size, with only the necessary info:
 
 > Change container project structure:
 
@@ -227,8 +228,8 @@ docker images
 _./Dockerfile_
 
 ```diff
-- FROM node:16-alpine
-+ FROM node:16-alpine AS base
+- FROM node:18-alpine
++ FROM node:18-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -239,8 +240,7 @@ RUN npm ci
 RUN npm run build
 
 - RUN cp -r ./dist ./server/public
-- RUN cd server
-- RUN npm ci
+- RUN cd server && npm ci
 + # Release
 + FROM base AS release
 + COPY --from=build-front /usr/app/dist ./public
@@ -255,9 +255,9 @@ ENV PORT=8083
 
 ```
 
-> We could use `npm ci` instead of `npm ci` if we have a `package-lock.json` generated.
+> We could use `npm ci` instead of `npm install` if we have a `package-lock.json` generated.
 
-- Run it:
+Run it:
 
 ```bash
 docker build -t my-app:2 .
@@ -270,7 +270,7 @@ docker exec -it my-app-container sh
 
 We can add more env variables, for example feed the `public` folder.
 
-- Update server to consume env variable:
+Update server to consume env variables:
 
 _./server/index.js_
 
@@ -290,7 +290,7 @@ app.listen(PORT, () => {
 
 ```
 
-- Update Dockerfile:
+Update Dockerfile:
 
 _./Dockerfile_
 
@@ -306,7 +306,7 @@ COPY ./server/package.json ./
 
 ```
 
-- Run again
+Run again
 
 ```bash
 docker build -t my-app:2 .

@@ -98,7 +98,7 @@ git push -u origin main
 ### ./.github/workflows/ci.yml
 
 ```yml
-name: Ci workflow
+name: CI workflow
 
 on: pull_request
 

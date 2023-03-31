@@ -11,7 +11,7 @@ export interface TextFieldProps extends Omit<MuiTextFieldProps, 'variant'> {
   variant?: 'outlined' | 'filled' | 'standard';
 }
 
-export const TextFieldComponent: React.FunctionComponent<TextFieldProps> = (
+export const TextFieldComponent: React.FC<TextFieldProps> = (
   props
 ) => {
   const {

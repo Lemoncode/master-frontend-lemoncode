@@ -1,93 +1,106 @@
-# Module 1 - Layout
-
 # Simple Selectors
 
-## Steps:
+Vamos a jugar con los selectores simples.
 
-### 1. Create a basic HTML
+Vamos a añadir tres elementos nuevos:
 
-```html
-<body>
-  <h1>Heading 1</h1>
-  <h2>Heading 2</h2>
-  <div>A div</div>
-  <p>A paragraph</p>
-  <div>
-    <p>A paragraph inside a div</p>
-  </div>
-  <p id="content">A paragraph hit by id selector</p>
-  <p class="quotation">A paragraph hit by class</p>
-  <a href="#">I am a link!!!</a>
-</body>
+```diff
+  <body>
++   <div id="app">
+      <h1>Welcome to CSS</h1>
+      <h2>Basic example</h2>
++     <div class="title">Hey I'm a title</div>
++     <div id="myid">Hello from id myid</div>
++   </div>
+  </body>
 ```
 
-#### Note: For demos we will use an online font: @import 'https://fonts.googleapis.com/css?family=Raleway';
+Vamos a darle estilos a los div.
 
-### 2. We can select elments by tag name.
+Podriamos estar tentados a darle el estilo al elemento _div_ pero que pasa? Vamos a probarlo:
 
-```css
+```diff
 body {
-  font-size: 80%;
-  font-family: "Raleway", sans-serif;
-  background-color: yellowgreen;
+  background-color: brown;
 }
-
-a {
-  text-decoration: none;
-  color: black;
-  background-color: rgba(255, 0, 0, 0.5);
-}
-```
-
-### 3. Another important feature is the use of pseudo clases. A pseudo class defines a state of a HTML element. For example we can have an anchor (a tag) when user clicks on anchor the state of the anchor changes to visited. We can target such pseudo classes in CSS (:hover, :focus)
-
-```css
-a:hover {
-  color: white;
-}
-```
-
-### 4. We can target multiple elements using the ',' separator. In this case we are using just simple tag elements selectors, but we can use other kind of selectors here.
-
-```css
 h1,
 h2 {
-  background-color: yellow;
+  color: white;
+}
++div {
++ background-color: blue;
++}
+```
+
+Vamos a cambiar el estilo a uno basado en clases:
+
+```diff
+body {
+  background-color: brown;
+}
+h1,
+h2 {
+  color: white;
+}
+-div {
+- background-color: blue;
+-}
+
++ .title {
++ color: blue;
++ font-size: 500%;
++ }
+```
+
+Y ahora le aplicamos estilo al elemento con Id _myId_
+
+```diff
+.title {
+color: blue;
+font-size: 500%;
+}
++ #myid {
++ margin: 25px;
++ }
+```
+
+Podemos ver que cada div tiene su propio estilo.
+
+Que limitacion tenemos con aplicar los estilos por ID?
+
+- En teoria, de esta forma solo podemos usar una vez pero con la clase podemos usar varias veces.
+
+Podemos aplicar _class_ _title_ al elemento _h1_?
+
+```diff
+<body>
+<div id="app">
+- <h1>Welcome to CSS</h1>
++ <h1 class="title">Welcome to CSS</h1>
+<h2>Basic example</h2>
+<div class="title">Hey I'm a title</div>
+```
+
+Ahora tenemos conflictos:
+
+- Tenemos un selector para _h1_ donde establece el color de la fuente a blanco.
+- Tenemos una clase que establece el color de la fuente a azul.
+
+Que pasa si le añadimos al selector _h1_ la propiedad _background-color: yellow_.
+
+Tenemos que por un lado hay conflicto y por otro se mezclan estilos, eso es en esencia el Cascading Style Sheets:
+
+- Primero se aplica los estilos del selector _h1_.
+- Y luego se aplica el estilo de la clase (sobreescribiendo las propiedas con conflictos)
+
+En este caso para evitar el conflicto se podría hacer mas especifico el selector. Podemos aplicar la regla solo a los elementos div con esa clase especifica.
+
+```diff
+- .title {
++ div.title {
+color: blue;
+font-size: 500%;
 }
 ```
 
-> NOTE ### 5. Just for introduce the concept, here we can think that p rule overrides div style rule.
-
-### 5. The selector rule gets applied even when the HTML element it's nested inside another HTML element. There is more going on here but we will discuss it later.
-
-```html
-<div>
-  <p>A paragraph inside a div</p>
-</div>
-```
-
-```css
-div {
-  background-color: red;
-}
-
-p {
-  background-color: aqua;
-}
-```
-
-### 6. Another simple selector is the id selector
-
-```css
-#content {
-  background-color: green;
-}
-```
-
-### 7. And for last the class selector
-
-```css
-.quotation {
-  background-color: blueviolet;
-}
-```
+Al hacer esto se esta indicnado que todos los div que contengan la clase _title_ usaran esta regla. Podemo ver que se aplica al _div_, pero no al _h1_

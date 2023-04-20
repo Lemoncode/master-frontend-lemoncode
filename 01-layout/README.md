@@ -1,62 +1,36 @@
-# 02 Layout
+# 01 Layout
 
-## Module CSS
+## Módulo CSS
 
-### Table of contents
+### Tabla de contenidos
 
-- CSS fundamentals
-  - Simple selectors
-  - Specifying property values
-  - Using the cascade
-  - Specificity
-  - Inherit
-  - Border, margin and padding
+- Conceptos CSS
+  - Selectores simples
+  - Especificando propiedades
+  - Usando la cascada
+  - Especificidad
+  - Herencia
+  - Border, margin y padding
   - Font Family
-  - Positioning
+  - Posicionamiento
 - Flexbox
-  - Flexbox fundamentals
+  - Fundamentos Flexbox
   - Order
-  - Grow, shrink and basis
-  - Final project
+  - Grow, shrink y basis
+  - Proyecto final
 - Grid CSS
-  - Grid CSS fundamentals
-  - Basic shorthands
-  - Semantic Grid
-  - Alignment
-- Responsive design
-  - Basic transformation
-  - Transformation with images
+  - Fundamentos Grid CSS
+  - Atajos básicos
+  - Grid semántico
+  - Alineación
+- Diseño responsivo
+  - Transformaciones básicas
+  - Transformaciones con imágenes
   - Media Queries
   - Media Query Print
 - Sass
   - Variables
-  - Using rules
-  - Using imports
-  - Using mixins
-  - Directives of control and functions
-
-### Video Index
-
-- Selectors (15')
-- Specifying property values (9')
-- Cascade and inherit (10')
-- Box model (4')
-- Positioning (5')
-- Flexbox I (11')
-- Flexbox II (9')
-- Flexbox III (9')
-- Grid I (3')
-- Grid II (7')
-- Grid III (8')
-- Media Queries (5')
-- Sass I (13')
-- Sass II (9')
-- Sass III (10')
-
-## Before start
-
-If you want to run these samples from VSCode, it's recommended that you install the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension.
-
-![Live Server](./content/ejecutar-live-server.gif)
-
-You can also follow these samples in Codesandbox, Codepen or similar.
+  - Usando reglas
+  - Usando imports
+  - Usando mixins
+  - Directivas de control y funciones

@@ -124,7 +124,7 @@ Para saber cuanto espacio esta ocupando el contenedor vamos a añadir un border:
 }
 ```
 
-Comprobamos que el contenador ocupa el 100 del ancho disponible y que los items solo ocupand el ancho que necesitan para mostrar su contenido.
+Comprobamos que el contenador ocupa el 100% del ancho disponible y que los items solo ocupan el ancho que necesitan para mostrar su contenido.
 
 Que pasaría si queremos mostrar los item en columnas en vez de en fila? solo necesitamos cambiar la propiedad flex-direction a columna:
 

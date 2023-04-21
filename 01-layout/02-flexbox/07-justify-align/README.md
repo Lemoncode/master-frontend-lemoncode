@@ -1,4 +1,4 @@
-# Justify content
+# Justify and align
 
 Vale, podemos mostrar los elementos, apilarlos pero nos interesar jugar con la posicion (justificacion) del contenido (Como con Ms Word), 
 
@@ -253,32 +253,3 @@ Vale, ahora que tenemos la opcion de multilinea activa podemos jugar con la prop
 +  align-content: center;
 }
 ```
-
-## Order
-
-Vamos a cambiar el orden de los elementos
-
-```diff
-+ #box4 {
-+  order: 1;
-+ }
-
-+ #box1 {
-+  order: 4;
-+ }
-```
-
-¿Por que no se ponen el primero el box4? Porque por defecto el orde es 0.
-
-Vamos a probar con esto
-
-```diff
-#box4 {
--  order: 1;
-+ order: -1;
-}
-```
-
-Ahora si, ya tenemos el box4 como el primer elemento.
-
-¿Que opinais sobre esta manipulación de los elementos html?

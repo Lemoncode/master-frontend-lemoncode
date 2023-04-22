@@ -53,7 +53,7 @@ Y ¿Por que se deforman? Vamos a evitarlo
 main {
   background-color: chocolate;
   flex: 1;
-+ align-item: center;
++ align-items: center;
 }
 ```
 
@@ -63,7 +63,7 @@ Bueno vamos bien, pero el scroll nos indica que las imagenes son mas grandes que
 main {
   background-color: chocolate;
   flex: 1;
-  align-item: center;
+  align-items: center;
 + overflow: auto;
 }
 ```
@@ -74,7 +74,7 @@ main {
 main {
   background-color: chocolate;
   flex: 1;
-  align-item: center;
+  align-items: center;
   overflow: auto;
 + flex-wrap: wrap;
 }
@@ -86,7 +86,7 @@ Vale...y ahora vamos a darle espacio de separacion a cada elemento:
 main {
   background-color: chocolate;
   flex: 1;
-  align-item: center;
+  align-items: center;
   overflow: auto;
   flex-wrap: wrap;
 +  gap: 5px
@@ -99,7 +99,7 @@ Y ahora centramos los elementos en el eje principal.
 main {
   background-color: chocolate;
   flex: 1;
-  align-item: center;
+  align-items: center;
   overflow: auto;
   flex-wrap: wrap;
   gap: 5px;
@@ -113,7 +113,7 @@ Y por ultimo vamos a evitar que tengamos tango espacio vacio. Para ello lo centr
 main {
   background-color: chocolate;
   flex: 1;
-  align-item: center;
+  align-items: center;
   overflow: auto;
   flex-wrap: wrap;
   gap: 5px;

@@ -8,8 +8,8 @@ Vamos a ver que el posibilidades nos ofrece flexbox:
 <body>
   <div id="flex-container">
     <div class="box" id="box1">BOX 1</div>
-    <div class="box" id="box2">BOX 1</div>
-    <div class="box" id="box3">BOX 1</div>
+    <div class="box" id="box2">BOX 2</div>
+    <div class="box" id="box3">BOX 3</div>
   </div>
 </body>
 ```
@@ -110,9 +110,9 @@ Vamos a crear una nueva row:
 ```diff
 <div id="flex-container">
   <div class="box" id="box1">BOX 1</div>
-  <div class="box" id="box2">BOX 1</div>
-  <div class="box" id="box3">BOX 1</div>
-+ <div class="box" id="box4">BOX 1</div>
+  <div class="box" id="box2">BOX 2</div>
+  <div class="box" id="box3">BOX 3</div>
++ <div class="box" id="box4">BOX 4</div>
 </div>
 ```
 

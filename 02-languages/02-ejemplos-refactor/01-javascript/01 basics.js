@@ -92,10 +92,10 @@ alterado ni modificado (no confundir con reasignar una variable con otro valor).
   `hello world` // backticks. Los strings creados con backticks se conocen también como "template literals"
 ''
 ""
-  ``
+``
 
-  // string multilínea
-  `This is a
+// string multilínea
+`This is a
 multiline string`
 
 // Interpolación de expresiones (sólo en template literals)
@@ -109,7 +109,7 @@ console.log(message); // "How are you, Edward?"
 
 // number
 101       // entero positivo
-  - 200      // entero negativo
+-200      // entero negativo
 1220.31   // flotante
 1e6       // notación exponencial (1 x 10^6)
 Infinity  // infinito
@@ -140,7 +140,7 @@ undefined
 */
 
 // symbol
-/* [!] Lo veremos más adelante */
+/* [!] Lo veremos más adelante ya que su uso está muy ligado a los objetos */
 
 // bigint
 /* [!] Nuevo tipo numérico para representar enteros de cualquier tamaño, con cualquier precisión. */
@@ -163,13 +163,9 @@ Se utilizan para representar datos estructurados, como los objetos en si mismos 
 los arrays (que también son objetos en el fondo)
 
 [!] Los objetos y estructuras de datos (arrays) se darán en el siguiente capítulo.
+[!] Entre otros, las funciones son un tipo especial de objetos y las veremos más adelante.
+[!] Existen más tipos de estructuras de datos nativas como Map, Set que iremos viendo en sus propias secciones.
 */
-
-// object
-
-// FUNCIONES
-
-// Son un tipo especial de objetos en JS. Las veremos más adelante.
 
 
 ///-- OPERADORES *******************************************************
@@ -253,8 +249,6 @@ console.log(3 < 3);
 console.log(3 >= 3);
 console.log(3 <= 3);
 console.log(5 == 5);
-
-
 
 // "TYPE COERCION"
 /*
@@ -470,6 +464,7 @@ do {
 
 // [!] for..in que será vista con los objetos
 // [!] forEach() se verá con los arrays
+// [!] for..of se verá con los arrays
 
 // operador coma en expresiones
 const a = (2 + 4, 9);

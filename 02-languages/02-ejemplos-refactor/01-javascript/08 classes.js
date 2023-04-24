@@ -54,7 +54,6 @@ class Taxi extends Automobile {
     this.isOccupied = false;
   }
 
-  // Estos métodos se añadirán al objeto Taxi.prototype.
   service() {
     this.isOccupied = true;
   }
@@ -84,6 +83,11 @@ class Employee {
   // Propiedad estática
   static minSalary = 1200;
 
+  // Método estático
+  static isMinimumSalary(salary) {
+    return salary >= Employee.minimumSalary;
+  }
+
   constructor(name, salary) {
     this.name = name;
     this.salary = salary;
@@ -93,11 +97,6 @@ class Employee {
     const diffSalary = Employee.minSalary - this.salary;
     const diffToString = Employee.isMinimumSalary(this.salary) > 0 ? 'más' : 'menos';
     return `${this.name} gana ${this.salary}€ (${Math.abs(diffSalary)}€ ${diffToString} que el SMI)`;
-  }
-
-  // Método estático
-  static isMinimumSalary(salary) {
-    return salary >= Employee.minimumSalary;
   }
 }
 
@@ -140,7 +139,7 @@ class Employee {
   // Ahora este valor no es accesible de forma externa
   static #minSalary = 1200;
 
-  // Método estático
+  // Método estático privado
   static #isMinimumSalary(salary) {
     return salary >= Employee.#minimumSalary;
   }
@@ -160,10 +159,16 @@ class Employee {
   }
 }
 
+const antonio = new Employee("Antonio", 2_000);
+console.log(antonio.getDetails());
+
+// TODO: Class properties: Ejemplo arrow function que conserve el "this" de la instancia
+
+/// CLASES ANÓNIMAS
 
 // Las clases también pueden ser anónimas, al igual que las funciones.
 // Veamos un ejemplo de FACTORÍA DE CLASES. Usaremos una clase como ciudadano
-// de primer orden (puesto que es una función): a esto se le llama 'class expression'.
+// de primer orden: a esto se le llama 'class expression'.
 // Aqui estamos usando el concepto de CLOSURE para 'recordar' el mensaje
 // y crear clases especializadas (distintas) con distinto mensaje.
 const makeClass = (message) => {
@@ -181,132 +186,3 @@ cat.talk();
 const Dog = makeClass("Woof!");
 const dog = new Dog();
 dog.talk();
-
-/// THIS & ARROW FUNCTIONS
-
-// Las funciones flecha tienen una característica muy importante, y es el motivo de su existencia:
-// *** Mantienen a "this" apuntando al contexto en el que fueron creadas ... SIEMPRE ***
-// Es decir, el "this" dentro de una lambda siempre se refiere al contexto donde dicha
-// lambda fue creada. "this" deja de ser el que llama a la lambda.
-// Dicho de otro modo, las lambdas no tienen contexto propio porque siempre lo toman
-// prestado desde el contexto donde fueron creadas.
-
-// *** Ejemplos ***
-
-function f() {
-  console.log(this.age);  // Aqui el contexto es el "caller" de la función. this -> caller.
-}
-
-// Si llamo a f haciendo que su contexto sea un objeto que tenga 'age',
-// no habrá problemas:
-f.call({ age: 35 }); // 35
-
-// De lo contrario:
-f(); // undefined
-
-// A menos que me cree una propiedad "age" en el contexto global "window":
-age = 35;
-f(); // 35
-
-// Una arrow function no tiene contexto como tal sino que lo toma de donde
-// ha sido definida.
-const g = () => console.log(this.surname);
-
-// Por tanto, no puedo hacer esto ahora, porque su contexto es siempre "window",
-// tal y como ha sido definida la fat arrow.
-g.call({ surname: "calzado" }); // undefined pq window no tiene "surname".
-g(); // undefined pq window no tiene "surname".
-
-// Creemos un "surname" en "window":
-surname = "camargo";
-g.call({ surname: "calzado" }); // camargo.
-g(); // camargo.
-
-// *** Problemática de las funciones clásicas vs arrow functions ***
-
-// Las arrow function irrumpieron no solo por ser más expresivas y compactas sino
-// para ofrecer una alternativa de funciones cuyo contexto fuese invariante, no cambiase,
-// siempre es el mismo (ya que lo toma prestado el contexto en el que fue creada).
-// De este modo el 'this' siempre se refiere a lo mismo en una 'arrow function', a diferencia
-// de las funciones clásicas que pueden inducir a errores en ciertos casos. Veamos un ejemplo:
-
-class Person {
-  constructor(age) {
-    this.age = age;
-  }
-
-  sayAge() {
-    console.log(this.age);
-  }
-
-  sayDelayedAge() {
-    setTimeout(function() {
-      console.log(this.age);
-    }, 1000);
-  }
-}
-
-const me = new Person(38);
-me.sayAge(); // 38, se muestra inmediatamente, this apunta a 'me'
-me.sayDelayedAge(); // transcurrido un segundo se muestra ... undefined ... a que apunta this?
-
-// Problema: al usar funciones clásicas como callbacks desconocemos quien las está invocando y como,
-// perdemos la pista. En este ejemplo, el setTimeout registra ese callback pero es el ámbito global
-// (el objeto window) quien invoca la función, por tanto this se refiere a window.
-
-// Para demostrarlo basta hacer lo siguiente:
-window.age = 50; // Añade esta linea al final y ejecuta de nuevo.
-
-
-// *** FIX 1: 'Self' ***
-class Person {
-  constructor(age) {
-    this.age = age;
-  }
-
-  sayAge() {
-    console.log(this.age);
-  }
-
-  sayDelayedAge() {
-    const self = this;
-    setTimeout(function() {
-      console.log(self.age);
-    }, 1000);
-  }
-}
-
-// *** FIX 2: Bind ***
-class Person {
-  constructor(age) {
-    this.age = age;
-  }
-
-  sayAge() {
-    console.log(this.age);
-  }
-
-  sayDelayedAge() {
-    const sayAge = function() {
-      console.log(this.age);
-    };
-    setTimeout(sayAge.bind(this), 1000);
-  }
-}
-
-// *** FIX 3: Arrow function! ***
-class Person {
-  constructor(age) {
-    this.age = age;
-  }
-
-  sayAge() {
-    console.log(this.age);
-  }
-
-  sayDelayedAge() {
-    setTimeout(() => {
-      console.log(this.age);
-    }, 1000);
-  }
-}

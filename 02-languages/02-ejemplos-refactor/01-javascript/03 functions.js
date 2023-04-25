@@ -89,6 +89,10 @@ const toObject = (name, surname, age) => {
 const toObject = (name, surname, age) => ({ name, surname, age })
 
 
+///-- FUNCIONES: CIUDADANOS DE PRIMER ORDEN *******************************************************
+
+
+///-- THIS ****************************************************************************************
 
 
 

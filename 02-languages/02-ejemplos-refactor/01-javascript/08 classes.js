@@ -162,7 +162,27 @@ class Employee {
 const antonio = new Employee("Antonio", 2_000);
 console.log(antonio.getDetails());
 
-// TODO: Class properties: Ejemplo arrow function que conserve el "this" de la instancia
+/// CLASS FIELDS
+// Podemos inicializar propiedades que parten de valores fijos sin usar constructor. Si te fijas las hemos visto anteriormente
+// pero con otros modificadores: `static` y el prefijo de privado `#`. También podemos crear propiedades públicas de este modo:
+
+class Counter {
+  value = 0;
+  increment() {
+    this.value++;
+  }
+
+  decrement() {
+    this.value--;
+  }
+}
+
+const counter = new Counter();
+console.log(counter.value); // 0
+counter.increment();
+console.log(counter.value); // 1
+counter.decrement();
+console.log(counter.value); // 0
 
 /// CLASES ANÓNIMAS
 

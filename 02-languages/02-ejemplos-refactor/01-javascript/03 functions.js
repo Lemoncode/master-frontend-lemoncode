@@ -1,7 +1,7 @@
 ///-- FUNCTIONS ***********************************************************************************
 
 /*
-Las funciones son un tipo especial de OBJETOS 😲. Al igual que sucede en otros lenguajes, son 
+Las funciones son un tipo especial de OBJETOS 😲. Al igual que sucede en otros lenguajes, son
 elementos invocables que reciben una serie de argumentos y pueden devolver valores.
 */
 
@@ -45,7 +45,7 @@ logArguments(true); // {0: true}
 
 // Podemos iterar por "arguments" por comodidad
 function logArguments() {
-  for (const arg of arguments) { 
+  for (const arg of arguments) {
     console.log(arg);
   }
 }
@@ -77,7 +77,7 @@ const toUpper = (text) => text.toUpperCase();
 
 // También podemos omitir los paréntesis cuando el argumento es único:
 const toUpper = text => text.toUpperCase();
-// Sólo cuando es único, porque sino la coma de separación de argumentos se 
+// Sólo cuando es único, porque sino la coma de separación de argumentos se
 // podría confundir con el operador coma.
 
 // En caso de que lo que devuelva sea un objeto literal hay que tener cuidado:
@@ -178,6 +178,8 @@ const sum = () => {
   return Array.from(arguments).reduce((acc, val) => acc + val);
 };
 console.log(sum(1, 2, 3)); // Uncaught ReferenceError: arguments is not defined
+
+// Sin embargo, existe una forma de obtener todos los argumentos con forma de array *similar* a arguments. Esto lo veremos más adelante.
 
 // - Las arrow functions no pueden ser funciones constructoras ni presentan la propiedad
 // 'prototype'. ⚠ Entenderemos esto en profundidad más adelante al estudiar el modelo prototípico.

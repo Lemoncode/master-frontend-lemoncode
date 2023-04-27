@@ -123,7 +123,52 @@ count(); // 3
 
 ///-- DIFERENCIAS: classic vs arrow  *************************************************************
 
-// *** THIS 
+// *** THIS
+
+/*
+En javascript, como acabamos de ver, tenemos 2 formas diferentes de declarar funciones, de forma
+clásica o mediante arrow functions. ¿Pero por qué? ¿Para qué 2 maneras de hacer lo mismo? ¿Es solo
+pura sintáxis o estética? NO. Uno de los motivos de su exitencia tiene que ver con la keyword
+'this'.
+
+- En las funciones clásicas, 'this' hace referencia al contexto que ha invocado a la función, es
+decir, aquello que la llama, el 'caller'. Luego el 'this' se resuelve en tiempo de ejecución
+(runtime binding). Están pensadas para ser utilizadas como MÉTODOS.
+
+- En las arrow functions, 'this' ya no es la entidad que la invoca sino que ahora apunta al contexto
+léxico en el que dicha arrow function ha sido definida. Ya no hay 'runtime binding', se resuelve
+en tiempo de desarrollo. Están más pensadas para ser usadas como 'function expressions' ligeras.
+ */
+
+function f() {
+  console.log(this.age);  // Aqui el contexto es el "caller" de la función. this -> caller.
+}
+
+// Si llamo a f haciendo que su contexto sea un objeto que tenga 'age',
+// no habrá problemas:
+f.call({ age: 35 }); // 35
+
+// De lo contrario:
+f(); // undefined
+
+// A menos que me cree una propiedad "age" en el contexto global "window":
+age = 35;
+f(); // 35
+
+// Una arrow function no tiene contexto como tal sino que lo toma de donde
+// ha sido definida.
+const g = () => console.log(this.surname);
+
+// Por tanto, no puedo hacer esto ahora, porque su contexto es siempre "window",
+// tal y como ha sido definida la fat arrow.
+g.call({ surname: "calzado" }); // undefined pq window no tiene "surname".
+g(); // undefined pq window no tiene "surname".
+
+// Creemos un "surname" en "window":
+surname = "camargo";
+g.call({ surname: "calzado" }); // camargo.
+g(); // camargo.
+
 
 // *** Otras diferencias
 

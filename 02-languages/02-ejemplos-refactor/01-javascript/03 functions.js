@@ -89,14 +89,50 @@ const toObject = (name, surname, age) => {
 const toObject = (name, surname, age) => ({ name, surname, age })
 
 
-///-- FUNCIONES: CIUDADANOS DE PRIMER ORDEN *******************************************************
+///-- SIMILITUDES: classic vs arrow  *************************************************************
 
+// *** Ciudadanos de primer orden
 
-///-- THIS ****************************************************************************************
+/*
+Las funciones en javascript, ya sean clásicas o arrow functions, son ciudadanos de primer orden.
+En otras palabras, esto significa que pueden ser usadas como cualquier otro valor en:
+- Argumento de funciones
+- Retorno de funciones
+- Asignación a variables
+ */
 
+// - Funciones como argumentos de otras funciones
+function saySomething(text, modifier) {
+  console.log(modifier(text));
+}
+saySomething("HeLlO wOrLd", str => str.toLowerCase()); // hello world
+saySomething("hello  world", str => str.replace(/[aeiou]/gi, "")); // hll wrld
 
+// - Funciones como valor de retorno
+const createCounter = () => {
+  let i = 0;
+  return () => console.log(++i);
+}
+const count = createCounter();
+count(); // 1
+count(); // 2
+count(); // 3
 
-// TODO: Sintaxis, ¿transformar ejemplos anteriores?
-// TODO: DIFERENCIAS
-//  - ¿THIS?. Breve introducción a esta variable y su implicación con las funciones para explicar el this léxico en arrows
-//  - No arguments disponible
+// ⚠ En este último ejemplo hemos empleado un CLOSURE! Este concepto avanzado se verá con más
+// detenimiento en la parte avanzada.
+
+///-- DIFERENCIAS: classic vs arrow  *************************************************************
+
+// *** THIS 
+
+// *** Otras diferencias
+
+// - Las arrow functions no pueden ser 'variadic' y no presentan por tanto la keyword 'arguments'
+// Si lo intentamos nos petará (OJO en Stackblitz no peta)
+const sum = () => {
+  return Array.from(arguments).reduce((acc, val) => acc + val);
+};
+console.log(sum(1, 2, 3)); // Uncaught ReferenceError: arguments is not defined
+
+// - Las arrow functions no pueden ser funciones constructoras ni presentan la propiedad
+// 'prototype'. ⚠ Entenderemos esto en profundidad más adelante al estudiar el modelo prototípico.

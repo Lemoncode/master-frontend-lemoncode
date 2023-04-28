@@ -179,7 +179,8 @@ const sum = () => {
 };
 console.log(sum(1, 2, 3)); // Uncaught ReferenceError: arguments is not defined
 
-// Sin embargo, existe una forma de obtener todos los argumentos con forma de array *similar* a arguments. Esto lo veremos más adelante.
+// Sin embargo, existe una forma de obtener todos los argumentos con forma de array *similar* a 
+//arguments. Esto lo veremos más adelante.
 
 // - Las arrow functions no pueden ser funciones constructoras ni presentan la propiedad
 // 'prototype'. ⚠ Entenderemos esto en profundidad más adelante al estudiar el modelo prototípico.

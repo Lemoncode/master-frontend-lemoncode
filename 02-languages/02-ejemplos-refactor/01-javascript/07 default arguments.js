@@ -1,4 +1,4 @@
-///-- DEFAULT ARGUMENTS *******************************************************
+///-- DEFAULT ARGUMENTS **************************************************************************
 
 // A partir de ES6 podemos asignar valores por defecto a los argumentos de una función:
 const greet = (name = "Unknown") => console.log("Hello, " + name);
@@ -21,15 +21,15 @@ logName({}); // "Unknown"
 
 logName(); // [!] Si no inicializamos el parametro a {} esto daría TypeError.
 
-// Para evitar esos errores tenemos que inicializar también el argumento completo
-// como objeto vacío, no solo su propiedad name.
+// Para evitar esos errores tenemos que inicializar también el argumento completo como objeto
+// vacío, no solo su propiedad name.
 const logName = ({ name = "Unknown" } = {}) => console.log(name);
 
 logName(); // Unknown. Ahora si!
 
 // Este sería el único caso todavía problemático.
-// Al ser null un objeto no se toma la inicialización por defecto, el problema es
-// que no se puede hacer destructuring sobre null.
+// Al ser null un objeto no se toma la inicialización por defecto, el problema es que no se puede
+// hacer destructuring sobre null.
 logName(null); // [!] Uncaught TypeError.
 
 // Ejemplo con arrays:

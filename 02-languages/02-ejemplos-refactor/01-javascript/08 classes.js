@@ -1,9 +1,8 @@
-///-- CLASSES *******************************************************
+///-- CLASSES ************************************************************************************
 
-// Las clases se introdujeron en ES6 como una forma abreviada de
-// implementar el modelo de prototipos. Es puro azúcar sintáctico.
-// Recordemos que no existen clases como tales en JS. Todo se basa en
-// funciones constructoras, prototipos y el operador new.
+// Las clases se introdujeron en ES6 como una forma abreviada de implementar el modelo de
+// prototipos. Es puro azúcar sintáctico. Recordemos que no existen clases como tales en JS.
+// Todo se basa en funciones constructoras, prototipos y el operador new.
 
 // Recordemos:
 class Person {
@@ -163,8 +162,9 @@ const antonio = new Employee("Antonio", 2_000);
 console.log(antonio.getDetails());
 
 /// CLASS FIELDS
-// Podemos inicializar propiedades que parten de valores fijos sin usar constructor. Si te fijas las hemos visto anteriormente
-// pero con otros modificadores: `static` y el prefijo de privado `#`. También podemos crear propiedades públicas de este modo:
+// Podemos inicializar propiedades que parten de valores fijos sin usar constructor. Si te fijas
+// las hemos visto anteriormente pero con otros modificadores: `static` y el prefijo de privado `#`.
+// También podemos crear propiedades públicas de este modo:
 
 class Counter {
   value = 0;
@@ -187,10 +187,10 @@ console.log(counter.value); // 0
 /// CLASES ANÓNIMAS
 
 // Las clases también pueden ser anónimas, al igual que las funciones.
-// Veamos un ejemplo de FACTORÍA DE CLASES. Usaremos una clase como ciudadano
-// de primer orden: a esto se le llama 'class expression'.
-// Aqui estamos usando el concepto de CLOSURE para 'recordar' el mensaje
-// y crear clases especializadas (distintas) con distinto mensaje.
+// Veamos un ejemplo de FACTORÍA DE CLASES. Usaremos una clase como ciudadano de primer orden: 
+// a esto se le llama 'class expression'. Aqui estamos usando el concepto de CLOSURE (que se
+// explicará en profundidad más adelante) para 'recordar' el mensaje y crear clases especializadas
+// (distintas) con distinto mensaje.
 const makeClass = (message) => {
   return class {
     talk() {

@@ -316,7 +316,7 @@ la problemática del "this" en las funciones clásicas y porqué llegaron las ar
 rescate. Pero en primer lugar, refresquemos conceptos.
 */
 
-// *** REPASO
+// *** REPASO -----------------------------------------------------------------------------------
 
 // Recordemos, la keyword "this" es especial en javascript y apunta a quien haya invocado a la 
 // función clásica:
@@ -363,7 +363,7 @@ const me = {
 me.sayAge(); // "I'm 36 years old"
 
 
-// *** PROBLEMA CON EL THIS EN LAS FUNCIONES CLÁSICAS
+// *** PROBLEMA CON EL THIS EN LAS FUNCIONES CLÁSICAS --------------------------------------------
 
 /*
 Adelantándonos al problema, diremos que las arrow function irrumpieron no solo por ser más
@@ -421,6 +421,26 @@ Person.prototype.sayDelayedAge = function() {
 Person.prototype.sayDelayedAge = function() {
   setTimeout(() => console.log(this.age), 1000);
 }
+
+// *** PROBLEMA CON EL THIS EN LAS FUNCIONES FLECHA ---------------------------------------------
+
+// A pesar de la utilidad de las funciones flecha y su "this" invariante como callbacks, existe
+// un caso particular donde no queremos este comportamiento.
+
+// ⚡ Las funciones flecha no se pueden usar como constructores, no pueden ser llamadas con el
+// operador "new", precisamente por el contexto:
+const Person = name => {
+  // "this" aqui sería el objeto "window" (contexto léxico) en lugar de cada una de las nuevas
+  // instancias de Person que se están creando.
+  this.name = name; 
+};
+const dan = new Person("Dan"); // Uncaught TypeError: Person is not a constructor
+
+// ⚡ Y tampoco tienen propiedad "prototype" puesto que no pueden ser constructoras.
+const Person = (name) => {
+  this.name = name;
+};
+console.log(Person.prototype); // undefined. (OJO en Stackblitz)
 
 
 ///-- GETTERS & SETTERS **************************************************************************

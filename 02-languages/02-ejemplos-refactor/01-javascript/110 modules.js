@@ -18,14 +18,15 @@
 // - exportar función kebap-case (text) => text.replace(/[\s_]+/, '-').toLowerCase();
 // - mostrar cómo importar todo en ESModules (import * as module)
 
-// Demo ES5
-// https://codesandbox.io/s/48qk1px1wx
 
-// Demo AMD
-// http://next.plnkr.co/edit/IYYj6f7hXUACTAW7Df1R?preview
+// Demo ESModules
+// https://codesandbox.io/s/81rv4n310l
 
 // Demo CommonJS
 // https://codesandbox.io/s/2x766oxy3n
 
-// Demo ESModules
-// https://codesandbox.io/s/81rv4n310l
+// Demo ES5
+// https://codesandbox.io/s/48qk1px1wx
+
+// Demo AMD (obsoleto a día de hoy)
+// http://next.plnkr.co/edit/IYYj6f7hXUACTAW7Df1R?preview

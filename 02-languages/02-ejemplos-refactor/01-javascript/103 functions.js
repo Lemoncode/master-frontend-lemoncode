@@ -144,30 +144,40 @@ function f() {
   console.log(this.age);  // Aqui el contexto es el "caller" de la función. this -> caller.
 }
 
-// Si llamo a f haciendo que su contexto sea un objeto que tenga 'age',
-// no habrá problemas:
-f.call({ age: 35 }); // 35
-
-// De lo contrario:
+// Al hacer la siguiente llamada debéis preguntaros ... ¿quién está invocando a la función f?
+// En este caso en concreto es el contexto global (objeto "window") quien hace la invocación.
+// Es por ello que, al no tener dicho contexto una propiedad "age", se muestre undefined.
 f(); // undefined
 
-// A menos que me cree una propiedad "age" en el contexto global "window":
+// Para demostrar esta teoría, simplemente creemos una una propiedad "age" en el contexto global
+// u objeto "window":
 age = 35;
+// window.age = 35; <= Equivalente
 f(); // 35
 
-// Una arrow function no tiene contexto como tal sino que lo toma de donde
-// ha sido definida.
+// Las funciones, además, disponen de un método de utilidad con el que invocarlas haciendo que su
+// contexto de invocación sea lo que nosotros decidamos, por ejemplo, un objeto que tenga 'age':
+f.call({ age: 35 }); // 35
+
+// Veamos que sucede ahora en el caso de arrow function. Recordemos que ahora "this" representa el
+// contexto léxico y por tanto es fijo, sea quien sea quien invoque a la función flecha. A efectos
+// prácticos, podemos decir que una arrow function toma el contexto del "this" de donde ha sido
+// definida.
 const g = () => console.log(this.surname);
 
-// Por tanto, no puedo hacer esto ahora, porque su contexto es siempre "window",
-// tal y como ha sido definida la fat arrow.
-g.call({ surname: "calzado" }); // undefined pq window no tiene "surname".
-g(); // undefined pq window no tiene "surname".
+// Puesto que en el ámbito global no existe "surname" el resultado será undefined, igual que antes:
+g(); // undefined
 
-// Creemos un "surname" en "window":
+// La forma de hacer que tengamos algo en la consola es crear una variable global "surname":
 surname = "camargo";
-g.call({ surname: "calzado" }); // camargo.
 g(); // camargo.
+
+// Pero a diferencia de las funciones clásica, puesto que ahora el "this" siempre apunta al ámbito
+// global, PASE LO QUE PASE, no podré hacer esto:
+surname = "camargo";
+g.call({ surname: "calzado" }); // camargo
+// No importa que intente invocar la arrow function con un objeto distinto de "window", no tiene
+// efecto!
 
 
 // *** Otras diferencias

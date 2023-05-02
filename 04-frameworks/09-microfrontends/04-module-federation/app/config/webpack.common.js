@@ -48,11 +48,8 @@ module.exports = (env = {}) => {
           QuoteContainer: "QuoteContainer@http://localhost:3000/quote-container.js",
         },
         shared: {
-          react: {
-            singleton: true,
-          },
+          react: {},
           "react-dom": {
-            singleton: true,
             requiredVersion: deps["react-dom"],
           },
           "react-router-dom": {},

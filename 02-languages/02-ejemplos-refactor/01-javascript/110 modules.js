@@ -14,7 +14,7 @@
 // es bastante común que un módulo sea una función en lugar de un objeto plano
 
 // [!] Importante: mostrar lo siguiente
-// - exportar función por defecto en vez de objeto para mostrar el "default" en CommonJS y ESModules
+// - exportar función por defecto en vez de objeto para mostrar el "default" en CommonJS y forkESModules
 // - exportar función kebap-case (text) => text.replace(/[\s_]+/, '-').toLowerCase();
 // - mostrar cómo importar todo en ESModules (import * as module)
 

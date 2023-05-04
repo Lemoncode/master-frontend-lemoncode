@@ -1,4 +1,0 @@
-@function calculate-width($colNumber, $numberOfColumns) {
-  $result: 100% * ($colNumber / $numberOfColumns);
-  @return $result;
-}

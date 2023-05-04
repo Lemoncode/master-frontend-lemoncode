@@ -250,14 +250,13 @@ interface ProductItem {
 // Index type => Acceder al tipo de una propiedad en un interface:
 type ProductName = ProductItem["name"];
 
-// El objeto resultante tendrá todas las propiedades de Obj
-// y valores funciones transformadoras
+// El objeto resultante tendrá todas las propiedades de Obj y valores funciones transformadoras
 type Evolver<Obj> = {
   [Key in keyof Obj]?: (arg: Obj[Key]) => Obj[Key];
 };
 
-// Función que devolverá una nueva copia del objeto aplicando
-// las transformaciones en las propiedades
+// Función que devolverá una nueva copia del objeto aplicando  las transformaciones en
+// las propiedades
 const evolve = <Obj extends object>(transformations: Evolver<Obj>, obj: Obj): Obj => {
   return Object.entries(obj).reduce<Obj>((result, [key, value]) => {
     result[key] = key in transformations ? transformations[key](value) : value;
@@ -336,9 +335,8 @@ type TreeNodeR<T> = T | Array<TreeNodeR<T>>;
 
 const myTreeRecursive: TreeNodeR<boolean> = [true, [false, true, [false]]];
 
-// * Antes de la versión 3.7 de TS no se podía hacer recursividad
-// en la declaración de los Alias. Es decir, que la declaración del
-// alias se refiera a sí misma. De lo contrario nos daría un error
+// * Antes de la versión 3.7 de TS no se podía hacer recursividad en la declaración de los Alias.
+// Es decir, que la declaración del alias se refiera a sí misma. De lo contrario nos daría un error
 // de referencia circular.
 
 // Para burlar esta limitación se usaba una técnica conocida como "middleman", con la que

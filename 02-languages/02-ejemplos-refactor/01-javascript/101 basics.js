@@ -89,7 +89,7 @@ alterado ni modificado (no confundir con reasignar una variable con otro valor).
 // string
 "hello world" // dobles comillas
 'hello world' // comillas simples
-  `hello world` // backticks. Los strings creados con backticks se conocen también como "template literals"
+`hello world` // backticks. Los strings creados con backticks se conocen también como "template literals"
 ''
 ""
 ``
@@ -470,6 +470,6 @@ do {
 const a = (2 + 4, 9);
 console.log(a); // 9
 const b = 3;
-const a = (b += 5, 10);
-console.log(a); // 10
+const c = (b += 5, 10);
+console.log(c); // 10
 console.log(b); // 8;

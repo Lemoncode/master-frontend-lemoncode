@@ -24,7 +24,7 @@ We will discover all the main features of the language, from fundamentals (ES5) 
 ### Table of Contents
 
 - Introduction.
-- JavaScript Fundamentals.
+- JavaScript Core.
   - Basics.
     - Data Types.
     - Operators.
@@ -33,50 +33,54 @@ We will discover all the main features of the language, from fundamentals (ES5) 
   - Data Structures.
     - Objects.
     - Arrays.
-  - Hoisting.
-  - Variable Scope.
-  - Closure.
-  - JSON.
-  - Error Handling.
-  - Prototype Model.
-- JavaScript ESNext.
-  - Let and Const.
-  - Arrow Functions.
-  - Classes.
+    - Mutability
+  - Functions.
+    - Classic functions.
+    - Arrow functions.
+    - Introduction to this keyword.
+  - Optional chaining & nullish coalescing.
   - Destructuring.
   - Spread and Rest operators.
   - Default Arguments.
-  - Template Literals.
-  - Map and Set.
-  - Symbol.
+  - Classes.
+  - JSON.
+  - Error Handling.
   - Modules.
+- JavaScript Advanced.
+  - Prototype Model.
+    - Constructor functions, new operator and the prototype.
+    - Prototypal inheritance (prototype chain).
+    - Default constructors.
+    - This keyword and its problems.
+    - Getters and setters.
+  - Advanced classes.
+    - Syntactic sugar.
+    - Class factory.
+  - Asyncronous javascript.
+    - Callbacks.
+    - Promises.
+    - Async / await.
+  - Advanced variables.
+    - Hoisting.
+    - Var: hoisting and scope.
+    - Let & const: hoisting and scope.
+  - Advanced functions.
+    - Function declaration vs function expression.
+    - Closure.
+    - IIFE.
+  - Tagged templates.
+  - Map & WeakMap.
+  - Set & WeakSet.
+  - Symbol.
 
 ### Extra Content
 
-- Introduction to Promises.
 - JavaScript Functional Approach.
   - Array Methods.
   - Recursion.
   - Composition.
   - Curry.
   - Partial Application.
-- Lodash.
-
-### Video Index
-
-- Basics I - Data Types (7')
-- Basics II - Operators (18')
-- Basics III - Flow Control (9')
-- Objects (8')
-- Arrays (10')
-- Hoisting & Scope (9.5')
-- Closure (7')
-- Function Misc (4')
-- Let & Const (5')
-- Arrow Functions (9')
-- Destructuring (10')
-- Spread & Rest (7')
-- Default Arguments (5')
 
 ## TypeScript
 
@@ -157,13 +161,6 @@ In this sessions we will focus on exploring each topic of Typescript, its syntax
   - Pick.
   - Omit.
   - Return type.
-
-### Video Index
-
-- Type Annotation (15')
-- Typing Interfaces (7')
-- Typing Functions (8')
-- Typing Generics (9')
 
 ## Functional Programming
 

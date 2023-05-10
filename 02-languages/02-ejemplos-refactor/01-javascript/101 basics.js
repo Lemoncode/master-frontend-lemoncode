@@ -1,21 +1,21 @@
-///-- EXPRESIONES BÁSICAS *************************************************
+///-- EXPRESIONES BÁSICAS ************************************************************************
 
 ///-- VARIABLES
 
 /*
-Javascript es un lenguaje dinámico y débilmente tipado, lo que significa que
-las variables no están asociadas a ningún tipo concreto. Por tanto, no tengo
-que declararlas especificando ningún tipo. Puedo asignar el valor que quiera,
-del tipo que quiera.
+Javascript es un lenguaje dinámico y débilmente tipado, lo que significa que las variables no están
+asociadas a ningún tipo concreto. Por tanto, no tengo que declararlas especificando ningún tipo. 
+Puedo asignar el valor que quiera, del tipo que quiera.
 
 Tenemos varios operadores para declarar variables: `let`, `const` y `var`.
-Actualmente `var` está desaconsejado debido a un concepto llamado "Hoisting" que veremos más adelante.
+Actualmente `var` está desaconsejado debido a un concepto llamado "Hoisting" que veremos más 
+adelante.
 */
 
-// LET
-/*
-Utilizaremos `let` cuando queramos declarar una variable a la que, posteriormente, podamos ser capaces de reasignar su valor
-*/
+// *** LET
+
+// Utilizaremos `let` cuando queramos declarar una variable a la que, posteriormente, podamos ser 
+// capaces de reasignar su valor
 let a = 3;
 a = 14;
 
@@ -25,8 +25,8 @@ let b = 10, c = "hello";
 // comentarios
 let d = 4; // d value is 4
 
-// Una vez tengamos una variable declarada no podemos redeclarar otra con el mismo nombre en el mismo ámbito.
-// Veremos con más detalle el ámbito más adelante
+// Una vez tengamos una variable declarada no podemos redeclarar otra con el mismo nombre en el 
+// mismo ámbito. Veremos con más detalle el ámbito más adelante
 let a = 3;
 let a = 14; // Error! La variable `a` ya ha sido redeclarada
 
@@ -36,14 +36,15 @@ let c = 3;
 let d = 4;
 */
 
-// CONST
+// *** CONST
 /*
 Utilizaremos `const` cuando queramos declarar una variable que nunca queramos volver a reasignar.
 Es importante entender que una vez que declaremos la variable no podemos volver a reasignar su valor.
-Es por esto que una variable declarada con `const` debe incluir la asignación.
-Generalmente utilizaremos `const` para dar a entender de forma semántica que esa variable no seá reasignada.
-[!] Importante: Una variable declarada con `const` puede no ser "constante", es decir de sólo lectura.
-El concepto "constante" dependerá del tipo de dato que almacenemos.
+Es por esto que una variable declarada con `const` debe incluir la asignación. Generalmente 
+utilizaremos `const` para dar a entender de forma semántica que esa variable no seá reasignada.
+
+⚠ Importante: Una variable declarada con `const` puede no ser "constante", es decir, de sólo
+lectura. El concepto "constante" dependerá del tipo de dato que almacenemos.
 */
 
 // Esto lanzará un error de ejecución
@@ -55,15 +56,18 @@ const a = 3;
 // Reasignar su valor lanzará un error de ejecución
 a = 14;
 
-// Al igual que las variables `let` no podemos redeclarar una variable con el mismo nombre en el mismo ámbito
+// Al igual que las variables `let` no podemos redeclarar una variable con el mismo nombre en el 
+// mismo ámbito.
 const a = 3;
 const a = 14; // Error! La variable `a` ya ha sido redeclarada
 
-// Es importante entender que no podemos utilizar una variable declarada con `let` o `const` antes de su declaración
+// Es importante entender que no podemos utilizar una variable declarada con `let` o `const` antes 
+//de su declaración.
 console.log(a); // Error! Todavía no existe la variable `a`
 let a = 10;
 
-///-- TIPOS DE DATOS ******************************************************
+
+///-- TIPOS DE DATOS *****************************************************************************
 
 /*
 Distinguimos 2 grandes grupos de tipos de datos en Javascript:
@@ -89,7 +93,7 @@ alterado ni modificado (no confundir con reasignar una variable con otro valor).
 // string
 "hello world" // dobles comillas
 'hello world' // comillas simples
-`hello world` // backticks. Los strings creados con backticks se conocen también como "template literals"
+`hello world` // backticks. Los strings creados con backticks tb se conocen como "template literals"
 ''
 ""
 ``
@@ -99,7 +103,7 @@ alterado ni modificado (no confundir con reasignar una variable con otro valor).
 multiline string`
 
 // Interpolación de expresiones (sólo en template literals)
-// [!] Llamaremos "expresión" a cualquier tipo de valor que pueda ser almacenado en una variable.
+// ⚠ Llamaremos "expresión" a cualquier tipo de valor que pueda ser almacenado en una variable.
 // Una expresión puede ser un valor primitivo, objeto, valor devuelto por una función, resultado de
 // una operación, etc.
 const person = "Edward";
@@ -114,7 +118,8 @@ console.log(message); // "How are you, Edward?"
 1e6       // notación exponencial (1 x 10^6)
 Infinity  // infinito
 NaN       // NotANumber** (de hecho es de tipo número)
-// [!] Podemos separar los dígitos con un underscore [_] en cualquier posición para mejorar la legibilidad
+// ⚠ Podemos separar los dígitos con un underscore [_] en cualquier posición para mejorar la 
+// legibilidad.
 
 /*
  Indeterminados (0 * Infinity), indefinidos (1 / 0), fuera del conjunto de los
@@ -126,7 +131,7 @@ true
 false
 
 // null
-/* [!] Primitivo especial de tipo "object". Raiz de la cadena de prototipos */
+/* ⚠ Primitivo especial de tipo "object". Raiz de la cadena de prototipos */
 null
 
 // undefined
@@ -135,15 +140,15 @@ undefined
 /*
  ¿null o undefined?
 
- En general, se recomienda utilizar `null` para indicar la ausencia intencional de un valor, y undefined para indicar
- que algo simplemente no está definido o no tiene un valor
+ En general, se recomienda utilizar `null` para indicar la ausencia intencional de un valor, y 
+ undefined para indicar que algo simplemente no está definido o no tiene un valor.
 */
 
 // symbol
-/* [!] Lo veremos más adelante ya que su uso está muy ligado a los objetos */
+/* ⚠ Lo veremos más adelante ya que su uso está muy ligado a los objetos */
 
 // bigint
-/* [!] Nuevo tipo numérico para representar enteros de cualquier tamaño, con cualquier precisión. */
+/* ⚠ Nuevo tipo numérico para representar enteros de cualquier tamaño, con cualquier precisión. */
 2n
 BigInt(2)
 
@@ -162,13 +167,14 @@ console.log(typeof null);       // object** Se entenderá mejor con el modelo pr
 Se utilizan para representar datos estructurados, como los objetos en si mismos o
 los arrays (que también son objetos en el fondo)
 
-[!] Los objetos y estructuras de datos (arrays) se darán en el siguiente capítulo.
-[!] Entre otros, las funciones son un tipo especial de objetos y las veremos más adelante.
-[!] Existen más tipos de estructuras de datos nativas como Map, Set que iremos viendo en sus propias secciones.
+⚠ Los objetos y estructuras de datos (arrays) se darán en el siguiente capítulo.
+⚠ Entre otros, las funciones son un tipo especial de objetos y las veremos más adelante.
+⚠ Existen más tipos de estructuras de datos nativas como Map o Set que iremos viendo en sus 
+propias secciones.
 */
 
 
-///-- OPERADORES *******************************************************
+///-- OPERADORES *********************************************************************************
 
 // 1. Operadores ARITMÉTICOS
 console.log(52 + 21); // 73
@@ -191,7 +197,7 @@ console.log(15 % 3);
 console.log(2 ** 3);
 
 // Asignaciones con operadores aritméticos
-// [!] Importante: No podemos usar operadores de asignación con variables `const`
+// ⚠ Importante: No podemos usar operadores de asignación con variables `const`
 let num = 3;
 console.log(num++); // 3 (increases after console.log)
 console.log(num--); // 4 (decreases after console.log)
@@ -253,14 +259,13 @@ console.log(5 == 5);
 // "TYPE COERCION"
 /*
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness#Loose_equality_using
-Puesto que JS no es un lenguaje tipado, se puede comparar miembros de
-distinta naturaleza (distinto tipo). En tal caso, la estrategia que
-sigue JS es convertir implicitamente uno de los miembros o los dos a un
-tipo común para poder realizar la comparativa. A esto se le llama
+Puesto que JS no es un lenguaje tipado, se puede comparar miembros de distinta naturaleza 
+(distinto tipo). En tal caso, la estrategia que sigue JS es convertir implicitamente uno de los 
+miembros o los dos a un tipo común para poder realizar la comparativa. A esto se le llama
 "type coercion" o "conversión implícita/automática".
 */
-console.log(5 == "5");    // true // [!] Loose equality. Igualdad débil. (Por type coertion, "5" string se convierte a 5 numero)
-console.log(5 === "5");   // false // [!] Strict equality. Igualdad fuerte.
+console.log(5 == "5");    // true // ⚠ Loose equality. Igualdad débil. (Por type coertion, "5" string se convierte a 5 numero)
+console.log(5 === "5");   // false // ⚠ Strict equality. Igualdad fuerte.
 console.log(5 != 5);      // false
 console.log(5 != "5");    // false. (Por type coercion, "5" string se convierte a 5 numero)
 console.log(5 !== 5);     // false
@@ -312,19 +317,18 @@ console.log(false || false);  // false
 
 /*
 IMPORTANTE. De nuevo, JS puede tener operandos de distinta naturaleza.
-Los operadores && y ||, cuando se usan con operandos no booleanos
-pueden devolver un resultado no booleano, cualquiera: array, objeto ...
+Los operadores && y ||, cuando se usan con operandos no booleanos pueden devolver un resultado no
+booleano, cualquiera: array, objeto ...
 */
 
 // Por ejemplo:
 const a = 3 || 20; // 3.
 
 /*
-Para saber que operando se devuelve, JS tiene que evaluarlos como booleanos
-ya que los operadores lógicos trabajan con operandos booleanos.
-En JavaScript, al convertir o evaluar cualquier valor como booleano, pueden suceder
-2 cosas, que nos de true o que nos de false. A los valores que nos dan false se le
-conocen como "falsy values" y son sólamente estos:
+Para saber que operando se devuelve, JS tiene que evaluarlos como booleanos ya que los operadores 
+lógicos trabajan con operandos booleanos. En JavaScript, al convertir o evaluar cualquier valor 
+como booleano, pueden suceder 2 cosas, que nos de true o que nos de false. 
+A los valores que nos dan false se le conocen como "falsy values" y son sólamente estos:
 */
 0;
 NaN;
@@ -358,14 +362,14 @@ a = 2 < 0 && "hello";
 
 // 4. Operadores BITWISE u operadores de bits
 /*
-No los daremos pero sabed que existen y que son poco frecuentes.
-Suelen ser utilizados en implementaciones de algoritmos más "a bajo nivel"
+No los daremos pero sabed que existen y que son poco frecuentes. Suelen ser utilizados en 
+implementaciones de algoritmos más "a bajo nivel".
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#Bitwise
 */
 
 
 
-///-- DIRECTIVAS DE CONTROL *******************************************************
+///-- DIRECTIVAS DE CONTROL **********************************************************************
 
 // if else
 
@@ -435,7 +439,7 @@ const status = age >= 18 ? "adult" : "minor";
 // anidamiento de ternarios "ternary nesting"
 const status = age >= 18 ? "adult" : (age >= 14 ? "teen" : "kid");
 
-// bucle "for". [!] Importante el uso de `let` aquí
+// bucle "for". ⚠ Importante el uso de `let` aquí
 const limit = 10;
 for (let i = 0; i < limit; i++) {
   console.log(i);
@@ -462,9 +466,9 @@ do {
   i++;
 } while (i < limit);
 
-// [!] for..in que será vista con los objetos
-// [!] forEach() se verá con los arrays
-// [!] for..of se verá con los arrays
+// ⚠ for..in que será vista con los objetos
+// ⚠ forEach() se verá con los arrays
+// ⚠ for..of se verá con los arrays
 
 // operador coma en expresiones
 const a = (2 + 4, 9);

@@ -90,7 +90,7 @@ console.log(fourth); // undefined
 
 // Pero con "destructuring" podemos asignar elementos existentes en el array a variables de forma
 // directa, en una línea:
-// [!] El orden en la asignación se mantiene
+// ⚠ El orden en la asignación se mantiene
 const students = ["Alan", "Evan", "Ana"];
 const [first, second, third, fourth] = students;
 console.log(first); // "Alan"

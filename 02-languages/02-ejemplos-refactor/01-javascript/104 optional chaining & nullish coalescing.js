@@ -71,14 +71,14 @@ console.log(user?.stats?.likes ?? "Not available");
 // IMPORTANTE:
 // Estos dos operadores permiten construir código robusto y resiliente a errores.
 
-// *** Asignaciones con operadores lógicos. [!] Bajo implementación ES2022.
+// *** Asignaciones con operadores lógicos. ⚠ Bajo implementación ES2022.
 let a = true;
 a &&= false;    // a = a && false
 console.log(a); // false
 a ||= true;     // a = a && true
 console.log(a); // true
 
-// *** Asignaciones con operador nullish coalescing. [!] Bajo implementación ES2022.
+// *** Asignaciones con operador nullish coalescing. ⚠ Bajo implementación ES2022.
 let a = null;
 a ??= 'unavailable';    // a = a ?? false
 console.log(a); // false

@@ -128,7 +128,7 @@ console.log(juan.isMinimumSalary); // undefined
 // Sólo pueden ser accedidas desde métodos creados dentro del cuerpo de una clase
 
 class Person {
-  // [!] Deben ser declaradas dentro de la clase
+  // ⚠ Deben ser declaradas dentro de la clase
   #name;
   constructor(name) {
     this.#name = name;

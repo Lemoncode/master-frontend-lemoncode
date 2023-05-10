@@ -90,6 +90,6 @@ const myErr = new Error('Not found');
 // Dichos errores podemos lanzarlos utilizando el operador "throw"
 throw myErr;
 
-// [!] No es buena práctica el trabajo con errores ya que una mala gestión de los mismos puede
+// ⚠ No es buena práctica el trabajo con errores ya que una mala gestión de los mismos puede
 // provocar una salida abrupta del programa. Sólo deberían de ser usados en secciones que manejen
 // control de errores, por ejemplo Promises.

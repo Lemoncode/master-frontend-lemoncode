@@ -56,7 +56,7 @@ const acuario = ["Acuario", "fantástica", "el amor llama a tu puerta"];
 const leo = ["Leo", "un mojón", "tu código es horrible"];
 
 // *** Templating
-// [!] OJO, aqui el argumento phrases no corresponde a las frases de cada línea sino a los chunks
+// ⚠ OJO, aqui el argumento phrases no corresponde a las frases de cada línea sino a los chunks
 // de texto entre placeholders.
 const templateFactory = (phrases, ...placeholders) => {
   return data => 

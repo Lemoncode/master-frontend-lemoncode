@@ -43,11 +43,14 @@
 
 ****ADVANCED*****
 
-20x
-- Sintaxis básica de var, historia. (01 basics)
-- Hoisting: var (03 hoisting), let, const. (01 variables and operators).
-- Scope/Ámbito: var (03 hoisting), let, const. (01 variables and operators).
-- Tabla resumen comparando con VAR (01 variables and operators).
+20x - Advanced variables: 🔷
+- ✅ Sintaxis básica de var, historia. (01 basics)
+- ✅ Hoisting: var (03 hoisting), let, const. (01 variables and operators).
+- ✅ Scope/Ámbito: var (03 hoisting), let, const. (01 variables and operators).
+- ✅ Tabla resumen comparando con VAR (01 variables and operators).
+
+
+20x - Advanced functions:
 - Declaracion vs Expresión de funciones (01 variables and operators).
 - Closure (01 variables and operators).
 - IIFE (01 variables and operators).
@@ -57,11 +60,11 @@
  - ✅ Arrow function vs classic: problemática del THIS. ¿Lo encajamos aqui?
  - ✅ Arrow function vs classic: No pueden ser constructoras y por tanto no tienen propiedad prototype. (02 arrow functions).
  
-20x - Clases avanzadas:
- - Construcción de clases sin azucar sintáctico, basándonos en el prototipo (03 classes).
+20x - Clases avanzadas: 🔷
+ - ✅ Construcción de clases sin azucar sintáctico, basándonos en el prototipo (03 classes). Gran parte se ve en el modelo prototípico, poner aqui simplemente el resultado de transpilar.
  - ✅ Clases anónimas (factoría de clases).
 
-20x - Xxxx:
+20x - Xxxx: 🔷
 - ✅ Template Functions (07 template literals) (añadir función formatMessage como introductorio)
 - ✅ Map y WeakMap (08 map weakmap)
 - ✅ Set y WeakSet (09 set weakset)

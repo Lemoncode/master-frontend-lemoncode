@@ -124,7 +124,7 @@ if (resource.framerate) {
 if (resource.album) {
 } // TS error: Property 'album' does not exist on type 'VideoResource'
 
-// [!] El acceso a estas propiedades causa un error porque tenemos que DESAMBIGUAR el tipo.
+// ⚠ El acceso a estas propiedades causa un error porque tenemos que DESAMBIGUAR el tipo.
 // Para ello recurrimos a las GUARDAS. Podemos construirlas de distintas maneras:
 
 // -- Guardas Definidas por el Usuario

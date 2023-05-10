@@ -32,7 +32,7 @@ console.log(shout("hi")); // "hi!!!" ---> upperCase = undefined.
 // *** Argumentos por defecto
 // También es posible declarar el tipo de valores por defecto, aunque por lo general es más legible
 //  el no declarar el tipo y dejar que TypeScript lo infiera.
-// [!] No se puede mezclar el operador opcional con valores por defecto aunque al inspeccionar
+// ⚠ No se puede mezclar el operador opcional con valores por defecto aunque al inspeccionar
 // el tipo ya es opcional
 const shout = (text: string, upperCase: boolean = true): string =>
   (upperCase ? text.toUpperCase() : text) + "!!!";

@@ -47,7 +47,7 @@ console.log(sum()); // 0
 console.log(sum(1, 2, 3)); // 6
 
 // Cuando utilizamos "rest" podemos aislar argumentos iniciales y agrupar los restantes:
-// [!] el operador "rest" siempre va el último
+// ⚠ el operador "rest" siempre va el último
 const sumAllButFirst = (_first, ...nums) => nums.reduce((acc, num) => acc + num, 0);
 console.log(sumAllButFirst()); // 0
 console.log(sumAllButFirst(1, 2, 3)); // 5

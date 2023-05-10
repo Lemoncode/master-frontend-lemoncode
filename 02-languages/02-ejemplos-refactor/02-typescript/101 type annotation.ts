@@ -97,7 +97,7 @@ enum MediaTypes {
 
 const jsonMedia: MediaTypes = MediaTypes.JSON;
 console.log(jsonMedia); // "application/json"
-// [!] El identificador de un enumerado cuyo valor es un string no se puede
+// ⚠ El identificador de un enumerado cuyo valor es un string no se puede
 // obtener mediante su valor
 const medName: string = MediaTypes[MediaTypes.JSON]; // undefined
 // PREGUNTA: ¿Alguno sabe por qué no podemos hacer "reverse-mapping"
@@ -125,7 +125,7 @@ const medName: string = MediaTypes[MediaTypes.JSON]; // undefined
   MediaTypes["PLAIN"] = "text/plain"; // (1)
   MediaTypes["text/plain"] = "PLAIN";
   MediaTypes["OTHER"] = "PLAIN";
-  MediaTypes["PLAIN"] = "OTHER"; // [!] Hemos sobreescrito la propiedad "PLAIN" de (1)
+  MediaTypes["PLAIN"] = "OTHER"; // ⚠ Hemos sobreescrito la propiedad "PLAIN" de (1)
 */
 
 // Si utilizamos la palabra clave `const` delante de `enum` TypeScript no creará el objeto y
@@ -142,7 +142,7 @@ function noReturn(): void {
 // Void es equivalente a undefined
 const notAssigned: void = undefined;
 
-// [!] Veremos más en el capítulo de funciones.
+// ⚠ Veremos más en el capítulo de funciones.
 
 // *** null y undefined
 // Aunque en TS existen tanto "null" como "undefined" como tipos propios e independientes, no

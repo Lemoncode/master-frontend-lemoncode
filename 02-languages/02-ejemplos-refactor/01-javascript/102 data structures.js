@@ -49,7 +49,7 @@ person.greet(); // logs "Hello!"
 person["greet"](); // logs "Hello!"
 
 // Iterando por las propiedades
-// [!] Orden de aparición === orden de asignación/creación, excepto para propiedades puramente
+// ⚠ Orden de aparición === orden de asignación/creación, excepto para propiedades puramente
 // numéricas que aparecerán primero por orden ascendente.
 for (const prop in person) {
   console.log(prop, person[prop]); 
@@ -66,7 +66,7 @@ console.log(person.lastname); // undefined
 delete person.country.id;
 console.log(person.country); // { name: "Spain" }
 
-// [!] Comparando objetos
+// ⚠ Comparando objetos
 const boy = { age: 15 };
 console.log(boy === { age: 15 }); // [!!!] false. Se comparan REFERENCIAS! NO SE COMPARA CONTENIDO!.
 console.log(boy === boy); // true
@@ -136,7 +136,7 @@ for (const char of "javi") {
 }
 
 // Comparando arrays
-// [!] Los arrays son objetos y por tanto implementan la misma comparación que éstos:
+// ⚠ Los arrays son objetos y por tanto implementan la misma comparación que éstos:
 const collection = [3];
 console.log(collection === [3]); // false. Different object.
 console.log(collection === collection); // true

@@ -19,7 +19,7 @@ logName({}); // "Unknown"
 // PREGUNTA: Pero ¿que creeis que pasaría si llamo a la función sin argumento?
 // ¿o con argumento null?
 
-logName(); // [!] Si no inicializamos el parametro a {} esto daría TypeError.
+logName(); // ⚠ Si no inicializamos el parametro a {} esto daría TypeError.
 
 // Para evitar esos errores tenemos que inicializar también el argumento completo como objeto
 // vacío, no solo su propiedad name.
@@ -30,7 +30,7 @@ logName(); // Unknown. Ahora si!
 // Este sería el único caso todavía problemático.
 // Al ser null un objeto no se toma la inicialización por defecto, el problema es que no se puede
 // hacer destructuring sobre null.
-logName(null); // [!] Uncaught TypeError.
+logName(null); // ⚠ Uncaught TypeError.
 
 // Ejemplo con arrays:
 const sumDice = ([d1 = 0, d2 = 0] = []) => d1 + d2;

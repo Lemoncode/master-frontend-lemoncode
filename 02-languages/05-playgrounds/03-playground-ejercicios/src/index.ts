@@ -1,9 +1,9 @@
-import "./00 practice/exercise";
-import "./01 deliverables/exercise-01";
-import "./01 deliverables/exercise-02";
-import "./01 deliverables/exercise-03";
-import "./01 deliverables/exercise-04";
-import "./01 deliverables/exercise-05";
-import "./02 challenges/exercise";
+import "./01-practica/ejercicio.js";
+import "./02-entregables/ejercicio-01.js";
+import "./02-entregables/ejercicio-02.js";
+import "./02-entregables/ejercicio-03.js";
+import "./02-entregables/ejercicio-04.js";
+import "./02-entregables/ejercicio-05.js";
+import "./03-retos/ejercicio.js";
 
 console.log("Welcome to Exercises Playground.");

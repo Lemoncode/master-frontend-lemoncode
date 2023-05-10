@@ -1,7 +1,7 @@
 {
-  "name": "lodash-webpack-demo",
+  "name": "playground-lodash",
   "version": "1.0.0",
-  "description": "Front-End Lemoncode Master, Libraries and Frameworks, Lodash",
+  "description": "Master frontend Lemoncode, playground to play with lodash",
   "main": "index.ts",
   "scripts": {
     "start": "webpack serve",

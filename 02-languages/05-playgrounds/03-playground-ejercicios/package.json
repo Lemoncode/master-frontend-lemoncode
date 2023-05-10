@@ -1,16 +1,16 @@
 {
-  "name": "language-sessions-playground",
+  "name": "playground-deliverable-exercises",
   "version": "1.0.0",
-  "description": "Playground to show code snippets with no transpilation",
+  "description": "Master frontend Lemoncode, playground for deliverable exercises",
   "keywords": [
     "lemoncode",
     "master",
     "javascript",
     "typescript"
   ],
-  "homepage": "https://github.com/Lemoncode/language-sessions#readme",
+  "homepage": "https://github.com/Lemoncode/master-frontend-lemoncode/tree/master/02-languages",
   "bugs": {
-    "url": "https://github.com/Lemoncode/language-sessions/issues"
+    "url": "https://github.com/Lemoncode/master-frontend-lemoncode/issues"
   },
   "license": "MIT",
   "author": "Lemoncode",
@@ -22,7 +22,7 @@
   "main": "index.html",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Lemoncode/language-sessions.git"
+    "url": "git+https://github.com/Lemoncode/master-frontend-lemoncode.git"
   },
   "scripts": {
     "start": "npm run copy && run-p transpile devserver",

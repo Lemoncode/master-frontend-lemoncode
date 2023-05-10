@@ -12,7 +12,7 @@ function saySomething() {
   console.log("hello world");
 }
 
-console.log(typeof main); // "function" Aunque en el fondo, es también un objeto.
+console.log(typeof saySomething); // "function" Aunque en el fondo, es también un objeto.
 
 // Añadiendo argumentos
 function saySomething(arg1, arg2) {

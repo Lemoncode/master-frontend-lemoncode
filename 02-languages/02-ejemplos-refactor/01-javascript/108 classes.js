@@ -1,10 +1,19 @@
 ///-- CLASSES ************************************************************************************
 
-// Las clases se introdujeron en ES6 como una forma abreviada de implementar el modelo de
-// prototipos. Es puro azúcar sintáctico. Recordemos que no existen clases como tales en JS.
-// Todo se basa en funciones constructoras, prototipos y el operador new.
+/*
+Las notación de clases se introdujo en ES6 como una forma abreviada de implementar el modelo de 
+prototipos**. Veamos sus características principales:
 
-// Recordemos:
+**IMPORTANTE: Como veremos más adelante en el capítulo de clases avanzadas, una vez hayamos 
+asimilado el concepto del prototipo y su herencia, descubriremos que la notación de clases no es 
+más que azúcar sintáctico que nos abstraen y simplifican la tarea de trabajar a más bajo nivel con
+funciones constructoras, prototipos y el operador new. RECORDAD: en javascript las clases como tales
+no existen!
+*/
+
+
+// *** SINTAXIS
+
 class Person {
   // Esta función se ejecutará cada vez que creemos una instancia
   constructor(name) {
@@ -26,10 +35,11 @@ javi.greet(); // "Hello, I'm Javi"
 console.log(antonio.greet === antonio.greet);
 
 console.log(typeof Person); // "function"
-// Por debajo una clase es realmente una función constructora. No hay un tipo "class".
-// Desentrañaremos este misterio más adelante con el modelo prototípico
+// Por debajo, una clase es realmente una función constructora. No hay un tipo "class".
+// Desentrañaremos este misterio más adelante con el modelo prototípico.
 
-// HERENCIA
+
+// *** HERENCIA
 
 class Automobile {
   constructor(wheels) {
@@ -59,7 +69,7 @@ class Taxi extends Automobile {
 
   drive(kms) {
     super.drive(kms);
-    var serviceStatus = this.isOccupied ? "in service" : "free";
+    const serviceStatus = this.isOccupied ? "in service" : "free";
     console.log("And I am " + serviceStatus);
   }
 
@@ -76,7 +86,8 @@ console.log(taxi.isOccupied); // true
 taxi.drive(50); // "Driving 50kms... And I am in service"
 taxi.showKms(); // "Taxi total Kms: 150"
 
-// PROPIEDADES ESTÁTICAS
+
+// *** PROPIEDADES ESTÁTICAS
 
 class Employee {
   // Propiedad estática
@@ -111,7 +122,8 @@ console.log(Employee.isMinimumSalary(900)); // false
 console.log(juan.minSalary); // undefined
 console.log(juan.isMinimumSalary); // undefined
 
-// PROPIEDADES PRIVADAS
+
+// *** PROPIEDADES PRIVADAS
 
 // Sólo pueden ser accedidas desde métodos creados dentro del cuerpo de una clase
 
@@ -161,7 +173,9 @@ class Employee {
 const antonio = new Employee("Antonio", 2_000);
 console.log(antonio.getDetails());
 
-/// CLASS FIELDS
+
+// *** CLASS FIELDS
+
 // Podemos inicializar propiedades que parten de valores fijos sin usar constructor. Si te fijas
 // las hemos visto anteriormente pero con otros modificadores: `static` y el prefijo de privado `#`.
 // También podemos crear propiedades públicas de este modo:
@@ -183,26 +197,3 @@ counter.increment();
 console.log(counter.value); // 1
 counter.decrement();
 console.log(counter.value); // 0
-
-/// CLASES ANÓNIMAS
-
-// Las clases también pueden ser anónimas, al igual que las funciones.
-// Veamos un ejemplo de FACTORÍA DE CLASES. Usaremos una clase como ciudadano de primer orden: 
-// a esto se le llama 'class expression'. Aqui estamos usando el concepto de CLOSURE (que se
-// explicará en profundidad más adelante) para 'recordar' el mensaje y crear clases especializadas
-// (distintas) con distinto mensaje.
-const makeClass = (message) => {
-  return class {
-    talk() {
-      console.log(message);
-    }
-  };
-}
-
-const Cat = makeClass("Meow!");
-const cat = new Cat();
-cat.talk();
-
-const Dog = makeClass("Woof!");
-const dog = new Dog();
-dog.talk();

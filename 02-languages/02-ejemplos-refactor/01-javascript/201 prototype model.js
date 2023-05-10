@@ -142,10 +142,12 @@ de la instancia. Pero es que el prototipo vuelve a ser un objeto, que tendrá ot
 a su vez apuntará a su prototipo, y así sucesivamente. Se forma una cadena de prototipos que 
 termina finalmente apuntando a "null".
 
-Veamos un ejemplo. Crearemos objetos de tipo Automobile via función constructora. Y añadimos 
-algunas funciones a su prototipo (que sería la equivalencia a hacer métodos de clase).
+Como ejemplo, vamos a rescatar la herencia de Automobile + Taxi ya vista en el capítulo de clases
+e implementarla mediante herencia prototípica. 
 */
 
+// Creamos la función constructora para objetos de tipo Automobile y añadimos algunas funciones a
+// su prototipo (que sería la equivalencia a hacer métodos de clase).
 function Automobile(wheels) {
   this.wheels = wheels;
   this.kms = 0;
@@ -160,21 +162,19 @@ Automobile.prototype.showKms = function () {
   console.log("Total Kms: " + this.kms);
 };
 
-/*
-A continuación creamos otro objeto algo más específico, un Taxi. Vamos a hacer que Taxi "herede"
-de Automobile. Para eso, queremos que el objeto que llama al constructor Taxi() invoque también 
-al constructor Automobile().
-*/
+
+// A continuación creamos otro objeto algo más específico, un Taxi. Vamos a hacer que Taxi "herede"
+// de Automobile. Para eso, queremos que el objeto que llama al constructor Taxi() invoque también 
+// al constructor Automobile().
 function Taxi() {
   Automobile.call(this, 4); // super();
   this.isOccupied = false;
 }
 
-/*
-Hacemos que Taxi "herede" de Automobile. Para ello creamos un prototipo para Taxi, gracias a
-Object.create que crea un nuevo objeto cuyo prototipo podemos hacer que apunte a donde queramos.
-Ademas hay que setear su constructor.
-*/
+
+// Hacemos que Taxi "herede" de Automobile. Para ello creamos un prototipo para Taxi, gracias a
+// Object.create que crea un nuevo objeto cuyo prototipo podemos hacer que apunte a donde queramos.
+// Ademas hay que setear su constructor.
 Taxi.prototype = Object.create(Automobile.prototype); // Crea un objeto nuevo {__proto__: arg}
 Taxi.prototype.constructor = Taxi;
 // Una forma equivalente sería directamente apuntando a donde queramos
@@ -316,7 +316,7 @@ la problemática del "this" en las funciones clásicas y porqué llegaron las ar
 rescate. Pero en primer lugar, refresquemos conceptos.
 */
 
-// *** REPASO -----------------------------------------------------------------------------------
+// *** REPASO 
 
 // Recordemos, la keyword "this" es especial en javascript y apunta a quien haya invocado a la 
 // función clásica:
@@ -363,7 +363,7 @@ const me = {
 me.sayAge(); // "I'm 36 years old"
 
 
-// *** PROBLEMA CON EL THIS EN LAS FUNCIONES CLÁSICAS --------------------------------------------
+// *** PROBLEMA CON EL THIS EN LAS FUNCIONES CLÁSICAS 
 
 /*
 Adelantándonos al problema, diremos que las arrow function irrumpieron no solo por ser más

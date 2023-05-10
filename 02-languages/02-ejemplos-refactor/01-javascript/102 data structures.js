@@ -68,7 +68,7 @@ console.log(person.country); // { name: "Spain" }
 
 // ⚠ Comparando objetos
 const boy = { age: 15 };
-console.log(boy === { age: 15 }); // [!!!] false. Se comparan REFERENCIAS! NO SE COMPARA CONTENIDO!.
+console.log(boy === { age: 15 }); // ⚠⚠ false. Se comparan REFERENCIAS! NO SE COMPARA CONTENIDO!.
 console.log(boy === boy); // true
 console.log(boy.toString()); // [object Object]
 

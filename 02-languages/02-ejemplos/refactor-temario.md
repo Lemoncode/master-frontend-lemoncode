@@ -21,13 +21,13 @@
 - ✅ Rest/Spread (05 spread-rest operator)
 - ✅ Default arguments (06 default arguments)
 
-105 - Clases:
+105 - Clases: 🔷
 - Sintaxis de clases (azúcar sintáctico) (03 classes):
   - ✅Sintaxis básica.
   - ✅Herencia.
   - ✅Propiedades estáticas.
   - ✅Propiedades privadas.
-  - Clases anónimas (factoría) (Candidato a ADVANCED).
+  - ✅ Clases anónimas (factoría) (Movido a ADVANCED).
 
 106 - JSON, manejo de errores: 🔷
 - ✅ Copiar tal cual (04 json notation and errors).
@@ -50,10 +50,10 @@
 - ✅ Tabla resumen comparando con VAR (01 variables and operators).
 
 
-20x - Advanced functions:
-- Declaracion vs Expresión de funciones (01 variables and operators).
-- Closure (01 variables and operators).
-- IIFE (01 variables and operators).
+20x - Advanced functions: 🔷
+- ✅Declaracion vs Expresión de funciones (01 variables and operators).
+- ✅Closure (01 variables and operators).
+- ✅IIFE (01 variables and operators).
 
 20x - Modelo Prototípico: 🔷
  - ✅ (05 prototype model).

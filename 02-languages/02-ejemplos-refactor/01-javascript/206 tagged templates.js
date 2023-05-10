@@ -1,7 +1,10 @@
-///-- TEMPLATE FUNCTIONS *************************************************************************
+///-- TAGGED TEMPLATES ***************************************************************************
 
-// Una forma avanzada de utilizar los template literals es para modificar el resultado de una 
-// plantilla mediante una función:
+/*
+Una forma avanzada de utilizar los template literals es mediante lo que se conoce como TAGGED
+TEMPLATES. Este mecanismo nos permite consumir plantillas mediante una función y devolver resultados
+customizados:
+*/
 
 // EJEMPLO 1
 

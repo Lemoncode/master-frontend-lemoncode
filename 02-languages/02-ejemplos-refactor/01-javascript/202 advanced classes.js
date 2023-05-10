@@ -56,11 +56,7 @@ https://babeljs.io/repl
 
 Settings:
  - Borrar los targets o Forzar todas las transformaciones para asegurar transpilación a ES5.
- - Assumptions, para eliminar algo de ruido, marcar lo siguiente:
-   - constantSuper
-   - noClassCall
-   - setClassMethods
-   - superIsCallableConstructor
+ - Marca la opción LOOSE
 
 */
 

@@ -1,6 +1,6 @@
 ///-- DESTRUCTURING ******************************************************************************
 
-// Destructuring es una técnica rápida para asignar propiedades de objetos a variables, o items 
+// Destructuring es una técnica rápida para asignar propiedades de objetos a variables, o items
 // de un array a variables.
 
 // "DESTRUCTURING" SOBRE OBJETOS
@@ -127,7 +127,7 @@ let a = "a";
 let b = "b";
 
 // Swap clásico, nos tenemos que apoyar en variables auxiliares
-const temp = a;
+let temp = a;
 a = b;
 b = temp;
 

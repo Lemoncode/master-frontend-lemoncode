@@ -32,6 +32,17 @@ logName(); // Unknown. Ahora si!
 // hacer destructuring sobre null.
 logName(null); // ⚠ Uncaught TypeError.
 
+// No obstante, ahora que ya conocemos el destructuring y el operador nullish coalescing, tenemos
+// una alternativa igual de elegante y concisa. La solución para cubrirnos todos los casos sería
+// la siguiente:
+const logName = user => {
+  const { name = "Unknown" } = user ?? {};
+  console.log(name);
+}
+logName({}); // "Unknown"
+logName(); // "Unknown"
+logName(null); // "Unknown"
+
 // Ejemplo con arrays:
 const sumDice = ([d1 = 0, d2 = 0] = []) => d1 + d2;
 console.log(sumDice()); // 0

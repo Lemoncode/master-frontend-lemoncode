@@ -21,13 +21,13 @@ Ahora mismo hay una solución muy interesante:
 - Vamos a instalar **`TypeScript`**:
 
 ```bash
-$ npm install typescript --save-dev
+npm install typescript --save-dev
 ```
 
 - Vamos a instalar [**`Babel preset`**](https://babeljs.io/docs/en/babel-preset-typescript) para **`TypeScript`**:
 
 ```bash
-$ npm install @babel/preset-typescript --save-dev
+npm install @babel/preset-typescript --save-dev
 ```
 
 - Vamos a actualizar **`.babelrc`** para añadir los **`presets`** de **`TypeScript`**:
@@ -63,7 +63,6 @@ _./tsconfig.json_
     "sourceMap": true,
     "jsx": "react",
     "noLib": false,
-    "suppressImplicitAnyIndexErrors": true,
     "skipLibCheck": true,
     "esModuleInterop": true
   },
@@ -124,7 +123,7 @@ _./webpack.config.js_
 - Instalamos los **`typings`** para **`React`** y **`React DOM`**:
 
 ```bash
-$ npm install @types/react @types/react-dom --save-dev
+npm install @types/react @types/react-dom --save-dev
 ```
 
 - Ahora podemos hacer uso de las ventajas de **`TypeScript`**, por ejemplo:
@@ -165,7 +164,7 @@ _./src/averageComponent.tsx_
 - Probamos que todo funciona correctamente:
 
 ```bash
-$ npm start
+npm start
 ```
 
 - Aunque no se queja al transpilar, si echamos un vistazo a las importaciones, podemos ver que hay errores marcados en **`VSCode`**: **`TypeScript`** no sabe cómo importar un archivo **`scss`**, simplemente lo vamos a declarar como un módulo.
@@ -201,7 +200,7 @@ Para solucionar este problema vamos a ejecutar **`TypeScript`** y **`babel`** en
 - Primero instamos **`npm-run-all`**, un paquete que nos permitirá ejecutar tareas en paralelo.
 
 ```bash
-$ npm install npm-run-all --save-dev
+npm install npm-run-all --save-dev
 ```
 
 - Vamos a mejorar nuestro **`package.json`**, crearemos un nuevo comando solo para ejecutar
@@ -245,7 +244,7 @@ _./webpack.config.js_
 - Ahora si ejecutamos el comando de inicio obtendremos el error en nuestra terminal:
 
 ```bash
-$ npm start
+npm start
 ```
 
 <img src="./content/typescript-error.png" alt="typescript-error" style="zoom:67%;" />

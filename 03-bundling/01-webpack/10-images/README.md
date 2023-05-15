@@ -9,6 +9,7 @@ En el siguiente punto vamos a incluir imágenes en nuestro proyecto de dos forma
 - Vamos a agregar al **`index.html`** un elemento **`div`** con una **`id`** dada:
 
 _./src/index.html_
+
 ```diff
 <!DOCTYPE html>
 <html lang="en">
@@ -95,7 +96,7 @@ $back-color: indianred;
 - Y ejecutamos **`npm start`**. Deberíamos poder ver la imagen en el navegador.
 
 ```bash
-$ npm start
+npm start
 ```
 
 <img src="./content/image-logo1.png" alt="image-logo1" style="zoom:50%;" />
@@ -103,7 +104,7 @@ $ npm start
 - Vamos a ejecutar la **`build`** y vemos que ha hecho **`webpack`**.
 
 ```bash
-$ npm run build
+npm run build
 ```
 
 - Si te fijas, en el **`bundle`**, el nombre que le pone al fichero de imagen es una secuencia de caracteres que nada tiene que ver con el nombre original, esto se debe a que _webpack_ le va dando nombre únicos para evitar colisiones con otros ficheros de imágenes.
@@ -136,17 +137,19 @@ _./src/index.html_
 </html>
 ```
 
-- Ahora, si ejecutamos la aplicación (**`npm start`**), parece que fucniona, se muestra la segunda imagen...
+- Ahora, si ejecutamos la aplicación (**`npm start`**), parece que funciona, se muestra la segunda imagen...
 
 ```bash
-$ npm start
+npm start
 ```
 
 Peeero si inspeccionamos el elemento _img_ en el navegador podemos ver que apunta a una ruta que en dist no tendríamos...
 
 Vamos a probar el paquete de _dist_, para ello hacemos un build:
 
-_npm run build_
+```bash
+npm run build
+```
 
 Vamos al terminal, nos metemos en la carpeta _dist_
 
@@ -154,7 +157,7 @@ _cd dist_
 
 Si hacemos un _ls_ ya vemos que algo nos huele mal, sólo hay un fichero de imagen.
 
-Vamos a instalar de manera gloval (si no lo tenemos ya) un servidor web ligero:
+Vamos a instalar de manera global (si no lo tenemos ya) un servidor web ligero:
 
 _npm install lite-server -g_
 
@@ -171,7 +174,7 @@ Si abrimos el navegador y vamos a la dirección que indica _lite-server_ (normal
 - Esto sucede porque no tenemos ningún **`loader`** que esté buscando referencias dentro del **`HTML`** y extraiga esas imágenes al bundle de producción, **`webpack`** nos da solución para esto y utilizaremos **`html-loader`**.
 - Vamos a instalarlo y añadirlo a nuestra configuración de **`webpack.config.js`**, en este caso
   le diremos que cuando se encuentre con un fichero con extensión _html_ ejecute el _html-loader_:
-  
+
 Si estamos en la carpeta _dist_ subimos un nivel:
 
 ```bash
@@ -179,7 +182,7 @@ cd ..
 ```
 
 ```bash
-$ npm install html-loader --save-dev
+npm install html-loader --save-dev
 ```
 
 _./webpack.config.js_
@@ -197,7 +200,7 @@ _./webpack.config.js_
 - Comprobamos que en efecto al hacer un _build_ se copia a _dist_ la imagen referenciada.
 
 ```bash
-$ npm run build
+npm run build
 ```
 
 <img src="./content/build-images.png" alt="build-images" style="zoom: 67%;" />
@@ -205,7 +208,7 @@ $ npm run build
 - Y ejecutamos **`npm start`** para ver que se muestra correctamente la imagen.
 
 ```bash
-$ npm start
+npm start
 ```
 
 <img src="./content/referencia-automatica-imagen.png" alt="referencia-automatica-imagen" style="zoom:67%;" />
@@ -215,13 +218,14 @@ Antes de abandonar este ejemplo, vamos a ver como hacer que webpack recargue en 
 
 _./webpack.config.js_
 
-```js
+```diff
   devServer: {
-    open: true,
-    hot: true,
-    static: {
-      directory: path.join(__dirname, "src"),
-    },
+    port: 8080,
++    open: true,
++    hot: true,
++    static: {
++      directory: path.join(__dirname, "src"),
++    },
   },
 ```
 

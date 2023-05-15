@@ -14,7 +14,6 @@ _./webpack.config.js_
 ```diff
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 + const path = require("path");
 
 module.exports = {
@@ -69,7 +68,7 @@ module.exports = {
 - Comprobemos que la aplicación sigue funcionando después de esta refactorización.
 
 ```bash
-$ npm start
+npm start
 ```
 
 ## Sumario

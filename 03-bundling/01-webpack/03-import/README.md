@@ -40,7 +40,7 @@ _./src/students.js_
 - Por último, vamos a ejecutar _webpack_ desde el terminal ejecutando el siguiente comando:
 
 ```bash
-$ npm run build
+npm run build
 ```
 
 Como vemos no nos ha generado en la carpeta _dist_ un fichero **`students.js`** ni un **`averageService.js`**, **`webpack`** se va a ir encargando de concatenar los ficheros en uno sólo. Y como resultado obtenemos dentro de la carpeta _dist_ un fichero llamado **`main.js`** (más adelante veremos que podemos trocear este _bundle_ en varios ficheros).

@@ -41,7 +41,7 @@ document.write(messageToDisplay);
   (en este caso el paquete _sass_):
 
 ```bash
-$ npm install sass sass-loader --save-dev
+npm install sass sass-loader --save-dev
 ```
 
 Tenemos que actualizar el archivo **`webpack.config.js`**.
@@ -76,7 +76,7 @@ _./webpack.config.js_
 - Si ejecutamos nuestra aplicación (**`npm start`**), veremos el mismo resultado que obteníamos en **`Twitter Bootstrap`**, eso si aplicando el valor de la variable SASS.
 
 ```bash
-$ npm start
+npm start
 ```
 
 - Esto nos muestra la salida de nuestro navegador:
@@ -102,7 +102,7 @@ _./webpack.config.js_
 - Generamos nuestra **`build`**:
 
 ```bash
-$ npm run build
+npm run build
 ```
 
 - Como resultado nos generaría un archivo **`css`**.

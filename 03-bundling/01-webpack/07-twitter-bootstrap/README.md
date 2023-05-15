@@ -9,7 +9,7 @@ Crear nuestro CSS de aplicación es algo muy interesante, pero hay ocasiones en 
 - Vamos a empezar instalando **`Boootstrap`**:
 
 ```bash
-$ npm install bootstrap --save
+npm install bootstrap --save
 ```
 
 - Ahora, importamos la biblioteca **`CSS`** para incluirla en nuestro proyecto:
@@ -49,7 +49,7 @@ _./src/index.html_
 - Si ahora arrancamos nuestra aplicación:
 
 ```bash
-$ npm start
+npm start
 ```
 
 - Nos daría un error:
@@ -65,14 +65,15 @@ _webpack.config.js_
 {
   test: /\.css$/,
 -  exclude: /node_modules/,
-  use: ["style-loader", "css-loader"],
+-  use: [MiniCssExtractPlugin.loader, "css-loader"],
++  use: ["style-loader", "css-loader"],
 }
 ```
 
 - Si arrancamos nuestra aplicación:
 
 ```bash
-$ npm start
+npm start
 ```
 
 - Y nuestra navegador ya mostrará el componente **`card`** de **`Bootstrap`**:

@@ -49,7 +49,7 @@ _./package.json_
 {
   ...
   "scripts": {
-+   "build": "webpack --mode development",
++   "build": "webpack --mode development"
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   ...

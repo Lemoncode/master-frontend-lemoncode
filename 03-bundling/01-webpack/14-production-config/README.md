@@ -8,6 +8,45 @@ Llegados a este punto, nos gustaría dividir nuestro proyecto en diferentes conf
 
 ## Pasos
 
+- Antes de nada vamos a quitar la card Bootstrap que habíamos añadido en el ejemplo anterior.
+
+_./src/totalScoreComponent.tsx_
+
+```diff
+import React from "react";
+import { getTotalScore } from "./averageService";
+import classes from "./totalScoreComponentStyles.scss";
+
+export const TotalScoreComponent : React.FC = () => {
+  const [totalScore, setTotalScore] = React.useState(0);
+
+  React.useEffect(() => {
+    const scores = [10, 20, 30, 40, 50];
+    setTotalScore(getTotalScore(scores));
+  }, []);
+
+  return (
+-    <div>
+-      <div className="card" style={{ width: 180 }}>
+-        <div className="card-body">
+-          <h5 className="card-title">Card title</h5>
+          <p className="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
+          <p className={classes.resultBackground}>
+            Students total score: {totalScore}
+          </p>
+-          <a href="#" className="btn btn-primary">
+-            Go somewhere
+-          </a>
+-        </div>
+-      </div>
+-    </div>
+  );
+};
+```
+
 - Vamos a crear un archivo nuevo llamado **`webpack.common.js`** , copiamos todo el contenido de **`webpack.config.js`** y eliminamos las configuraciones que no son comunes.
   - Eliminamos **`MiniCssExtractPlugin`** que no será necesario en desarrollo (usamos en este caso **`style-loader`**) y Lo utilizaremos en producción.
   - También **`devtool`** y **`devServer`** que sólo irán a desarrollo.
@@ -62,6 +101,14 @@ module.exports = {
 -        test: /\.css$/,
 -        use: ["style-loader", "css-loader"],
 -      },
+      {
+        test: /\.(png|jpg)$/,
+        type: "asset/resource",
+      },
+      {
+        test: /\.html$/,
+        loader: "html-loader",
+      },
     ],
   },
   plugins: [
@@ -113,7 +160,7 @@ const path = require("path");
 
 module.exports = {
 +  ...common,
-+  module.exports: {
++  module: {
 +    rules: [
 +      {
 +        test: /\.scss$/,
@@ -126,7 +173,6 @@ module.exports = {
 +              modules: {
 +                exportLocalsConvention: "camelCase",
 +                localIdentName: "[path][name]__[local]--[hash:base64:5]",
-+                localIdentContext: path.resolve(__dirname, "src"),
 +              },
 +            },
 +          },
@@ -159,7 +205,7 @@ Vamos a instalar la herramienta:
 > [Documentación](https://webpack.js.org/guides/production/)
 
 ```bash
-$ npm install webpack-merge --save-dev
+npm install webpack-merge --save-dev
 ```
 
 - Y para utilizarlo lo hacemos de la siguiente forma:
@@ -185,11 +231,11 @@ const path = require("path");
 ```diff
   "scripts": {
      "start": "run-p -l type-check:watch start:dev",
-- 	 "build": "run-p -l type-check build:dev",
      "type-check": "tsc --noEmit",
      "type-check:watch": "npm run type-check -- --watch",
 -    "start:dev": "webpack serve --mode development",
 +    "start:dev": "webpack serve --mode development --config webpack.dev.js",
+-    "build": "webpack --mode development"
 +    "build:dev": "webpack --mode development --config webpack.dev.js"
 },
 ```
@@ -221,7 +267,6 @@ module.exports = merge(common, {
               modules: {
                 exportLocalsConvention: "camelCase",
                 localIdentName: "[path][name]__[local]--[hash:base64:5]",
-                localIdentContext: path.resolve(__dirname, "src"),
               },
             },
           },
@@ -249,7 +294,8 @@ _./package.json_
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
     "start:dev": "webpack serve --mode development --config webpack.dev.js",
-	"build:dev": "webpack --mode development --config webpack.dev.js"
+-	  "build:dev": "webpack --mode development --config webpack.dev.js"
++   "build:dev": "webpack --mode development --config webpack.dev.js",
 +   "build:prod": "webpack --mode production --config webpack.prod.js"
   },
 ```
@@ -312,7 +358,7 @@ $ npm run build:dev
 - O si por el contrario queremos construir la de producción, vemos que crea un archivo **`css`** con los estilos de la aplicación:
 
 ```bash
-$ npm run build:prod
+npm run build:prod
 ```
 
 <img src="./content/build-prod.PNG" alt="build-prod" style="zoom:80%;" />
@@ -398,7 +444,7 @@ module.exports = merge(common, {
 - Si ahora volvemos a crear nuestra **`build`**.
 
 ```bash
-$ npm run build:prod
+npm run build:prod
 ```
 
 - El resultado sería mucho más ordenado y más visible.

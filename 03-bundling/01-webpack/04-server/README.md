@@ -7,7 +7,7 @@ Cuando estás programando una aplicación web no es idea el estar directamente p
 - Vamos a instalar **`webpack-dev-server`**, el cual nos montará un servidor web ligero, donde correrá nuestra aplicación.
 
 ```bash
-$ npm install webpack-dev-server --save-dev
+npm install webpack-dev-server --save-dev
 ```
 
 - Vamos a reconfigurar nuestro **`package.json`** añadiendo el comando **`start`** donde vamos a lanzar nuestra aplicación en modo desarrollo.
@@ -17,8 +17,7 @@ $ npm install webpack-dev-server --save-dev
 ```diff
   "scripts": {
 +   "start": "webpack serve --mode development",
--    "build": "webpack --mode development",
-+    "build": "webpack --mode development"
+    "build": "webpack --mode development"
   },
 ```
 
@@ -82,7 +81,7 @@ module.exports = {
 - Ahora si escribimos el comando desde la terminal de nuestro sistema.
 
 ```bash
-$ npm start
+npm start
 ```
 
 <img src="./content/html-webpluging3.PNG" alt="html-webpluging3" style="zoom:67%;" />
@@ -92,7 +91,7 @@ $ npm start
 - Si queremos ejecutar la _build_ de _webpack_, solo necesitamos escribir los comandos desde la terminal de nuestro sistema:
 
 ```bash
-$ npm run build
+npm run build
 ```
 
 - Finalmente, si el puerto por defecto en el que corre _webpack-dev-server_ no nos cuadra, podemos
@@ -122,7 +121,7 @@ module.exports = {
 - Ahora, se está ejecutando en el puerto 8081.
 
 ```bash
-$ npm start
+npm start
 ```
 
 <img src="./content/webpack-dev-server.png" alt="webpack-dev-server" style="zoom:67%;" />

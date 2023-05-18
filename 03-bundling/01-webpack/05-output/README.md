@@ -12,7 +12,7 @@ esto paso manual puede ser una fuente de errores a futuro.
 - Instalamos el plugin
 
 ```bash
-$ npm install html-webpack-plugin --save-dev
+npm install html-webpack-plugin --save-dev
 ```
 
 - Eliminamos de nuestro _index.html_ base la etiqueta de script:
@@ -108,7 +108,7 @@ _/webpack.config.js_
 Ahora, si creamos la _build_, nos daremos cuenta de que `index.html` se copia en la carpeta _dist_ y la etiqueta del _script_ se genera automáticamente.
 
 ```bash
-$ npm run build
+npm run build
 ```
 
 Solo hay un tema que puede ser problemático... no estamos utilizando ningún parámetro _hash_ adicional para evitar que el _javascript_ acabe en la caché del navegador o _proxy_ y no detecte nuevas versiones
@@ -124,7 +124,7 @@ _/webpack.config.js_
       filename: 'index.html', //Name of file in ./dist/
       template: 'index.html', //Name of template in ./src
       scriptLoading:'blocking',
-+     hash:true,
++     hash: true,
     }),
   ],
 ```
@@ -132,13 +132,13 @@ _/webpack.config.js_
 - Ejecutamos la compilación y podemos verificar que ahora obtenemos un hash en nuestro script, para ello abrimos
 
 ```bash
-$ npm run build
+npm run build
 ```
 
 Si abrimos un navegador podemos apuntar la url a [http://localhost:8080](http://localhost:8080/) y navegaremos a nuestra aplicación web.
 
 ```bash
-$ npm start
+npm start
 ```
 
 # ¿Te apuntas a nuestro máster?

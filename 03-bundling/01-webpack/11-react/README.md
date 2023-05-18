@@ -33,7 +33,7 @@ _./src/index.html_
 - **`React`** es una librería de código abierto bastante popular para crear interfaces de usuario. Comencemos instalando la biblioteca que se divide en 2: [react](https://www.npmjs.com/package/react) es la librería principal y [react-dom](https://www.npmjs.com/package/react-dom) es el pegamento entre **`React`** y el **`DOM`**.
 
 ```bash
-$ npm install react react-dom --save
+npm install react react-dom --save
 ```
 
 - Cuando trabajamos con **`frameworks`** es normal tener un **`root`** para que tu aplicación sepa que a partir de donde tiene que ser renderizada, en este caso en particular, **`React`** se va a encargar de toda la capa de visualización.
@@ -96,7 +96,7 @@ root.render(
 - Necesitamos otro **`preset`** para que Babel transpile los archivos **`jsx`** de **`React`** a **`js`**, necesitamos instalar [_babel-preset-react_](https://github.com/babel/babel/tree/master/packages/babel-preset-react).
 
 ```bash
-$ npm install @babel/preset-react --save-dev
+npm install @babel/preset-react --save-dev
 ```
 
 - Lo agregamos a la configuración de **`babel`**:
@@ -156,7 +156,7 @@ _./webpack.config.js_
 - Finalmente, cuando ejecutamos la aplicación, vemos _React_ en acción.
 
 ```bash
-$ npm start
+npm start
 ```
 
 - Así lo vemos por nuestro navegador:

@@ -29,7 +29,7 @@ fetch(`${API_BASE}/members`);
 - Vamos a instalar **`dotenv-webpack`**:
 
 ```bash
-$ npm install dotenv-webpack --save-dev
+npm install dotenv-webpack --save-dev
 ```
 
 - Vamos a crear dos archivos para nuestros entornos, uno para desarrollo y otro para producción.
@@ -72,7 +72,6 @@ _./webpack.prod.js_
 const { merge } = require("webpack-merge");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const common = require("./webpack.common.js");
-const path = require("path");
 + const Dotenv = require('dotenv-webpack');
 ...
   plugins: [
@@ -116,7 +115,7 @@ _./package.json_
 - Probamos la configuración de desarrollo, ejecuta el siguiente comando desde la terminal y abre la consola de tu navegador:
 
 ```bash
-$ npm start
+npm start
 ```
 
 <img src="./content/dev-env.PNG" alt="dev-env" style="zoom:50%;" />
@@ -124,7 +123,7 @@ $ npm start
 - Ahora lo probamos en producción:
 
 ```bash
-$ npm run start:prod
+npm run start:prod
 ```
 
 <img src="./content/dev-prod.PNG" alt="dev-prod" style="zoom:50%;" />

@@ -11,7 +11,7 @@ En este ejemplo vamos a configurar el **`plugin`** **`Wepback Bundle Analyzer`**
 - Vamos a instalar el plugin:
 
 ```bash
-$ npm install webpack-bundle-analyzer --save-dev
+npm install webpack-bundle-analyzer --save-dev
 ```
 
 - Creamos una nueva configuración de **`webpack`**, la llamaremos **`webpack.perf.js`**.
@@ -52,7 +52,7 @@ _./package.json_
 - Ejecutamos el **`script`**:
 
 ```bash
-$ npm run build:perf
+npm run build:perf
 ```
 
 - Y Directamente se abre una web en nuestro navegador, donde veremos cuánto pesa cada parte de la aplicación.
@@ -87,7 +87,7 @@ _./webpack.prod.js_
 - Lanzamos de nuevo la **`build`**
 
 ```bash
-$ npm run build:prod
+npm run build:prod
 ```
 
 - Ahora nos sacaría un **`bundle`** con el código de aplicación y otro con la librería de terceros.
@@ -135,7 +135,7 @@ _./webpack.prod.js_
 - Lanzamos de nuevo la **`build`**
 
 ```bash
-$ npm run build:prod
+npm run build:prod
 ```
 
 <img src="./content/split-build2.png" alt="split-build2" style="zoom:67%;" />
@@ -143,7 +143,7 @@ $ npm run build:prod
 - Vemos ahora que tenemos un **`bundle`** para cada **`vendor`**.
 
 ```bash
-$ npm run build:perf
+npm run build:perf
 ```
 - Y ya lo vemos más detallado:
 

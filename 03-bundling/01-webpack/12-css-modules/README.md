@@ -53,7 +53,7 @@ export const AverageComponent: React.FunctionComponent = () => {
 - Ejecutamos el ejemplo
 
 ```bash
-$ npm start
+npm start
 ```
 
 - Si ejecutamos podemos ver que el estilo no se aplica, tenemos que integrarlo
@@ -115,7 +115,7 @@ export const AverageComponent = () => {
 - Ahora si hacemos **`npm start`** vemos lo cambios.
 
 ```bash
-$ npm start
+npm start
 ```
 
 ![css-modules-1](./content/css-modules-1.png)
@@ -223,7 +223,7 @@ root.render(
 - Si ejecutamos el proyecto, vemos que ambos estilos **`css`** se superponen.
 
 ```bash
-$ npm start
+npm start
 ```
 
 - Como resultado, al llamarse igual los dos estilos prevalece el último introducido, **`averageComponentStyles`** se reemplaza por **`totalScoreComponentStyles`**. ¿Cómo solucionar esto? ¡Módulos de CSS al rescate!
@@ -342,7 +342,7 @@ export const TotalScoreComponent: React.FunctionComponent = () => {
 - De esta manera ya evitamos colisiones de nombres globales cuando manejemos **`CSS`**.
 
 ```bash
-$ npm start
+npm start
 ```
 
 <img src="./content/css-modules-3.png" alt="css-modules-3" style="zoom:67%;" />
@@ -417,7 +417,7 @@ _./src/totalScoreComponent.tsx_
 - Ejecutemos npm start otra vez:
 
 ```bash
-$ npm start
+npm start
 ```
 
 - Y vemos que todo sigue funcionando correctamente permitiéndonos usar _camel case_
@@ -433,15 +433,9 @@ $ npm start
 
 <img src="./content/css-modules-4.png" alt="css-modules-4" style="zoom:67%;" />
 
-- Para ello vamos a introducir dos propiedades nuevas a la configuración:
+Para ello vamos a introducir una propiedad nueva a la configuración:
 
-  - **localIdentName**: pone como prefijo en el nombre de la clase CSS el nombre
-    del fichero, y a continuación introduce dos barras bajas, después añadimos el nombre de la clase **`css`** y dos guiones para separarlo por un valor de **`hash`** donde
-    se calcula un valor único en base al path y el nombre del fichero (si queremos
-    podemos especificar nuestra propia función hash).
-
-  - **localIdentContent**: le da un contexto para indicar la ubicación de la carpeta donde están los archivos. Y de esta manera no introducirá **`src`** delante de los ficheros de clase que haya creado (así los nombres de nuestros selectores serán un poco más
-    cortos).
+- **localIdentName**: pone como prefijo en el nombre del fichero, y a continuación introduce dos barras bajas, después añadimos el nombre de la clase **`css`** y dos guiones para separarlo por un valor de **`hash`** donde se calcula un valor único en base al path y el nombre del fichero (si queremos podemos especificar nuestra propia función hash).
 
 _./webpack.config.js_
 ```diff
@@ -451,7 +445,6 @@ _./webpack.config.js_
       modules: {
         exportLocalsConvention: "camelCase",
 +       localIdentName: '[path][name]__[local]--[hash:base64:5]',
-+       localIdentContext: path.resolve(__dirname, 'src'),
       },
     },
   },
@@ -499,7 +492,7 @@ _./src/totalScoreComponent.jsx_
 - Ejecutamos **`npm start`**:
 
 ```bash
-$ npm start
+npm start
 ```
 
 Si no aparece nada, vamos a ver si sigue la entrada a Bootstrap en nuestro webpack.config.js
@@ -564,7 +557,7 @@ $background: indianred;
 - Si ejecutamos el proyecto ahora, podemos ver que el cambio se ha aplicado globalmente.
 
 ```bash
-$ npm start
+npm start
 ```
 
 - Aquí vemos el resultado que ha cambiado el color de la cabecera:

@@ -23,7 +23,7 @@ donde te lo puedes descargar e instalar (si desarrollas Front puede que ya lo te
 - Ejecutamos **`npm init -y`**, eso nos crear un fichero _package.json_ es decir la configuración de un proyecto de _node_.
 
 ```bash
-$ npm init -y
+npm init -y
 ```
 
 > Al usar "y" estamos de acuerdo con los valores predeterminados (ten cuidado si ha creado un nombre de carpeta que contenga caracteres en mayúsculas o espacios en blanco, fallará).
@@ -31,7 +31,7 @@ $ npm init -y
 - Vamos a instalar **`webpack`** y **`webpack-cli`** localmente, como una dependencia de desarrollo (la razón para instalarlo localmente y no globalmente es para que sea fácil de configurar, por ejemplo, se puede iniciar en una máquina limpia sin tener que instalar nada globalmente excepto **`nodejs`**), desde el terminal ejecutamos el siguiente comando:
 
 ```bash
-$ npm install webpack webpack-cli --save-dev
+npm install webpack webpack-cli --save-dev
 ```
 
 - El siguiente paso es añadir un comando en el _package.json_ para poder lanzar **`webpack`** usando nuestra configuración y poder ver así nuestro proyecto en funcionamiento, modificamos el archivo **`package.json`** y agregamos la siguiente propiedad **`"build": "webpack --mode development"`** justo debajo de la entrada _scripts_: una vez que hayamos introducido este, podemos lanzar **`webpack`** desde la línea de comandos ejecutando **`npm run build`**.
@@ -78,14 +78,14 @@ configuración la tenemos en el paquete npm que nos hemos bajado, en concreto é
 - Vamos a instalarnos las dependencias y definirlo como dependencias de desarrollo en el archivo **`package.json`**:
 
 ```bash
-$ npm install @babel/cli @babel/core @babel/preset-env --save-dev
+npm install @babel/cli @babel/core @babel/preset-env --save-dev
 ```
 
 - Necesitamos instalar un **`"loader"`** para que **`webpack`** pueda hacer uso del transpilador **`"babel-core"`**,
   un _loader_ hace de puente entre _webpack_ y la herramienta final que usemos.
 
 ```bash
-$ npm install babel-loader --save-dev
+npm install babel-loader --save-dev
 ```
 
 El área de dependencias de desarrollo de nuestro **`package.json`** debería tener el siguiente aspecto
@@ -97,12 +97,12 @@ _./package.json_
 {
 ...
   "devDependencies": {
-+    "@babel/cli": "^7.16.7",
-+    "@babel/core": "^7.16.7",
-+    "@babel/preset-env": "^7.16.7",
-+    "babel-loader": "^8.2.3",
-+    "webpack": "^5.65.0",
-+    "webpack-cli": "^4.9.1"
++    "@babel/cli": "^7.21.5",
++    "@babel/core": "^7.21.8",
++    "@babel/preset-env": "^7.21.5",
++    "babel-loader": "^9.1.2",
++    "webpack": "^5.82.1",
++    "webpack-cli": "^5.1.1"
   }
 }
 ```
@@ -178,7 +178,7 @@ _./.babelrc_
 - Vamos a ejecutar webpack desde la línea de comandos, escribe **`npm run build`** y presiona enter.
 
 ```bash
-$ npm run build
+npm run build
 ```
 
 - Si todo ha ido bien, podemos ver que se ha creado una carpeta con el nombre _dist_ y dentro hay un archivo llamado **`main.js`**.

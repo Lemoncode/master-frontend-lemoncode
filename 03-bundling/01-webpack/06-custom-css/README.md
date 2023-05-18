@@ -10,7 +10,7 @@ En este ejemplo, crearemos un archivo CSS personalizado (contendrá una clase CS
 - Instalemos las dependencias
 
 ```bash
-$ npm install
+npm install
 ```
 
 - Ahora creamos un archivo CSS simple que agregará un fondo rojo, lo llamaremos mystyles.css
@@ -61,7 +61,7 @@ module.exports = {
 - Si volviésemos a ejecutar nuestra _build_:
 
 ```bash
-$ npm run build
+npm run build
 ```
 
 ¿Qué pasaría?, nos daría un error. Diría,.. Ojo que yo soy **`webpack`** pero necesito un **`loader`** para leer los archivos css y otro para que lo introduzca en el HTML.
@@ -74,7 +74,7 @@ Para solucionar esto, vamos a instalar dos _loaders_.
 - **`style-loader`** nos inyecta los estilos en nuestra aplicación.
 
 ```bash
-$ npm install style-loader css-loader --save-dev
+npm install style-loader css-loader --save-dev
 ```
 
 - Es hora de configurar nuestro **`webpack.config.js`**. Para configurarlo correctamente, agregamos a **`rules`** una nueva sección en la que haremos uso de nuestros nuevos **`loaders`**. Como hicimos en el apartado anterior usaremos test con una expresión regular para que **`webpack`** maneje los archivos **`css`**, sin entrar en **`node_modules`** y a diferencia de antes utilizaremos **use** para introducir varios **`loaders`**. Éstos actuarán en orden inverso de agregación, es decir, primero usará **`css-loader`** (para que lea el archivo **`css`**), luego el **`style-loader`**(para que nos inyecte el estilo).
@@ -103,7 +103,7 @@ _./webpack.config.js_
 - Ahora podemos simplemente ejecutar la aplicación y verificar cómo se muestra el fondo rojo en el div que hemos elegido.
 
 ```bash
-$ npm start
+npm start
 ```
 
 <img src="./content/css-loader2.png" alt="css-loader" style="zoom:67%;" />
@@ -111,7 +111,7 @@ $ npm start
 - Si ahora construimos de nuevo nuestra _build_:
 
 ```bash
-$ npm run build
+npm run build
 ```
 
 - Vemos como resultado que no tenemos ningún archivo _css_.
@@ -139,6 +139,12 @@ module.exports = {
 +  },
 
   output: {
+```
+
+- Si ahora construimos de nuevo nuestra _build_:
+
+```bash
+npm run build
 ```
 
 - Sino referenciamos nuestros outputs se llamaran de la misma forma que los nombramos en los _entry points_ y desaparecerá nuestro _main.js_ en _dist_. Ahora tendremos dos _bundles_:
@@ -190,7 +196,7 @@ _./webpack.config.json_
   en su nombre.
 
 ```bash
-$ npm run build
+npm run build
 ```
 
 ![hash-js](./content/hash-js.PNG)
@@ -205,7 +211,7 @@ Para solucionarlo podemos tirar de un _plugin_ de terceros: [**`clean-webpack-pl
 - Instalamos el paquete.
 
 ```bash
-$ npm install clean-webpack-plugin --save-dev
+npm install clean-webpack-plugin --save-dev
 ```
 
 Ahora tenemos que indicar:
@@ -253,17 +259,23 @@ const path = require("path");
   se genera la _build_ limpia.
 
 ```bash
-$ npm run build
+npm run build
 ```
 
 > Anexo
 
 Existe una alternativa a **`clean-webpack-plugin`** también muy utilizada que es [**`rimraf`**](https://www.npmjs.com/package/rimraf) pero se instala de una forma diferente que explicamos a continuación.
 
+Desinstalamos **`clean-webpack-plugin`**.
+
+```bash
+npm uninstall clean-webpack-plugin --save-dev
+```
+
 - Instalamos el paquete.
 
 ```bash
-$ npm install rimraf --save-dev
+npm install rimraf --save-dev
 ```
 
 - Agreguemos el siguiente comando a nuestra _build_:
@@ -278,13 +290,48 @@ _package.json_
   },
 ```
 
+Y modificamos nuestro _webpack.config.js_ 
+
+_webpack.config.js_
+
+```diff
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+- const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+- const path = require("path");
+
+module.exports = {
+  entry: {
+    app: "./src/students.js",
+    appStyles: "./src/mystyles.css",
+  },
+  output: {
+    filename: "[name].[chunkhash].js",
+-    path: path.resolve(__dirname, "dist"),
+  },
+(...)
+plugins: [
+    //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
+    new HtmlWebpackPlugin({
+      filename: "index.html", //Name of file in ./dist/
+      template: "./src/index.html", //Name of template in ./src
+      scriptLoading: "blocking", // Just use the blocking approach (no modern defer or module)
+    }),
+-    new CleanWebpackPlugin(),
+  ],
+```
 - Ahora sí ejecutamos la _build_ vemos que hace lo mismo que **`clean-webpack-plugin`**.
 
 ```bash
-$ npm run build
+npm run build
 ```
 
 También existe una tercera opción, que nos la aporta webpack, llamada [_clean_](https://webpack.js.org/configuration/output/#outputclean) y que también nos permite borrar el interior de la carpeta _dist_ cada vez que generamos el bundle.
+
+- Desinstalamos **`rimraf`**.
+
+```bash
+npm uninstall rimraf --save-dev
+```
 
 - Para esto lo único que tenemos que añadir es el siguiente comando dentro de _output_ en nuestro _webpack.config.js_:
 
@@ -298,15 +345,27 @@ _./webpack.config.js_
   },
   output: {
     filename: "[name].[chunkhash].js",
-+    clean: true,
++   clean: true,
   },
 .......
 ```
 
-- Y si ejetutamos nuestra _build_ vemos que se borra la carpeta _dist_ y se genera la _build_ limpia.
+Y dejamos el _build_ de la siguiente forma:
+
+_package.json_
+
+```diff
+  "scripts": {
+    "start": "webpack-dev-server --mode development --open",
+-    "build": "rimraf dist && webpack --mode development"
++    "build": "webpack --mode development"
+  },
+```
+
+- Y si ejetutamos nuestra _build_.
 
 ```bash
-$ npm run build
+npm run build
 ```
 
 Ahora vemos que los estilos están encuentran en un archivo _js_, ¿qué pasa si queremos mantenerlo como un archivo css separado? Haciendo uso de [**`MiniCssExtractPlugin`**](https://webpack.js.org/plugins/mini-css-extract-plugin/) podemos conseguirlo. ¡Vamos al lio!
@@ -314,7 +373,7 @@ Ahora vemos que los estilos están encuentran en un archivo _js_, ¿qué pasa si
 - Vamos a instalar este plugin
 
 ```bash
-$ npm install mini-css-extract-plugin --save-dev
+npm install mini-css-extract-plugin --save-dev
 ```
 
 - Para utilizar de forma correcta esta librería tenemos que hacer uso de un _loader_ y un _plugin_.Vamos a añadimos sustituimos el **`style-loader`** por el **`MiniCSSExtractPlugin.loader`**.
@@ -372,11 +431,16 @@ plugins: [
 +     filename: "[name].css",
 +     chunkFilename: "[id].css"
 +   }),
-new CleanWebpackPlugin(),
   ],
 ```
 
-- Al ejecutar **`webpack`** nuevamente, se divide en dos archivos **`appStyles.js`** y **`appStyles.css`**
+- Creamos la _build_ nuevamente, 
+
+```bash
+npm run build
+```
+
+Y vemos que el _appStyles.js_ se divide en dos archivos **`appStyles.js`** y **`appStyles.css`**
 
 <img src="./content/mini-css.png" alt="mini-css" style="zoom:67%;" />
 
@@ -401,7 +465,7 @@ module.exports = {
 .....
 ```
 
-_Webpack_ no sabe llegar a mystyles.css porque no hay ningún sitio que haga referencia a nuestros estilos y no aparecería en el _bundle_. ¿Cómo podríamos solucionar esto?
+Si generamos la build, _Webpack_ no sabe llegar a mystyles.css porque no hay ningún sitio que haga referencia a nuestros estilos y no aparecería en el _bundle_. ¿Cómo podríamos solucionar esto?
 
 - En **`students.js`** importamos los estilos y de esta forma tenemos referenciado **`mystyle.css`**.
 
@@ -423,7 +487,7 @@ document.write(messageToDisplay);
 - Ahora si ejecutamos la _build_, veremos que la carpeta dist se borra y sólo obtenemos el nuevo contenido generado sin _appStyles.js_.
 
 ```bash
-$ npm run build
+npm run build
 ```
 
 <img src="./content/buildcss-without-js.PNG" alt="buildcss-without-js" style="zoom:80%;" />

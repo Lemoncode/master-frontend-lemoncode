@@ -63,7 +63,7 @@ console.log(shout("WoW", getRandom));
 console.log(shout("WoW", getRandom));
 console.log(shout("WoW", getRandom));
 
-// *** Sobrecarga de funciones (mismos nº argumentos, diferente tipo)
+// *** Sobrecarga de funciones
 function switchType(c: string): number;
 function switchType(c: number): string;
 function switchType(c) {
@@ -77,6 +77,9 @@ function switchType(c) {
 const r1 = switchType(3);
 const r2 = switchType("65");
 const r3 = switchType({}); // [ts] Argument of type '{}' is not assignable to parameter of type 'number'
+
+// ⚠ A partir de TS ¿v5? si qeu se pueden sobrecargar funciones con diferente número
+// de argumentos.
 
 // *** Tipando funciones en un interfaz, o lo que es lo mismo, usando interfaces para
 // diseñar funciones.

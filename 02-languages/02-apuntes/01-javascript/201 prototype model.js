@@ -115,7 +115,18 @@ Como vemos, tanto "dan" como "james" son 2 objetos con el mismo prototipo, puest
 creados a partir de la misma función constructora. De dicho prototipo obtienen la propiedad "greet"
 que ahora si, es una función única, que existe una única vez. ¿Donde? En el objeto prototipo 
 (el prototipo es un objeto también, todo son objetos en JS!).
+*/
 
+// Inspeccionemos alguna de las instancias con la consola para descubrir las pistas
+// que nos muestra acerca de su prototipo:
+console.log(dan); // Person {name: 'Dan'}
+// [[Prototype]]: Object
+// La notación [[]] se usa para exponer o mostrar propiedades internas. Las propiedades
+// internas no forman parte del lenguaje (no se pueden usar en nuestro código), sino que
+// se diseñaron para enriquecer la semántica de los objetos, para darnos pistas.
+// https://262.ecma-international.org/5.1/#sec-8.6.2
+
+/*
 El vínculo entre un objeto y su prototipo lo establece el operador "new", es la pieza que nos 
 faltaba. Entre bambalinas, su tercera misión es vincularle el prototipo de la función constructora.
 Es una manera de decirle, "como has sido creado por Person, tu tienes el

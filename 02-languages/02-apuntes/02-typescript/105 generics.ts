@@ -79,7 +79,7 @@ console.log(plus.operation(plus.operand1, plus.operand2));
 // sencillez, se pueden utilizar tantos como sean necesarios, en forma de lista separada por comas
 // entre los ángulos. Por ejemplo:
 
-const myFunction = <T, U>(arg1: T, arg2: U): boolean => typeof arg1 === typeof arg2;
+const compareType = <T, U>(arg1: T, arg2: U): boolean => typeof arg1 === typeof arg2;
 
-console.log(myFunction<string, number>("1", 1));
-console.log(myFunction<string, string>("halloween", "halloween"));
+console.log(compareType<string, number>("1", 1));
+console.log(compareType<string, string>("halloween", "halloween"));

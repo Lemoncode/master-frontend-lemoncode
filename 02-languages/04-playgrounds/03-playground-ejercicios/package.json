@@ -25,18 +25,19 @@
     "url": "git+https://github.com/Lemoncode/master-frontend-lemoncode.git"
   },
   "scripts": {
-    "start": "npm run copy && run-p transpile devserver",
+    "prestart": "npm run transpile && npm run copy",
+    "start": "concurrently \"npm:transpile -- -w\" npm:devserver",
     "copy": "copyfiles --flat src/**/*.{html,css} transpiled",
-    "transpile": "tsc -w",
-    "devserver": "lite-server -c bs-config.json"
+    "transpile": "tsc",
+    "devserver": "browser-sync start -c bs-config.json"
   },
   "dependencies": {
-    "lite-server": "^2.x"
+    "browser-sync": "^2.29.3"
   },
   "peerDependencies": {},
   "devDependencies": {
+    "concurrently": "latest",
     "copyfiles": "^2.x",
-    "npm-run-all": "^4.x",
     "typescript": "latest"
   }
 }

@@ -83,7 +83,7 @@ dan.greet(); // "Hello, I'm Dan"
 james.greet(); // "Hello, I'm James"
 
 /*
-Pero aqui hay un problema. El constructor ha creado una nueva función cada vez que ha sido
+⚠ Pero aqui hay un problema. El constructor ha creado una nueva función cada vez que ha sido
 invocado. Cada función será un objeto diferente, es decir, cada instancia tendrá una función 
 distinta. Si tenemos miles de instancias habrá miles de funciones "greet" creadas.
 En lugar de eso, ¿por qué no almacenamos una única función en un lugar común para que todas las

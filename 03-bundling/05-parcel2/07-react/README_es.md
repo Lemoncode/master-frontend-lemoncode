@@ -27,7 +27,7 @@ npm install react react-dom --save
 - Vamos a instalar las tipificaciones
 
 ```bash
-npm install @types/react @types/react-dom
+npm install @types/react @types/react-dom --save-dev
 ```
 
 - Vamos a crear un componente llamado **HelloComponent** en el archivo [_hello.jsx_](src/hello.jsx) (./src/hello.jsx)

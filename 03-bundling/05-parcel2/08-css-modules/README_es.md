@@ -18,72 +18,103 @@ Instala [Node.js and npm](https://nodejs.org/en/) (min v8.9) si aún no está in
 npm install
 ```
 
-- Vamos a instalar _postcss-modules_
+Si vamos a la [documentación de parcel](https://parceljs.org/languages/css/), dos dice que par usar _css modules_ sólo tenemos que añadir el sufijo _module_ al nombre del archivo css.
 
-```bash
-npm install postcss-modules --save-dev
-```
+- Vamos a crear un archivo para los estilos _mystyles.css_
 
-- Añadimos el archivo _postcssrc_
-
-_./.postcssrc_
-
-```javascript
-{
-  "modules": true,
-  "plugins": {
-    "postcss-modules": {
-      "generateScopedName": "_[name]__[local]"
-    }
-  }
-}
-```
-
-- Vamos a añadir algunos estilos en el archivo [_mystyles.scss_]
+_./src/hello.module.css_
 
 ```css
-
-.hello {
-  background-color: $blue-color;
-
-  .logo{
-    width:150px;
-  }
+.background {
+  background-color: indianred;
 }
 ```
 
-- Ahora vamos a modificar el componente llamado **HelloComponent** en el archivo [_hello.tsx_]. Vamos a importar el archivo _scss_ y utilizar el módulo de clases.
+- Importamos el archivo _css_ a nuestro _index.tsx_:
 
-```javascript
-import React from "react";
-import logo from './content/logo_1.png';
-import * as classes from './mystyles.scss';
+_./src/hello.tsx_
 
-export const HelloComponent: React.FC = () => {
-  return (
-    <div className={classes.hello}>
-      <img src={logo} className={classes.logo}/>
-      <h2>Hello from React</h2>      
-    </div>
-  );
-};
+```diff
++ import * as classes from "./hello.module.css";
 ```
 
-> Si recibes una advertencia sobre el uso de _required_, prueba: npm i @types/node --save-dev
+- Y lo usamos:
 
-- Visual Studio Code nos marca errores porque no sabe cómo importar archivos _png_ y _scss_, vamos a declararlo como módulos.
+_./src/hello.tsx_
 
-_./src/declaration.d.ts_	
-
-```typescript
-declare module "*.scss";
-declare module "*.png";
+```diff
+- <h1>Hello from React</h1>
++ <h1 className={classes.background}>Hello from React</h1>
 ```
 
- 
-
-- Vamos a ejecutar el ejemplo.
+- Ejecutamos la aplicación:
 
 ```bash
 npm start
+```
+
+Vemos que se han aplicado los estilos correctamente, pero si ahora generamos el _bundle_:
+
+```bash
+npm run build
+```
+
+Vemos que al archivo _css_ no ha añadido un hash delante del nombre de la clase, por lo que si tuviésemos dos clases con el mismo nombre en dos archivos diferentes, no se produciría un conflicto.
+
+```typescript
+.vL_zLq_background{background-color:#cd5c5c}
+```
+
+Si queremos probarlo con dos archivos, vamos a crear un componente nuevo _bye.tsx_:
+
+_./src/bye.tsx_
+
+```tsx
+import React from "react";
+import * as classes from "./bye.module.css";
+
+export const ByeComponent = () => (
+  <h1 className={classes.background}>Bye from React</h1>
+);
+```
+
+Y creamos unos estilos para este componente, con el mismo nombre que el anterior:
+
+_./src/bye.module.css_
+
+```css
+.background {
+  background-color: lightblue;
+}
+```
+
+Y lo usamos en el _index.tsx_:
+
+_./src/index.tsx_
+
+```diff
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { HelloComponent } from "./hello";
++ import { ByeComponent } from "./bye";
+
+const root = createRoot(document.getElementById("root"));
+root.render(
+  <div>
+    <HelloComponent />
++   <ByeComponent />
+  </div>
+);
+```
+
+Si ejecutamos la aplicación, vemos que se han aplicado los estilos correctamente, pero si ahora generamos el _bundle_:
+
+```bash
+npm run build
+```
+
+Vemos que al archivo _css_ no ha añadido un hash delante del nombre de la clase, por lo que si tuviésemos dos clases con el mismo nombre en dos archivos diferentes, no se produciría un conflicto.
+
+```typescript
+.vL_zLq_background{background-color:#cd5c5c}.CsNspa_background{background-color:#add8e6}
 ```

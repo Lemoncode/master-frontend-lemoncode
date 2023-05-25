@@ -1,7 +1,7 @@
 ///-- MODELO PROTOTÍPICO *************************************************************************
 
 /*
-JS no proporciona un modelo o implementación de clases en si mismo, sino que es un lenguaje 
+JS no proporciona un modelo o implementación de clases en si mismo, sino que es un lenguaje
 dinámico, basado en objetos, es decir, instancias en memoria. La notación o sintaxis de clases
 vista hasta ahora no es más que azúcar sintáctico, es decir, un 'engaño' (o abstracción) que nos
 permite pensar que estamos trabajando con clases reales cuando en realidad no lo son.
@@ -19,7 +19,7 @@ es azúcar sintáctico.
 -------------------------------------------------------------------------------------------------
 
 Lo que vamos a hacer a continuación es demostrar el hecho anterior, ¿cómo? emulando una clase con
-javascript (lenguaje que, recordemos, no dispone de clases 'out of the box') sin utilizar el 
+javascript (lenguaje que, recordemos, no dispone de clases 'out of the box') sin utilizar el
 azúcar sintáctico que nos proporciona (sintaxis de "class"). Y para ello nos serviremos de las
 herramientas nativas que si dispone el lenguaje, concretamente emplearemos 3 ingredientes para
 nuestra receta:
@@ -32,7 +32,7 @@ nuestra receta:
 
 /*
 Volviendo al simil de plano vs casas, todo sistema de clases tiene un mecanismo para poder crear
-"casas a partir de planos", es decir, instancias de clase. En JS para crear un objeto, una 
+"casas a partir de planos", es decir, instancias de clase. En JS para crear un objeto, una
 instancia nueva, que responda a un tipo especifico necesitamos una función que llamaremos
 constructora, y un operador new:
 */
@@ -61,7 +61,7 @@ console.log(dan.name); // "Dan"
 console.log(james.name); // "James"
 
 // Puesto que son objetos, podemos crear propiedades solo para una instancia en concreto sin que la
-// otra se ve afectada. O si quisieramos, modificarlas también. Podemos jugar con cada objeto de 
+// otra se ve afectada. O si quisieramos, modificarlas también. Podemos jugar con cada objeto de
 // forma 100% independiente (a diferencia de las clases tradicionales).
 dan.age = 26;
 console.log(dan.age); // 26
@@ -84,7 +84,7 @@ james.greet(); // "Hello, I'm James"
 
 /*
 ⚠ Pero aqui hay un problema. El constructor ha creado una nueva función cada vez que ha sido
-invocado. Cada función será un objeto diferente, es decir, cada instancia tendrá una función 
+invocado. Cada función será un objeto diferente, es decir, cada instancia tendrá una función
 distinta. Si tenemos miles de instancias habrá miles de funciones "greet" creadas.
 En lugar de eso, ¿por qué no almacenamos una única función en un lugar común para que todas las
 instancias apunten a la misma función?
@@ -93,8 +93,8 @@ instancias apunten a la misma función?
 // *** 3 Prototipo ***
 
 /*
-A ese lugar común es a lo que llamamos "prototipo" y está representado por la propiedad 
-"prototype". El prototipo será por tanto ese almacén común que las distintas instancias de un 
+A ese lugar común es a lo que llamamos "prototipo" y está representado por la propiedad
+"prototype". El prototipo será por tanto ese almacén común que las distintas instancias de un
 mismo tipo compartirán.
 */
 function Person(name) {
@@ -113,7 +113,7 @@ james.greet(); // "Hello, I'm James"
 /*
 Como vemos, tanto "dan" como "james" son 2 objetos con el mismo prototipo, puesto que han sido
 creados a partir de la misma función constructora. De dicho prototipo obtienen la propiedad "greet"
-que ahora si, es una función única, que existe una única vez. ¿Donde? En el objeto prototipo 
+que ahora si, es una función única, que existe una única vez. ¿Donde? En el objeto prototipo
 (el prototipo es un objeto también, todo son objetos en JS!).
 */
 
@@ -127,7 +127,7 @@ console.log(dan); // Person {name: 'Dan'}
 // https://262.ecma-international.org/5.1/#sec-8.6.2
 
 /*
-El vínculo entre un objeto y su prototipo lo establece el operador "new", es la pieza que nos 
+El vínculo entre un objeto y su prototipo lo establece el operador "new", es la pieza que nos
 faltaba. Entre bambalinas, su tercera misión es vincularle el prototipo de la función constructora.
 Es una manera de decirle, "como has sido creado por Person, tu tienes el
 prototipo de Person".
@@ -147,14 +147,14 @@ console.log(dan instanceof Person); // true
 ///-- HERENCIA PROTOTÍPICA **********************************************************************
 
 /*
-Al mecanismo de herencia en JS, gracias a los prototipos, se le conoce como herencia prototípica. 
+Al mecanismo de herencia en JS, gracias a los prototipos, se le conoce como herencia prototípica.
 Cada objeto tiene una propiedad "prototype", que es un puntero o ref que apunta hacia el prototipo
 de la instancia. Pero es que el prototipo vuelve a ser un objeto, que tendrá otro "prototype" que
-a su vez apuntará a su prototipo, y así sucesivamente. Se forma una cadena de prototipos que 
+a su vez apuntará a su prototipo, y así sucesivamente. Se forma una cadena de prototipos que
 termina finalmente apuntando a "null".
 
 Como ejemplo, vamos a rescatar la herencia de Automobile + Taxi ya vista en el capítulo de clases
-e implementarla mediante herencia prototípica. 
+e implementarla mediante herencia prototípica.
 */
 
 // Creamos la función constructora para objetos de tipo Automobile y añadimos algunas funciones a
@@ -175,7 +175,7 @@ Automobile.prototype.showKms = function () {
 
 
 // A continuación creamos otro objeto algo más específico, un Taxi. Vamos a hacer que Taxi "herede"
-// de Automobile. Para eso, queremos que el objeto que llama al constructor Taxi() invoque también 
+// de Automobile. Para eso, queremos que el objeto que llama al constructor Taxi() invoque también
 // al constructor Automobile().
 function Taxi() {
   Automobile.call(this, 4); // super();
@@ -190,6 +190,8 @@ Taxi.prototype = Object.create(Automobile.prototype); // Crea un objeto nuevo {_
 Taxi.prototype.constructor = Taxi;
 // Una forma equivalente sería directamente apuntando a donde queramos
 // Taxi.prototype.__proto__ = Automobile.prototype;
+// Otra forma más limpia sin sobreescribir esta propiedad __proto__ es:
+// Object.setPrototypeOf(Taxi.prototype, Automobile.prototype);
 
 // Añadimos también algún método a Taxi.
 Taxi.prototype.service = function () {
@@ -235,9 +237,9 @@ Taxi -----> Automobile -----> Object -----> null
 
 Cadena Prototípica
 Taxi.prototype
-Taxi.prototype._proto_ ---> Automobile.prototype
-                            Automobile.prototype._proto_ ---> Object.prototype
-                                                              Object.prototype._proto_: ---> null
+Taxi.prototype.__proto__ ---> Automobile.prototype
+                              Automobile.prototype.__proto__ ---> Object.prototype
+                                                                  Object.prototype.__proto__: ---> null
 */
 
 
@@ -277,7 +279,7 @@ const c = Object.create(b); // c -----> b -----> a -----> Object.prototype -----
 ///-- CONSTRUCTORES POR DEFECTO ******************************************************************
 
 /*
-Ahora que conocemos el prototipo y la herencia que se deriva de este modelo, podemos responder a 
+Ahora que conocemos el prototipo y la herencia que se deriva de este modelo, podemos responder a
 la pregunta de...¿que son todos esos métodos que aparecen cuando declaramos una variable primitiva?
 Por ejemplo:
   const num = 4;
@@ -323,13 +325,13 @@ console.log(!!"32"); // true
 /*
 Ahora que hemos profundizado acerca del prototipo en javascript y que conocemos la diferencia
 entre las funciones clásica y las funciones flecha, podremos explicar con más detalle cual es
-la problemática del "this" en las funciones clásicas y porqué llegaron las arrow functions al 
+la problemática del "this" en las funciones clásicas y porqué llegaron las arrow functions al
 rescate. Pero en primer lugar, refresquemos conceptos.
 */
 
-// *** REPASO 
+// *** REPASO
 
-// Recordemos, la keyword "this" es especial en javascript y apunta a quien haya invocado a la 
+// Recordemos, la keyword "this" es especial en javascript y apunta a quien haya invocado a la
 // función clásica:
 function sayAge() {
   console.log("I'm " + this.age + " years old");
@@ -337,7 +339,7 @@ function sayAge() {
 sayAge(); // I'm undefined years old.
 
 
-// ¿Porque undefined? Porque age no existe en this. ¿Y quien es this? La entidad que invoca a la 
+// ¿Porque undefined? Porque age no existe en this. ¿Y quien es this? La entidad que invoca a la
 // función sayAge, que en este caso es el contexto global, es decir, el objeto "window".
 
 // Por tanto si hago esto, la cosa cambia:
@@ -347,7 +349,7 @@ function sayAge() {
 }
 sayAge(); // I'm 25 years old.
 
-// Hemos creado una propiedad age al objeto global window. window es el que llama a sayAge(), y 
+// Hemos creado una propiedad age al objeto global window. window es el que llama a sayAge(), y
 // como this apunta al que invoca la función clásica, ahora si funciona.
 
 // De forma equivalente:
@@ -374,7 +376,7 @@ const me = {
 me.sayAge(); // "I'm 36 years old"
 
 
-// *** PROBLEMA CON EL THIS EN LAS FUNCIONES CLÁSICAS 
+// *** PROBLEMA CON EL THIS EN LAS FUNCIONES CLÁSICAS
 
 /*
 Adelantándonos al problema, diremos que las arrow function irrumpieron no solo por ser más
@@ -443,7 +445,7 @@ Person.prototype.sayDelayedAge = function() {
 const Person = name => {
   // "this" aqui sería el objeto "window" (contexto léxico) en lugar de cada una de las nuevas
   // instancias de Person que se están creando.
-  this.name = name; 
+  this.name = name;
 };
 const dan = new Person("Dan"); // Uncaught TypeError: Person is not a constructor
 

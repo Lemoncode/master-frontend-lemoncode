@@ -55,7 +55,7 @@ _[package.json](./package.json)_
 
 ```diff
   "scripts": {
-+   "build": "parcel ./src/index.html"
++   "start": "parcel ./src/index.html"
 -   "test": "echo \"Error: no test specified\" && exit 1"
   },
 ```
@@ -63,7 +63,7 @@ _[package.json](./package.json)_
 - Ejecutamos la _build_
 
 ```bash
-npm run build
+npm run start
 ```
 
 > Se generó una nueva carpeta, _[/dist](./dist)_. Qué contiene el bundle.
@@ -75,15 +75,15 @@ _[./package.json](./package.json)_
 ```diff
   "scripts": {
 -   "build": "parcel ./src/index.html"
-+   "build": "parcel ./src/index.html",
-+   "build:prod": "parcel build ./src/index.html"
++   "start": "parcel ./src/index.html",
++   "build": "parcel build ./src/index.html"
   },
 ```
 
 - Lo ejecutamos:
 
 ```bash
-npm run build:prod
+npm run build
 ```
 
 Y nos aparece un bonito error. ¿Qué hicimos mal?, si aparentemente está bien la línea de comandos que usamos.
@@ -112,10 +112,10 @@ Nuestro _package.json_ contiene un campo _main_, que nos da el punto de entrada 
 - Cuando ejecutamos el comando de compilación.
 
 ```bash
-npm run build:prod
+npm run build
 ```
 
-Pero si abrimos el archivo _javascript_ generado vemos que nuestro código está transpilado pero no realmente como queremos teneros para que no haya problemas con nuestras versiones antiguas del navegador. 
+Pero si abrimos el archivo _javascript_ generado vemos que nuestro código está transpilado pero no realmente como queremos teneros para que no haya problemas con nuestras versiones antiguas del navegador.
 
 ```javascript
 console.log("Hello John Doe!");
@@ -145,13 +145,14 @@ _[./package.json](./package.json)_
 - Volvamos a generar el _bundle_ y vemos que ahora nuestro código sí ha sido transpilado.
 
 ```bash
-npm run build:prod
+npm run build
 ```
 
 - Obtenemos una versión minificada de nuestro código y transpilada.
 
 ```javascript
-var user="John Doe";console.log("Hello ".concat(user,"!"));
+var user = "John Doe";
+console.log("Hello ".concat(user, "!"));
 //# sourceMappingURL=index.c90810f0.js.map
 ```
 
@@ -169,14 +170,14 @@ _[package.json](./package.json)_
 
 ```diff
   "scripts": {
--   "build": "parcel ./src/index.html",
-+   "build": "rimraf dist && parcel ./src/index.html",
--   "build:prod": "parcel build ./src/index.html"
-+   "build:prod": "rimraf dist && parcel build ./src/index.html"
+-   "start": "parcel ./src/index.html",
++   "start": "rimraf dist && parcel ./src/index.html",
+-   "build": "parcel build ./src/index.html"
++   "build": "rimraf dist && parcel build ./src/index.html"
   },
 ```
 
-- Añadimos nuestro **script** para lanzar nuestra aplicación, **start**, dentro de [package.json](./package.json) y añadimos el *flag* *--open* para que se abra en nuestro navegador automáticamente cuando se ejecute:
+- Añadimos nuestro **script** para lanzar nuestra aplicación, **start**, dentro de [package.json](./package.json) y añadimos el _flag_ _--open_ para que se abra en nuestro navegador automáticamente cuando se ejecute:
 
 _[package.json](./package.json)_
 

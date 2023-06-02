@@ -36,11 +36,9 @@ _tsconfig.json_
     "moduleResolution": "node",
     "declaration": false,
     "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "jsx": "react",
     "noLib": false,
-    "suppressImplicitAnyIndexErrors": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "baseUrl": "./src/"

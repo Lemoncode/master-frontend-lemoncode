@@ -72,7 +72,7 @@ class SearchBar extends HTMLElement {
       }
     `;
 
-    const shadow = this.attachShadow({mode: 'closed'});
+    const shadow = this.attachShadow({mode: 'open'});
     iconContainer.appendChild(iconSearch);
     container.appendChild(input);
     container.appendChild(iconContainer);

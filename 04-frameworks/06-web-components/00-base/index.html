@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Web Components</title>
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>Web Componentes</h1>
-  <p>This is a paragraph.</p>
+  <p>Introduce el término de búsqueda:</p>
 
   <div class="container">
     <input type="text" placeholder="Search..." class="field" />
@@ -17,6 +16,52 @@
         <div class="icon-search"></div>
     </div>
   </div>
+
+  <style>
+    .container {
+      position: relative;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      width: 150px;
+      height: 30px;
+    }
+    
+    .field {
+      width: 100%;
+      height: 100%;
+      border-radius: 3px;
+    }
+    
+    .icons-container {
+      position: absolute;
+      top: 5px;
+      right: -10px;
+      width: 30px;
+      height: 30px;
+    }
+    
+    .icon-search {
+      position: relative;
+      width: 50%;
+      height: 50%;
+      opacity: 1;
+      border-radius: 50%;
+      border: 3px solid #c7d0f8;
+    }
+    
+    .icon-search:after {
+      content: "";
+      position: absolute;
+      bottom: -9px;
+      right: -2px;
+      width: 4px;
+      border-radius: 3px;
+      transform: rotate(-45deg);
+      height: 10px;
+      background-color: #c7d0f8;
+    }   
+  </style>
 
 </body>
 </html>

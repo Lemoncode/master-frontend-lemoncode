@@ -114,9 +114,10 @@ _./webpack.prod.js_
 +         name: (module) => {
 +           const packageName = module.context.match(
 +             /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-+           )[1];
-+           // npm package names are URL-safe, but some servers don't like @ symbols
-+           return `vendor/${packageName.replace("@", "")}`;
++           )?.[1];
++           return packageName
++             ? `vendor/${packageName.replace("@", "")}`
++             : null;
 +         },
           test: /[\\/]node_modules[\\/]/,
           enforce: true,

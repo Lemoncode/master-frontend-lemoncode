@@ -4,7 +4,7 @@ import {Item} from "./item";
 
 export class Customer
 {
-    private currentOrder: Order = null;
+    private currentOrder: Order;
 
     addItem(item: Item): void {
         if(!this.currentOrder) {

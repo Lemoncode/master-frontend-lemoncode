@@ -21,6 +21,9 @@ driver.go(bus);
 
 // ¿Se puede sustituir Bike por su padre?
 const myNewBike = new Bike();
+//driver.go(myNewBike);
+
+
 myNewBike.startEngine();
 myNewBike.changeGear(2, 1);
 myNewBike.accelerate();

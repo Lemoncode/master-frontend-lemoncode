@@ -1,4 +1,4 @@
-class CartStorage
+export class CartStorage
 {
     find(productID) {
         let products = JSON.parse(localStorage.get('cart', []));

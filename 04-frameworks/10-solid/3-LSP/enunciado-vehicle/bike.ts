@@ -16,6 +16,15 @@ export class Bike {
 }
 
 
+
+
+
+
+
+
+
+
+
 export class BikeAdapter extends Vehicle {
     bike: Bike;
     

@@ -50,23 +50,19 @@ _./my-lib/dist/index.umd.js_
 
 ```javascript
 (function (global, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(["exports"], factory);
-  } else if (typeof exports !== "undefined") {
-    factory(exports);
-  } else {
-    var mod = {
-      exports: {},
-    };
-    factory(mod.exports);
-    global.myLib = mod.exports;
-  }
+  typeof exports == "object" && typeof module < "u"
+    ? factory(exports)
+    : typeof define == "function" && define.amd
+    ? define(["exports"], factory)
+    : ((global = typeof globalThis < "u" ? globalThis : global || self),
+      factory((global.MyLib = {})));
 })(this, function (exports) {
   function myFn() {
     console.log("I am UMD");
   }
   exports.myFn = myFn;
 });
+
 ```
 
 > Note: We are using the UMD format to support AMD (not covered on these demos), CommonJS, and global variable.
@@ -123,7 +119,7 @@ npx lite-server
 
 If we want to use this format in a Node.js process, let's add a `index.js` file:
 
-_./playgrounds/cjs/index.index.js_
+_./playgrounds/cjs/index.js_
 
 ```javascript
 const { myFn } = require("my-lib");
@@ -190,7 +186,7 @@ _./playgrounds/umd/index.html_
   <body>
     <script src="./node_modules/my-lib/dist/index.umd.js"></script>
     <script>
-      myLib.myFn();
+      MyLib.myFn();
     </script>
   </body>
 </html>

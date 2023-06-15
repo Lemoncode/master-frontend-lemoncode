@@ -1,0 +1,12 @@
+{
+  "name": "my-lib",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.cjs"
+    },
+    "./umd": "./dist/index.umd.cjs"
+  }
+}

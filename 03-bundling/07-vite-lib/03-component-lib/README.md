@@ -416,7 +416,6 @@ Run the build:
 npm run build
 ```
 
-
 # About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.

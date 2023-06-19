@@ -1,6 +1,6 @@
 {
   "name": "@lemoncode/common-library",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Lemoncode common library",
   "author": "Lemoncode",
   "license": "MIT",
@@ -8,6 +8,9 @@
     "lemoncode",
     "common",
     "library"
+  ],
+  "files": [
+    "dist"
   ],
   "type": "module",
   "main": "dist/common-library.umd.cjs",

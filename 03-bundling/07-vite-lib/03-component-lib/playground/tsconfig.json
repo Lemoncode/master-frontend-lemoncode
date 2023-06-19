@@ -5,12 +5,7 @@
     "moduleResolution": "bundler",
     "skipLibCheck": true,
     "isolatedModules": true,
-    "outDir": "dist",
-    "jsx": "react-jsx",
-    "baseUrl": "src",
-    "paths": {
-      "@/*": ["*"]
-    }
+    "jsx": "react-jsx"
   },
   "include": ["src"]
 }

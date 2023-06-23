@@ -1,0 +1,9 @@
+{
+  "name": "umd-playground",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "my-lib": "file:../../my-lib"
+  }
+}

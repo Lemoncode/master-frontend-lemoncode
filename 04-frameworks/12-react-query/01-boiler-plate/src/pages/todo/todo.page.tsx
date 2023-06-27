@@ -17,7 +17,6 @@ export const TodoPage: React.FC = () => {
     <>
       <h1>Todo Page</h1>
       <div className={classes.todoList}>
-        {/* Comprobamos si _data_ no es null */}
         {data?.map((todo) => (
           <React.Fragment key={todo.id}>
             <div>{todo.isDone ? "✅" : "⭕️"}</div>

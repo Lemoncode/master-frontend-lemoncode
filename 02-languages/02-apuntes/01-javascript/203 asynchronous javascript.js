@@ -44,14 +44,24 @@ console.log("No estoy bloqueada, puedo ejecutar código");
 // > No estoy bloqueada, puedo ejecutar código
 // > Hello World! con retardo
 
-// [OPCIONAL] Podríamos hacer un mock a una llamada a servidor:
-const serverData = 43;
+// Podríamos hacer un mock a una llamada a servidor, sirviéndonos del patrón
+// de callback y usando la operación asíncrona 'setTimeout', del siguiente modo:
 const getDataAsync = callback => {
   setTimeout(
-    () => callback(serverData), // callback del setTimeout
-    Math.random() * 2000 + 1000 // Random entre 1s y 3s.
+    () => callback(43 /* Dato random */), // callback del setTimeout
+    2343 // Tiempo random entre 1s y 3s.
   );
 };
+
+// Una posible mejora para poder randomizar el tiempo del timer y el dato devuelto
+// sería la siguiente:
+const randomNumber = () => Math.ceil(Math.random() * 100); // random [1-100] número
+const randomTime = () => Math.random() * 2000 + 1000; // random [1000, 3000) ms
+
+const getDataAsync = callback => {
+  setTimeout(() => callback(randomNumber()), randomTime());
+};
+
 
 getDataAsync(console.log); // Ejemplo de uso.
 
@@ -112,21 +122,27 @@ que la promesa ha sido completada con éxito o con fallo.
 */
 
 // Modifiquemos el ejemplo anterior en el que haciamos un mock de llamada a servidor para adaptarlo
-// al patrón de promesas:
-const getDataAsync = callback => {
-  setTimeout(
-    () => callback(Math.ceil(Math.random() * 100)), // callback del setTimeout
-    Math.random() * 2000 + 1000 // Random entre 1s y 3s.
-  );
+// al patrón de promesas (promise flavor):
+const getDataWithPromise = () => {
+  return new Promise((resolve, _reject) => {
+      getDataAsync(resolve);
+      
+  });
 };
 
+// ⚠ OPCIONALMENTE podríamos manejar de forma explícita la ejecución dentro de la promesa con un try
+// catch, aunque NO ES NECESARIO obligatoriamente:
+// - Si no ponemos el try..catch, la promesa nos envolverá la ejecución con uno por defecto y lo
+// redirigirá por el 'reject' callback si se diese un error.
+// - Si lo ponemos explícitamente, podremos nosotros mismos manejar y adornar dicho error antes de
+// pasarlo por el reject.
 const getDataWithPromise = () => {
   return new Promise((resolve, reject) => {
     try {
-      getDataAsync(resolve);
       // throw new Error("Servidor no pudo procesar la petición"); // Probar el catch()
-    } catch (e) {
-      reject(e);
+      getDataAsync(resolve);
+    } catch (error) {
+      reject(error);
     }
   });
 };
@@ -139,23 +155,24 @@ getDataWithPromise()
 
 // *** MANEJANDO MÚLTIPLES PROMESAS 
 
-// Hagamos otra función que devuelve promesa basada en la anterior. El objetivo de esta nueva 
-// función es wrapear a getDataWithPromise para mostrar por consola el resultado devuelto en cada
-// llamada.
-const getDataAndLog = () =>
-  getDataWithPromise().then(data => {
-    console.log(data);
-    return data;
+// Modifiquemos la función anterior ligeramente para, antes de resolver la promesa, loguear el dato
+// por la consola.
+const getDataWithPromise = (autolog = true) =>
+  new Promise((resolve, _reject) => {
+    getDataAsync(data => {
+      if (autolog) console.log(data);
+      resolve(data);
+    });
   });
 
 // Promise Race: devuelve una nueva promesa que se resuelve con el resultado o rechazo de la 
 // primera promesa que termine:
 Promise.race([
-  getDataAndLog(),
-  getDataAndLog(),
-  getDataAndLog(),
-  getDataAndLog(),
-  getDataAndLog(),
+  getDataWithPromise(),
+  getDataWithPromise(),
+  getDataWithPromise(),
+  getDataWithPromise(),
+  getDataWithPromise(),
 ]).then(winner => console.log("And the winner is ...", winner));
 
 // Promise All: devuelve una nueva promesa que se resuelve con el array de resultados de todas las
@@ -164,11 +181,11 @@ Promise.race([
 // Por tanto espera a que todas se cumplan o al primer rechazo. El array de resultados preserva 
 // el mismo orden que el array de promesas de entrada.
 Promise.all([
-  getDataAndLog(),
-  getDataAndLog(),
-  getDataAndLog(),
-  getDataAndLog(),
-  getDataAndLog(),
+  getDataWithPromise(),
+  getDataWithPromise(),
+  getDataWithPromise(),
+  getDataWithPromise(),
+  getDataWithPromise(),
 ]).then(result => console.log("And the result is ...", result));
 
 
@@ -182,7 +199,7 @@ asíncrono como si de código síncrono se tratara.
 */
 
 const getDataWithSugar = async () => {
-  const data = await getDataWithPromise();
+  const data = await getDataWithPromise(false);
   return data;
 };
 
@@ -204,7 +221,7 @@ const getDataWithSugar = async () => {
 // Manejo de Múltiples Promesas con Async / Await
 
 // OPCION 1. Las promesas se lanzan y se esperan secuencialmente OJO!
-const getMultiDataWithSugar = async () => {
+const getManyDataWithSugar = async () => {
   const data1 = await getDataWithPromise();
   const data2 = await getDataWithPromise();
   const data3 = await getDataWithPromise();
@@ -212,11 +229,11 @@ const getMultiDataWithSugar = async () => {
   const data5 = await getDataWithPromise();
   return [data1, data2, data3, data4, data5];
 };
-getMultiDataWithSugar().then(console.log);
+getManyDataWithSugar().then(console.log);
 
 // OPCIÓN 2. Lanzamos todas las promesas primero, y hacemos la espera de todas a la vez, al estilo
 // de Promise.all().
-const getMultiDataWithSugar = async () => {
+const getManyDataWithSugar = async () => {
   const promise1 = getDataWithPromise();
   const promise2 = getDataWithPromise();
   const promise3 = getDataWithPromise();
@@ -229,16 +246,12 @@ const getMultiDataWithSugar = async () => {
   const data5 = await promise5;
   return [data1, data2, data3, data4, data5];
 };
-getMultiDataWithSugar().then(console.log);
+getManyDataWithSugar().then(console.log);
 
 // Posible implementación de Promise.race usando async await
 const myCustomPromiseRace = promises =>
   new Promise((resolve, reject) => {
     promises?.forEach(async promise => {
-      try {
-        resolve(await promise);
-      } catch (err) {
-        reject(err);
-      }
+      resolve(await promise);
     });
   });

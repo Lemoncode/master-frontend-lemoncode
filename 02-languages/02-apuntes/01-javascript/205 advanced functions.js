@@ -3,13 +3,13 @@
 // Cuando trabajamos con funciones clásicas, podemos declararlas de 2 maneras diferentes:
 
 // 1. Mediante declaración de funciones, o "function declaration":
-function print(message) {
+function say(message) {
   console.log(message);
 }
 
 // 2. Mediante expresión de funciones, o "function expression". En este caso, la declaración no
 // puede comenzar con la keyword function para no confundirla con la declaración de funciones:
-const print = function(message) {
+const say = function(message) {
   console.log(message);
 };
 // NOTA: Las arrow functions también son function expressions.

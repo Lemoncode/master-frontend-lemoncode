@@ -363,9 +363,9 @@ const myRecursiveArray: RecursiveArray<number> = [
 // -- Limitación --
 
 // Una limitación en los tipos recursivos es no poder recurrir a una 'auto-instanciación' inmediata
-// o dicho de otro modo, un tipo que es recursivo en su definición no puede instanciarse a si mismo 
-// en su parte genérica, de lo contrario obtendremos un error de referencia circular:
-type MyArray = RecursiveArray<MyArray>;
+// o dicho de otro modo, un tipo que es recursivo, en su definición, no puede instanciarse a si 
+// mismo, de lo contrario obtendremos un error de referencia circular:
+type MyArray<T> = T | MyArray<T>;
 
 
 

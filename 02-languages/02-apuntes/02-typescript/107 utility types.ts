@@ -41,7 +41,7 @@ const sampleArray = [1, 2, 3];
 const tailMutable = <T>(array: T[]): T[] => (array.shift(), array);
 
 const tailImmutable = <T>(array: Readonly<T[]>): T[] => {
-  const [, ...tail] = array || [];
+  const [, ...tail] = array ?? [];
   return tail;
 };
 

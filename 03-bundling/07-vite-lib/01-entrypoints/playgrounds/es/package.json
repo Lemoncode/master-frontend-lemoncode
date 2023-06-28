@@ -1,0 +1,10 @@
+{
+  "name": "es-playground",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "my-lib": "file:../../my-lib"
+  }
+}

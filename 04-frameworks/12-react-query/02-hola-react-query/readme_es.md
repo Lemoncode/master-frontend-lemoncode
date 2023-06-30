@@ -32,8 +32,6 @@ export const queryClient = new QueryClient();
 
 Si queremos podemos definir una serie de opciones globales que aplicarían a todas las consultas:
 
-** Poner, explicar, comentar valors por defecto y quitar \***
-
 _./src/core/query.ts_
 
 ```diff
@@ -43,22 +41,27 @@ import { QueryClient } from "@tanstack/react-query";
 + export const queryClient = new QueryClient({
 +   defaultOptions: {
 +     queries: {
-+       refetchOnWindowFocus: false, // Esto es para que no se refresque la página cuando se cambia de pestaña
-+       retry: 0, // Esto es para que no se reintenten las peticiones
-+       staleTime: 1000 * 60 * 5, // Esto es para indicar que después de 5 minutos los datos se pueden considerar obsoletos
-+       cacheTime: 1000 * 60 * 5, // Mantiene en cache los datos (aunque algo esté obsoleto primero lee de aquí y después hace la petición)
-+     interval: 1000 * 60 * 5, // Esto es para que cada 5 minutos se refresque la información
-+     // (...)
++       refetchOnWindowFocus: true,
++       refetchOnMount: true,
++       retry: 0,
++       staleTime: 1000 * 60 * 5,
++       cacheTime: 1000 * 60 * 5,
++             refetchInterval: 1000 * 60 * 5,
 +     },
 +   },
 + });
 ```
 
-Explicar valores:
+¿Que quieren decir estos valores?
 
-\*\*TODO
+- refetchOnWindowFocus: Esto es para que no se refresque la página cuando se cambia de pestaña.
+- refetchOnMount: Esto es para que se refresque la página cuando se carga.
+- retry: Esto es para que no se reintenten las peticiones.
+- staleTime: Esto es para indicar que después de 5 minutos los datos se pueden considerar obsoletos.
+- cacheTime: Mantiene en cache los datos (aunque algo esté obsoleto primero lee de aquí y después hace la petición).
+- interval: Esto es para que cada 5 minutos se refresque la información.
 
-Siguente paso, a nivel de aplicación vamos a definir un provider para poder usar react-query:
+Siguiente paso, a nivel de aplicación vamos a definir un provider para poder usar react-query:
 
 ```diff
 import React from "react";

@@ -8,10 +8,14 @@ Acuerdate de tener 99-server levantando también
 
 Vamos a empezar a por instalar react-query
 
+```bash
+npm install @tanstack/react-query --save
+```
+
 También vamos a instalar las devtools de react-query
 
 ```bash
-
+npm install @tanstack/react-query-devtools --save-dev
 ```
 
 ¿Todos instalado? Perfecto
@@ -28,7 +32,7 @@ export const queryClient = new QueryClient();
 
 Si queremos podemos definir una serie de opciones globales que aplicarían a todas las consultas:
 
-** Poner, explicar, comentar valors por defecto y quitar ***
+** Poner, explicar, comentar valors por defecto y quitar \***
 
 _./src/core/query.ts_
 
@@ -52,7 +56,7 @@ import { QueryClient } from "@tanstack/react-query";
 
 Explicar valores:
 
-**TODO
+\*\*TODO
 
 Siguente paso, a nivel de aplicación vamos a definir un provider para poder usar react-query:
 
@@ -80,7 +84,6 @@ export const App = () => {
 
 Y ahora vamos a poner las devtools de react-query:
 
-
 ```diff
 import React from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
@@ -97,7 +100,7 @@ export const App = () => {
           <Route path="/pageb" element={<ListPage />} />
         </Routes>
       </HashRouter>
-+     <ReactQueryDevtools/>      
++     <ReactQueryDevtools/>
       </QueryClientProvider>
     </>
   );
@@ -139,5 +142,14 @@ export const TodoPage: React.FC = () => {
 ```
 
 ¿Qué hacemos aquí? Tenemos un hook que se llama _useQuery_ que nos permite hacer una petición y nos devuelve el resultado de la misma, tenemos tres parametros:
-  - En el primero identificamos la consulta, así react query la identifica y puede devolvernos datos en caché, o directamente hacer una carga, si te fijas es un array, esto nos permite agrupar consultas y por ejemplo obligar a que recarguen todas las consultas que pertenzcan a un tipo (esto lo veremos más adelante).
-  - En el segundo tenemos la función que se ejecutará para obtener los datos, en este caso hacemos una petición a nuestro servidor, aquí lo más importante es que este función 
+
+- En el primero identificamos la consulta, así react query la identifica y puede devolvernos datos en caché, o directamente hacer una carga, si te fijas es un array, esto nos permite agrupar consultas y por ejemplo obligar a que recarguen todas las consultas que pertenezcan a un tipo (esto lo veremos más adelante).
+- En el segundo tenemos la función que se ejecutará para obtener los datos, en este caso hacemos una petición a nuestro servidor, aquí lo más importante es que este función
+
+Vamos ahora a hacer algún cambio en el servidor (abrimos JSON, modificamos y grabamos), si ahora volvemos a la ventana... voila !
+
+Vemos que se ha refrescado la información :) ¿Qué clase de brujería es esta?
+
+Pues resulta que por defecto la opción _refetchOnWindowFocus_ y al volver el foco a la ventana automáticamente recarga los datos, esto lo podemos configurar a tanto a nivel global como de consulta.
+
+Veamos como desactivarlo y ver que pasa:

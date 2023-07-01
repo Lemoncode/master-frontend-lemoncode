@@ -20,6 +20,7 @@
     "@babel/preset-env": "^7.17.10",
     "@babel/preset-react": "^7.17.12",
     "@babel/preset-typescript": "^7.16.7",
+    "@tanstack/react-query-devtools": "^4.29.19",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^29.0.3",
@@ -40,6 +41,7 @@
     "webpack-dev-server": "^4.9.0"
   },
   "dependencies": {
+    "@tanstack/react-query": "^4.29.19",
     "axios": "^1.4.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",

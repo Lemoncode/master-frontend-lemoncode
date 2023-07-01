@@ -32,7 +32,7 @@ export const queryClient = new QueryClient();
 
 Si queremos podemos definir una serie de opciones globales que aplicarían a todas las consultas:
 
-_./src/core/query.ts_
+_./src/core/query/query-client_
 
 ```diff
 import { QueryClient } from "@tanstack/react-query";
@@ -63,10 +63,13 @@ import { QueryClient } from "@tanstack/react-query";
 
 Siguiente paso, a nivel de aplicación vamos a definir un provider para poder usar react-query:
 
+_./src/app.tsx_
+
 ```diff
 import React from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { TodoPage, ListPage } from "./pages";
++ import { QueryClientProvider } from "@tanstack/react-query";
 + import { queryClient } from "./core/query/query-client";
 
 export const App = () => {
@@ -138,13 +141,17 @@ export const TodoPage: React.FC = () => {
 +    () => {
 +      return axios.get("http://localhost:3000/todos").then((res) => {
 +        return res.data;
++      })
++      .catch((err) => {
++         // Esto lo mejoraremos luego
++         alert(`¿Server levantado?`);
 +      });
 +    },
 +    {}
 +  );
 ```
 
-¿Qué hacemos aquí? Tenemos un hook que se llama _useQuery_ que nos permite hacer una petición y nos devuelve el resultado de la misma, tenemos tres parametros:
+¿Qué hacemos aquí? Tenemos un hook que se llama _useQuery_ que nos permite hacer una petición y nos devuelve el resultado de la misma, tenemos tres parámetros:
 
 - En el primero identificamos la consulta, así react query la identifica y puede devolvernos datos en caché, o directamente hacer una carga, si te fijas es un array, esto nos permite agrupar consultas y por ejemplo obligar a que recarguen todas las consultas que pertenezcan a un tipo (esto lo veremos más adelante).
 - En el segundo tenemos la función que se ejecutará para obtener los datos, en este caso hacemos una petición a nuestro servidor, aquí lo más importante es que este función
@@ -156,3 +163,136 @@ Vemos que se ha refrescado la información :) ¿Qué clase de brujería es esta?
 Pues resulta que por defecto la opción _refetchOnWindowFocus_ y al volver el foco a la ventana automáticamente recarga los datos, esto lo podemos configurar a tanto a nivel global como de consulta.
 
 Veamos como desactivarlo y ver que pasa:
+
+```diff
+  const { data } = useQuery(
+    ["todolist"],
+    () => {
+      return axios.get("http://localhost:3000/todos").then((res) => {
+        return res.data;
+      });
+    },
+    {
++     refetchOnWindowFocus: false,
+    }
+  );
+```
+
+¿Interesante verdad? A golpe de comando podemos habilitar / deshabilitar estos flags tanto a nivel global como a nivel de query.
+
+Por otro lado, fíjate en las dev tools:
+
+- Me dice que consultas tengo.
+- Qué estado tienen.
+- Puedo incluso relanzarlas.
+
+Bueno, hasta aquí el _happy path_, vamos a tirar abajo la api rest y ver que pasa:
+
+_Paramos al rest api de todos_
+
+¿Qué pasa aquí? Pues que se nos queda pillado el alert de algo salió mal, _react-query_ reintentar la query una y otra vez ¿No sería mejor mostrar el mensaje y darle al usuario un botón de reintentar como hace por ejemplo _GMail_? (bueno GMail también reintenta cada X minutos...), vamos a jugar con esto:
+
+Empecemos por tener un flag que nos indique si estamos en modo error o no, y conectémoslo con React Query
+
+```diff
+export const TodoPage: React.FC = () => {
++ const [isTodosEndPointDown, setIsTodosEndPointDown] = React.useState(false);
+
+  const { data } = useQuery(
+    ["todolist"],
+    () => {
+      return axios
+        .get("http://localhost:3000/todos")
+        .then((res) => {
+          return res.data;
+        })
+        .catch((err) => {
+          alert(`¿Server levantado?`);
+        });
+    },
+    {
++     enabled: !isTodosEndPointDown,
+    }
+  );
+
+```
+
+Ahora, cuando de error, vamos a deshabilitar la query:
+
+```diff
+      return axios
+        .get("http://localhost:3000/todos")
+        .then((res) => {
+          return res.data;
+        })
+        .catch((err) => {
++        setIsTodosEndPointDown(true);
+          alert(`¿Server levantado?`);
+        });
+```
+
+Vamos a probar a ver que tal.
+
+Oye funciona... ya que estamos, vamos a utilizar la gestíon de errors de _react query_
+
+Añadimos un botón de reconectar que sólo será visible cuando esté desconectado el server, y que ponga la query a enabled (si falla una vez se desactivará), para que sea más cómodo vamos a usar el control de errores de _React Query_:
+
+```diff
+-  const { data } = useQuery(
++  const { data, isError} = useQuery(
+    ["todolist"],
+    () => {
+      return axios
+        .get("http://localhost:3000/todos")
+        .then((res) => {
+          return res.data;
+        })
+-        .catch((err) => {
+-          setIsTodosEndPointDown(true);
+-          alert(`¿Server levantado?`);
+-        });
+    },
+    {
+      enabled: !isTodosEndPointDown,
+    }
+  );
+```
+
+```diff
++ React.useEffect(() => {
++   if (isError) {
++     setIsTodosEndPointDown(true);
++   }
++ }, [isError]);
+```
+
+Y vamos añadir un botón para intentar reconectar en caso de error:
+
+```diff
+  );
+
++ if(isError) {
++   return <button onClick={() => setIsTodosEndPointDown(false)}>Reconectar</button>
++ }
+
+  return (
+```
+
+Vale, esto va pero al rato ¿Qué está pasando? Que por defecto _react-query_ antes de dar por perdida una llamada, realiza varios reintentos, vamos a desactivarlo:
+
+```diff
+    {
+      enabled: !isTodosEndPointDown,
++     retry: false,
+    }
+```
+
+Ahora si que lo tenemos, es más vamos a probar a arrancar y para el servidor a ver que pasa.
+
+> React query también trae [integración con ErrorBoundaries](https://tkdodo.eu/blog/react-query-error-handling)
+
+¿Para que casos adicionales nos puede servir esto?
+
+- Entramos en modo edición y no queremos que se hagan recargas.
+- Queremos pausar temporalmente el refetch.
+- ...

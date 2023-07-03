@@ -389,5 +389,13 @@ Hora de ponernos los guantes de jardinero y arreglar el huerto :)
 
 1. eliminar harcodes
 2. Agrupar mejor
-3. REfactor y todo funciona
+3. Refactor y todo funciona
 4. Agrupar en un hook TodosQueries
+
+---
+
+Más cosas Optimistic updates (Acceder a la caché directamente)
+
+https://tkdodo.eu/blog/mastering-mutations-in-react-query
+
+https://tanstack.com/query/latest/docs/react/guides/optimistic-updates?from=reactQueryV3&original=https%3A%2F%2Ftanstack.com%2Fquery%2Fv3%2Fdocs%2Fguides%2Foptimistic-updates

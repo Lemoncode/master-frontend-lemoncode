@@ -1,7 +1,7 @@
 import React from 'react';
 
 const RootPage = () => {
-  return <h1>Hello from Nextjs</h1>;
+  return <h2>Hello from Nextjs</h2>;
 };
 
 export default RootPage;

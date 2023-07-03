@@ -50,9 +50,6 @@ const RootLayout = (props: Props) => {
   const { children } = props;
   return (
     <html lang="en">
-      <head>
-        <title>My App</title>
-      </head>
       <body>{children}</body>
     </html>
   );
@@ -69,7 +66,7 @@ _./app/page.tsx_
 import React from 'react';
 
 const RootPage = () => {
-  return <h1>Hello from Nextjs</h1>;
+  return <h2>Hello from Nextjs</h2>;
 };
 
 export default RootPage;

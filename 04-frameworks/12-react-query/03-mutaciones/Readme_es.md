@@ -333,8 +333,10 @@ _./pages/todo.page.tsx_
 
 ```diff
 import { TodoItem, Mode } from "./todo.model";
+- import { getTodoList } from "./todo.api";
++ import { getTodoList, appendTodoItem } from "./todo.api";
 - import { useQuery } from "@tanstack/react-query";
-+ import { useQuery, useMutation } from "@tanstack/react-query";
++ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { TodoAppendComponent } from "./components";
 ```
 
@@ -342,6 +344,8 @@ import { TodoAppendComponent } from "./components";
 export const TodoPage: React.FC = () => {
   const [mode, setMode] = React.useState<Mode>("Readonly");
   const [isTodosEndPointDown, setIsTodosEndPointDown] = React.useState(false);
++ const queryClient = useQueryClient();
++ const appendMutation = useMutation(appendTodoItem);
 
   const { data, isError } = useQuery(
     ["todolist"],
@@ -355,7 +359,8 @@ export const TodoPage: React.FC = () => {
   );
 
 + const handleAppend = (item: TodoItem) => {
-+   useMutation(appendTodoItem);
++   appendMutation.mutate(item);
++   setMode("Readonly");
 + }
 
   React.useEffect(() => {
@@ -365,17 +370,33 @@ export const TodoPage: React.FC = () => {
   }, [isError]);
 ```
 
+Y vamos a usarlo:
+
+```diff
+      <TodoAppendComponent
+        mode={mode}
+        setAppendMode={() => setMode("Append")}
+        onCancel={() => setMode("Readonly")}
+-        onAppend={(item) => {
+-          console.log("TODO... save", item);
+-        }}
++        onAppend={handleAppend}
+      />
+```
+
 Con esto grabamos, pero... ¿No se ve en la lista? Qué está pasando?
 
 Pues que como no perdemos foco, y no se recarga el componente, se queda con la query de caché, tendrámos que esperar unos minutos para que se recargara ¿Qué podemos hacer? Pues _useMutation_ tiene un segundo parámetro en el que podemos indicarle un callback al que llamar cuando se haya grabado, y ahí podemos indicarle que query queremos que se recargue:
 
 ```diff
   const handleAppend = (item: TodoItem) => {
-    useMutation(appendTodoItem, {
+    useMutation(appendTodoItem,
++    {
 +     onSuccess: () => {
 +       queryClient.invalidateQueries("todolist");
 +     },
-    });
++    }
+);
   };
 ```
 

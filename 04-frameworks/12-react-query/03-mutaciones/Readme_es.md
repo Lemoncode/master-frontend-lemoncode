@@ -366,3 +366,28 @@ export const TodoPage: React.FC = () => {
 ```
 
 Con esto grabamos, pero... ¿No se ve en la lista? Qué está pasando?
+
+Pues que como no perdemos foco, y no se recarga el componente, se queda con la query de caché, tendrámos que esperar unos minutos para que se recargara ¿Qué podemos hacer? Pues _useMutation_ tiene un segundo parámetro en el que podemos indicarle un callback al que llamar cuando se haya grabado, y ahí podemos indicarle que query queremos que se recargue:
+
+```diff
+  const handleAppend = (item: TodoItem) => {
+    useMutation(appendTodoItem, {
++     onSuccess: () => {
++       queryClient.invalidateQueries("todolist");
++     },
+    });
+  };
+```
+
+Si probamos, esto funciona... pero se nos queda una sensación bien mala:
+
+- Strings harcodeados.
+- Mucho código en el componente.
+- ¿Qué pasa si ese append tiene que impactar a más de una query?
+
+Hora de ponernos los guantes de jardinero y arreglar el huerto :)
+
+1. eliminar harcodes
+2. Agrupar mejor
+3. REfactor y todo funciona
+4. Agrupar en un hook TodosQueries

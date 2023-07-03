@@ -279,7 +279,8 @@ Vamos a usar esto en nuestro _todo-append.component.tsx_:
 
 ```diff
 import React from "react";
-import { Mode, TodoItem } from "../todo.model";
+- import { Mode, TodoItem } from "../todo.model";
++ import { Mode, TodoItem, createEmptyTodoItem } from "../todo.model";
 + import { TodoItemEdit } from "./todo-item-edit.component";
 ```
 
@@ -302,3 +303,66 @@ import { Mode, TodoItem } from "../todo.model";
     </div>
   );
 ```
+
+Ya lo tenemos todo enlazado, vamos ahora a implementar la api que va a conectar para guardar d verdad los datos:
+
+_./api/todo.api.ts_
+
+```diff
+import axios from "axios";
+import { TodoItem } from "./todo.model";
+
+const __apiUrlBase = "http://localhost:3000";
+
+export const getTodoList = async (): Promise<TodoItem[]> => {
+  return axios.get(`${__apiUrlBase}/todos`).then((res) => {
+    return res.data;
+  });
+};
+
++ export const appendTodoItem = (item: TodoItem): Promise<TodoItem> => {
++   return axios.post(`${__apiUrlBase}/todos`, item).then((res) => {
++     return res.data;
++   });
++ };
+```
+
+Y vamos a usarlo en nuestro componente e integrarlo con react-query, para actualizar tiramos de _react-query_
+
+_./pages/todo.page.tsx_
+
+```diff
+import { TodoItem, Mode } from "./todo.model";
+- import { useQuery } from "@tanstack/react-query";
++ import { useQuery, useMutation } from "@tanstack/react-query";
+import { TodoAppendComponent } from "./components";
+```
+
+```diff
+export const TodoPage: React.FC = () => {
+  const [mode, setMode] = React.useState<Mode>("Readonly");
+  const [isTodosEndPointDown, setIsTodosEndPointDown] = React.useState(false);
+
+  const { data, isError } = useQuery(
+    ["todolist"],
+    () => {
+      return getTodoList();
+    },
+    {
+      enabled: !isTodosEndPointDown,
+      retry: false,
+    }
+  );
+
++ const handleAppend = (item: TodoItem) => {
++   useMutation(appendTodoItem);
++ }
+
+  React.useEffect(() => {
+    if (isError) {
+      setIsTodosEndPointDown(true);
+    }
+  }, [isError]);
+```
+
+Con esto grabamos, pero... ¿No se ve en la lista? Qué está pasando?

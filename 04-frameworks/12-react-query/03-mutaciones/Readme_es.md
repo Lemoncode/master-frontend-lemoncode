@@ -532,8 +532,9 @@ export const TodoPage: React.FC = () => {
 ```
 
 Aquí es donde nos podemos quedar en este hook y aceptar el código que tenemos, o por contra podemos seguir refactorizando, no hay bala de plata:
-  - Por un lado ahora tenemos un hook simple que hace una cosa y una sola cosa, pero algo de "lió" en el componente.
-  - Por otro lado podemos vaciar el componente y mover cosas relacionadas a ese hook o incluso a un hook o funciones aparte (vaciamos componentes, pero corremos riesgo de acabar con un hook monstruito, o con un montón de ficheros separados).
+
+- Por un lado ahora tenemos un hook simple que hace una cosa y una sola cosa, pero algo de "lió" en el componente.
+- Por otro lado podemos vaciar el componente y mover cosas relacionadas a ese hook o incluso a un hook o funciones aparte (vaciamos componentes, pero corremos riesgo de acabar con un hook monstruito, o con un montón de ficheros separados).
 
 Por ejemplo, vamos a crear un wrapper para carga los _TODO_
 
@@ -548,7 +549,7 @@ const useTodoQueries = () => {
       queryClient.invalidateQueries(todoKeys.todoList());
     },
   });
-  
+
 +  const loadTodoList = (disableQuery : boolean) => {
 +    return useQuery(
 +      todoKeys.todoList(),
@@ -559,7 +560,7 @@ const useTodoQueries = () => {
 +        enabled: disableQuery,
 +        retry: false,
 +      }
-+    );    
++    );
 +  }
 
 -  return {queryClient, appendMutation}
@@ -595,35 +596,37 @@ npm start
 ```
 
 Ahora es el momento de ver si paramos aquí o seguimos ¿Qué haría en un proyecto real?
-  - Hacer commit (e incluso push) de lo que he hecho.
-  - Seguir jugando a refactorizar.
-  - Parar ver si el refactor tiene sentido o si toca _recoger carrete_ (en este caso hago un discard de los cambios y me quedo con la versión anterior).
+
+- Hacer commit (e incluso push) de lo que he hecho.
+- Seguir jugando a refactorizar.
+- Parar ver si el refactor tiene sentido o si toca _recoger carrete_ (en este caso hago un discard de los cambios y me quedo con la versión anterior).
 
 De primeras, podríamos estar tentados de:
-  - Renombrar _useTodoQueries_ a _useTodoState_ (o incluso que _useTodoState_ consumiera _useTodoQueries_).
+
+- Renombrar _useTodoQueries_ a _useTodoState_ (o incluso que _useTodoState_ consumiera _useTodoQueries_).
 
 Mirar de mover a _useTodoState_:
 
 ** NO COPIAR ESTE CODIGO **
 
 ```ts
-  const [mode, setMode] = React.useState<Mode>("Readonly");
-  const [isTodosEndPointDown, setIsTodosEndPointDown] = React.useState(false);
+const [mode, setMode] = React.useState<Mode>("Readonly");
+const [isTodosEndPointDown, setIsTodosEndPointDown] = React.useState(false);
 ```
 
 ```ts
-  const handleAppend = (item: TodoItem) => {
-    appendMutation.mutate(item);
-    setMode("Readonly");
-  };
+const handleAppend = (item: TodoItem) => {
+  appendMutation.mutate(item);
+  setMode("Readonly");
+};
 ```
 
 ```ts
-  React.useEffect(() => {
-    if (isError) {
-      setIsTodosEndPointDown(true);
-    }
-  }, [isError]);
+React.useEffect(() => {
+  if (isError) {
+    setIsTodosEndPointDown(true);
+  }
+}, [isError]);
 ```
 
 Y exponer el en _return_ del hook todo lo que sea público.
@@ -631,18 +634,250 @@ Y exponer el en _return_ del hook todo lo que sea público.
 ¿Merece la pena hacer este refactor?
 
 Pros
-  - El componente queda muy limpio.
-  - Encapsulamos estado y acceso a queries en un solo hook.
+
+- El componente queda muy limpio.
+- Encapsulamos estado y acceso a queries en un solo hook.
 
 Cons
-  - Nuestro hook hace más de una cosa, se podría resolver rompiendo en dos hooks independientes (queries y estados), pero puede complicar leer el código (en algún caso vamos a tener que saltar hasta tres ficheros).
-  - El hook es muy específico de este componente, si lo reutilizamos en otro componente, probablemente tengamos que modificarlo (tampoco es un drama).
+
+- Nuestro hook hace más de una cosa, se podría resolver rompiendo en dos hooks independientes (queries y estados), pero puede complicar leer el código (en algún caso vamos a tener que saltar hasta tres ficheros).
+- El hook es muy específico de este componente, si lo reutilizamos en otro componente, probablemente tengamos que modificarlo (tampoco es un drama).
 
 ¿Cual es la solución óptima? Cómo siempre... depende, ¿Cómo va a crecer esta página? ¿Qué va a necesitar? Lo que si es cierto es que gracias a los hooks son refactors fáciles de hacer.
 
+# Actualizar un TODO
+
+Vamos a actualizar un TODO, queremos hacerlo en línea, es decir, puncho en editr un todo y ahí mismo en vez de mostrarse esa fila como de sólo lectura, tienen que aparecer los campos de edición.
+
+Para ello vamos a a arrancar por crear un componente para mostrar los datos en modo sólo lectura y después crearemos otro para pasar a modo edición:
+
+_./src/pages/todo/components/todo-item-display.component.tsx_
+
+```ts
+import React from "react";
+import { TodoItem } from "../todo.model";
+
+interface Props {
+  item: TodoItem;
+  onEdit: (id: number) => void;
+}
+
+export const TodoItemDisplay: React.FC<Props> = (props: Props) => {
+  const { item, onEdit } = props;
+
+  return (
+    <React.Fragment key={item.id}>
+      <div>{item.isDone ? "✅" : "⭕️"}</div>
+      <div>{item.description}</div>
+      <div>
+        <button onClick={() => onEdit(item.id)}>Edit</button>
+      </div>
+    </React.Fragment>
+  );
+};
+```
+
+_./src/pages/todo/components/index.ts_
+
+```diff
+export * from "./todo-append.component";
++ export * from "./todo-item-display.component";
+```
+
+Vamos a darle uso en la página:
+
+_./src/pages/todo/todo.page.tsx_
+
+```diff
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+- import { TodoAppendComponent } from "./components";
++ import { TodoAppendComponent, TodoItemDisplay } from "./components";
+
+import { todoKeys } from "./todo-key-queries";
+```
+
+```diff
++ const handleEnterEditMode = (id: number) => {
++  setMode("Edit");
++  // TODO... más cosas por aquí pendientes
++ };
+```
+
+```diff
+      <div className={classes.todoList}>
+        {data?.map((todo) => (
+-          <React.Fragment key={todo.id}>
+-            <div>{todo.isDone ? "✅" : "⭕️"}</div>
+-            <div>{todo.description}</div>
+-          </React.Fragment>
++            <TodoItemDisplay
++              key={todo.id}
++              item={todo}
++              onEdit={handleEnterEditMode}
+            />
+        ))}
+      </div>
+      <TodoAppendComponent
+```
+
+Se descojona el layout, porque en el contenedor esperamos dos filas en vez de tres, vamos a cambiarlo:
+
+_./src/pages/todo/todo.page.css_
+
+```diff
+.todo-list {
+  display: grid;
+-  grid-template-columns: 1fr 3fr;
++  grid-template-columns: 1fr 3fr 1fr;
+  grid-gap: 1rem;
+  margin: 1rem;
+}
+```
+
+Si pinchamos en _edit_ vemos que no pasa nada, toca ponerse manos a la obra:
+
+- Por un lado, nos hace falta saber que TODO queremos editar, así que toca guardarlo en el estado.
+- Por otro lado nos hace falta un componente para editar el TODO.
+- Para rematar, en el _map_ tenemos que ver si estamos en modo edición y ver si usamos el _item display_ o el _item edit_ que acabamos de crear\_ y ya que estamos cuando pulsemos en guardar que almacene esos datos.
+
+Vamos primero a por el estado:
+
+_./src/pages/todo/todo.page.tsx_
+
+```diff
+export const TodoPage: React.FC = () => {
+  const [mode, setMode] = React.useState<Mode>("Readonly");
++ // TODO: Mover ese -1 a una constante
++ const [editingId, setEditingId] = React.useState(-1);
+  const [isTodosEndPointDown, setIsTodosEndPointDown] = React.useState(false);
+```
+
+```diff
+  const handleEnterEditMode = (id: number) => {
+    setMode("Edit");
+-    // TODO... más cosas por venir
++    setEditingId(id);
+  };
+```
+
+Y vamos a crear una _handler_ para el update (después lo conectaremos con _React Query_ y _Axios_):
+
+_./src/pages/todo/todo.page.tsx_
+
+```diff
+  const handleAppend = (item: TodoItem) => {
+    appendMutation.mutate(item);
+    setMode("Readonly");
+  };
+
++ const handleUpdate = (item: TodoItem) => {
++  console.log("TODO: handleUpdate", item);
++  setMode("Readonly");
++ }
+```
+
+Vamos ahora a por el _item edit_:
+
+_./src/pages/todo/components/todo-item-edit.component.tsx_
+
+```ts
+import React from "react";
+import { TodoItem, createEmptyTodoItem } from "../todo.model";
+
+interface Props {
+  item: TodoItem;
+  onSave: (item: TodoItem) => void;
+  onCancel: () => void;
+}
+
+export const TodoItemEdit: React.FC<Props> = (props: Props) => {
+  const { item, onSave, onCancel } = props;
+  const [editItem, setEditItem] = React.useState({ ...item });
+
+  return (
+    <>
+      <label>
+        <input
+          type="checkbox"
+          checked={editItem.isDone}
+          onChange={(e) =>
+            setEditItem({ ...editItem, isDone: e.target.checked })
+          }
+        />
+        Done
+      </label>
+      <input
+        type="text"
+        value={editItem.description}
+        onChange={(e) =>
+          setEditItem({ ...editItem, description: e.target.value })
+        }
+      />
+      <div>
+        <button onClick={() => onSave(editItem)}>Save</button>
+        <button onClick={() => onCancel()}>Cancel</button>
+      </div>
+    </>
+  );
+};
+```
+
+¿Que podríamos hacer ahora? Pues directamente llevarnos al _map_ del TODO Page el _item append_ y el _item edit_ y dependiendo de si estoy en modo edición o lectura de cada item poner uno u otro, pero ibamos a _guarrear_ el componente, así que vamos a crear un componente intermedio que se encargue de eso:
+
+_./src/pages/todo/components/todo-item.component.tsx_
+
+```ts
+import React from "react";
+import { TodoItem } from "../todo.model";
+import { TodoItemEdit } from "./todo-item-edit.component";
+import { TodoItemDisplay } from "./todo-item-display.component";
+
+interface Props {
+  editingId: number;
+  todo: TodoItem;
+  onEnterEditMode: (id: number) => void;
+  onUpdate: (item: TodoItem) => void;
+  onCancel: () => void;
+}
+
+export const TodoItemComponent: React.FC<Props> = (props: Props) => {
+  const { todo, editingId, onEnterEditMode, onUpdate, onCancel } = props;
+
+  return (
+    <>
+      {todo.id !== editingId ? (
+        <TodoItemDisplay key={todo.id} item={todo} onEdit={onEnterEditMode} />
+      ) : (
+        <TodoItemEdit
+          key={todo.id}
+          item={todo}
+          onSave={onUpdate}
+          onCancel={onCancel}
+        />
+      )}
+    </>
+  );
+};
+```
+
+Ya con esto armado, vamos a centrarnos en que de verdad guarde en servidor.
+
+Actualizamos la API de Axios que hemos creado:
+
+Vamos ahora a por el hook de queries y creamos la mutación para update
+
+Lo añadimos en nuestro handle de updates de todo page:
+
+Y Ya lo tenemos funcionando
+
 # Optimistic updates
 
+Otro caso interesante son los _optimistic updates_, hay escenarios en lo que sabemos al 99% que un dato se va guardar con éxito, ¿Por qué no asumir que todo va a ir bien, y si ya ha un fallo hacer una recarga? De esta forma podemos ofrecer una mejor experiencia de usuario.
 
+En nuestro caso de TODO y edit, ¿Qué podríamos hacer?
+
+- En el handleAppend, modifico la caché de de React Query y añador el elemento.
+- De esta manera, antes de que reciba la respuesta del servidor, el usuario ya ve el TODO en la lista.
 
 ---
 

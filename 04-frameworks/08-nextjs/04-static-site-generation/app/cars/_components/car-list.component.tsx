@@ -1,13 +1,13 @@
 import React from 'react';
-import { Car } from './car-list.vm';
-import { CarItem } from './components';
+import { Car } from '../car-list.vm';
+import { CarItem } from './car-item.component';
 import classes from './car-list.module.css';
 
 interface Props {
   carList: Car[];
 }
 
-export const CarListComponent: React.FC<Props> = (props) => {
+export const CarList: React.FC<Props> = (props) => {
   const { carList } = props;
 
   return (

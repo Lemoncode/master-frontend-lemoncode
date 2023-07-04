@@ -489,6 +489,161 @@ npm start
 
 [Más información acerca de react query keys](https://tkdodo.eu/blog/effective-react-query-keys)
 
+- Siguiente paso, el componente se nos ha quedado lleno de código y es complicado de seguir y saber que es código de consulta y recarga y que es código de componente, si nos descuidamos, y el componente sigue creciendo, esto puede acabar en un _monstruito_, así que vamos a agrupar y sacar fuera funcionalidad, primero tirando de un hook dentro del mismo fichero y después evaluamos si sacarlo a otro fichero o no.
+
+Vamos paso a paso, lo primero _queryClient_ y _appendMutation_ son buenos candidatos para sacarlos fuera
+_./src/pages/todo/todo.page.tsx_
+
+```diff
++ const useTodoListQueries {
++   const queryClient = useQueryClient();
++
++    const appendMutation = useMutation(appendTodoItem, {
++      onSuccess: () => {
++        queryClient.invalidateQueries(todoKeys.todoList());
++      },
++    });
++
++    return {queryClient, appendMutation}
++ }
+
+export const TodoPage: React.FC = () => {
+  const [mode, setMode] = React.useState<Mode>("Readonly");
+  const [isTodosEndPointDown, setIsTodosEndPointDown] = React.useState(false);
+-  const queryClient = useQueryClient();
+-  const appendMutation = useMutation(appendTodoItem, {
+-    onSuccess: () => {
+-      queryClient.invalidateQueries(todoKeys.todoList());
+-    },
+-  });
+
++   const {appendMutation} = useTodoQueries();
+
+  const { data, isError } = useQuery(
+    todoKeys.todoList(),
+    () => {
+      return getTodoList();
+    },
+    {
+      enabled: !isTodosEndPointDown,
+      retry: false,
+    }
+  );
+```
+
+Aquí es donde nos podemos quedar en este hook y aceptar el código que tenemos, o por contra podemos seguir refactorizando, no hay bala de plata:
+  - Por un lado ahora tenemos un hook simple que hace una cosa y una sola cosa, pero algo de "lió" en el componente.
+  - Por otro lado podemos vaciar el componente y mover cosas relacionadas a ese hook o incluso a un hook o funciones aparte (vaciamos componentes, pero corremos riesgo de acabar con un hook monstruito, o con un montón de ficheros separados).
+
+Por ejemplo, vamos a crear un wrapper para carga los _TODO_
+
+_./src/pages/todo/todo.page.tsx_
+
+```diff
+const useTodoQueries = () => {
+  const queryClient = useQueryClient();
+
+  const appendMutation = useMutation(appendTodoItem, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(todoKeys.todoList());
+    },
+  });
+  
++  const loadTodoList = (disableQuery : boolean) => {
++    return useQuery(
++      todoKeys.todoList(),
++      () => {
++        return getTodoList();
++      },
++      {
++        enabled: disableQuery,
++        retry: false,
++      }
++    );    
++  }
+
+-  return {queryClient, appendMutation}
++  return {queryClient, appendMutation, loadTodoList}
+}
+```
+
+```diff
+export const TodoPage: React.FC = () => {
+  const [mode, setMode] = React.useState<Mode>("Readonly");
+  const [isTodosEndPointDown, setIsTodosEndPointDown] = React.useState(false);
+
+-  const {appendMutation} = useTodoQueries();
++  const {loadTodoList, appendMutation} = useTodoQueries();
+
++  const { data, isError } = loadTodoList(!isTodosEndPointDown);
+-  const { data, isError } = useQuery(
+-    todoKeys.todoList(),
+-    () => {
+-      return getTodoList();
+-    },
+-    {
+-      enabled: !isTodosEndPointDown,
+-      retry: false,
+-    }
+-  );
+```
+
+Comprobamos que todo funciona y analizamos:
+
+```bash
+npm start
+```
+
+Ahora es el momento de ver si paramos aquí o seguimos ¿Qué haría en un proyecto real?
+  - Hacer commit (e incluso push) de lo que he hecho.
+  - Seguir jugando a refactorizar.
+  - Parar ver si el refactor tiene sentido o si toca _recoger carrete_ (en este caso hago un discard de los cambios y me quedo con la versión anterior).
+
+De primeras, podríamos estar tentados de:
+  - Renombrar _useTodoQueries_ a _useTodoState_ (o incluso que _useTodoState_ consumiera _useTodoQueries_).
+
+Mirar de mover a _useTodoState_:
+
+** NO COPIAR ESTE CODIGO **
+
+```ts
+  const [mode, setMode] = React.useState<Mode>("Readonly");
+  const [isTodosEndPointDown, setIsTodosEndPointDown] = React.useState(false);
+```
+
+```ts
+  const handleAppend = (item: TodoItem) => {
+    appendMutation.mutate(item);
+    setMode("Readonly");
+  };
+```
+
+```ts
+  React.useEffect(() => {
+    if (isError) {
+      setIsTodosEndPointDown(true);
+    }
+  }, [isError]);
+```
+
+Y exponer el en _return_ del hook todo lo que sea público.
+
+¿Merece la pena hacer este refactor?
+
+Pros
+  - El componente queda muy limpio.
+  - Encapsulamos estado y acceso a queries en un solo hook.
+
+Cons
+  - Nuestro hook hace más de una cosa, se podría resolver rompiendo en dos hooks independientes (queries y estados), pero puede complicar leer el código (en algún caso vamos a tener que saltar hasta tres ficheros).
+  - El hook es muy específico de este componente, si lo reutilizamos en otro componente, probablemente tengamos que modificarlo (tampoco es un drama).
+
+¿Cual es la solución óptima? Cómo siempre... depende, ¿Cómo va a crecer esta página? ¿Qué va a necesitar? Lo que si es cierto es que gracias a los hooks son refactors fáciles de hacer.
+
+# Optimistic updates
+
+
+
 ---
 
 Más cosas Optimistic updates (Acceder a la caché directamente)

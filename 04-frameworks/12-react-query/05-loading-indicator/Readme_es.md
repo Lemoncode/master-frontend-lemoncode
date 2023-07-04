@@ -93,3 +93,115 @@ Vamos a ver que tal funciona esto:
 ```bash
 npm start
 ```
+
+Interesante ¿Verdad? ¿Y si queremos mezclar esto con una librería de tracking de indicador de carga? ¿Por qué hacer esto? Imaginate que por ejemplo quieres llevar el tracking de varias promesas, vamos a hacer una prueba rápida:
+
+- Vamos a instalar la librería react-promise-tracker
+
+```bash
+npm install react-promise-tracker --save
+```
+
+Y vamos a instalar una librerías de animaciones que muestran spinners:
+
+```bash
+npm install react-loader-spinner --save
+```
+
+Vamos a crear un componente de UI que muestre un indicador de carga:
+
+¿Qué hacemos aquí? En el hook _usePromiseTracker_ tenemos un flag _promiseInProgress_ que nos indica si hay alguna promesa en progreso, vamos a usarlo para mostrar un indicador de carga.
+
+_./src/common/loading-indicator.component.tsx_
+
+```tsx
+import React from "react";
+import { ThreeDots } from "react-loader-spinner";
+import { usePromiseTracker } from "react-promise-tracker";
+
+export const LoadingIndicator = () => {
+  const { promiseInProgress } = usePromiseTracker();
+
+  return (
+    promiseInProgress && (
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          zIndex: 9999,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ThreeDots color="#2BAD60" height="100" width="100" />
+      </div>
+    )
+  );
+};
+```
+
+Vamos a configurarlo a nivel de aplicación:
+
+_./src/app.tsx_
+
+```diff
+import React from "react";
+import { HashRouter, Routes, Route } from "react-router-dom";
+import { TodoPage, ListPage, TodoItemPage } from "./pages";
+import { queryClient } from "./core/query/query-client";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
++ import { LoadingIndicator } from "./common/loading-indicator.component";
+```
+
+```diff
+export const App = () => {
+  return (
+    <>
+      <QueryClientProvider client={queryClient}>
+        <HashRouter>
+          <Routes>
+            <Route path="/" element={<TodoPage />} />
+            <Route path="/pageb" element={<ListPage />} />
+            <Route path="/todo-item/:id" element={<TodoItemPage />} />
+          </Routes>
+        </HashRouter>
+        <ReactQueryDevtools />
++        <LoadingIndicator />
+      </QueryClientProvider>
+    </>
+  );
+};
+```
+
+Y ahora donde lanzamos las consultas vamos a indicarle que haga un _trackPromise_
+
+```diff
++ import { trackPromise } from "react-promise-tracker";
+// (...)
+
+  const loadTodoList = (disableQuery: boolean) => {
+    return useQuery(
+      todoKeys.todoList(),
+      () => {
+-        return getTodoList();
++        return trackPromise(getTodoList());
+      },
+      {
+        enabled: disableQuery,
+        retry: false,
+      }
+    );
+  };
+```
+
+Para probarlo podemos cambiar el modo network a 3G (F12)
+
+```bash
+npm start
+```

@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { envConstants } from 'core/constants';
+import { envConstants } from '@/_core/constants';
 import { Car } from './car.api-model';
 
 const url = `${envConstants.BASE_API_URL}/cars`;

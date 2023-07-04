@@ -595,6 +595,68 @@ Comprobamos que todo funciona y analizamos:
 npm start
 ```
 
+¿Funciona? Bueno...
+
+Esto funciona pero nos acabamos de cargar las reglas de los hooks:
+
+https://legacy.reactjs.org/docs/hooks-rules.html
+
+**Don’t call Hooks inside loops, conditions, or nested functions.**
+
+Así que vamos a arreglar esto:
+
+```diff
+- const useTodoQueries = () => {
++ const useTodoQueries = (disableQuery : boolean) => {
+
+  const queryClient = useQueryClient();
+
+  const appendMutation = useMutation(appendTodoItem, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(todoKeys.todoList());
+    },
+  });
+
++ const { data, isError } = useQuery(
++    todoKeys.todoList(),
++    () => {
++      return getTodoList();
++    },
++    {
++      enabled: disableQuery,
++      retry: false,
++    }
++  );
+
+-  const loadTodoList = (disableQuery : boolean) => {
+-    return useQuery(
+-      todoKeys.todoList(),
+-      () => {
+-        return getTodoList();
+-      },
+-      {
+-        enabled: disableQuery,
+-        retry: false,
+-      }
+-    );
+-  }
+
+-  return {queryClient, appendMutation, loadTodoList}
++  return {queryClient, appendMutation, data, isError}
+}
+```
+
+```diff
+export const TodoPage: React.FC = () => {
+  const [mode, setMode] = React.useState<Mode>("Readonly");
+  const [isTodosEndPointDown, setIsTodosEndPointDown] = React.useState(false);
+
+-  const {loadTodoList, appendMutation} = useTodoQueries();
++  const {appendMutation, data, isError} = useTodoQueries(!isTodosEndPointDown);
+
+-  const { data, isError } = loadTodoList(!isTodosEndPointDown);
+```
+
 Ahora es el momento de ver si paramos aquí o seguimos ¿Qué haría en un proyecto real?
 
 - Hacer commit (e incluso push) de lo que he hecho.

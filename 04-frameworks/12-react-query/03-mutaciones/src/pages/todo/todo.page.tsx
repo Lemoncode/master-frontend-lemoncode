@@ -8,7 +8,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { TodoAppendComponent, TodoItemComponent } from "./components";
 import { todoKeys } from "./todo-key-queries";
 
-const useTodoQueries = () => {
+const useTodoQueries = (disableQuery: boolean) => {
   const queryClient = useQueryClient();
 
   const mutationSucceeded = () => {
@@ -39,20 +39,18 @@ const useTodoQueries = () => {
     },
   });
 
-  const loadTodoList = (disableQuery: boolean) => {
-    return useQuery(
-      todoKeys.todoList(),
-      () => {
-        return getTodoList();
-      },
-      {
-        enabled: disableQuery,
-        retry: false,
-      }
-    );
-  };
+  const { data, isError } = useQuery(
+    todoKeys.todoList(),
+    () => {
+      return getTodoList();
+    },
+    {
+      enabled: disableQuery,
+      retry: false,
+    }
+  );
 
-  return { queryClient, appendMutation, updateMutation, loadTodoList };
+  return { queryClient, appendMutation, updateMutation, data, isError };
 };
 
 export const TodoPage: React.FC = () => {
@@ -61,9 +59,8 @@ export const TodoPage: React.FC = () => {
   const [editingId, setEditingId] = React.useState(-1);
   const [isTodosEndPointDown, setIsTodosEndPointDown] = React.useState(false);
 
-  const { loadTodoList, appendMutation, updateMutation } = useTodoQueries();
+  const {appendMutation, data, isError} = useTodoQueries(!isTodosEndPointDown);
 
-  const { data, isError } = loadTodoList(!isTodosEndPointDown);
 
   const handleAppend = (item: TodoItem) => {
     appendMutation.mutate(item);

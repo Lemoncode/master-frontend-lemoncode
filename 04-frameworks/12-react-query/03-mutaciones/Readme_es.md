@@ -413,6 +413,82 @@ Hora de ponernos los guantes de jardinero y arreglar el huerto :)
 3. Refactor y todo funciona
 4. Agrupar en un hook TodosQueries
 
+Lo primero que vamos a hacer es eliminar los harcodeos y crear grupos de consultas:
+
+Podríamos probar a hacer algo así:
+
+_todo-key-queries.ts_
+
+```ts
+export const todoKeyQueries = {
+  todoList: "todolist",
+};
+```
+
+Esto podría parece algo ok, pero a la hora de invalidar consultas ¿Qué pasa si una mutación implica que varias consultas se invaliden? Es decir modifico la edad de un usuarios de mi portal, y al ser menor de 18 años ciertos productos no puede visualizarlos, tengo que invalidar las consultas de más comprados, busqueda actual, ultimos pédidos...
+
+Mejor agrupar de esta manera
+
+_todo-key-queries.ts_
+
+```ts
+export const todoKeys = {
+  all: ["todo"] as const,
+  todoList: () => [...todoKeys.all, "todoList"] as const,
+};
+```
+
+¿Qué hacemos aquí?
+
+- En React query definimos un array de strings que son las claves de las consultas que queremos invalidar.
+- Si invalidamos una consulta que tiene dependencias, se invalidan las dependencias.
+
+De esta manera si tuviera más consultas dentro de _todo_ _all_ e invalido _all_ el resto de consultas se invalidarían, sin embargo si sólo quiero invalidar _todoList_ no invalidaría el resto.
+
+Vamos a actualizar nuestro código de _todo.page.tsx_
+
+_./src/pages/todo/todo.page.tsx_
+
+```diff
+import { TodoAppendComponent } from "./components";
++ import { todoKeys } from "./todo-key-queries";
+
+export const TodoPage: React.FC = () => {
+  const [mode, setMode] = React.useState<Mode>("Readonly");
+  const [isTodosEndPointDown, setIsTodosEndPointDown] = React.useState(false);
+  const queryClient = useQueryClient();
+  const appendMutation = useMutation(appendTodoItem, {
+    onSuccess: () => {
+-      queryClient.invalidateQueries("todolist");
++      queryClient.invalidateQueries(todoKeys.todoList()); // podíamos poner todoKeys.all
+    },
+    },
+  });
+```
+
+```diff
+  const { data, isError } = useQuery(
+-    ["todolist"],
++    todoKeys.todoList()
++
+    () => {
+      return getTodoList();
+    },
+    {
+      enabled: !isTodosEndPointDown,
+      retry: false,
+    }
+  );
+```
+
+Veamos que esto sigue funcionando:
+
+```bash
+npm start
+```
+
+[Más información acerca de react query keys](https://tkdodo.eu/blog/effective-react-query-keys)
+
 ---
 
 Más cosas Optimistic updates (Acceder a la caché directamente)

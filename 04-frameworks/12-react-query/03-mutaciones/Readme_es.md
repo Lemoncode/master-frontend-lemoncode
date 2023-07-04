@@ -914,11 +914,120 @@ Ya con esto armado, vamos a centrarnos en que de verdad guarde en servidor.
 
 Actualizamos la API de Axios que hemos creado:
 
+_./src/pages/todo/todo.api.ts_
+
+```diff
+export const appendTodoItem = (item: TodoItem): Promise<TodoItem> => {
+  return axios.post(`${__apiUrlBase}/todos`, item).then((res) => {
+    return res.data;
+  });
+};
+
++ export const updateTodoItem = (item: TodoItem): Promise<TodoItem> => {
++   return axios.put(`${__apiUrlBase}/todos/${item.id}`, item).then(res => {
++    return res.data;
++   });
++ };
+```
+
 Vamos ahora a por el hook de queries y creamos la mutación para update
+
+_./src/pages/todo/todo.page.tsx_
+
+```diff
+import { Link } from "react-router-dom";
+import classes from "./todo.page.css";
+- import { getTodoList, appendTodoItem } from "./todo.api";
++ import { getTodoList, appendTodoItem, updateTodoItem } from "./todo.api";
+```
+
+```diff
+const useTodoQueries = () => {
+  const queryClient = useQueryClient();
+
+  const appendMutation = useMutation(appendTodoItem, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(todoKeys.todoList());
+    },
+  });
+
++ const updateMutation = useMutation(updateTodoItem, {
++   onSuccess: () => {
++     queryClient.invalidateQueries(todoKeys.todoList());
++   },
++ });
+
+  const loadTodoList = (disableQuery: boolean) => {
+    return useQuery(
+      todoKeys.todoList(),
+      () => {
+        return getTodoList();
+      },
+      {
+        enabled: disableQuery,
+        retry: false,
+      }
+    );
+  };
+
+-  return { queryClient, appendMutation, loadTodoList };
++ return { queryClient, appendMutation, updateMutation, loadTodoList };
+};
+```
+
+Una pequeña mejora antes de seguir, el _success_ de _update_ y _append_ son iguales, así que vamos a extraerlo a una función:
+
+```diff
+const useTodoQueries = () => {
+  const queryClient = useQueryClient();
+
++  const mutationSucceeded = () => {
++    queryClient.invalidateQueries(todoKeys.todoList());
++  };
+
+  const appendMutation = useMutation(appendTodoItem, {
+    onSuccess: () => {
+-      queryClient.invalidateQueries(todoKeys.todoList());
++      mutationSucceeded();
+    },
+  });
+
+ const updateMutation = useMutation(updateTodoItem, {
+   onSuccess: () => {
+-     queryClient.invalidateQueries(todoKeys.todoList());
++      mutationSucceeded();
+   },
+ });
+```
 
 Lo añadimos en nuestro handle de updates de todo page:
 
+_./src/pages/todo/todo.page.tsx_
+
+```diff
+export const TodoPage: React.FC = () => {
+  const [mode, setMode] = React.useState<Mode>("Readonly");
+  // TODO: Mover ese -1 a una constante
+  const [editingId, setEditingId] = React.useState(-1);
+  const [isTodosEndPointDown, setIsTodosEndPointDown] = React.useState(false);
+
+-  const { loadTodoList, appendMutation } = useTodoQueries();
++  const { loadTodoList, appendMutation, updateMutation } = useTodoQueries();
+```
+
+```diff
+  const handleUpdate = (item: TodoItem) => {
+-    console.log("TODO: handleUpdate", item);
++   updateMutation.mutate(item);
+    setMode("Readonly");
+  };
+```
+
 Y Ya lo tenemos funcionando
+
+```bash
+npm start
+```
 
 # Optimistic updates
 
@@ -926,13 +1035,82 @@ Otro caso interesante son los _optimistic updates_, hay escenarios en lo que sab
 
 En nuestro caso de TODO y edit, ¿Qué podríamos hacer?
 
-- En el handleAppend, modifico la caché de de React Query y añador el elemento.
+- En el handleUpdate, modifico la caché de de React Query y añado el elemento.
 - De esta manera, antes de que reciba la respuesta del servidor, el usuario ya ve el TODO en la lista.
 
----
+Vamos a tocar la _cache_ de _React Query_, en concreto modificar un elemento, para no liarnos la manta a la cabeza con estructuras inmutables, vamos a ayudarnos de _immer_
 
-Más cosas Optimistic updates (Acceder a la caché directamente)
+```bash
+npm install immer
+```
 
-https://tkdodo.eu/blog/mastering-mutations-in-react-query
+_./src/pages/todo/todo.page.tsx_
 
-https://tanstack.com/query/latest/docs/react/guides/optimistic-updates?from=reactQueryV3&original=https%3A%2F%2Ftanstack.com%2Fquery%2Fv3%2Fdocs%2Fguides%2Foptimistic-updates
+```diff
+import React from "react";
++ import { produce } from "immer";
+import { Link } from "react-router-dom";
+import classes from "./todo.page.css";
+```
+
+```diff
+  const updateMutation = useMutation(updateTodoItem, {
++   onMutate: async (newTodo : TodoItem) => {
++      // TODO Aquí hay que hacer más cosas, ver este ejemplo
++      // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
++      queryClient.setQueryData(todoKeys.todoList(), (old) => {
++        return produce(old, (draft: TodoItem[]) => {
++            const index = draft.findIndex((item) => item.id === newTodo.id);
++            if(index !== -1) {
++              draft[index] = newTodo;
++            }
++         })
++      });
++   }
+    onSuccess: () => {
+      mutationSucceeded();
+    },
+  });
+```
+
+Para probar que esto funciona vamos a deshabilitar el refresco automático:
+
+_./src/pages/todo/todo.page.tsx_
+
+```diff
+const useTodoQueries = () => {
+  const queryClient = useQueryClient();
+
+  const mutationSucceeded = () => {
+-    queryClient.invalidateQueries(todoKeys.todoList());
++   // Comentar esto sólo para la prueba
++   // queryClient.invalidateQueries(todoKeys.todoList());
+  };
+  };
+```
+
+Hacer optimistic updates bien no es fácil, hay varios casos arista, veamos este ejemplo de la documentación:
+
+[Ejemplo optimistic update](https://tanstack.com/query/latest/docs/react/guides/optimistic-updates)
+
+¿Qué hacemos aquí?
+
+- Cancelamos cualquier refetch de TODOs que pudiera estar en marcha, así no aseguramos que nuestra caché manda.
+
+- Almacenamos los datos previos por si acaso.
+
+- Hacemos la actualización optimista en la caché.
+
+- Devolvemos los datos viejos por si acaso
+
+- Si hay error, restauramos los datos viejos.
+
+- Y haya habido erro o no, volvemos a pedir datos de servidor por si acaso (aún así, el usuario ya ha visto el cambio)
+
+¿Por qué tantas vueltas? Para evitar casos aristas:
+
+- Oye justo actualizo caché, pero venían un refresh del servidor antes de que llegara el update y se carga la caché sin mi dato.
+- Oye que el server esta caido, y quiero que el usuario se de cuenta de que el update ha ido mal (incluso podría mostrar una tostada de error).
+- Que mira, que se ha actualizado todo... pues por si acaso vamos a pedir un refetch y nos traemos un corte limpio.
+
+[Para saber más sobre mutations en React Query](https://tkdodo.eu/blog/mastering-mutations-in-react-query)

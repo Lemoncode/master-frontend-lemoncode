@@ -2,7 +2,7 @@
   "todos": [
     {
       "id": 1,
-      "description": "hola",
+      "description": "hola en memoria",
       "isDone": true
     },
     {
@@ -32,7 +32,7 @@
     },
     {
       "id": 7,
-      "description": "aaaa",
+      "description": "Esto ya no tiene letras chorras",
       "isDone": false
     },
     {

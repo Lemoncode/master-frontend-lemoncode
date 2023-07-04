@@ -828,12 +828,13 @@ _./src/pages/todo/components/todo-item.component.tsx_
 
 ```ts
 import React from "react";
-import { TodoItem } from "../todo.model";
+import { TodoItem, Mode } from "../todo.model";
 import { TodoItemEdit } from "./todo-item-edit.component";
 import { TodoItemDisplay } from "./todo-item-display.component";
 
 interface Props {
   editingId: number;
+  mode: Mode;
   todo: TodoItem;
   onEnterEditMode: (id: number) => void;
   onUpdate: (item: TodoItem) => void;
@@ -841,11 +842,11 @@ interface Props {
 }
 
 export const TodoItemComponent: React.FC<Props> = (props: Props) => {
-  const { todo, editingId, onEnterEditMode, onUpdate, onCancel } = props;
+  const { todo, editingId, mode, onEnterEditMode, onUpdate, onCancel } = props;
 
   return (
     <>
-      {todo.id !== editingId ? (
+      {mode === "Readonly" || todo.id !== editingId ? (
         <TodoItemDisplay key={todo.id} item={todo} onEdit={onEnterEditMode} />
       ) : (
         <TodoItemEdit
@@ -858,6 +859,55 @@ export const TodoItemComponent: React.FC<Props> = (props: Props) => {
     </>
   );
 };
+```
+
+Vamos a exponer el componente en el _index_:
+
+_./src/pages/todo/components/index.ts_
+
+```diff
+export * from "./todo-append.component";
+- export * from "./todo-item-display.component";
++ export * from "./todo-item.component";
+```
+
+Y actualizarlo en la página:
+
+_./src/pages/todo/todo.page.tsx_
+
+```diff
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+- import { TodoAppendComponent, TodoItemDisplay } from "./components";
++ import { TodoAppendComponent,  TodoItemComponent} from "./components";
+import { todoKeys } from "./todo-key-queries";
+```
+
+```diff
+      <div className={classes.todoList}>
+        {data?.map((todo) => (
+-          <TodoItemDisplay
+-            key={todo.id}
+-            item={todo}
+-            onEdit={handleEnterEditMode}
+-          />
++          <TodoItemComponent
++            key={todo.id}
++            mode={mode}
++            editingId={editingId}
++            todo={todo}
++            onEnterEditMode={handleEnterEditMode}
++            onUpdate={handleUpdate}
++            onCancel={() => setMode("Readonly")}
++          />
+        ))}
+      </div>
+      <TodoAppendComponent
+```
+
+Probamos
+
+```bash
+npm start
 ```
 
 Ya con esto armado, vamos a centrarnos en que de verdad guarde en servidor.

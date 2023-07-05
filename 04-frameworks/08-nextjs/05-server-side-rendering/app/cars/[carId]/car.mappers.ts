@@ -1,5 +1,5 @@
-import { envConstants } from 'core/constants';
-import * as apiModel from './api';
+import { envConstants } from '@/_core/constants';
+import * as apiModel from './_api';
 import * as viewModel from './car.vm';
 
 export const mapCarFromApiToVm = (car: apiModel.Car): viewModel.Car =>

@@ -1,6 +1,6 @@
-import { mapToCollection } from 'common/mappers';
-import { envConstants } from 'core/constants';
-import * as apiModel from './api';
+import { mapToCollection } from '@/_common/mappers';
+import { envConstants } from '@/_core/constants';
+import * as apiModel from './_api';
 import * as viewModel from './car-list.vm';
 
 export const mapCarListFromApiToVm = (

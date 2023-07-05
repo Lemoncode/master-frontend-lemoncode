@@ -6,7 +6,7 @@ We will start from `04-static-site-generation`.
 
 # Steps to build it
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
@@ -17,33 +17,22 @@ npm install
 If we can't pre-render a page ahead of a user's request but we need SEO. For example: search bar, shopping cart.
 
 - The page is generated on each request.
-- Only available on page components.
-- [When to use it](https://nextjs.org/docs/basic-features/data-fetching#when-should-i-use-getserversideprops)
+- Only available on Server Components.
+- [More about dynamic data fetching](https://nextjs.org/docs/app/building-your-application/data-fetching/fetching#dynamic-data-fetching)
 
-- Let's migrate `car list` page to SSR:
+Let's migrate `car list` page to SSR:
 
-_./src/pages/cars.tsx_
+_./app/cars/page.tsx_
 
 ```diff
-import React from 'react';
-- import { GetStaticProps } from 'next';
-+ import { GetServerSideProps } from 'next';
 ...
+const CarListPage = async () => {
+  // cache: 'force-cache' is the default
+- const carList = await getCarList({ next: { revalidate: 10 } }); // In seconds
++ const carList = await getCarList({ cache: 'no-store' });
+  console.log('Car list at build time:', { carList });
 
-- export const getStaticProps: GetStaticProps = async () => {
-+ export const getServerSideProps: GetServerSideProps = async () => {
-  const carList = await api.getCarList();
-  console.log('Car list build time:', { carList });
-
-  return {
-    props: {
-      carList,
-    },
--   // Next.js will attempt to re-generate the page:
--   // - When a request comes in
--   // - At most once every second
--   revalidate: 10, // In seconds
-  };
+  return <CarList carList={mapCarListFromApiToVm(carList)} />;
 };
 
 export default CarListPage;
@@ -58,53 +47,28 @@ npm run build
 npm run start:prod
 ```
 
-> Check `.next` folder, it doesn't have `cars.json` file
+> Check `.next` folder, it doesn't have `cars.html` file
 >
-> Checks that first time it renders the page on `server side` but after navigate and come back it renders on `client side`.
+> Checks that first time it renders the page on `server side` but after navigate and come back it will never renders again (because it's a server component).
 >
-> But every request fetch data (`cars.json`)
->
-> Check navigation from index to `/cars`
+> Press F5 and check that it renders again.
 
-- We can migrate use it on `car details` too:
+We can migrate use it on `car details` too:
 
-_./src/pages/cars/[carId].tsx_
+_./app/cars/\[carId\]/page.tsx_
 
 ```diff
-import React from 'react';
-- import { GetStaticProps, GetStaticPaths } from 'next';
-+ import { GetServerSideProps } from 'next';
 ...
 
+- export async function generateStaticParams() {
+-   return [{ carId: '1' }, { carId: '2' }, { carId: '3' }];
+- }
 
-const CarPage: React.FunctionComponent<Props> = (props) => {
-  const { car } = props;
-+ console.log(`Render car details page: ${car?.id}`);
-  return (
+const CarPage = async (props: Props) => {
 ...
-
-- export const getStaticProps: GetStaticProps = async (context) => {
-+ export const getServerSideProps: GetServerSideProps = async (context) => {
-  const carId = context.params.carId as string;
-  const car = await api.getCar(carId);
-...
-
-- export const getStaticPaths: GetStaticPaths = async () => {
--   return {
--     paths: [
--       { params: { carId: '1' } },
--       { params: { carId: '2' } },
--       { params: { carId: '3' } },
--     ],
--     fallback: true,
--   };
-- };
-
-export default CarPage;
-
 ```
 
-- Run:
+Run:
 
 ```bash
 npm run start:api-server
@@ -113,7 +77,42 @@ npm run start:prod
 ```
 
 > Check first load
+>
 > Check navigation
+
+We could add `options` property in the API method:
+
+_./app/cars/\[carId\]/\_api/car.api.ts_
+
+```diff
+import { envConstants } from '@/_core/constants';
+import { Car } from './car.api-model';
+
+const url = `${envConstants.BASE_API_URL}/cars`;
+
+export const getCar = async (
+  id: string,
++ options?: RequestInit
+): Promise<Car> => {
+- return await fetch(`${url}/${id}`).then((response) =>
++ return await fetch(`${url}/${id}`, options).then((response) =>
+    response.json()
+  );
+};
+
+...
+
+```
+
+
+_./app/cars/\[carId\]/page.tsx_
+
+```diff
+```
+
+> `cache: 'force-cache'`  and empty cache: will fetch data only once but it will re-render the component on each refresh (F5).
+
+>`cache: 'no-store'`: will fetch data and re-render the component on each refresh (F5).
 
 # About Basefactor + Lemoncode
 

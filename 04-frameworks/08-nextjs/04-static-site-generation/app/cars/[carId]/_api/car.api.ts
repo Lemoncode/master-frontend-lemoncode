@@ -9,7 +9,8 @@ export const getCar = async (id: string): Promise<Car> => {
 
 export const bookCar = async (car: Car): Promise<boolean> => {
   await fetch(`${url}/${car.id}`, {
-    method: 'POST',
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(car),
   });
   return true;

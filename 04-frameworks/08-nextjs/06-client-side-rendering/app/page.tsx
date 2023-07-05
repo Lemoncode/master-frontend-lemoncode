@@ -1,17 +1,18 @@
 import React from 'react';
 import Link from 'next/link';
-import Head from 'next/head';
+import { Metadata } from 'next';
 
-const HomePage = () => {
+export const metadata: Metadata = {
+  title: 'Rent a car - Home',
+};
+
+const RootPage = () => {
   return (
     <>
-      <Head>
-        <title>Rent a car - Home</title>
-      </Head>
       <h2>Hello from Nextjs</h2>
       <Link href="/cars">Navigate to car list</Link>
     </>
   );
 };
 
-export default HomePage;
+export default RootPage;

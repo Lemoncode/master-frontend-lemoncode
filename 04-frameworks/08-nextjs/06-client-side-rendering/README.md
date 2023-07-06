@@ -135,6 +135,232 @@ npm run build
 npm run start:prod
 ```
 
+On the other hand, we cannot use client-side interactivity in a Server Component but how can we implement a global `React context`?:
+
+_./app/layout.tsx_
+
+```diff
+import 'normalize.css';
+import './material-icons.css';
+import React from 'react';
+import { Inter } from 'next/font/google';
+
++ const ThemeContext = React.createContext(null);
+
++ const ThemeProvider = ({ children }) => {
++   const darkTheme = {
++     primary: '#001e3c',
++     contrastText: '#ffffff',
++   };
++   const lightTheme = {
++     primary: '#ffffff',
++     contrastText: '#000000',
++   };
++   const [theme, setTheme] = React.useState(lightTheme);
+
++   const onToggleThemeMode = () => {
++     const newTheme =
++       theme.primary === lightTheme.primary ? darkTheme : lightTheme;
++     setTheme(newTheme);
++   };
++ 
++   return (
++     <ThemeContext.Provider value={{ theme, onToggleThemeMode }}>
++       {children}
++     </ThemeContext.Provider>
++   );
++ };
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+interface Props {
+  children: React.ReactNode;
+}
+
+const RootLayout = (props: Props) => {
+  const { children } = props;
+  return (
+    <html lang="en" className={inter.className}>
+      <body>
+-       {children}
++       <ThemeProvider>{children}</ThemeProvider>
+      </body>
+    </html>
+  );
+};
+
+export default RootLayout;
+
+```
+
+It throws the error: `TypeError: createContext only works in Client Components. Add the "use client" directive`. But we can use like:
+
+_./app/theme.context.tsx_
+
+```jsx
+'use client';
+import React from 'react';
+
+interface Context {
+  theme: {
+    primary: string;
+    contrastText: string;
+  };
+  onToggleThemeMode: () => void;
+}
+
+export const ThemeContext = React.createContext<Context>(null);
+
+export const ThemeProvider = ({ children }) => {
+  const darkTheme = {
+    primary: '#001e3c',
+    contrastText: '#ffffff',
+  };
+  const lightTheme = {
+    primary: '#ffffff',
+    contrastText: '#000000',
+  };
+  const [theme, setTheme] = React.useState(lightTheme);
+
+  const onToggleThemeMode = () => {
+    const newTheme =
+      theme.primary === lightTheme.primary ? darkTheme : lightTheme;
+    setTheme(newTheme);
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, onToggleThemeMode }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+```
+
+> You cannot use a ServerComponent inside Client Component but [you can pass a Server Component as prop](https://nextjs.org/docs/getting-started/react-essentials#nesting-server-components-inside-client-components).
+
+_./app/layout.tsx_
+
+```diff
+import 'normalize.css';
+import './material-icons.css';
+import React from 'react';
+import { Inter } from 'next/font/google';
++ import { ThemeProvider } from './theme.context';
+
+- const ThemeContext = React.createContext({});
+
+- const ThemeProvider = ({ children }) => {
+-   const darkTheme = {
+-     primary: '#001e3c',
+-     contrastText: '#ffffff',
+-   };
+-   const lightTheme = {
+-     primary: '#ffffff',
+-     contrastText: '#000000',
+-   };
+-   const [theme, setTheme] = React.useState(lightTheme);
+
+-   const onToggleThemeMode = () => {
+-     const newTheme =
+-       theme.primary === lightTheme.primary ? darkTheme : lightTheme;
+-     setTheme(newTheme);
+-   };
+- 
+-   return (
+-     <ThemeContext.Provider value={{ theme, onToggleThemeMode }}>
+-       {children}
+-     </ThemeContext.Provider>
+-   );
+- };
+
+...
+```
+
+Run again:
+
+```bash
+npm run start:api-server
+npm run build
+npm run start:prod
+```
+
+Using theme:
+
+_./app/cars/\_components/nav.component.tsx_
+
+```jsx
+'use client';
+import { ThemeContext } from '@/theme.context';
+import React from 'react';
+
+interface Props {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const Nav: React.FC<Props> = (props) => {
+  const { children, className } = props;
+  const { theme, onToggleThemeMode } = React.useContext(ThemeContext);
+  return (
+    <nav
+      className={className}
+      style={{ backgroundColor: theme.primary, color: theme.contrastText }}
+    >
+      {children}
+      <button style={{ marginLeft: 'auto' }} onClick={onToggleThemeMode}>
+        Toggle theme
+      </button>
+    </nav>
+  );
+};
+
+```
+
+_./app/cars/\_components/index.ts_
+
+```diff
+export * from './car-list.component';
++ export * from './nav.component';
+
+```
+
+_./app/cars/layout.tsx_
+
+```diff
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
++ import { Nav } from './_components';
+import classes from './layout.module.css';
+
+interface Props {
+  children: React.ReactNode;
+}
+
+const CarsLayout = (props: Props) => {
+  const { children } = props;
+  return (
+    <>
+-     <nav className={classes.nav}>
++     <Nav className={classes.nav}>
+        <Link href="/" className={classes.link}>
+          <Image src="/home-logo.png" alt="logo" width="32" height="23" />
+        </Link>
+        <h1 className={classes.title}>Rent a car</h1>
+-     </nav>
++     </Nav>
+      <main className={classes.content}>{children}</main>
+    </>
+  );
+};
+
+export default CarsLayout;
+
+```
 
 # About Basefactor + Lemoncode
 

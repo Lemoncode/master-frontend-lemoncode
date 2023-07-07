@@ -161,6 +161,9 @@ createEffect(() => {
 
 - 05-fetching-data
   - createResource, <For> -> mismo ejemplo que `01-react/04-basic-app/03-list`
+  
+  `Why use <For>, etc`: If your array is static, there's nothing wrong with using map. But if you're looping over a signal or reactive property, map is inefficient: if the array changes for any reason, the entire map will rerun and all of the nodes will be recreated.
+  [Reference](https://www.solidjs.com/guides/faq#why-shouldnt-i-use-map-in-my-template-and-whats-the-difference-between-for-and-index)
 
 - 06-store
     - Mover del ejemplo anterior el memberList a un store

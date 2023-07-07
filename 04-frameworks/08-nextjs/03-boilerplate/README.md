@@ -4,9 +4,11 @@ Next.js is unopinionated about how you [organize your project](https://nextjs.or
 
 - [Private folders](https://nextjs.org/docs/app/building-your-application/routing/colocation#private-folders) using underscore as prefix: `_folderName`.
 
-- [Route groups](https://nextjs.org/docs/app/building-your-application/routing/colocation#private-folders): `(folderName)` to groups several routes under the same folder without create a new group route.
+- [Route groups](https://nextjs.org/docs/app/building-your-application/routing/colocation#route-groups): `(folderName)` to groups several routes under the same folder without create a new group route.
 
 - Or even [store files outside `app` folder](https://nextjs.org/docs/app/building-your-application/routing/colocation#store-project-files-outside-of-app)
+
+- [Using fonts](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)
 
 - [Working on support emotion and MUI](https://nextjs.org/docs/app/building-your-application/styling/css-in-js)
 

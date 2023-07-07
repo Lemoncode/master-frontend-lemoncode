@@ -3,6 +3,7 @@
 // Hasta ahora hemos visto la base de Typescript sobre la que se sustenta todo el chequeo de tipos.
 // Pero la verdadera potencia llega con los tipos avanzado.
 
+
 // *** ALIAS ***************
 
 // Un alias no es más que un nuevo nombre para un tipo, sea cual sea, tipos primitivos, interfaces,
@@ -44,6 +45,7 @@ const updateUser: ReducerFunction<User> = (previousState, update) => ({
 
 console.log(updateUser(javi, { name: "Francisco Javier" }));
 
+
 // *** INTERSECCIÓN ***************
 
 // Con la intersección podemos combinar múltiples tipos en uno solo. Sería equivalente al operador
@@ -66,6 +68,7 @@ const pigeon = compose({ wings: true }, { type: "bird" });
 console.log(cat.type);
 console.log(pigeon.skill); // TS error: Property 'skill' is missing.
 
+
 // *** UNIÓN ***************
 
 // Siguiendo la analogía anterior, la unión de tipos sería entendida como el operador OR. La unión
@@ -87,6 +90,7 @@ const saySomething = (message: any) => console.log(message);
 const saySomethingTyped = (message: string | number) => console.log(message);
 
 saySomethingTyped(true); // TS error: Argument of type 'true' is not assignable
+
 
 // *** GUARDAS ***************
 
@@ -189,6 +193,7 @@ if (someInstance instanceof Number) {
   console.log("It's  a String");
 }
 
+
 // *** STRING & NUMERIC LITERALS ***************
 
 // Muy útil para hacer que un tipo solo pueda tomar determinados valores literales, es decir,
@@ -200,13 +205,25 @@ type LabourDay = "monday" | "tuesday" | "wednesday" | "thursday" | "friday";
 const day: LabourDay = "sunday"; // TS error: '"sunday"' is not assignable to type 'LabourDay'
 
 // También es aplicable a números literales:
-const throwDice = (): 1 | 2 | 3 | 4 | 5 | 6 => {
-  return 6; // Dado trucado MUAHAHAHAHA.
+type Dice = 1 | 2 | 3 | 4 | 5 | 6;
+const throwDice = (): Dice => {
+  return Math.ceil(Math.random() * 6) as Dice;
+  // return 6; // Dado trucado MUAHAHAHAHA.
 };
 
+
 // *** TEMPLATE LITERALS ************************
+
+// Los template literals nos traen la interpolación en los tipos literales, de modo que se puedan
+// construir uniones de literales que respondan a un patrón o template, en lugar de indicarlos
+// a mano uno a uno:
+
 type DayMood = "happy" | "sad" | "crazy" | "frenzy" | "chaotic";
-type MyWorkDay = `${DayMood} ${LabourDay}`;
+type MyWorkingDay = `${DayMood} ${LabourDay}`;
+
+// También funciona combinando interpolación de literales string y numéricos:
+type MyWorkingDay = `${DayMood} ${LabourDay} - Level ${1 | 2 | 3}`;
+
 
 // *** KEYOF ***************
 
@@ -236,6 +253,7 @@ const dev = {
   senior: true,
 };
 showProps(dev, "type", "languages"); // Check intellisense!;
+
 
 // *** TIPOS MAPEADOS (MAPPED TYPES) ***************
 
@@ -282,6 +300,7 @@ const updatedProduct = evolve({ name: formatString, price: applyIVA }, product);
 
 console.log(updatedProduct);
 
+
 // *** TIPOS CONDICIONALES ***************
 
 // Permite mapear a diferentes tipos comprobando el valor de otro. En la practica es equivalente a
@@ -296,6 +315,7 @@ type Status = "sad" | "happy";
 type Palette<P extends Status> = P extends "sad" ? DarkColors : LightColors;
 
 const palette: Palette<"sad"> = "black"; // Only black or grey allowed.
+
 
 // *** RECURSIVIDAD ***************
 
@@ -331,10 +351,25 @@ classList.next.next.name;
 
 // * A partir de la version 3.7 de TS ya se soporta totalmente la recursión con Alias.
 // Esto abre un abanico de nuevas posibilidades.
-type TreeNodeR<T> = T | Array<TreeNodeR<T>>;
+type RecursiveArray<T> = (T | RecursiveArray<T>)[];
 
-const myTreeRecursive: TreeNodeR<boolean> = [true, [false, true, [false]]];
+const myRecursiveArray: RecursiveArray<number> = [
+  1,
+  2,
+  [3, [4, 5], 2],
+  [1, [3, [4]]],
+];
 
+// -- Limitación --
+
+// Una limitación en los tipos recursivos es no poder recurrir a una 'auto-instanciación' inmediata
+// o dicho de otro modo, un tipo que es recursivo, en su definición, no puede instanciarse a si 
+// mismo, de lo contrario obtendremos un error de referencia circular:
+type MyArray<T> = T | MyArray<T>;
+
+
+
+// -- DEPRECATED --
 // * Antes de la versión 3.7 de TS no se podía hacer recursividad en la declaración de los Alias.
 // Es decir, que la declaración del alias se refiera a sí misma. De lo contrario nos daría un error
 // de referencia circular.

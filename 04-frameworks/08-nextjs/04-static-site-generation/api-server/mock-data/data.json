@@ -96,12 +96,7 @@
       "id": "8",
       "name": "Porsche Macan",
       "imageUrl": "/porsche-macan.png",
-      "features": [
-        "5 asientos",
-        "5 puertas",
-        "Manual",
-        "2 maletas"
-      ],
+      "features": ["5 asientos", "5 puertas", "Manual", "2 maletas"],
       "isBooked": false
     },
     {

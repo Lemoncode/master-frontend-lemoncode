@@ -1,7 +1,7 @@
 import { createSignal, createEffect } from "solid-js";
 import { render } from "solid-js/web";
 
-const useCount = () => {
+const createCount = () => {
   const [count, setCount] = createSignal(0);
 
   return {
@@ -10,7 +10,7 @@ const useCount = () => {
   };
 };
 
-const { count, setCount } = useCount();
+const { count, setCount } = createCount();
 
 createEffect(() => {
   console.log(`This is the count: ${count()}`);

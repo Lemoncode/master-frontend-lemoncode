@@ -171,7 +171,7 @@ _./src/index.tsx_
 import { render } from "solid-js/web";
 
 - const [count, setCount] = createSignal(0);
-+ const useCount = () => {
++ const createCount = () => {
 +   const [count, setCount] = createSignal(0);
 
 +   return {
@@ -180,7 +180,7 @@ import { render } from "solid-js/web";
 +   };
 + };
 
-+ const { count, setCount } = useCount();
++ const { count, setCount } = createCount();
 
 + createEffect(() => {
 +   console.log(`This is the count: ${count()}`);

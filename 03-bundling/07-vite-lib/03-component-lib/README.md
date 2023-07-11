@@ -20,6 +20,7 @@ npm install
 Let's install all necessary dependencies to create a React component:
 
 ```bash
+cd common-library
 npm install react react-dom @types/react @types/react-dom @vitejs/plugin-react --save-dev
 ```
 
@@ -120,7 +121,7 @@ export const Button = () => {
 
 Add `vite default d.ts` config:
 
-_./common-library/vite-env.d.ts_
+_./common-library/src/vite-env.d.ts_
 
 ```typescript
 /// <reference types="vite/client" />

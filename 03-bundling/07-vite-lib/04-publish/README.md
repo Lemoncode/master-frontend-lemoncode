@@ -2,6 +2,8 @@
 
 In this example we are going to publish the library.
 
+We will start from `03-component-lib`.
+
 Summary steps:
 
 - Create an account in npm.

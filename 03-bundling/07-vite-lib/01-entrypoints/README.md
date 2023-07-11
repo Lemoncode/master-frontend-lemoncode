@@ -2,6 +2,8 @@
 
 In this example we are going to add support for Browser and Node.js process using multiple formats (ESM, CJS, UMD) using the `package.json` metadata.
 
+We will start from scratch.
+
 Summary steps:
 
 - Create a basic library in the three formats (ESM, CJS, UMD).

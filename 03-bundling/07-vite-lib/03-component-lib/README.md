@@ -2,6 +2,8 @@
 
 In this example we are going to add React component to the library.
 
+We will start from `02-using-vite`.
+
 Summary steps:
 
 - Create basic React component.

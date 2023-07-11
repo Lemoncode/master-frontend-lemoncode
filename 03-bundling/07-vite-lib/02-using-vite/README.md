@@ -2,6 +2,8 @@
 
 In this example we are going to create a library using Vite.
 
+We will start from scratch.
+
 Summary steps:
 
 - Create library project.

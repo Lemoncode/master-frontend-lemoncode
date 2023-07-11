@@ -84,7 +84,9 @@ _./common-library/tsconfig.json_
 
 > [ES targets](https://www.typescriptlang.org/tsconfig#high-level-libraries)
 >
-> [moduleResolution (bundler)](https://dev.to/ayc0/typescript-50-new-mode-bundler-esm-1jic)
+> [moduleResolution (bundler)](https://dev.to/ayc0/typescript-50-new-mode-bundler-esm-1jic): designed primarily for bundlers and runtimes that include a range of Node-like resolution features and ESM syntax, but do not enforce the strict resolution rules that accompany ES modules in Node or in the browser.
+>
+> [More info about bundler](https://github.com/microsoft/TypeScript/pull/51669)
 
 Add some functionality:
 

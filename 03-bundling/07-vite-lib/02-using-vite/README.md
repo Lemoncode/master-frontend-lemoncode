@@ -34,6 +34,7 @@ _./common-library/package.json_
 Let's install the necessary dependencies:
 
 ```bash
+cd common-library
 npm install vite typescript --save-dev
 ```
 
@@ -190,8 +191,8 @@ _./playground/package.json_
 Install dependency and vite:
 
 ```bash
-npm install
-npm install vite --save-dev
+cd playground
+npm install vite typescript --save-dev
 ```
 
 Add the playground entry point:

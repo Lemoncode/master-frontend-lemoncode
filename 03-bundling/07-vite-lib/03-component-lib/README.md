@@ -94,7 +94,7 @@ _./common-library/tsconfig.json_
 
 ```
 
-> [jsx prop]: https://www.typescriptlang.org/tsconfig#jsx
+> [jsx prop](https://www.typescriptlang.org/tsconfig#jsx)
 
 Add a basic React component:
 
@@ -312,6 +312,7 @@ npm start
 If we want to work with aliases we need to add some configuration:
 
 ```bash
+cd common-library
 npm install @types/node@18 --save-dev
 ```
 

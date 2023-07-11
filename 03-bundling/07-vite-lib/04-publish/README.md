@@ -31,6 +31,7 @@ npm login
 Publish the library:
 
 ```bash
+cd common-library
 npm publish --access public
 ```
 
@@ -52,6 +53,7 @@ _./common-library/package.json_
 Publish again:
 
 ```bash
+cd common-library
 npm publish --access public
 ```
 
@@ -106,6 +108,7 @@ Update the `package.json` version:
 Publish again:
 
 ```bash
+cd common-library
 npm publish --access public
 ```
 

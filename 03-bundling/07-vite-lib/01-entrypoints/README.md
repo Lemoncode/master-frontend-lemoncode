@@ -447,14 +447,31 @@ myFn();
 
 ```
 
+_./playgrounds/umd/index.html_
+
+```diff
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>UMD Playground</title>
+  </head>
+  <body>
+-   <script src="./node_modules/my-lib/dist/index.umd.js"></script>
++   <script src="./node_modules/my-lib/dist/index.umd.cjs"></script>
+    <script>
+      MyLib.myFn();
+    </script>
+  </body>
+</html>
+
+```
+
 ```bash
 cd ./playgrounds/umd
 npm start
 npx lite-server
 
 ```
-
-> It's not necessary to update the `index.html` src path.
 
 # About Basefactor + Lemoncode
 

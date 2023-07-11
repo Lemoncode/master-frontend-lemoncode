@@ -1,23 +1,34 @@
-import { createSignal, Component } from "solid-js";
+import { createSignal, onCleanup } from "solid-js";
 import { render } from "solid-js/web";
 
 const App = () => {
-  const [value, setValue] = createSignal("John");
+  const [show, setShow] = createSignal(false);
 
   return (
     <>
-      <input value={value()} onInput={(e) => setValue(e.currentTarget.value)} />
-      <Display value={value()} />
+      <input
+        type="checkbox"
+        checked={show()}
+        onInput={(e) => setShow(e.currentTarget.checked)}
+      />
+      <span>Show date</span>
+      {show() && <CurrentDate />}
     </>
   );
 };
 
-interface Props {
-  value: string;
-}
+const CurrentDate = () => {
+  const [date, setDate] = createSignal("No date");
+  const timer = setTimeout(
+    () => setDate(new Date().toLocaleTimeString()),
+    4000
+  );
+  onCleanup(() => {
+    console.log("Unmounting");
+    clearTimeout(timer);
+  });
 
-const Display: Component<Props> = (props) => {
-  return <h2>{props.value}</h2>;
+  return <h1>Date: {date()}</h1>;
 };
 
 render(() => <App />, document.getElementById("root"));

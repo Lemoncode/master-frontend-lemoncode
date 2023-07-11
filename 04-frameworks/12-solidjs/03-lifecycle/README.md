@@ -152,6 +152,38 @@ const App = () => {
 
 ```
 
+An improvement here could be to use [Show component](https://www.solidjs.com/docs/latest/api#show) Solid's compiler is smart enough to optimally handle ternaries `(a ? b : c)` and boolean expressions `(a && b)`. However, often it is more readable to use `Show` component:
+
+_./src/index.tsx_
+
+```diff
+- import { createSignal, onCleanup } from "solid-js";
++ import { createSignal, onCleanup, Show } from "solid-js";
+import { render } from "solid-js/web";
+
+const App = () => {
+  const [show, setShow] = createSignal(false);
+
+  return (
+    <>
+      <input
+        type="checkbox"
+        checked={show()}
+        onInput={(e) => setShow(e.currentTarget.checked)}
+      />
+      <span>Show date</span>
+-     {show() && <CurrentDate />}
++     <Show when={show()}>
++       <CurrentDate />
++     </Show>
+    </>
+  );
+};
+
+...
+
+```
+
 # ¿Te apuntas a nuestro máster?
 
 Si te ha gustado este ejemplo y tienes ganas de aprender Front End guiado por un grupo de profesionales ¿Por qué no te apuntas a nuestro [Máster Front End Online Lemoncode](https://lemoncode.net/master-frontend#inicio-banner)? Tenemos tanto edición de convocatoria con clases en vivo, como edición continua con mentorización, para que puedas ir a tu ritmo y aprender mucho.

@@ -1,4 +1,4 @@
-import { createSignal, onCleanup } from "solid-js";
+import { createSignal, onCleanup, Show } from "solid-js";
 import { render } from "solid-js/web";
 
 const App = () => {
@@ -12,7 +12,9 @@ const App = () => {
         onInput={(e) => setShow(e.currentTarget.checked)}
       />
       <span>Show date</span>
-      {show() && <CurrentDate />}
+      <Show when={show()}>
+        <CurrentDate />
+      </Show>
     </>
   );
 };

@@ -1,24 +1,47 @@
-import { createSignal, createEffect, onCleanup, on } from "solid-js";
+import { createResource, For } from "solid-js";
 import { render } from "solid-js/web";
+import "./styles.css";
+
+interface Member {
+  id: string;
+  login: string;
+  avatar_url: string;
+}
+
+const getMembers = (): Promise<Member[]> =>
+  fetch(`https://api.github.com/orgs/lemoncode/members`).then((response) =>
+    response.json()
+  );
 
 const App = () => {
-  const [filter, setFilter] = createSignal("filter by name");
-  const [debounced, setDebounced] = createSignal("");
+  const [members, { mutate }] = createResource(getMembers, {
+    initialValue: [],
+  });
 
-  createEffect(
-    on(filter, (newFilter) => {
-      const timer = setTimeout(() => setDebounced(newFilter), 500);
-      onCleanup(() => clearTimeout(timer));
-    })
-  );
+  const handleDelete = (id) => {
+    mutate((members) => members.filter((member) => member.id !== id));
+  };
 
   return (
     <>
-      <input
-        value={filter()}
-        onInput={(e) => setFilter(e.currentTarget.value)}
-      />
-      <p>Filter: {debounced()}</p>
+      {members.loading && <p>Loading...</p>}
+      {members.error && <p>Error...</p>}
+      <div class="list">
+        <For each={members()}>
+          {(member) => {
+            console.log("Member");
+            return (
+              <>
+                <img
+                  onClick={() => handleDelete(member.id)}
+                  src={member.avatar_url}
+                />
+                <span>{member.login}</span>
+              </>
+            );
+          }}
+        </For>
+      </div>
     </>
   );
 };

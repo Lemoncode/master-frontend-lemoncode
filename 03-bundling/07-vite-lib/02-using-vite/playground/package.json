@@ -1,0 +1,12 @@
+{
+  "name": "playground",
+  "scripts": {
+    "start": "vite --open"
+  },
+  "dependencies": {
+    "@lemoncode/common-library": "../common-library"
+  },
+  "devDependencies": {
+    "vite": "^4.3.9"
+  }
+}

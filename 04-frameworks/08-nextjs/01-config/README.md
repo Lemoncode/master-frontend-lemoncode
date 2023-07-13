@@ -6,23 +6,21 @@ We will start from `00-boilerplate`.
 
 # Steps to build it
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- Install necessary libraries.
+Install necessary libraries.
 
 ```bash
 npm install next --save
-npm install @types/node --save-dev
 ```
 
-> [Or using create-next-app](https://nextjs.org/docs/getting-started)
->
-> [Most of the new Nextjs v13 features are in beta or alpha](https://nextjs.org/blog/next-13)
-- Now, we can add the necessary npm scripts:
+> [Or using create-next-app](https://nextjs.org/docs/getting-started/installation)
+
+Now, we can add the necessary npm scripts:
 
 _./package.json_
 
@@ -35,37 +33,63 @@ _./package.json_
   },
 ```
 
-- Before run this example, we need to create an index page:
+Before Nextjs 13, we used to create pages inside the `pages` folder and the rest of our files with our custom project structure. Now, with the new version, we must place all our files inside the `app` folder and every component will be a `React Server Component` by default.
 
-_./src/pages/index.tsx_
+It's required create a `root layout` inside `app/layout.tsx` with the required <html> and <body> tags:
 
-```javascript
+_./app/layout.tsx_
+
+```jsx
 import React from 'react';
 
-const HomePage = () => {
+interface Props {
+  children: React.ReactNode;
+}
+
+const RootLayout = (props: Props) => {
+  const { children } = props;
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+};
+
+export default RootLayout;
+```
+
+Create the `root page`:
+
+_./app/page.tsx_
+
+```jsx
+import React from 'react';
+
+const RootPage = () => {
   return <h2>Hello from Nextjs</h2>;
 };
 
-export default HomePage;
-
+export default RootPage;
 ```
 
-- Run `start`:
+Run `start`:
 
 ```bash
 npm start
 ```
 
-> NOTE: Since we are using typescript, nextjs add automatically `tsconfig.json`, `next-env.d.ts` files with default values.
+> Open `http://localhost:3000/`
+>
+> NOTE: Since we are using typescript, nextjs add automatically `tsconfig.json`, `next-env.d.ts` files with default values and install `@types/node` for us.
 
-- This is great to work with Nextjs in dev mode, but we need to add more commands to works with production mode:
+This is great to work with Nextjs in dev mode, but we need to add more commands to works with production mode:
 
 _./package.json_
 
 ```diff
   "scripts": {
     "start": "next dev",
-+   "build": "npm run clean && next build",
++   "build": "next build",
 +   "start:prod": "next start -p 8080",
     ...
   },
@@ -73,7 +97,7 @@ _./package.json_
 
 > Default PORT in prod mode is 3000 too.
 
-- Run `build` and `start:prod`:
+Run `build` and `start:prod`:
 
 ```bash
 npm run build

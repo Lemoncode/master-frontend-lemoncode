@@ -1,0 +1,19 @@
+{
+  "name": "game-of-thrones",
+  "private": true,
+  "workspaces": [
+    "helpers/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "start": "run-p start:*",
+    "start:motto-helpers": "npm start -w @my-org/motto-helpers",
+    "start:stark": "npm start -w @my-org/house-stark",
+    "start:targaryen": "npm start -w @my-org/house-targaryen",
+    "start:lannister": "npm start -w @my-org/house-lannister",
+    "start:baratheon": "npm start -w @my-org/house-baratheon"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "@my-org/motto-helpers",
+  "version": "1.0.0",
+  "private": false,
+  "author": "Lemoncode",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "module": "./dist/motto-helpers.js",
+  "main": "./dist/motto-helpers.umd.cjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/motto-helpers.js",
+      "require": "./dist/motto-helpers.umd.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "start": "npm run build -- --watch",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.6",
+    "vite": "^4.4.4",
+    "vite-plugin-dts": "^3.3.1"
+  }
+}

@@ -7,8 +7,8 @@
     "start": "vite --open"
   },
   "dependencies": {
-    "@my-org/house-helpers": "^1.0.0",
-    "@my-org/motto-helpers": "^1.0.0",
+    "@<user-name>/house-helpers": "*",
+    "@<user-name>/motto-helpers": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

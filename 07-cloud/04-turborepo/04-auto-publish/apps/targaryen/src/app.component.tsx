@@ -1,7 +1,7 @@
 import './app.css';
 import logo from '/logo.png';
-import { House, getHouseTitle } from '@my-org/house-helpers';
-import { getHouseMotto } from '@my-org/motto-helpers';
+import { House, getHouseTitle } from '@<user-name>/house-helpers';
+import { getHouseMotto } from '@<user-name>/motto-helpers';
 
 function App() {
   return (

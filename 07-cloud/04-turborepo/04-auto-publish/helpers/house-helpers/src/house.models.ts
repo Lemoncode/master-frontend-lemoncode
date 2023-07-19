@@ -3,4 +3,5 @@ export enum House {
   targaryen = 'targaryen',
   lannister = 'lannister',
   baratheon = 'baratheon',
+  tyrell = 'tyrell',
 }

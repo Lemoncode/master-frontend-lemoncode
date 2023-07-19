@@ -1,6 +1,6 @@
 {
-  "name": "@my-org/motto-helpers",
-  "version": "1.0.0",
+  "name": "@<user-name>/motto-helpers",
+  "version": "0.0.1",
   "private": false,
   "author": "Lemoncode",
   "license": "MIT",
@@ -30,6 +30,6 @@
     "vite-plugin-dts": "^3.3.1"
   },
   "dependencies": {
-    "@my-org/house-helpers": "^1.0.0"
+    "@<user-name>/house-helpers": "*"
   }
 }

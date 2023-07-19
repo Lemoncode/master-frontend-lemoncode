@@ -361,8 +361,8 @@ Para este apartado tomaremos la segunda solución e implementaremos un cargador 
 
   ```ts
   // Tipado común de la interfaz de Microapps.
-  export type MicroappRenderFunction = (container: Element) => void;
-  export type MicroappUnmountFunction = (container: Element) => boolean;
+  export type MicroappRenderFunction = (container: HTMLElement) => void;
+  export type MicroappUnmountFunction = (container: HTMLElement) => boolean;
 
   export interface MicroappInterface {
     render: MicroappRenderFunction;
@@ -380,8 +380,8 @@ Para este apartado tomaremos la segunda solución e implementaremos un cargador 
   + import { microappRegistry, RegisteredMicroapps } from "./microapp.registry";
 
   - // Tipado común de la interfaz de Microapps.
-  - type MicroappRenderFunction = (container: Element) => void;
-  - type MicroappUnmountFunction = (container: Element) => boolean;
+  - type MicroappRenderFunction = (container: HTMLElement) => void;
+  - type MicroappUnmountFunction = (container: HTMLElement) => boolean;
 
   - interface MicroappInterface {
   -  render: MicroappRenderFunction;
@@ -446,19 +446,37 @@ Esta implementación básica y primitiva de un posible loader trae algunos probl
   ```ts
   import React from "react";
   import { microappRegistry, RegisteredMicroapps } from "./microapp.registry";
+  import { MicroappInterface } from './microapp.model.ts'
 
-  // Lógica de Negocio
-  const isMicroappLoaded = (microapp: RegisteredMicroapps) =>
-    Boolean(window[microappRegistry[microapp]?.exportName]);
+  /**
+   * RESPONSABILIDADES:
+  * - Descargar el bundle de la microapp.
+  * - Proporcionar el container del DOM.
+  * - Acceder al MicroappInterface y ejecutar sus métodos render + unmount
+  *  ( Ejecutar window.MicroappXxxx.MicroappInterface.render(containerElement); )
+  */
 
-  const downloadMicroapp = (microapp: RegisteredMicroapps): Promise<void> => {
-    return new Promise((resolve, reject) => {
+  /**
+  * LOGICA DE NEGOCIO
+  */
+
+  const getMicroappInterface = (microapp: RegisteredMicroapp) => {
+    const { exportName } = microappRegistry[microapp] ?? {};
+    const microappInterface: MicroappInterface = window[exportName]?.MicroappInterface;
+    return microappInterface;
+  };
+
+  const isMicroappLoaded = (microapp: RegisteredMicroapp): boolean =>
+    Boolean(getMicroappInterface(microapp));
+
+  const downloadMicroapp = (microapp: RegisteredMicroapp) =>
+    new Promise((resolve, reject) => {
       const { bundleUrl } = microappRegistry[microapp] ?? {};
       if (bundleUrl) {
         const script = document.createElement("script");
         script.src = bundleUrl;
         script.type = "text/javascript";
-        script.onload = () => resolve();
+        script.onload = resolve;
         script.onerror = () => {
           script.remove();
           reject();
@@ -466,19 +484,15 @@ Esta implementación básica y primitiva de un posible loader trae algunos probl
         document.body.appendChild(script);
       }
     });
-  };
 
-  const renderMicroapp = (microapp: RegisteredMicroapps, container: HTMLElement) => {
-    const { exportName } = microappRegistry[microapp] ?? {};
-    if (exportName) window[exportName]?.MicroappInterface?.render(container);
-  };
+  const renderMicroapp = (microapp: RegisteredMicroapp, container: HTMLElement) =>
+    getMicroappInterface(microapp)?.render(container);
 
-  const unmountMicroapp = (microapp: RegisteredMicroapps) => {
-    const { exportName } = microappRegistry[microapp] ?? {};
-    if (exportName) window[exportName]?.MicroappInterface?.unmount();
-  };
+  const unmountMicroapp = (microapp: RegisteredMicroapp) => getMicroappInterface(microapp)?.unmount();
 
-  // Componente Microapp Loader
+  /**
+  * COMPONENTE
+  */
   export interface MicroappLoaderProps {
     microapp: RegisteredMicroapps;
   }

@@ -121,8 +121,8 @@ Por agilizar las cosas y puesto que estamos haciendo pruebas de concepto en un e
   import React from "react";
 
   // Tipado común de la interfaz de Microapps.
-  type MicroappRenderFunction = (container: Element) => void;
-  type MicroappUnmountFunction = (container?: Element) => void;
+  type MicroappRenderFunction = (container: HTMLElement) => void;
+  type MicroappUnmountFunction = (container?: HTMLElement) => void;
 
   interface MicroappInterface {
     render: MicroappRenderFunction;

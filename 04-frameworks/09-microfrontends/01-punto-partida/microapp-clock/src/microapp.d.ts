@@ -1,5 +1,5 @@
-export type MicroappRenderFunction = (container: Element) => void;
-export type MicroappUnmountFunction = (container?: Element) => void;
+export type MicroappRenderFunction = (container: HTMLElement) => void;
+export type MicroappUnmountFunction = (container?: HTMLElement) => void;
 
 export interface MicroappInterface {
   render: MicroappRenderFunction;

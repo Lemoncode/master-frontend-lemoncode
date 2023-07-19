@@ -109,7 +109,7 @@ LLegó el momento de probar esta configuración. Lancemos una build:
 `[microapp-quote]`
 
 ```text
-npm run build:microfrontend:dev
+npm run build:microapp:dev
 ```
 
 ```text

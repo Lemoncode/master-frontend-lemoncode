@@ -77,7 +77,9 @@ _webpack.config.json_
 ```diff
   resolve: {
     extensions: [".js", ".ts", ".tsx"],
-+   '@': path.resolve(__dirname, 'src'),
++   alias: {
++     '@': path.resolve(__dirname, 'src'),
++   },
   },
 ```
 

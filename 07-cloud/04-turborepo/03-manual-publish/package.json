@@ -1,0 +1,15 @@
+{
+  "name": "game-of-thrones",
+  "private": true,
+  "workspaces": [
+    "helpers/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "start": "turbo start type-check:watch",
+    "build": "turbo build"
+  },
+  "devDependencies": {
+    "turbo": "^1.10.7"
+  }
+}

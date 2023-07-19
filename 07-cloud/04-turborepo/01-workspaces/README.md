@@ -1,6 +1,7 @@
 # 01 Workspaces
 
 In this example, we are going to learn how we can work with `npm` workspaces.
+
 We will start from `00-boilerplate`.
 
 ## Steps to build it

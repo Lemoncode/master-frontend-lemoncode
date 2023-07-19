@@ -1,5 +1,5 @@
 {
-  "name": "@my-org/motto-helpers",
+  "name": "@my-org/house-helpers",
   "version": "1.0.0",
   "private": false,
   "author": "Lemoncode",
@@ -8,29 +8,25 @@
     "dist"
   ],
   "type": "module",
-  "module": "./dist/motto-helpers.js",
-  "main": "./dist/motto-helpers.umd.cjs",
-  "types": "./dist/index.d.ts",
+  "module": "dist/house-helpers.js",
+  "main": "dist/house-helpers.umd.cjs",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/motto-helpers.js",
-      "require": "./dist/motto-helpers.umd.cjs",
+      "import": "./dist/house-helpers.js",
+      "require": "./dist/house-helpers.umd.cjs",
       "types": "./dist/index.d.ts"
     }
   },
   "scripts": {
-    "start": "run-p -l type-check:watch \"build -- --watch\"",
-    "build": "npm run type-check && vite build",
+    "start": "npm run build -- --watch",
+    "build": "vite build",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch --preserveWatchOutput"
   },
   "devDependencies": {
-    "npm-run-all": "^4.1.5",
     "typescript": "^5.1.6",
     "vite": "^4.4.4",
     "vite-plugin-dts": "^3.3.1"
-  },
-  "dependencies": {
-    "@my-org/house-helpers": "^1.0.0"
   }
 }

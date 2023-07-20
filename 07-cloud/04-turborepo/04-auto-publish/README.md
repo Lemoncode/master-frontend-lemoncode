@@ -146,7 +146,6 @@ permissions:
 +        run: npm run build
 
 +      - name: Publish Release
-+        id: changesets
 +        uses: changesets/action@v1
 +        with:
 +          publish: npm run publish-packages
@@ -467,7 +466,6 @@ _./.npmrc_
 
 ```
 @<user-name>:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=<github-personal-access-token>
 
 ```
 

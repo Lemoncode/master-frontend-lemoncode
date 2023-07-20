@@ -446,6 +446,61 @@ Merge `Version Packages Pull Request` and we can see a new release and published
 
 > Notice that the pull request will delete the changeset files and it will add a new CHANGELOG file on each package.
 
+Let's try to install the published packages. Create a new folder `outside the monorepo`:
+
+```bash
+mkdir my-new-app
+cd my-new-app
+
+```
+
+If we try to install the packages without any configuration it will fail because it will try to install from the public npm registry:
+
+```bash
+npm install @<user-name>/house-helpers @<user-name>/motto-helpers
+
+```
+
+If we want to consume private packages, we need to create a `.npmrc` file with the credentials:
+
+_./.npmrc_
+
+```
+@<user-name>:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=<github-personal-access-token>
+
+```
+
+> [More info about npmrc file](https://docs.npmjs.com/cli/v9/configuring-npm/npmrc)
+
+Create a new Github Personal Access Token:
+
+![04-perfil-settings](./readme-resources/04-perfil-settings.png)
+
+![05-developer-settings](./readme-resources/05-developer-settings.png)
+
+![06-personal-access-token](./readme-resources/06-personal-access-token.png)
+
+![07-name-and-expiration](./readme-resources/07-name-and-expiration.png)
+
+![08-token-scopes](./readme-resources/08-token-scopes.png)
+
+Copy the token and use it:
+
+_./.npmrc_
+
+```diff
+@<user-name>:registry=https://npm.pkg.github.com
++ //npm.pkg.github.com/:_authToken=<github-personal-access-token>
+
+```
+
+Run installation again:
+
+```bash
+npm install @<user-name>/house-helpers @<user-name>/motto-helpers
+
+```
 
 # About Basefactor + Lemoncode
 

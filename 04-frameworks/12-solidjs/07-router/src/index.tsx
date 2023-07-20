@@ -1,56 +1,26 @@
-import { For, useContext } from "solid-js";
+import { Router, Route, Routes } from "@solidjs/router";
 import { render } from "solid-js/web";
 import "./styles.css";
-import { MemberContext, MemberProvider } from "./members.store";
+import { MemberProvider } from "./members.store";
+import { MemberListPage } from "./member-list.page";
+import { MemberDetailPage } from "./member-detail.page";
 
 const App = () => {
-  const { members, setMembers } = useContext(MemberContext);
-  const handleDelete = (id) => {
-    setMembers((members) => members.filter((member) => member.id !== id));
-  };
-
   return (
-    <>
-      <div class="list">
-        <For each={members}>
-          {(member, index) => {
-            console.log("Member");
-            return (
-              <>
-                <img
-                  onClick={() => handleDelete(member.id)}
-                  src={member.avatar_url}
-                />
-                <input
-                  value={member.login}
-                  onInput={(e) =>
-                    setMembers(index(), "login", e.currentTarget.value)
-                  }
-                />
-              </>
-            );
-          }}
-        </For>
-      </div>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<MemberListPage />} />
+        <Route path="/member/:id" element={<MemberDetailPage />} />
+      </Routes>
+    </Router>
   );
 };
 
 render(
   () => (
-    <div
-      style={{
-        display: "flex",
-        "justify-content": "space-between",
-      }}
-    >
-      <MemberProvider>
-        <App />
-      </MemberProvider>
-      <MemberProvider>
-        <App />
-      </MemberProvider>
-    </div>
+    <MemberProvider>
+      <App />
+    </MemberProvider>
   ),
   document.getElementById("root")
 );

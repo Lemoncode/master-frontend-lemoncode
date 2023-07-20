@@ -1,0 +1,32 @@
+{
+  "name": "@<user-name>/house-helpers",
+  "version": "1.0.0",
+  "private": false,
+  "author": "Lemoncode",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "module": "dist/house-helpers.js",
+  "main": "dist/house-helpers.umd.cjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/house-helpers.js",
+      "require": "./dist/house-helpers.umd.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "start": "npm run build -- --watch",
+    "build": "vite build",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch --preserveWatchOutput"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.6",
+    "vite": "^4.4.4",
+    "vite-plugin-dts": "^3.3.1"
+  }
+}

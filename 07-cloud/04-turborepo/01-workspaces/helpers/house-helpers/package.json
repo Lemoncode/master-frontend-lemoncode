@@ -1,0 +1,13 @@
+{
+  "name": "@my-org/house-helpers",
+  "version": "1.0.0",
+  "private": true,
+  "author": "Lemoncode",
+  "license": "MIT",
+  "types": "src/index.ts",
+  "type": "module",
+  "main": "src/index.ts",
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  }
+}

@@ -140,7 +140,6 @@ const App = () => {
       <div class="list">
 -       {members().map((member) => (
 +       {members().map((member) => {
-+         console.log("Member");
 +         return (
             <>
               <img
@@ -181,7 +180,6 @@ import "./styles.css";
 -       {members().map((member) => {
 +       <For each={members()}>
 +         {(member) => {
-            console.log("Member");
             return (
               <>
                 <img

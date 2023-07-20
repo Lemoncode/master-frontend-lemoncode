@@ -123,7 +123,6 @@ _./src/index.tsx_
 +       <For each={members}>
 -         {(member) => {
 +         {(member, index) => {
-            console.log("Member");
             return (
               <>
                 <img

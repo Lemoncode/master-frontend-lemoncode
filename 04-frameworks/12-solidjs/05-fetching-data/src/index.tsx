@@ -29,7 +29,6 @@ const App = () => {
       <div class="list">
         <For each={members()}>
           {(member) => {
-            console.log("Member");
             return (
               <>
                 <img

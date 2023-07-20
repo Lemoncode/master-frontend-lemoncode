@@ -1,38 +1,27 @@
-import { defineStore } from 'pinia'
-import { CartItemRecord, Product } from '~~/types'
+import { Product } from '~~/types'
+
+export type CartItem = { quantity: number; data: Product }
+export type CartItemRecord = Record<Product['id'], CartItem>
 
 export const useCartStore = defineStore('cart', () => {
-  const { getCart, setCart } = useCartApi()
+  const items = reactive<CartItemRecord>({})
 
-  const items = ref<CartItemRecord>({})
-
-  const totalItems = computed(() =>
-    Object.values(items.value).reduce((acc, item) => {
+  const totalItems = computed(() => {
+    return Object.values(items).reduce((acc, item) => {
       return acc + item.quantity
     }, 0)
-  )
+  })
 
-  const addItem = async (newItem: Product) => {
-    const newCartItem = {
-      quantity: items.value[newItem.id]?.quantity + 1 || 1,
-      data: newItem,
-    }
-
-    if (items.value[newItem.id]) {
-      items.value[newItem.id] = newCartItem
-      await setCart(items.value)
-    } else {
-      await setCart({ [newItem.id]: newCartItem })
+  const addToCart = (item: Product) => {
+    items[item.id] = {
+      quantity: items[item.id]?.quantity + 1 || 1,
+      data: item,
     }
   }
 
-  useAsyncData('cart', async () => {
-    items.value = await getCart()
-  })
-
   return {
     items,
-    addItem,
     totalItems,
+    addToCart,
   }
 })

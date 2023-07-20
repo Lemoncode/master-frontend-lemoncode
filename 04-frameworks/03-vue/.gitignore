@@ -7,3 +7,5 @@ bundle.js
 package-lock.json
 .awcache/
 *.notes.md
+!.vscode
+.nuxt

@@ -433,25 +433,29 @@ npm install pinia @pinia/nuxt
 
 Docs: https://pinia.vuejs.org/ssr/nuxt.html
 
-## Actions
+### Config
+
+Vamos a configurar los auto-imports. En el `nuxt.config` podemos añadir:
+
+### Actions
 
 Desde los componentes (o páginas) llamamos a "actions", para que se ejecute un cambio de estado.
 
 Las `actions` deberían describir acciones que se realizan en la interfaz, como "addToCart()".
 
-## State
+### State
 
 Es donde definimos nuestro estado inicial. Se define como una función que devuelve un Objeto.
 
 Gracias a que usamos Pinia, el estado es reactivo, por lo que si lo cambiamos , se actualizará en la interfaz.
 
-## Getters
+### Getters
 
 Pinia nos brinda unos "helpers" para acceder a partes del estado. Podemos considerar a los "getters" de Vuex o Pinia como las "computed properties" de los componentes. Pero en este caso, no podemos hacer un "setter", sólo acceder a valores de forma reactiva.
 
 Vamos a ver una implementación de un store completo:
 
-En nuestra carpeta de `composables/`, añadiremos un nuevo módulo llamado `useCartStore.ts`:
+En nuestra carpeta de `composables/`, crearíamos un `useCartStore.ts` y si usáramos la API de Options (https://pinia.vuejs.org/core-concepts/#option-stores):
 
 ```ts
 import { defineStore } from 'pinia'
@@ -481,11 +485,40 @@ export const useCartStore = defineStore('cart', {
 })
 ```
 
+Pero en vez de seguir la estrucura de `actions`->`state` de Flux, os recomiendo usar la API de Pinia que nos permite definir un store como si fuera cualquier `composable` (https://pinia.vuejs.org/core-concepts/#setup-stores). Quedaría así:
+
+```ts
+export const useCartStore = defineStore('cart', () => {
+  const items = reactive<CartItemRecord>({})
+
+  const totalItems = computed(() => {
+    return Object.values(items).reduce((acc, item) => {
+      return acc + item.quantity
+    }, 0)
+  })
+
+  const addToCart = (item: Product) => {
+    items[item.id] = {
+      quantity: items[item.id]?.quantity + 1 || 1,
+      data: item,
+    }
+  }
+
+  return {
+    items,
+    totalItems,
+    addToCart,
+  }
+})
+```
+
+Esta sintaxis es más fácil de tipar y no necesitamos acordarnos de una estructura de objectos particular. Además tiene la pinta de cualquier `composable`.
+
+## `v-model`
+
 Vamos a ver una feature muy importante de Vue: `v-model` (formularios, en general).
 
 Vamos a empezar por `v-model`
-
-### `v-model`
 
 `v-model` es la manera de sincronizar los formularios de la interfaz con el estado de nuestra aplicación. Lo veremos normalmente asociado a `<input>`s, `<textarea>`s y `<select>`s...; pero también en componentes propios asociados a estos elementos típicos de los formularios.
 

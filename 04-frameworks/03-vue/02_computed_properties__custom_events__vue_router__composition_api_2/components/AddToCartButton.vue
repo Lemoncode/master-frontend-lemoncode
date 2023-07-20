@@ -11,9 +11,9 @@ const props = defineProps<{
   product: Product
 }>()
 
-const $emit = defineEmits(['add-item'])
+const emit = defineEmits(['add-item'])
 
 const addItem = () => {
-  $emit('add-item', props.product)
+  emit('add-item', props.product)
 }
 </script>

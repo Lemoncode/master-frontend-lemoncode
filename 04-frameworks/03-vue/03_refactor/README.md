@@ -60,7 +60,7 @@ Inmediatamente, veremos como todas las referencias a `product` se marcan en rojo
 
 ```vue
 <script setup lang="ts">
-import { Product } from '~~/types'
+import type { Product } from '~~/types'
 
 const props = defineProps<{
   product: Product

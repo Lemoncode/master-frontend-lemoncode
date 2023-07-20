@@ -8,7 +8,7 @@ Resultado de la primera sesión del módulo.
 
 ```bash
 # npx nuxi init <NOMBRE_DE_LA_APP>
-npx nuxi init ecommerce-app
+npx nuxi@latest init ecommerce-app
 # cd <NOMBRE_DE_LA_APP>
 cd ecommerce-app
 # Instalar dependencias con el gestor de paquetes que se desee

@@ -1,10 +1,10 @@
-// @ts-check
+// @ts-nocheck
 
 /* const person = {
   name: 'Nerea',
 }
-person.name = 'Alfredo' */
-
+person.name = 'Alfredo'
+ */
 const person = {
   // valor "interno"
   _name: 'Nerea',
@@ -33,20 +33,20 @@ const person2 = {
 type person2Keys = keyof typeof person2
 
 const person2Proxy = new Proxy(person2, {
-  get(target: typeof person2, prop: person2Keys) {
-    console.log('get!!', target, prop)
+  get(target: typeof person2, propertyKey: person2Keys) {
+    // console.log('get!!', target, propertyKey)
 
-    return target[prop]
+    return target[propertyKey]
   },
-  set(target: typeof person2, prop: person2Keys, value: string) {
-    console.log('set!!', target, prop, value)
+  set(target: typeof person2, propertyKey: person2Keys, value: string) {
+    // console.log('set!!', target, propertyKey, value)
 
-    return Reflect.set(target, prop, value)
+    return Reflect.set(target, propertyKey, value)
   },
 })
 
-console.log(person2Proxy.name)
+// console.log(person2Proxy.name)
 
 person2Proxy.name = 'Alfredo'
 
-console.log(person2Proxy.name)
+// console.log(person2Proxy.name)

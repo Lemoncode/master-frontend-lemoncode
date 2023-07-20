@@ -1,0 +1,21 @@
+{
+  "name": "00-boilerplate",
+  "version": "1.0.0",
+  "description": "In this example we are going to add a basic setup needed to work with SoliJS.",
+  "main": "index.js",
+  "scripts": {
+    "start": "vite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@solidjs/router": "^0.8.2",
+    "solid-js": "^1.7.7"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.6",
+    "vite": "^4.3.9",
+    "vite-plugin-solid": "^2.7.0"
+  }
+}

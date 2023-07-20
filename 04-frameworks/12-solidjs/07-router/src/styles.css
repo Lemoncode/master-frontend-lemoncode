@@ -1,0 +1,9 @@
+.list {
+  display: grid;
+  grid-template-columns: auto 3fr 1fr;
+  grid-gap: 10px;
+}
+
+.list > img {
+  width: 80px;
+}

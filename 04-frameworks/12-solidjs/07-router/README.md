@@ -229,7 +229,7 @@ We can now check that we get the `Member` id correctly:
 npm start
 ```
 
-> You can use the `useNavigate` hook to navigate programmatically. See the (official documentation)[https://docs.solidjs.com/guides/how-to-guides/routing-in-solid/solid-router#usenavigation] for more details.
+> You can use the `useNavigate` hook to navigate programmatically. See the [official documentation](https://docs.solidjs.com/guides/how-to-guides/routing-in-solid/solid-router#usenavigation) for more details.
 
 ## Exercise
 

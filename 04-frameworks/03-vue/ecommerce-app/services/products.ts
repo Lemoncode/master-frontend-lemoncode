@@ -1,4 +1,4 @@
-import { ProductResponse } from '@/types'
+import { Product, ProductResponse } from '@/types'
 
 export const productService = {
   async get() {
@@ -6,5 +6,13 @@ export const productService = {
       'https://dummyjson.com/products'
     )
     return products
+  },
+
+  async getProductById(id: string) {
+    const product = await $fetch<Product>(
+      `https://dummyjson.com/products/${id}`
+    )
+
+    return product
   },
 }

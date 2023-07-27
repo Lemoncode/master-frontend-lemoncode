@@ -1,8 +1,9 @@
 <template>
-  <nav class="nav flex align-items-center justify-content-between container">
+  <div class="nav flex align-items-center justify-content-between container">
     <div>Logo</div>
+    <Search />
     <div>Cart {{ totalItems }}</div>
-  </nav>
+  </div>
 </template>
 
 <script setup lang="ts">

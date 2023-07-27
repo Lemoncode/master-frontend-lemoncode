@@ -22,7 +22,9 @@
 import { Product } from 'types'
 
 // List of products
-const { list } = await useProductsApi()
+const props = defineProps<{
+  products?: Product[]
+}>()
 
 // Cart
 const { addToCart } = useCartStore()
@@ -35,7 +37,9 @@ const onAddItem = (product: Product) => {
 const textFilter = ref('')
 
 const filteredList = computed(() => {
-  return list.filter((product: Product) => {
+  if (!props.products) return []
+
+  return props.products.filter((product: Product) => {
     return product.title.toLowerCase().includes(textFilter.value.toLowerCase())
   })
 })

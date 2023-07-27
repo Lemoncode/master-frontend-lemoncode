@@ -15,4 +15,28 @@ export const productService = {
 
     return product
   },
+
+  async searchProducts(query: string) {
+    const products = await $fetch<ProductResponse>(
+      `https://dummyjson.com/products/search/?q=${query}&select=title`
+    )
+
+    return products
+  },
+
+  async getCategories() {
+    const categories = await $fetch<string[]>(
+      `https://dummyjson.com/products/categories`
+    )
+
+    return categories
+  },
+
+  async getProductsByCategory(category: string) {
+    const products = await $fetch<ProductResponse>(
+      `https://dummyjson.com/products/category/${category}`
+    )
+
+    return products
+  },
 }

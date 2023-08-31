@@ -16,14 +16,14 @@ Summary steps:
 npm install
 ```
 
-- Let's remove all `calculator` stuff.
+Let's remove all `calculator` stuff.
   - `./src/business/calculator.business.ts`
   - `./src/business/index.ts`
   - `./src/calculator.spec.ts`
   - `./src/calculator.ts`
   - `./src/second.spec.ts`
 
-- Create a simple `app` to retrieve data from `github`:
+Create a simple `app` to retrieve data from `github`:
 
 ### ./src/api-model.ts
 
@@ -47,7 +47,7 @@ export const getMembers = (): Promise<Member[]> =>
   Axios.get(url).then((response) => response.data)
 ```
 
-- Let's use it:
+Let's use it:
 
 ### ./src/app.tsx
 
@@ -67,13 +67,13 @@ export const App: React.FunctionComponent = () => {
 
 ```
 
-- Run it:
+Run it:
 
 ```bash
 npm start
 ```
 
-- We are retrieving too many properties, let's create a `view-model`:
+We are retrieving too many properties, let's create a `view-model`:
 
 ### ./src/view-model.ts
 
@@ -85,7 +85,7 @@ export interface Member {
 }
 ```
 
-- What do we need now? We need a `mapper` to map from `api-model` to `view-model`. Since, we are going to apply TDD, we will start from `spec` before:
+What do we need now? We need a `mapper` to map from `api-model` to `view-model`. Since, we are going to apply TDD, we will start from `spec` before:
 
 ### ./src/mapper.spec.ts
 
@@ -99,7 +99,7 @@ describe('mapper specs', () => {
 });
 ```
 
-- should return empty array when it feeds undefined:
+Should return empty array when it feeds undefined:
 
 ### ./src/mapper.spec.ts
 
@@ -123,7 +123,7 @@ describe('mapper specs', () => {
 
 ```
 
-- Create the minimum implementation to pass the test:
+Create the minimum implementation to pass the test:
 
 ### ./src/mapper.ts
 
@@ -136,7 +136,7 @@ export const mapMemberListFromApiToVm = (
 ): viewModel.Member[] => [];
 ```
 
-- Let's update the spec:
+Let's update the spec:
 
 ### ./src/mapper.spec.ts
 
@@ -148,7 +148,7 @@ import * as viewModel from './view-model';
 
 ```
 
-- should return empty array when it feeds null:
+Should return empty array when it feeds null:
 
 ### ./src/mapper.spec.ts
 
@@ -169,7 +169,7 @@ import * as viewModel from './view-model';
 
 ```
 
-- should return empty array when it feeds empty array:
+Should return empty array when it feeds empty array:
 
 ### ./src/mapper.spec.ts
 
@@ -190,7 +190,7 @@ import * as viewModel from './view-model';
 
 ```
 
-- Yep, we are ready to deploy to production :^). Should return array one mapped item when it feed array with one item:
+Yep, we are ready to deploy to production :^). Should return array one mapped item when it feed array with one item:
 
 ### ./src/mapper.spec.ts
 
@@ -220,7 +220,7 @@ import * as viewModel from './view-model';
 
 ```
 
-- Let's update the implementation:
+Let's update the implementation:
 
 ### ./src/mapper.ts
 
@@ -241,7 +241,7 @@ export const mapMemberListFromApiToVm = (
 
 ```
 
-- We've break two specs! How to solve this one?. Let's start with undefined:
+We've break two specs! How to solve this one?. Let's start with undefined:
 
 ### ./src/mapper.ts
 
@@ -258,7 +258,7 @@ export const mapMemberListFromApiToVm = (
 
 ```
 
-- Let's continue with null:
+Let's continue with null:
 
 ### ./src/mapper.ts
 
@@ -276,7 +276,7 @@ export const mapMemberListFromApiToVm = (
 
 ```
 
-- Or if we know about JavaScript Array [isArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray) method:
+Or if we know about JavaScript Array [isArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray) method:
 
 ### ./src/mapper.ts
 
@@ -294,9 +294,10 @@ export const mapMemberListFromApiToVm = (
 
 ```
 
-- Another tool provided by jest is the [each](https://jestjs.io/docs/api#testeachtablename-fn-timeout) method.
+Another tool provided by jest is the [each](https://jestjs.io/docs/api#testeachtablename-fn-timeout) method.
 
 > We could have some issues typing arrays.
+>
 > That's why the `any` casting
 
 ### ./src/mapper.spec.ts

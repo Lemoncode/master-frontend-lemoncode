@@ -11,13 +11,13 @@ Summary steps:
 
 # Steps to build it
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- This time, we want to handle `getMembers` errors:
+This time, we want to handle `getMembers` errors:
 
 > 403: API rate limit exceeded
 > 503: Service unavailable
@@ -46,7 +46,7 @@ export const getMembers = (): Promise<Member[]> =>
 
 ```
 
-- Update app:
+Update app:
 
 ### ./src/app.tsx
 
@@ -70,7 +70,7 @@ export const App: React.FunctionComponent = () => {
 
 ```
 
-- Let's start to test it:
+Let's start to test it:
 
 ### ./src/api.spec.ts
 
@@ -86,7 +86,7 @@ describe('api specs', () => {
 });
 ```
 
-- should return members when it resolves the request successfully:
+Should return members when it resolves the request successfully:
 
 ### ./src/api.spec.ts
 
@@ -124,7 +124,7 @@ describe('api specs', () => {
 
 ```
 
-- Why is it failing? Because it's an async code and we have to tell `jest` that it has to wait to resolve `promise`:
+Why is it failing? Because it's an async code and we have to tell `jest` that it has to wait to resolve `promise`:
 
 ### ./src/api.spec.ts
 
@@ -164,7 +164,7 @@ describe('api specs', () => {
 
 ```
 
-- A second approach is using `async/await`:
+A second approach is using `async/await`:
 
 > [Jest testing async code](https://jestjs.io/docs/en/asynchronous.html)
 
@@ -207,7 +207,7 @@ describe('api specs', () => {
 
 ```
 
-- should throw an error with "Too much Github API calls!" when it rejects the request with 403 status code:
+Should throw an error with "Too much Github API calls!" when it rejects the request with 403 status code:
 
 ### ./src/api.spec.ts
 
@@ -241,7 +241,7 @@ import { getMembers } from './api';
 
 ```
 
-- should throw an error with "Unavailable service" when it rejects the request with 503 status code:
+Should throw an error with "Unavailable service" when it rejects the request with 503 status code:
 
 ### ./src/api.spec.ts
 
@@ -271,7 +271,7 @@ import { getMembers } from './api';
 
 ```
 
-- should return undefined when it rejects the request with different status code:
+Should return undefined when it rejects the request with different status code:
 
 ### ./src/api.spec.ts
 

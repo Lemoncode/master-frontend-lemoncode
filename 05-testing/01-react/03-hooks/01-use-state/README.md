@@ -6,16 +6,16 @@ We will start from `00-boilerplate`.
 
 # Steps
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- It exists [react-hooks-testing-library](https://github.com/testing-library/react-hooks-testing-library) that allows you to create a simple test for React hooks but since [it is not fully supported by React 18](https://github.com/testing-library/react-hooks-testing-library#a-note-about-react-18-support), for now, we will use the [renderHook](https://testing-library.com/docs/react-testing-library/api/#renderhook) included in `@testing-library/react`
+It exists [react-hooks-testing-library](https://github.com/testing-library/react-hooks-testing-library) that allows you to create a simple test for React hooks but since [it is not fully supported by React 18](https://github.com/testing-library/react-hooks-testing-library#a-note-about-react-18-support), for now, we will use the [renderHook](https://testing-library.com/docs/react-testing-library/api/#renderhook) included in `@testing-library/react`
 
 
-- When to use this method? When we are writing custom hooks outside components. So let's create a simple custom hook:
+When to use this method? When we are writing custom hooks outside components. So let's create a simple custom hook:
 
 ### ./src/model.ts
 
@@ -47,7 +47,7 @@ export const useLogin = () => {
 
 ```
 
-- It's simple hook, isn't it? Let's create the spec:
+It's simple hook, isn't it? Let's create the spec:
 
 ### ./src/login.hooks.spec.ts
 
@@ -66,7 +66,7 @@ describe('useLogin specs', () => {
 
 ```
 
-- should return an object: credential with default values and setCredential a function when it calls it:
+Should return an object: credential with default values and setCredential a function when it calls it:
 
 ### ./src/login.hooks.spec.ts
 
@@ -89,12 +89,13 @@ describe('useLogin specs', () => {
 
 ```
 
-- should update credential when it calls setUser:
+Should update credential when it calls setUser:
 
 ### ./src/login.hooks.spec.ts
 
 ```diff
 ...
+
 + it('should update credential when it calls setCredential', () => {
 +   // Arrange
 +   const newCredential: Credential = { name: 'admin', password: 'test' };
@@ -110,7 +111,7 @@ describe('useLogin specs', () => {
 
 ```
 
-- The test fails and we see a warning about to use `act` method.
+The test fails and we see a warning about to use `act` method.
 
 > [Read more](https://reactjs.org/docs/test-utils.html#act)
 

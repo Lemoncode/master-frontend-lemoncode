@@ -16,5 +16,5 @@
       "@/*": ["*"]
     }
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./config/test/setup-after.ts"],
 }

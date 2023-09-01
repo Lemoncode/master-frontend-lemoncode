@@ -5,7 +5,7 @@ type ParamProps = {
   name: string;
 };
 
-export const UserEdit: React.FunctionComponent = (props) => {
+export const UserEdit: React.FC = (props) => {
   const params = useParams<ParamProps>();
   return <h1>User name: {params.name}</h1>;
 };

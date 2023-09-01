@@ -2,17 +2,17 @@
 
 In this example we will configure continuos integration and run tests.
 
-We will start from `03-hooks/06-use-context`.
+We will start from `03-hooks/04-use-context`.
 
 # Steps
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- We will configure [Github actions](https://github.com/features/actions) to run all tests in this app. Since Github has [free private/public repositories](https://github.com/pricing) we only need to create a github repository:
+We will configure [Github actions](https://github.com/features/actions) to run all tests in this app. Since Github has [free private/public repositories](https://github.com/pricing) we only need to create a github repository:
 
 ```bash
 git init
@@ -22,12 +22,12 @@ git commit -m "add project with tests"
 git push -u origin main
 ```
 
-- Create new branch on repository `feature/add-ci-file` and add ci config [Github workflow](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow):
+Create new branch on repository `feature/add-ci-file` and add ci config [Github workflow](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow):
 
 ### ./.github/workflows/ci.yml
 
 ```yml
-name: Ci workflow
+name: CI workflow
 
 on: pull_request
 
@@ -44,7 +44,7 @@ jobs:
 
 ```
 
-- Commit, push:
+Commit, push:
 
 ```bash
 git add .
@@ -52,7 +52,7 @@ git commit -m "add ci file"
 git push -u origin feature/add-ci-file
 ```
 
-- Create a pull request.
+Create a pull request.
 
 # About Basefactor + Lemoncode
 

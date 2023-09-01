@@ -3,7 +3,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 import { NameCollection } from './name-collection';
 import { UserEdit } from './user-edit';
 
-export const Router: React.FunctionComponent = () => {
+export const Router: React.FC = () => {
   return (
     <HashRouter>
       <Routes>

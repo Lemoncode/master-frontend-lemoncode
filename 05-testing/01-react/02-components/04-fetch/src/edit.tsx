@@ -5,7 +5,7 @@ interface Props {
   onSetUserName: (userName: string) => void;
 }
 
-export const Edit: React.FunctionComponent<Props> = (props) => {
+export const Edit: React.FC<Props> = (props) => {
   const { userName, onSetUserName } = props;
 
   return (

@@ -6,13 +6,13 @@ We will start from `04-fetch`.
 
 # Steps
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- Create a second page to navigate `user-edit.tsx`
+Create a second page to navigate `user-edit.tsx`
 
 ### ./src/user-edit.tsx
 
@@ -24,14 +24,14 @@ type ParamProps = {
   name: string;
 };
 
-export const UserEdit: React.FunctionComponent = (props) => {
+export const UserEdit: React.FC = (props) => {
   const params = useParams<ParamProps>();
   return <h1>User name: {params.name}</h1>;
 };
 
 ```
 
-- Create `router`:
+Create `router`:
 
 ### ./src/router.tsx
 
@@ -41,7 +41,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 import { NameCollection } from './name-collection';
 import { UserEdit } from './user-edit';
 
-export const Router: React.FunctionComponent = () => {
+export const Router: React.FC = () => {
   return (
     <HashRouter>
       <Routes>
@@ -54,7 +54,7 @@ export const Router: React.FunctionComponent = () => {
 
 ```
 
-- Use it:
+Use it:
 
 ### ./src/app.tsx
 
@@ -77,7 +77,7 @@ export const App: React.FunctionComponent = () => {
 
 ```
 
-- Add navigation from `name-collection` component:
+Add navigation from `name-collection` component:
 
 ### ./src/name-collection.tsx
 
@@ -90,25 +90,29 @@ import { getNameCollection } from './name-api';
 
   return (
     <ul>
-      {nameCollection.map(name => (
-        <li key={name}>
--         {name}
-+         <Link to={`/users/${name}`}>{name}</Link>
-        </li>
-      ))}
+      {nameCollection.length === 0 ? (
+        <span>No data to display</span>
+      ) : (
+        nameCollection.map((name) => (
+          <li key={name}>
+-           {name}
++           <Link to={`/users/${name}`}>{name}</Link>
+          </li>
+        ))
+      )}
     </ul>
   );
 };
 
 ```
 
-- Let's run tests:
+Let's run tests:
 
 ```bash
 npm run test:watch
 ```
 
-- Why are they broken? Because we need to provide a `render with router` since as we know, `react-testing-library` mount all components:
+Why are they broken? Because we need to provide a `render with router` since as we know, `react-testing-library` mount all components:
 
 ### ./src/name-collection.spec.tsx
 
@@ -143,14 +147,12 @@ import { NameCollection } from './name-collection';
     ...
   });
 
-  it('should remove initial list when it mounts the component and it resolves the async call', async () => {
+  it('should remove no data description when it mounts the component and it resolves the async call', async () => {
     ...
 
     // Act
--   render(<NameCollection initialNameCollection={initialNameCollection} />);
-+   renderWithRouter(
-+     <NameCollection initialNameCollection={initialNameCollection} />
-+   );
+-   render(<NameCollection />);
++   renderWithRouter(<NameCollection />);
 
     ...
   });
@@ -158,7 +160,7 @@ import { NameCollection } from './name-collection';
 
 ```
 
-- should navigate to second user edit page when click in second user name:
+Should navigate to second user edit page when click in second user name:
 
 ### ./src/name-collection.spec.tsx
 
@@ -176,6 +178,7 @@ import { UserEdit } from './user-edit';
 import { NameCollection } from './name-collection';
 
 ...
+
 + it('should navigate to second user edit page when click in second user name', async () => {
 +   // Arrange
 +   const getStub = jest

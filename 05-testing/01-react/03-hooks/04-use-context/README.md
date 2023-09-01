@@ -6,27 +6,31 @@ We will start from `03-component-unmount`.
 
 # Steps
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- Let's create `languageContext`:
+Let's create `ThemeContext`:
 
-### ./src/language.context.tsx
+### ./src/theme.context.tsx
 
 ```javascript
 import React from 'react';
 
-interface Context {
-  language: string;
-  setLanguage: (language: string) => void;
+interface Theme {
+  primaryColor: string;
 }
 
-export const LanguageContext = React.createContext<Context>({
-  language: '',
-  setLanguage: () => {
+interface Context {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+}
+
+export const ThemeContext = React.createContext<Context>({
+  theme: null,
+  setTheme: () => {
     console.warn('Provider is not initialized');
   },
 });
@@ -35,58 +39,65 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const LanguageProvider: React.FC<Props> = props => {
-  const [language, setLanguage] = React.useState('es');
+export const ThemeProvider: React.FC<Props> = (props) => {
+  const [theme, setTheme] = React.useState<Theme>({
+    primaryColor: 'white',
+  });
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage }}>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
       {props.children}
-    </LanguageContext.Provider>
+    </ThemeContext.Provider>
   );
 };
-```
-
-- If we want to use this `context`, we have to write something like this on top of our app:
 
 ```
-<LanguageProvider>
+
+If we want to use this `context`, we have to write something like this on top of our app:
+
+```
+<ThemeProvider>
 ....
-</LanguageProvider>
+</ThemeProvider>
 ```
 
-- And then use it like:
+And then use it like:
 
-### ./src/language.hooks.ts
+### ./src/theme.hooks.ts
 
 ```javascript
 import React from 'react';
-import { LanguageContext } from './language.context';
+import { ThemeContext } from './theme.context';
 
-export const useLanguage = () => {
-  const [message, setMessage] = React.useState('');
-  const { language, setLanguage } = React.useContext(LanguageContext);
+export const useTheme = () => {
+  const { theme, setTheme } = React.useContext(ThemeContext);
 
-  React.useEffect(() => {
-    setMessage(`The current language is: ${language}`);
-  }, [language]);
+  const onChangeLightTheme = () => {
+    setTheme({ primaryColor: 'white' });
+  };
+
+  const onChangeDarkTheme = () => {
+    setTheme({ primaryColor: 'black' });
+  };
 
   return {
-    message,
-    setLanguage,
+    theme,
+    onChangeLightTheme,
+    onChangeDarkTheme,
   };
 };
 
 ```
 
-- Let's add some specs:
+Let's add some specs:
 
-### ./src/language.hooks.spec.ts
+### ./src/theme.hooks.spec.ts
 
 ```javascript
 import { renderHook, act } from '@testing-library/react';
-import { useLanguage } from './language.hooks';
+import { useTheme } from './theme.hooks';
 
-describe('useLanguage specs', () => {
+describe('useTheme specs', () => {
   it('', () => {
     // Arrange
 
@@ -99,57 +110,57 @@ describe('useLanguage specs', () => {
 
 ```
 
-- should return a message with language equals "en" when it renders the hook:
+Should return a theme equals `{ primaryColor: "black" }` when it renders the hook and calls to onChangeDarkTheme:
 
-### ./src/language.hooks.spec.ts
+### ./src/theme.hooks.spec.ts
 
 ```diff
 ...
 - it('', () => {
-+ it('should return a message with language equals "en" when it renders the hook', () => {
++ it('should return a theme equals { primaryColor: "black" } when it renders the hook and calls to onChangeDarkTheme', () => {
     // Arrange
 
     // Act
-+   const { result } = renderHook(() => useLanguage());
++   const { result } = renderHook(() => useTheme());
 
 +   act(() => {
-+     result.current.setLanguage('en');
++     result.current.onChangeDarkTheme();
 +   })
 
     // Assert
-+   expect(result.current.message).toEqual('The current language is: en');
++   expect(result.current.theme).toEqual({ primaryColor: 'black' });
   });
 });
 
 ```
 
-- What is going on? That is because we have to initialize the `Provider` when we use a `Context`. IMPORTANT, rename to `tsx`:
+What is going on? That is because we have to initialize the `Provider` when we use a `Context`. IMPORTANT, rename to `tsx` and stop/start tests again (npm run test:watch):
 
-### ./src/language.hooks.spec.tsx
+### ./src/theme.hooks.spec.tsx
 
 ```diff
 + import React from 'react';
 import { renderHook, act } from '@testing-library/react';
-+ import { LanguageProvider } from './language.context';
-import { useLanguage } from './language.hooks';
++ import { ThemeProvider } from './theme.context';
+import { useTheme } from './theme.hooks';
 
-describe('useLanguage specs', () => {
-  it('should return a message with language equals "en" when it renders the hook', () => {
+describe('useTheme specs', () => {
+  it('should return a theme equals { primaryColor: "black" } when it renders the hook and calls to onChangeDarkTheme', () => {
     // Arrange
 +   const provider = props => (
-+     <LanguageProvider>{props.children}</LanguageProvider>
++     <ThemeProvider>{props.children}</ThemeProvider>
 +   );
 
     // Act
--   const { result } = renderHook(() => useLanguage());
-+   const { result } = renderHook(() => useLanguage(), { wrapper: provider });
+-   const { result } = renderHook(() => useTheme());
++   const { result } = renderHook(() => useTheme(), { wrapper: provider });
 
     act(() => {
-      result.current.setLanguage('en');
+      result.current.onChangeDarkTheme();
     });
 
     // Assert
-    expect(result.current.message).toEqual('The current language is: en');
+    expect(result.current.theme).toEqual({ primaryColor: 'black' });
   });
 });
 
@@ -157,33 +168,33 @@ describe('useLanguage specs', () => {
 
 > Maybe you could have some error due to file rename. Stop and run it again (npm run test:watch).
 
-- Or using LanguageProvider. We can rename to `.ts` again:
+Or using ThemeProvider. We can rename to `.ts` again:
 
-### ./src/language.hooks.spec.tsx
+### ./src/theme.hooks.spec.ts
 
 ```diff
 - import React from 'react';
 import { renderHook, act } from '@testing-library/react';
-import { LanguageProvider } from './language.context';
-import { useLanguage } from './language.hooks';
+import { ThemeProvider } from './theme.context';
+import { useTheme } from './theme.hooks';
 
-describe('useLanguage specs', () => {
-  it('should return a message with language equals "en" when it renders the hook', () => {
+describe('useTheme specs', () => {
+  it('should return a theme equals { primaryColor: "black" } when it renders the hook and calls to onChangeDarkTheme', () => {
     // Arrange
 -   const provider = props => (
--     <LanguageProvider>{props.children}</LanguageProvider>
+-     <ThemeProvider>{props.children}</ThemeProvider>
 -   );
 
     // Act
--   const { result } = renderHook(() => useLanguage(), { wrapper: provider });
-+   const { result } = renderHook(() => useLanguage(), { wrapper: LanguageProvider });
+-   const { result } = renderHook(() => useTheme(), { wrapper: provider });
++   const { result } = renderHook(() => useTheme(), { wrapper: ThemeProvider });
 
     act(() => {
-      result.current.setLanguage('en');
+      result.current.onChangeDarkTheme();
     });
 
     // Assert
-    expect(result.current.message).toEqual('The current language is: en');
+    expect(result.current.theme).toEqual({ primaryColor: 'black' });
   });
 });
 

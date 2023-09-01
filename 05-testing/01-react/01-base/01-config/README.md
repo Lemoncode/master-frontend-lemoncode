@@ -13,7 +13,7 @@ Summary steps:
 
 # Steps to build it
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
@@ -31,12 +31,14 @@ npm install jest @types/jest --save-dev
 ```
 
 > If we are using `@babel/preset-typescript` it is not necessary install [ts-jest](https://github.com/kulshekhar/ts-jest): A preprocessor with sourcemap support to help use TypeScript with Jest.
-> [Official docs](https://jestjs.io/docs/getting-started)
-> NOTE: [Since jest v26.x it drops support for Node 8](https://github.com/facebook/jest/releases/tag/v26.0.0)
+>
+> [Official docs](https://jestjs.io/docs/getting-started#using-typescript)
+>
+> NOTE: [Since jest v29.x it drops support for Node 12](https://github.com/facebook/jest/releases/tag/v29.0.0)
 
 # Config
 
-- Jest test commands:
+Jest test commands:
   - `npm test`: to single run
   - `npm run test:watch`: to run all specs after changes.
 
@@ -70,13 +72,13 @@ npm install jest @types/jest --save-dev
 
 # Dummy spec
 
-- Let's launch tests in watch mode:
+Let's launch tests in watch mode:
 
 ```bash
 npm run test:watch
 ```
 
-- Adding success spec:
+Adding success spec:
 
 ### ./src/dummy.spec.ts
 
@@ -93,7 +95,7 @@ describe('dummy specs', () => {
 });
 ```
 
-- Adding failed spec:
+Adding failed spec:
 
 ### ./src/dummy.spec.ts
 
@@ -125,20 +127,22 @@ We could create a jest config outside `package.json` to improve maintainability.
 
 > [Jest configuration options](https://facebook.github.io/jest/docs/en/configuration.html#options)
 
-- Create config in `config/test/jest.js` file:
+Create config in `config/test/jest.js` file:
 
 ### ./config/test/jest.js
 
 ```js
-module.exports = {
+export default {
   rootDir: '../../',
   verbose: true,
 };
+
 ```
 > Check `verbose: false` to see differences
+>
 > We will add some configuration in next examples when needed
 
-- And use that file:
+And use that file:
 
 ### ./package.json
 
@@ -155,7 +159,7 @@ module.exports = {
 }
 ```
 
-- Running specs again:
+Running specs again:
 
 ```bash
 npm run test:watch

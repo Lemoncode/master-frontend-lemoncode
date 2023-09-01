@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "es6",
+    "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "declaration": false,
     "noImplicitAny": false,
@@ -9,18 +9,12 @@
     "jsx": "react",
     "noLib": false,
     "allowJs": true,
-    "suppressImplicitAnyIndexErrors": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "baseUrl": "./src/",
     "paths": {
-      "common": ["common"],
-      "core": ["core"],
-      "layouts": ["layouts"],
-      "pods": ["pods"],
-      "scenes": ["scenes"],
-      "common-app": ["common-app"]
+      "@/*": ["*"]
     }
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./config/test/setup-after.ts"],
 }

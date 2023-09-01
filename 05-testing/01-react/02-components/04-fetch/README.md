@@ -6,13 +6,13 @@ We will start from `03-integration`.
 
 # Steps
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- Now we will create a file that it will contain a call a remote api that returns a list of names.
+Now we will create a file that it will contain a call a remote api that returns a list of names.
 
 ### ./src/name-api.ts
 
@@ -25,7 +25,7 @@ export const getNameCollection = (): Promise<string[]> =>
   Axios.get(url).then(({ data }) => data.map(user => user.name));
 ```
 
-- Let's create a component that make use of this api and display that list.
+Let's create a component that make use of this api and display that list.
 
 ### ./src/name-collection.tsx
 
@@ -33,7 +33,7 @@ export const getNameCollection = (): Promise<string[]> =>
 import React from 'react';
 import { getNameCollection } from './name-api';
 
-export const NameCollection: React.FunctionComponent = () => {
+export const NameCollection: React.FC = () => {
   const [nameCollection, setNameCollection] = React.useState([]);
 
   React.useEffect(() => {
@@ -52,7 +52,7 @@ export const NameCollection: React.FunctionComponent = () => {
 };
 ```
 
-- Now let's use it in the _app.tsx_ file.
+Now let's use it in the _app.tsx_ file.
 
 ### ./src/app.tsx
 
@@ -73,7 +73,7 @@ export const App: React.FunctionComponent = () => {
 
 ```
 
-- Time to test this async piece :), let's create a file called _name-collection.spec.tsx_
+Time to test this async piece :), let's create a file called _name-collection.spec.tsx_
 
 ### ./src/name-collection.spec.tsx
 
@@ -91,7 +91,7 @@ describe('NameCollection component specs', () => {
 });
 ```
 
-- should display a list with one item when it mounts the component and it resolves the async call:
+Should display a list with one item when it mounts the component and it resolves the async call:
 
 ### ./src/name-collection.spec.tsx
 
@@ -124,7 +124,7 @@ describe('NameCollection component specs', () => {
 
 > [Find queries](https://testing-library.com/docs/dom-testing-library/api-async#findby-queries)
 
-- How to check if there is no element?
+How to check if there is no element?
 
 ### ./src/name-collection.spec.tsx
 
@@ -152,7 +152,7 @@ describe('NameCollection component specs', () => {
 
 ```
 
-- If we know it could be null element, we should use `query...` instead of `get...`:
+If we know it could be null element, we should use `query...` instead of `get...`:
 
 ### ./src/name-collection.spec.tsx
 
@@ -173,36 +173,23 @@ describe('NameCollection component specs', () => {
 
 > [Query](https://testing-library.com/docs/guide-disappearance/#asserting-elements-are-not-present)
 
-- Sometimes, we need to wait for some element to be removed and check it:
+Sometimes, we need to wait for some element to be removed and check it:
 
 ### ./src/name-collection.tsx
 
 ```diff
-import React from 'react';
-import { getNameCollection } from './name-api';
-
-+ interface Props {
-+   initialNameCollection?: string[];
-+ }
-
-- export const NameCollection: React.FunctionComponent = () => {
-+ export const NameCollection: React.FunctionComponent<Props> = (props) => {
-- const [nameCollection, setNameCollection] = React.useState([]);
-+ const [nameCollection, setNameCollection] = React.useState(
-+   props.initialNameCollection || []
-+ );
-
-  React.useEffect(() => {
-    getNameCollection().then(names => {
-      setNameCollection(names);
-    });
-  }, []);
+...
 
   return (
     <ul>
-      {nameCollection.map(name => (
-        <li key={name}>{name}</li>
-      ))}
+-     {nameCollection.map(name => (
+-       <li key={name}>{name}</li>
+-     ))}
++     {nameCollection.length === 0 ? (
++       <span>No data to display</span>
++     ) : (
++       nameCollection.map((name) => <li key={name}>{name}</li>)
++     )}
     </ul>
   );
 };
@@ -219,25 +206,22 @@ import * as api from './name-api';
 import { NameCollection } from './name-collection';
 ...
 
-+ it('should remove initial list when it mounts the component and it resolves the async call', async () => {
-+   // Arrange
-+   const initialNameCollection = ['initial-user'];
-+   const getStub = jest
-+     .spyOn(api, 'getNameCollection')
-+     .mockResolvedValue(['John Doe']);
++ it('should remove no data description when it mounts the component and it resolves the async call', async () => {
++     // Arrange
++     const getStub = jest
++       .spyOn(api, 'getNameCollection')
++       .mockResolvedValue(['John Doe']);
 
-+   // Act
-+   render(<NameCollection initialNameCollection={initialNameCollection} />);
++     // Act
++     render(<NameCollection />);
 
-+   const initialItems = screen.getAllByRole('listitem');
-+   expect(initialItems).toHaveLength(1);
-+   expect(initialItems[0].textContent).toEqual('initial-user');
++     expect(screen.getByText('No data to display')).toBeInTheDocument();
 
-+   await waitFor(() => {
 +     // Assert
-+     expect(screen.queryByText('initial-user')).not.toBeInTheDocument();
++     await waitFor(() => {
++       expect(screen.queryByText('No data to display')).not.toBeInTheDocument();
++     });
 +   });
-+ });
 
 ```
 
@@ -260,26 +244,22 @@ import { NameCollection } from './name-collection';
 
 ...
 
-  it('should remove initial list when it mounts the component and it resolves the async call', async () => {
+it('should remove no data description when it mounts the component and it resolves the async call', async () => {
     // Arrange
-    const initialNameCollection = ['initial-user'];
     const getStub = jest
       .spyOn(api, 'getNameCollection')
       .mockResolvedValue(['John Doe']);
 
     // Act
-    render(<NameCollection initialNameCollection={initialNameCollection} />);
+    render(<NameCollection />);
 
-    const initialItems = screen.getAllByRole('listitem');
-    expect(initialItems).toHaveLength(1);
-    expect(initialItems[0].textContent).toEqual('initial-user');
-
--   await waitFor(() => {
-+   await waitForElementToBeRemoved(screen.queryByText('initial-user'));
+    expect(screen.getByText('No data to display')).toBeInTheDocument();
 
     // Assert
-    expect(screen.queryByText('initial-user')).not.toBeInTheDocument();
+-   await waitFor(() => {
+-     expect(screen.queryByText('No data to display')).not.toBeInTheDocument();
 -   });
++   await waitForElementToBeRemoved(screen.queryByText('No data to display'));
   });
 
 ```

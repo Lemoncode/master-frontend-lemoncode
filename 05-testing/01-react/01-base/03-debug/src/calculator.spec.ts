@@ -2,9 +2,7 @@ import * as calculator from './calculator';
 import * as business from './business/calculator.business';
 
 jest.mock('./business/calculator.business', () => ({
-  isLowerThan: jest.fn().mockImplementation(() => {
-    console.log('Another implementation');
-  }),
+  isLowerThan: jest.fn(),
   max: 7,
 }));
 
@@ -34,17 +32,17 @@ describe('Calculator tests', () => {
       expect(business.isLowerThan).toHaveBeenCalled();
       expect(business.isLowerThan).toHaveBeenCalledWith(4, 7);
     });
+  });
 
-    it('should call to original implementation isLowerThan', () => {
-      // Arrange
-      const a = 1;
-      const b = 2;
+  it('should call to original implementation isLowerThan', () => {
+    // Arrange
+    const a = 1;
+    const b = 2;
 
-      // Act
-      const result = calculator.add(a, b);
+    // Act
+    const result = calculator.add(a, b);
 
-      // Assert
-      expect(result).toEqual(3);
-    });
+    // Assert
+    expect(result).toEqual(3);
   });
 });

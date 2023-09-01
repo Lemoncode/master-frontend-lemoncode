@@ -1,14 +1,8 @@
 import React from 'react';
 import { getNameCollection } from './name-api';
 
-interface Props {
-  initialNameCollection?: string[];
-}
-
-export const NameCollection: React.FunctionComponent<Props> = (props) => {
-  const [nameCollection, setNameCollection] = React.useState(
-    props.initialNameCollection || []
-  );
+export const NameCollection: React.FC = () => {
+  const [nameCollection, setNameCollection] = React.useState([]);
 
   React.useEffect(() => {
     getNameCollection().then((names) => {
@@ -18,9 +12,11 @@ export const NameCollection: React.FunctionComponent<Props> = (props) => {
 
   return (
     <ul>
-      {nameCollection.map((name) => (
-        <li key={name}>{name}</li>
-      ))}
+      {nameCollection.length === 0 ? (
+        <span>No data to display</span>
+      ) : (
+        nameCollection.map((name) => <li key={name}>{name}</li>)
+      )}
     </ul>
   );
 };

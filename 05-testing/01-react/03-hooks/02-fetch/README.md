@@ -6,13 +6,13 @@ We will start from `01-use-state`.
 
 # Steps
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- Now, we will simulate the `login` method, but first let's create the user's model:
+Now, we will simulate the `login` method, but first let's create the user's model:
 
 ### ./src/model.ts
 
@@ -29,7 +29,7 @@ export interface Credential {
 
 ```
 
-- Create api method:
+Create api method:
 
 ### ./src/api.ts
 
@@ -42,7 +42,7 @@ export const login = (credential: Credential): Promise<User> => {
 };
 ```
 
-- Let's update `useLogin` hook to use `React.useEffect`:
+Let's update `useLogin` hook to use `React.useEffect`:
 
 ### ./src/login.hooks.ts
 
@@ -75,7 +75,7 @@ export const useLogin = () => {
 
 ```
 
-- should return user equals null and onLogin function:
+Should return user equals null and onLogin function:
 
 ### ./src/login.hooks.spec.ts
 
@@ -95,7 +95,7 @@ export const useLogin = () => {
 
 ```
 
-- should update user when it send valid credentials using onLogin:
+Should update user when it send valid credentials using onLogin:
 
 ### ./src/login.hooks.spec.ts
 
@@ -127,7 +127,7 @@ import { useLogin } from './login.hooks';
 
 ```
 
-- Why does current spec fail? Because we have to `wait` until async call will be resolved:
+Why does current spec fail? Because we have to `wait` until async call will be resolved:
 
 ### ./src/login.hooks.spec.ts
 

@@ -12,7 +12,7 @@ interface Props {
   onAgreeClick: () => void;
 }
 
-export const CookiesDialog: React.FunctionComponent<Props> = (props) => {
+export const CookiesDialog: React.FC<Props> = (props) => {
   const { onAgreeClick } = props;
   const [open, setOpen] = React.useState(false);
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const NameEdit: React.FunctionComponent = () => {
+export const NameEdit: React.FC = () => {
   const [userName, setUserName] = React.useState('');
 
   return (

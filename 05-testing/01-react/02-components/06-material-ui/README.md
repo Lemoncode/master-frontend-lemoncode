@@ -6,13 +6,13 @@ We will start from `05-router`.
 
 # Steps
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- Let's create a simple material-ui `Dialog`:
+Let's create a simple material-ui `Dialog`:
 
 ### ./src/cookies-dialog.tsx
 
@@ -31,7 +31,7 @@ interface Props {
   onAgreeClick: () => void;
 }
 
-export const CookiesDialog: React.FunctionComponent<Props> = (props) => {
+export const CookiesDialog: React.FC<Props> = (props) => {
   const { onAgreeClick } = props;
   const [open, setOpen] = React.useState(false);
 
@@ -68,7 +68,7 @@ export const CookiesDialog: React.FunctionComponent<Props> = (props) => {
 };
 ```
 
-- Use it:
+Use it:
 
 ### ./src/app.tsx
 
@@ -93,7 +93,7 @@ export const App: React.FunctionComponent = () => {
 
 ```
 
-- Let's add some specs:
+Let's add some specs:
 
 ### ./src/cookies-dialog.spec.tsx
 
@@ -112,7 +112,7 @@ describe('CookiesDialog component specs', () => {
 });
 ```
 
-- should display a button with text "Learn more about our cookies":
+Should display a button with text "Learn more about our cookies":
 
 ### ./src/cookies-dialog.spec.tsx
 
@@ -141,7 +141,7 @@ describe('CookiesDialog component specs', () => {
 
 ```
 
-- should open a dialog when click on "learn more..." button:
+Should open a dialog when click on "learn more..." button:
 
 ### ./src/cookies-dialog.spec.tsx
 
@@ -172,7 +172,7 @@ describe('CookiesDialog component specs', () => {
 
 > Instead of get title element text, we should get element by role when it's available.
 
-- should call onAgreeClick when it clicks on "Agree" button:
+Should call onAgreeClick when it clicks on "Agree" button:
 
 ```diff
 ...
@@ -200,7 +200,7 @@ describe('CookiesDialog component specs', () => {
 
 ```
 
-- An improvement could be use `within` method:
+An improvement could be use `within` method:
 
 ```diff
 import React from 'react';

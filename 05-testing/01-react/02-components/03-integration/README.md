@@ -7,13 +7,13 @@ We will start from `02-name-edit`.
 
 # Steps
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- Now we will split our _name-edit_ component and we create the _display_ and _edit_ components.
+Now we will split our _name-edit_ component and we create the _display_ and _edit_ components.
 
 ### ./src/display.tsx
 
@@ -24,7 +24,7 @@ interface Props {
   userName: string;
 }
 
-export const Display: React.FunctionComponent<Props> = (props) => {
+export const Display: React.FC<Props> = (props) => {
   const { userName } = props;
 
   return <h3>{userName}</h3>;
@@ -41,7 +41,7 @@ interface Props {
   onSetUserName: (userName: string) => void;
 }
 
-export const Edit: React.FunctionComponent<Props> = (props) => {
+export const Edit: React.FC<Props> = (props) => {
   const { userName, onSetUserName } = props;
 
   return (
@@ -50,7 +50,7 @@ export const Edit: React.FunctionComponent<Props> = (props) => {
 };
 ```
 
-- Update `name-edit` component:
+Update `name-edit` component:
 
 ### ./src/name-edit.tsx
 
@@ -74,7 +74,7 @@ export const NameEdit: React.FunctionComponent = () => {
 
 ```
 
-- Now, do we need to make any change on the _name-edit_ test? Let's see...
+Now, do we need to make any change on the _name-edit_ test? Let's see...
 
 ```bash
 npm run test:watch

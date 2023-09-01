@@ -11,13 +11,13 @@ Summary steps:
 
 # Steps to build it
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- Create calculator:
+Create calculator:
 
 ### ./src/calculator.ts
 
@@ -25,7 +25,7 @@ npm install
 export const add = (a, b) => a + b;
 ```
 
-- Rename `dummy.spec.ts` to `calculator.spec.ts`:
+Rename `dummy.spec.ts` to `calculator.spec.ts`:
 
 ### ./src/calculator.spec.ts
 
@@ -62,13 +62,40 @@ export const add = (a, b) => a + b;
 
 ```
 
+Why it's failing? Since [jest still doesn't support ES6 modules](https://jestjs.io/docs/ecmascript-modules), we need a `babel` configuration to transpile our code to `commonjs` or [using `ts-jest`](https://kulshekhar.github.io/ts-jest/docs/getting-started/presets):
+
+```bash
+npm install ts-jest --save-dev
+
+```
+
+Update jest config:
+
+### ./config/test/jest.js
+
+```diff
+export default {
+  rootDir: '../../',
+  verbose: true,
++ preset: 'ts-jest',
+};
+
+```
+
+Run again:
+
+```bash
+npm run test:watch
+
+```
+
 > Differences between `toEqual` vs `toBe` vs `toStrictEqual`:
 >
 > `toBe` fails if `expect({ id: 1 }).toBe({ id: 1 });`: it's not the same object. We should use `toEqual` if we only want the value not the reference
 >
 > `toStrictEqual` pass if `expect({ id: 1 }).toStrictEqual({ id: 1 });` but it fails if `expect({ id: 1 }).toStrictEqual({ id: 1, name: undefined });`: it should have same fields, even undefined values. We should use `toEqual` if we don't care about it.
 
-- Now, we need passing a method as parameter, whatever it is, we only want to check that it was called and with which arguments:
+Now, we need passing a method as parameter, whatever it is, we only want to check that it was called and with which arguments:
 
 ### ./src/calculator.ts
 
@@ -86,7 +113,7 @@ export const add = (a, b) => a + b;
 
 ```
 
-- How we could test it? Using a `spy`:
+How we could test it? Using a `spy`:
 
 ### ./src/calculator.spec.ts
 
@@ -129,7 +156,7 @@ describe("Calculator tests", () => {
 
 > If we set `a = 3` this test fail.
 
-- Sometimes, we need to `import` dependencies that we can't pass throught function parameters, we need to import as `external dependency`:
+Sometimes, we need to `import` dependencies that we can't pass throught function parameters, we need to import as `external dependency`:
 
 ### ./src/business/calculator.business.ts
 
@@ -139,7 +166,7 @@ export const isLowerThanFive = (value) => {
 };
 ```
 
-- Add barrel file:
+Add barrel file:
 
 ### ./src/business/index.ts
 
@@ -148,7 +175,7 @@ export * from './calculator.business';
 
 ```
 
-- Use it:
+Use it:
 
 ### ./src/calculator.ts
 
@@ -168,7 +195,7 @@ export * from './calculator.business';
 
 ```
 
-- Same as before, we only want to test that function was called and with which arguments, but this time is an `external dependency`, so we need a stub:
+Same as before, we only want to test that function was called and with which arguments, but this time is an `external dependency`, so we need a stub:
 
 ### ./src/calculator.spec.ts
 
@@ -212,7 +239,7 @@ describe('Calculator tests', () => {
 
 ```
 
-- Why the second spec is failing? `TypeError: Cannot redefine property: isLowerThanFive`. We could find [many related issues](https://github.com/facebook/jest/issues/880) like this one. We should update the code:
+Why the second spec is failing? `TypeError: Cannot redefine property: isLowerThanFive`. We could find [many related issues](https://github.com/facebook/jest/issues/880) like this one or [using Object.defineProperty](https://github.com/facebook/jest/issues/6914) like this one. We should update the code:
 
 ### ./src/calculator.spec.ts
 
@@ -226,8 +253,10 @@ import * as calculator from './calculator';
 ```
 
 > Note: As we see in `console`, the `stub` doesn't replace original function behaviour. We have to mock it if we need it.
+>
+> [Alternative using jest.mock and __esModule: true](https://github.com/aelbore/esbuild-jest/issues/26#issuecomment-968853688)
 
-- Mocking original behaviour:
+Mocking original behaviour:
 
 ### ./src/calculator.spec.ts
 
@@ -252,7 +281,7 @@ import * as calculator from './calculator';
 
 ```
 
-- Note, it's important reset the `mocks` implementation:
+Note, it's important reset the `mocks` implementation:
 
 ### ./src/calculator.spec.ts
 
@@ -274,9 +303,10 @@ import * as calculator from './calculator';
 ```
 
 > console.log
+>
 > This is the result 3
 
-- We should restore all mocks after run them:
+We should restore all mocks after run them:
 
 ### ./src/calculator.spec.ts
 
@@ -301,6 +331,7 @@ Instead of use `restoreAllMocks` on each spec file, we could configure it global
 module.exports = {
   rootDir: '../../',
   verbose: true,
+  preset: 'ts-jest',
 + restoreMocks: true,
 };
 
@@ -325,7 +356,7 @@ describe('Calculator tests', () => {
 
 > Run again `npm run test:watch`
 
-- Finally, we could have a business with too much methods, or even, it is exporting an object:
+Finally, we could have a business with too much methods, or even, it is exporting an object:
 
 ### ./src/business/calculator.business.ts
 
@@ -340,7 +371,7 @@ describe('Calculator tests', () => {
 
 ```
 
-- Use it:
+Use it:
 
 ### ./src/calculator.ts
 
@@ -362,7 +393,7 @@ export const add = (a, b) => {
 
 ```
 
-- In this case, we need to mock the whole module:
+In this case, we need to mock the whole module:
 
 ### ./src/calculator.spec.ts
 
@@ -371,9 +402,7 @@ import * as calculator from './calculator';
 import * as business from './business/calculator.business';
 
 + jest.mock('./business/calculator.business', () => ({
-+   isLowerThan: jest.fn().mockImplementation(() => {
-+     console.log('Another implementation');
-+   }),
++   isLowerThan: jest.fn(),
 +   max: 7,
 + }));
 

@@ -40,26 +40,19 @@ describe('NameCollection component specs', () => {
     expect(getStub).toHaveBeenCalled();
   });
 
-  it('should remove initial list when it mounts the component and it resolves the async call', async () => {
+  it('should remove no data description when it mounts the component and it resolves the async call', async () => {
     // Arrange
-    const initialNameCollection = ['initial-user'];
     const getStub = jest
       .spyOn(api, 'getNameCollection')
       .mockResolvedValue(['John Doe']);
 
     // Act
-    renderWithRouter(
-      <NameCollection initialNameCollection={initialNameCollection} />
-    );
+    renderWithRouter(<NameCollection />);
 
-    const initialItems = screen.getAllByRole('listitem');
-    expect(initialItems).toHaveLength(1);
-    expect(initialItems[0].textContent).toEqual('initial-user');
-
-    await waitForElementToBeRemoved(screen.queryByText('initial-user'));
+    expect(screen.getByText('No data to display')).toBeInTheDocument();
 
     // Assert
-    expect(screen.queryByText('initial-user')).not.toBeInTheDocument();
+    await waitForElementToBeRemoved(screen.queryByText('No data to display'));
   });
 
   it('should navigate to second user edit page when click in second user name', async () => {

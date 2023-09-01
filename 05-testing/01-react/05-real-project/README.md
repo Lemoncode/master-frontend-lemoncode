@@ -6,13 +6,13 @@ We will start from [origin-front-admin repository](https://github.com/Lemoncode/
 
 # Steps
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- Let's add specs to `./src/common/components/form/select`:
+Let's add specs to `./src/common/components/form/select`:
 
 ### ./src/common/components/form/select/select.component.spec.tsx
 
@@ -32,13 +32,13 @@ describe('common/components/form/select/select.component specs', () => {
 });
 ```
 
-- Run test watch:
+Run test watch:
 
 ```bash
 npm run test:watch select
 ```
 
-- Let's implement the first spec:
+Let's implement the first spec:
 
 ### ./src/common/components/form/select/select.component.spec.tsx
 
@@ -71,7 +71,7 @@ describe('common/components/form/select/select.component specs', () => {
 });
 ```
 
-- Since, it could found `webpack alias`, let's configure in jest:
+Since, it could found `webpack alias`, let's configure in jest:
 
 ### ./config/test/jest.js
 
@@ -88,9 +88,10 @@ module.exports = {
 ```
 
 > [More info](https://www.basefactor.com/configuring-aliases-in-webpack-vs-code-typescript-jest)
+>
 > [Official Docs](https://jestjs.io/docs/webpack)
 
-- Testing it should shows 3 items when it clicks on select:
+Testing it should shows 3 items when it clicks on select:
 
 ### ./src/common/components/form/select/select.component.spec.tsx
 
@@ -125,15 +126,16 @@ import React from 'react';
 ```
 
 > It fails.
+>
 > We research about it and found this [issue](https://github.com/testing-library/react-testing-library/issues/322)
 
-- Install library:
+Install library:
 
 ```bash
 npm install @testing-library/user-event @testing-library/dom --save-dev
 ```
 
-- Update spec:
+Update spec:
 
 ### ./src/common/components/form/select/select.component.spec.tsx
 
@@ -174,7 +176,7 @@ import React from 'react';
   });
 ```
 
-- Testing should calls onChange method when it clicks on second item:
+Testing should calls onChange method when it clicks on second item:
 
 ### ./src/common/components/form/select/select.component.spec.tsx
 
@@ -211,7 +213,7 @@ import React from 'react';
 + });
 ```
 
-- Testing should update selected item when it clicks on third item using Formik:
+Testing should update selected item when it clicks on third item using Formik:
 
 ### ./src/common/components/form/select/select.component.spec.tsx
 
@@ -234,7 +236,7 @@ import React from 'react';
 + });
 ```
 
-- Create `renderWithFormik`:
+Create `renderWithFormik`:
 
 ### ./src/common/components/form/select/select.component.spec.tsx
 
@@ -274,7 +276,7 @@ import { Lookup } from 'common/models';
   });
 ```
 
-- We will testing `./src/common/components/search-bar`. It has a `component` and `hook` file:
+We will testing `./src/common/components/search-bar`. It has a `component` and `hook` file:
 
 ### ./src/common/components/search-bar/search-bar.component.spec.tsx
 
@@ -292,7 +294,7 @@ describe("common/search-bar/search-bar.component specs", () => {
 });
 ```
 
-- Let's render the component and check the input element:
+Let's render the component and check the input element:
 
 ### ./src/common/components/search-bar/search-bar.component.spec.tsx
 
@@ -328,19 +330,19 @@ describe('common/search-bar/search-bar.component specs', () => {
 >
 > [Which query should I use?](https://testing-library.com/docs/guide-which-query)
 
-- Another option is using:
+Another option is using:
 
 ```javascript
 const inputElement = screen.getByPlaceholderText('test placeholder') as HTMLInputElement;
 ```
 
-- Start test watch:
+Start test watch:
 
 ```bash
 npm run test:watch search-bar
 ```
 
-- If we want to search icon element, we have to update the code:
+If we want to search icon element, we have to update the code:
 
 ### ./src/common/components/search-bar/search-bar.component.tsx
 
@@ -390,7 +392,7 @@ npm run test:watch search-bar
 
 ```
 
-- Add second spec testing `onSearch` method:
+Add second spec testing `onSearch` method:
 
 ### ./src/common/components/search-bar/search-bar.component.spec.tsx
 
@@ -424,7 +426,7 @@ import { render, screen } from '@testing-library/react';
 
 ```
 
-- Let's add `search-bar.hook` specs:
+Let's add `search-bar.hook` specs:
 
 ### ./src/common/components/search-bar/search-bar.hook.spec.tsx
 
@@ -441,7 +443,7 @@ describe("common/components/search-bar/search-bar.hook specs", () => {
 });
 ```
 
-- Let's implement first spec:
+Let's implement first spec:
 
 ### ./src/common/components/search-bar/search-bar.hook.spec.tsx
 
@@ -474,7 +476,7 @@ describe('common/components/search-bar/search-bar.hook specs', () => {
 
 ```
 
-- Testing `filteredList` when we calls `onSearch` with some color:
+Testing `filteredList` when we calls `onSearch` with some color:
 
 ### ./src/common/components/search-bar/search-bar.hook.spec.tsx
 
@@ -513,12 +515,14 @@ import { useSearchBar } from './search-bar.hook';
 
 ```
 
-- Testing it calls to `useDebounce` hook:
+Testing it calls to `useDebounce` hook:
 
 ### ./src/common/components/search-bar/search-bar.hook.spec.tsx
 
 > Care with: import * as commonHooks from 'common/hooks';
+>
 > https://stackoverflow.com/questions/53162001/typeerror-during-jests-spyon-cannot-set-property-getrequest-of-object-which
+>
 > https://github.com/babel/babel/issues/8363
 
 ```diff
@@ -545,7 +549,7 @@ import { useSearchBar } from './search-bar.hook';
   
 ```
 
-- Testing `useDebounce` result:
+Testing `useDebounce` result:
 
 ### ./src/common/components/search-bar/search-bar.hook.spec.tsx
 
@@ -574,7 +578,7 @@ import { useSearchBar } from './search-bar.hook';
 
 ```
 
-- Testing it calls to `filterByText` method:
+Testing it calls to `filterByText` method:
 
 ### ./src/common/components/search-bar/search-bar.hook.spec.tsx
 
@@ -603,7 +607,7 @@ import { useSearchBar } from './search-bar.hook';
   
 ```
 
-- Testing `filterByText` result:
+Testing `filterByText` result:
 
 ### ./src/common/components/search-bar/search-bar.hook.spec.tsx
 

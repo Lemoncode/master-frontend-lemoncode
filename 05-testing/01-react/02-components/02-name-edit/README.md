@@ -12,20 +12,20 @@ Summary steps:
 
 # Steps
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- Let's create our _name-edit_ component.
+Let's create our _name-edit_ component.
 
 ### ./src/name-edit.tsx
 
 ```javascript
 import React from 'react';
 
-export const NameEdit: React.FunctionComponent = () => {
+export const NameEdit: React.FC = () => {
   const [userName, setUserName] = React.useState('');
 
   return (
@@ -37,7 +37,7 @@ export const NameEdit: React.FunctionComponent = () => {
 };
 ```
 
-- Let's instantiate this component in our app.
+Let's instantiate this component in our app.
 
 ### ./src/app.tsx
 
@@ -57,14 +57,14 @@ export const App: React.FunctionComponent = () => {
 
 ```
 
-- Let's start implementing a test, the scenario we want to test:
+Let's start implementing a test, the scenario we want to test:
 
   - Render the _NameEdit_ component.
   - Get the input element.
   - Trigger an update over that input.
   - Check that we get that update on the _h3_ element that is displaying the userName.
 
-- If we try use `getByText`:
+If we try use `getByText`:
 
 ### ./src/name-edit.spec.tsx
 
@@ -92,7 +92,7 @@ describe('NameEdit component specs', () => {
 >
 > We could try `getAllByText` too but we should follow the priority
 
-- Let's use `byRole`:
+Let's use `byRole`:
 
 ### ./src/name-edit.spec.tsx
 
@@ -120,7 +120,7 @@ describe('NameEdit component specs', () => {
 
 ```
 
-- should update h3 text when input changes. This library comes with `fireEvent`, it will simply trigger some event over the element but in some cases, [we could have some issues](https://github.com/testing-library/react-testing-library/issues/322). So let's install [@testing-library/user-event](https://github.com/testing-library/user-event) is a package that's built on top of `fireEvent`, but it provides several methods that resemble the user interactions more closely:
+Should update h3 text when input changes. This library comes with `fireEvent`, it will simply trigger some event over the element but in some cases, [we could have some issues](https://github.com/testing-library/react-testing-library/issues/322). So let's install [@testing-library/user-event](https://github.com/testing-library/user-event) is a package that's built on top of `fireEvent`, but it provides several methods that resemble the user interactions more closely:
 
 ```bash
 npm install @testing-library/user-event @testing-library/dom --save-dev
@@ -136,6 +136,7 @@ import { render, screen } from '@testing-library/react';
 import { NameEdit } from './name-edit';
 
 ...
+
 + it('should update h3 text when input changes', async () => {
 +   // Arrange
 

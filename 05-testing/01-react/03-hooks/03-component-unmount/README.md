@@ -6,13 +6,13 @@ We will start from `02-fetch`.
 
 # Steps
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
 
-- Let's create an `usePolling` custom hook:
+Let's create an `usePolling` custom hook:
 
 ### ./src/polling.hooks.ts
 
@@ -40,7 +40,7 @@ export const usePolling = (pollingTime: number) => {
 
 > NOTE: [useState functional updates](https://reactjs.org/docs/hooks-reference.html#functional-updates)
 
-- Let's add some specs:
+Let's add some specs:
 
 ### ./src/polling.hooks.spec.ts
 
@@ -58,7 +58,7 @@ describe('usePolling specs', () => {
 
 ```
 
-- should return count equals 0 when initialize the hook:
+Should return count equals 0 when initialize the hook:
 
 ### ./src/polling.hooks.spec.ts
 
@@ -79,7 +79,7 @@ describe('usePolling specs', () => {
 
 ```
 
-- should return count equals 1 when it waits for next update:
+Should return count equals 1 when it waits for next update:
 
 ### ./src/polling.hooks.spec.ts
 
@@ -105,12 +105,13 @@ import { usePolling } from './polling.hooks';
 
 ```
 
-- should return count equals 3 when it waits 3 times for next update:
+Should return count equals 3 when it waits 3 times for next update:
 
 ### ./src/polling.hooks.spec.ts
 
 ```diff
 ...
+
 + it('should return count equals 3 when it waits 3 times for next update', async () => {
 +   // Arrange
 +   const pollingTime = 500;
@@ -126,7 +127,7 @@ import { usePolling } from './polling.hooks';
 
 ```
 
-- Could we wait until value is three?:
+Could we wait until value is three?:
 
 ### ./src/polling.hooks.spec.ts
 
@@ -156,6 +157,7 @@ import { usePolling } from './polling.hooks';
 
 ```diff
 ...
+
 + it('should call clearInterval when it unmounts the component', () => {
 +   // Arrange
 +   const pollingTime = 500;

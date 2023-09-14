@@ -110,7 +110,7 @@ describe('NameEdit component specs', () => {
 
 -   const h3Element = screen.getByText('');
 +   const h3Element = screen.getByRole('heading', { level: 3 });
-+   const inputElement = screen.getByRole('textbox') as HTMLInputElement;
++   const inputElement = screen.getByRole('textbox');
 
     // Assert
 +   expect(h3Element).toBeInTheDocument();

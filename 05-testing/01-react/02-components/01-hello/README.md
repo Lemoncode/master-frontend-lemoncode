@@ -321,7 +321,10 @@ describe('SayHello component specs', () => {
 
     // Assert
 -   const element = screen.getByText('Hello John');
-+   const element = screen.getByRole('heading', { name: 'Hello John' });
++   const element = screen.getByRole('heading', {
++     level: 1,
++     name: 'Hello John',
++   });
     expect(element).not.toBeNull();
     expect(element.tagName).toEqual('H1');
   });
@@ -336,7 +339,10 @@ describe('SayHello component specs', () => {
     render(<SayHello person={person} />);
 
 -   const element = screen.getByText('Hello John');
-+   const element = screen.getByRole('heading', { name: 'Hello John' });
++   const element = screen.getByRole('heading', {
++     level: 1,
++     name: 'Hello John',
++   });
 
     // Assert
     expect(element).toBeInTheDocument();

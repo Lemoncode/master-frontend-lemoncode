@@ -35,6 +35,24 @@ npm install
 npm run test:e2e:ci
 ```
 
+Update config:
+
+### ./cypress.config.ts
+
+```diff
+import { defineConfig } from 'cypress';
+
+export default defineConfig({
+  e2e: {
+    baseUrl: 'http://localhost:8080/#',
+    specPattern: 'cypress/e2e/**/*.spec.{js,jsx,ts,tsx}',
++   video: true,
++   screenshotOnRunFailure: true,
+  },
+});
+
+```
+
 - Notice that `cypress` has added `screenshots` and `videos` with failing specs, we should ignore these folder for git:
 
 ### ./.gitignore

@@ -102,7 +102,8 @@ describe('Hotel collection specs', () => {
 
 ```
 
-> [intercept method](https://docs.cypress.io/api/commands/intercept.htm)
+> [intercept method](https://docs.cypress.io/api/commands/intercept)
+>
 > Mock data, 404 responses, etc
 
 - This is a common task that we will have to do, so cypress provide the `fixtures` approach:
@@ -185,7 +186,7 @@ describe('Hotel collection specs', () => {
 -   cy.fixture('hotels').then((hotels) => {
 -     cy.intercept('GET', '/api/hotels', hotels);
 -   });
-+   cy.intercept('GET', '/api/hotels', { fixture: 'hotels.json' });
++   cy.intercept('GET', '/api/hotels', { fixture: 'hotels' });
 
     // Act
     cy.visit('/hotel-collection');

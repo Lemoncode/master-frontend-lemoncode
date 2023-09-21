@@ -178,6 +178,7 @@ describe('Login specs', () => {
 ```
 
 > NOTE: we have only the `find` methods available due to cypress async way.
+>
 > [Which query should I use?](https://testing-library.com/docs/guide-which-query)
 
 - Checking modal error message when click on button with invalid credentials:
@@ -214,6 +215,7 @@ describe('Login specs', () => {
 ```
 
 > More info in [event-types](https://docs.cypress.io/api/events/catalog-of-events.html#Event-Types)
+>
 > This stub is not necessary if we use the Snackbar component or similar.
 
 - Now, we could test when it's a succeded login:

@@ -53,8 +53,8 @@ describe('Hotel edit specs', () => {
 
     // Act
 +   cy.loadAndVisit('/api/hotels', '/hotel-collection');
-+   cy.findAllByRole('button', { name: 'Edit hotel' }).then(($buttons) => {
-+     $buttons[1].click();
++   cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {
++     buttons[1].click();
 +   });
 
     // Assert
@@ -63,7 +63,6 @@ describe('Hotel edit specs', () => {
 
 ```
 
-> Since cypress v10 $ prefix in elements is required. If it is not added the spec may fail.
 > [Official docs](https://docs.cypress.io/api/commands/then)
 
 - Add update hotel spec:
@@ -123,6 +122,7 @@ describe('Hotel edit specs', () => {
 ```
 
 > Notice: some this has to wait until it has some value.
+>
 > [Wait default timeouts](https://docs.cypress.io/api/commands/wait#Timeouts)
 
 - Refactor command:
@@ -229,8 +229,8 @@ declare namespace Cypress {
 +       { path: '/api/cities' },
 +     ],
 +     () => {
-+       cy.findAllByRole('button', { name: 'Edit hotel' }).then(($buttons) => {
-+         $buttons[1].click();
++       cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {
++         buttons[1].click();
 +       });
 +     }
 +   );
@@ -288,7 +288,7 @@ declare namespace Cypress {
     // Act
 -   cy.loadAndVisit('/api/hotels', '/hotel-collection', 'hotels.json');
 +   cy.loadAndVisit('/hotel-collection', [
-+     { path: '/api/hotels', fixture: 'hotels.json' },
++     { path: '/api/hotels', fixture: 'hotels' },
 +   ]);
 
     // Assert

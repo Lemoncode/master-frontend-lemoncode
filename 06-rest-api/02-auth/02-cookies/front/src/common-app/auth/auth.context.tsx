@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { UserSession, createEmptyUserSession } from './auth.vm';
 
 interface Context {
@@ -8,7 +8,7 @@ interface Context {
 
 export const AuthContext = React.createContext<Context>(null);
 
-export const AuthProviderComponent: React.FunctionComponent = (props) => {
+export const AuthProviderComponent: React.FC<PropsWithChildren> = (props) => {
   const [userSession, setUserSession] = React.useState(
     createEmptyUserSession()
   );

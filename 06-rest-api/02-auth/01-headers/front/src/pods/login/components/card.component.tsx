@@ -1,13 +1,13 @@
-import React from 'react';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
+import React, { PropsWithChildren } from 'react';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
 
-interface Props {
+interface Props extends PropsWithChildren {
   title: string;
 }
 
-export const CardComponent: React.FunctionComponent<Props> = (props) => {
+export const CardComponent: React.FC<Props> = (props) => {
   const { title, children } = props;
   return (
     <Card>

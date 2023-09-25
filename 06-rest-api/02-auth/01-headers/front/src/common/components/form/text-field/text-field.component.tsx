@@ -1,9 +1,9 @@
 import React from 'react';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import { useField } from 'formik';
 import MuiTextField, {
   TextFieldProps as MuiTextFieldProps,
-} from '@material-ui/core/TextField';
+} from '@mui/material/TextField';
 import * as innerClasses from './text-field.styles';
 
 export interface TextFieldProps extends Omit<MuiTextFieldProps, 'variant'> {

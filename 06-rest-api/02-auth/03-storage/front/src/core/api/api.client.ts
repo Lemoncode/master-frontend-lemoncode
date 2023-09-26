@@ -4,10 +4,10 @@ import { getHeader } from './api.helpers';
 
 export const axiosClient = Axios.create();
 
-axiosClient.interceptors.request.use((config) => ({
-  ...config,
-  headers: {
-    ...config.headers,
-    [headerConstants.authorization]: getHeader(headerConstants.authorization),
-  },
-}));
+axiosClient.interceptors.request.use((config) => {
+  config.headers.set(
+    headerConstants.authorization,
+    getHeader(headerConstants.authorization)
+  );
+  return config;
+});

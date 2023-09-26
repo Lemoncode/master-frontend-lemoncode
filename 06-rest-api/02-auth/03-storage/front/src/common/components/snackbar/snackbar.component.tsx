@@ -1,8 +1,8 @@
 import React from 'react';
-import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import SnackbarContent from '@mui/material/SnackbarContent';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import { SnackbarContext } from './snackbar.context';
 import * as classes from './snackbar.styles';
 
@@ -11,7 +11,7 @@ interface Props {
   position?: SnackbarOrigin;
 }
 
-export const SnackbarComponent: React.FunctionComponent<Props> = props => {
+export const SnackbarComponent: React.FunctionComponent<Props> = (props) => {
   const { position, autoHideDuration } = props;
   const { open, onClose, options } = React.useContext(SnackbarContext);
 

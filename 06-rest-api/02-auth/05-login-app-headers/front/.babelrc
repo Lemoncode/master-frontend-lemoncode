@@ -4,5 +4,5 @@
     "@babel/preset-typescript",
     "@babel/preset-react"
   ],
-  "plugins": ["react-hot-loader/babel", "emotion"]
+  "plugins": ["@emotion"]
 }

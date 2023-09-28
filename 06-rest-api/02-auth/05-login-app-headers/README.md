@@ -141,7 +141,7 @@ export const logout = async (): Promise<boolean> => {
 _./front/src/common-app/auth/auth.hooks.ts_
 
 ```javascript
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSnackbarContext } from 'common/components';
 import { linkRoutes } from 'core/router';
 import { AxiosError } from 'axios';
@@ -149,7 +149,7 @@ import { AxiosError } from 'axios';
 type Request = (...params: any[]) => Promise<any>;
 
 export const useAuthRequest = <T extends Request[]>(...requestList: T): T => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { showMessage } = useSnackbarContext();
 
   const authRequestList = requestList.map((request) => async (...params) => {
@@ -157,7 +157,7 @@ export const useAuthRequest = <T extends Request[]>(...requestList: T): T => {
       return await request(...params);
     } catch (errorResponse) {
       if (isAuthError(errorResponse)) {
-        history.push(linkRoutes.login);
+        navigate(linkRoutes.login);
         showMessage('You should login', 'error');
         throw undefined;
       }

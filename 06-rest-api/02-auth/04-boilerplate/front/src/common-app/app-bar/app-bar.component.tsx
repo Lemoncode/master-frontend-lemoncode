@@ -14,9 +14,11 @@ export const AppBarComponent: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await api.logout();
-    onChangeUserSession(createEmptyUserSession());
-    navigate(-1);
+    try {
+      await api.logout();
+      onChangeUserSession(createEmptyUserSession());
+      navigate(-1);
+    } catch {}
   };
 
   return (

@@ -25,11 +25,9 @@
     "url": "git+https://github.com/Lemoncode/master-frontend-lemoncode.git"
   },
   "scripts": {
-    "start": "lite-server -c bs-config.json"
+    "start": "browser-sync start -c bs-config.json"
   },
   "dependencies": {
-    "lite-server": "^2.x"
-  },
-  "peerDependencies": {},
-  "devDependencies": {}
+    "browser-sync": "^2.29.3"
+  }
 }

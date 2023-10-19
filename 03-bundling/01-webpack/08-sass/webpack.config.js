@@ -1,16 +1,14 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const path = require("path");
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
-module.exports = {
+export default {
   entry: {
     app: "./src/students.js",
     vendorStyles: ["./node_modules/bootstrap/dist/css/bootstrap.css"],
   },
   output: {
     filename: "[name].[chunkhash].js",
-    path: path.resolve(__dirname, "dist"),
+    clean: true,
   },
   module: {
     rules: [
@@ -22,13 +20,16 @@ module.exports = {
       {
         test: /\.scss$/,
         exclude: /node_modules/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
       },
       {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
       },
     ],
+  },
+  devServer: {
+    port: 8080,
   },
   plugins: [
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
@@ -41,9 +42,5 @@ module.exports = {
       filename: "[name].css",
       chunkFilename: "[id].css",
     }),
-    new CleanWebpackPlugin(),
   ],
-  devServer: {
-    port: 8080,
-  },
 };

@@ -1,8 +1,8 @@
-const { merge } = require("webpack-merge");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const common = require("./webpack.common.js");
+import { merge } from "webpack-merge";
+import common from "./webpack.common.js";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
-module.exports = merge(common, {
+export default merge(common, {
   mode: "production",
   output: {
     filename: "js/[name].[chunkhash].js",
@@ -20,6 +20,7 @@ module.exports = merge(common, {
             options: {
               modules: {
                 exportLocalsConvention: "camelCase",
+                localIdentName: "[path][name]__[local]--[hash:base64:5]",
               },
             },
           },

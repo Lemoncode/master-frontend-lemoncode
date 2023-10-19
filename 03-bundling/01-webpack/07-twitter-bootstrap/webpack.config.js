@@ -1,15 +1,14 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const path = require("path");
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
-module.exports = {
+export default {
   entry: {
     app: "./src/students.js",
-    vendorStyles: ["./node_modules/bootstrap/dist/css/bootstrap.css"],
+    vendorStyles: ['./node_modules/bootstrap/dist/css/bootstrap.css'],
   },
   output: {
     filename: "[name].[chunkhash].js",
-    path: path.resolve(__dirname, "dist"),
+    clean: true,
   },
   module: {
     rules: [
@@ -24,6 +23,9 @@ module.exports = {
       },
     ],
   },
+  devServer: {
+    port: 8080,
+  },
   plugins: [
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
@@ -31,9 +33,9 @@ module.exports = {
       template: "./src/index.html", //Name of template in ./src
       scriptLoading: "blocking", // Just use the blocking approach (no modern defer or module)
     }),
-    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css",
+    }),
   ],
-  devServer: {
-    port: 8080,
-  },
 };

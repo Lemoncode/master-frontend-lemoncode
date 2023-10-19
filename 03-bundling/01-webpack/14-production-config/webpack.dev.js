@@ -1,8 +1,11 @@
-const { merge } = require("webpack-merge");
-const common = require("./webpack.common.js");
-const path = require("path");
+import { merge } from "webpack-merge";
+import common from "./webpack.common.js";
+import path from "path";
+import url from "url";
 
-module.exports = merge(common, {
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+
+export default merge(common, {
   mode: "development",
   module: {
     rules: [
@@ -17,7 +20,6 @@ module.exports = merge(common, {
               modules: {
                 exportLocalsConvention: "camelCase",
                 localIdentName: "[path][name]__[local]--[hash:base64:5]",
-                localIdentContext: path.resolve(__dirname, "src"),
               },
             },
           },
@@ -26,9 +28,16 @@ module.exports = merge(common, {
       },
     ],
   },
-  stats: "errors-only",
   devtool: "eval-source-map",
   devServer: {
     port: 8080,
+    open: true,
+    hot: true,
+    static: {
+      directory: path.join(__dirname, "src"),
+    },
+    devMiddleware: {
+      stats: "errors-only",
+    },
   },
 });

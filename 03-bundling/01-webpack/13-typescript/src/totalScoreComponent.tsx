@@ -2,7 +2,7 @@ import React from "react";
 import { getTotalScore } from "./averageService";
 import classes from "./totalScoreComponentStyles.scss";
 
-export const TotalScoreComponent: React.FC = () => {
+export const TotalScoreComponent : React.FC = () => {
   const [totalScore, setTotalScore] = React.useState(0);
 
   React.useEffect(() => {
@@ -12,6 +12,9 @@ export const TotalScoreComponent: React.FC = () => {
 
   return (
     <div>
+      <span className={classes.resultBackground}>
+        Students total score: {totalScore}
+      </span>
       <div className="card" style={{ width: 180 }}>
         <div className="card-body">
           <h5 className="card-title">Card title</h5>

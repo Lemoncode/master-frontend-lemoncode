@@ -1,15 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "es6",
-    "moduleResolution": "node",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "declaration": false,
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "jsx": "react",
     "noLib": false,
-    "suppressImplicitAnyIndexErrors": true,
     "skipLibCheck": true,
     "esModuleInterop": true
   },

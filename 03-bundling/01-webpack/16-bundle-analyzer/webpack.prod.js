@@ -1,9 +1,9 @@
-const { merge } = require("webpack-merge");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const common = require("./webpack.common.js");
-const Dotenv = require("dotenv-webpack");
+import { merge } from "webpack-merge";
+import common from "./webpack.common.js";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import Dotenv from "dotenv-webpack";
 
-module.exports = merge(common, {
+export default merge(common, {
   mode: "production",
   output: {
     filename: "js/[name].[chunkhash].js",
@@ -18,9 +18,10 @@ module.exports = merge(common, {
           name: (module) => {
             const packageName = module.context.match(
               /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-            )[1];
-            // npm package names are URL-safe, but some servers don't like @ symbols
-            return `vendor/${packageName.replace("@", "")}`;
+            )?.[1];
+            return packageName
+              ? `vendor/${packageName.replace("@", "")}`
+              : null;
           },
           test: /[\\/]node_modules[\\/]/,
           enforce: true,
@@ -40,6 +41,7 @@ module.exports = merge(common, {
             options: {
               modules: {
                 exportLocalsConvention: "camelCase",
+                localIdentName: "[path][name]__[local]--[hash:base64:5]",
               },
             },
           },

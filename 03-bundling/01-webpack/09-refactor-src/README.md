@@ -12,11 +12,14 @@ Por otro lado el fichero _`students.js`_ es el punto de entrada de nuestra aplic
 _./webpack.config.js_
 
 ```diff
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-+ const path = require("path");
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
++ import path from "path";
++ import url from "url";
 
-module.exports = {
++ const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+
+export default {
 +  context: path.resolve(__dirname, "./src"),
   entry: {
 -    app: "./src/students.js",
@@ -49,12 +52,14 @@ _bootstrap_ tenemos que subir un nivel para llegar a **`node_modules`**
 _./webpack.config.js_
 
 ```diff
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const path = require("path");
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import path from "path";
+import url from "url";
 
-module.exports = {
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+
+export default {
   context: path.resolve(__dirname, "./src"),
   entry: {
 - 	 app: "./students.js",

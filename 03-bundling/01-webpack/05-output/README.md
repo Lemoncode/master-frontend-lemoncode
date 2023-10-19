@@ -40,10 +40,10 @@ fichero de configuración de _webpack_:
 _./webpack.config.js_
 
 ```diff
-const path = require("path");
-+ const HtmlWebpackPlugin = require('html-webpack-plugin');
+import path from "path";
++ import HtmlWebpackPlugin from "html-webpack-plugin";
 
-module.exports = {
+export default {
   entry: ['./students.js'],
   .....
 ```
@@ -88,7 +88,10 @@ en el caso del _wepback-dev-server_.
 
 _/webpack.config.js_
 ```diff
-- const path = require("path");
+- import path from "path";
+- import url from "url";
+
+- const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
   .......
   plugins: [
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin

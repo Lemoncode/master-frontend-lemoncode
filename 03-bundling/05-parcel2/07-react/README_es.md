@@ -49,6 +49,7 @@ _./src/index.html_
 ```diff
 <html>
 <body>
+-  <h1>Check the console log</h1>
 +  <div id="root">
 +  </div>
 -   <script type="module" src="./index.ts"></script>
@@ -62,9 +63,8 @@ _./src/index.html_
 _./src/index.tsx_
 
 ```typescript
-import React from "react";
 import { createRoot } from "react-dom/client";
-import { HelloComponent } from "./hello";
+import { HelloComponent } from "./hello.jsx";
 
 const root = createRoot(document.getElementById("root"));
 root.render(

@@ -49,6 +49,19 @@ _.[/src/index.html](./src/index.html)_
 </html>
 ```
 
+- Le decimos que va a ser de tipo _module_ para que pueda entender las importaciones y exportaciones de _ES6_.
+
+```diff
+{
+  "name": "parcel",
+  "version": "1.0.0",
+  "description": "",
++  "type": "module",
+  "browserslist": "last 1 versions",
+  "scripts": {
+...
+```
+
 - Ahora añadimos este comando al [package.json](./package.json):
 
 _[package.json](./package.json)_
@@ -63,7 +76,7 @@ _[package.json](./package.json)_
 - Ejecutamos la _build_
 
 ```bash
-npm run start
+npm start
 ```
 
 > Se generó una nueva carpeta, _[/dist](./dist)_. Qué contiene el bundle.
@@ -133,6 +146,7 @@ _[./package.json](./package.json)_
   "name": "parcel",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
 +  "browserslist": [
 +    "defaults"
 +  ],
@@ -141,6 +155,25 @@ _[./package.json](./package.json)_
     "build": "parcel ./src/index.html"
   },
 ```
+
+O si queremos ser más específicos, podemos añadir la versión de los navegadores que queremos que soporte.
+
+_[./package.json](./package.json)_
+
+```diff
+{
+  "name": "parcel",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
++ "browserslist": "last 1 version",
+  "main": "index.js",
+  "scripts": {
+    "build": "parcel ./src/index.html"
+  },
+```
+
+Aquí le estamos diciendo que soporte la última versión de los navegadores.
 
 - Volvamos a generar el _bundle_ y vemos que ahora nuestro código sí ha sido transpilado.
 
@@ -151,9 +184,9 @@ npm run build
 - Obtenemos una versión minificada de nuestro código y transpilada.
 
 ```javascript
-var user = "John Doe";
-console.log("Hello ".concat(user, "!"));
-//# sourceMappingURL=index.c90810f0.js.map
+console.log("Hello ".concat("John Doe","!"));//# sourceMappingURL=index.eb25bb3a.js.map
+
+//# sourceMappingURL=index.eb25bb3a.js.map
 ```
 
 - Hay un problema: Los archivos antiguos no se borran, vamos a añadir un plugin, llamado **rim-raf** para asegurarnos de que estamos limpiando la carpeta _[/dist](./dist)_ antes de generar el _bundle_.
@@ -179,7 +212,7 @@ _[package.json](./package.json)_
 
 - Añadimos nuestro **script** para lanzar nuestra aplicación, **start**, dentro de [package.json](./package.json) y añadimos el _flag_ _--open_ para que se abra en nuestro navegador automáticamente cuando se ejecute:
 
-_[package.json](./package.json)_
+_./package.json_
 
 ```diff
   "scripts": {
@@ -197,7 +230,8 @@ _[package.json](./package.json)_
   "name": "parcel",
   "version": "1.0.0",
   "description": "",
-  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "type": "module",
+  "browserslist": "last 1 versions",
 + "source": "src/index.html",
   "scripts": {
 -   "start": "rimraf dist && parcel ./src/index.html --open",

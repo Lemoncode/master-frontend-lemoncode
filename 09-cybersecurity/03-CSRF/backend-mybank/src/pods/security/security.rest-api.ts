@@ -49,32 +49,39 @@ securityApi
     res.sendStatus(200);
   })
 
-  .get("/edit", authenticationMiddleware, async (req, res, next) => {
-    try {
-      const newUserEmail = await userRepository.updateEmail(
-        req.userSession?.id,
-        req.query.email.toString()
-      );
-      console.log(
-        `User ${req.userSession?.id} email changed to ${newUserEmail}`
-      );
-      res.send("Email changed");
-    } catch (error) {
-      next(error);
-    }
-  })
-
   .post("/edit", authenticationMiddleware, async (req, res, next) => {
     try {
       const newUserEmail = await userRepository.updateEmail(
         req.userSession?.id,
-        req.body.email
+        req.body.email,
       );
       console.log(
         `User ${req.userSession?.id} email changed to ${newUserEmail}`
       );
-      res.send("Email changed");
+      res.status(200).json({
+        message: "Email changed",
+        newEmail: newUserEmail,
+      });
     } catch (error) {
+      console.log("something happended");
       next(error);
     }
-  });
+  })
+
+  // .get("/edit", authenticationMiddleware, async (req, res, next) => {
+  //   try {
+  //     const newUserEmail = await userRepository.updateEmail(
+  //       req.userSession?.id,
+  //       req.query.email.toString(),
+  //     );
+  //     console.log(
+  //       `User ${req.userSession?.id} email changed to ${newUserEmail}`
+  //     );
+  //     res.status(200).json({
+  //       message: "Email changed",
+  //       newEmail: newUserEmail,
+  //     });
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // });

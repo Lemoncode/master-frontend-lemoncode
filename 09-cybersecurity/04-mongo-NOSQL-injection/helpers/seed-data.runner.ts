@@ -20,6 +20,16 @@ export const run = async () => {
       age: 25,
       email: "pedro@email.com",
     },
+    {
+      name: "Maria Puertas",
+      age: 28,
+      email: "maria@email.com",
+    },
+    {
+      name: "Ana Gutierrez",
+      age: 33,
+      email: "Ana@email.com",
+    },
   ];
 
   await dbInstance.collection("users").insertMany(userList);

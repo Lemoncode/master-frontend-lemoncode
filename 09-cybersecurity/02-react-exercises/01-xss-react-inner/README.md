@@ -1,12 +1,14 @@
 # XSS con React - Ejercicio 1
 
-Si utilizamos un _framework_ tenemos protección adicional contra ataques xss, pero ¿es esto siempre así?. En una aplicación es muy común que te pidan añadir código HTML, en _JavaScript_ utilizamos _innerHTML_, pero _React_ nos ofrece su alternativa  [*dangerouslySetInnerHTML*](https://reactjs.org/docs/dom-elements.html), pero esto puede llegar a ser muy peligroso para la seguridad de nuestra aplicación. Para evitar esto se recomienda el uso de *Markdown*, que en principio no acepta _HTML_ aunque se podría configurar para que sí lo acepte. 
+Si utilizamos un _framework_ tenemos protección adicional contra ataques XSS, pero ¿es esto siempre así?
 
-En el siguiente ejemplo veremos el problema de usar _dangerouslySetInnerHTML_ y utilizaremos una librería externa, llamada DomPurify, para arreglar este agujero de seguridad.
+En una aplicación es muy común que te pidan añadir código HTML. Si en _JavaScript_ utilizábamos `innerHTML`, _React_ nos ofrece su alternativa: [_dangerouslySetInnerHTML_](https://reactjs.org/docs/dom-elements.html). Esto puede llegar a ser muy peligroso para la seguridad de nuestra aplicación. Para evitar esto se recomienda el uso de _Markdown_, que en principio no acepta _HTML_ aunque se podría configurar para que sí lo acepte.
 
-# Manos a la obra
+En el siguiente ejemplo veremos el problema de usar `dangerouslySetInnerHTML` y utilizaremos una librería externa, llamada DomPurify, para arreglar este agujero de seguridad.
 
->## Instalación:
+## Manos a la obra
+
+>## Instalación
 
 Vamos a ejecutar desde la línea de comandos **`npm install`** para instalar las dependencias que tenemos en nuestro _package.json_.
 
@@ -20,17 +22,17 @@ Una vez instaladas nuestras dependencias vamos a hacer **`npm start`** para arra
 npm start
 ```
 
-Abrimos el navegador y vamos a la url: 
+Abrimos el navegador y vamos a la siguiente URL:
 
 [**http://localhost:1234**](http://localhost:1234)
 
 >## Pasos
 
-Tenemos un _input_  donde vamos a introducir un texto, el cuál lo mostraremos en pantalla debajo del formulario, justo después de hacer _submit_. 
+Tenemos un `input`  donde vamos a introducir un texto, el cuál lo mostraremos en pantalla debajo del formulario, justo después de hacer `submit`.
 
-Para esto hemos creado un estado donde almacenaremos el valor del _input_ y luego lo pintaremos en un _h2_ con la ayuda de _*dangerouslySetInnerHTML*_.
+Para esto hemos creado un estado donde almacenaremos el valor del _input_ y luego lo pintaremos en un _h2_ con la ayuda de `dangerouslySetInnerHTML`.
 
-*./src/app.tsx*
+_./src/app.tsx_:
 
 ```tsx
 import React from "react";
@@ -45,7 +47,7 @@ export const App: React.FC = () => {
 .....
 ```
 
-Si probamos como hicimos en el ejemplo anterior e introducimos una etiqueta *script* y hacemos la petición:
+Si probamos como hicimos en el ejemplo anterior e introducimos una etiqueta `script` y hacemos la petición:
 
 ```javascript
 Soy el contenido del input
@@ -56,13 +58,11 @@ Soy el contenido del input
 
 Si inspeccionamos el código vemos que nos pinta el texto y nos ignora el _script_ sin pintarlo por pantalla, es decir, lo está ignorando por seguridad.
 
-<img src="./assets/01.PNG" style="zoom:67%;" />
+![01](assets/01.png)
 
+Pero podemos saltarnos esta seguridad haciendo el uso del evento `onerror` la etiqueta `img` como hicimos en el ejemplo anterior.
 
-
-Pero podemos saltarnos esta seguridad haciendo el uso del evento *onerror* la etiqueta *img* como hicimos en el ejemplo anterior.
-
-Vamos a hacer un primer ejemplo introduciendo un *alert* como ya hicimos:
+Vamos a hacer un primer ejemplo introduciendo un `alert` como ya hicimos:
 
 ```html
 <img src='x' onerror='alert("la hemos liao")'>
@@ -70,7 +70,7 @@ Vamos a hacer un primer ejemplo introduciendo un *alert* como ya hicimos:
 
 Y nos mostaría el siguiente resultado:
 
-<img src="./assets/02.PNG" style="zoom: 50%;" />
+![02](assets/02.png)
 
 Incluso otro ejemplo sería modificar el _background_:
 
@@ -80,9 +80,7 @@ Incluso otro ejemplo sería modificar el _background_:
 
 Y veríamos nuestro fondo cambiado:
 
-<img src="./assets/03.PNG" style="zoom: 50%;" />
-
-
+![03](assets/03.png)
 
 >## Cómo solucionarlo
 
@@ -90,8 +88,9 @@ Para solucionar esta vulnerabilidad podemos utilizar una librería de terceros l
 
 Vamos a empezar por su instalación, abrimos nuestra terminal y lo instalamos:
 
-```
+```bash
 npm install dompurify --save
+npm install @types/dompurify --save-dev
 ```
 
 Ahora vamos dentro de _./src/app.tsx_ y vamos a refactorizar nuestro código y hacer uso de esta libería.
@@ -108,8 +107,8 @@ export const App: React.FC = () => {
 + const sanitizer = DOMPurify.sanitize;
 .....
 
--           <h2 dangerouslySetInnerHTML={{ __html: output }}></h2> 
-+    		<h2 dangerouslySetInnerHTML={{ __html: sanitizer(output) }}></h2>
+-     <h2 dangerouslySetInnerHTML={{ __html: output }}></h2> 
++     <h2 dangerouslySetInnerHTML={{ __html: sanitizer(output) }}></h2>
       <img src={logo} alt="logo" className={classes.image} />
     </div>
   );
@@ -124,4 +123,4 @@ Si volvemos a introducir el código malicioso por el input:
 
 Vemos que ya no modifica el _background_ de nuestra aplicación.
 
-<img src="./assets/04.png" style="zoom: 50%;" />
+![04](assets/04.png)

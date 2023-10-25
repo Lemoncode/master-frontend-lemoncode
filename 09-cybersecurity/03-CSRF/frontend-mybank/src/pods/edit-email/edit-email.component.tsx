@@ -1,10 +1,16 @@
 import React from "react";
 
-export const EditEmail: React.FC = () => {
+interface Props {
+  onChangeEmail: (newEmail: string) => void;
+}
+
+export const EditEmail: React.FC<Props> = (props) => {
+  const { onChangeEmail } = props;
   const [newEmail, setNewEmail] = React.useState<string>("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    onChangeEmail(newEmail);
   };
   return (
     <div className="container">

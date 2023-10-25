@@ -4,14 +4,12 @@ Las bases de datos NoSQL se diferencian de las bases de datos SQL tradicionales 
 
 En este ejemplo aprenderemos a explotar vulnerabilidades de este tipo.
 
-## Manos a la obra
-
-> ## Requisitos
+## Requisitos
 
 - Tener instalado [Docker](https://www.docker.com/products/docker-desktop)
 - Tener instalado [MongoDB Compass](https://www.mongodb.com/try/download/compass)
 
-> ## Instalación
+## Instalación
 
 Instalamos las dependencias:
 
@@ -19,11 +17,9 @@ Instalamos las dependencias:
 npm install
 ```
 
-> ## Pasos
+## Pasos
 
-Si ya tenemos un contenedor con mongo instanciado en el puerto
-por defecto, vamos a pararlo ya que vamos a usar el de pruebas
-que creamos aquí.
+Si ya tenemos un contenedor con mongo instanciado en el puerto por defecto, vamos a pararlo ya que vamos a usar el de pruebas que creamos aquí.
 
 Arrancamos nuestra aplicación con `npm start`.
 
@@ -47,7 +43,7 @@ Vamos a tener una aplicación vulnerable donde hemos utilizado el operador de co
 
 _04-mongo-NOSQL-injection\helpers/find-without-sleep.runner.ts_:
 
-```javascript
+```js
 .....
 const search = "Juan Pérez";
 
@@ -71,7 +67,7 @@ Ahora vamos a ver como podemos explotar esta vulnerabilidad. Para esto vamos a u
 
 _04-mongo-NOSQL-injection\helpers/find-with-sleep.runner.ts_:
 
-```javascript
+```js
 .....
 const filter = "'Juan Pérez';sleep(5000)";
   const fn =

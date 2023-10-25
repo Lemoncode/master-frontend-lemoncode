@@ -10,11 +10,9 @@ Vamos a tener tres partes funcionando:
 - El backend de un banco.
 - El frontend de un sitio malicioso que recopila información.
 
-## Manos a la obra
+## Instalación
 
-> ## Instalación
-
-Hacemos un _npm install_ en el directorio de trabajo que es el 03-CSRF e instalamos todas las dependencias de las 3 apps.
+Hacemos un `npm install` en este mismo directorio, para así instalar las dependencias de las 3 apps.
 
 ```bash
 npm install

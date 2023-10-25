@@ -1,22 +1,20 @@
-# XSS con React - Ejercicio 2
+# XSS con React - Ejercicio 2 - href
 
 En este ejemplo vamos a ver cómo se comporta React ante un ataque XSS en el que se inyecta código JavaScript en una etiqueta anchor.
 
 Para ello vamos a tener un _input_ en el que vamos a poder escribir la URL a la que queremos navegar. Cuando pulsemos el botón de _Ir_ se nos navegará a la URL que hayamos escrito.
 
-## Manos a la obra
+## Instalación
 
-> ## Instalación
+Vamos a ejecutar desde la línea de comandos `npm install` para instalar las dependencias que tenemos en nuestro _package.json_.
 
-Vamos a ejecutar desde la línea de comandos **`npm install`** para instalar las dependencias que tenemos en nuestro _package.json_.
-
-```javascript
+```bash
 npm install
 ```
 
-Una vez instaladas nuestras dependencias vamos a hacer **`npm start`** para arrancar nuestra aplicación.
+Una vez instaladas nuestras dependencias vamos a hacer `npm start` para arrancar nuestra aplicación.
 
-```javascript
+```bash
 npm start
 ```
 
@@ -30,7 +28,7 @@ Tenemos un _input_ donde vamos a introducir una dirección web. Cuando pulsemos 
 
 _./src/app.tsx_:
 
-```javascript
+```tsx
 ......
     <input
       value={enlace}
@@ -46,7 +44,7 @@ _./src/app.tsx_:
 
 Vamos a empezar probando a la URL de lemoncode:
 
-```bash
+```text
 https://lemoncode.net
 ```
 
@@ -58,7 +56,7 @@ Vemos que nos navega correctamente a la página de lemoncode.
 
 Ahora vamos a probar a introducir una URL maliciosa:
 
-```javascript
+```js
 javascript: alert("la hemos liado");
 ```
 
@@ -95,7 +93,7 @@ Y vemos que nos sigue mostrando el alert. Así que con la versión estable de _R
 
 ![04](assets/04.png)
 
->## Cómo solucionarlo
+## Cómo solucionarlo
 
 Para solucionar esta vulnerabilidad necesitamos dos cosas:
 

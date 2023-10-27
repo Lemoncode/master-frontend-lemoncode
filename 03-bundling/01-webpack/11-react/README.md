@@ -116,7 +116,7 @@ _./webpack.config.js_
 
 ```diff
   ...
-  module.exports = {
+  export default {
     context: path.resolve(__dirname, "./src"),
 +   resolve: {
 +     extensions: ['.js', '.jsx'],
@@ -136,7 +136,7 @@ _./webpack.config.js_
 
 ```diff
   ...
-  module.exports = {
+  export default {
     ...
     module: {
       rules: [

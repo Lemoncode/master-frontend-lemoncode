@@ -1,4 +1,4 @@
-import { getAvg } from './averageService';
+import { getAvg } from "./averageService.js";
 import "./mystyles.scss";
 
 const scores = [90, 75, 60, 99, 94, 30];

@@ -21,11 +21,11 @@ npm install webpack-bundle-analyzer --save-dev
 _./webpack.perf.js_
 
 ```javascript
-const { merge } = require("webpack-merge");
-const prod = require("./webpack.prod.js");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+import { merge } from "webpack-merge";
+import prod from "./webpack.prod.js";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
-module.exports = merge(prod, {
+export default merge(prod, {
   plugins: [new BundleAnalyzerPlugin()],
 });
 ```
@@ -146,6 +146,7 @@ npm run build:prod
 ```bash
 npm run build:perf
 ```
+
 - Y ya lo vemos más detallado:
 
 <img src="./content/build-perf2.PNG" alt="build-perf2" style="zoom:67%;" />

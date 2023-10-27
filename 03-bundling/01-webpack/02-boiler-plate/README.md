@@ -36,15 +36,18 @@ npm install webpack webpack-cli --save-dev
 
 - El siguiente paso es añadir un comando en el _package.json_ para poder lanzar **`webpack`** usando nuestra configuración y poder ver así nuestro proyecto en funcionamiento, modificamos el archivo **`package.json`** y agregamos la siguiente propiedad **`"build": "webpack --mode development"`** justo debajo de la entrada _scripts_: una vez que hayamos introducido este, podemos lanzar **`webpack`** desde la línea de comandos ejecutando **`npm run build`**.
 
+- También vamos a añadir en el _package.json_ que va a ser de tipo _module_ (esto es para que podamos usar las nuevas características de JavaScript, como por ejemplo _import_ y _export_).
+
 Ahora, nuestro archivo **`package.json`** debería de verse así:
 
 _./package.json_
 
 ```diff
 {
++ "type": "module",
   ...
   "scripts": {
-+   "build": "webpack --mode development"
++   "build": "webpack --mode development",
 -    "test": "echo \"Error: no test specified\" && exit 1"
   },
   ...
@@ -97,12 +100,12 @@ _./package.json_
 {
 ...
   "devDependencies": {
-+    "@babel/cli": "^7.21.5",
-+    "@babel/core": "^7.21.8",
-+    "@babel/preset-env": "^7.21.5",
-+    "babel-loader": "^9.1.2",
-+    "webpack": "^5.82.1",
-+    "webpack-cli": "^5.1.1"
++    "@babel/cli": "^7.23.0",
++    "@babel/core": "^7.23.2",
++    "@babel/preset-env": "^7.23.2",
++    "babel-loader": "^9.1.3",
++    "webpack": "^5.89.0",
++    "webpack-cli": "^5.1.4"
   }
 }
 ```
@@ -129,7 +132,7 @@ Manos a la obra, abrimos el archivo **`webpack.config.js`** y definimos como val
 _./webpack.config.js_
 
 ```javascript
-module.exports = {
+export default {
   entry: ["./src/students.js"],
 };
 ```
@@ -145,7 +148,7 @@ El código resultante sería el siguiente:
 _./webpack.config.js_
 
 ```diff
-module.exports = {
+export default {
   entry: ['./src/students.js'],
 + module: {
 +   rules: [

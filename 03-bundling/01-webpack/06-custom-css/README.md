@@ -52,7 +52,7 @@ Si hacemos un _npm run build_, ¿ creéis que nuestro archivo mystyles.css forma
 _./webpack.config.js_
 
 ```diff
-module.exports = {
+export default {
 -  entry: './src/students.js'],
 + entry: ['./src/students.js', './src/mystyles.css'],
 .....
@@ -131,14 +131,12 @@ npm run build
 _./webpack.config.js_
 
 ```diff
-module.exports = {
+export default {
 -  entry: ['./src/students.js', './src/mystyles.css'],
 +  entry: {
 +    app: './src/students.js',
 +    appStyles: './src/mystyles.css',
 +  },
-
-  output: {
 ```
 
 - Si ahora construimos de nuevo nuestra _build_:
@@ -206,132 +204,7 @@ que debemos subir a producción y cuales las versiones antiguas. Lo que queremos
 
 ![build-without-clean](./content/build-without-clean.PNG)
 
-Para solucionarlo podemos tirar de un _plugin_ de terceros: [**`clean-webpack-plugin`**](https://www.npmjs.com/package/clean-webpack-plugin) que lo hará por nosotros.
-
-- Instalamos el paquete.
-
-```bash
-npm install clean-webpack-plugin --save-dev
-```
-
-Ahora tenemos que indicar:
-
-- La carpeta de salida de nuestro _bundle_.
-
-_./webpack.config.json_
-```diff
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-+ const path = require("path");
-
-module.exports = {
-  entry: {
-    app: "./src/students.js",
-    appStyles: "./src/mystyles.css",
-  },
-  output: {
-    filename: "[name].[chunkhash].js",
-+     path: path.resolve(__dirname, "dist"),
-  },
-.....
-```
-
-- Y utilizar el _plugin_
-
-_./webpack.config.json_
-```diff
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-+ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const path = require("path");
-.....
- plugins: [
-    //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: "index.html", //Name of file in ./dist/
-      template: "./src/index.html", //Name of template in ./src
-      scriptLoading: "blocking", // Load the scripts correctly
-    }),
-+   new CleanWebpackPlugin(),
-  ],
-.....
-```
-
-- Ahora vemos que al ejecutar el _build_, se borra previamente el contenido de la carpeta _dist_ y
-  se genera la _build_ limpia.
-
-```bash
-npm run build
-```
-
-> Anexo
-
-Existe una alternativa a **`clean-webpack-plugin`** también muy utilizada que es [**`rimraf`**](https://www.npmjs.com/package/rimraf) pero se instala de una forma diferente que explicamos a continuación.
-
-Desinstalamos **`clean-webpack-plugin`**.
-
-```bash
-npm uninstall clean-webpack-plugin --save-dev
-```
-
-- Instalamos el paquete.
-
-```bash
-npm install rimraf --save-dev
-```
-
-- Agreguemos el siguiente comando a nuestra _build_:
-
-_package.json_
-
-```diff
-  "scripts": {
-    "start": "webpack-dev-server --mode development --open",
--    "build": "webpack --mode development"
-+    "build": "rimraf dist && webpack --mode development"
-  },
-```
-
-Y modificamos nuestro _webpack.config.js_ 
-
-_webpack.config.js_
-
-```diff
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-- const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-- const path = require("path");
-
-module.exports = {
-  entry: {
-    app: "./src/students.js",
-    appStyles: "./src/mystyles.css",
-  },
-  output: {
-    filename: "[name].[chunkhash].js",
--    path: path.resolve(__dirname, "dist"),
-  },
-(...)
-plugins: [
-    //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: "index.html", //Name of file in ./dist/
-      template: "./src/index.html", //Name of template in ./src
-      scriptLoading: "blocking", // Just use the blocking approach (no modern defer or module)
-    }),
--    new CleanWebpackPlugin(),
-  ],
-```
-- Ahora sí ejecutamos la _build_ vemos que hace lo mismo que **`clean-webpack-plugin`**.
-
-```bash
-npm run build
-```
-
-También existe una tercera opción, que nos la aporta webpack, llamada [_clean_](https://webpack.js.org/configuration/output/#outputclean) y que también nos permite borrar el interior de la carpeta _dist_ cada vez que generamos el bundle.
-
-- Desinstalamos **`rimraf`**.
-
-```bash
-npm uninstall rimraf --save-dev
-```
+Para solucionarlo _Webpack_ nos aporta [_clean_](https://webpack.js.org/configuration/output/#outputclean) que nos permite borrar el interior de la carpeta _dist_ cada vez que generamos el bundle.
 
 - Para esto lo único que tenemos que añadir es el siguiente comando dentro de _output_ en nuestro _webpack.config.js_:
 
@@ -350,19 +223,7 @@ _./webpack.config.js_
 .......
 ```
 
-Y dejamos el _build_ de la siguiente forma:
-
-_package.json_
-
-```diff
-  "scripts": {
-    "start": "webpack-dev-server --mode development --open",
--    "build": "rimraf dist && webpack --mode development"
-+    "build": "webpack --mode development"
-  },
-```
-
-- Y si ejetutamos nuestra _build_.
+- Y si ejecutamos nuestra _build_.
 
 ```bash
 npm run build
@@ -381,10 +242,10 @@ npm install mini-css-extract-plugin --save-dev
 _webpack.config.js_
 
 ```diff
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-+ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+import HtmlWebpackPlugin from "html-webpack-plugin";
++ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
-module.exports = {
+export default {
 ```
 
 - Configuramos el _loader_ para la extensión _.css_.
@@ -460,7 +321,7 @@ module.exports = {
   },
   output: {
     filename: "[name].[chunkhash].js",
-    path: path.resolve(__dirname, "dist"),
+    clean: true
   },
 .....
 ```
@@ -472,7 +333,7 @@ Si generamos la build, _Webpack_ no sabe llegar a mystyles.css porque no hay nin
 _./src/students.js_
 
 ```diff
-import { getAvg } from "./averageService";
+import { getAvg } from "./averageService.js";
 + import "./mystyles.css";
 
 const scores = [90, 75, 60, 99, 94, 30];

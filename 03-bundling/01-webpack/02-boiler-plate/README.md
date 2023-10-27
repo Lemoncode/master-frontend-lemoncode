@@ -47,7 +47,7 @@ _./package.json_
 + "type": "module",
   ...
   "scripts": {
-+   "build": "webpack --mode development"
++   "build": "webpack --mode development",
 -    "test": "echo \"Error: no test specified\" && exit 1"
   },
   ...
@@ -100,7 +100,7 @@ _./package.json_
 {
 ...
   "devDependencies": {
-+    ""@babel/cli": "^7.23.0",
++    "@babel/cli": "^7.23.0",
 +    "@babel/core": "^7.23.2",
 +    "@babel/preset-env": "^7.23.2",
 +    "babel-loader": "^9.1.3",

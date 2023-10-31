@@ -76,9 +76,9 @@ console.log(pigeon.skill); // TS error: Property 'skill' is missing.
 // ámbos válidos.
 
 // -- Caso Base --
-type A = "a" | "A" | "á" | "à";
-type B = "b" | "B";
-type AB = A | B; // "a" | "A" | "á" | "à" | "b" | "B"
+type A = string;
+type B = number;
+type AB = A | B; // string | number
 
 // -- Caso Práctico --
 

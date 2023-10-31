@@ -40,14 +40,14 @@ console.log(surname); // "Smith"
 
 // Aunque si queremos, también podemos reemplazar el nombre de las variables donde vamos asignando
 // nuestras propiedades:
-const studentEvan = {
+const student = {
   name: "Evan",
   surname: "Smith",
   country: "USA",
 };
-const { name: evanName, surname: evanSurname } = studentEvan;
-console.log(evanName); // "Evan"
-console.log(evanSurname); // "Smith"
+const { name: studentName, surname: studentSurname } = student;
+console.log(studentName); // "Evan"
+console.log(studentSurname); // "Smith"
 
 // También podemos hacer un "destructuring" profundo, es decir, extraer propiedades de objetos
 // anidados:

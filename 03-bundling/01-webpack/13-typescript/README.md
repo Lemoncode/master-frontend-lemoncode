@@ -80,7 +80,7 @@ _./tsconfig.json_
 _./webpack.config.js_
 
 ```diff
-module.exports = {
+export default {
   context: path.join(basePath, "src"),
   resolve: {
 -    extensions: [".js", ".jsx"]

@@ -12,6 +12,9 @@ export const TotalScoreComponent = () => {
 
   return (
     <div>
+      <span className={classes.resultBackground}>
+        Students total score: {totalScore}
+      </span>
       <div className="card" style={{ width: 180 }}>
         <div className="card-body">
           <h5 className="card-title">Card title</h5>

@@ -20,7 +20,11 @@ fetch(`${API_BASE}/members`);
 
 ```
 
-- Ya que tenemos los ficheros separados para cada entorno, sería interesante decirle a la variable **`API_BASE`** que apunte a un lugar o a otro, según estemos trabajando en desarrollo o en producción, a esto se le conoce como **variables de entorno**. Para esto **`Webpack`** nos provee un paquete que lo hace por nosotros **`dotenv-webpack`**.
+- Ya que tenemos los ficheros separados para cada entorno, sería interesante decirle a la variable **`API_BASE`** que apunte a un lugar o a otro, según estemos trabajando en desarrollo o en producción, a esto se le conoce como **variables de entorno**. Desde la última versión de **`node`** ya tenemos soporte para variables de entorno.
+
+> [Documentación](https://nodejs.org/en/blog/release/v20.6.0)
+
+En la versión anterior de **`node`** teníamos que tirar de librerías de terceros, como **`dotenv`**.
 
 > [Documentación](https://www.npmjs.com/package/dotenv-webpack)
 
@@ -51,10 +55,11 @@ API_BASE = http://myapp.com/api
 _./webpack.dev.js_
 
 ```diff
-const { merge } = require("webpack-merge");
-const common = require("./webpack.common.js");
-const path = require("path");
-+ const Dotenv = require('dotenv-webpack');
+import { merge } from "webpack-merge";
+import common from "./webpack.common.js";
+import path from "path";
+import url from "url";
++ import Dotenv from "dotenv-webpack";
 ...
 + plugins: [
 +   new Dotenv({
@@ -69,10 +74,10 @@ const path = require("path");
 _./webpack.prod.js_
 
 ```diff
-const { merge } = require("webpack-merge");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const common = require("./webpack.common.js");
-+ const Dotenv = require('dotenv-webpack');
+import { merge } from "webpack-merge";
+import common from "./webpack.common.js";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
++ import Dotenv from "dotenv-webpack";
 ...
   plugins: [
     new MiniCssExtractPlugin({

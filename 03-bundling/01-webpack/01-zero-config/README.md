@@ -12,7 +12,7 @@ Vamos a ver en esta demostración cómo podemos ejecutar una muestra simple.
 
 Instala [Node.js and npm](https://nodejs.org/en/) si aún no están instalados en tu computadora.
 
-> Verifica que estés ejecutando al menos node v8.x.x y npm 5.x.x ejecutando _node -v_ y _npm -v_ en una ventana de la terminal/consola. Las versiones anteriores pueden producir errores.
+> Los ejemplos de este repositorio se han realizado con _node v20.9.0_ y _npm v10.1.0_. Te recomendamos utilizar al menos estas versiones (o superiores) para evitar comportamientos no esperados con los ejemplos.
 
 #### Pasos
 
@@ -49,7 +49,7 @@ _./package.json_
 {
   ...
   "scripts": {
-+   "build": "webpack --mode development"
++   "build": "webpack --mode development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   ...

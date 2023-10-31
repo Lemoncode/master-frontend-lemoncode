@@ -17,7 +17,7 @@ npm install bootstrap --save
 _./webpack.config.js_
 
 ```diff
-module.exports = {
+export default {
   entry: {
     app: './students.js',
 +   vendorStyles: ['./node_modules/bootstrap/dist/css/bootstrap.css'],

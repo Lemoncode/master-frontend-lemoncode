@@ -59,7 +59,10 @@ Para ello:
 _./webpack.config.js_
 
 ```diff
-+ const path = require("path");
++ import path from "path";
++ import url from "url";
+
++ const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 module.exports = {
   entry: ["./src/students.js"],
@@ -100,14 +103,14 @@ npm run build
 _./webpack.config.js_
 
 ```diff
-module.exports = {
-  entry: ['./src/students.js'],
+export default {
+  entry: ["./src/students.js"],
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
       },
     ],
   },
@@ -132,14 +135,14 @@ npm start
 _./webpack.config.js_
 
 ```diff
-module.exports = {
-  entry: ['./src/students.js'],
+export default {
+  entry: ["./src/students.js"],
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
       },
     ],
   },

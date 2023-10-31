@@ -41,7 +41,7 @@ _./src/index.html_
 _./src/index.js_
 
 ```diff
-import {getAvg} from "./averageService";
+import { getAvg } from "./averageService.js";
 + import logoImg from './content/logo_1.png';
 import "./mystyles.scss";
 

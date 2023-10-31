@@ -1,6 +1,6 @@
 ## Manejando imports
 
-En el paso anterior vimos como transpilar de ES6 a ES5 en un mismo fichero, pero ¿Qué pasa si tengo varios ficheros (modulos) y estoy usando _imports_? Vamos a ver como resuelve esto _webpack_.
+En el paso anterior vimos como transpilar de ES6 a ES5 en un mismo fichero, pero ¿Qué pasa si tengo varios ficheros (módulos) y estoy usando _imports_? Vamos a ver como resuelve esto _webpack_.
 
 Tomamos como punto de partida el ejemplo anterior, vamos a añadir un nuevo archivo de JavaScript que contendrá un simple algoritmo para calcular la puntuación media un _array_ de notas.
 
@@ -26,7 +26,7 @@ _./src/students.js_
 
 ```diff
 -  // Usemos algunas características de ES6
-+  import { getAvg } from './averageService';
++  import { getAvg } from './averageService.js';
 
 +  const scores = [90, 75, 60, 99, 94, 30];
 -  const averageScore = "90";
@@ -79,8 +79,8 @@ function getTotalScore(scores) {
 _./src/students.js_
 
 ````diff
-- import {getAvg} from "./averageService";
-+ import getAvg from "./averageService";
+- import {getAvg} from "./averageService.js";
++ import getAvg from "./averageService.js";
 
 const scores = [90, 75, 60, 99, 94, 30];
 const averageScore = getAvg(scores);
@@ -88,7 +88,6 @@ const averageScore = getAvg(scores);
 const messageToDisplay = `average score ${averageScore}`;
 
 document.write(messageToDisplay);
-```nt.write(messageToDisplay);
 ````
 
 ### Múltiple named exports
@@ -120,8 +119,8 @@ Ahora, podemos importarlos de varias maneras en **`students.js`**:
 _./src/students.js_
 
 ```diff
-- import getAvg from "./averageService";
-+ import {getAvg, getTotalScore} from "./averageService";
+- import getAvg from "./averageService.js";
++ import { getAvg, getTotalScore } from "./averageService.js";
 
 const scores = [90, 75, 60, 99, 94, 30];
 const averageScore = getAvg(scores);
@@ -141,8 +140,8 @@ const averageScore = getAvg(scores);
 _./src/students.js_
 
 ```diff
-- import {getAvg, getTotalScore} from "./averageService";
-+ import * as averageService from "./averageService";
+- import {getAvg, getTotalScore} from "./averageService.js";
++ import * as averageService from "./averageService.js";
 
 const scores = [90, 75, 60, 99, 94, 30];
 - const averageScore = getAvg(scores);

@@ -2,7 +2,7 @@ import React from "react";
 import { getAvg } from "./averageService";
 import classes from "./averageComponentStyles.scss";
 
-export const AverageComponent: React.FC = () => {
+export const AverageComponent : React.FC = () => {
   const [average, setAverage] = React.useState(0);
 
   React.useEffect(() => {

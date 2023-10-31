@@ -1,6 +1,9 @@
-const path = require("path");
+import path from "path";
+import url from "url";
 
-module.exports = {
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+
+export default {
   entry: ["./src/students.js"],
   module: {
     rules: [

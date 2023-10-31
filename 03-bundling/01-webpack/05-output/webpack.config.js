@@ -1,6 +1,6 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
-module.exports = {
+export default {
   entry: ["./src/students.js"],
   module: {
     rules: [
@@ -11,6 +11,9 @@ module.exports = {
       },
     ],
   },
+  devServer: {
+    port: 8080,
+  },
   plugins: [
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
@@ -20,7 +23,4 @@ module.exports = {
       hash: true,
     }),
   ],
-  devServer: {
-    port: 8080,
-  },
 };

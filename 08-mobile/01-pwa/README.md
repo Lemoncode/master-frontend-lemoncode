@@ -33,14 +33,15 @@
 - Notificaciones Persistentes
 - [Notificaciones Push](./doc/notificaciones_push.md)
 
-6: Librerías y Herramientas
-- [Librería Workbox](https://developers.google.com/web/tools/workbox/)
-- [Herramienta de auditoría Lighthouse de Google](./doc/auditoria.md)
+## Librerías y Herramientas
 
-## Enlaces de Interés
+- [Librería Workbox](https://developers.google.com/web/tools/workbox/)
+- Herramienta de auditoría Lighthouse de Google
+- [PWA Builder](https://www.pwabuilder.com/)
+
+## Repositorios
 
 - [Repositorio con ejemplos de apps](https://github.com/hemanth/awesome-pwa)
-- [PWA Builder](https://www.pwabuilder.com/)
 - [Repositorio con ejemplos de código](https://serviceworke.rs/)
 
 ## Documentación

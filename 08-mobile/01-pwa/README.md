@@ -39,8 +39,9 @@
 
 ## Enlaces de Interés
 
-- [Repositorio con ejemplos](https://github.com/hemanth/awesome-pwa)
+- [Repositorio con ejemplos de apps](https://github.com/hemanth/awesome-pwa)
 - [PWA Builder](https://www.pwabuilder.com/)
+- [Repositorio con ejemplos de código](https://serviceworke.rs/)
 
 ## Documentación
 

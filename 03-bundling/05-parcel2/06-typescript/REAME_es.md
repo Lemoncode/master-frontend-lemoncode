@@ -31,13 +31,13 @@ _tsconfig.json_
 ```json
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "es6",
-    "moduleResolution": "node",
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "declaration": false,
     "noImplicitAny": false,
     "sourceMap": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "noLib": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -58,6 +58,7 @@ _tsconfig.json_
 -    />
 -  </head>
   <body>
+    <h1>Check the console log</h1>
 -    <div id="imgContainer"></div>
 -    <div class="red-background">RedBackground stuff</div>
 -    <div class="card" style="width: 18rem">
@@ -133,7 +134,7 @@ npm install npm-run-all --save-dev
 -   "start:": "rimraf dist && parcel --open",
 +   "start": "run-p -l type-check:watch start:dev",
 +   "start:dev": "rimraf dist && parcel --open",
-    "build:prod": "rimraf dist && parcel build ./src/index.html",
+    "build:prod": "rimraf dist && parcel build",
 +    "type-check": "tsc --noEmit",
 +    "type-check:watch": "npm run type-check -- --watch",
   },

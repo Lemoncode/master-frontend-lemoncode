@@ -38,7 +38,17 @@ _./src/hello.tsx_
 + import * as classes from "./hello.module.css";
 ```
 
-- Y lo usamos:
+- Vamos a crearnos un archivo _declarations.d.ts_ para que el compilador de typescript no nos de error al importar el archivo _css_:
+
+_./src/declarations.d.ts_
+
+```typescript
+declare module "*.css";
+```
+
+Ahora vemos ya que desaparece el error que teníamos anteriormente.
+
+- Ahora usamos el estilo en nuestro componente _hello_:
 
 _./src/hello.tsx_
 
@@ -73,7 +83,7 @@ _./src/bye.tsx_
 import React from "react";
 import * as classes from "./bye.module.css";
 
-export const ByeComponent = () => (
+export const ByeComponent: React.FC = () => (
   <h1 className={classes.background}>Bye from React</h1>
 );
 ```
@@ -95,8 +105,8 @@ _./src/index.tsx_
 ```diff
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { HelloComponent } from "./hello";
-+ import { ByeComponent } from "./bye";
+import { HelloComponent } from "./hello.jsx";
++ import { ByeComponent } from "./bye.jsx";
 
 const root = createRoot(document.getElementById("root"));
 root.render(

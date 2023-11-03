@@ -39,7 +39,7 @@
 
 ## Enlaces de Interés
 
-- [Repositorio con ejemplos:](https://github.com/hemanth/awesome-pwa)
+- [Repositorio con ejemplos](https://github.com/hemanth/awesome-pwa)
 - [PWA Builder](https://www.pwabuilder.com/)
 
 ## Documentación

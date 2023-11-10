@@ -1,15 +1,13 @@
 # Aplicaciones Web Progresivas
 
-## Contenido del curso
+## Contenido de la sesión
 
-Contenido del curso
-
-[Módulo 1: Introducción](./doc/introduccion.md)
+[1: Introducción](./doc/introduccion.md)
 - ¿Qué son las AWP?
 - Apps vs. Sites
 - Características de las AWP
 
-[Módulo 2: Aplicaciones web instalables](./doc/manifest.md)
+[2: Aplicaciones web instalables](./doc/manifest.md)
 - El archivo manifest
 - Cómo incluir un manifest en nuestra web
 - Propiedades del archivo manifest
@@ -18,30 +16,36 @@ Contenido del curso
 - Desinstalación de la aplicación
 - Compatibilidad en navegadores
 
-[Módulo 3: Service Workers](./doc/service_workers.md)
+[3: Service Workers](./doc/service_workers.md)
 - Qué son los SW
 - Cómo funcionan los SW
 - Cómo registrar un SW
 - Eventos
 
-[Módulo 4: Funcionamiento Offline](./doc/offline.md)
+[4: Funcionamiento Offline](./doc/offline.md)
 - El interfaz NavigatorOnLine
 - La API Fetch
 - La API Cache
 - [Patrones de cacheo](./doc/patrones_cacheo.md)
 
-[Módulo 5: Notificaciones](./doc/notificaciones.md)
+[5: Notificaciones](./doc/notificaciones.md)
 - Notificaciones No persistentes
 - Notificaciones Persistentes
 - [Notificaciones Push](./doc/notificaciones_push.md)
 
-Módulo 6: Librerías y Herramientas
+## Librerías y Herramientas
+
 - [Librería Workbox](https://developers.google.com/web/tools/workbox/)
-- [Herramienta de auditoría Lighthouse de Google](./doc/auditoria.md)
+- Herramienta de auditoría Lighthouse de Google
+- [PWA Builder](https://www.pwabuilder.com/)
 
-## Enlaces de Interés
+## Repositorios
 
-- [Curso completo](https://github.com/carherco/curso-awp)
+- [Repositorio con ejemplos de apps](https://github.com/hemanth/awesome-pwa)
+- [Repositorio con ejemplos de código](https://serviceworke.rs/)
+
+## Documentación
+
 - [Can I Use](https://caniuse.com/)
 - [Web App Manifest](https://www.w3.org/TR/appmanifest/)
 - [Service Workers](https://developer.mozilla.org/es/docs/Web/API/Service_Worker_API)

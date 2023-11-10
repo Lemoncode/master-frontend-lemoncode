@@ -89,7 +89,7 @@ module.exports = {
 - Pero en nuestro caso, añadiremos un _import_ en **`averageComponent`**,
   esto tiene más sentido ya que es un estilo a aplicar sólo en ese componente:
 
-_./src/averageComponent.js_
+_./src/averageComponent.jsx_
 
 ```diff
 import React from "react";
@@ -450,7 +450,7 @@ _./webpack.config.js_
   },
 ```
 
-> [localIdentName](https://webpack.js.org/loaders/css-loader/#localidentname) [localIdentContext](https://webpack.js.org/loaders/css-loader/#localidentcontext)
+> [localIdentName](https://webpack.js.org/loaders/css-loader/#localidentname) 
 
 - Si echamos un vistazo a la consola del navegador, podemos ver cómo **`webpack`** transforma los nombres de las clases **`css`**, agregando sufijos.
 

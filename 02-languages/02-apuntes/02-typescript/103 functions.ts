@@ -31,23 +31,16 @@ console.log(shout("hi")); // "hi!!!" ---> upperCase = undefined.
 
 // *** Argumentos por defecto
 // También es posible declarar el tipo de valores por defecto, aunque por lo general es más legible
-//  el no declarar el tipo y dejar que TypeScript lo infiera.
-// ⚠ No se puede mezclar el operador opcional con valores por defecto aunque al inspeccionar
+// el no declarar el tipo y dejar que TypeScript lo infiera del propio valor por defecto.
+// ⚠ Al añadir un valor por defecto, no se puede usar el operador opcional de forma explícita.
+// Será TS quien automáticamente lo marque como opcional si está inicializado con un valor por 
+// defecto y no hay más argumentos obligatorios a continuación.
+
 // el tipo ya es opcional
 const shout = (text: string, upperCase: boolean = true): string =>
   (upperCase ? text.toUpperCase() : text) + "!!!";
 
 console.log(shout("hi")); // "HI!!!"
-
-// *** Alias
-// En estos ejemplos vistos, el tipado de la funcion va integrado en la propia
-// declaración/definición de la función. Sin embargo, podemos extraer el typo de una función
-// aparte, y reusarlo cuando queramos. Para ello usamos el operador "type".
-// Esto se conoce como ALIAS y lo veremos un poco más adelante:
-type ShoutFunction = (text: string, upperCase: boolean) => string;
-const shout: ShoutFunction = (text, upperCase) => (upperCase ? text.toUpperCase() : text) + "!!!";
-
-console.log(shout("TS rocks", true));
 
 // *** Funciones como argumentos
 // También es posible tipar argumentos que son funciones:
@@ -62,6 +55,17 @@ console.log(shout("WoW", getRandom));
 console.log(shout("WoW", getRandom));
 console.log(shout("WoW", getRandom));
 console.log(shout("WoW", getRandom));
+
+// *** Alias
+// En estos ejemplos vistos, el tipado de la funcion va integrado en la propia
+// declaración/definición de la función. Sin embargo, podemos extraer el typo de una función
+// aparte, y reusarlo cuando queramos. Para ello usamos el operador "type".
+// Esto se conoce como ALIAS:
+type ShoutFunction = (text: string, getNumExclamation: () => number) => string;
+const shout: ShoutFunction = (text, getNumExclamation) =>
+  text.toUpperCase() + "!".repeat(getNumExclamation());
+
+console.log(shout("TS rocks", getRandom));
 
 // *** Sobrecarga de funciones
 function switchType(c: string): number;

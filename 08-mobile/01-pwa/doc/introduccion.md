@@ -2,7 +2,7 @@
 
 La definición de AWP es muy ambigua:
 
-Google: https://developers.google.com/web/progressive-web-apps/
+Google: https://web.dev/articles/what-are-pwas?hl=es-419
 
 Wikipedia: https://en.wikipedia.org/wiki/Progressive_Web_Apps
 

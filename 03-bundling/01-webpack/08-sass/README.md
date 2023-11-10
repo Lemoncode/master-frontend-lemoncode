@@ -25,7 +25,7 @@ _./src/mystyles.scss_
 _./src/students.js_
 
 ```diff
-import { getAvg } from "./averageService";
+import { getAvg } from "./averageService.js";
 - import "./mystyles.css";
 + import "./mystyles.scss";
 

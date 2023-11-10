@@ -37,7 +37,7 @@ console.log(user?.stats?.likes);
 console.log(user?.friends[1]);    // SyntaxError
 console.log(user?.friends?.[1]);  // Acceso seguro
 console.log(user?.greet());       // SyntaxError
-console.log(user?.greet?.());       // Acceso seguro
+console.log(user?.greet?.());     // Acceso seguro
 
 /*
 IMPORTANTE: el operador optional chaining comprueba si una propiedad o referencia es 'nullish',
@@ -50,7 +50,7 @@ continúa.
 
 /*
 El operador nullish coalescing es un operador lógico que devuelve el operando derecho cuando el
-izquierdo es 'nullish', es decir, null o undefined. Viene a mejorar la forma en que asignamos 
+izquierdo es 'nullish', es decir, null o undefined. Viene a mejorar la forma en que asignamos
 valores por defecto. Hasta ahora era frecuente utilicar el operador lógico OR (||) a tal efecto,
 pero era problemático. ¿Por qué? Puesto que OR devolvería el operando derecho cuando el izquierdo
 sea 'falsy'. Veámoslo:

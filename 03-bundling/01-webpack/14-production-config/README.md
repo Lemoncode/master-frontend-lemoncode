@@ -26,23 +26,23 @@ export const TotalScoreComponent : React.FC = () => {
   }, []);
 
   return (
--    <div>
+    <div>
+      <span className={classes.resultBackground}>
+        Students total score: {totalScore}
+      </span>
 -      <div className="card" style={{ width: 180 }}>
 -        <div className="card-body">
 -          <h5 className="card-title">Card title</h5>
-          <p className="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
-          <p className={classes.resultBackground}>
-            Students total score: {totalScore}
-          </p>
--          <a href="#" className="btn btn-primary">
--            Go somewhere
--          </a>
+-          <p className="card-text">
+-            Some quick example text to build on the card title and make up the
+-            bulk of the card's content.
+-          </p>
+-          <p className={classes.resultBackground}>
+-            Students total score: {totalScore}
+-          </p>
 -        </div>
 -      </div>
--    </div>
+    </div>
   );
 };
 ```
@@ -55,11 +55,14 @@ export const TotalScoreComponent : React.FC = () => {
 _./webpack.common.js_
 
 ```diff
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-- const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const path = require("path");
+import HtmlWebpackPlugin from "html-webpack-plugin";
+- import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import path from "path";
+import url from "url";
 
-module.exports = {
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+
+export default {
   context: path.resolve(__dirname, "./src"),
   resolve: {
     extensions: [".js", ".ts", ".tsx"],
@@ -145,9 +148,9 @@ module.exports = {
 _./webpack.dev.js_
 
 ```javascript
-const common = require("./webpack.common.js");
+import common from './webpack.common.js';
 
-module.exports = {};
+export default {};
 ```
 
 - ¿Tenemos alguna herramienta para dejar caer toda la estructura en común de nuestro código y expandirlo con la que queramos? **`JavaScript`** nos proporciona el **`spread operator`**, que nos dice, déjame todo lo que hay en **`common`** y añádele la configuración específica para desarrollo.
@@ -155,10 +158,13 @@ module.exports = {};
 _./webpack.dev.js_
 
 ```diff
-const common = require("./webpack.common.js");
-const path = require("path");
+import common from './webpack.common.js';
+import path from 'path';
+import url from "url";
 
-module.exports = {
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+
+export default {
 +  ...common,
 +  module: {
 +    rules: [
@@ -212,12 +218,12 @@ npm install webpack-merge --save-dev
 
 _webpack.dev.js_
 ```diff
-+ const { merge } = require("webpack-merge");
-const common = require("./webpack.common.js");
-const path = require("path");
++ import { merge } from "webpack-merge";
+import common from "./webpack.common.js";
+import path from "path";
 
-- module.exports = {
-+ module.exports = merge(common, {
+- export default {
++ export default merge(common, {
 - ...common,
 .....
 - };
@@ -248,12 +254,11 @@ Es hora de configurar el entorno de producción, seguiremos pasos similares a lo
 _./webpack.prod.js_
 
 ```javascript
-const { merge } = require("webpack-merge");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const path = require("path");
-const common = require("./webpack.common.js");
+import { merge } from "webpack-merge";
+import common from "./webpack.common.js";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
-module.exports = merge(common, {
+export default merge(common, {
   module: {
     rules: [
       {
@@ -305,12 +310,14 @@ _./package.json_
 _./webpack.dev.js_
 
 ```diff
-const { merge } = require("webpack-merge");
-const common = require("./webpack.common.js");
+import { merge } from "webpack-merge";
+import common from "./webpack.common.js";
+import path from "path";
+import url from "url";
 
-const path = require("path");
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
-module.exports = merge(common, {
+export default merge(common, {
 +  mode: "development",
    module: {
      rules: [
@@ -319,11 +326,11 @@ module.exports = merge(common, {
 _./webpack.prod.js_
 
 ```diff
-const { merge } = require("webpack-merge");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const common = require("./webpack.common.js");
+import { merge } from "webpack-merge";
+import common from "./webpack.common.js";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
-module.exports = merge(common, {
+export default merge(common, {
 +  mode: "production",
    module: {
 ```
@@ -341,7 +348,7 @@ _./package.json_
 -   "start:dev": "webpack serve --mode development --config webpack.dev.js",
 +   "start:dev": "webpack serve --config webpack.dev.js",
 -   "build:dev": "webpack --mode development --config webpack.dev.js",
-+	"build:dev": "webpack --config webpack.dev.js",
++	  "build:dev": "webpack --config webpack.dev.js",
 -   "build:prod": "webpack --mode production --config webpack.prod.js"
 +   "build:prod": "webpack --config webpack.prod.js"
   },
@@ -350,7 +357,7 @@ _./package.json_
 - Si quieres probar la compilación de desarrollo, simplemente ejecutamos:
 
 ```bash
-$ npm run build:dev
+npm run build:dev
 ```
 
 <img src="./content/build-dev.PNG" alt="build-dev" style="zoom:80%;" />
@@ -373,27 +380,6 @@ _./src/declaration.d.ts_
 ```diff
 declare module "*.scss";
 + declare module "*.png";
-```
-
-- Tenemos que volver a añadir nuestro **`loader`** para las imágenes.
-
-_./webpack.common.js_
-
-```diff
- .....
- module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        loader: "babel-loader",
-      },
-+      {
-+        test: /\.(png|jpg)$/,
-+        type: "asset/resource",
-+      },
-    ],
- .....
 ```
 
 - Importamos y añadimos una imagen al **`index.tsx`**:
@@ -424,7 +410,7 @@ _./webpack.prod.js_
 
 ```diff
 ...
-module.exports = merge(common, {
+export default merge(common, {
   mode: "production",
 +  output: {
 +   filename: "js/[name].[chunkhash].js",

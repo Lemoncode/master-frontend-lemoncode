@@ -1,5 +1,9 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { HelloComponent } from "./hello";
+import { createRoot } from "react-dom/client";
+import { HelloComponent } from "./hello.jsx";
 
-ReactDOM.render(<HelloComponent />, document.getElementById("root"));
+const root = createRoot(document.getElementById("root"));
+root.render(
+  <div>
+    <HelloComponent />
+  </div>
+);

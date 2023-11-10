@@ -58,7 +58,7 @@ img {
 }
 ```
 
-- Ahora, ¿qué pasa si ya tenemos la imagen referenciada dentro de una etiqueta _HTML_ `<img>`? Añadimos [`logo_2.png`](./src/content/logo_2.png) en el archivo index.html:
+- Ahora, ¿qué pasa si ya tenemos la imagen referenciada dentro de una etiqueta _HTML_ `<img>`. Añadimos [`logo_2.png`](./src/content/logo_2.png) en el archivo index.html:
 
 _./src/index.html_
 
@@ -67,7 +67,7 @@ _./src/index.html_
   <div id="imgContainer"></div>
   <div class="red-background">RedBackground stuff</div>
     <div class="card" style="width: 18rem">
-+     <img src="./content/logo_2.png" class="card-img-top" alt="logo lemoncode" />
++     <img src="./assets/logo_2.png" class="card-img-top" alt="logo lemoncode" />
 ```
 
 - Vamos a ejecutar el ejemplo.

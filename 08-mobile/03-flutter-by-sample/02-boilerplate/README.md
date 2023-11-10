@@ -23,10 +23,10 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Lemoncode - Flutter by sample'),
         ),
-        body: Center(
+        body: const Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[Text('Hello World')]),
+              children: <Widget>[Text('Hello World')]),
         ),
       ),
     );

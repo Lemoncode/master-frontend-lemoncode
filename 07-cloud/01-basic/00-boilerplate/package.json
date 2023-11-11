@@ -21,7 +21,7 @@
     "@lemoncode/fonk": "^1.5.4",
     "@lemoncode/fonk-formik": "^4.0.1",
     "@mui/material": "^5.11.12",
-    "axios": "^1.3.4",
+    "axios": "^1.6.0",
     "formik": "^2.2.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

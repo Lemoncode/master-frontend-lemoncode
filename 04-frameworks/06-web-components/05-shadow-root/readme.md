@@ -25,14 +25,14 @@ An important aspect of custom elements is encapsulation, because a custom elemen
     const style = document.createElement("style");
     style.textContent = getStyles();
 
-+   this.attachShadow({ mode: "open" });
++   const shadow = this.attachShadow({ mode: "open" });
     iconContainer.appendChild(iconSearch);
     container.appendChild(input);
     container.appendChild(iconContainer);
 -   this.appendChild(style);
 -   this.appendChild(container);
-+   this.shadowRoot.appendChild(style);
-+   this.shadowRoot.appendChild(container);
++   shadow.appendChild(style);
++   shadow.appendChild(container);
     this.dispacthMyEvent();
 
     const iconclick = this.iconClickHandler(input);

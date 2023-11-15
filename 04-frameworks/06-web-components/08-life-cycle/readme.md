@@ -57,3 +57,72 @@ Update `searchbar.js`
 +customElements.define("search-bar", SearchBar);
 
 ```
+
+### 2. Using `disconnectedCallback`
+
+```diff
+class SearchBar extends HTMLElement {
+  # ....
+
+  connectedCallback() {
+    console.log("call connected callback");
+    this.render();
+  }
+   
+  # ....
+
++ disconnectedCallback() {
++   console.log('disconnected called');
++ }
+}
+```
+
+Open the developer tools and run the following code:
+
+```js
+const element = document.querySelector('search-bar');
+document.body.removeChild(element);
+```
+
+As we can notice the message appears on console.
+
+### 3. Using `attributeChangedCallback`
+
+Ok time update attibutes from outside the custom element. What we want to do is to be able to change `ph` attribute from dev tools and get reflected on browser.
+
+```diff
+class SearchBar extends HTMLElement {
+  constructor() {
+    super();
+    this.iconClickHandler = this.iconClickHandler.bind(this);
+  }
++
++ static get observedAttributes() {
++   return ["ph"];
++ }
++
++ attributeChangedCallback(name, oldValue, newValue) {
++   console.log('search-bar updated', name, oldValue, newValue);
++ }
++
+  connectedCallback() {
+    console.log("call connected callback");
+    this.render();
+  }
+```
+
+If we move into the developer tools, we can see the message on console.
+
+For last we can update the previous code to change the placeholder value
+
+```js
+  attributeChangedCallback(name, oldValue, newValue) {
+    console.log("search-bar updated", name, oldValue, newValue);
+    /*diff*/
+    if (this.shadowRoot) {
+      const input = this.shadowRoot.querySelector(".container > input");
+      input.setAttribute('placeholder', newValue);
+    }
+    /*diff*/
+  }
+```

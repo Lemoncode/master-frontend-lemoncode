@@ -68,7 +68,7 @@ class Customer
         if(is_null(this.currentOrder)) {
             return false;
         }
-        return this.currentOrder .deleteItem(item: Item);
+        return this.currentOrder.deleteItem(item: Item);
     }
 
     buyItems(IOrderProcessor processor) {

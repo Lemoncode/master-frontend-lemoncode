@@ -72,23 +72,23 @@ class SearchBar extends HTMLElement {
         background-color: #c7d0f8;
       }
 
-      :host_ { /* afecta a todas las etiquetas search-bar */
+      :host { /* afecta a todas las etiquetas search-bar */
         background-color: #aaa;
       }
 
-      :host_(#searchbar2) { /* afecta a todas la etiquetas search-bar que cumplan el selector indicado entre paréntesis */
+      :host(#searchbar2) { /* afecta a todas la etiquetas search-bar que cumplan el selector indicado entre paréntesis */
         background-color: #bbb;
       }
 
-      :host_ input { /* afecta a los inputs de dentro. Hubiera sido lo mismo poner solamente input sin :host */
+      :host input { /* afecta a los inputs de dentro. Hubiera sido lo mismo poner solamente input sin :host */
         background-color: #ccc;
       }
 
-      :host_(.ddd) input { /* afecta a los inputs de dentro si el host cumple el selector indicado */
+      :host(.ddd) input { /* afecta a los inputs de dentro si el host cumple el selector indicado */
         background-color: #ddd;
       }
 
-      :host-context_(.dark-theme) input { /* afecta a los input de dentro si fuera existe algo con .dark-theme */
+      :host-context(.dark-theme) input { /* afecta a los input de dentro si fuera existe algo con .dark-theme */
         color: #fff;
         background-color: #000;
       }

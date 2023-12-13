@@ -242,11 +242,11 @@ type EmployeeID = Pick<EmployeeSummary, "id" | "name">; // Check intellisense!
 type EmployeeDetails = Omit<EmployeeSummary, keyof EmployeeID>; // Check intellisense!
 
 // También podríamos haber redefinido los Diff y Common anteriores como:
-type Diff2<A, B> = Omit<A, Extract<keyof A, keyof B>>;
-type Common2<A, B> = Pick<A, Extract<keyof A, keyof B>>;
+type ObjectDiff<A extends object, B extends object> = Omit<A, Extract<keyof A, keyof B>>;
+type ObjectCommon<A extends object, B extends object> = Pick<A, Extract<keyof A, keyof B>>;
 
-type EmployeeCredentials = Common2<EmployeeSummary, EmployeeID>;
-type EmployeeInfo = Diff2<EmployeeSummary, EmployeeID>;
+type EmployeeCredentials = ObjectCommon<EmployeeSummary, EmployeeID>;
+type EmployeeInfo = ObjectDiff<EmployeeSummary, EmployeeID>;
 
 // -- Caso Práctico --
 

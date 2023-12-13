@@ -411,7 +411,7 @@ const myTreeMM: TreeNodeMM<string> = ["hello", [["world"], "!"]];
 // introduce nuevos tipos genéricos ineridos sobre la marcha: la keyword "infer".
 
 // EJEMPLO MÁS SENCILLO SIN RECURSIVIDAD ***************
-type IsStringArray<T extends unknown[]> = T extends Array<infer Items>
+type IsStringArray<T extends any[]> = T extends Array<infer Items>
   ? Items extends string
     ? true
     : false
@@ -421,7 +421,7 @@ type Result1 = IsStringArray<[1, 2]>; // false
 type Result2 = IsStringArray<["hello", "world"]>; // true
 
 // EJEMPLO CON RECURSIVIDAD ****************************
-type RemoveZeroes<T extends unknown[]> = T extends [infer Head, ...infer Tail]
+type RemoveZeroes<T extends any[]> = T extends [infer Head, ...infer Tail]
   ? Head extends 0
     ? RemoveZeroes<Tail>
     : [Head, ...RemoveZeroes<Tail>]

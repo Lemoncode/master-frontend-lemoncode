@@ -628,6 +628,27 @@ export const GithubCollectionPod: React.FC = () => {
       <FilterComponent
 ```
 
+Para ver esto en acción vamos a meterle un staleTime de 5 minutos y un gcTime de 10 minutos:
+
+```diff
+export const useGithubCollectionQuery = (filter: string) => {
+  const {
+    data: githubMembers = [],
+    isSuccess,
+    refetch,
+  } = useQuery({
+    queryKey: githubKeys.members(filter),
+    queryFn: () => getGithubMembersCollection(filter),
+    enabled: filter !== "",
++    staleTime: 1000 * 60 * 5,
++    gcTime: 1000 * 60 * 10,
+  });
+
+  return { githubMembers, isSuccess, refetch };
+};
+```
+
+
 Abrimos las dev tools y vemos como funciona:
 
 ```bash

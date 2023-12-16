@@ -186,13 +186,142 @@ export const GithubCollectionPod: React.FC = () => {
   });
 ```
 
-\*\* Sin pinchamos y volvemos se pierde el filtro vamos a añadir un contexto para que lo guarde (esto no tiene que ver co React Query)
+> Esto tambíen me puede ser útil si tengo que lanzar queries dependientes (ojo que esto suele ser un mal olor, a veces es mejor que un endpoint del server te de esos datos)
 
-\*\* Ahora si podemos jugar y ver que ta va la cache, si ponemos un slow 3G veremos que la cache funciona, si ponemos un gcTime de 0 veremos que no funciona.
+> También me puede servir si muestro datos y quiero entrar en modo edición (aunque aquí lo suyo es sacar a otro objeto y no tocar el original)
 
----
+Otro detalle: si pinchamos y volvemos se pierde el filtro vamos a añadir un contexto para que lo guarde (esto no tiene que ver co React Query)
 
-Si ahora ponemos un slow 3G podrás ver que los datos están allí aunque hagamos un refetch, si ponemos para esta consulta un gcTime de 0 mira la diferencia.
+Vamos a crear en el pod de github-collection un provider para el fitro:
+
+creamos su contexto:
+
+_./src/github-collection/providers/organization-filter.context.ts_
+
+```tsx
+import { createContext, useContext } from "react";
+
+interface ContextProps {
+  filter: string;
+  setFilter: (filter: string) => void;
+}
+
+// asignamos un objeto por si el filtro crece en un futuro
+export const OrganizationFilterContext = createContext<ContextProps | null>(
+  null
+);
+
+export const useOrganizationFilterContext = (): ContextProps => {
+  const context = useContext(OrganizationFilterContext);
+  if (!context) {
+    throw new Error(
+      "useOrganizationFilterContext must be used within a OrganizationFilterProvider"
+    );
+  }
+  return context;
+};
+```
+
+su provider
+
+_./src/github-collection/providers/organization-filter.provider.tsx_
+
+```tsx
+import React from "react";
+import { OrganizationFilterContext } from "./organization-filter.context";
+
+interface Props {
+  children: React.ReactNode;
+}
+
+export const OrganizationFilterProvider: React.FC<Props> = ({ children }) => {
+  const [filter, setFilter] = React.useState("");
+  return (
+    <OrganizationFilterContext.Provider value={{ filter, setFilter }}>
+      {children}
+    </OrganizationFilterContext.Provider>
+  );
+};
+```
+
+Vamos a exponerlo todo con un barrel:
+
+_./src/github-collection/providers/index.ts_
+
+```tsx
+export * from "./organization-filter.context";
+export * from "./organization-filter.provider";
+```
+
+Vamos a instanciarlo a nivel de aplicación (queremos que viva por encima del router):
+
+_./src/App.tsx_
+
+```diff
+import "./App.css";
+import { Router } from "@/core/routing";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "@/core/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
++ import { OrganizationFilterProvider } from "@/pods/github-collection/providers";
+```
+
+```diff
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
++     <OrganizationFilterProvider>
+       <Router />
++    </OrganizationFilterProvider>
+      <ReactQueryDevtools />
+    </QueryClientProvider>
+  );
+}
+```
+
+Vamos a darle use en el pod:
+
+_./src/pods/github-collection/github-collection.pod.tsx_
+
+```diff
+import { GithubCollectionComponent } from "./github-collection.component";
+import { FilterComponent } from "./components";
+import { getGithubMembersCollection } from "./github-collection.repository";
+import { useQuery } from "@tanstack/react-query";
++ import { useOrganizationFilterContext } from "./providers";
+```
+
+```diff
+export const GithubCollectionPod: React.FC = () => {
+-  const [filter, setFilter] = React.useState("");
++  const { filter, setFilter } = useOrganizationFilterContext();
+
+  const { data: githubMembers = [] } = useQuery({
+    queryKey: ["githubMembers", filter],
+    queryFn: () => getGithubMembersCollection(filter),
+    enabled: !!filter,
+  });
+
+  return (
+    <div>
+      <FilterComponent
+        initialValue={filter}
+        onSearch={(value) => setFilter(value)}
+      />
+      <GithubCollectionComponent githubMembers={githubMembers} />
+    </div>
+  );
+};
+
+```
+
+Vemos que funciona
+
+```bash
+npm run dev
+```
+
+Si ahora ponemos un slow 3G (y en tab network DISABLE CACHE CHECKBOX) podrás ver que los datos están allí aunque hagamos un refetch, si ponemos para esta consulta un gcTime de 0 mira la diferencia.
 
 **_ Eliminar esto después _**
 
@@ -200,13 +329,14 @@ Si ahora ponemos un slow 3G podrás ver que los datos están allí aunque hagamo
   const { data: githubMembers = [] } = useQuery({
     queryKey: ["githubMembers", filter],
     queryFn: () => getGithubMembersCollection(filter),
++    staleTime: 0,
 +    gcTime: 0,
   });
 ```
 
 Prueba a quitar y poner verás que interesante el cambio.
 
-También es interesante corta la conexión a internet y ver que consultas que ya hemos hecho se nos sirven, esto puede ser interesante para una aplicación que se use en un sitio con mala cobertura y que trabaje con un conjunto reducido de datos.
+También es interesante este caso: corta la conexión a internet (network tab de dev tools, acuerdate habilitar cache navegador) y ver que consultas que ya hemos hecho se nos sirven, esto puede ser interesante para una aplicación que se use en un sitio con mala cobertura y que trabaje con un conjunto reducido de datos.
 
 Otra cosa que puedes hacer es incluso evitar que se llegue a lanzar la consulta, tanto de forma indefinida (_infinity_), como por un tiempo, esto lo puedes hacer con _staleTime_
 
@@ -219,19 +349,9 @@ Otra cosa que puedes hacer es incluso evitar que se llegue a lanzar la consulta,
   });
 ```
 
-Y aquí podemos jugar con un montón de casos, fijate que la cache se desactiva pasado un tiempo sin observadores.
+¿Para que puede servir esto? Aplicaciones tipo cuadro de mandos donde hay una serie de datos que son de solo lectura y cambian por ejemplo una vez a la semana, un caso muy útil puede ser el de mapas donde conformes haces zoom in / out, pan... vas cargando más o menos datos de detalle, que mejor que tenerlo todo en memoria.
 
-```diff
-  const { data: githubMembers = [] } = useQuery({
-    queryKey: ["githubMembers", filter],
-    queryFn: () => getGithubMembersCollection(filter),
-    staleTime: Infinity,
--    gcTime: Infinity
-    gcTime: 0,
-  });
-```
-
-Fíjate aquí las devtools en la parte derecha de una consulta, el valor _observers_ cuando deja de valer 1... el tiempo de _gcTime_ empieza a rodar.
+Y aquí podemos jugar con un montón de casos, fijate que la cache se desactiva pasado un tiempo sin observadores, en las devtools en la parte derecha de una consulta, el valor _observers_ cuando deja de valer 1... el tiempo de _gcTime_ empieza a rodar.
 
 > En una aplicación normal con los valores por defecto vamos sobrados, pero es bueno saber que tenemos esto.
 
@@ -247,8 +367,6 @@ Vamos a eliminar esos valores
 ```
 
 ### Aristas
-
----
 
 Vamos a cubrir algunas aristas (después avanzaremos e iremos a por más)
 
@@ -271,25 +389,14 @@ Vamos a cubrir algunas aristas (después avanzaremos e iremos a por más)
 
 > Si quiero manejar errores también tengo un _isError_
 
-Oye y ¿Si quiero que la consulta no se lance? En este caso, imaginate que el filtro empieza vacio, sólo quiero lanzarla cuando el filtro tenga datos, para ello puedo jugar on _isEnabled_
-
-```diff
-export const GithubCollectionPod: React.FC = () => {
--  const [filter, setFilter] = React.useState("lemoncode");
-+ const [filter, setFilter] = React.useState("");
-
-  const { data: githubMembers = [], isSuccess } = useQuery({
-    queryKey: ["githubMembers", filter],
-    queryFn: () => getGithubMembersCollection(filter),
-+   enabled: !!filter,
-  });
-```
-
 > Esto tambíen me puede ser útil si tengo que lanzar queries dependientes (ojo que esto suele ser un mal olor, a veces es mejor que un endpoint del server te de esos datos)
+
+### Disables y refetch
+
+Y si... ¿Quiero que la consulta deje de refrescarse de forma automática? Puede jugar con el _enabled_ y ponerlo a false bajo alguna condición.
 
 > También me puede servir si muestro datos y quiero entrar en modo edición (aunque aquí lo suyo es sacar a otro objeto y no tocar el original)
 
-Y si... ¿Quiero que la consulta deje de refrescarse de forma automática? Puede jugar con el _enabled_ y ponerlo a false bajo alguna condición.
 
 ¿Y al contrario? Quiero que el usuario pueda hacer un refresh manual, para eso tengo el _refetch_.
 
@@ -358,7 +465,7 @@ import { FilterComponent } from "./components";
 + import { useGithubCollectionQuery } from "./github-collection-query.hook";
 
 export const GithubCollectionPod: React.FC = () => {
-  const [filter, setFilter] = React.useState("");
+  const { filter, setFilter } = useOrganizationFilterContext();
 
 -  const {
 -    data: githubMembers = [],
@@ -381,9 +488,7 @@ Ya tenemos la página de listado, completa.
 
 Vamos a por la de detalle
 
-¿Te animas a implementarla?
-
-Pistas:
+Pasos:
 
 - Nos vamos al pod de _github-member_.
 - Creamos un use query, aquí para la clave:
@@ -400,7 +505,7 @@ _./src/pods/github-member/github-member.pod.tsx_
 import React from "react";
 + import { useQuery } from "@tanstack/react-query";
 import { getGithubMemberDetail } from "./github-member.repository";
-- import { createDefaultMemberDetail } from "./github-member.vm";
+import { createDefaultMemberDetail } from "./github-member.vm";
 import { GithubMemberComponent } from "./github-member.component";
 
 interface Props {

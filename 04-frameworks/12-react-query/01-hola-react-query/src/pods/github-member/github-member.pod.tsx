@@ -1,7 +1,9 @@
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getGithubMemberDetail } from "./github-member.repository";
-import { createDefaultMemberDetail } from "./github-member.vm";
 import { GithubMemberComponent } from "./github-member.component";
+import { createDefaultMemberDetail } from "./github-member.vm";
+import { githubKeys } from "@/core/react-query/query-keys";
 
 interface Props {
   id: string;
@@ -9,15 +11,11 @@ interface Props {
 
 export const GithubMemberPod: React.FC<Props> = (props) => {
   const { id } = props;
-  const [member, setMember] = React.useState(createDefaultMemberDetail());
 
-  React.useEffect(() => {
-    const loadGithubMember = async () => {
-      const member = await getGithubMemberDetail(id);
-      setMember(member);
-    };
-    loadGithubMember();
-  }, []);
+  const { data: member = createDefaultMemberDetail() } = useQuery({
+    queryKey: githubKeys.member(id),
+    queryFn: () => getGithubMemberDetail(id),
+  });
 
   return (
     <div>

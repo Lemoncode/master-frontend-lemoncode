@@ -1566,11 +1566,11 @@ Vamos a tocar la _cache_ de _React Query_, en concreto modificar un elemento, pa
 npm install immer
 ```
 
-_./src/modules/tasks/pods/task-collection/queries/use-task-mutation.hook_
+_./src/pods/todo-collection/queries/use-todo-mutation.hook_
 
 ```diff
 + import {produce} from "immer";
-+ import { TaskVm } from "../task-collection.vm";
++ import { TodoVm } from "../todo-collection.vm";
 import { useMutation } from "@tanstack/react-query";
 import { insertTask, updateTask } from "../task-collection.repository";
 import { queryClient, queryKeys } from "@tasks/core/react-query";
@@ -1584,14 +1584,14 @@ import { queryClient, queryKeys } from "@tasks/core/react-query";
         queryKey: queryKeys.taskCollection(),
       });
     },
-+   onMutate: async (newTask : TaskVm) => {
++   onMutate: async (newTodo : TodoVm) => {
 +      // TODO Aquí hay que hacer más cosas, ver este ejemplo
 +      // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
-+      queryClient.setQueryData(queryKeys.taskCollection(), (old : TaskVm[]) => {
-+        return produce(old, (draft: TaskVm[]) => {
-+            const index = draft.findIndex((item) => item.id === newTask.id);
++      queryClient.setQueryData(todoKeys.todoCollection(), (old : TodoVm[]) => {
++        return produce(old, (draft: TodoVm[]) => {
++            const index = draft.findIndex((item) => item.id === newTodo.id);
 +            if(index !== -1) {
-+              draft[index] = newTask;
++              draft[index] = newTodo;
 +            }
 +         })
 +      });
@@ -1601,10 +1601,10 @@ import { queryClient, queryKeys } from "@tasks/core/react-query";
 
 Para probar que esto funciona vamos a deshabilitar el refresco automático:
 
-_./src/modules/tasks/pods/task-collection/queries/use-task-mutation.hook.ts_
+_./src/pods/todo-collection/queries/use-todo-mutation.hook.ts_
 
 ```diff
-export const useTaskMutation = () => {
+export const useTodoMutation = () => {
   const { mutate: insertTaskMutation } = useMutation({
     mutationFn: insertTask,
     onSuccess: () => {

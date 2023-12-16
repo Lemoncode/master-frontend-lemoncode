@@ -1,0 +1,12 @@
+.container {
+  display: grid;
+  grid-template-rows: auto auto auto; /* Tres filas para cada elemento */
+  gap: 10px; /* Espacio entre los elementos */
+  justify-items: center; /* Centrar horizontalmente los elementos */
+  align-items: center; /* Alinear los elementos verticalmente en el centro */
+}
+
+.container img {
+  width: auto; /* Mantener la proporción de la imagen */
+  height: 80px; /* Altura fijada a 80px */
+}

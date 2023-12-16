@@ -76,7 +76,7 @@ Para acceder la servidor, lo suyo es que la API base la metamos en una variable 
 
 ```diff
 VITE_GITHUB_API_BASE_URL=https://api.github.com
-+ VITE_TASKS_API_BASE_URL=http://localhost:3000
++ VITE_TODO_API_BASE_URL=http://localhost:3000
 ```
 
 Y vamos a tiparlo:
@@ -86,12 +86,12 @@ Y vamos a tiparlo:
 ```diff
 interface EnvVariables {
   GITHUB_API_BASE_URL: string;
-+ TASKS_API_BASE_URL: string;
++ TODO_API_BASE_URL: string;
 }
 
 export const ENV_VARIABLES: EnvVariables = {
   GITHUB_API_BASE_URL: import.meta.env.VITE_GITHUB_API_BASE_URL,
-+ TASKS_API_BASE_URL: import.meta.env.VITE_TASKS_API_BASE_URL,
++ TODO_API_BASE_URL: import.meta.env.VITE_TODO_API_BASE_URL,
 };
 
 ```
@@ -115,16 +115,16 @@ _./src//pods/todo-collection/api/api.model.ts_
 ```ts
 import { z } from "zod";
 
-export const taskApiSchema = z.object({
+export const todoApiSchema = z.object({
   id: z.number(),
   description: z.string(),
   isDone: z.boolean(),
 });
 
 // Y para un array de tasks
-export const taskApiCollectionSchema = z.array(taskApiSchema);
+export const todoApiCollectionSchema = z.array(taskApiSchema);
 
-export type TaskModel = z.infer<typeof taskApiSchema>;
+export type TodoModel = z.infer<typeof taskApiSchema>;
 ```
 
 Vamos ahora a definir el fichero de API en el que vamos a leer del endpoint _localhost:3000/tasks_, para ello usaremos axios, y tiraremos de nuestra variable de entorno, también haremos un _safeParse_ con ZOD por si algo cambia en el módelo de la API (de momento lo que hacemos es informar con un console log de que ha habido un cambio en el modelo de la API, aquí podríamos plantearnos logging).
@@ -136,12 +136,12 @@ import axios from "axios";
 import { ENV_VARIABLES } from "@/core/env";
 import { taskApiCollectionSchema, TaskModel } from "./api.model";
 
-export const getTodoCollection = async (): Promise<TaskModel[]> => {
-  const { data } = await axios.get<TaskModel[]>(
+export const getTodoCollection = async (): Promise<TodoModel[]> => {
+  const { data } = await axios.get<TodoModel[]>(
     `${ENV_VARIABLES.TASKS_API_BASE_URL}/todos`
   );
 
-  const result = taskApiCollectionSchema.safeParse(data);
+  const result = todoApiCollectionSchema.safeParse(data);
   if (!result.success) {
     console.error(result.error);
   }
@@ -501,7 +501,7 @@ Ahora vamos a implementar una funcionalidad para crear un TODO y después implem
 
 Vamos a definir los estados:
 
-_./src/modules/tasks/pods/task-collection/task-collection.vm.ts_
+_./src/pods/todo-collection/todo-collection.vm.ts_
 
 ```diff
 + export type Mode = "Readonly" | "Append" | "Edit";
@@ -515,12 +515,12 @@ export interface TaskVm {
 
 Ese estado lo vamos a definir en el POD:
 
-_./src/modules/tasks/pods/task-collection/task-collection.pod.tsx_
+_./src/pods/todo-collection/todo-collection.pod.tsx_
 
 ```diff
 import React from "react";
-import { useTaskCollectionQuery } from "./use-task-collection-query.hook";
-+ import { Mode } from "./task-collection.vm";
+import { useTodoCollectionQuery } from "./use-task-collection-query.hook";
++ import { Mode } from "./todo-collection.vm";
 import classes from "./task-collection.pod.module.css";
 
 export const TaskCollectionPod: React.FC = () => {
@@ -546,21 +546,21 @@ export const TaskCollectionPod: React.FC = () => {
 
 Vamos a definir la firma de este componente:
 
-_./src/modules/tasks/pods/task-collection/components/task-append.component.tsx_
+_./src/pods/todo-collection/components/todo-append.component.tsx_
 
 ```tsx
 import React from "react";
-import { Mode, TaskVm } from "../task-collection.vm";
+import { Mode, TodoVm } from "../todo-collection.vm";
 
 interface Props {
   mode: Mode;
   setAppendMode: () => void;
   onCancel: () => void;
-  onAppend: (item: TaskVm) => void;
+  onAppend: (item: TodoVm) => void;
 }
 
-export const TaskAppendComponent: React.FC<Props> = (props: Props) => {
-  const { mode, setAppendMode, onAppend, onCancel } = props;
+export const TodoAppendComponent: React.FC<Props> = (props: Props) => {
+  const { mode, setAppendMode, onCancel } = props;
 
   return (
     <div>
@@ -582,19 +582,19 @@ Para usarlo de una manera más sencilla vamos a crear un barrel:
 _./src/modules/tasks/pods/task-collection/components/index.ts_
 
 ```ts
-export * from "./task-append.component";
+export * from "./todo-append.component";
 ```
 
 Y ahora vamos a usarlo en el POD:
 
-_./src/modules/tasks/pods/task-collection/task-collection.pod.tsx_
+_./src/pods/todo-collection/todo-collection.pod.tsx_
 
 ```diff
 import React from "react";
 import { useTaskCollectionQuery } from "./use-task-collection-query.hook";
 import { Mode } from "./task-collection.vm";
 import classes from "./task-collection.pod.module.css";
-+ import { TaskAppendComponent } from "./components";
++ import { TodoAppendComponent } from "./components";
 ```
 
 ```diff
@@ -609,7 +609,7 @@ import classes from "./task-collection.pod.module.css";
           </React.Fragment>
         ))}
       </div>
-+     <TaskAppendComponent/>
++     <TodoAppendComponent/>
     </div>
   );
 ```
@@ -642,19 +642,19 @@ Ahora vamos a implementar el formulario de edición, queremos hacer uno genéric
 - Un callback para guardar cambios (el padre es responsable de guardar).
 - Un callback para cancelar cambios (el padre decide a que modo va).
 
-_./components/task-item-edit.component.tsx_
+_./components/todo-item-edit.component.tsx_
 
 ```ts
 import React from "react";
-import { TaskVm } from "../task-collection.vm";
+import { TodoVm } from "../todo-collection.vm";
 
 interface Props {
-  item: TaskVm;
-  onSave: (item: TaskVm) => void;
+  item: TodoVm;
+  onSave: (item: TodoVm) => void;
   onCancel: () => void;
 }
 
-export const TaskItemEdit: React.FC<Props> = (props: Props) => {
+export const TodoItemEdit: React.FC<Props> = (props: Props) => {
   const { item, onSave, onCancel } = props;
   const [editItem, setEditItem] = React.useState({ ...item });
 
@@ -688,42 +688,48 @@ export const TaskItemEdit: React.FC<Props> = (props: Props) => {
 
 Para el modo append, nos hace falta un método en el VM que cree un tarea en blanco:
 
-_./src/modules/tasks/pods/task-collection/task-collection.vm.ts_
+_./src/pods/todo-collection/task-collection.vm.ts_
 
 ```diff
 export type Mode = "Readonly" | "Append" | "Edit";
 
-export interface TaskVm {
+export interface TodoVm {
   id: number;
   description: string;
   isDone: boolean;
 }
 
-+ export const createEmptyTask = (): TaskVm => ({
++ export const createEmptyTodoItem = (): TodoVm => ({
 +   id: 0,
 +   description: "",
 +   isDone: false,
 + });
 ```
 
-Vamos a usar esto en nuestro _task-append.component.tsx_:
+Vamos a usar esto en nuestro _todo-append.component.tsx_:
 
-_./src/modules/tasks/pods/task-collection/components/task-append.component.tsx_
+_./src/pods/todo-collection/components/todo-append.component.tsx_
 
 ```diff
 import React from "react";
-- import { Mode, TaskVm } from "../task-collection.vm";
-+ import { Mode, TaskVm, createEmptyTask } from "../task-collection.vm";
-+ import { TaskItemEdit } from "./task-item-edit.component";
+- import { Mode, TaskVm } from "../todo-collection.vm";
++ import { Mode, TaskVm, createEmptyTodoItem } from "../todo-collection.vm";
++ import { TodoItemEdit } from "./task-item-edit.component";
 ```
 
 ```diff
+  const { mode,
+    setAppendMode,
++   onAppend,
+    onCancel } = props;
+
+
   ) : (
     <div>
 -      <h3>Here goes editing thing...</h3>
 -      <button onClick={onCancel}>Cancel</button>
 +        {/* Recordar onAppend en destructuring props*/}
-+         <TaskItemEdit
++         <TodoItemEdit
 +           item={createEmptyTodoItem()}
 +           onSave={onAppend}
 +           onCancel={onCancel}
@@ -742,19 +748,19 @@ Ya lo tenemos todo enlazado, vamos ahora a implementar la api que va a conectar 
 
 Primero el _post_ con _axios_:
 
-_./src/modules/tasks/pods/task-collection/api/api.ts_
+_./src/pods/todo-collection/api/api.ts_
 
 ```diff
 import axios from "axios";
 import { ENV_VARIABLES } from "@/core/env";
 import { taskApiCollectionSchema, TaskModel } from "./api.model";
 
-export const getTaskCollection = async (): Promise<TaskModel[]> => {
+export const getTodoCollection = async (): Promise<TaskModel[]> => {
   const { data } = await axios.get<TaskModel[]>(
     `${ENV_VARIABLES.TASKS_API_BASE_URL}/todos`
   );
 
-  const result = taskApiCollectionSchema.safeParse(data);
+  const result = todoApiCollectionSchema.safeParse(data);
   if (!result.success) {
     console.error(result.error);
   }
@@ -762,10 +768,10 @@ export const getTaskCollection = async (): Promise<TaskModel[]> => {
   return data ?? [];
 };
 
-+ export const insertTask = async (task: TaskModel): Promise<TaskModel> => {
-+   const { data } = await axios.post<TaskModel>(
-+     `${ENV_VARIABLES.TASKS_API_BASE_URL}/todos`,
-+     task
++ export const insertTodo = async (todo: TodoModel): Promise<TodoModel> => {
++   const { data } = await axios.post<TodoModel>(
++     `${ENV_VARIABLES.TODO_API_BASE_URL}/todos`,
++     todo
 +   );
 +
 +  return data;
@@ -774,17 +780,17 @@ export const getTaskCollection = async (): Promise<TaskModel[]> => {
 
 Pero lo que tenemos es un _viewModel_ así que vamos a implementar, un mapper para pasar de _viewModel_ a _apiModel_ y crear el método en el repositorio:
 
-_./src/modules/tasks/pods/task-collection/task-collection.mapper.ts_
+_./src/todo-collection/todo-collection.mapper.ts_
 
 ```diff
 import * as apiModel from "./api/api.model";
 import * as vm from "./task-collection.vm";
 
-export const mapTaskFromApiToVm = (task: apiModel.TaskModel): vm.TaskVm => ({
+export const mapTodoFromApiToVm = (task: apiModel.TodoModel): vm.TodoVm => ({
   ...task,
 });
 
-+ export const mapTaskFromVmToApi = (task: vm.TaskVm): apiModel.TaskModel => ({
++ export const mapTodoFromVmToApi = (task: vm.TodoVm): apiModel.TodoModel => ({
 +   ...task,
 + });
 ```
@@ -796,11 +802,11 @@ _./src/modules/tasks/pods/task-collection/task-collection.repository.ts_
 ```diff
 import * as apiModel from "./api/api.model";
 import { mapTaskFromApiToVm,
-+        mapTaskFromVmToApi
++        mapTodoFromVmToApi
 } from "./task-collection.mapper";
 import * as vm from "./task-collection.vm";
 import { getTaskCollection as getTaskCollecionApi,
-+        insertTask as insertTaskApi
++        insertTodo as insertTodoApi
  } from "./api/api";
 
 export const getTaskCollection = async (): Promise<vm.TaskVm[]> => {
@@ -808,25 +814,25 @@ export const getTaskCollection = async (): Promise<vm.TaskVm[]> => {
   return apiTaskCollection.map(mapTaskFromApiToVm);
 };
 
-+ export const insertTask = async (task: vm.TaskVm): Promise<vm.TaskVm> => {
-+   const apiTask = mapTaskFromVmToApi(task);
-+   const insertedTask = await insertTaskApi(apiTask);
-+   return mapTaskFromApiToVm(insertedTask);
++ export const insertTodo = async (task: vm.TodoVm): Promise<vm.TodoVm> => {
++   const apiTask = mapTodoFromVmToApi(task);
++   const insertedTodo = await insertTodoApi(apiTask);
++   return mapTaskFromApiToVm(insertedTodo);
 + };
 ```
 
 Toca ahora implementar la mutación con _React Query_, de momento lo hacemos en el POD:
 
-_./src/modules/tasks/pods/task-collection/task-collection.pod.tsx_
+_./src/pods/todo-collection/todo-collection.pod.tsx_
 
 ```diff
 import React from "react";
 import { useTaskCollectionQuery } from "./use-task-collection-query.hook";
 import { Mode } from "./task-collection.vm";
 import classes from "./task-collection.pod.module.css";
-import { TaskAppendComponent } from "./components";
+import { TodoAppendComponent } from "./components";
 + import { useMutation } from "@tanstack/react-query";
-+ import { insertTask } from "./task-collection.repository";
++ import { insertTodo } from "./todo-collection.repository";
 ```
 
 ```diff
@@ -834,12 +840,12 @@ export const TaskCollectionPod: React.FC = () => {
   const [mode, setMode] = React.useState<Mode>("Readonly");
   const [connectionLost, setConnectionLost] = React.useState(false);
   const { taskCollection, isError } = useTaskCollectionQuery(!connectionLost);
-+ const { mutate: insertTaskMutation } = useMutation({
-+    mutationFn: insertTask,
++ const { mutate: insertTodoMutation } = useMutation({
++    mutationFn: insertTodo,
 +  });
 
-+ const handleAppend = (item: TaskVm) => {
-+   insertTaskMutation(item);
++ const handleAppend = (item: TodoVm) => {
++   insertTodoMutation(item);
 +   setMode("Readonly");
 + };
 ```
@@ -865,11 +871,14 @@ Pues que como no perdemos foco, y no se recarga el componente, se queda con la q
 _Nos toca antes del refactor importar queryClient y querykeys_
 
 ```diff
++ import { queryClient, todoKeys } from "@/core/react-query";
+// (...)
+
   const { mutate: insertTaskMutation } = useMutation({
     mutationFn: insertTask,
 +    onSuccess: () => {
 +      queryClient.invalidateQueries({
-+        queryKey: queryKeys.all(),
++         queryKey: todoKeys.all,
 +      });
 +    },
 ```
@@ -887,36 +896,36 @@ Vamos a hacer un refactor, metemos la mutación en un hook, aquí podemos elegir
 
 Usamos un hook para el mutation:
 
-_./src/modules/tasks/pods/task-collection/mutations/use-task-mutation.hook.ts_
+_./src/pods/todo-collection/use-todo-mutation.hook.ts_
 
 ```ts
 import { useMutation } from "@tanstack/react-query";
-import { insertTask } from "./task-collection.repository";
-import { queryClient, queryKeys } from "@tasks/core/react-query";
+import { insertTodo } from "./todo-collection.repository";
+import { queryClient, todoKeys } from "@/core/react-query";
 
-export const useTaskMutation = () => {
-  const { mutate: insertTaskMutation } = useMutation({
-    mutationFn: insertTask,
+export const useTodoMutation = () => {
+  const { mutate: insertTodoMutation } = useMutation({
+    mutationFn: insertTodo,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: queryKeys.taskCollection(),
+        queryKey: todoKeys.todoCollection(),
       });
     },
   });
 
   return {
-    insertTaskMutation,
+    insertTodoMutation,
   };
 };
 ```
 
-Ya aprovechamos y lo metemos y metemos los dos hooks de queries / mutation en una carpeta:
+Ya aprovechamos y metemos los dos hooks de queries / mutation en una carpeta:
 
 _./src/modules/tasks/pods/task-collection/queries_
 
 Y creamos un barrel:
 
-_./src/modules/tasks/pods/task-collection/queries/index.ts_
+_./src/pods/todo-collection/queries/index.ts_
 
 ```ts
 export * from "./use-task-collection-query.hook";
@@ -925,17 +934,17 @@ export * from "./use-task-mutation.hook";
 
 Y vamos a refactorizar el POD:
 
-_./src/modules/tasks/pods/task-collection/task-collection.pod.tsx_
+_./src/todo-collection/todo-collection.pod.tsx_
 
 ```diff
 import React from "react";
--import { useTaskCollectionQuery } from "./queries/use-task-collection-query.hook";
+-import { useTodoCollectionQuery } from "./use-task-collection-query.hook";
 import { Mode } from "./task-collection.vm";
 import classes from "./task-collection.pod.module.css";
 import { TaskAppendComponent } from "./components";
-- import { insertTask } from "./task-collection.repository";
+- import { insertTodo } from "./task-collection.repository";
 - import { useMutation } from "@tanstack/react-query";
-+ import { useTaskCollectionQuery, useTaskMutation } from "./queries";
++ import { useTodoCollectionQuery, useTodoMutation } from "./queries";
 import { TaskVm } from "./task-collection.vm";
 import { queryClient, queryKeys } from "@tasks/core/react-query";
 
@@ -943,7 +952,7 @@ export const TaskCollectionPod: React.FC = () => {
   const [mode, setMode] = React.useState<Mode>("Readonly");
   const [connectionLost, setConnectionLost] = React.useState(false);
   const { taskCollection, isError } = useTaskCollectionQuery(!connectionLost);
-+ const { insertTaskMutation } = useTaskMutation();
++ const { insertTodoMutation } = useTaskMutation();
 -  const { mutate: insertTaskMutation } = useMutation({
 -    mutationFn: insertTask,
 -    onSuccess: () => {
@@ -962,14 +971,14 @@ npm run dev
 
 Podemos simplifcar el POD, vamos a crear un hook que almacene el modo y el estado de la conexión (se podría haber roto en dos separados, per ahorramos poco?)
 
-_./src/modules/tasks/pods/task-collection/task-collection.hook.ts_
+_./src/todo-collection/todo-collection.pod.tsx_
 
 ```diff
 + const usePodQuery = () => {
 +  const [mode, setMode] = React.useState<Mode>("Readonly");
 +  const [connectionLost, setConnectionLost] = React.useState(false);
-+  const { taskCollection, isError } = useTaskCollectionQuery(!connectionLost);
-+  const { insertTaskMutation } = useTaskMutation();
++  const { todoCollection, isError } = useTodoCollectionQuery(!connectionLost);
++  const { insertTodoMutation } = useTodoMutation();
 +
 +  React.useEffect(() => {
 +    if (isError) {
@@ -982,8 +991,8 @@ _./src/modules/tasks/pods/task-collection/task-collection.hook.ts_
 +    setMode,
 +    connectionLost,
 +    setConnectionLost,
-+    taskCollection,
-+    insertTaskMutation,
++    todoCollection,
++    insertTodoMutation,
 +    isError,
 +  };
 + };
@@ -1007,32 +1016,32 @@ _./src/modules/tasks/pods/task-collection/task-collection.hook.ts_
 +  const {
 +    mode,
 +    setMode,
-+    taskCollection,
-+    insertTaskMutation,
++    todoCollection,
++    insertTodoMutation,
 +    isError,
 +    setConnectionLost,
 +  } = usePodQuery();
 
-  const handleAppend = (item: TaskVm) => {
-    insertTaskMutation(item);
+  const handleAppend = (item: TodoVm) => {
+    insertTodoMutation(item);
     setMode("Readonly");
   };
 ```
 
 En cuanto a la lista de tareas, vamos a crear un componente para visualizar una tarea, de paso le añadimos un botón para poder editarla:
 
-_./src/modules/tasks/pods/task-collection/components/task-display.component.tsx_
+_./src/pods/todo-collection/components/todo-display.component.tsx_
 
 ```tsx
 import React from "react";
-import { TaskVm } from "../task-collection.vm";
+import { TodoVm } from "../todo-collection.vm";
 
 interface Props {
-  item: TaskVm;
+  item: TodoVm;
   onEdit: (id: number) => void;
 }
 
-export const TaskDisplayComponent: React.FC<Props> = (props: Props) => {
+export const TodoDisplayComponent: React.FC<Props> = (props: Props) => {
   const { item, onEdit } = props;
 
   return (
@@ -1045,23 +1054,23 @@ export const TaskDisplayComponent: React.FC<Props> = (props: Props) => {
 };
 ```
 
-Lo añadimos al barrer:
+Lo añadimos al barrel:
 
-_./src/modules/tasks/pods/task-collection/components/index.ts_
+_./src/pods/todo-collection/components/index.ts_
 
 ```diff
-export * from "./task-append.component";
-+ export * from "./task-display.component";
+export * from "./todo-append.component";
++ export * from "./todo-display.component";
 ```
 
 Y le damos uso:
 
-_./src/modules/tasks/pods/task-collection/task-collection.pod.tsx_
+_./src/pods/todo-collection/todo-collection.pod.tsx_
 
 ```diff
 import classes from "./task-collection.pod.module.css";
-- import { TaskAppendComponent } from "./components";
-+ import { TaskAppendComponent, TaskDisplayComponent } from "./components";
+- import { TodoAppendComponent } from "./components";
++ import { TodoAppendComponent, TodoDisplayComponent } from "./components";
 ```
 
 ```diff
@@ -1074,9 +1083,9 @@ import classes from "./task-collection.pod.module.css";
 -            <div>{task.isDone ? "✅" : "⭕️"}</div>
 -            <div>{task.description}</div>
 -          </React.Fragment>
-+         <TaskDisplayComponent
-+           key={task.id}
-+           item={task}
++         <TodoDisplayComponent
++           key={todo.id}
++           item={todo}
 +           onEdit={(id) => console.log("TODO... edit", id)}
 +         />
         ))}
@@ -1112,7 +1121,7 @@ Si pinchamos en _edit_ vemos que no pasa nada, toca ponerse manos a la obra:
 
 Vamos primero a por el estado:
 
-_./src/modules/tasks/pods/task-collection/task-collection.pod.ts_
+_./src/pods/todo-collection/todo-collection.pod.ts_
 
 ```diff
 const usePodQuery = () => {
@@ -1144,7 +1153,7 @@ const usePodQuery = () => {
 ```
 
 ```diff
-export const TaskCollectionPod: React.FC = () => {
+export const TodoCollectionPod: React.FC = () => {
   const {
     mode,
     setMode,
@@ -1172,9 +1181,9 @@ export const TaskCollectionPod: React.FC = () => {
 ```
 
 ```diff
-          <TaskDisplayComponent
-            key={task.id}
-            item={task}
+          <TodoDisplayComponent
+            key={todo.id}
+            item={todo}
 -            onEdit={(item) => console.log("TODO... edit", item)}
 +            onEdit={handleEnterEditMode}
           />
@@ -1182,19 +1191,19 @@ export const TaskCollectionPod: React.FC = () => {
 
 En solo lectura utilizamos el _task-display-row_ component, vamos a crear un componente _task-edit-row.component_
 
-_./src/modules/tasks/pods/task-collection/components/task-edit-row.component.tsx_
+_./src/components/todo-edit-row.component.tsx_
 
 ```tsx
 import React from "react";
-import { TaskVm } from "../task-collection.vm";
+import { TodoVm } from "../todo-collection.vm";
 
 interface Props {
-  item: TaskVm;
-  onSave: (item: TaskVm) => void;
+  item: TodoVm;
+  onSave: (item: TodoVm) => void;
   onCancel: () => void;
 }
 
-export const TaskEditRowComponent: React.FC<Props> = (props: Props) => {
+export const TodoEditRowComponent: React.FC<Props> = (props: Props) => {
   const { item, onSave, onCancel } = props;
   const [editItem, setEditItem] = React.useState({ ...item });
 
@@ -1247,35 +1256,35 @@ export * from "./task-edit-row.component";
 
 Y vamos a crearnos el componente _taskRowComponent_:
 
-_./src/modules/tasks/pods/task-collection/components/task-row.component.tsx_
+_./src/modules/tasks/pods/task-collection/components/todo-row.component.tsx_
 
 ```tsx
 import React from "react";
-import { Mode, TaskVm } from "../task-collection.vm";
-import { TaskDisplayRowComponent, TaskEditRowComponent } from "./rows";
+import { Mode, TodoVm } from "../todo-collection.vm";
+import { TodoDisplayComponent, TodoEditRowComponent } from "./rows";
 
 interface Props {
   editingId: number;
   mode: Mode;
-  todo: TaskVm;
+  todo: TodoVm;
   onEnterEditMode: (id: number) => void;
-  onUpdate: (item: TaskVm) => void;
+  onUpdate: (item: TodoVm) => void;
   onCancel: () => void;
 }
 
-export const TaskRowComponent: React.FC<Props> = (props: Props) => {
+export const TodoRowComponent: React.FC<Props> = (props: Props) => {
   const { todo, editingId, mode, onEnterEditMode, onUpdate, onCancel } = props;
 
   return (
     <>
       {mode === "Readonly" || todo.id !== editingId ? (
-        <TaskDisplayRowComponent
+        <TodoDisplayComponent
           key={todo.id}
           item={todo}
           onEdit={onEnterEditMode}
         />
       ) : (
-        <TaskEditRowComponent
+        <TodoEditRowComponent
           key={todo.id}
           item={todo}
           onSave={onUpdate}
@@ -1299,14 +1308,14 @@ export * from "./task-append.component";
 
 Y lo usamos en el POD:
 
-_./src/modules/tasks/pods/task-collection/task-collection.pod.tsx_
+_./src/pods/todo-collection.pod.tsx_
 
 ```diff
 import React from "react";
 import { Mode } from "./task-collection.vm";
 import classes from "./task-collection.pod.module.css";
 - import { TaskAppendComponent, TaskDisplayRowComponent } from "./components";
-+ import { TaskAppendComponent, TaskRowComponent } from "./components";
++ import { TodoAppendComponent, TodoRowComponent } from "./components";
 import { useTaskCollectionQuery, useTaskMutation } from "./queries";
 import { TaskVm } from "./task-collection.vm";
 
@@ -1334,11 +1343,11 @@ export const TaskCollectionPod: React.FC = () => {
 -            item={task}
 -            onEdit={handleEnterEditMode}
 -          />
-+          <TaskRowComponent
-+            key={task.id}
++          <TodoRowComponent
++            key={todo.id}
 +            editingId={editingId}
 +            mode={mode}
-+            todo={task}
++            todo={todo}
 +            onEnterEditMode={handleEnterEditMode}
 +            onUpdate={handleUpdate}
 +            onCancel={handleCancel}
@@ -1358,7 +1367,7 @@ _./src/modules/tasks/pods/task-collection/task-collection.pod.tsx_
     setMode("Readonly");
   };
 
-+ const handleUpdate = (item: TaskVm) => {
++ const handleUpdate = (item: TodoVm) => {
 +   console.log("TODO... update", item);
 + };
 +
@@ -1372,10 +1381,10 @@ _./src/modules/tasks/pods/task-collection/task-collection.pod.tsx_
 
 Vamos ahora a por el put, primero en la API:
 
-_./src/modules/tasks/pods/task-collection/api/api.ts_
+_./src/pods/todo-collection/api/api.ts_
 
 ```diff
-export const insertTask = async (task: TaskModel): Promise<TaskModel> => {
+export const insertTodo = async (task: TaskModel): Promise<TaskModel> => {
   const { data } = await axios.post<TaskModel>(
     `${ENV_VARIABLES.TASKS_API_BASE_URL}/todos`,
     task
@@ -1384,10 +1393,11 @@ export const insertTask = async (task: TaskModel): Promise<TaskModel> => {
   return data;
 };
 
-+ export const updateTask = async (task: TaskModel): Promise<TaskModel> => + {
-+   const { data } = await axios.put<TaskModel>(
-+     `${ENV_VARIABLES.TASKS_API_BASE_URL}/todos/${task.id}`,
-+     task
++ export const updateTodo = async (todo: TodoModel): Promise<TodoModel> =>
++ {
++   const { data } = await axios.put<TodoModel>(
++     `${ENV_VARIABLES.TODO_API_BASE_URL}/todos/${todo.id}`,
++     todo
 +   );
 +
 +  return data;
@@ -1404,7 +1414,7 @@ _./src/modules/tasks/pods/task-collection/task-collection.repository.ts_
 import {
   getTaskCollection as getTaskCollecionApi,
   insertTask as insertTaskApi,
-+  updateTask as updateTaskApi,
++  updateTodo as updateTodoApi,
 } from "./api/api";
 
 // (...)
@@ -1415,21 +1425,21 @@ export const insertTask = async (task: vm.TaskVm): Promise<vm.TaskVm> => {
   return mapTaskFromApiToVm(insertedTask);
 };
 
-+ export const updateTask = async (task: vm.TaskVm): Promise<vm.TaskVm> => {
-+   const apiTask = mapTaskFromVmToApi(task);
-+   const updatedTask = await updateTaskApi(apiTask);
-+   return mapTaskFromApiToVm(updatedTask);
++ export const updateTodo = async (todo: vm.TodoVm): Promise<vm.TodoVm> => {
++  const apiTodo = mapTodoFromVmToApi(todo);
++  const updatedTodo = await updateTodoApi(apiTodo);
++  return mapTodoFromApiToVm(updatedTodo);
 + };
 ```
 
 Y ahora vamos a por la query de update, en el hook de mutation
 
-_./src/modules/tasks/pods/task-collection/mutations/use-task-mutation.hook.ts_
+_./src/pods/todo-collection/mutations/use-todo-mutation.hook.ts_
 
 ```diff
 import { useMutation } from "@tanstack/react-query";
-- import { insertTask } from "../task-collection.repository";
-+ import { insertTask, updateTask } from "../task-collection.repository";
+- import { insertTodo } from "../task-collection.repository";
++ import { insertTodo, updateTodo } from "../todo-collection.repository";
 import { queryClient, queryKeys } from "@tasks/core/react-query";
 
 export const useTaskMutation = () => {
@@ -1437,23 +1447,23 @@ export const useTaskMutation = () => {
     mutationFn: insertTask,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: queryKeys.taskCollection(),
+        queryKey: todoKeys.taskCollection(),
       });
     },
   });
 
-+  const { mutate: updateTaskMutation } = useMutation({
-+    mutationFn: updateTask,
++  const { mutate: updateTodoMutation } = useMutation({
++    mutationFn: updateTodo,
 +    onSuccess: () => {
 +      queryClient.invalidateQueries({
-+        queryKey: queryKeys.taskCollection(),
++        queryKey: todoKeys.todoCollection(),
 +      });
 +    },
 +  });
 
   return {
-    insertTaskMutation,
-+    updateTaskMutation,
+    insertTodoMutation,
++    updateTodoMutation,
   };
   };
 };
@@ -1461,7 +1471,7 @@ export const useTaskMutation = () => {
 
 Y nos vamos al pod:
 
-_./src/modules/tasks/pods/task-collection/task-collection.pod.tsx_
+_./src/pods/todo-collection/todo-collection.pod.tsx_
 
 ```diff
 const usePodQuery = () => {
@@ -1471,7 +1481,7 @@ const usePodQuery = () => {
   const [connectionLost, setConnectionLost] = React.useState(false);
   const { taskCollection, isError } = useTaskCollectionQuery(!connectionLost);
 -  const { insertTaskMutation } = useTaskMutation();
-+  const { insertTaskMutation, updateTaskMutation } = useTaskMutation();
++  const { insertTodoMutation, updateTodoMutation } = useTodoMutation();
 
 
   React.useEffect(() => {
@@ -1488,8 +1498,8 @@ const usePodQuery = () => {
     connectionLost,
     setConnectionLost,
     taskCollection,
-    insertTaskMutation,
-+    updateTaskMutation
+    insertTodoMutation,
++    updateTodoMutation
     isError,
   };
 };
@@ -1498,7 +1508,7 @@ const usePodQuery = () => {
 ```diff
   const handleUpdate = (item: TaskVm) => {
 -    console.log("TODO... update", item);
-+   updateTaskMutation(item);
++   updateTodoMutation(item);
 +    setMode("Readonly");
 +    setEditingId(-1);
   };

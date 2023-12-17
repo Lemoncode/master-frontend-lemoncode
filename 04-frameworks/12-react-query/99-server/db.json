@@ -14,21 +14,6 @@
       "id": 3,
       "description": "2023",
       "isDone": true
-    },
-    {
-      "id": 4,
-      "description": "Nuevo33",
-      "isDone": true
-    },
-    {
-      "id": 5,
-      "description": "no terminado",
-      "isDone": false
-    },
-    {
-      "id": 6,
-      "description": "otra prueba",
-      "isDone": true
     }
   ]
 }

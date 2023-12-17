@@ -1604,12 +1604,14 @@ import { insertTask, updateTask } from "../task-collection.repository";
 import { queryClient, queryKeys } from "@tasks/core/react-query";
 ```
 
+OJO EN UPDATE NO EN INSERT :)
+
 ```diff
-  const { mutate: updateTaskMutation } = useMutation({
-    mutationFn: updateTask,
+  const { mutate: updateTodoMutation } = useMutation({
+    mutationFn: updateTodo,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: queryKeys.taskCollection(),
+        queryKey: queryKeys.todoCollection(),
       });
     },
 +   onMutate: async (newTodo : TodoVm) => {
@@ -1641,7 +1643,7 @@ export const useTodoMutation = () => {
 -      });
 +   // Comentar esto sólo para la prueba
 +   //   queryClient.invalidateQueries({
-+   //     queryKey: queryKeys.taskCollection(),
++   //     queryKey: queryKeys.todoCollection(),
 +   //   });
 
 
@@ -1656,18 +1658,6 @@ export const useTodoMutation = () => {
       });
     },
 
-```
-
-```diff
-const useTodoQueries = () => {
-  const queryClient = useQueryClient();
-
-  const mutationSucceeded = () => {
--    queryClient.invalidateQueries(todoKeys.todoList());
-+   // Comentar esto sólo para la prueba
-+   // queryClient.invalidateQueries(todoKeys.todoList());
-  };
-  };
 ```
 
 Hacer optimistic updates bien no es fácil, hay varios casos arista, veamos este ejemplo de la documentación:

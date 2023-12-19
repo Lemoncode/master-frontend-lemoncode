@@ -28,41 +28,20 @@ ng serve
 
 - Importamos el módulo HttpClientModule
 
-_src/app/app.module.ts_
+_src/app/app.config.ts_
 
 ```diff
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-+import { HttpClientModule } from '@angular/common/http';
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { MenuComponent } from './layout/menu/menu.component';
-import { UserListComponent } from './user/user-list/user-list.component';
-import { HighlightDirective } from './directives/highlight.directive';
-import { SearchByLoginPipe } from './pipes/search-by-login.pipe';
+import { routes } from './app.routes';
++import { provideHttpClient, withFetch } from '@angular/common/http';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    MenuComponent,
-    UserListComponent,
-    HighlightDirective,
-    SearchByLoginPipe
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
--    ReactiveFormsModule,
-+    ReactiveFormsModule,
-+    HttpClientModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
+// https://stackoverflow.com/questions/77483538/angular-17-http-client-injection
+export const appConfig: ApplicationConfig = {
+- providers: [provideRouter(routes)],
++ providers: [provideRouter(routes), provideHttpClient(withFetch())],
+};
 ```
 
 - Inyectamos el servicio HttpClient en el servicio MembersService
@@ -117,7 +96,7 @@ Por defecto, los métodos de HttpClient convierten el body de la respuesta en js
 
 - Tipamos correctamente
 
-Los métodos de HttpClient no devuelven promesas de las respuestas, devuelven Observables de las respuestas. 
+Los métodos de HttpClient no devuelven promesas de las respuestas, devuelven Observables de las respuestas.
 
 _src/app/services/members.service.ts_
 
@@ -143,33 +122,25 @@ export class MembersService {
 }
 ```
 
-- Adaptamos la llamada al servicio desde el componente 
+- Adaptamos la llamada al servicio desde el componente
 
 Ahora el componente UserListComponent no recibe una promesa, sino un observable. Lo correjimos.
 
 _src/app/user/user-list/user-list.component.ts_
 
 ```diff
-constructor(private membersService: MembersService, private fb: FormBuilder) {
--  this.membersService.getAll().then(
-+  this.membersService.getAll().subscribe(
-    members => this.members = members
-  );
+  ngOnInit(): void {
+-   this.membersService.getAll().then((members) => (this.members = members));
++   this.membersService
++     .getAll()
++     .subscribe((members) => (this.members = members));
++
+    this.newMember = {
+      id: '',
+      login: '',
+      avatar_url: '',
+    };
 
-  this.newMember = {
-    id: '',
-    login: '',
-    avatar_url: ''
-  };
-
-  this.createEditForm();
-
-  // this.loginControl.valueChanges.subscribe(
-  //   value => console.log({value})
-  // );
-
-  // this.editForm.valueChanges.subscribe(
-  //   value => console.log({value})
-  // );
-}
+    this.createEditForm();
+  }
 ```

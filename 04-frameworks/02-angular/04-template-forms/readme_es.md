@@ -31,41 +31,6 @@ npm install
 ng serve
 ```
 
-- Importamos el módulo FormsModule en nuestro módulo raíz
-
-_src/app/app.module.ts_
-
-```diff
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-+import { FormsModule } from '@angular/forms';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { MenuComponent } from './layout/menu/menu.component';
-import { UserListComponent } from './user/user-list/user-list.component';
-import { HighlightDirective } from './directives/highlight.directive';
-
-@NgModule({
-  declarations: [
-    AppComponent,
-    MenuComponent,
-    UserListComponent,
-    HighlightDirective
-  ],
-  imports: [
-    BrowserModule,
--    AppRoutingModule
-+    AppRoutingModule,
-+    FormsModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-
-```
-
 - Añadimos html de formulario de alta
 
 _src/app/user/user-list/user-list.component.html_
@@ -123,29 +88,37 @@ _src/app/user/user-list/user-list.component.ts_
 
 ```diff
 export class UserListComponent implements OnInit {
-
   members: MemberEntity[] = [];
-+  newMember: MemberEntity;
-
-  constructor() {
-    fetch(`https://api.github.com/orgs/lemoncode/members`)
-      .then((response) => response.json())
-      .then((json) => this.members = json);
-
-+    this.newMember = {
-+      id: '',
-+      login: '',
-+      avatar_url: ''
-+    };
-  }
++ newMember!: MemberEntity;
 
   ngOnInit(): void {
+    fetch('https://api.github.com/orgs/lemoncode/members')
+      .then((response) => response.json())
+      .then((result) => (this.members = result));
++
++   this.newMember = {
++     id: '',
++     login: '',
++     avatar_url: '',
++   };
   }
-
 }
 ```
 
-- Usamos la directiva ngModel para hacer doble binding con los inputs de id y de nombre
+- Usamos la directiva `ngModel` para hacer doble binding con los inputs de id y de nombre, para ello importamos el módulo `FormsModule`
+
+_src/app/user/user-list/user-list.component.ts_
+
+```diff
+@Component({
+  selector: 'app-user-list',
+  standalone: true,
+- imports: [NgFor, HighlightDirective],
++ imports: [NgFor, HighlightDirective, FormsModule],
+  templateUrl: './user-list.component.html',
+  styleUrl: './user-list.component.css',
+})
+```
 
 _src/app/user/user-list/user-list.component.html_
 
@@ -200,40 +173,35 @@ _src/app/user/user-list/user-list.component.html_
 
 _src/app/user/user-list/user-list.component.ts_
 
-```diff
+```ts
 export class UserListComponent implements OnInit {
-
   members: MemberEntity[] = [];
-  newMember: MemberEntity;
-
-  constructor() {
-    fetch(`https://api.github.com/orgs/lemoncode/members`)
+  newMember!: MemberEntity;
+  /*diff*/
+  add(): void {
+    this.members.push(this.newMember);
+    this.newMember = {
+      id: '',
+      login: '',
+      avatar_url: '',
+    };
+  }
+  /*diff*/
+  ngOnInit(): void {
+    fetch('https://api.github.com/orgs/lemoncode/members')
       .then((response) => response.json())
-      .then((json) => this.members = json);
+      .then((result) => (this.members = result));
 
     this.newMember = {
       id: '',
       login: '',
-      avatar_url: ''
+      avatar_url: '',
     };
   }
-
-  ngOnInit(): void {
-  }
-
-+  add() {
-+    this.members.push(this.newMember);
-+    this.newMember = {
-+      id: '',
-+      login: '',
-+      avatar_url: ''
-+    };
-+  }
-
 }
 ```
 
-- Añadimos validaciones con directivas de atributo (required, min, max, minlength, maxlength, email, pattern...)
+- Añadimos validaciones con directivas de atributo (`required`, `min`, `max`, `minlength`, `maxlength`, `email`, `pattern`...)
 
 _src/app/user/user-list/user-list.component.html_
 
@@ -264,7 +232,7 @@ _src/app/user/user-list/user-list.component.html_
 
 _src/app/user/user-list/user-list.component.css_
 
-```diff
+```css
 .ng-valid[required], .ng-valid.required  {
   border-left: 5px solid #42A948;
 }
@@ -274,7 +242,28 @@ _src/app/user/user-list/user-list.component.css_
 }
 ```
 
-- Utilizamos template reference variables (extendidas de la clase ngModel) para incluir mensajes de error
+- Utilizamos template reference variables (extendidas de la clase `ngModel`) para incluir mensajes de error
+
+_src/app/user/user-list/user-list.component.ts_
+
+```diff
+import { Component, OnInit } from '@angular/core';
+import { MemberEntity } from '../../model';
+-import { NgFor } from '@angular/common';
++import { NgFor, NgIf } from '@angular/common';
+import { HighlightDirective } from '../../directives/highlight.directive';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-user-list',
+  standalone: true,
+- imports: [NgFor, HighlightDirective, FormsModule],
++ imports: [NgFor, HighlightDirective, FormsModule, NgIf],
+  templateUrl: './user-list.component.html',
+  styleUrl: './user-list.component.css',
+})
+```
+
 
 _src/app/user/user-list/user-list.component.html_
 
@@ -306,8 +295,7 @@ _src/app/user/user-list/user-list.component.html_
 </div>
 ```
 
-- Utilizamos otra variable de plantilla (esta vez extendida de la clase ngForm) para deshabilitar el botón si algún campo no es válido:
-
+- Utilizamos otra variable de plantilla (esta vez extendida de la clase `ngForm`) para deshabilitar el botón si algún campo no es válido:
 
 _src/app/user/user-list/user-list.component.html_
 
@@ -339,7 +327,7 @@ _src/app/user/user-list/user-list.component.html_
 </div>
 ```
 
-- El contenido de la propiedad value de un input de tipo file no se puede bindear con la propiedad avatar_url porque en nuestro caso no contienen el mismo tipo de información. Gestionamos el input file "manualmente" con el evento _change_ y un poco de javascript en el componente.
+- El contenido de la propiedad value de un input de tipo file no se puede bindear con la propiedad `avatar_url` porque en nuestro caso no contienen el mismo tipo de información. Gestionamos el input file "manualmente" con el evento _change_ y un poco de javascript en el componente.
 
 _src/app/user/user-list/user-list.component.html_
 
@@ -363,7 +351,7 @@ _src/app/user/user-list/user-list.component.html_
     <div>
         <label>Avatar </label>
 -        <input name="avatar" type="file" accept="image/*"/>
-+        <input name="avatar" (change)="handleFileInput($event.target.files)" type="file" accept="image/*"/>
++        <input name="avatar" (change)="handleFileInput($event)" type="file" accept="image/*"/>
 +        <div><img [src]="newMember.avatar_url" width="50" /></div>
     </div>
     <button [disabled]="addForm.invalid" (click)="add()">Añadir</button>
@@ -376,41 +364,37 @@ _src/app/user/user-list/user-list.component.ts_
 
 ```diff
 export class UserListComponent implements OnInit {
-
   members: MemberEntity[] = [];
-  newMember: MemberEntity;
+  newMember!: MemberEntity;
 
-  constructor() {
-    fetch(`https://api.github.com/orgs/lemoncode/members`)
-      .then((response) => response.json())
-      .then((json) => this.members = json);
-
-    this.newMember = {
-      id: '',
-      login: '',
-      avatar_url: ''
-    };
-  }
-
-  ngOnInit(): void {
-  }
-
-  add() {
+  add(): void {
     this.members.push(this.newMember);
     this.newMember = {
       id: '',
       login: '',
-      avatar_url: ''
+      avatar_url: '',
     };
   }
++
++ handleFileInput($event: any) {
++   const files = $event.target.files as FileList;
++   const reader = new FileReader();
++   reader.readAsDataURL(files[0]);
++   reader.onload = () => {
++     this.newMember.avatar_url = reader.result as string;
++   };
++ }
++
+  ngOnInit(): void {
+    fetch('https://api.github.com/orgs/lemoncode/members')
+      .then((response) => response.json())
+      .then((result) => (this.members = result));
 
-+  handleFileInput(files: FileList) {
-+    const reader = new FileReader();
-+    reader.readAsDataURL(files[0]);
-+    reader.onload = (event) => {
-+      this.newMember.avatar_url = reader.result as string;
-+    };
-+  }
-
+    this.newMember = {
+      id: '',
+      login: '',
+      avatar_url: '',
+    };
+  }
 }
 ```

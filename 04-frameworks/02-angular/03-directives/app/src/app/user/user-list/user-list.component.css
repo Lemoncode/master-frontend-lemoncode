@@ -1,0 +1,30 @@
+/* Estilos generales para la tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px; /* Ajusta el margen según sea necesario */
+}
+
+/* Estilos para las celdas del encabezado */
+th {
+  background-color: #f2f2f2; /* Color de fondo del encabezado */
+  padding: 10px;
+  text-align: left;
+}
+
+/* Estilos para las celdas del cuerpo de la tabla */
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd; /* Línea divisoria entre filas */
+}
+
+/* Estilos para las imágenes dentro de las celdas */
+img {
+  max-width: 50px; /* Ajusta el tamaño máximo de las imágenes */
+  border-radius: 50%; /* Borde redondeado para las imágenes */
+}
+
+/* Estilos para las filas impares, para mejorar la legibilidad */
+tbody tr:nth-child(odd) {
+  background-color: #f9f9f9; /* Fondo alternativo para filas impares */
+}

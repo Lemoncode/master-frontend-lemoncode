@@ -41,7 +41,8 @@ _src/app/directives/highlight.ts_
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: '[appHighlight]'
+  selector: '[appHighlight]',
+  standalone: true
 })
 export class HighlightDirective {
 
@@ -50,13 +51,28 @@ export class HighlightDirective {
 }
 ```
 
-Como se puede apreciar, una directiva es una clase decorada con la función decoradora @Directive.
+Como se puede apreciar, una directiva es una clase decorada con la función decoradora `@Directive`.
 
 El objeto de metadatos de este decorador es simple, un objeto con una propiedad _selector_ en el que, con sintaxis de selectores css, configuramos qué elementos van a verse afectados por esta directiva.
 
 Con el decorador del ejemplo anterior le decimos a Angular que debe aplicar esta directiva a todos los  elementos del DOM que tengan el ATRIBUTO _appHighlight_.
 
 - Ponemos la directiva en los elementos html en los que queramos que se aplique. Voy a poner la directiva en un elemento del listado de usuarios y en otro elemento del menú.
+
+_src/app/user/user-list/user-list.component.ts_
+
+```diff
+@Component({
+  selector: 'app-user-list',
+  standalone: true,
+  imports: [
+    NgFor,
++   HighlightDirective
+  ],
+  templateUrl: './user-list.component.html',
+  styleUrl: './user-list.component.css',
+})
+```
 
 _src/app/user/user-list/user-list.component.html_
 
@@ -86,6 +102,27 @@ _src/app/user/user-list/user-list.component.html_
 </table>
 ```
 
+_src/app/layout/menu/menu.component.ts_
+
+```diff
+import { Component } from '@angular/core';
++import { HighlightDirective } from '../../directives/highlight.directive';
+
+@Component({
+  selector: 'app-menu',
+  standalone: true,
+- imports: [],
++ imports: [
++   HighlightDirective
++ ],
+  templateUrl: './menu.component.html',
+  styleUrl: './menu.component.css'
+})
+export class MenuComponent {
+
+}
+```
+
 _src/app/layout/menu/menu.component.html_
 
 ```diff
@@ -93,7 +130,7 @@ _src/app/layout/menu/menu.component.html_
 + <p appHighlight>menu works!</p>
 ```
 
-Angular aplicará la directiva tanto al th del listado de usuarios como al p del menú.
+Angular aplicará la directiva tanto al `th` del listado de usuarios como al `p` del menú.
 
 - Programamos la directiva
 
@@ -106,7 +143,8 @@ _src/app/directives/highlight.ts_
 + import { Directive, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: '[appHighlight]'
+  selector: '[appHighlight]',
+  standalone: true
 })
 export class HighlightDirective {
 
@@ -120,7 +158,7 @@ De esta forma, tendremos en la variable _el_ una referencia al elemento th en el
 
 ElementRef tiene una única propiedad, _nativeElement_, que nos da acceso al elemento en sí. A través de nativeElement podemos acceder y modificar cualquier atributo de elemento en cuestión.
 
-Vamos a modificar el valor de style.backgroundColor:
+Vamos a modificar el valor de `style.backgroundColor`:
 
 _src/app/directives/highlight.ts_
 
@@ -128,7 +166,8 @@ _src/app/directives/highlight.ts_
 import { Directive, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: '[appHighlight]'
+  selector: '[appHighlight]',
+  standalone: true,
 })
 export class HighlightDirective {
 
@@ -155,12 +194,13 @@ Esto lo hacemos con el decorador **@HostListener**. Este decorador configura un 
 + import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[appHighlight]'
+  selector: '[appHighlight]',
+  standalone: true,
 })
 export class HighlightDirective {
 
   constructor(el: ElementRef) {
--
+-   el.nativeElement.style.backgroundColor = 'lightblue';
   }
 
 +  @HostListener('mouseenter')
@@ -171,13 +211,14 @@ export class HighlightDirective {
 }
 ```
 
-Y para que desde onMouseEnterEvent() podamos acceder a la referencia (_el_) que llega a través del constructor, almacenamos la variable _el_ en una propiedad de la clase.
+Y para que desde `onMouseEnterEvent()` podamos acceder a la referencia (_el_) que llega a través del constructor, almacenamos la variable _el_ en una propiedad de la clase.
 
 ```diff
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[appHighlight]'
+  selector: '[appHighlight]',
+  standalone: true,
 })
 export class HighlightDirective {
 
@@ -201,7 +242,8 @@ Aprovechándonos de los **constructores breves** que nos aporta el lenguaje  typ
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[appHighlight]'
+  selector: '[appHighlight]',
+  standalone: true,
 })
 export class HighlightDirective {
 
@@ -230,7 +272,8 @@ De forma análoga podemos programar que el elemento deje de estar resaltado cuan
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[appHighlight]'
+  selector: '[appHighlight]',
+  standalone: true,
 })
 export class HighlightDirective {
 
@@ -240,12 +283,12 @@ export class HighlightDirective {
   onMouseEnterEvent() {
     this.el.nativeElement.style.backgroundColor = 'lightblue';
   }
-
-  @HostListener('mouseleave')
-  onMouseLeaveEvent() {
-    this.el.nativeElement.style.backgroundColor = '';
-  }
-
++
++ @HostListener('mouseleave')
++ onMouseLeaveEvent() {
++   this.el.nativeElement.style.backgroundColor = '';
++ }
++
 }
 ```
 
@@ -258,7 +301,8 @@ Quitamos algo de código repetido y nos llevamos ese _magic value_ que es 'light
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[appHighlight]'
+  selector: '[appHighlight]',
+  standalone: true,
 })
 export class HighlightDirective {
 
@@ -299,7 +343,7 @@ export class HighlightDirective {
 
 -  color = 'lightblue';
 +  @Input()
-+  private color;
++  public color;
   
   constructor(private el: ElementRef) { }
 
@@ -309,7 +353,8 @@ export class HighlightDirective {
 
   @HostListener('mouseenter')
   onMouseEnterEvent() {
-    this.highlight(this.color);
+-   this.highlight('lightblue');
++   this.highlight(this.color);
   }
 
   @HostListener('mouseleave')
@@ -368,12 +413,13 @@ Con un poco de javascript podemos elegir un color por defecto en caso de que no 
 + import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
-  selector: '[appHighlight]'
+  selector: '[appHighlight]',
+  standalone: true,
 })
 export class HighlightDirective {
 
   @Input()
-  private color;
+  public color;
   
 +  private defaultColor = 'lightblue';
 
@@ -397,7 +443,7 @@ export class HighlightDirective {
 }
 ```
 
-Podemos tener tantas propiedades decoradas con @Input() como queramos.
+Podemos tener tantas propiedades decoradas con `@Input()` como queramos.
 
 Cabe recordar que podemos utilizar binding en el html para asociar propiedades/atributos con propiedades del typescript del componente:
 
@@ -410,9 +456,9 @@ _src/app/layout/menu/menu.component.html_
 
 Así hacemos que sea el typescript del componente el que decida cuál es el color con el que la directiva debe resaltar el elemento.
 
-- Aprovechar el propio atributo de la directiva como @Input para el color.
+- Aprovechar el propio atributo de la directiva como `@Input` para el color.
 
-El decorador @Input permite realizar la asociación aunque los nombres del atributo html y de la propiedad de la directiva no coincidan. Por ejemplo:
+El decorador `@Input` permite realizar la asociación aunque los nombres del atributo html y de la propiedad de la directiva no coincidan. Por ejemplo:
 
 _src/app/layout/menu/menu.component.html_
 
@@ -420,14 +466,14 @@ _src/app/layout/menu/menu.component.html_
  <p appHighlight colorResaltado="green">menu works!</p>
 ```
 
-```ts
+```diff
 export class HighlightDirective {
 
 +  @Input('colorResaltado')
   private color;
 ```
 
-Esto se suele utilizar para aprovechar el propio atributo appHighlight para pasar uno de los parámetros que tengamos con @Input.
+Esto se suele utilizar para aprovechar el propio atributo `appHighlight` para pasar uno de los parámetros que tengamos con @Input.
 
 _src/app/layout/menu/menu.component.html_
 
@@ -440,13 +486,14 @@ _src/app/layout/menu/menu.component.html_
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
-  selector: '[appHighlight]'
+  selector: '[appHighlight]',
+  standalone: true,
 })
 export class HighlightDirective {
 
 -  @Input()
 +  @Input('appHighlight')
-  private color;
+  public color;
 
   private defaultColor = 'lightblue';
 

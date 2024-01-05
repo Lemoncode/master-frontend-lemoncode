@@ -1,0 +1,64 @@
+<div class="card" *ngIf="movie">
+    <div class="card-header">
+      {{ pageTitle }}
+    </div>
+  
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-2">Name:</div>
+        <div class="col-md-6">{{ movie.movieName }}</div>
+        <div class="col-md-3">
+          <button class="btn btn-primary" (click)="addToCart(movie)">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">Code:</div>
+        <div class="col-md-6">{{ movie.movieCode }}</div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">Description:</div>
+        <div class="col-md-6">{{ movie.description }}</div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">Price:</div>
+        <div class="col-md-6">
+          {{ movie.price | currency : "USD" : "symbol" }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">Likes:</div>
+        <div class="col-md-6">{{ movie.likes ?? 0 }}</div>
+      </div>
+  
+      <div class="table-responsive">
+        <table class="table mb-0" *ngIf="movie.reviews; else noReviews">
+          <thead>
+            <tr>
+              <th>Review</th>
+              <th>Username</th>
+              <th>Text</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let review of movie.reviews">
+              <td>{{ review.title }}</td>
+              <td>{{ review.userName }}</td>
+              <td>{{ review.text }}</td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <ng-template #noReviews> No reviews for this movie</ng-template>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card" *ngIf="errorMessage">
+    <div class="card-header">Movie Detail</div>
+  </div>
+  <div class="alert alert-danger" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+  

@@ -107,7 +107,7 @@ PREGUNTA: ¿A que nos recuerda esto? Pista: datos encapsulados, privados, con un
 manejarlos ... tic ... tac .... ¡CLASES!. 
 
 ⚠ Si bien se parecen bastante como mecanismo de encapsulación, hay una importante diferencia: los
-métodos que devolvemos como interfaz para manejar datos (increas, decrease, print) se crean en
+métodos que devolvemos como interfaz para manejar datos (increase, decrease, print) se crean en
 cada instancia. Por tanto, no es tan óptimo como el prototipo.
 */
 

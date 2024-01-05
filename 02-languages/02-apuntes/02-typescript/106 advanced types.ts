@@ -22,7 +22,8 @@ type Whatever<T> = {
 
 // Alias es muy util para abstraernos de definiciones complejas. No crea nuevos tipos, solo nuevos
 // nombres para referirse a ellos.
-type ReducerFunction<S> = (previousState: S, update: Partial<S>) => S;
+type VoidFn = () => void;
+type ReducerFn<S> = (prevState: S) => S;
 
 interface User {
   id: number;
@@ -31,19 +32,38 @@ interface User {
   email: string;
 }
 
-const javi: User = {
+interface UserStorage {
+  log: VoidFn;
+  set: (reducer: ReducerFn<User>) => void;
+  reset: VoidFn;
+}
+
+const userStorage = (initialUser: User): UserStorage => {
+  let user: User = initialUser;
+
+  return {
+    log: () => console.log(...Object.values(user)),
+    set: reducer => {
+      user = reducer(user);
+    },
+    reset: () => {
+      user = initialUser;
+    },
+  };
+};
+
+const myUser = userStorage({
   id: 238943,
   name: "Javier",
   surname: "Calzado",
   email: "javi.calzado@lemoncode.net",
-};
-
-const updateUser: ReducerFunction<User> = (previousState, update) => ({
-  ...previousState,
-  ...update,
 });
 
-console.log(updateUser(javi, { name: "Francisco Javier" }));
+myUser.log();
+myUser.set(currentUser => ({ ...currentUser, name: "Santi", surname: "Camargo" }));
+myUser.log();
+myUser.reset();
+myUser.log();
 
 
 // *** INTERSECCIÓN ***************
@@ -63,7 +83,7 @@ const abc: MergedCollision = { a: 1 }; // Ni number ni string
 const compose = <A, B>(a: A, b: B): A & B => ({ ...a, ...b });
 
 const cat = compose({ type: "feline" }, { skill: "hunting" });
-const pigeon = compose({ wings: true }, { type: "bird" });
+const pigeon = compose({ type: "bird" }, { wings: true });
 
 console.log(cat.type);
 console.log(pigeon.skill); // TS error: Property 'skill' is missing.
@@ -201,13 +221,14 @@ if (someInstance instanceof Number) {
 // junto con la unión:
 
 // -- Caso Práctico --
-type LabourDay = "monday" | "tuesday" | "wednesday" | "thursday" | "friday";
-const day: LabourDay = "sunday"; // TS error: '"sunday"' is not assignable to type 'LabourDay'
+type WorkingDay = "monday" | "tuesday" | "wednesday" | "thursday" | "friday";
+const day: WorkingDay = "sunday"; // TS error: '"sunday"' is not assignable to type 'WorkingDay'
 
 // También es aplicable a números literales:
 type Dice = 1 | 2 | 3 | 4 | 5 | 6;
 const throwDice = (): Dice => {
-  return Math.ceil(Math.random() * 6) as Dice;
+  const randomNum = Math.ceil(Math.random() * 6);
+  return (randomNum !== 0 ? randomNum : 1) as Dice;
   // return 6; // Dado trucado MUAHAHAHAHA.
 };
 
@@ -219,10 +240,10 @@ const throwDice = (): Dice => {
 // a mano uno a uno:
 
 type DayMood = "happy" | "sad" | "crazy" | "frenzy" | "chaotic";
-type MyWorkingDay = `${DayMood} ${LabourDay}`;
+type MyDay = `${DayMood} ${WorkingDay}`;
 
 // También funciona combinando interpolación de literales string y numéricos:
-type MyWorkingDay = `${DayMood} ${LabourDay} - Level ${1 | 2 | 3}`;
+type MyDayWithScale = `${DayMood} ${WorkingDay} - Level ${1 | 2 | 3}`;
 
 
 // *** KEYOF ***************
@@ -243,7 +264,7 @@ interface Week {
 type Day = keyof Week;
 
 // -- Caso Práctico --
-const showProps = <T>(obj: T, ...keys: (keyof T)[]): void => {
+const showProps = <O extends object>(obj: O, ...keys: (keyof O)[]): void => {
   keys.forEach((key) => console.log(obj[key]));
 };
 
@@ -336,16 +357,16 @@ const myTree: TreeNode<number> = {
 
 // Aunque aplicando la recursividad en interfaces si que podíamos hacer cosas muy interesantes
 // como esta:
-type IterableList<T> = T & { next: IterableList<T> };
+type IterableList<T> = T & { next: IterableList<T> | null };
 
 interface Student {
   name: string;
 }
 
-let classList: IterableList<Student>;
+let classList: IterableList<Student> = {name: "Javi", next: { name: "Santi", next: null }};
 classList.name;
-classList.next.name;
-classList.next.next.name;
+classList.next?.name;
+classList.next?.next?.name;
 
 // -- Recursividad en Alias --
 
@@ -365,7 +386,7 @@ const myRecursiveArray: RecursiveArray<number> = [
 // Una limitación en los tipos recursivos es no poder recurrir a una 'auto-instanciación' inmediata
 // o dicho de otro modo, un tipo que es recursivo, en su definición, no puede instanciarse a si 
 // mismo, de lo contrario obtendremos un error de referencia circular:
-type MyArray<T> = T | MyArray<T>;
+type MyType<T> = T | MyType<T>;
 
 
 
@@ -380,3 +401,30 @@ interface TreeChildren<T> extends Array<TreeNodeMM<T>> {} // Middleman.
 type TreeNodeMM<T> = T | TreeChildren<T>;
 
 const myTreeMM: TreeNodeMM<string> = ["hello", [["world"], "!"]];
+
+
+// *** CASO PRÁCTICO RECURSIVIDAD y TIPOS CONDICIONALES: INFERENCIA EXPLÍCITA ***************
+
+// Es habitual utilizar los tipos condicionales para intentar adivinar si un tipo tiene una
+// "constraint" concreta o no, es decir, si tiene la forma que esperamos o no. Para ayudarnos
+// en esta búsqueda, los tipos condicionales proporcionan un mecanismo de inferencia que
+// introduce nuevos tipos genéricos ineridos sobre la marcha: la keyword "infer".
+
+// EJEMPLO MÁS SENCILLO SIN RECURSIVIDAD ***************
+type IsStringArray<T extends any[]> = T extends Array<infer Items>
+  ? Items extends string
+    ? true
+    : false
+  : never;
+
+type Result1 = IsStringArray<[1, 2]>; // false
+type Result2 = IsStringArray<["hello", "world"]>; // true
+
+// EJEMPLO CON RECURSIVIDAD ****************************
+type RemoveZeroes<T extends any[]> = T extends [infer Head, ...infer Tail]
+  ? Head extends 0
+    ? RemoveZeroes<Tail>
+    : [Head, ...RemoveZeroes<Tail>]
+  : T;
+
+type Result3 = RemoveZeroes<[0, 1, true, 0, 2, 0, "hello", 0, {}]>;

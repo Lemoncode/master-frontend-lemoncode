@@ -1,0 +1,9 @@
+/* You can add global styles to this file, and also import other style files */
+div.card-header {
+  font-size: large;
+}
+
+div.card {
+  margin-top: 20px;
+  margin-left: 10px;
+}

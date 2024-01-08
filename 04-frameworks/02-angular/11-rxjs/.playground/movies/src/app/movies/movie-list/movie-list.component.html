@@ -5,7 +5,7 @@
           {{ pageTitle }}
         </div>
   
-        <div class="card-body" *ngIf="movies.length">
+        <div class="card-body" *ngIf="movies$ | async as movies">
           <div class="list-group">
             <button
               type="button"

@@ -102,7 +102,7 @@ npm start
 
 Open browser console. What is going to do `of` with an array:
 
-- Update `LCS/src/app/app.component.ts`
+- Update `movies/src/app/app.component.ts`
 
 ```diff
 export class AppComponent implements OnInit, OnDestroy {

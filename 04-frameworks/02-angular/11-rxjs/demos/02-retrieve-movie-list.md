@@ -5,7 +5,7 @@
 
 The provider for `HttpClient` is `provideHttpClient` and supports stand alone components.
 
-- Update `LCS/src/app/app.config.ts`
+- Update `movies/src/app/app.config.ts`
 
 ```diff
 import { routes } from './app.routes';
@@ -64,7 +64,7 @@ export class MovieService {
 }
 ```
 
-We now can implement the `getProducts`
+We now can implement the `getMovies`
 
 ```ts
 import { HttpClient } from '@angular/common/http';

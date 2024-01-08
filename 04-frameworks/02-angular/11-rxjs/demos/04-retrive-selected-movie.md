@@ -19,7 +19,7 @@ export class MovieService {
   }
 
   /*diff*/
-  getProduct(id: number): Observable<Movie> {
+  getMovie(id: number): Observable<Movie> {
     const movieUrl = `${this.moviesUrl}/${id}`;
     return this.http
       .get<Movie>(movieUrl)
@@ -101,7 +101,7 @@ export class MovieDetailComponent implements OnChanges, OnDestroy {
     const id = changes["movieId"].currentValue;
     if (id > 0) {
       this.sub = this.movieService
-        .getProduct(id)
+        .getMovie(id)
         .subscribe((movie) => (this.movie = movie));
     }
   }

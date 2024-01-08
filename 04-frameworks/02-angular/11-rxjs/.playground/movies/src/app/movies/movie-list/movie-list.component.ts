@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MovieDetailComponent } from '../movie-detail/movie-detail.component';
 import { Movie } from '../movie';
 import { MovieService } from '../movie.service';
-import { Subscription, tap } from 'rxjs';
+import { EMPTY, Subscription, catchError, tap } from 'rxjs';
 
 @Component({
   selector: 'app-movie-list',
@@ -28,22 +28,34 @@ export class MovieListComponent implements OnInit, OnDestroy {
   // Selected movie id to highlight the entry
   selectedMovieId: number = 0;
 
-  /*diff*/
   ngOnInit(): void {
     this.sub = this.movieService
       .getMovies()
-      .pipe(tap(() => console.log('In component pipeline')))
-      // .subscribe((movies) => (this.movies = movies));
+      .pipe(
+        tap(() => console.log('In component pipeline')),
+        catchError((err) => {
+          this.errorMessage = err;
+          return EMPTY;
+        })
+      )
+      // .subscribe({
+      //   next: (movies) => {
+      //     this.movies = movies;
+      //     console.log(this.movies);
+      //   },
+      //   error: (err) => {
+      //     this.errorMessage = err;
+      //   },
+      // });
       .subscribe((movies) => {
-        this.movies = movies;
         console.log(this.movies);
+        this.movies = movies;
       });
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
-  /*diff*/
 
   onSelected(movieId: number): void {
     this.selectedMovieId = movieId;

@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class ReviewService {
   private reviewsUrl = 'api/reviews';
 
-  getReviewUrl(productId: number): string {
-    return `${this.reviewsUrl}?productId=^${productId}$`;
+  getReviewUrl(movieId: number): string {
+    return `${this.reviewsUrl}?movieId=^${movieId}$`;
   }
 }

@@ -95,47 +95,48 @@ export class MovieService {
   );
 ```
 
-We'll specify a buffer size of 1. Since an HTTP request is one and done, we only need to replay the one emitted item, which is our array of products. That's it. Bring up the browser, and Refresh.
+We'll specify a buffer size of 1. Since an HTTP request is one and done, we only need to replay the one emitted item, which is our array of movies. 
+
+Bring up the browser, and Refresh.
 
 ```bash
 npm start
 ```
 
-Notice the delay in displaying the products. Now click Home and Product List again. Wow! Did you see how fast that page appeared? And no additional logging.
+Notice the delay in displaying the movies. Now click Home and Movie List again. Did you see how fast that page appeared? And no additional logging.
 
-Our observable pipeline replayed the data it already retrieved, improving our application performance. Nice.
+Our observable pipeline replayed the data it already retrieved, improving our application performance.
 
-So even when the Product List page was destroyed, the shared observable remains and replays as needed.
+So even when the Movie List page was destroyed, the shared observable remains and replays as needed.
 
 Going back to the code, the location of the `shareReplay` in the pipeline matters. Let's add a tap after the `shareReplay`.
 
-Update `LCS/src/app/products/product.service.ts`
+Update `movies/src/app/movies/movie.service.ts`
 
 ```diff
-readonly products$ = this.http.get<Product[]>(this.productsUrl).pipe(
-    tap((p) => console.log(JSON.stringify(p))),
+  readonly movies$ = this.http.get<Movie[]>(this.moviesUrl).pipe(
+    tap((m) => console.log(JSON.stringify(m))),
     shareReplay(1),
 +   tap(() => console.log('After shareReplay')),
     catchError((err) => this.handleError(err))
   );
 ```
 
-I'll ignore the parameter and use the console.log to display a message. Looking at the browser, refresh and view the console. We see the logged products and our message. Click Home and click Product List again. Our products are not retrieved again, but our message displays again.
+I'll ignore the parameter and use the console.log to display a message. Looking at the browser, refresh and view the console. We see the logged movies and our message. Click Home and click Movie List again. 
+
+> Our movies are not retrieved again, but our message displays again.
 
 Going back to the code, the operators above the `shareReplay` are executed before the data is cached. They are not re‑executed on the next subscription. The operators after the `shareReplay` do not affect the caching. They are re‑executed on each subscription. 
 
 Let's remove our extra tap operator. Use `shareReplay` as needed to cache observable emissions, and pay attention to the location of the `shareReplay` in the pipeline. 
 
-Update `LCS/src/app/products/product.service.ts`
+Update `movies/src/app/movies/movie.service.ts`
 
 ```diff
-readonly products$ = this.http.get<Product[]>(this.productsUrl).pipe(
-    tap((p) => console.log(JSON.stringify(p))),
+  readonly movies$ = this.http.get<Movie[]>(this.moviesUrl).pipe(
+    tap((m) => console.log(JSON.stringify(m))),
     shareReplay(1),
 -   tap(() => console.log('After shareReplay')),
     catchError((err) => this.handleError(err))
   );
 ```
-
-Let's pull it all together with a brief summary, best practices, and considerations when using the async pipe and caching data.
-

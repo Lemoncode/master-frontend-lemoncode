@@ -11,7 +11,7 @@
               type="button"
               class="list-group-item"
               *ngFor="let movie of movies"
-              [ngClass]="{ active: movie.id === selectedMovieId }"
+              [ngClass]="{ active: movie.id === (selectedMovieId$ | async) }"
               (click)="onSelected(movie.id)"
             >
               {{ movie.movieName }}
@@ -25,7 +25,7 @@
     </div>
   
     <div class="col-md-8">
-      <app-movie-detail [movieId]="selectedMovieId" />
+      <app-movie-detail [movieId]="(selectedMovieId$ | async) ?? 0" />
     </div>
   </div>
   

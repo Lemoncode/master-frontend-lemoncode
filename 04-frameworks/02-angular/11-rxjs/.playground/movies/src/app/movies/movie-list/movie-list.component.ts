@@ -4,7 +4,7 @@ import { Component,
 } from '@angular/core';
 import { MovieDetailComponent } from '../movie-detail/movie-detail.component';
 import { MovieService } from '../movie.service';
-import { EMPTY, catchError, tap } from 'rxjs';
+import { EMPTY, catchError } from 'rxjs';
 
 @Component({
   selector: 'app-movie-list',
@@ -19,16 +19,17 @@ export class MovieListComponent {
   
   private movieService = inject(MovieService);
   readonly movies$ = this.movieService.movies$.pipe(
-    // tap(() => console.log('In component pipeline')),
         catchError((err) => {
           this.errorMessage = err;
           return EMPTY;
         })
   );
 
-  selectedMovieId: number = 0;
+  // selectedMovieId: number = 0;
+  readonly selectedMovieId$ = this.movieService.movieSelected$;
 
   onSelected(movieId: number): void {
-    this.selectedMovieId = movieId;
+    // this.selectedMovieId = movieId;
+    this.movieService.movieSelected(movieId);
   }
 }

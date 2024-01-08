@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import {
+  BehaviorSubject,
   Observable,
   catchError,
   map,
@@ -25,9 +26,14 @@ export class MovieService {
   private errorService = inject(HttpErrorService);
   private reviewService = inject(ReviewService);
 
+  // movieSelectedSubject = new BehaviorSubject<number | undefined>(undefined);
+  private movieSelectedSubject = new BehaviorSubject<number | undefined>(undefined);
+  readonly movieSelected$ = this.movieSelectedSubject.asObservable();
+
   readonly movies$ = this.http.get<Movie[]>(this.moviesUrl).pipe(
     tap((m) => console.log(JSON.stringify(m))),
     shareReplay(1),
+    // tap(() => console.log('After shareReplay')),
     catchError((err) => this.handleError(err))
   );
 
@@ -53,6 +59,10 @@ export class MovieService {
       );
     }
     return of(movie);
+  }
+
+  movieSelected(selectedMovieId: number): void {
+    this.movieSelectedSubject.next(selectedMovieId);
   }
 
   private handleError(err: HttpErrorResponse): Observable<never> {

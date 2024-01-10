@@ -4,6 +4,7 @@ import {
   BehaviorSubject,
   Observable,
   catchError,
+  filter,
   map,
   of,
   shareReplay,
@@ -37,14 +38,26 @@ export class MovieService {
     catchError((err) => this.handleError(err))
   );
 
-  getMovie(id: number): Observable<Movie> {
-    const movieUrl = `${this.moviesUrl}/${id}`;
-    return this.http.get<Movie>(movieUrl).pipe(
-      tap(() => console.log('In http.get by id pipeline')),
-      switchMap((m) => this.getMoviesWithReviews(m)),
-      catchError(this.handleError)
-    );
-  }
+  readonly movie$ = this.movieSelected$.pipe(
+    filter(Boolean),
+    switchMap((id) => {
+      const movieUrl = `${this.moviesUrl}/${id}`;
+      return this.http.get<Movie>(movieUrl).pipe(
+        tap(() => console.log('In http.get by id pipeline')),
+        switchMap((m) => this.getMoviesWithReviews(m)),
+        catchError(this.handleError)
+      );
+    })
+  );
+
+  // getMovie(id: number): Observable<Movie> {
+  //   const movieUrl = `${this.moviesUrl}/${id}`;
+  //   return this.http.get<Movie>(movieUrl).pipe(
+  //     tap(() => console.log('In http.get by id pipeline')),
+  //     switchMap((m) => this.getMoviesWithReviews(m)),
+  //     catchError(this.handleError)
+  //   );
+  // }
 
   private getMoviesWithReviews(movie: Movie): Observable<Movie> {
     if (movie.hasReviews) {

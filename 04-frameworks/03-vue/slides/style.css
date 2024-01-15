@@ -1,0 +1,5 @@
+[layout="image"],
+[layout="image-right"] > div,
+[layout="image-left"] > div {
+  background-size: contain !important;
+}

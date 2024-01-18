@@ -21,11 +21,9 @@ class: text-center
 🖖
 
 ---
-
 layout: image-right
 image: paul.png
 class: grid
-
 ---
 
 # Paul Melero
@@ -39,9 +37,10 @@ class: grid
 
 </div>
 
----
 
-## layout: intro
+---
+layout: intro
+---
 
 # ¿Qué es Vue.js?
 
@@ -50,9 +49,8 @@ class: grid
 Vue.js es un framework progresivo, lo que significa que se puede utilizar para construir desde una simple página web hasta una aplicación web compleja.
 
 ---
-
-## layout: quote
-
+layout: quote
+---
 # Características principales
 
 <v-clicks>
@@ -65,9 +63,10 @@ Vue.js es un framework progresivo, lo que significa que se puede utilizar para c
 
 </v-clicks>
 
----
 
-## layout: quote
+---
+layout: quote
+---
 
 # Ventajas de Vue.js
 
@@ -84,55 +83,52 @@ Vue.js es un framework progresivo, lo que significa que se puede utilizar para c
 <!-- Curva de aprendizaje -->
 
 ---
-
-## layout: section
+layout: section
+---
 
 # Ecosistema
 
 https://vuejs.org/guide/extras/ways-of-using-vue
 
----
 
+---
 layout: image
 image: /eco.jpeg
 title: Diagrama Ecosistema
-
 ---
 
 ---
-
-## layout: section
+layout: section
+---
 
 # Números
 
 ---
-
 layout: image
 title: Números
 image: /numbers.png
-
 ---
 
----
 
+---
 layout: image-right
 image: /friends.png
-
 ---
 
 # Comparación con Otros Frameworks
 
 (v2) https://v2.vuejs.org/v2/guide/comparison.html
 
----
 
-## layout: section
+---
+layout: section
+---
 
 # Demo
 
 ---
-
-## layout: center
+layout: center
+---
 
 # Hello World
 
@@ -151,9 +147,10 @@ const msg = ref('World! 🔥🔥')
 
 👉🏽 [Vue.js SFC Playground](https://play.vuejs.org/#eNp9UE1Lw0AQ/SvjXqJQWqS3EgsqBfWgooKXvYRkkqZudpf9qIGw/8K7J/+fP8HZDY0epIeFnffevHkzA7vUer73yFYst6VptQOLzus1l22nlXEwgMEaAtRGdZCRNOOSy1JJ66CzDVxE/jR7VUZUJ/D9+fEVX3bGZb4YHcmLCoedFoVDqgDy7fn6BoVQMAzJJYR8QVhsmoRsxpylQXXbzHdWSco4xGbOStXpVqB50K6lIJytIDGRK8j1/S5hznicHfByi+XbP/jO9hHj7NGgRbNHzibOFaZBN9Kb53vs6T+Rnaq8IPUR8gmtEj5mHGVXXlYU+48upb1Nl25l82I3vUNpD0vFoFEZkp4zuv71kdV/4y7ny9THZWDhByv9osM=)
 
----
 
-## layout: section
+---
+layout: section
+---
 
 # ¿List@s para Empezar?
 
@@ -162,9 +159,10 @@ const msg = ref('World! 🔥🔥')
   <img src="/cortar.gif" class="m-auto object-contain max-h-sm" />
 </div>
 
----
 
-## layout: two-cols-header
+---
+layout: two-cols-header
+---
 
 # ¿Qué necesitamos?
 
@@ -180,7 +178,7 @@ const msg = ref('World! 🔥🔥')
 - Gestor de paquetes (npm/**pnpm**/yarn)
   - `pnpm`
 - Vue DevTools
-  </v-clicks>
+</v-clicks>
 
 ::right::
 
@@ -208,8 +206,8 @@ const msg = ref('World! 🔥🔥')
 </div>
 
 ---
-
-## layout: section
+layout: section
+---
 
 ## Introducción a la sintaxis de Vue.js
 
@@ -219,8 +217,8 @@ const msg = ref('World! 🔥🔥')
 </div>
 
 ---
-
-## layout: two-cols
+layout: two-cols
+---
 
 # Single File Components
 
@@ -234,7 +232,7 @@ const msg = ref('World! 🔥🔥')
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'MyComponent',
+  name: 'MyComponent'
 })
 
 const msg = ref('My value')
@@ -258,11 +256,13 @@ h1 {
   - Otras opciones: `lang="ts"`, `lang="scss"`
 - En `template` no es necesario que haya 1 sólo elemento raíz.
 - `script setup` (recomendado)
-  </v-clicks>
+</v-clicks>
+
+
 
 ---
-
-## layout: two-cols
+layout: two-cols
+---
 
 # Con TypeScript
 
@@ -280,9 +280,10 @@ const msg = ref('My value')
 - La extensión del archivo sigue siendo `.vue`.
 - Pero añadimos `lang="ts"` en la etiquta `<script>`.
 
----
 
-## layout: two-cols
+---
+layout: two-cols
+---
 
 # Con JSX / TSX
 
@@ -305,15 +306,16 @@ const MyComponent = {
 - Es necesario instalar `@vitejs/plugin-vue-jsx` para usar JSX/TSX y configurar
   Vite ([docs](https://www.npmjs.com/package/@vitejs/plugin-vue-jsx)).
 
----
 
-## layout: section
+---
+layout: section
+---
 
 # Directivas
 
 ---
-
-## layout: two-cols
+layout: two-cols
+---
 
 # Condicionales
 
@@ -332,19 +334,25 @@ const seen = true
 ### `v-if`
 
 ---
-
-## layout: two-cols
+layout: two-cols
+---
 
 # Loops
 
 ```vue {all|2-5|11-12|14|3,4,14|all}
 <script setup>
-const todos = [{ text: 'Learn Vue' }, { text: 'Build cool things' }]
+const todos = [
+  { text: 'Learn Vue' },
+  { text: 'Build cool things' }
+]
 </script>
 
 <template>
-  <ul>
-    <li v-for="(todo, index) in todos" :key="index">
+	<ul>
+    <li
+      v-for="(todo, index) in todos"
+      :key="index"
+    >
       {{ todo.text }}
     </li>
   </ul>
@@ -365,8 +373,8 @@ const todos = [{ text: 'Learn Vue' }, { text: 'Build cool things' }]
 </v-clicks>
 
 ---
-
-## layout: two-cols
+layout: two-cols
+---
 
 # Eventos
 
@@ -382,14 +390,13 @@ const todos = [{ text: 'Learn Vue' }, { text: 'Build cool things' }]
   <button @click="doThis"></button>
 
   <!-- key modifier using keyAlias -->
-  <input @keyup.enter="onEnter" />
+  <input @keyup.enter="onEnter">
 </template>
 
 <script setup>
-function doThis(event) {
-  /* ... */
-}
+function doThis(event) { /* ... */ }
 </script>
+
 ```
 
 ::right::
@@ -397,8 +404,8 @@ function doThis(event) {
 ### `v-on:` (alias de `@`)
 
 ---
-
-## layout: two-cols
+layout: two-cols
+---
 
 # Custom events
 
@@ -406,12 +413,14 @@ function doThis(event) {
 
 ```vue {all|2-4,12|all}
 <template>
-  <button @click="emit('my-event', 'some data')">Click</button>
+  <button @click="emit('my-event', 'some data')">
+    Click
+  </button>
 </template>
 
 <script setup>
 defineOptions({
-  name: 'MyComponent',
+  name: 'MyComponent'
 })
 
 const emit = defineEmits(['my-event'])
@@ -436,13 +445,12 @@ const emit = defineEmits(['my-event'])
 </v-clicks>
 
 ---
-
-## layout: two-cols-header
+layout: two-cols-header
+---
 
 # Two-way data binding (Formularios)
 
 ::left::
-
 ```vue {all|4,8,9|9|2-4|all}
 <script setup>
 import { ref } from 'vue'
@@ -460,6 +468,7 @@ const msg = ref('World! 🔥🔥')
 
 ### `v-model`
 
+
 <v-clicks>
 
 - es un shortcut de `:value` + `@input`.
@@ -473,21 +482,21 @@ const msg = ref('World! 🔥🔥')
 
 <template>
   <h1>Hello {{ msg }}</h1>
-  <input :value="msg" @input="(e) => (msg = e.target.value)" />
+  <input :value="msg" @input="e => msg = e.target.value" />
 </template>
 ```
 
 </v-clicks>
 
 ---
-
-## layout: section
+layout: section
+---
 
 # Props
 
 ---
-
-## layout: two-cols
+layout: two-cols
+---
 
 # Props
 
@@ -505,6 +514,7 @@ const props = defineProps<{
 
 Componente padre:
 
+
 ```vue {all|2|all}
 <template>
   <ChildComponent :msg="msg" />
@@ -517,21 +527,23 @@ const msg = ref('My value')
 </script>
 ```
 
+
 ::right::
 
 - `props` son los argumentos que recibe un componente.
 - Se definen con `defineProps`.
 - Se pasan como atributos al componente hijo con `:propName="propValue"`.
 
----
 
-## layout: section
+---
+layout: section
+---
 
 # Slots
 
 ---
-
-## layout: two-cols
+layout: two-cols
+---
 
 # Slots
 
@@ -554,7 +566,7 @@ Defniniendo slots (hijo):
 
 <script setup>
 defineOptions({
-  name: 'PageLayout',
+  name: 'PageLayout'
 })
 </script>
 ```
@@ -573,8 +585,8 @@ defineOptions({
 </v-clicks>
 
 ---
-
-## layout: two-cols
+layout: two-cols
+---
 
 # Slots (II)
 
@@ -607,22 +619,24 @@ import PageLayout from './PageLayout.vue'
 
 - Se pasan como contenido al componente padre con `<template #slotName>`.
   - Para el slot `default`, se puede omitir `<template>`.
-    </v-clicks>
+</v-clicks>
 
 ---
-
-## layout: section
+layout: section
+---
 
 # `defineProps`, `defineEmits`, `defineOptions`, `defineSlots`
 
 ---
+layout: two-cols-header
+---
 
-## layout: two-cols-header
 
 ::left::
 
 ```vue {all|3-5|7,8|9-12|13-17|19-21|23-25|all}
 <script setup lang="ts">
+
 const props = defineProps<{
   msg: string
 }>()
@@ -631,7 +645,7 @@ const props = defineProps<{
 const emits = defineEmits(['my-event'])
 // o (_runtime object_ + tipado)
 const emits = defineEmits({
-  'my-event': (arg: string) => true,
+  'my-event': (arg: string) => true
 })
 // o ("tuple syntax" + tipado)
 const emit = defineEmits<{
@@ -644,7 +658,7 @@ defineSlots<{
 }>()
 
 defineOptions({
-  name: 'MyComponent',
+  name: 'MyComponent'
 })
 </script>
 ```
@@ -661,13 +675,14 @@ defineOptions({
 - Emits: `defineEmits` (tipado)
 - Slots: `defineSlots` (tipado)
 - Options: `defineOptions` (no tipado, meta-información)
-  </v-clicks>
+</v-clicks>
 
 ---
-
-## layout: two-cols
+layout: two-cols
+---
 
 # `defineProps`
+
 
 <div v-click=[0,1] class="absolute">
 
@@ -679,9 +694,9 @@ import { defineProps } from 'vue'
 const props = defineProps<{
   msg: string
 }>()
+
 </script>
 ```
-
 </div>
 
 <div v-click=[1,2] class="absolute">
@@ -695,10 +710,11 @@ interface Props {
   msg: string
 }
 const props = defineProps<Props>()
+
 </script>
 ```
-
 </div>
+
 
 <div v-click=[2,3] class="absolute">
 
@@ -711,12 +727,15 @@ interface Props {
 }
 
 // Con `withDefaults` podemos definir valores por defecto
-const props = withDefaults(defineProps<Props>(), {
-  msg: 'Hello',
-})
+const props = withDefaults(
+  defineProps<Props>(),
+  {
+    msg: 'Hello'
+  }
+)
+
 </script>
 ```
-
 </div>
 
 <div v-click=[3,4] class="absolute">
@@ -727,11 +746,10 @@ import { defineProps } from 'vue'
 
 // O podemos definirlas con un "runtime object"
 const props = defineProps({
-  msg: String,
+  msg: String
 })
 </script>
 ```
-
 </div>
 
 <div v-click=[4,5] class="absolute">
@@ -751,12 +769,11 @@ const props = defineProps({
 })
 </script>
 ```
-
 </div>
 
 ---
-
-## layout: two-cols-header
+layout: two-cols-header
+---
 
 # `ref`, `reactive`, `computed`
 
@@ -766,12 +783,15 @@ const props = defineProps({
 <script setup>
 import { ref, reactive, computed } from 'vue'
 
-// Strings, Numbers, Arrays, Objects, etc.
+ // Strings, Numbers, Arrays, Objects, etc.
 const msg = ref('Hello')
 
 console.log(msg.value) // `.value` para acceder al valor
 
-const todos = reactive([{ text: 'Learn Vue' }, { text: 'Build cool things' }])
+const todos = reactive([
+  { text: 'Learn Vue' },
+  { text: 'Build cool things' }
+])
 
 const reversedTodos = computed(() => todos.reverse())
 const reversedMsg = computed(() => msg.value.split('').reverse().join(''))
@@ -794,8 +814,8 @@ console.log(reversedTodos.value, reversedMsg.value) // `.value` para acceder al 
 </v-clicks>
 
 ---
-
-## layout: two-cols
+layout: two-cols
+---
 
 # Lifecycle Hooks
 
@@ -828,9 +848,10 @@ onUnmounted(() => {
 - `onDeactivated()`
 - `onServerPrefetch()`
 
----
 
-## layout: two-cols
+---
+layout: two-cols
+---
 
 # `watch` y `watchEffect`
 
@@ -862,24 +883,20 @@ watchEffect(() => {
 </v-clicks>
 
 ---
-
 layout: image
 image: /mhm.gif
 title: Homer
-
 ---
 
 ---
-
-## layout: section
+layout: section
+---
 
 # <logos-nuxt-icon /> Nuxt
 
 ---
-
 layout: hero-image
 image: /nuxt.png
-
 ---
 
 ### ¿Qué es Nuxt?
@@ -889,8 +906,8 @@ Es un framework que nos facilita la creación de aplicaciones modernas de Vue.js
 https://nuxt.com/
 
 ---
-
-## layout: quote
+layout: quote
+---
 
 # <logos-nuxt-icon /> Características principales
 
@@ -912,8 +929,9 @@ https://nuxt.com/
 </v-clicks>
 
 ---
+layout: two-cols-header
+---
 
-## layout: two-cols-header
 
 # <logos-nuxt-icon /> Configuración de carpetas
 
@@ -922,6 +940,8 @@ https://nuxt.com/
 Al crear un proyecto con Nuxt, se crean las siguientes carpetas:
 
 ![Nuxt folders](/nuxt-inicio.png)
+
+
 
 ::right::
 
@@ -934,12 +954,13 @@ Al crear un proyecto con Nuxt, se crean las siguientes carpetas:
 </v-clicks>
 
 ---
-
-## layout: two-cols-header
+layout: two-cols-header
+---
 
 # <logos-nuxt-icon /> Bootstrapping
 
 ::left::
+
 
 ```bash
 pnpm dlx nuxi@latest init <project-name>
@@ -953,10 +974,8 @@ pnpm dlx nuxi@latest init <project-name>
 ```
 
 ---
-
 layout: section
 class: text-center
-
 ---
 
 # A los teclados!
@@ -966,11 +985,11 @@ class: text-center
   <img src="/lemonade.gif" class="m-auto object-contain max-h-sm" />
 </div>
 
----
 
+
+---
 layout: custom-cover
 background: vue-sticker.jpg
-
 ---
 
 # Vue - II
@@ -978,42 +997,40 @@ background: vue-sticker.jpg
 ## 🌈 Vuenas tardes! 🌈
 
 ---
-
-## layout: quote
+layout: quote
+---
 
 # Agenda
 
 - Continuamos con el código
-
-  - Estilos
+  - Estlos
   - Chat
   - OpenAI
 
 - Composition API
 - Refactor con Composables
 
----
 
+---
 layout: hero-image
 image: /teclado.gif
 class: text-center
-
 ---
 
 # Vuelta a los teclados!
 
 ---
-
 layout: hero-image
 image: /composition-docs.png
-
 ---
 
 ## Composition API
 
----
 
-## layout: quote
+
+---
+layout: quote
+---
 
 # Docs
 
@@ -1022,8 +1039,8 @@ image: /composition-docs.png
 https://vuejs.org/guide/introduction.html
 
 ---
-
-## layout: two-cols
+layout: two-cols
+---
 
 # Composition API
 
@@ -1047,25 +1064,23 @@ https://vuejs.org/guide/introduction.html
 
 </v-clicks>
 
----
 
+---
 layout: image
 image: /side-by-side.jpeg
 title: Code Side by Side
-
 ---
 
----
 
+---
 layout: image
 image: /setup-diagram.png
 title: Setup()
-
 ---
 
 ---
-
-## layout: full
+layout: full
+---
 
 # Mimimimi
 
@@ -1093,26 +1108,46 @@ title: Setup()
 </div>
 
 ---
-
 layout: image
 image: /lego.jpeg
 title: Composables (Lego)
-
 ---
 
 ---
-
 layout: hero-image
 image: /teclado.gif
 class: text-center
-
 ---
 
 # Vamos a seguir!! 🚀
 
 ---
+layout: custom-cover
+background: vue-sticker.jpg
+---
 
-## layout: end
+# Vue - III
+
+## 🌈 Vuenas tardes!!! 🌈
+
+---
+layout: quote
+---
+
+# Agenda
+
+- Continuamos con el código
+  - Open AI
+  - Chat
+
+- Testing
+
+- Extra: definePageMeta, useSeoMeta, onMounted, watchers, etc.
+
+
+---
+layout: end
+---
 
 # ¡Muchas Gracias! 🖖🏽 ❤️
 

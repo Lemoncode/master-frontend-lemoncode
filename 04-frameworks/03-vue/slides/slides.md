@@ -1121,7 +1121,28 @@ class: text-center
 
 # Vamos a seguir!! 🚀
 
+---
+layout: custom-cover
+background: vue-sticker.jpg
+---
 
+# Vue - III
+
+## 🌈 Vuenas tardes!!! 🌈
+
+---
+layout: quote
+---
+
+# Agenda
+
+- Continuamos con el código
+  - Open AI
+  - Chat
+
+- Testing
+
+- Extra: definePageMeta, useSeoMeta, onMounted, watchers, etc.
 
 
 ---

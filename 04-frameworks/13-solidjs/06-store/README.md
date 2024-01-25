@@ -183,6 +183,11 @@ interface Member {
 - export const [members, setMembers] = createStore<Member[]>([
 + const [members, setMembers] = createStore<Member[]>([
     {
+      id: "4374977",
+      login: "nasdan",
+      avatar_url: "https://avatars.githubusercontent.com/u/4374977?v=4",
+    },
+    {
       id: "113333501",
       login: "Chimalion",
       avatar_url: "https://avatars.githubusercontent.com/u/113333501?v=4",

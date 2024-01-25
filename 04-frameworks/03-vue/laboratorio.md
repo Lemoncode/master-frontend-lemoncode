@@ -1,34 +1,31 @@
 # Intro
 
-Laboratorio del módulo de Vue, lo hemos divido en dos secciones
+El laboratorio del módulo de Vue, lo hemos divido en dos secciones.
 
-- **Básico**: Aplicar las tecnicas que hemos visto en la parte práctica de Vue a una aplicación, pero dejando espacio
+- **Básico**: Aplicar las técnicas que hemos visto en la parte práctica de Vue a una aplicación, pero dejando espacio
   por si queréis centraros en otro framework.
-- **Opcional**: Para hincar el diente con herramientas más avanzadas.
+- **Opcional**: Para experimentar con requrerimientos cercanos a los que os podéis encontrar en el mundo real.
 
 **IMPORTANTE:** estas prácticas las tenéis que subir a vuestro repositorio de Github (o si lo prefirís Gitlab o Bitbucket público).
 
-# Filtrado de organización miembros Github
+## Ejercicio: ToDo App
 
-Mostrar un listado de miembros que pertenencen a una organización en Github. Para ello, vamos a usar la [API de Github](https://docs.github.com/es/rest).
+En este ejercicio, deberás crear una aplicación web utilizando [Nuxt](https://nuxt.com/) que permita a los usuarios administrar una lista de tareas ("ToDo list"). La interfaz de usuario debe tener los siguientes elementos:
 
-## Básico
+- Un campo de texto donde los usuarios puedan ingresar el nombre de una tarea.
+- Un botón "Agregar" que agregue la tarea ingresada a la lista.
+- Una lista de tareas, donde cada tarea tenga:
+  - un botón para marcar una tarea como completada, que pueda ser activado o desactivado.
+  - un botón "Eliminar" que permita eliminarla de la lista.
 
-## Enunciado
+La lista de tareas debe ser almacenada en el estado de la aplicación utilizando un store de Pinia.
 
-- Crear una aplicación que muestre, por defecto, el listado de los miembros de `Lemoncode` en Github, utilizando la API de Github.
-- Añadir un campo de búsqueda y un botón para buscar por nombre de organización. Este campo tiene como valor por defecto `Lemoncode` y la búsqueda se realiza cada vez que se pulsa el botón.
-- Mostrar en la lista, al menos, una foto de cada miembro y su nombre.
-- Si no se encuentra ningún miembro o dicha organización, mostrar un mensaje de error.
-- El usuario puede teclear otro nombre de organizacíon, por ejemplo, "microsoft" en el campo de búsqueda; y al pulsar el botón, te muestra los miembros de dicha organización.
-- Al clickar en uno de los miembros, navegar a una vista de detalle de ese miembro.
-- En la vista de detalle, mostrar la foto del miembro, su nombre, mail, bio, y el nombre de la organización (esto no viene en la info del usuario, habrá que compartir este dato en la app).
-- Al volver a la vista de listado, se debería seguir mostrando el listado que había, sin necesidad de tener que realizar la búsqueda de nuevo y el formulario debería conservar el valor de búsqueda que se había usado.
+### Requisitos Adicionales (Opcional):
 
-## Recomendado
+- Agrega estilos CSS para mejorar la apariencia de la aplicación.
+- Puedes hacer la app _responsive_ y para poder verla bien en dispositivos móviles.
+- Añade la persistencia de datos utilizando el mismo plugin de Pinia que utilizamos en el ejercicio del ChatGPT para que no se pierdan tus tareas: https://github.com/prazdevs/pinia-plugin-persistedstate
+- Para los botonos de "Agregar" y "Eliminar", puedes utilizar los iconos o emojis, pero intenta que sea lo más accesible posible (usando atributos ARIA o texto "escondido", solo visible para lectores de pantalla).
+- Puedes agregar funcionalidades adicionales, como poder editar el contenido de una tarea existente.
 
-- Hacer el ejercicio con Nuxt 3 (y Pinia para conservar los datos del campo de búsqueda y el listado).
-
-## Opcional
-
-- Añadir tests unitarios de componentes de Vue o composables.
+¡Buena suerte con el ejercicio!

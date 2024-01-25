@@ -32,6 +32,11 @@ export const [members, setMembers] = createSignal<Member[]>([
     avatar_url: "https://avatars.githubusercontent.com/u/4374977?v=4",
   },
   {
+    id: "113333501",
+    login: "Chimalion",
+    avatar_url: "https://avatars.githubusercontent.com/u/113333501?v=4",
+  },
+  {
     id: "43609530",
     login: "v-borrego",
     avatar_url: "https://avatars.githubusercontent.com/u/43609530?v=4",
@@ -181,6 +186,11 @@ interface Member {
       id: "4374977",
       login: "nasdan",
       avatar_url: "https://avatars.githubusercontent.com/u/4374977?v=4",
+    },
+    {
+      id: "113333501",
+      login: "Chimalion",
+      avatar_url: "https://avatars.githubusercontent.com/u/113333501?v=4",
     },
     {
       id: "43609530",

@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "test": "vitest  --config ./vitest.config.mjs"
+  },
+  "devDependencies": {
+    "@nuxt/test-utils": "^3.0.0",
+    "@testing-library/vue": "^6.6.1",
+    "flush-promises": "^1.0.2",
+    "nuxt": "^3.0.0",
+    "sass": "^1.57.1",
+    "vitest-environment-nuxt": "^0.4.2"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.4.6",
+    "@vueuse/core": "^9.12.0",
+    "pinia": "^2.0.29",
+    "vitest": "^0.27.2"
+  }
+}

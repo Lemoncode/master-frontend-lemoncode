@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Simplest App (Modules)</title>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="simplest-example" v-cloak>
+      <h1>{{ whatever }}</h1>
+    </div>
+
+    <script type="module">
+      import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+      createApp({
+        setup() {
+          return {
+            whatever: 'Hello browser modules! 🔥🔥',
+          }
+        },
+      }).mount('#simplest-example')
+    </script>
+  </body>
+</html>

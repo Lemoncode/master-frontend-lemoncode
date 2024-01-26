@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Simplest App</title>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="simplest-example" v-cloak>
+      <h1>{{ whatever }}</h1>
+    </div>
+
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+      const { createApp } = Vue
+
+      const app = createApp({
+        data() {
+          return {
+            whatever: 'Hello world! 🔥🔥',
+          }
+        },
+      })
+
+      app.mount('#simplest-example')
+    </script>
+  </body>
+</html>

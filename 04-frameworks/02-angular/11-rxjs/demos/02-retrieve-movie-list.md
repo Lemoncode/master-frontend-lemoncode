@@ -25,7 +25,7 @@ export const appConfig: ApplicationConfig = {
 
 An important note here, for the `InMemoryWebApiModule` to work properly, the `provideHttpClient` must be ahead of `importProvidersFrom` in the providers array.
 
-- Update `LCS/src/app/movies/movie.service.ts`
+- Update `movies/src/app/movies/movie.service.ts`
 
 ```diff
 +import { HttpClient } from '@angular/common/http';

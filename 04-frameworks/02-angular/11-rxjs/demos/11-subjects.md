@@ -179,7 +179,6 @@ Why create this local variable? It's good practice to only bind from a template 
 Since the variable here references the observable from the service, subscribing to this variable, subscribes to the observable in the service. Now we don't need the `selectedMovieId` variable, so let's delete it.
 
 ```diff
--selectedProductId: number = 0;
 - selectedMovieId: number = 0;
   readonly selectedMovieId$ = this.movieService.movieSelected$;
 

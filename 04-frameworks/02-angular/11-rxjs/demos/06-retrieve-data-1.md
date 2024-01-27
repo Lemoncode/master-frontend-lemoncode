@@ -71,7 +71,7 @@ export class MovieService {
 + private reviewService = inject(ReviewService);
 ```
 
-We'll use private so the injected instance can only be used by this service. Next, scrolling down, we define a new method. I'll make the method private and call it `getProductWithReviews`.
+We'll use private so the injected instance can only be used by this service. Next, scrolling down, we define a new method. I'll make the method private and call it `getMovieWithReviews`.
 
 ```ts
 class MovieService {

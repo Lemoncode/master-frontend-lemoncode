@@ -7,7 +7,7 @@
     - from()
 - Subscribe to each observable
 
-Update `LCS/src/app/app.component.ts`
+Update `movies/src/app/app.component.ts`
 
 ```diff
 -import { Component } from '@angular/core';

@@ -65,7 +65,7 @@ _src/app/user/user-list/user-list.component.html_
 - Creamos una pipe utilizando el CLI
 
 ```bash
-ng generate pipe pipes/searchByLogin
+ng generate pipe pipes/search-by-login
 ```
 
 - Programamos la pipe
@@ -79,7 +79,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 +import { MemberEntity } from '../model/MemberEntity';
 
 @Pipe({
-  name: 'searchByLogin'
+  name: 'searchByLogin',
+  standalone: true,
 })
 export class SearchByLoginPipe implements PipeTransform {
 
@@ -98,6 +99,26 @@ export class SearchByLoginPipe implements PipeTransform {
 - Aplicamos la pipe sobre la lista de miembros.
 
 El valor buscado lo obtenemos con una variable de plantilla declarada en el input de búsqueda.
+
+_src/app/user/user-list/user-list.component.ts_
+
+```diff
+import { Component, OnInit } from '@angular/core';
+import { MemberEntity } from '../../model';
+import { NgFor, NgIf } from '@angular/common';
+import { HighlightDirective } from '../../directives/highlight.directive';
+import { FormsModule } from '@angular/forms';
++import { SearchByLoginPipe } from '../../pipes/search-by-login.pipe';
+
+@Component({
+  selector: 'app-user-list',
+  standalone: true,
+- imports: [NgFor, HighlightDirective, FormsModule, NgIf],
++ imports: [NgFor, HighlightDirective, FormsModule, NgIf, SearchByLoginPipe],
+  templateUrl: './user-list.component.html',
+  styleUrl: './user-list.component.css',
+})
+```
 
 _src/app/user/user-list/user-list.component.html_
 

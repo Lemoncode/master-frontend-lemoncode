@@ -42,7 +42,7 @@ https://api.github.com/orgs/lemoncode/members
 
 Creamos un directorio _model_ dentro de _src/app_ y en dicho directorio creamos un fichero _model.ts_ con el interfaz de nuestro modelo:
 
-_./src/app/model/MemberEntity.ts_
+_./src/app/model/index.ts_
 
 ```typescript
 export interface MemberEntity {
@@ -64,12 +64,33 @@ Abrimos el fichero .ts del componente recién creado (_src/app/user/user-list/us
 
 Abrimos el fichero app.component.html y ponemos el tag donde queramos que aparezca nuestro componente.
 
+_src/app/app.component.ts_
+
+```diff
+@Component({
+  selector: 'app-root',
+  standalone: true,
+- imports: [CommonModule, RouterOutlet, MenuComponent, SearchComponent],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    MenuComponent,
+    SearchComponent,
++   UserListComponent,
+  ],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
+})
+```
+
 _src/app/app.component.html_
 
 ```diff
 <h1>Hola Mundo</h1>
 
 <app-menu></app-menu>
+
+-<app-search ph="Search..." [label]="title" (clickEnLupa)="escribeLog($event)"></app-search> 
 
 + <app-user-list></app-user-list>
 ```
@@ -94,7 +115,7 @@ _src/app/user/user-list/user-list.component.html_
   <tbody>
       <tr>
         <td>
-          <img [src]="xxxxxxxx" />
+          <!-- <img [src]="xxxxxxxx" /> -->
         </td>
         <td>
           <span>xxxxxxxx</span>
@@ -117,32 +138,46 @@ Por lo tanto la misión del ts será conseguir la lista de miembros y guardarla 
 
 _src/app/user/user-list/user-list.component.ts_
 
-```diff
+```ts
 import { Component, OnInit } from '@angular/core';
-+import { MemberEntity } from 'src/app/model/MemberEntity';
+import { MemberEntity } from '../../model';
 
 @Component({
   selector: 'app-user-list',
+  standalone: true,
+  imports: [],
   templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css']
+  styleUrl: './user-list.component.css',
 })
 export class UserListComponent implements OnInit {
-
-+  members: MemberEntity[] = [];
-
-  constructor() {
-+    fetch(`https://api.github.com/orgs/lemoncode/members`)
-+      .then((response) => response.json())
-+      .then((json) => this.members = json);
-  }
+  members: MemberEntity[] = [];
 
   ngOnInit(): void {
+    fetch('https://api.github.com/orgs/lemoncode/members')
+      .then((response) => response.json())
+      .then((result) => (this.members = result));
   }
-
 }
+
 ```
 
 - Iterar la lista en el html para mostrar los datos.
+
+Para ello debemos importar primero la directiva en nuestro componente
+
+_src/app/user/user-list/user-list.component.ts_
+
+```diff
+@Component({
+  selector: 'app-user-list',
+  standalone: true,
+  imports: [
++   NgFor
+  ],
+  templateUrl: './user-list.component.html',
+  styleUrl: './user-list.component.css',
+})
+```
 
 Con la directiva estructural *ngFor recorremos el listado de miembros
 
@@ -184,6 +219,42 @@ _src/app/user/user-list/user-list.component.html_
 </table>
 ```
 
+Añadimos estilos para visualizar mejor los elementos de la tabl:
+
+_src/app/user/user-list/user-list.component.css_
+
+```css
+/* Estilos generales para la tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px; /* Ajusta el margen según sea necesario */
+}
+
+/* Estilos para las celdas del encabezado */
+th {
+  background-color: #f2f2f2; /* Color de fondo del encabezado */
+  padding: 10px;
+  text-align: left;
+}
+
+/* Estilos para las celdas del cuerpo de la tabla */
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd; /* Línea divisoria entre filas */
+}
+
+/* Estilos para las imágenes dentro de las celdas */
+img {
+  max-width: 50px; /* Ajusta el tamaño máximo de las imágenes */
+  border-radius: 50%; /* Borde redondeado para las imágenes */
+}
+
+/* Estilos para las filas impares, para mejorar la legibilidad */
+tbody tr:nth-child(odd) {
+  background-color: #f9f9f9; /* Fondo alternativo para filas impares */
+}
+
+```
+
 Y ya está: _members_ empieza siendo una lista vacía [] y en el html se reflejará por lo tanto una tabla sin filas, pero en cuanto la petición a la API devuelva datos y los guardemos en la propiedad members del ts, Angular actualizará el HTML y veremos los datos en la pantalla.
-
-

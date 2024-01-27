@@ -1,0 +1,12 @@
+<h1>Shopping Cart</h1>
+
+<select [ngModel]="quantity()" (ngModelChange)="onQuantitySelected($event)">
+  <option disabled value="">--Select a quantity--</option>
+  <option *ngFor="let q of qtyAvailable()">{{q}}</option>
+</select>
+
+<div>{{ quantity() }}</div>
+<div>Product: {{ selectedProduct().name }}</div>
+<div>Price: {{ selectedProduct().price }}</div>
+<!-- <div>Extended Price: {{ exPrice() | currency }}</div> -->
+<div [style.color]="color()">Extended Price: {{ exPrice() | currency }}</div>

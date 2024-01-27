@@ -63,31 +63,26 @@ _src/app/user/user-list/user-list.component.ts_
 
 ```diff
 import { Component, OnInit } from '@angular/core';
-import { MemberEntity } from 'src/app/model/MemberEntity';
-+import { MembersService } from 'src/app/services/members.service';
+import { MemberEntity } from '../../model';
+import { NgFor, NgIf } from '@angular/common';
+import { HighlightDirective } from '../../directives/highlight.directive';
+import { FormsModule } from '@angular/forms';
+import { SearchByLoginPipe } from '../../pipes/search-by-login.pipe';
++import { MembersService } from '../../services/members.service';
 
 @Component({
   selector: 'app-user-list',
+  standalone: true,
+  imports: [NgFor, HighlightDirective, FormsModule, NgIf, SearchByLoginPipe],
   templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css']
+  styleUrl: './user-list.component.css',
 })
 export class UserListComponent implements OnInit {
-
   members: MemberEntity[] = [];
-  newMember: MemberEntity;
+  newMember!: MemberEntity;
 
--  constructor() {
-+  constructor(private membersService: MembersService) {
-    fetch(`https://api.github.com/orgs/lemoncode/members`)
-      .then((response) => response.json())
-      .then((json) => this.members = json);
++ constructor(private membersService: MembersService) {}
 
-    this.newMember = {
-      id: '',
-      login: '',
-      avatar_url: ''
-    };
-  }
 ```
 
 - Pedimos los usuarios al servicio en vez de cogerlos directamente en el componente:
@@ -95,18 +90,16 @@ export class UserListComponent implements OnInit {
 _src/app/user/user-list/user-list.component.ts_
 
 ```diff
-  constructor(private membersService: MembersService) {
--    fetch(`https://api.github.com/orgs/lemoncode/members`)
--      .then((response) => response.json())
--      .then((json) => this.members = json);
-+    this.membersService.getAll().then(
-+      members => this.members = members
-+    );
-
+  ngOnInit(): void {
+-   fetch('https://api.github.com/orgs/lemoncode/members')
+-     .then((response) => response.json())
+-     .then((result) => (this.members = result));
++   this.membersService.getAll().then((members) => (this.members = members));
++
     this.newMember = {
       id: '',
       login: '',
-      avatar_url: ''
+      avatar_url: '',
     };
   }
 ```

@@ -45,7 +45,7 @@ export default component$(() => {
 
 We get the following error:
 
-![erro](./resources/01-error.png)
+![error](./resources/01-error.png)
 
 This code breaks, because must be serialized to be download when the user clicks on button. We can serialize a function by using `$`:
 

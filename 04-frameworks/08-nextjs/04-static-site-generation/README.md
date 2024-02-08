@@ -423,9 +423,14 @@ _./next.config.js_
 ```javascript
 module.exports = {
   images: {
-    domains: [process.env.IMAGES_DOMAIN],
+    remotePatterns: [
+      {
+        hostname: process.env.IMAGES_DOMAIN,
+      },
+    ],
   },
 };
+
 ```
 
 > [Remote Images](https://nextjs.org/docs/app/building-your-application/optimizing/images#remote-images)

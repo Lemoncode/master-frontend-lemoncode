@@ -7,7 +7,6 @@ const CarListPage = () => {
   const onNavigateBack = () => {
     router.push('/'); // or router.back()
   };
-
   return (
     <>
       <h2>Car list page</h2>

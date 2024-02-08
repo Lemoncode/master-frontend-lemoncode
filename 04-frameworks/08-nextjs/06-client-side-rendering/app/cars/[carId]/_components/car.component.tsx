@@ -20,7 +20,6 @@ export const Car: React.FC<Props> = (props) => {
     try {
       const apiCar = mapCarFromVmToApi({ ...car, isBooked: !car.isBooked });
       await api.bookCar(apiCar);
-      router.refresh();
       router.push(routeConstants.carList);
     } catch (error) {
       console.error({ error });

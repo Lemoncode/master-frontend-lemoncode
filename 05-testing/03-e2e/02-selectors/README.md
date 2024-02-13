@@ -66,7 +66,7 @@ npm install
 
 ```
 
-- This doesn't work, because `cypress commands` are enqueued and run it in async way. Let's refator it:
+- This doesn't work, because `cypress commands` are enqueued and run it in async way. Let's refactor it:
 
 ### ./cypress/e2e/login.spec.ts
 

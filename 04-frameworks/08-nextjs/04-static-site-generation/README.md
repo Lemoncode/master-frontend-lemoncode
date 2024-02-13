@@ -350,7 +350,7 @@ export const metadata: Metadata = {
 
 const CarListPage = async () => {
 - const carList = await getCarList();
-+ // cache: 'force-cache' is the default
++ // cache: 'force-cache' is the default value
 + const carList = await getCarList({ next: { revalidate: 10 } }); // In seconds
   console.log('Car list at build time:', { carList });
 
@@ -423,9 +423,14 @@ _./next.config.js_
 ```javascript
 module.exports = {
   images: {
-    domains: [process.env.IMAGES_DOMAIN],
+    remotePatterns: [
+      {
+        hostname: process.env.IMAGES_DOMAIN,
+      },
+    ],
   },
 };
+
 ```
 
 > [Remote Images](https://nextjs.org/docs/app/building-your-application/optimizing/images#remote-images)

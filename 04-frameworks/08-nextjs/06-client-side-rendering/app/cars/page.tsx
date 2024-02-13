@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 };
 
 const CarListPage = async () => {
-  // cache: 'force-cache' is the default
-  const carList = await getCarList({ cache: 'no-store' });
+  // cache: 'force-cache' is the default value
+  const carList = await getCarList({ cache: 'no-store' }); // In seconds
   console.log('Car list at build time:', { carList });
 
   return <CarList carList={mapCarListFromApiToVm(carList)} />;

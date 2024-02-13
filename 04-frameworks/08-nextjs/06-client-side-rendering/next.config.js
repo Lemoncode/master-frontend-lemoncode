@@ -1,5 +1,9 @@
 module.exports = {
   images: {
-    domains: [process.env.IMAGES_DOMAIN],
+    remotePatterns: [
+      {
+        hostname: process.env.IMAGES_DOMAIN,
+      },
+    ],
   },
 };

@@ -78,10 +78,10 @@ Why it doesn't work? Because we are using `use client` directive and the environ
 _./.env.local_
 
 ```diff
-IMAGES_DOMAIN=localhost
 - BASE_API_URL=http://localhost:3001/api
 + NEXT_PUBLIC_BASE_API_URL=http://localhost:3001/api
 BASE_PICTURES_URL=http://localhost:3001
+IMAGES_DOMAIN=localhost
 
 ```
 
@@ -93,37 +93,6 @@ export const envConstants = {
 + BASE_API_URL: process.env.NEXT_PUBLIC_BASE_API_URL,
   BASE_PICTURES_URL: process.env.BASE_PICTURES_URL,
 };
-
-```
-
-Run again:
-
-```bash
-npm run start:api-server
-npm run build
-npm run start:prod
-```
-
-But we have another problem, the car list is not updated after booking a car, we need to refresh the page to see the changes. Let's use [router.refresh](https://nextjs.org/docs/app/api-reference/functions/use-router#userouter):
-
-
-_./app/cars/\[carId\]/\_components/car.component.tsx_
-
-```diff
-...
-
-  const handleBook = async () => {
-    try {
-      const apiCar = mapCarFromVmToApi({ ...car, isBooked: !car.isBooked });
-      await api.bookCar(apiCar);
-+     router.refresh();
-      router.push(routeConstants.carList);
-    } catch (error) {
-      console.error({ error });
-    }
-  };
-
-...
 
 ```
 

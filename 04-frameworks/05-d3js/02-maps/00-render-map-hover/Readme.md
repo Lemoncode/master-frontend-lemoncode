@@ -8,9 +8,9 @@ features:
 
 ![Europe chart plus mouse hover](./content/chart.gif)
 
-Codesandbox: https://codesandbox.io/s/headless-river-s7yj3
+<!-- Codesandbox: <https://codesandbox.io/s/headless-river-s7yj3> -->
 
-# Steps
+## Steps
 
 - We will take as starting example _00-boilerplate_, let's copy the content from that folder and execute _npm install_.
 
@@ -31,7 +31,7 @@ npm install @types/topojson-client --save-dev
 
 - Let's remove part of the boilerplate test code:
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 import * as d3 from "d3";
@@ -54,7 +54,7 @@ const svg = d3
 -  .attr("cy", 20);
 ```
 
-> More info about this format: https://umar-yusuf.blogspot.com/2018/07/difference-between-geojson-and-topojson.html
+> More info about this format: <https://umar-yusuf.blogspot.com/2018/07/difference-between-geojson-and-topojson.html>
 
 - Let's change the size of the svg we are using and add some background color:
 
@@ -70,12 +70,12 @@ const svg = d3
 ```
 
 - Now we need the data (arcs) to draw an Europe map in topojson format, hopefully there are a lot of maps avaiable in this
-  format, we can get the info from this great open source project: https://github.com/deldersveld/topojson
-  we are going to copy to our local the following json file: https://github.com/deldersveld/topojson/blob/master/continents/europe.json
+  format, we can get the info from this great open source project: <https://github.com/deldersveld/topojson>
+  we are going to copy to our local the following json file: <https://github.com/deldersveld/topojson/blob/master/continents/europe.json>
 
 Let's download and copy that file under the _src_ folder
 
-_./src/europe.json_
+_./src/europe.json_:
 
 - We are going to include this file into the bundle and import it (another approach could load it from a remote location using _d3.json_).
 
@@ -87,7 +87,7 @@ npm install @types/node --save-dev
 
 Then, let's import _topojson_ converter and we load the json map using _require_
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 import * as d3 from "d3";
@@ -99,7 +99,7 @@ import * as d3 from "d3";
 
 - first we will define the map projection that we want to use (geoMercator),
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 const europeJson = require("./europe.json");
@@ -107,11 +107,11 @@ const europeJson = require("./europe.json");
 + const aProjection = d3.geoMercator();
 ```
 
-> more about projections: https://d3-wiki.readthedocs.io/zh_CN/master/Geo-Projections/
+> more about projections: <https://d3-wiki.readthedocs.io/zh_CN/master/Geo-Projections/>
 
 - Next step, let's specify to our geopath generator which project we are going to use:
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 const aProjection = d3.geoMercator();
@@ -179,7 +179,7 @@ const geojson = topojson.feature(
 
 - Let's define the styles in a _map.css_ file:
 
-_./src/map.css_
+_./src/map.css_:
 
 ```css
 .country {
@@ -191,7 +191,7 @@ _./src/map.css_
 
 - Let's import it in our index.html
 
-_./src/index.html_
+_./src/index.html_:
 
 ```diff
   <head>
@@ -217,7 +217,7 @@ svg
 
 - Let's add some styling (append this to map css):
 
-_./src/map.css_
+_./src/map.css_:
 
 ```css
 .selected-country {
@@ -247,7 +247,7 @@ svg
   ;
 ```
 
-# About Basefactor + Lemoncode
+## About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
 
@@ -255,4 +255,4 @@ We are an innovating team of Javascript experts, passionate about turning your i
 
 [Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
 
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: <http://lemoncode.net/master-frontend>

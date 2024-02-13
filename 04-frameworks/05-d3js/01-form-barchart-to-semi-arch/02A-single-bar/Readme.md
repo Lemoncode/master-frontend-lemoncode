@@ -1,18 +1,16 @@
 # Single bar
 
-So the boss was not happy with a Barchart, we must choose a chart type where
-is easier to check the relative weight of each political party compared with
-the total of seats available.
+So the boss was not happy with a Barchart, we must choose a chart type whereis easier to check the relative weight of each political party compared with the total of seats available.
 
 Maybe a chart like this could help:
 
 ![single horizontal stack bar chart](./content/chart.png "single horizontal stack bar chart")
 
-Click here to check the sample live: [Codesandbox](https://codesandbox.io/s/flamboyant-forest-sxyq0)
+<!-- Click here to check the sample live: [Codesandbox](https://codesandbox.io/s/flamboyant-forest-sxyq0) -->
 
 Let's give a try.
 
-# Steps
+## Steps
 
 - This example will start from 01-bar-chart, let's copy it to a new folder and execute
 
@@ -26,7 +24,7 @@ npm install
 First let's remove how we calculated the fixed bar width (now height will be fixed):
 
 ```diff
-- const politicalPartiesCount = resultCollectionSpainNov19.length;
+- const politicalPartiesCount = resultCollectionSpainJul23.length;
 - const barPadding = 5; // We could calculate this value as well
 - const barWidth =
 -  (chartDimensions.width - barPadding * politicalPartiesCount) /
@@ -35,7 +33,7 @@ First let's remove how we calculated the fixed bar width (now height will be fix
 ```
 
 ```diff
-- const maxNumberSeats = resultCollectionSpainNov19.reduce(
+- const maxNumberSeats = resultCollectionSpainJul23.reduce(
 -   (max, item) => (item.seats > max ? item.seats : max),
 -   0
 - );
@@ -45,7 +43,7 @@ First let's remove how we calculated the fixed bar width (now height will be fix
 -  .domain([0, maxNumberSeats])
 -  .range([0, chartDimensions.height]);
 
-+ const totalNumberSeats = resultCollectionSpainNov19.reduce(
++ const totalNumberSeats = resultCollectionSpainJul23.reduce(
 +  (sum, item) => sum + item.seats,
 +  0
 + );
@@ -67,7 +65,7 @@ First let's remove how we calculated the fixed bar width (now height will be fix
 
 chartGroup
   .selectAll("rect")
-  .data(resultCollectionSpainNov19)
+  .data(resultCollectionSpainJul23)
   .enter()
   .append("rect")
 -  .attr("width", barWidth)
@@ -92,7 +90,7 @@ chartGroup
 npm start
 ```
 
-# Excercise
+## Excercise
 
 Couldn't it be cool to add an indicator showing how many seat are needed to
 get overall majority? Something like:
@@ -106,7 +104,7 @@ Tips:
 
 ¡That's all!
 
-# About Basefactor + Lemoncode
+## About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
 
@@ -114,4 +112,4 @@ We are an innovating team of Javascript experts, passionate about turning your i
 
 [Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
 
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: <http://lemoncode.net/master-frontend>

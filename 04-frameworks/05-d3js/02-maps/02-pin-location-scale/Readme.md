@@ -1,19 +1,18 @@
 # Pinning locations + scale
 
-Our boss liked a lot the map we have developed, now he wants to focus on Spain booster dose vaccination percentage by region, he wants to
-display a map pinning each region and scaling that pin according the percentage of vaccination, something like:
+Our boss liked a lot the map we have developed, now he wants to focus on Spain unemployment rate by region. He wants to display a map pinning each region and scaling that pin according the percentage of unemployment in that region, something like:
 
-![map booster dose](./content/chart.png "booster dose")
+![map unemployment rate](./content/chart.png "unemployment rate")
 
-codesandbox: https://codesandbox.io/s/hopeful-ellis-rlczx (deprecated, it has to be updated)
+<!-- codesandbox: <https://codesandbox.io/s/hopeful-ellis-rlczx> (deprecated, it has to be updated) -->
 
 We have to face three challenges here:
 
-- Canary islands are a territory placed far away from Spain mainlan. We need to cropt that islands and paste them in a visible place in the map.
+- Canary islands are a territory placed far away from Spain mainland. We need to cropt that islands and paste them in a visible place in the map.
 - Place pins on a map based on location.
-- Scale pin radius based on vaccination percentage.
+- Scale pin radius based on unemployment percentage.
 
-# Steps
+## Steps
 
 - We will take as starting example _00-render-map-hover_, let's copy the content from that folder and execute _npm install_.
 
@@ -21,13 +20,13 @@ We have to face three challenges here:
 npm install
 ```
 
-- This time we will Spain topojson info: https://github.com/deldersveld/topojson/blob/master/countries/spain/spain-comunidad-with-canary-islands.json
+- This time we will Spain topojson info: <https://github.com/deldersveld/topojson/blob/master/countries/spain/spain-comunidad-with-canary-islands.json>
 
 Let's copy it under the following route _./src/spain.json_
 
 - Now instead of importing _europe.json_ we will import _spain.json_.
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 import * as d3 from "d3";
@@ -38,7 +37,7 @@ import * as topojson from "topojson-client";
 
 - Let's build the spain map instead of europe:
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 const geojson = topojson.feature(
@@ -59,7 +58,7 @@ const geojson = topojson.feature(
 - If we run the project we can check that the map is now renders in a proper size and position, let's
   go for the next challenge, we want to reposition Canary Islands, in order to do that we can build a
   map projection that positions that piece of land in another place, for instance for the USA you can
-  find Albers USA projection: https://bl.ocks.org/mbostock/2869946, there's a great project created by
+  find Albers USA projection: <https://bl.ocks.org/mbostock/2869946>, there's a great project created by
   [Roger Veciana](https://github.com/rveciana) that implements a lot of projections for several
   maps:
 
@@ -84,7 +83,7 @@ const spainjson = require("./spain.json");
 - Let's change the projection we are using (we will need to tweak as well the
   _scale_ and _translate_ values):
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 - const aProjection = d3.geoMercator();
@@ -97,7 +96,7 @@ _./src/index.ts_
   we have collected the latitude and longitude for each community, let's add them to our
   project.
 
-_./src/communities.ts_
+_./src/communities.ts_:
 
 ```typescript
 export const latLongCommunities = [
@@ -191,7 +190,7 @@ export const latLongCommunities = [
 
 - Let's import it:
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 import * as d3 from "d3";
@@ -201,7 +200,7 @@ import * as topojson from "topojson-client";
 
 - And let's append at the bottom of the _index_ file a code to render a circle on top of each community:
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```typescript
 svg
@@ -215,88 +214,96 @@ svg
 ```
 
 - Nice ! we got an spot on top of each region. Now it's time to
-  make this spot size relative to the vaccination percentage.
+  make this spot size relative to the unemployment percentage.
 
-- We will add the stats that we need to display (vaccination percentage per community). This informations has been obtained from [RTVE web site](https://www.rtve.es/noticias/20220920/mapa-del-coronavirus-espana/2004681.shtml):
+- We will add the stats that we need to display (unemployment percentage per community). This informations has been obtained from [INE (Instituto Nacional de Estadistica) web site](https://www.ine.es/jaxiT3/Tabla.htm?t=4247&L=0):
 
-_./stats.ts_
+_./stats.ts_:
 
 ```typescript
-export const boosterDosePerRegion = [
+export const unemploymentRate2023Q4 = [
   {
     name: "Andalucía",
-    value: 49.9,
+    value: 17.6,
   },
   {
     name: "Aragón",
-    value: 55.2,
+    value: 7.85,
   },
   {
     name: "Asturias",
-    value: 72.2,
+    value: 11.81,
   },
   {
     name: "Islas Baleares",
-    value: 42.2,
+    value: 11.38,
   },
   {
     name: "Islas Canarias",
-    value: 47.2,
+    value: 16.19,
   },
   {
     name: "Cantabria",
-    value: 60.9,
+    value: 7.48,
   },
   {
     name: "Castilla y León",
-    value: 64.6,
+    value: 9.5,
   },
   {
     name: "Castilla-La Mancha",
-    value: 54.2,
+    value: 12.45,
   },
   {
     name: "Cataluña",
-    value: 50.4,
+    value: 8.97,
   },
   {
     name: "C. Valenciana",
-    value: 59.4,
+    value: 12.65,
   },
   {
     name: "Extremadura",
-    value: 62.1,
+    value: 16.29,
   },
   {
     name: "Galicia",
-    value: 74.3,
+    value: 9.15,
   },
   {
     name: "La Rioja",
-    value: 58.8,
+    value: 9.52,
   },
   {
     name: "Madrid",
-    value: 52.1,
+    value: 9.72,
   },
   {
     name: "Murcia",
-    value: 47.1,
+    value: 11.32,
   },
   {
     name: "Navarra",
-    value: 56.1,
+    value: 9.32,
   },
   {
     name: "País Vasco",
-    value: 55.7,
+    value: 6.33,
+  },
+  {
+    name: "Ceuta",
+    value: 28.35,
+  },
+  {
+    name: "Melilla",
+    value: 27.42,
   },
 ];
 ```
 
 - Let's import it into our index.ts
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 import * as d3 from "d3";
@@ -304,45 +311,45 @@ import * as topojson from "topojson-client";
 const spainjson = require("./spain.json");
 const d3Composite = require("d3-composite-projections");
 import { latLongCommunities } from "./communities";
-+ import { boosterDosePerRegion } from "./stats";
++ import { unemploymentRate2023Q4 } from "./stats";
 ```
 
-- Let's calculate the highest vaccination percentage among all Spanish regions:
+- Let's calculate the highest unemployment percentage among all Spanish regions:
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```typescript
-const highestPercentage = boosterDosePerRegion.reduce(
+const highestPercentage = unemploymentRate2023Q4.reduce(
   (max, item) => (item.value > max ? item.value : max),
   0
 );
 ```
 
-- Let's create an scale to map vaccination percentage to radius size.
+- Let's create an scale to map unemployment percentage to radius size.
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```typescript
-const vaccinationPercentageRadiusScale = d3
+const unemploymentPercentageRadiusScale = d3
   .scaleLinear()
   .domain([0, highestPercentage])
   .range([0, 50]); // 50 pixel max radius, we could calculate it relative to width and height
 ```
 
-- Let's create a helper function to glue the community name with the vaccination percentage.
+- Let's create a helper function to glue the community name with the unemployment percentage.
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```typescript
-const calculateRadiusBasedOnVaccinationPercentage = (comunidad: string) => {
-  const entry = boosterDosePerRegion.find((item) => item.name === comunidad);
-  return entry ? vaccinationPercentageRadiusScale(entry.value) : 0;
+const calculateRadiusBasedOnUnemploymentPercentage = (comunidad: string) => {
+  const entry = unemploymentRate2023Q4.find((item) => item.name === comunidad);
+  return entry ? unemploymentPercentageRadiusScale(entry.value) : 0;
 };
 ```
 
 - Let's tie it up with the circle rendering code that we created above:
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 svg
@@ -351,7 +358,7 @@ svg
   .enter()
   .append("circle")
 -  .attr("r", 15)
-+  .attr("r", d => calculateRadiusBasedOnVaccinationPercentage(d.name))
++  .attr("r", d => calculateRadiusBasedOnUnemploymentPercentage(d.name))
   .attr("cx", d => aProjection([d.long, d.lat])[0])
   .attr("cy", d => aProjection([d.long, d.lat])[1]);
 ```
@@ -360,7 +367,7 @@ svg
 
 - But those black circles are ugly. Let's add some styles to them: we will just use a red background and  some transparency to let the user see the spot and the map under that spot.
 
-_./src/map.css_
+_./src/map.css_:
 
 ```diff
 + .region {
@@ -386,7 +393,7 @@ _./src/map.css_
 
 - Let's apply this style to the black circles that we are rendering:
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 svg
@@ -403,14 +410,14 @@ svg
   .enter()
   .append("circle")
 + .attr("class", "marker")
-  .attr("r", d => calculateRadiusBasedOnVaccinationPercentage(d.name))
+  .attr("r", d => calculateRadiusBasedOnUnemploymentPercentage(d.name))
   .attr("cx", d => aProjection([d.long, d.lat])[0])
   .attr("cy", d => aProjection([d.long, d.lat])[1]);
 ```
 
 - In order to make the map more interactive, let's listen for some events for each marker. Before doing this, it's necessary to create class _selected-marker_ in _map.css_:
 
-_./src/map.css_
+_./src/map.css_:
 
 ```diff
 .country {
@@ -434,7 +441,7 @@ _./src/map.css_
 + }
 ```
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 svg
@@ -458,12 +465,12 @@ svg
 +     .style("cursor", "default");
 + })
 + .on("click", function(event, d) {
-+   const percentage = boosterDosePerRegion.find((element) => element.name === d.name).value;
-+   alert(`Booster dose percentage in ${d.name}: ${percentage}%`)
++   const percentage = unemploymentRate2023Q4.find((element) => element.name === d.name).value;
++   alert(`unemployment percentage in ${d.name}: ${percentage}%`)
   });
 ```
 
-# About Basefactor + Lemoncode
+## About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
 
@@ -471,4 +478,4 @@ We are an innovating team of Javascript experts, passionate about turning your i
 
 [Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
 
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: <http://lemoncode.net/master-frontend>

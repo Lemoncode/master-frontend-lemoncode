@@ -7,9 +7,9 @@ Something like:
 
 ![animated series](./content/chart.gif "animated series")
 
-Live demo: [codesandbox](https://codesandbox.io/s/frosty-waterfall-j47s5)
+<!-- Live demo: [codesandbox](https://codesandbox.io/s/frosty-waterfall-j47s5) -->
 
-# Steps
+## Steps
 
 - We will take as starting sample _04-pimp-chart_.
 
@@ -21,13 +21,13 @@ npm install
 
 - Let's add two buttons in the _index.html_ file:
 
-_./src/index.html_
+_./src/index.html_:
 
 ```diff
   <body>
 +    <div>
-+      <button id="april">Results April</button>
-+      <button id="november">Results November</button>
++      <button id="july2023">Results July 2023</button>
++      <button id="november2019">Results November 2019</button>
 +    </div>
     <script src="./index.ts"></script>
   </body>
@@ -38,80 +38,83 @@ _./src/index.html_
 ```diff
 import * as d3 from "d3";
 import {
-  resultCollectionSpainNov19,
-+ resultCollectionSpainApr19,
+  resultCollectionSpainJul23
++ resultCollectionSpainNov19,
   ResultEntry
 } from "./data";
 
 - const svgDimensions = { width: 500, height: 500 };
-+ const svgDimensions = { width: 500, height: 550 };
++ const svgDimensions = { width: 500, height: 575 };
 ```
 
-- In April's election there's a political party that is not in novembers election, we need to include all parties:
+- In November 2019's election there are several political parties that are not in July 2023's election, we need to include all parties:
 
 ```diff
 const partiesColorScale = d3
-  .scaleOrdinal([
-    "#ED1D25",
-    "#0056A8",
-    "#5BC035",
-    "#6B2E68",
-    "#F3B219",
-    "#FA5000",
-    "#C50048",
-    "#029626",
-    "#A3C940",
-    "#0DDEC5",
-    "#FFF203",
-    "#FFDB1B",
-    "#E61C13",
-    "#73B1E6",
-+   "#FFA500"
-  ])
-  .domain([
-    "PSOE",
-    "PP",
-    "VOX",
-    "UP",
-    "ERC",
-    "Cs",
-    "JxCat",
-    "PNV",
-    "Bildu",
-    "Más pais",
-    "CUP",
-    "CC",
-    "BNG",
-    "Teruel Existe",
-+   "Compromis",
-  ]);
+  .scaleOrdinal(resultCollectionSpainJul23.map(party => party.color)
++   .concat(['#6B2E68', '#FA5000', '0FDDC4', '#FFF200', 'E51C13', '#00C6A4', '#037252']))
+  .domain(resultCollectionSpainJul23.map(party => party.party)
++   .concat(['UP', 'Cs', 'Más pais', 'CUP', 'NA+', 'PRC', 'Teruel Existe']));
 ```
 
-- Let's add a method to swap the data we are using (e.g. swap november results with april results),
-  we will append all this code at the end of the index.ts file:
+- Now we need to wrap arcs generation inside a funcion. We will make use of this function later.
 
-_./src/index.ts_
+```diff
++ const generateChart = (data: ResultEntry[]) => {
+  const arcs = chartGroup
+    .selectAll("slice")
+-   .data(pieChart(resultCollectionSpainJul23))
++   .data(pieChart(<any>data))
+    .enter();
+
+  arcs
+    .append("path")
+    .attr("d", <any>arc) // Hack typing: https://stackoverflow.com/questions/35413072/compilation-errors-when-drawing-a-piechart-using-d3-js-typescript-and-angular/38021825
+    .attr("fill", (d) => {
+      console.log(d.data.party);
+      return partiesColorScale(d.data.party);
+    })
+    .on("mouseover", function (mouseEvent: MouseEvent, datum) {
+      d3.select(this).attr("transform", `scale(1.1, 1.1)`);
+      const partyInfo = datum.data;
+
+      const coords = { x: mouseEvent.pageX, y: mouseEvent.pageY };
+      div.transition().duration(200).style("opacity", 0.9);
+      div
+      .html(`<span>${partyInfo.party}: ${partyInfo.seats}</span>`)
+      .style("left", `${coords.x}px`)
+      .style("top", `${coords.y - 28}px`);
+    })
+    .on("mouseout", function() {
+      d3.select(this).attr("transform", ``);
+      div.transition().duration(500).style("opacity", 0);
+    });
++}
+```
+
+- Let's add a method to swap the data we are using. We will append all this code at the end of the index.ts file:
+
+_./src/index.ts_:
 
 ```typescript
 // Update chart functionality
 const updateChart = (data: ResultEntry[]) => {
-  d3.selectAll("path")
-    .data(pieChart(<any>data))
-    .transition()
-    .duration(500)
-    .attr("d", <any>arc);
+  d3.selectAll("path").remove();
+  generateChart(data);
 };
 ```
 
 - And now call them on each button with the corresponding data:
 
 ```typescript
-document
-  .getElementById("april")
-  .addEventListener("click", () => updateChart(resultCollectionSpainApr19));
+window.onload = () => updateChart(resultCollectionSpainJul23);
 
 document
-  .getElementById("november")
+  .getElementById("july2023")
+  .addEventListener("click", () => updateChart(resultCollectionSpainJul23));
+
+document
+  .getElementById("november2019")
   .addEventListener("click", () => updateChart(resultCollectionSpainNov19));
 ```
 
@@ -132,12 +135,11 @@ const pieChart = d3
 + .sort(null);
 ```
 
-- Now looks better, it still not perfect you can work it out to get it perfect by following this example: https://bl.ocks.org/tezzutezzu/c2653d42ffb4ecc01ffe2d6c97b2ee5e
+- Now looks better, it still not perfect you can work it out to get it perfect by following this example: <https://bl.ocks.org/tezzutezzu/c2653d42ffb4ecc01ffe2d6c97b2ee5e>
 
-# Excercise
+## Exercise
 
-Let's implemnent a "pactometer", just only for the current November election process, add a checkbox per political party, the users can check which parties reach an agreement and
-check if the get absolute parliamentary majority.
+Let's implemnent a "pactometer", just only for the latest election process, add a checkbox per political party, the users can check which parties reach an agreement and check if the get absolute parliamentary majority.
 
 Tips:
 
@@ -150,7 +152,7 @@ Tips:
   - Create a key call others (gray color) where you sum up all the other seats.
 - Display the semi arch chart.
 
-# About Basefactor + Lemoncode
+## About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
 
@@ -158,4 +160,4 @@ We are an innovating team of Javascript experts, passionate about turning your i
 
 [Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
 
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: <http://lemoncode.net/master-frontend>

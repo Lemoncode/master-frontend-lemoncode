@@ -6,11 +6,11 @@ Something like:
 
 ![semi arc chart](./content/chart.gif "semi arc chart")
 
-Live demo: [codesandbox](https://codesandbox.io/s/musing-wilson-ymnv7)
+<!-- Live demo: [codesandbox](https://codesandbox.io/s/musing-wilson-ymnv7) -->
 
 **ViewBox** to the rescue.
 
-# Steps
+## Steps
 
 - We will take as starting sample _05-multiple-series_.
 
@@ -42,7 +42,7 @@ import * as d3 from "d3";
 - Let's update the size of our svg (this will be enclosed in a viewbox, inside the viewBox we will play with exact coordinates, outside with percentages)
 
 ```diff
-- const svgDimensions = { width: 500, height: 550 };
+- const svgDimensions = { width: 500, height: 575 };
 + const svgDimensions = { width: 500, height: 500 };
 ```
 
@@ -103,11 +103,11 @@ svg
 npm start
 ```
 
-# Additional resources
+## Additional resources
 
-Check this great example from Saninn: https://jsfiddle.net/Saninn/15pwLf7u/
+Check this great example from Saninn: <https://jsfiddle.net/Saninn/15pwLf7u/>
 
-# About Basefactor + Lemoncode
+## About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
 
@@ -115,4 +115,4 @@ We are an innovating team of Javascript experts, passionate about turning your i
 
 [Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
 
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: <http://lemoncode.net/master-frontend>

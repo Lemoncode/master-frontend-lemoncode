@@ -1,70 +1,79 @@
-export const boosterDosePerRegion = [
+// Source: Instituto Nacional de Estadistica (https://www.ine.es/jaxiT3/Tabla.htm?t=4247&L=0)
+export const unemploymentRate2023Q4 = [
   {
     name: "Andalucía",
-    value: 49.9,
+    value: 17.6,
   },
   {
     name: "Aragón",
-    value: 55.2,
+    value: 7.85,
   },
   {
     name: "Asturias",
-    value: 72.2,
+    value: 11.81,
   },
   {
     name: "Islas Baleares",
-    value: 42.2,
+    value: 11.38,
   },
   {
     name: "Islas Canarias",
-    value: 47.2,
+    value: 16.19,
   },
   {
     name: "Cantabria",
-    value: 60.9,
+    value: 7.48,
   },
   {
     name: "Castilla y León",
-    value: 64.6,
+    value: 9.5,
   },
   {
     name: "Castilla-La Mancha",
-    value: 54.2,
+    value: 12.45,
   },
   {
     name: "Cataluña",
-    value: 50.4,
+    value: 8.97,
   },
   {
     name: "C. Valenciana",
-    value: 59.4,
+    value: 12.65,
   },
   {
     name: "Extremadura",
-    value: 62.1,
+    value: 16.29,
   },
   {
     name: "Galicia",
-    value: 74.3,
+    value: 9.15,
   },
   {
     name: "La Rioja",
-    value: 58.8,
+    value: 9.52,
   },
   {
     name: "Madrid",
-    value: 52.1,
+    value: 9.72,
   },
   {
     name: "Murcia",
-    value: 47.1,
+    value: 11.32,
   },
   {
     name: "Navarra",
-    value: 56.1,
+    value: 9.32,
   },
   {
     name: "País Vasco",
-    value: 55.7,
+    value: 6.33,
+  },
+  {
+    name: "Ceuta",
+    value: 28.35,
+  },
+  {
+    name: "Melilla",
+    value: 27.42,
   },
 ];

@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { resultCollectionSpainNov19 } from "./data";
+import { resultCollectionSpainJul23 } from "./data";
 
 const svgDimensions = { width: 500, height: 500 };
 const margin = { left: 5, right: 5, top: 10, bottom: 10 };
@@ -8,27 +8,27 @@ const chartDimensions = {
   height: svgDimensions.height - margin.bottom - margin.top,
 };
 
-const maxNumberSeats = resultCollectionSpainNov19.reduce(
+const maxNumberSeats = resultCollectionSpainJul23.reduce(
   (max, item) => (item.seats > max ? item.seats : max),
   0
 );
 
-const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
+const politicalPartiesKeys: string[] = resultCollectionSpainJul23.map(
   (item) => item.party
 );
 
 // Since we are going to use stack layout
 // We are going to format the data in the following format
 // {
-//   PSOE: 120,
-//   PP: 88,
-//   VOX: 52
+//   PP: 137,
+//   PSOE: 121,
+//   VOX: 33,
 //   ...
 // }
 // This will represent a serie for a single entry (in this
 // case we are handling a single bar, an example of multiple
 // bar would be showing result elections of several years)
-const singleElectionResult = resultCollectionSpainNov19.reduce(
+const singleElectionResult = resultCollectionSpainJul23.reduce(
   (total, item) => ({
     ...total,
     [item.party]: item.seats,
@@ -42,38 +42,8 @@ const singleElectionResult = resultCollectionSpainNov19.reduce(
 const data = [singleElectionResult];
 
 const partiesColorScale = d3
-  .scaleOrdinal([
-    "#ED1D25",
-    "#0056A8",
-    "#5BC035",
-    "#6B2E68",
-    "#F3B219",
-    "#FA5000",
-    "#C50048",
-    "#029626",
-    "#A3C940",
-    "#0DDEC5",
-    "#FFF203",
-    "#FFDB1B",
-    "#E61C13",
-    "#73B1E6",
-  ])
-  .domain([
-    "PSOE",
-    "PP",
-    "VOX",
-    "UP",
-    "ERC",
-    "Cs",
-    "JxCat",
-    "PNV",
-    "Bildu",
-    "Más pais",
-    "CUP",
-    "CC",
-    "BNG",
-    "Teruel Existe",
-  ]);
+  .scaleOrdinal(resultCollectionSpainJul23.map(party => party.color))
+  .domain(resultCollectionSpainJul23.map(party => party.party));
 
 const barHeight = 200; // We could calculate this based on svg height
 
@@ -83,7 +53,7 @@ const svg = d3
   .attr("width", svgDimensions.width)
   .attr("height", svgDimensions.height);
 
-const totalNumberSeats = resultCollectionSpainNov19.reduce(
+const totalNumberSeats = resultCollectionSpainJul23.reduce(
   (sum, item) => sum + item.seats,
   0
 );
@@ -100,15 +70,15 @@ const chartGroup = svg
   .attr("height", chartDimensions.height);
 
 // Let's create our stack layout
-// we are going to pass the keys (PSOE, PP, VOX, UP, Cs...)
+// we are going to pass the keys (PP, PSOE, VOX, Sumar, ERC...)
 // to have them attached on every item
 const stack = d3.stack().keys(politicalPartiesKeys);
 
 // Now we get the data formatted in the follwing way:
 //[
-//  [[0,120]] // PSOE entry (seats), starts on 0 ends on 120
-//  [[120,208]] // PP entry (88), but starts on previous items 120 (PSOE)
-//  [[208, 260]] // VOX Entry
+//  [[0, 137]] // PP entry (seats), starts on 0 ends on 137
+//  [[137, 258]] // PSOE entry (121), but starts on previous items 137 (PP)
+//  [[258, 291]] // VOX Entry
 //]
 const series = stack(data);
 
@@ -125,7 +95,7 @@ chartGroup
   .attr("height", barHeight)
   .attr("x", (d) => {
     // We take as starting point the first coordinate
-    // e.g. PP 120, 208 -> we start at 120 (where PSOE ended, and on the width param sum up that value)
+    // e.g. PSOE 137, 258 -> we start at 137 (where PP ended, and on the width param sum up that value)
     return xScale(d[0][0]);
   })
   .attr("y", () => chartDimensions.height - barHeight)

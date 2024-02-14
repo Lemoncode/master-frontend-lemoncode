@@ -1,0 +1,5 @@
+{
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:prettier/recommended"],
+  "plugins": ["prettier"],
+  "ignorePatterns": ["node_modules/", "build/", "config/"]
+}

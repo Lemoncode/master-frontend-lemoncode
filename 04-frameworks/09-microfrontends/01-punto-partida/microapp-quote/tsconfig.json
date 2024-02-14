@@ -1,15 +1,14 @@
 {
   "compilerOptions": {
     "lib": ["DOM", "ESNext"],
-    "target": "es6",
-    "module": "es6",
+    "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "declaration": false,
     "noImplicitAny": false,
     "sourceMap": true,
     "jsx": "react",
     "noLib": false,
-    "suppressImplicitAnyIndexErrors": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true
   },

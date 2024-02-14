@@ -38,6 +38,8 @@ export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
 
 > Press run all specs again.
 
+- [wait usage](https://docs.cypress.io/api/commands/wait#Usage)
+
 ### ./cypress/integration/hotel-collection.spec.ts
 
 ```diff
@@ -50,6 +52,7 @@ export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
     cy.visit('/hotel-collection');
 
     // Assert
++   cy.wait(1000);
 +   cy.wait('@fetchHotels');
     cy.findAllByRole('listitem').should('have.length', 2);
   });
@@ -69,6 +72,7 @@ export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
     cy.visit('/hotel-collection');
 
     // Assert
++   cy.wait(1000);
 +   cy.wait('@fetchHotels');
     cy.findAllByRole('listitem').should('have.length', 10);
   });
@@ -81,6 +85,7 @@ export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
     cy.visit('/hotel-collection');
 
     // Assert
++   cy.wait(1000);
 +   cy.wait('@fetchHotels');
     cy.findAllByRole('listitem').should('have.length.greaterThan', 0);
   });
@@ -105,6 +110,56 @@ export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
 
 + return data;
 };
+
+```
+
+- Lets also remove the extra wait time
+
+### ./cypress/e2e/hotel-collection.spec.ts
+
+```diff
+import { HotelEntityApi } from '../../src/pods/hotel-collection/api';
+
+describe('Hotel collection specs', () => {
+  it('should fetch hotel list and show it in screen when visit /hotel-collection url', () => {
+    // Arrange
+    cy.intercept('GET', '/api/hotels').as('fetchHotels');
+
+    // Act
+    cy.visit('/hotel-collection');
+
+    // Assert
+-   cy.wait(1000);
+    cy.wait('@fetchHotels');
+    cy.findAllByRole('listitem').should('have.length', 10);
+  });
+
+  it('should fetch hotel list greater than 0 when visit /hotel-collection url', () => {
+    // Arrange
+    cy.intercept('GET', '/api/hotels').as('fetchHotels');
+
+    // Act
+    cy.visit('/hotel-collection');
+
+    // Assert
+-   cy.wait(1000);
+    cy.wait('@fetchHotels');
+    cy.findAllByRole('listitem').should('have.length.greaterThan', 0);
+  });
+
+  it('should fetch two hotels when visit /hotel-collection url', () => {
+    // Arrange
+    cy.intercept('GET', '/api/hotels', { fixture: 'hotels' }).as('fetchHotels');
+
+    // Act
+    cy.visit('/hotel-collection');
+
+    // Assert
+-   cy.wait(1000);
+    cy.wait('@fetchHotels');
+    cy.findAllByRole('listitem').should('have.length', 2);
+  });
+});
 
 ```
 

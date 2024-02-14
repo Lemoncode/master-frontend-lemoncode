@@ -40,15 +40,29 @@ npm install cypress --save-dev
 npm run test:e2e
 ```
 
-- In the Cypress Portal UI, select E2E Testing and it creates for us a folder `cypress` and `cypress.config.ts`:
+After running this command a new prompt opens:
 
-  - **fixtures**
-  - **support**
+![welcome](./.resources/01-welcome.png)
+
+Select `E2E Testing`, Cypress will show us what files are going to be created:
+
+![config files](./.resources/02-config-files.png)
+
+Click `Continue`, Cypress will show us different browser options to run our tests:
+
+![browser options](./.resources/03-browser-options.png)
+
+Pick `Chrome`, after that Cypress will prompt us to scaffold examples or create a new spec:
+
+![scaffolding](./.resources/04-scaffolding.png)
+
+From here we will go in our own, cut the Cypress server by closing the opened browser windows, or from console using `Ctrl + C`
 
 - Let's remove `downloads`, `fixtures/example.json`, `support/commands.ts` and clear `support/e2e.ts` file content.
 
 > We will use `support/e2e.ts`
 
+- Create `./cypress/e2e` folder
 
 - Add login spec inside `e2e` folder:
 

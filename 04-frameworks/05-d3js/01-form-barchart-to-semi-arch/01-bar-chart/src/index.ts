@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { resultCollectionSpainNov19 } from "./data";
+import { resultCollectionSpainJul23 } from "./data";
 
 const svgDimensions = { width: 500, height: 500 };
 const margin = { left: 5, right: 5, top: 10, bottom: 10 };
@@ -8,46 +8,16 @@ const chartDimensions = {
   height: svgDimensions.height - margin.bottom - margin.top,
 };
 
-const maxNumberSeats = resultCollectionSpainNov19.reduce(
+const maxNumberSeats = resultCollectionSpainJul23.reduce(
   (max, item) => (item.seats > max ? item.seats : max),
   0
 );
 
 const partiesColorScale = d3
-  .scaleOrdinal([
-    "#ED1D25",
-    "#0056A8",
-    "#5BC035",
-    "#6B2E68",
-    "#F3B219",
-    "#FA5000",
-    "#C50048",
-    "#029626",
-    "#A3C940",
-    "#0DDEC5",
-    "#FFF203",
-    "#FFDB1B",
-    "#E61C13",
-    "#73B1E6",
-  ])
-  .domain([
-    "PSOE",
-    "PP",
-    "VOX",
-    "UP",
-    "ERC",
-    "Cs",
-    "JxCat",
-    "PNV",
-    "Bildu",
-    "Más pais",
-    "CUP",
-    "CC",
-    "BNG",
-    "Teruel Existe",
-  ]);
+  .scaleOrdinal(resultCollectionSpainJul23.map(party => party.color))
+  .domain(resultCollectionSpainJul23.map(party => party.party));
 
-const politicalPartiesCount = resultCollectionSpainNov19.length;
+const politicalPartiesCount = resultCollectionSpainJul23.length;
 const barPadding = 5; // We could calculate this value as well
 const barWidth =
   (chartDimensions.width - barPadding * politicalPartiesCount) /
@@ -72,7 +42,7 @@ const chartGroup = svg
 
 chartGroup
   .selectAll("rect")
-  .data(resultCollectionSpainNov19)
+  .data(resultCollectionSpainJul23)
   .enter()
   .append("rect")
   .attr("width", barWidth)

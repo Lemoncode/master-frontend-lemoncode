@@ -1,14 +1,12 @@
 # Map Background Scale
 
-Our boss got a link form a spanish news paper about choronavirus stats, he got
-astonished by the charts that we represented (https://elpais.com/sociedad/2020/03/03/actualidad/1583227754_157787.html), now we have to implement a chart that
-colours each european country depending on heavhy they have been affected by Choronavirus.
+Our boss got a link form a spanish news paper about choronavirus stats, he got astonished by the charts that we represented (<https://elpais.com/sociedad/2020/03/03/actualidad/1583227754_157787.html>), now we have to implement a chart that colours each european country depending on heavhy they have been affected by Choronavirus.
 
 ![Europe Chart Corona Virus](./content/chart.png)
 
-Codesandbox: https://codesandbox.io/s/aged-sunset-y8n63
+<!-- Codesandbox: <https://codesandbox.io/s/aged-sunset-y8n63> -->
 
-# Steps
+## Steps
 
 - We will take as starting point our previous example: _00-render-map-hover_ let's copy
   the content and execute _npm start_
@@ -55,7 +53,7 @@ We have the following information (07 March 2020)
 - Let's port it to json (respecting the name of the countries that we are using
   in our europe map)
 
-_./src/stats.ts_
+_./src/stats.ts_:
 
 ```typescript
 export const coronaVirusAffectedByCountry = [
@@ -92,7 +90,7 @@ export const coronaVirusAffectedByCountry = [
 
 - Le't import the new set of data into our _index.ts_ file:
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 const europejson = require("./europe.json");
@@ -102,7 +100,7 @@ const europejson = require("./europe.json");
 - If we check the values the start from 0 to 5000 approx, let's assign a range of colores for that
   domain:
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 import { coronaVirusAffectedByCountry } from "./stats";
@@ -186,7 +184,7 @@ svg
 - To complete our styling journey, let's modify our country css class to provide a default
   background color to our countries.
 
-_./src/map.css_
+_./src/map.css_:
 
 ```diff
 .country {
@@ -209,7 +207,7 @@ _./src/map.css_
 npm start
 ```
 
-# About Basefactor + Lemoncode
+## About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
 
@@ -217,4 +215,4 @@ We are an innovating team of Javascript experts, passionate about turning your i
 
 [Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
 
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: <http://lemoncode.net/master-frontend>

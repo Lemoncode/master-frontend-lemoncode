@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import {
+  resultCollectionSpainJul23,
   resultCollectionSpainNov19,
-  resultCollectionSpainApr19,
   ResultEntry,
 } from "./data";
 
@@ -14,40 +14,10 @@ const chartDimensions = {
 };
 
 const partiesColorScale = d3
-  .scaleOrdinal([
-    "#ED1D25",
-    "#0056A8",
-    "#5BC035",
-    "#6B2E68",
-    "#F3B219",
-    "#FA5000",
-    "#C50048",
-    "#029626",
-    "#A3C940",
-    "#0DDEC5",
-    "#FFF203",
-    "#FFDB1B",
-    "#E61C13",
-    "#73B1E6",
-    "#FFA500",
-  ])
-  .domain([
-    "PSOE",
-    "PP",
-    "VOX",
-    "UP",
-    "ERC",
-    "Cs",
-    "JxCat",
-    "PNV",
-    "Bildu",
-    "Más pais",
-    "CUP",
-    "CC",
-    "BNG",
-    "Teruel Existe",
-    "Compromis",
-  ]);
+  .scaleOrdinal(resultCollectionSpainJul23.map(party => party.color)
+    .concat(['#6B2E68', '#FA5000', '0FDDC4', '#FFF200', 'E51C13', '#00C6A4', '#037252']))
+  .domain(resultCollectionSpainJul23.map(party => party.party)
+    .concat(['UP', 'Cs', 'Más pais', 'CUP', 'NA+', 'PRC', 'Teruel Existe']));
 
 const svg = d3
   .select("body")
@@ -98,9 +68,10 @@ const pieChart = d3
   })
   .sort(null);
 
-const arcs = chartGroup
+const generateChart = (data: ResultEntry[]) => {
+  const arcs = chartGroup
   .selectAll("slice")
-  .data(pieChart(resultCollectionSpainNov19))
+  .data(pieChart(data))
   .enter();
 
 arcs
@@ -111,22 +82,20 @@ arcs
     return partiesColorScale(d.data.party);
   });
 
-const updateChart = (data: ResultEntry[]) => {
-  d3.selectAll("path")
-    .data(pieChart(<any>data))
-    .transition()
-    .duration(500)
-    .attr("d", <any>arc);
 };
 
-document
-  .getElementById("april")
-  .addEventListener("click", function handleResultsApril() {
-    updateChart(resultCollectionSpainApr19);
-  });
+// Update chart functionality
+const updateChart = (data: ResultEntry[]) => {
+  d3.selectAll("path").remove();
+  generateChart(data);
+};
+
+window.onload = () => updateChart(resultCollectionSpainJul23);
 
 document
-  .getElementById("november")
-  .addEventListener("click", function handleResultsNovember() {
-    updateChart(resultCollectionSpainNov19);
-  });
+  .getElementById("july2023")
+  .addEventListener("click", () => updateChart(resultCollectionSpainJul23));
+
+document
+  .getElementById("november2019")
+  .addEventListener("click", () => updateChart(resultCollectionSpainNov19));

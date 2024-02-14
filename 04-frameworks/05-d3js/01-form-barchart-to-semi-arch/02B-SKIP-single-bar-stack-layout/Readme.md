@@ -8,11 +8,11 @@ We are going to recreate the same chart as in the previous sample but using d3js
 
 ![single horizontal stack bar chart](./content/chart.png "single horizontal stack bar chart")
 
-Live example: [codesandbox](https://codesandbox.io/s/nice-mccarthy-1jwtx)
+<!-- Live example: [codesandbox](https://codesandbox.io/s/nice-mccarthy-1jwtx) -->
 
 Let's give a try.
 
-# Steps
+## Steps
 
 - Let's continue from example _02A-single-bar-stack-layout_, copy the example to a new folder and execute
 
@@ -27,7 +27,7 @@ npm install
 First let's extract all the parties keys:
 
 ```typescript
-const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
+const politicalPartiesKeys: string[] = resultCollectionSpainJul23.map(
   (item) => item.party
 );
 ```
@@ -38,15 +38,15 @@ const politicalPartiesKeys: string[] = resultCollectionSpainNov19.map(
 // Since we are going to use stack layout
 // We are going to format the data in the following format
 // {
-//   PSOE: 120,
-//   PP: 88,
-//   VOX: 52
+//   PP: 137,
+//   PSOE: 121,
+//   VOX: 33,
 //   ...
 // }
 // This will represent a serie for a single entry (in this
 // case we are handling a single bar, an example of multiple
 // bar would be showing result elections of several years)
-const singleElectionResult = resultCollectionSpainNov19.reduce(
+const singleElectionResult = resultCollectionSpainJul23.reduce(
   (total, item) => ({
     ...total,
     [item.party]: item.seats,
@@ -68,7 +68,7 @@ const data = [singleElectionResult];
 
 ```typescript
 // Let's create our stack layout
-// we are going to pass the keys (PSOE, PP, VOX, UP, Cs...)
+// we are going to pass the keys (PP, PSOE, VOX, Sumar, ERC...)
 // to have them attached on every item
 const stack = d3.stack().keys(politicalPartiesKeys);
 ```
@@ -78,9 +78,9 @@ const stack = d3.stack().keys(politicalPartiesKeys);
 ```typescript
 // Now we get the data formatted in the follwing way:
 //[
-//  [[0,120]] // PSOE entry (seats), starts on 0 ends on 120
-//  [[120,208]] // PP entry (88), but starts on previous items 120 (PSOE)
-//  [[208, 260]] // VOX Entry
+//  [[0, 137]] // PP entry (seats), starts on 0 ends on 137
+//  [[137, 258]] // PSOE entry (121), but starts on previous items 137 (PP)
+//  [[258, 291]] // VOX Entry
 //]
 const series = stack(data);
 ```
@@ -92,7 +92,7 @@ const series = stack(data);
 
 chartGroup
   .selectAll("rect")
-- .data(resultCollectionSpainNov19)
+- .data(resultCollectionSpainJul23)
 + .data(series)
   .enter()
   .append("rect")
@@ -110,7 +110,7 @@ chartGroup
 - })
 +  .attr("x", (d) => {
 +    // We take as starting point the first coordinate
-+    // e.g. PP 120, 208 -> we start at 120 (where PSOE ended, and on the width param sum up that value)
++    // e.g. PSOE 137, 258 -> we start at 137 (where PP ended, and on the width param sum up that value)
 +    return xScale(d[0][0]);
 +  })
   .attr("y", () => chartDimensions.height - barHeight)
@@ -118,7 +118,7 @@ chartGroup
 + .attr("fill", (d) => partiesColorScale(d.key));
 ```
 
-# Excercise
+## Exercise
 
 Same as in previous example (just in case you didn't implement it)
 
@@ -132,7 +132,7 @@ Tips:
 
 ¡That's all!
 
-# About Basefactor + Lemoncode
+## About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
 
@@ -140,4 +140,4 @@ We are an innovating team of Javascript experts, passionate about turning your i
 
 [Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
 
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: <http://lemoncode.net/master-frontend>

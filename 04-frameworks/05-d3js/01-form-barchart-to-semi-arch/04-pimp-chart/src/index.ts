@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import { legendColor } from "d3-svg-legend";
-import { resultCollectionSpainNov19, ResultEntry } from "./data";
+import { resultCollectionSpainJul23, ResultEntry } from "./data";
 
 const svgDimensions = { width: 500, height: 500 };
 const margin = { left: 5, right: 5, top: 10, bottom: 10 };
@@ -11,38 +11,8 @@ const chartDimensions = {
 };
 
 const partiesColorScale = d3
-  .scaleOrdinal([
-    "#ED1D25",
-    "#0056A8",
-    "#5BC035",
-    "#6B2E68",
-    "#F3B219",
-    "#FA5000",
-    "#C50048",
-    "#029626",
-    "#A3C940",
-    "#0DDEC5",
-    "#FFF203",
-    "#FFDB1B",
-    "#E61C13",
-    "#73B1E6",
-  ])
-  .domain([
-    "PSOE",
-    "PP",
-    "VOX",
-    "UP",
-    "ERC",
-    "Cs",
-    "JxCat",
-    "PNV",
-    "Bildu",
-    "Más pais",
-    "CUP",
-    "CC",
-    "BNG",
-    "Teruel Existe",
-  ]);
+  .scaleOrdinal(resultCollectionSpainJul23.map(party => party.color))
+  .domain(resultCollectionSpainJul23.map(party => party.party));
 
 const svg = d3
   .select("body")
@@ -82,7 +52,7 @@ const div = d3
 
 const arcs = chartGroup
   .selectAll("slice")
-  .data(pieChart(resultCollectionSpainNov19))
+  .data(pieChart(resultCollectionSpainJul23))
   .enter();
 
 arcs

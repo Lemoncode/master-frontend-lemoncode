@@ -7,9 +7,9 @@ First we are going to start creating a Bar Chart form scratch (we won't get bene
 
 ![Example bar chart](./content/bar-chart.png "Example bar chart")
 
-codesandbox: https://codesandbox.io/s/nameless-flower-h77vc
+<!-- codesandbox: <https://codesandbox.io/s/nameless-flower-h77vc> -->
 
-# Steps
+## Steps
 
 - Let's copy the content from the previous example (00-boiler-plate).
 
@@ -19,7 +19,7 @@ npm install
 
 - We have the data available under the path _./src/data.ts_ (in case your resources are stored in a remote location d3js offers you help to load _csv_, _tsv_, _json_ and other formats from a remote source). We will start by removing part of the current code stored in index.ts:
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 import * as d3 from "d3";
@@ -45,16 +45,14 @@ const svg = d3
 
 - Let's import the data that we need:
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 import * as d3 from "d3";
-+ import {resultCollectionSpainNov19} from './data';
++ import { resultCollectionSpainJul23 } from './data';
 ```
 
-- Let's start building our chart step by step, first we have to select all the rectangles under the SVG
-  we are working on (our barchart is composed of rectangles, if we have other rectangles that we don't
-  want to get involved we can use a group to isolate them).
+- Let's start building our chart step by step. First, we have to select all the rectangles under the SVG we are working on (our barchart is composed of rectangles, if we have other rectangles that we don't want to get involved we can use a group to isolate them).
 
 ```diff
 const svg = d3
@@ -67,15 +65,14 @@ const svg = d3
 +  .selectAll("rect")
 ```
 
-- After selecting all the existing rectangles binded to our data (the first time we render none will exists),
-  we are going to expose the data we wan to represent (the array of voting results).
+- After selecting all the existing rectangles binded to our data (the first time we render none will exists), we are going to expose the data we wan to represent (the array of voting results).
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 svg
   .selectAll("rect")
-+ .data(resultCollectionSpainNov19)
++ .data(resultCollectionSpainJul23)
 ```
 
 > In d3js when we talk about **data** we are talking about an array of items, when we talk about
@@ -88,7 +85,7 @@ svg
 ```diff
 svg
   .selectAll("rect")
-  .data(resultCollectionSpainNov19)
+  .data(resultCollectionSpainJul23)
 + .enter()
 ```
 
@@ -97,11 +94,11 @@ svg
 ```diff
 svg
   .selectAll("rect")
-  .data(resultCollectionSpainNov19)
+  .data(resultCollectionSpainJul23)
   .enter()
 + .append("rect")
 + .attr("width", 50)
-+ .attr("height", d => d.seats);
++ .attr("height", d => d.seats)
   ;
 ```
 
@@ -114,7 +111,7 @@ svg
 ```diff
 svg
   .selectAll("rect")
-  .data(resultCollectionSpainNov19)
+  .data(resultCollectionSpainJul23)
   .enter()
   .append("rect")
   .attr("width", 50)
@@ -131,7 +128,7 @@ svg
 ```diff
 svg
   .selectAll("rect")
-  .data(resultCollectionSpainNov19)
+  .data(resultCollectionSpainJul23)
   .enter()
   .append("rect")
   .attr("width", 50)
@@ -165,7 +162,7 @@ const svg = d3
 ```diff
 svg
   .selectAll("rect")
-  .data(resultCollectionSpainNov19)
+  .data(resultCollectionSpainJul23)
   .enter()
   .append("rect")
   .attr("width", 50)
@@ -181,13 +178,13 @@ svg
   _./src/index.ts_
 
 ```diff
-+  const svgDimensions = {width: 500, height: 500}
++  const svgDimensions = { width: 500, height: 500 }
 +  const margin = { left: 5, right: 5, top: 10, bottom: 10 };
 +  const chartDimensions = {
 +    width: svgDimensions.width - margin.left - margin.right,
 +    height: svgDimensions.height - margin.bottom - margin.top
 +  };
-+  const maxNumberSeats = resultCollectionSpainNov19.reduce(
++  const maxNumberSeats = resultCollectionSpainJul23.reduce(
 +   (max, item) => (item.seats > max ? item.seats : max),
 +   0
 +  );
@@ -236,7 +233,7 @@ const yScale = d3
 - svg
 + chartGroup
   .selectAll("rect")
-  .data(resultCollectionSpainNov19)
+  .data(resultCollectionSpainJul23)
   .enter()
   .append("rect")
   .attr("width", 50)
@@ -257,11 +254,11 @@ const chartDimensions = {
   width: svgDimensions.width,
   height: svgDimensions.height - margin.bottom - margin.top
 };
-const maxNumberSeats = resultCollectionSpainNov19.reduce(
+const maxNumberSeats = resultCollectionSpainJul23.reduce(
   (max, item) => (item.seats > max ? item.seats : max),
   0
 );
-+ const politicalPartiesCount = resultCollectionSpainNov19.length;
++ const politicalPartiesCount = resultCollectionSpainJul23.length;
 + const barPadding = 5; // We could calculate this value as well
 + const barWidth =
 +  (chartDimensions.width - barPadding * politicalPartiesCount) /
@@ -274,7 +271,7 @@ const yScale = d3
 
 chartGroup
   .selectAll("rect")
-  .data(resultCollectionSpainNov19)
+  .data(resultCollectionSpainJul23)
   .enter()
   .append("rect")
 - .attr("width", 50)
@@ -292,22 +289,7 @@ chartGroup
 ```typescript
 const partiesColorScale = d3
   .scaleOrdinal(d3.schemeCategory10)
-  .domain([
-    "PSOE",
-    "PP",
-    "VOX",
-    "UP",
-    "ERC",
-    "Cs",
-    "JxCat",
-    "PNV",
-    "Bildu",
-    "Más pais",
-    "CUP",
-    "CC",
-    "BNG",
-    "Teruel Existe",
-  ]);
+  .domain(resultCollectionSpainJul23.map(party => party.party));
 ```
 
 - And let's use it on every chart:
@@ -315,7 +297,7 @@ const partiesColorScale = d3
 ```diff
 chartGroup
   .selectAll("rect")
-  .data(resultCollectionSpainNov19)
+  .data(resultCollectionSpainJul23)
   .enter()
   .append("rect")
   .attr("width", barWidth)
@@ -331,38 +313,8 @@ chartGroup
 ```diff
 const partiesColorScale = d3
 - .scaleOrdinal(d3.schemeCategory10)
-+ .scaleOrdinal([
-+   "#ED1D25",
-+   "#0056A8",
-+   "#5BC035",
-+   "#6B2E68",
-+   "#F3B219",
-+   "#FA5000",
-+   "#C50048",
-+   "#029626",
-+   "#A3C940",
-+   "#0DDEC5",
-+   "#FFF203",
-+   "#FFDB1B",
-+   "#E61C13",
-+   "#73B1E6"
-+ ])
-  .domain([
-    "PSOE",
-    "PP",
-    "VOX",
-    "UP",
-    "ERC",
-    "Cs",
-    "JxCat",
-    "PNV",
-    "Bildu",
-    "Más pais",
-    "CUP",
-    "CC",
-    "BNG",
-    "Teruel Existe"
-  ]);
++ .scaleOrdinal(resultCollectionSpainJul23.map(party => party.color))
+  .domain(resultCollectionSpainJul23.map(party => party.party));
 ```
 
 - We feel proud about this chart, we could now add a legend, x/y axis... but we will stop by now:
@@ -371,7 +323,7 @@ const partiesColorScale = d3
 
 In the next example we will create an horizontal rectangle showing a segment.
 
-# Appendix - Refactoring (not for demo time)
+## Appendix - Refactoring (not for demo time)
 
 One of the weak points of d3js is that the code generated looks a bit cryptic, too much details, could it
 be possible to refactor it?
@@ -405,7 +357,7 @@ const generateBarChart = (
 ) => {
   const selection = chartGroup
     .selectAll("rect")
-    .data(resultCollectionSpainNov19)
+    .data(resultCollectionSpainJul23)
     .enter();
   drawSingleBar(selection);
 };
@@ -416,7 +368,7 @@ _./src/index.ts_
 
 ```typescript
 import * as d3 from "d3";
-import { resultCollectionSpainNov19, ResultEntry } from "./data";
+import { resultCollectionSpainJul23, ResultEntry } from "./data";
 
 const svgDimensions = { width: 500, height: 500 };
 const margin = { left: 5, right: 5, top: 10, bottom: 10 };
@@ -424,11 +376,11 @@ const chartDimensions = {
   width: svgDimensions.width - margin.left - margin.right,
   height: svgDimensions.height - margin.bottom - margin.top,
 };
-const maxNumberSeats = resultCollectionSpainNov19.reduce(
+const maxNumberSeats = resultCollectionSpainJul23.reduce(
   (max, item) => (item.seats > max ? item.seats : max),
   0
 );
-const politicalPartiesCount = resultCollectionSpainNov19.length;
+const politicalPartiesCount = resultCollectionSpainJul23.length;
 
 const barPadding = 5; // We could calculate this value as well
 const barWidth =
@@ -436,40 +388,8 @@ const barWidth =
   politicalPartiesCount;
 
 const partiesColorScale = d3
-  .scaleOrdinal([
-    "PSOE",
-    "PP",
-    "VOX",
-    "UP",
-    "ERC",
-    "Cs",
-    "JxCat",
-    "PNV",
-    "Bildu",
-    "Más pais",
-    "CUP",
-    "CC",
-    "BNG",
-    "Teruel Existe",
-  ])
-  .range([
-    "#ED1D25",
-    "#0056A8",
-    "#5BC035",
-    "#6B2E68",
-    "#F3B219",
-    "#FA5000",
-    "#C50048",
-    "#029626",
-    "#A3C940",
-    "#0DDEC5",
-    "#FFF203",
-    "#FFDB1B",
-    "#E61C13",
-    "#73B1E6",
-    "#BECD48",
-    "#017252",
-  ]);
+  .scaleOrdinal(resultCollectionSpainJul23.map(party => party.color))
+  .domain(resultCollectionSpainJul23.map(party => party.party));
 
 const createBlankSvg = () =>
   d3
@@ -509,7 +429,7 @@ const generateBarChart = (
 ) => {
   const selection = chartGroup
     .selectAll("rect")
-    .data(resultCollectionSpainNov19)
+    .data(resultCollectionSpainJul23)
     .enter();
   drawSingleBar(selection);
 };
@@ -522,9 +442,9 @@ generateBarChart(chartGroup);
 
 Here it goes a link about better coding d3js:
 
-https://bost.ocks.org/mike/chart/
+<https://bost.ocks.org/mike/chart/>
 
-# About Basefactor + Lemoncode
+## About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
 
@@ -532,4 +452,4 @@ We are an innovating team of Javascript experts, passionate about turning your i
 
 [Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
 
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: <http://lemoncode.net/master-frontend>

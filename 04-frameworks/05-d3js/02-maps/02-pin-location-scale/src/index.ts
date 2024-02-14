@@ -3,21 +3,21 @@ import * as topojson from "topojson-client";
 const spainjson = require("./spain.json");
 const d3Composite = require("d3-composite-projections");
 import { latLongCommunities } from "./communities";
-import { boosterDosePerRegion } from "./stats";
+import { unemploymentRate2023Q4 } from "./stats";
 
-const highestPercentage = boosterDosePerRegion.reduce(
+const highestPercentage = unemploymentRate2023Q4.reduce(
   (max, item) => (item.value > max ? item.value : max),
   0
 );
 
-const vaccinationPercentageRadiusScale = d3
+const unemploymentPercentageRadiusScale = d3
   .scaleLinear()
   .domain([0, highestPercentage])
   .range([0, 50]); // 50 pixel max radius, we could calculate it relative to width and height
 
-const calculateRadiusBasedOnVaccinationPercentage = (comunidad: string) => {
-  const entry = boosterDosePerRegion.find((item) => item.name === comunidad);
-  return entry ? vaccinationPercentageRadiusScale(entry.value) : 0;
+const calculateRadiusBasedOnUnemploymentPercentage = (comunidad: string) => {
+  const entry = unemploymentRate2023Q4.find((item) => item.name === comunidad);
+  return entry ? unemploymentPercentageRadiusScale(entry.value) : 0;
 };
 
 const aProjection = d3Composite.geoConicConformalSpain();
@@ -51,7 +51,7 @@ svg
   .enter()
   .append("circle")
   .attr("class", "marker")
-  .attr("r", (d) => calculateRadiusBasedOnVaccinationPercentage(d.name))
+  .attr("r", (d) => calculateRadiusBasedOnUnemploymentPercentage(d.name))
   .attr("cx", (d) => aProjection([d.long, d.lat])[0])
   .attr("cy", (d) => aProjection([d.long, d.lat])[1])
   .on("mouseover", function() {
@@ -65,6 +65,6 @@ svg
       .style("cursor", "default");
   })
   .on("click", function(event, d) {
-    const percentage = boosterDosePerRegion.find((element) => element.name === d.name).value;
-    alert(`Booster dose percentage in ${d.name}: ${percentage}%`)
+    const percentage = unemploymentRate2023Q4.find((element) => element.name === d.name).value;
+    alert(`Unemployment rate in ${d.name}: ${percentage}%`)
   });

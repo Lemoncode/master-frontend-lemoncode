@@ -9,9 +9,9 @@ Something like:
 
 ![pimped chart](./content/chart.png "pimped chart")
 
-Live demo: [codesandbox](https://codesandbox.io/s/fervent-lumiere-8w12q)
+<!-- Live demo: [codesandbox](https://codesandbox.io/s/fervent-lumiere-8w12q) -->
 
-# Steps
+## Steps
 
 - We will take as starting sample _03-arc-chart_.
 
@@ -30,17 +30,17 @@ npm i d3-svg-legend --save
 
 - Let's import the legend in our index
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 import * as d3 from "d3";
 + import { legendColor } from 'd3-svg-legend';
-import { resultCollectionSpainNov19, ResultEntry } from "./data";
+import { resultCollectionSpainJul23, ResultEntry } from "./data";
 ```
 
 - Now let's create and ordinal scale color,map it to a legend object and add it in a group below the semi arch chart (APPEND THIS CONTENT, EOF).
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```typescript
 // Legend
@@ -58,10 +58,9 @@ legendGroup.call(colorLegend as any);
 ```
 
 About d3 call:
-
 _Invokes the specified function exactly once, passing in this selection along with any optional arguments. Returns this selection. This is equivalent to invoking the function by hand but facilitates method chaining. For example, to set several styles in a reusable function_
 
-More info: https://stackoverflow.com/questions/12805309/javascript-library-d3-call-function
+More info: <https://stackoverflow.com/questions/12805309/javascript-library-d3-call-function>
 
 - Let's go for one more goodie, we want to highlight the piece of arc where the cursor is on.
 
@@ -81,11 +80,11 @@ arcs
 ```
 
 - Now we want to add a tooltip when the mouse is over a party and display the
-  party and number of votes, we will follow the approach defined in this blocks example: https://bl.ocks.org/d3noob/a22c42db65eb00d4e369.
+  party and number of votes, we will follow the approach defined in this blocks example: <https://bl.ocks.org/d3noob/a22c42db65eb00d4e369>.
 
 - Let's start by defining the styles for that tooltip.
 
-_./src/styles.css_
+_./src/styles.css_:
 
 ```css
 div.tooltip {
@@ -104,7 +103,7 @@ div.tooltip {
 
 - Let's import this css into our index.html
 
-_./src/index.html_
+_./src/index.html_:
 
 ```diff
   <head>
@@ -115,9 +114,9 @@ _./src/index.html_
 
 - Now let's define the tooltip.
 
-> Watch out!! breaking change on d3 v6: https://stackoverflow.com/questions/63693132/unable-to-get-node-datum-on-mouseover-in-d3-v6
+> Watch out!! breaking change on d3 v6: <https://stackoverflow.com/questions/63693132/unable-to-get-node-datum-on-mouseover-in-d3-v6>
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```typescript
 // Define the div for the tooltip
@@ -130,7 +129,7 @@ const div = d3
 
 - And let's show it on mouseover
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
   .on("mouseover", function (mouseEvent: MouseEvent, datum) { {
@@ -148,7 +147,7 @@ _./src/index.ts_
 
 - And hide it on mouse out
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
   .on("mouseout", function(datum) {
@@ -157,19 +156,19 @@ _./src/index.ts_
   });
 ```
 
-# Excercise
+## Excercise
 
 A) We have shown a legend where all elements are in single columns, what if we want to split them in two columns?
 
 - We could use two legends objects and split the colors / domain.
 - We could play creating our custom legend.
 
-Tips: https://stackoverflow.com/questions/51520596/spread-d3-js-legend-on-two-columns/51524137
-Tips: http://jsfiddle.net/v7mkg/1/
+Tips: <https://stackoverflow.com/questions/51520596/spread-d3-js-legend-on-two-columns/51524137>
+Tips: <http://jsfiddle.net/v7mkg/1/>
 
 B) Play a bit... add a rectangle, interact when clicking on a given arc (e.g. display tooltip)...
 
-# About Basefactor + Lemoncode
+## About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
 
@@ -177,4 +176,4 @@ We are an innovating team of Javascript experts, passionate about turning your i
 
 [Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
 
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: <http://lemoncode.net/master-frontend>

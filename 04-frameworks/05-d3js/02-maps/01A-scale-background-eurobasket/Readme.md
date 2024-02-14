@@ -4,10 +4,9 @@ After the Eurobasket 2022 final, our boss asked us to implement a map that colou
 
 ![Final standings Eurobasket 2022](./content/chart.png)
 
-# Steps
+## Steps
 
-- We will take as starting point our previous example: _00-render-map-hover_ let's copy
-  the content and execute _npm start_
+- We will take as starting point our previous example: _00-render-map-hover_ let's copy the content and execute _npm start_
 
 ```bash
 npm start
@@ -43,7 +42,7 @@ We have the following information
 
 - Let's port it to json (respecting the name of the countries that we are using in our eurobasket map)
 
-_./src/stats.ts_
+_./src/stats.ts_:
 
 ```typescript
 export const finalStandingsEurobasket2022 = [
@@ -76,7 +75,7 @@ export const finalStandingsEurobasket2022 = [
 
 - Let's import the new set of data into our _index.ts_ file. We are going to import the new map _eurobasket.json_, which is quite similar to _europe.json_ but with some minor differences:
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 - const europejson = require("./europe.json");
@@ -86,7 +85,7 @@ _./src/index.ts_
 
 - Now we are going to assign a range of colores for our domain:
 
-_./src/index.ts_
+_./src/index.ts_:
 
 ```diff
 import { finalStandingsEurobasket2022 } from "./stats";
@@ -260,7 +259,7 @@ div.tooltip {
 npm start
 ```
 
-# About Basefactor + Lemoncode
+## About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
 
@@ -268,4 +267,4 @@ We are an innovating team of Javascript experts, passionate about turning your i
 
 [Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
 
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: <http://lemoncode.net/master-frontend>

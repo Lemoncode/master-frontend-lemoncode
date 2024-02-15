@@ -8,22 +8,22 @@ describe('Login specs', () => {
 
     // Act
     cy.visit('/');
-    cy.findByLabelText('Name').click();
+    cy.findByRole('textbox').click();
 
     // Assert
-    cy.findByLabelText('Name').should('have.focus');
+    cy.findByRole('textbox').should('have.focus');
   });
 
   it('should show an alert with a message when type invalid credentials', () => {
     // Arrange
     const user = 'admin';
     const password = '1234';
-    cy.on('window:alert', cy.stub().as('alertStub'));
 
     // Act
     cy.visit('/');
-    cy.findByLabelText('Name').as('userInput');
+    cy.findByRole('textbox').as('userInput');
     cy.findByLabelText('Password').as('passwordInput');
+    cy.on('window:alert', cy.stub().as('alertStub'));
 
     cy.get('@userInput').type(user);
     cy.get('@passwordInput').type(password);
@@ -53,6 +53,6 @@ describe('Login specs', () => {
     cy.findByRole('button', { name: 'Login' }).click();
 
     // Assert
-    cy.url().should('eq', 'http://localhost:8080/#/hotel-collection');
+    cy.url().should('equal', 'http://localhost:8080/#/hotel-collection');
   });
 });

@@ -67,7 +67,7 @@ export default defineConfig({
 
 - Let's make a test fail:
 
-### ./cypress/integration/hotel-edit.spec.ts
+### ./cypress/e2e/hotel-edit.spec.ts
 
 ```diff
 ...
@@ -186,7 +186,7 @@ git push
 
 - Restore specs:
 
-### ./cypress/integration/hotel-edit.spec.ts
+### ./cypress/e2e/hotel-edit.spec.ts
 
 ```diff
   it('should update hotel name when it edits an hotel and click on save button', () => {

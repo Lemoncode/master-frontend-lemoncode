@@ -14,23 +14,31 @@ npm install
 
 - Maybe some times we need to use real backend server for some reason, we have a spec check hotel collection from "real backend" (it's a mock backend). It looks like it's working, but what's happend if we add some delay?:
 
-### ./src/pods/hotel-collection/api/hotel-collection.api.ts
+### ./server/package.json
 
 ```diff
-import Axios from 'axios';
-import { HotelEntityApi } from './hotel-collection.api-model';
+{
+  "name": "hotel-api",
+  "version": "1.0.0",
+  "description": "Hotel API",
+  "main": "index.js",
+  "scripts": {
+-   "mock-server": "json-server --routes ./config/routes.json --watch mock-data/hotels-data.json"
++   "mock-server": "json-server --delay 4000 --routes ./config/routes.json --watch mock-data/hotels-data.json"
+  },
+  "author": "Lemoncode",
+  "license": "MIT",
+  "devDependencies": {
+    "json-server": "^0.17.1"
+  }
+}
 
-const url = '/api/hotels';
+```
 
-export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
-- const { data } = await Axios.get<HotelEntityApi[]>(url);
-- return data;
-+ const promise = new Promise<HotelEntityApi[]>((resolve) => {
-+   Axios.get(url).then(({ data }) => setTimeout(() => resolve(data), 4000));
-+ });
+Run again:
 
-+ return promise;
-};
+```bash
+npm run test:e2e
 
 ```
 
@@ -38,128 +46,132 @@ export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
 
 > Press run all specs again.
 
-- [wait usage](https://docs.cypress.io/api/commands/wait#Usage)
+- Add delay in the last spec using fixture:
 
-### ./cypress/integration/hotel-collection.spec.ts
+### ./cypress/e2e/hotel-collection.spec.ts
 
 ```diff
+...
+
   it('should fetch two hotels when visit /hotel-collection url', () => {
     // Arrange
 -   cy.intercept('GET', '/api/hotels', { fixture: 'hotels.json' });
-+   cy.intercept('GET', '/api/hotels', { fixture: 'hotels.json' }).as('fetchHotels');
++   cy.intercept('GET', '/api/hotels', { fixture: 'hotels.json', delay: 4000 });
 
     // Act
     cy.visit('/hotel-collection');
 
     // Assert
-+   cy.wait(1000);
-+   cy.wait('@fetchHotels');
     cy.findAllByRole('listitem').should('have.length', 2);
+  });
+```
+
+- [wait usage](https://docs.cypress.io/api/commands/wait#Usage)
+
+### ./cypress/e2e/hotel-collection.spec.ts
+
+```diff
+  it('should fetch hotel list and show it in screen when visit /hotel-collection url', () => {
+    // Arrange
+-   cy.intercept('GET', '/api/hotels');
++   cy.intercept('GET', '/api/hotels').as('fetchHotels');
+
+    // Act
+    cy.visit('/hotel-collection');
+
+    // Assert
++   cy.wait('@fetchHotels');
+    cy.findAllByRole('listitem').should('have.length', 10);
   });
 
 ```
 
 - Apply same changes in other specs:
 
-### ./cypress/integration/hotel-collection.spec.ts
-
-```diff
-  it('should fetch hotel list and show it in screen when visit /hotel-collection url', () => {
-    // Arrange
-+   cy.intercept('GET', '/api/hotels').as('fetchHotels');
-
-    // Act
-    cy.visit('/hotel-collection');
-
-    // Assert
-+   cy.wait(1000);
-+   cy.wait('@fetchHotels');
-    cy.findAllByRole('listitem').should('have.length', 10);
-  });
-
-  it('should fetch hotel list greater than 0 when visit /hotel-collection url', () => {
-    // Arrange
-+   cy.intercept('GET', '/api/hotels').as('fetchHotels');
-
-    // Act
-    cy.visit('/hotel-collection');
-
-    // Assert
-+   cy.wait(1000);
-+   cy.wait('@fetchHotels');
-    cy.findAllByRole('listitem').should('have.length.greaterThan', 0);
-  });
-```
-
-- So, we need to take care with this stuff, let's restore the api request:
-
-### ./src/pods/hotel-collection/hotel-collection.api.ts
-
-```diff
-import Axios from 'axios';
-import { HotelEntityApi } from './hotel-collection.api-model';
-
-const url = '/api/hotels';
-
-export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
-- const promise = new Promise<HotelEntityApi[]>((resolve) => {
--   Axios.get(url).then(({ data }) => setTimeout(() => resolve(data), 3000));
-- });
-- return promise;
-+ const { data } = await Axios.get<HotelEntityApi[]>(url);
-
-+ return data;
-};
-
-```
-
-- Lets also remove the extra wait time
-
 ### ./cypress/e2e/hotel-collection.spec.ts
 
 ```diff
-import { HotelEntityApi } from '../../src/pods/hotel-collection/api';
-
-describe('Hotel collection specs', () => {
-  it('should fetch hotel list and show it in screen when visit /hotel-collection url', () => {
-    // Arrange
-    cy.intercept('GET', '/api/hotels').as('fetchHotels');
-
-    // Act
-    cy.visit('/hotel-collection');
-
-    // Assert
--   cy.wait(1000);
-    cy.wait('@fetchHotels');
-    cy.findAllByRole('listitem').should('have.length', 10);
-  });
-
+...
   it('should fetch hotel list greater than 0 when visit /hotel-collection url', () => {
     // Arrange
-    cy.intercept('GET', '/api/hotels').as('fetchHotels');
++   cy.intercept('GET', '/api/hotels').as('fetchHotels');
 
     // Act
     cy.visit('/hotel-collection');
 
     // Assert
--   cy.wait(1000);
-    cy.wait('@fetchHotels');
++   cy.wait('@fetchHotels');
     cy.findAllByRole('listitem').should('have.length.greaterThan', 0);
   });
 
   it('should fetch two hotels when visit /hotel-collection url', () => {
     // Arrange
-    cy.intercept('GET', '/api/hotels', { fixture: 'hotels' }).as('fetchHotels');
++   cy.intercept('GET', '/api/hotels', { fixture: 'hotels.json', delay: 4000 });
+    cy.intercept('GET', '/api/hotels', {
+      fixture: 'hotels.json',
+      delay: 4000,
++   }).as('fetchHotels');
 
     // Act
     cy.visit('/hotel-collection');
 
     // Assert
--   cy.wait(1000);
++   cy.wait('@fetchHotels');
+    cy.findAllByRole('listitem').should('have.length', 2);
+  });
+```
+
+- So, we need to take care with this stuff, let's restore the api request:
+
+### ./server/package.json
+
+```diff
+{
+  "name": "hotel-api",
+  "version": "1.0.0",
+  "description": "Hotel API",
+  "main": "index.js",
+  "scripts": {
+-   "mock-server": "json-server --delay 4000 --routes ./config/routes.json --watch mock-data/hotels-data.json"
++   "mock-server": "json-server --routes ./config/routes.json --watch mock-data/hotels-data.json"
+  },
+  "author": "Lemoncode",
+  "license": "MIT",
+  "devDependencies": {
+    "json-server": "^0.17.1"
+  }
+}
+
+```
+
+Run again:
+
+```bash
+npm run test:e2e
+
+```
+
+- Lets also remove the delay in specs:
+
+### ./cypress/e2e/hotel-collection.spec.ts
+
+```diff
+...
+
+  it('should fetch two hotels when visit /hotel-collection url', () => {
+    // Arrange
+    cy.intercept('GET', '/api/hotels', {
+      fixture: 'hotels.json',
+-     delay: 4000,
+    }).as('fetchHotels');
+
+    // Act
+    cy.visit('/hotel-collection');
+
+    // Assert
     cy.wait('@fetchHotels');
     cy.findAllByRole('listitem').should('have.length', 2);
   });
-});
 
 ```
 

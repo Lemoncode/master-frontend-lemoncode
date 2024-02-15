@@ -73,7 +73,6 @@ npm run test:e2e
 ```diff
   it('should fetch hotel list and show it in screen when visit /hotel-collection url', () => {
     // Arrange
--   cy.intercept('GET', '/api/hotels');
 +   cy.intercept('GET', '/api/hotels').as('fetchHotels');
 
     // Act

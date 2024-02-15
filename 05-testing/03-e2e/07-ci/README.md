@@ -102,6 +102,12 @@ export default defineConfig({
   });
 ```
 
+- And run it:
+
+```bash
+npm run test:e2e:ci
+```
+
 - We will configure [Github actions](https://github.com/features/actions) to run all tests in this app. Since Github has [free private/public repositories](https://github.com/pricing) we only need to create a github repository:
 
 ```bash
@@ -157,20 +163,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install
         run: npm ci
       - name: Tests e2e
         run: npm run test:e2e:ci
 +     - name: Upload screenshots when specs fail
 +       if: ${{ failure()}}
-+       uses: actions/upload-artifact@v3
++       uses: actions/upload-artifact@v4
 +       with:
 +         name: screenshots
 +         path: ./cypress/screenshots
 +     - name: Upload videos when specs fail
 +       if: ${{ failure()}}
-+       uses: actions/upload-artifact@v3
++       uses: actions/upload-artifact@v4
 +       with:
 +         name: videos
 +         path: ./cypress/videos

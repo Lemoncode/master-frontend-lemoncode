@@ -20,11 +20,10 @@ Consumir los microfrontends en diferentes páginas de nuestra aplicación _host_
 
 `[host]`
 
-- Necesitamos instalar nuestra dependencia para el router, y por comodidad, sus tipos también:
+- Necesitamos instalar nuestra dependencia para el router:
 
   ```text
   npm i react-router-dom@6.x
-  npm i -D @types/react-router-dom@6.x
   ```
 
 `[host] components/dashboard.component.tsx`

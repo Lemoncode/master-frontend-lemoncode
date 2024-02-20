@@ -6,11 +6,11 @@
 
 ### Objetivo
 
-Utilizar
+Reproducir el mismo resultado, es decir, aplicación _host_ que consume dos microfrontends en tiempo de ejecución, pero haciendo uso de los módulos federados de `webapack`.
 
 ## Federación de módulos
 
-La federación de módulos es una nueva _feature_ que incorpora Webpack v5 explicitamente orientada hacia la arquitectura de microfrontends. Nos permitirá la descarga y ejecución de módulos en _runtime_ procedentes de otros _builds_ o aplicaciones. Además, las dependencias de un módulo federado también podrán ser federadas. Esto significa que, al consumirse un módulo federado, sus dependencias podrían ser proporcionadas por el _host_ que lo consume si dispone de una versión compatible. A su vez, el _host_ podría haber obtenido esas dependencias por si mismo (aportando las suyas propias), o incluso a través de otro módulo federado cargado previamente.
+La federación de módulos es una nueva _feature_ que incorpora `webpack` v5 explicitamente orientada hacia la arquitectura de microfrontends. Nos permitirá la descarga y ejecución de módulos en _runtime_ procedentes de otros _builds_ o aplicaciones. Además, las dependencias de un módulo federado también podrán ser federadas. Esto significa que, al consumirse un módulo federado, sus dependencias podrían ser proporcionadas por el _host_ que lo consume si dispone de una versión compatible. A su vez, el _host_ podría haber obtenido esas dependencias por si mismo (aportando las suyas propias), o incluso a través de otro módulo federado cargado previamente.
 
 > ⚡ En resumen, la federación de módulos permite disponer de un _pool_ de módulos (ya sean paquetes nuestros o dependencias 3rd party) distribuidos en diferentes ubicaciones y accesibles por una aplicación que quiera hacer uso de ellos en tiempo de ejecución. `Webpack` se encarga de orquestar estos módulos y optimizar su descarga.
 

@@ -1,16 +1,13 @@
 import { io, SocketOptions, Socket, ManagerOptions } from "socket.io-client";
 
 // TODO: Add env variable
-const baseSocketUrl = "http://localhost:3000";
+export const baseSocketUrl = "http://localhost:3000";
 
-export interface SocketQuery {
-  nickname: string;
-  room: string;
-}
+export const createSocket = (nickname:string, room : string): Socket => {
+  const url = baseSocketUrl;
 
-export const createSocket = (query: SocketQuery): Socket => {
   const options: Partial<ManagerOptions & SocketOptions> = {
-    query,
+    query: {nickname, room},
     timeout: 60000,
   };
 

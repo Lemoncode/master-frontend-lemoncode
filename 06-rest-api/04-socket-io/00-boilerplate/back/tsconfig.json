@@ -1,17 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "es6",
-    "moduleResolution": "node",
-    "declaration": false,
-    "noImplicitAny": false,
-    "sourceMap": true,
-    "noLib": false,
-    "allowJs": true,
-    "suppressImplicitAnyIndexErrors": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "NodeNext",
     "skipLibCheck": true,
-    "esModuleInterop": true,
-    "baseUrl": "./src"
+    "isolatedModules": true,
+    "esModuleInterop": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "./global-types.d.ts"]
 }

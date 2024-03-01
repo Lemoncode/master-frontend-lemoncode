@@ -7,19 +7,19 @@ export interface ConnectionConfig {
   nickname: string;
 }
 
-let userSessions: UserSession[] = [];
+let userSession = [];
 
 export const addUserSession = (
   connectionId: string,
   config: ConnectionConfig
 ) => {
-  userSessions = [...userSessions, { connectionId, nickname: config.nickname }];
+  userSession = [...userSession, { connectionId, config }];
 };
 
 export const getNickname = (connectionId: string) => {
-  const session = userSessions.find(
+  const session = userSession.find(
     (session) => session.connectionId === connectionId
   );
 
-  return session && session.nickname !== "" ? session.nickname : 'ANONYMOUS :-@';
+  return session ? session.config.nickname : 'ANONYMOUS :-@';
 };

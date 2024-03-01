@@ -2,7 +2,7 @@
 
 Vamos a montar un ejemplo mínimo con sockets
 
-# Pasos
+## Pasos
 
 - Copiamos el ejemplo anterior de boiler plate.
 
@@ -29,18 +29,19 @@ npm install socket.io --save
 
 - Vamos a por el fichero principal y levantar nuestro websocket.
 
-_./back/src/app.ts_
+_./src/index.ts_:
 
 ```diff
-import { createApp } from './express.server';
-import { envConstants } from './env.constants';
-import { api } from './api';
-import express from 'express';
-import path from 'path';
-+ import * as http from 'http';
-+ import { Server, Socket } from 'socket.io';
+import './load-env.js';
 + import cors from 'cors';
-
+import express from 'express';
++ import http from 'http';
+import path from 'path';
++ import { Server, Socket } from 'socket.io';
+import url from 'url';
+import { createApp } from './express.server.js';
+import { envConstants } from './env.constants.js';
+import { api } from './api.js';
 
 const app = createApp();
 
@@ -73,7 +74,9 @@ const app = createApp();
 +  },
 + });
 
-app.use('/', express.static(path.join(__dirname, 'static')));
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const staticFilesPath = path.resolve(__dirname, envConstants.STATIC_FILES_PATH);
+app.use('/', express.static(staticFilesPath));
 
 app.use('/api', api);
 
@@ -82,21 +85,52 @@ app.listen(envConstants.PORT, () => {
 });
 ```
 
-Vamos ahora quedarnos escuchando en el puerto 3000 (esto podría ir a variables
-de entorno), añadir al final de app.ts
+```ts
+//options for cors midddleware
+const options: cors.CorsOptions = {
+  allowedHeaders: [
+    'Origin',
+    'X-Requested-With',
+    'Content-Type',
+    'Accept',
+    'X-Access-Token',
+  ],
+  credentials: true,
+  methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+  // IMPORTANT LIMIT HERE YOUR CLIENT APPS DOMAINS
+  origin: '*',
+  preflightContinue: false,
+};
 
-_./back/src/app.ts_
+app.use(cors(options));
+
+// set up socket.io and bind it to our
+// http server.
+// https://socket.io/docs/v3/handling-cors/
+const socketapp = new http.Server(app);
+const io = new Server(socketapp, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST'],
+  },
+});
+```
+
+Vamos ahora quedarnos escuchando en el puerto 3000 (esto podría ir a variables
+de entorno), añadir al final de index.ts
+
+_./src/index.ts_:
 
 ```typescript
-const server = socketapp.listen(envConstants.WS_PORT, function () {
-  console.log(`listening on *:${envConstants.WS_PORT}`);
+const server = socketapp.listen(3000, function () {
+  console.log("listening on *:3000");
 });
 ```
 
 Y vamos a quedarnos atentos a que un usuario se conecte, en cuanto se
-conecte le indicamos que la conexión ha tenido éxito (añadir al final de _app.ts_):
+conecte le indicamos que la conexión ha tenido éxito (añadir al final de _index.ts_):
 
-_./back/src/app.ts_
+_./src/index.ts_:
 
 ```typescript
 // whenever a user connects on port 3000 via
@@ -107,21 +141,24 @@ io.on("connection", function (socket: Socket) {
 });
 ```
 
-> Fijate que con `socket.emit` se lo envío sólo al usuario que se conectó
+> Fijate que con socket.emit se lo envío sólo la usuario que se conecto
 
-- Ahora vamos a implementar nuestra aplicación de chat básica, nos quedamos esperando a que un usuario envíe un mensaje de chat, cuando recibamos dicho mensaje lo reenviamos a todos los usuarios
+- Ahora vamos a implementar nuestra aplicación de chat básica, nos quedamos
+  esperando a que un usuario envíe un mensaje de chat, cuando recibamos dicho mensaje
+  lo reenviamos a todos los usarios
 
 ```diff
 // whenever a user connects on port 3000 via
 // a websocket, log that a user has connected
 io.on("connection", function (socket: Socket) {
-  console.log("\*\* connection recieved");
-  socket.emit("message", { type: "CONNECTION_SUCCEEDED" });
-+ socket.on('message', function (body: any) {
-+   console.log(body);
-+   socket.broadcast.emit('message', body);
-+ });
-});
+console.log("\*\* connection recieved");
+socket.emit("message", { type: "CONNECTION_SUCCEEDED" });
+
++   socket.on('message', function (body: any) {
++     console.log(body);
++     socket.broadcast.emit('message', body);
++   });
+  });
 ```
 
 > Aquí podríamos enviar el mensaje a todo el mundo menos al que envío el mensaje,
@@ -129,13 +166,13 @@ io.on("connection", function (socket: Socket) {
 
 Vamos a probar con esta tool (importante contact, y pestaña emit y message, despues payload y como json)
 
-```
+```text
 https://amritb.github.io/socketio-client-tool/
 ```
 
 Y el proyecto:
 
-```
+```text
 https://github.com/amritb/socketio-client-tool/tree/master/react-client-tool
 ```
 
@@ -152,7 +189,7 @@ darle al botón de add para que envie MESSAGE y no socket io client).
 - Miramos que este deshabilitado _json data_
 - Añadimos el siguiente body del mensaje
 
-```
+```text
 {type: 'CHAT_MESSAGE', payload: 'Hola desde socket client tool'}
 ```
 
@@ -170,15 +207,17 @@ npm install socket.io-client --save
 
 - Vamos a hacernos una función de ayuda para crear la conexión.
 
-_./front/src/api.ts_
+_./src/api.ts_:
 
 ```typescript
 import { io, SocketOptions, Socket, ManagerOptions } from "socket.io-client";
 
 // TODO: Add env variable
-const baseSocketUrl = "http://localhost:3000";
+export const baseSocketUrl = "http://localhost:3000";
 
 export const createSocket = (): Socket => {
+  const url = baseSocketUrl;
+
   const options: Partial<ManagerOptions & SocketOptions> = {
     timeout: 60000,
   };
@@ -193,7 +232,6 @@ export const createSocket = (): Socket => {
 import React from "react";
 + import { Socket } from "socket.io-client";
 + import { createSocket } from "./api";
-+ import { wsBodyTypes } from "./consts";
 
 export const App = () => {
 +  const [message, setMessage] = React.useState("");
@@ -209,9 +247,8 @@ export const App = () => {
 
 ```diff
 import React from "react";
-import { Socket } from "socket.io";
 import { createSocket } from "./api";
-import { wsBodyTypes } from "./consts";
+import { Socket } from "socket.io";
 
 export const App = () => {
   const [message, setMessage] = React.useState("");
@@ -225,11 +262,11 @@ export const App = () => {
 +    socketConnection.on("message", (body) => {
 +      if (body && body.type) {
 +        switch (body.type) {
-+          case wsBodyTypes.connectionSucceded:
++          case "CONNECTION_SUCCEEDED":
 +            setIsConnected(true);
 +            console.log("Connection succeded");
 +            break;
-+          case wsBodyTypes.chatMessage:
++          case "CHAT_MESSAGE":
 +              setChatlog((chatlog) => `${chatlog}\n${body.payload.content}`);
 +            break;
 +        }
@@ -260,7 +297,7 @@ Y vamos a dar un punto de entrada para enviar mensajes:
 +  const sendMessage = (content: string) => {
 +    setChatlog(`${chatlog}\n${content}`);
 +    socket.emit("message", {
-+      type: wsBodyTypes.chatMessage,
++      type: "CHAT_MESSAGE",
 +      payload: { content },
 +    });
 +
@@ -270,10 +307,11 @@ Y vamos a dar un punto de entrada para enviar mensajes:
   return <h1>Hello</h1>;
 ```
 
-- Hora de tocar el HTML, vamos a añadir un botón para conectar, una caja de texto para añadir un mensaje y otro para mostrar el log del chat
+- Hora de tocar el HTML, vamos a añadir un botón para conectar,
+  una caja de texto para añadir un mensaje y otro para mostrar el log del chat
 
 ```diff
-- return <h1>Hello</h1>;
+-  return <h1>Hello</h1>;
 + return (
 +      <>
 +          <button onClick={handleConnect} disabled={isConnected}>Join</button>
@@ -299,6 +337,36 @@ Y vamos a dar un punto de entrada para enviar mensajes:
 +      )}
 +      </>
 + )
+```
+
+```tsx
+  return (
+    <>
+      <button onClick={handleConnect} disabled={isConnected}>
+        Join
+      </button>
+      {isConnected && (
+        <div style={{ marginTop: "40px" }}>
+          <label>Message:</label>
+          <input
+            style={{ width: "80%" }}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <button onClick={(e) => sendMessage(message)}>Send</button>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <label>ChatLog</label>
+            <textarea
+              style={{ height: "400px" }}
+              value={chatlog}
+              onChange={(e) => setChatlog(e.target.value)}
+              readOnly
+            ></textarea>
+          </div>
+        </div>
+      )}
+    </>
+  );
 ```
 
 - Vamos a probar

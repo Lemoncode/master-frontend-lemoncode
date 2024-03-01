@@ -2,11 +2,11 @@
 
 Vamos a ver como puedo pasarle parametros con información a la hora de conectarnos.
 
-# Pasos
+## Pasos
 
-- Copiamos el ejemplo anterior, 01-hello-socket-io.
+- Partimos del ejercicio anterior, _01-hello-socket-io_
 
-- Entramos en el back, instalamos paquetes
+- Entramos en el back, instalamos las dependencias
 
 ```bash
 npm install
@@ -22,10 +22,12 @@ npm install
 
 - En el Front vamos a probar a informar de un parametro harcodeado en la conexión:
 
-_./front/src/api.ts_
+_./front/src/api.ts_:
 
 ```diff
 export const createSocket = (): globalThis.SocketIOClient.Socket => {
+  const url = baseSocketUrl;
+
   const options: Partial<ManagerOptions & SocketOptions> = {
 +   query: { nickname: "pepe" },
     timeout: 60000,
@@ -37,18 +39,18 @@ export const createSocket = (): globalThis.SocketIOClient.Socket => {
 
 - En el backend vamos a probar a recoger este valor y mostrarlo por consola.
 
-_./back/src/app.ts_
+_./back/src/index.ts_:
 
 ```diff
 io.on('connection', function (socket: Socket) {
   console.log('** connection recieved');
-+ console.log(socket.handshake.query['nickname']);
++  console.log(socket.handshake.query['nickname']);
   socket.emit('message', { type: 'CONNECTION_SUCCEEDED' });
 ```
 
 - Si arrancamos podemos ver como aparece el id por la consola del servidor.
 
-_En front y back_
+_En front y back_:
 
 ```bash
 npm start
@@ -62,7 +64,7 @@ npm start
 - Primero nos vamos a crear un sitio donde guardar esa info (lo ponemos en memoria en una aplicación
   real podría por ejemplo ir a base de de datos).
 
-_./back/src/store.ts_
+_./back/src/store.ts_:
 
 ```ts
 interface UserSession {
@@ -74,41 +76,43 @@ export interface ConnectionConfig {
   nickname: string;
 }
 
-let userSessions: UserSession[] = [];
+let userSession = [];
 
 export const addUserSession = (
   connectionId: string,
   config: ConnectionConfig
 ) => {
-  userSessions = [...userSessions, { connectionId, nickname: config.nickname }];
+  userSession = [...userSession, { connectionId, config }];
 };
 
 export const getNickname = (connectionId: string) => {
-  const session = userSessions.find(
+  const session = userSession.find(
     (session) => session.connectionId === connectionId
   );
 
-  return session ? session.nickname : "ANONYMOUS :-@";
+  return session ? session.config.nickname : "ANONYMOUS :-@";
 };
 ```
 
 - Ahora lo guardamos.
 
-_./back/src/app.ts_
+_./back/src/index.ts_:
 
 ```diff
-import { createApp } from './express.server';
-import { envConstants } from './env.constants';
-import { api } from './api';
-import express from 'express';
-import path from 'path';
-import * as http from 'http';
-import { Server, Socket } from 'socket.io';
+import './load-env.js';
 import cors from 'cors';
-+ import { addUserSession, getNickname, ConnectionConfig } from './store';
+import express from 'express';
+import http from 'http';
+import path from 'path';
+import { Server, Socket } from 'socket.io';
+import url from 'url';
+import { createApp } from './express.server.js';
+import { envConstants } from './env.constants.js';
+import { api } from './api.js';
++ import { addUserSession, ConnectionConfig, getNickname } from './store.js';
 ```
 
-_./back/src/app.ts_
+_./back/src/index.ts_:
 
 ```diff
 io.on('connection', function (socket: Socket) {
@@ -136,10 +140,10 @@ io.on('connection', function (socket: Socket) {
 
 - En el Front ya lo podemos mostrar
 
-_./front/src/app.tsx_
+_./front/src/app.tsx_:
 
 ```diff
-    case wsBodyTypes.chatMessage:
+    case "CHAT_MESSAGE":
 -      setChatlog((chatlog) => `${chatlog}\n${body.payload.content}`);
 +      setChatlog((chatlog) => `${chatlog}\n[${body.payload.nickname}]${body.payload.content}`);
       break;
@@ -149,7 +153,7 @@ _./front/src/app.tsx_
 - ¡Oye! pero aquí sale siempre PEPE :D, nada vamos a añadir una caja de texto cuando un usuario se una
   para indicar el nickname
 
-_./front/src/app.tsx_
+_./front/src/app.tsx_:
 
 ```diff
 export const App = () => {
@@ -159,19 +163,25 @@ export const App = () => {
   const [socket, setSocket] = React.useState<globalThis.SocketIOClient.Socket>(
     null
   );
-+  const [nickname, setNickname] = React.useState("");
++  const [nickname, setNickname] = React.useState("Pepe");
 ```
 
-_./front/src/app.tsx_
+_./front/src/app.tsx_:
 
 ```diff
   <>
-+   <label>Enter Nickname: </label>
-+   <input value={nickname} onChange={(e) => setNickname(e.target.value)} />
-    <button onClick={handleConnect} disabled={isConnected}>Join</button>
++    <label>Enter Nickname: </label>
++    <input
++      value={nickname}
++      onChange={(e) => setNickname(e.target.value)}
++    />
+    <button onClick={handleConnect} disabled={isConnected}>
+      Join
+    </button>
+
 ```
 
-_./front/src/app.tsx_
+_./front/src/app.tsx_:
 
 ```diff
   const establishConnection = () => {
@@ -179,57 +189,28 @@ _./front/src/app.tsx_
 +    const socketConnection = createSocket(nickname);
 ```
 
-_./front/src/api.ts_
+_./front/src/api.ts_:
 
 ```diff
 - export const createSocket = (): Socket => {
-+ export const createSocket = (nickname: string): Socket => {
++ export const createSocket = (nickname:string): Socket => {
+
+  const url = baseSocketUrl;
+
   const options: SocketIOClient.ConnectOpts = {
--   query: { nickname: "pepe" },
-+   query: { nickname },
+-    query: "nickname=pepe",
++    query: {nickname},
     timeout: 60000,
   };
 ```
 
 - Vamos a probar:
 
-  _en front y back_
+_en front y back_:
 
-  ```bash
-  npm start
-  ```
-
-- ¿Y si también queremos añadir una etiqueta a nuestros mensajes en el chat log?
-
-  _./front/src/app.tsx_
-
-  ```diff
-    const sendMessage = (content: string) => {
-  -   setChatlog(`${chatlog}\n${content}`);
-  +   setChatlog(`${chatlog}\n[Me - ${nickname}]: ${content}`);
-      socket.emit("message", {
-        type: wsBodyTypes.chatMessage,
-        payload: { content },
-      });
-
-      setMessage("");
-    };
-  ```
-
-- ¿Y si nos unimos al chat sin introducir un nickname? Deberíamos de controlar ese caso también. Una forma de hacerlo es en la función `getNickname` de la store del backend.
-
-  _./back/src/store.ts_
-
-  ```diff
-  export const getNickname = (connectionId: string) => {
-    const session = userSessions.find(
-      (session) => session.connectionId === connectionId
-    );
-
-  - return session  ? session.nickname : 'ANONYMOUS :-@';
-  + return session && session.nickname !== "" ? session.nickname : 'ANONYMOUS :-@';
-  };
-  ```
+```bash
+npm start
+```
 
 > Ejercicios: si os queréis divertir...
 

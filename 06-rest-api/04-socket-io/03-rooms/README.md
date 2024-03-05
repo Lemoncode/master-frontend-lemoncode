@@ -1,5 +1,5 @@
 # rooms
 
-[🇪🇸 Versión Español](./README_es.md)
+[🇪🇸 Versión Español](./Readme_es.md)
 
 English version not available yet... fork and translate? O:-)

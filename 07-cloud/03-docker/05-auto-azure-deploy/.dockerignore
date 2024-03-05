@@ -4,7 +4,4 @@ dist
 .editorconfig
 .gitignore
 .prettierrc
-dev.env
-.env
-.env.example
-README.md
+.env.development

@@ -1,5 +1,5 @@
 import React from 'react';
-import { envConstants } from 'core/constants';
+import { envConstants } from '@/core/constants';
 import * as api from './api';
 import { mapMemberListFromApiToVm } from './list.mappers';
 import { ListComponent } from './list.component';

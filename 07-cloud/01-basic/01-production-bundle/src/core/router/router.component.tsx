@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { switchRoutes } from './routes';
-import { ListScene } from 'scenes';
+import { ListScene } from '@/scenes';
 
 export const RouterComponent: React.FC = () => {
   return (

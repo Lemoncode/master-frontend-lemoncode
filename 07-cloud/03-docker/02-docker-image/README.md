@@ -17,7 +17,7 @@ We can create our custom images. In this case, we will use [the node image](http
 _./Dockerfile_
 
 ```Docker
-FROM node:18-alpine
+FROM node:20-alpine
 ```
 
 > You can use [Docker VSCode extension](https://code.visualstudio.com/docs/containers/overview)
@@ -27,13 +27,14 @@ Let's create the path where we are going to copy our app:
 _./Dockerfile_
 
 ```diff
-FROM node:18-alpine
+FROM node:20-alpine
 + RUN mkdir -p /usr/app
 + WORKDIR /usr/app
 
 ```
 
 > RUN: run commands inside container
+>
 > WORKDIR: all commands after that will be executed in this path
 
 
@@ -48,11 +49,7 @@ dist
 .editorconfig
 .gitignore
 .prettierrc
-dev.env
-.env
-.env.example
-README.md
-readme-resources
+.env.development
 
 ```
 
@@ -61,7 +58,7 @@ Copy all files:
 _./Dockerfile_
 
 ```diff
-FROM node:18-alpine
+FROM node:20-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -74,7 +71,7 @@ Execute install and build:
 _./Dockerfile_
 
 ```diff
-FROM node:18-alpine
+FROM node:20-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -111,7 +108,7 @@ We can create some docker steps to install server and execute it:
 _./Dockerfile_
 
 ```diff
-FROM node:18-alpine
+FROM node:20-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -228,8 +225,8 @@ On the other hand, we have an image with `~382MB`, too much size isn't it?. We s
 _./Dockerfile_
 
 ```diff
-- FROM node:18-alpine
-+ FROM node:18-alpine AS base
+- FROM node:20-alpine
++ FROM node:20-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -247,7 +244,7 @@ RUN npm run build
 + COPY ./server/package.json ./
 + COPY ./server/package-lock.json ./
 + COPY ./server/index.js ./
-+ RUN npm ci --only=production
++ RUN npm ci --omit=dev
 
 ENV PORT=8083
 - CMD node server/index.js

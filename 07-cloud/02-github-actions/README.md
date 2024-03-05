@@ -74,7 +74,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install
         run: npm ci
@@ -145,7 +145,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
 +     - name: Use SSH key
 +       run: |
@@ -166,7 +166,7 @@ jobs:
 
       - name: Deploy
 -       run: npm run deploy
-+       run: npm run deploy -- -r git@github.com:<your-repo>
++       run: npm run deploy -- -r git@github.com:<your-repo>.git
 
 ```
 

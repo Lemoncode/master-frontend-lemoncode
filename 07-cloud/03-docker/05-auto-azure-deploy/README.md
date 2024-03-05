@@ -110,10 +110,10 @@ permissions:
 +     runs-on: ubuntu-latest
 +     steps:
 +       - name: Checkout repository
-+         uses: actions/checkout@v3
++         uses: actions/checkout@v4
 
 +       - name: Log in to GitHub container registry
-+         uses: docker/login-action@v2
++         uses: docker/login-action@v3
 +         with:
 +           registry: ghcr.io
 +           username: ${{ github.actor }}
@@ -125,7 +125,7 @@ permissions:
 +           docker push ${{env.IMAGE_NAME}}
 
 +       - name: Deploy to Azure
-+         uses: azure/webapps-deploy@v2
++         uses: azure/webapps-deploy@v3
 +         with:
 +           app-name: ${{ secrets.AZURE_APP_NAME }}
 +           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}

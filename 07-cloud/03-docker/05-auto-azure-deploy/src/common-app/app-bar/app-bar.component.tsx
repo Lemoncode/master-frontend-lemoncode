@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppBar, Toolbar } from '@mui/material';
-import logo from 'assets/logo.png';
+import logo from '@/assets/logo.png';
 import * as classes from './app-bar.styles';
 
 export const AppBarComponent: React.FC = () => {

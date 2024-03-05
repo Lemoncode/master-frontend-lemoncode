@@ -14,12 +14,12 @@ npm install
 
 First, we will check the current `vite config`
 
-_./vite.config.js_
+_./vite.config.ts_
 
 ```javascript
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
+import { fileURLToPath } from 'node:url';
 
 export default defineConfig({
   envPrefix: 'PUBLIC_',
@@ -32,13 +32,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      assets: path.resolve(__dirname, 'src/assets'),
-      common: path.resolve(__dirname, 'src/common'),
-      core: path.resolve(__dirname, 'src/core'),
-      layouts: path.resolve(__dirname, 'src/layouts'),
-      pods: path.resolve(__dirname, 'src/pods'),
-      scenes: path.resolve(__dirname, 'src/scenes'),
-      'common-app': path.resolve(__dirname, 'src/common-app'),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
 });
@@ -49,13 +43,13 @@ export default defineConfig({
 
 We can split vendor chunks if we want:
 
-_./vite.config.js_
+_./vite.config.ts_
 
 ```diff
 - import { defineConfig } from 'vite';
 + import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
+import { fileURLToPath } from 'node:url';
 
 export default defineConfig({
   envPrefix: 'PUBLIC_',
@@ -92,7 +86,7 @@ _./package.json_
     "start:dev": "vite --port 8080",
 +   "build": "npm run type-check && npm run clean && npm run build:prod",
 +   "build:prod": "vite build",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc --noEmit --preserveWatchOutput",
     ...
   },
 ```

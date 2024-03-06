@@ -33,15 +33,17 @@ Create a new _Vercel_ app:
 
 After give permissions to Vercel, we can import the repository:
 
-![03-import-repository](./readme-resources/03-import-repository.png)
+![03-give-access-to-github](./readme-resources/03-give-access-to-github.png)
+
+![04-import-repository](./readme-resources/04-import-repository.png)
 
 Configure basic project settings:
 
-![04-configure-project](./readme-resources/04-configure-project.png)
+![05-configure-project](./readme-resources/05-configure-project.png)
 
 Check build options and deploy:
 
-![05-check-build-options](./readme-resources/05-check-build-options.png)
+![06-check-build-options](./readme-resources/06-check-build-options.png)
 
 After the successful deploy, open `https://<app-name>.vercel.app`.
 

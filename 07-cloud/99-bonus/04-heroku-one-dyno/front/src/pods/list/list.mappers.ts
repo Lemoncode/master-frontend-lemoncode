@@ -1,6 +1,6 @@
 import * as apiModel from './api/list.api-model';
 import * as viewModel from './list.vm';
-import { mapToCollection } from 'common/mappers';
+import { mapToCollection } from '@/common/mappers';
 
 const mapMemberFromApiToVm = (member: apiModel.Member): viewModel.Member => ({
   id: member.id,

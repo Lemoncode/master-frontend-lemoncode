@@ -37,7 +37,7 @@ Install docker in AWS EC2 instance:
 
 ```bash
 sudo yum update -y
-sudo amazon-linux-extras install docker
+sudo yum install docker
 sudo service docker start
 # Optional step
 sudo usermod -a -G docker ec2-user

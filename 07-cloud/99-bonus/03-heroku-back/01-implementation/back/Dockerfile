@@ -1,4 +1,4 @@
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -13,6 +13,6 @@ FROM base AS release
 COPY --from=build-backend /usr/app/dist ./
 COPY ./package.json ./
 COPY ./package-lock.json ./
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 CMD node index

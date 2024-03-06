@@ -4,8 +4,6 @@ WORKDIR /usr/app
 
 # Prepare static files
 FROM base AS build-front
-ARG BASE_API_URL
-ENV PUBLIC_BASE_API_URL=$BASE_API_URL
 COPY ./ ./
 RUN npm ci
 RUN npm run build

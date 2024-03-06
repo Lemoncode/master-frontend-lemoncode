@@ -170,7 +170,7 @@ jobs:
 _./Dockerfile_
 
 ```Dockerfile
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -185,7 +185,7 @@ FROM base AS release
 COPY --from=build-backend /usr/app/dist ./
 COPY ./package.json ./
 COPY ./package-lock.json ./
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 CMD node index
 
@@ -235,7 +235,7 @@ _./src/pods/list/api/list.api.ts_
 ```diff
 import Axios from 'axios';
 import { Member } from './list.api-model';
-+ import { envConstants } from 'core/constants';
++ import { envConstants } from '@/core/constants';
 
 + const url = `${envConstants.BASE_API_URL}/members`;
 
@@ -279,7 +279,7 @@ _./.github/workflows/cd.yml_
       - name: Build and push docker image
         run: |
 -         docker build -t ${{env.IMAGE_NAME}} .
-+         docker build -t ${{env.IMAGE_NAME}} --build-arg BASE_API_URL=${{secrets.BASE_API_URL}} .
++         docker build --build-arg BASE_API_URL=${{secrets.BASE_API_URL}} -t ${{env.IMAGE_NAME}} .
           docker push ${{env.IMAGE_NAME}}
           
           ...

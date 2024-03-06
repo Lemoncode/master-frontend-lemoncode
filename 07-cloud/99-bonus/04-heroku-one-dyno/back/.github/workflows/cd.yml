@@ -29,7 +29,7 @@ jobs:
 
       - name: Build and push docker image
         run: |
-          docker build -t ${{env.IMAGE_NAME}} .
+          docker build --build-arg BASE_API_URL=${{secrets.BASE_API_URL}} --build-arg FRONT_PATH=${{env.FRONT_PATH}} -t ${{ env.IMAGE_NAME }} .
           docker push ${{env.IMAGE_NAME}}
 
       - name: Deploy to Heroku

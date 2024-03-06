@@ -220,9 +220,7 @@ jobs:
 _./Dockerfile_
 
 ```diff
-FROM node:18-alpine AS base
-RUN mkdir -p /usr/app
-WORKDIR /usr/app
+...
 
 + # Build front
 + FROM base AS build-front

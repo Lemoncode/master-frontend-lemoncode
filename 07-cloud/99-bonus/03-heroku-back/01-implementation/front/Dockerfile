@@ -1,4 +1,4 @@
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -17,7 +17,7 @@ COPY --from=build-front /usr/app/dist $STATIC_FILES_PATH
 COPY ./server/package.json ./
 COPY ./server/package-lock.json ./
 COPY ./server/index.js ./
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 ENV PORT=8080
 CMD node index.js

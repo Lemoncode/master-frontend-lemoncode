@@ -83,8 +83,8 @@ docker container prune
 Docker run `pull`s images automatically if it hasn't them. Let's remove an existing image:
 
 ```bash
-docker image rm <IMAGE ID>
-docker rmi <IMAGE ID>
+docker image rm <IMAGE NAME>:<TAG>
+docker rmi <IMAGE NAME>:<TAG>
 docker image prune
 ```
 > `prune`: Remove all dangling images, that is, all images with name equals <none>. Dangling images are not referenced by other images and are safe to delete

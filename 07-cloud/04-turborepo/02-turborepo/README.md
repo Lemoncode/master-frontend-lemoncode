@@ -298,13 +298,6 @@ _./turbo.json_
 
 > NOTE: The `^` symbol tells to turborepo that should run their dependencies `build` command before the current project one.
 
-Run it:
-
-```bash
-npm run build
-
-```
-
 In the same way, we must apply the same approach to the `type-check` command:
 
 _./turbo.json_
@@ -330,9 +323,7 @@ _./turbo.json_
 
 ```
 
-> NOTE: Update the `house-helpers` project to invalidate the `cache`.
-
-Run it again:
+Run it:
 
 ```bash
 npm run build
@@ -381,9 +372,11 @@ Finally, if we only want to run a command for some projects, we can do it using 
 
 
 ```bash
-npm start -- --filter=@my-org/house-stark --filter='./helpers/*'
+npm start -- --filter=@my-org/house-stark
 
 ```
+
+> Another filter example if we want projects inside folder: `--filter='./helpers/*'`
 
 # About Basefactor + Lemoncode
 

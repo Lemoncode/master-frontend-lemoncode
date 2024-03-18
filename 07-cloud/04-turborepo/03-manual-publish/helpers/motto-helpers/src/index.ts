@@ -1,4 +1,1 @@
-export * from "./motto.helpers";
-
-
-
+export * from './motto.helpers';

@@ -39,9 +39,11 @@ npm install @changesets/cli @changesets/changelog-github --save-dev
 Create `changesets` config:
 
 ```bash
-node_modules/.bin/changeset init
+npx changeset init
 
 ```
+
+> Another valid command `node_modules/.bin/changeset init`
 
 The command above will create a `.changeset` folder with a `config.js` file:
 
@@ -66,9 +68,9 @@ _./.changeset/config.js_
 
 ```
 
-> `changelog`: We will use `@changesets/cli/changelog` to generate a changelog file in the Github workflow
+> `changelog`: We will use `@changesets/changelog-github` to generate a changelog file in the Github workflow
 >
-> More info about [changeset config file](https://github.com/changesets/changesets/blob/main/docs/config-file-options.md)
+> More info about [changeset config file](https://github.com/changesets/changesets/blob/main/docs/config-file-options.md#changelog-false-or-a-path)
 
 Now, we will create two scripts to help us with the versioning and publish:
 
@@ -129,12 +131,12 @@ permissions:
 +    runs-on: ubuntu-latest
 +    steps:
 +      - name: Checkout repository
-+        uses: actions/checkout@v3
++        uses: actions/checkout@v4
 
 +      - name: Setup Node.js
-+        uses: actions/setup-node@v3
++        uses: actions/setup-node@v4
 +        with:
-+          node-version: "18.x"
++          node-version: "20.x"
 +          registry-url: "https://npm.pkg.github.com"
 +          always-auth: true
 +          scope: "@${{ github.repository_owner }}"
@@ -151,8 +153,9 @@ permissions:
 +          publish: npm run publish-packages
 +        env:
 +          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 +          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
++          # See https://github.com/changesets/action/issues/132
++          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 ```
 

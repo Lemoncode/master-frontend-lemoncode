@@ -1,6 +1,2 @@
-export * from "./house.helpers";
-export * from "./house.models";
-
-
-
-
+export * from './house.helpers';
+export * from './house.models';

@@ -56,7 +56,7 @@ _./package.json_
 }
 ```
 
-In addition, we have created a new `package.json` inside the `helpers/my-workspace` folder, a `package-lock.json` in the root path and a `node_modules` folder with the `helpers/my-workspace` project symslink (although we don't have any third party dependency yet).
+In addition, we have created a new `package.json` inside the `helpers/my-workspace` folder, a `package-lock.json` in the root path and a `node_modules` folder with the `helpers/my-workspace` project symbolic link (although we don't have any third party dependency yet).
 
 We can update the `package.json` root file to consider more that one workspace inside the `helpers` folder:
 
@@ -131,8 +131,10 @@ _./helpers/motto-helpers/package.json_
     }
   },
   "scripts": {
-    "start": "npm run build -- --watch",
-    "build": "vite build"
+    "start": "run-p -l type-check:watch \"build -- --watch\"",
+    "build": "npm run type-check && vite build",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch  --preserveWatchOutput"
   },
 
 ```

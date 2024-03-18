@@ -1,5 +1,5 @@
 {
-  "name": "@<user-name>/house-helpers",
+  "name": "@my-org/house-helpers",
   "version": "1.0.0",
   "private": false,
   "author": "Lemoncode",
@@ -25,8 +25,8 @@
     "type-check:watch": "npm run type-check -- --watch --preserveWatchOutput"
   },
   "devDependencies": {
-    "typescript": "^5.1.6",
-    "vite": "^4.4.4",
-    "vite-plugin-dts": "^3.3.1"
+    "typescript": "^5.4.2",
+    "vite": "^5.1.6",
+    "vite-plugin-dts": "^3.7.3"
   }
 }

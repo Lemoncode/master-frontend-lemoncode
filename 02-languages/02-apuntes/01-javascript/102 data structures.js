@@ -1,7 +1,7 @@
 ///-- OBJETOS ************************************************************************************
 
 /*
-Datos estructurados siguiendo el formato clave-valor.
+Los objetos representan datos estructurados siguiendo el formato clave-valor.
 A cada clave o alias lo llamamos propiedad.
 */
 
@@ -122,18 +122,35 @@ collection.forEach(function (item) {
 
 // 2. for(...)
 for (let i = 0; i < collection.length; i++) {
-  console.log(collection[i]); // "hey", "ho", "let's go", "yay", (x95) undefined, "oops!"
+  console.log(collection[i]); // "hey", "ho", "let's go", "yay", "nice", empty x 95, "oops!"
 }
 
 // 3. for..of (azúcar sintáctico para objetos iterables)
 for (const item of collection) {
-  console.log(item); // "hey", "ho", "let's go", "yay", (x95) undefined, "oops!"
+  console.log(item); // "hey", "ho", "let's go", "yay", "nice", empty x 95, "oops!"
 }
 
 // Un string, por ejemplo, implementa el patrón iterable y puede ser recorrido con for..of
 for (const char of "javi") {
   console.log(char); // "j", "a", "v", "i"
 }
+
+// Eliminado elementos de un array.
+
+// Tenemos varias formas según entendamos que es para nosotros "eliminar".
+// Por un lado, contamos con un método de los arrays llamado pop para extraer el último elemento:
+collection.pop(); // returns "oops!"
+console.log(collection); // "hey", "ho", "let's go", "yay", "nice", empty x 95,
+
+// También podemos asignar 'undefined' a cualquier índice como forma 'blanda' de borrado. Esto
+// sería más bien un 'reset' de esa posición, ya que la posición seguirá existiendo;
+collection[0] = undefined;
+console.log(collection); // undefined, "ho", "let's go", "yay", "nice", empty x 95,
+
+// Aunque lo más recomendable, la forma real de borrar es usando 'splice', que devuelve la secuencia
+// borrada y muta el array:
+collection.splice(1, 2); // returns ["ho", "let's go"] => lo que hemos eliminado
+console.log(collection); // undefined, "yay", "nice", empty x 95,
 
 // Comparando arrays
 // ⚠ Los arrays son objetos y por tanto implementan la misma comparación que éstos:

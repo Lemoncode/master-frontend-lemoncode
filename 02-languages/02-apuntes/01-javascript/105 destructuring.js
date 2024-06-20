@@ -67,13 +67,12 @@ console.log(iso3); // "SPA"
 
 // Incluso podemos aplicar "destructuring" sobre objetos que se pasan como argumento de una
 // función:
-const student = {
-  name: "Evan",
-  surname: "Smith",
-  country: "USA",
+
+const showFullName = ({ name, surname }) => {
+  console.log(`${name} ${surname}`);
 };
-const getName = ({ name }) => name;
-console.log(getName(student)); // "Evan"
+
+showFullName(student); // "Evan Smith"
 
 // "DESTRUCTURING" SOBRE ARRAYS
 

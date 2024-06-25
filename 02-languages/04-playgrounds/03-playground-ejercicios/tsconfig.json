@@ -3,6 +3,7 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "target": "es5",
     "module": "esnext",
+    "moduleResolution": "node",
     "allowJs": true,
     "outDir": "transpiled"
   },

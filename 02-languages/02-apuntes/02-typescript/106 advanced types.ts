@@ -18,6 +18,29 @@ type Whatever<T> = {
   value: T;
 };
 
+// *** IMPORTANTE - INCISO: Los type alias también se pueden usar para declarar la forma de un 
+// objeto, del mismo modo que hacen los interfaces. Tenemos por tanto 2 maneras de especificar la 
+// firma de un objeto a nivel de tipos: interfaces y type alias. Y ambas formas permiten la 
+// extensión, lo interfaces a través de 'extends' y los type alias mediante intersección de tipos 
+// '&'. Entonces, ¿cual es la diferencia? Mientras que los interfaces son 'abiertos' y permiten 
+// continuar extendiéndolos con múltiples declaraciones, los type alias son cerrados y solo podemos 
+// definirlos 1 vez:
+
+interface PersonInterface {
+  name: string;
+}
+interface PersonInterface {
+  age: number;
+}
+const me: PersonInterface = { name: "John", age: 30 };
+
+type PersonType = { name: string };  // [ts] Duplicate identifier
+type PersonType = { age: number };   // [ts] Duplicate identifier
+
+// Por lo general se suele recomendar el uso de interfaces para tipar objetos debido a esta
+// capacidad extra.
+// https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces
+
 // -- Caso Práctico --
 
 // Alias es muy util para abstraernos de definiciones complejas. No crea nuevos tipos, solo nuevos

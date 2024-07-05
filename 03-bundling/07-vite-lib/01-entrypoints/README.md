@@ -11,6 +11,8 @@ Summary steps:
 
 # Steps to build it
 
+## Mocked library
+
 Let's start by creating the basic library in the three formats (ESM, CJS, UMD).
 
 Add manually the `package.json` (another common approach is to use `npm init -y`):
@@ -52,23 +54,37 @@ _./my-lib/dist/index.umd.js_
 
 ```javascript
 (function (global, factory) {
-  typeof exports == "object" && typeof module < "u"
-    ? factory(exports)
-    : typeof define == "function" && define.amd
-    ? define(["exports"], factory)
-    : ((global = typeof globalThis < "u" ? globalThis : global || self),
-      factory((global.MyLib = {})));
-})(this, function (exports) {
+  if (typeof exports === "object" && typeof module !== "undefined") {
+    // CJS
+    console.log("[UMD] Serving in format CommonJS");
+    module.exports = factory();
+  } else if (typeof define === "function" && define.amd) {
+    // AMD
+    console.log("[UMD] Serving in format AMD");
+    define("my-lib", factory);
+  } else {
+    // Global VAR
+    console.log("[UMD] Serving in format global VAR");
+    global.MyLib = factory();
+  }
+})(globalThis || self || global || this, function factory() {
   function myFn() {
     console.log("I am UMD");
   }
-  exports.myFn = myFn;
+
+  return {
+    myFn,
+  };
 });
 ```
 
-> Note: We are using the UMD format to support AMD (not covered on these demos), CommonJS, and global variable.
+> ⚡ We are using the UMD format to support AMD (not covered on these demos), CommonJS, and global variable. In short, UMD (Universal Module Definition) can be considered a metaformat instead of a format, cause it's main purpose is not to provide another module system but to adapt itself to the module system from the consumer, at runtime! It is like a switch, and depending of the format of its consumer, it will provide its content in the right way.
+
+## Playgrounds
 
 Now, we can create three playgrounds consuming each format, let's start with the CJS format:
+
+### CommonJS
 
 _./playgrounds/cjs/package.json_
 
@@ -85,7 +101,6 @@ Let's install the dependency:
 
 ```bash
 npm install
-
 ```
 
 If we want to use this format in a browser, let's add a `index.html` file:
@@ -108,17 +123,32 @@ _./playgrounds/cjs/index.html_
 </html>
 ```
 
-> Note: CJS format is not supported natively in browsers, we need to use a bundler like Webpack, Vite, Rollup, etc.
+To run it in a web server, let's add a script in our package.json:
 
-Run in a web server:
+```diff
+{
+  "name": "cjs-playground",
++ "scripts": {
++   "start:webapp": "npx serve ."
++ },
+  "dependencies": {
+    "my-lib": "file:../../my-lib"
+  }
+}
 
-```bash
-npx lite-server
 ```
 
-> Open the browser console to see the output.
+Now run it:
 
-If we want to use this format in a Node.js process, let's add a `index.js` file:
+```bash
+npm run start:webapp
+```
+
+✅ **CHECKPOINT**: Open the browser console to see the output.
+
+> 💥 It doesn't work! NOTE: CJS format is not supported natively in browsers, we need to use a bundler like Webpack, Vite, Rollup, etc.
+
+Although not compatible with browsers, we could consume CJS format in a Node.js process, so let's add a `index.js` file:
 
 _./playgrounds/cjs/index.js_
 
@@ -128,16 +158,17 @@ const { myFn } = require("my-lib");
 myFn();
 ```
 
-Add a `start` script to the `package.json`:
+Add a new script in the `package.json` to start it up:
 
 _./playgrounds/cjs/package.json_
 
 ```diff
 {
   "name": "cjs-playground",
-+ "scripts": {
-+   "start": "node index.js"
-+ },
+  "scripts": {
+    "start:webapp": "npx serve ."
++   "start:nodeapp": "node index.js"
+  },
   "dependencies": {
     "my-lib": "file:../../my-lib"
   }
@@ -148,10 +179,14 @@ _./playgrounds/cjs/package.json_
 Let's run it:
 
 ```bash
-npm start
+npm run start:nodeapp
 ```
 
-That's why we will to use the UMD format to use the library in a browser without a bundler:
+✅ **CHECKPOINT**: Now it works!
+
+### UMD
+
+Due to the issue seen with CJS, we would recommend to use UMD format for the library to be consumed in a browser without a bundler:
 
 _./playgrounds/umd/package.json_
 
@@ -159,7 +194,8 @@ _./playgrounds/umd/package.json_
 {
   "name": "umd-playground",
   "scripts": {
-    "start": "node index.js"
+    "start:webapp": "npx serve .",
+    "start:nodeapp": "node index.js"
   },
   "dependencies": {
     "my-lib": "file:../../my-lib"
@@ -167,14 +203,13 @@ _./playgrounds/umd/package.json_
 }
 ```
 
-Let's install the dependency:
+Let's install the dependencies:
 
 ```bash
 npm install
-
 ```
 
-Let's add a `index.html` file:
+Let's add an `index.html` file like before:
 
 _./playgrounds/umd/index.html_
 
@@ -193,13 +228,15 @@ _./playgrounds/umd/index.html_
 </html>
 ```
 
-Run in a web server:
+Run the web application:
 
 ```bash
-npx lite-server
+npm run start:webapp
 ```
 
-> Open the browser console to see the output.
+✅ **CHECKPOINT**: Open the browser console to see the output. It works in browser!
+
+> ⚡ UMD runtime detected that its consumer was neither AMD nor CJS so it served the content through global variable.
 
 Even, we can use the UMD format in a Node.js process:
 
@@ -214,10 +251,14 @@ myFn();
 Let's run it:
 
 ```bash
-npm start
+npm start:nodeapp
 ```
 
-> Note: The UMD format it's using the CJS export behind the scenes.
+✅ **CHECKPOINT**: It works also in Node! 
+
+> ⚡ Note: The UMD format it's using the CJS export behind the scenes.
+
+### ES
 
 Finally, we can use the ES format:
 
@@ -227,7 +268,8 @@ _./playgrounds/es/package.json_
 {
   "name": "es-playground",
   "scripts": {
-    "start": "node index.js"
+    "start:webapp": "npx serve .",
+    "start:nodeapp": "node index.js"
   },
   "dependencies": {
     "my-lib": "file:../../my-lib"
@@ -235,7 +277,7 @@ _./playgrounds/es/package.json_
 }
 ```
 
-Let's install the dependency:
+Let's install the dependencies:
 
 ```bash
 npm install
@@ -261,19 +303,19 @@ _./playgrounds/es/index.html_
 </html>
 ```
 
-> Note: ES format is supported natively in browsers ([the compatibility](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules#javascript.statements.import)).
+> ⚡ Note: ES format is supported natively in browsers ([the compatibility](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules#javascript.statements.import)).
 >
-> We need to use the `type="module"` attribute to tell the browser that we are using ES modules.
+> ⚡ We need to use the `type="module"` attribute to tell the browser that we are using ES modules.
 >
-> We cannot use the module resolution strategy (as in Node.js) natively, we need to use the relative path to the file.
+> ⚡ We cannot use the module resolution strategy (as in Node.js) natively, we need to use the relative path to the file.
 
 Run in a web server:
 
 ```bash
-npx lite-server
+npm run start:webapp
 ```
 
-> Open the browser console to see the output.
+✅ **CHECKPOINT**: Open the browser console to see the output. It works!
 
 Even, we can use the ES format in a Node.js process:
 
@@ -288,10 +330,12 @@ myFn();
 Let's run it:
 
 ```bash
-npm start
+npm run start:nodeapp
 ```
 
-Why is it failing? Because to use the ES format in Node.js we need to change the extension to `.mjs` or update the `package.json` like:
+✅ **CHECKPOINT**: See the console log: 💥 "Cannot use import statement outside a module".
+
+💥 Why is it failing? Because to use the ES format in Node.js we need to change the extension to `.mjs` or update the `package.json` like:
 
 _./playgrounds/es/package.json_
 
@@ -312,12 +356,16 @@ _./playgrounds/es/package.json_
 Let's run it again:
 
 ```bash
-npm start
+npm start:nodeapp
 ```
 
-Wow, why is it using the CommonJs format? Because Node.js is using the `main` field from the `package.json` to resolve the entry point of the library.
+✅ **CHECKPOINT**: See the console log again, now it doesn't throw any error. HOWEVER 💥 "I am CommonJS" ... this is not what we expected!.
 
-The `module` entrypoint that we had defined is only used by bundlers like Webpack, Vite, Rollup, etc.
+> ⚡ Note: Why is it using the CommonJs format? Because Node.js is using the `main` field from the `package.json` to resolve the entry point of the library.
+
+> ⚠ The `module` entrypoint that we had defined is only used by bundlers like Webpack, Vite, Rollup, etc.
+
+### Bundler playground
 
 Let's add another playground to use the `module` entrypoint:
 
@@ -374,7 +422,10 @@ Let's run it:
 npm start
 ```
 
-> Open the browser console to see the output.
+✅ **CHECKPOINT**: Open the browser console to see the output. It works!
+
+
+## Improved library with exports notation
 
 If we want to use ES modules in Node.js we need to use the [`exports` field](https://nodejs.org/dist/latest-v18.x/docs/api/all.html#all_packages_package-entry-points) in the `package.json`:
 
@@ -402,7 +453,7 @@ _./my-lib/package.json_
 >
 > `exports`: Added in v12.7.0
 >
-> Rename files to `./dist/index.cjs.cjs` and `./dist/index.umd.cjs`
+> ⚠ Rename files to `./dist/index.cjs.cjs` and `./dist/index.umd.cjs`
 >
 > If we does not declare the lib as a `type: module` we need to use the `mjs` extension. Try to run the playground without it.
 >
@@ -412,8 +463,8 @@ Let's run the ES playground again:
 
 ```bash
 cd ./playgrounds/es
-npm start
-npx lite-server
+npm run start:webapp
+npm run start:nodeapp
 
 ```
 
@@ -422,20 +473,19 @@ Let's run the Bundler playground again:
 ```bash
 cd ./playgrounds/bundler
 npm start
-
 ```
 
 Let's run the CJS playground again:
 
 ```bash
 cd ./playgrounds/cjs
-npm start
+npm run start:nodeapp
 
 ```
 
-> Remember we cannot use CJS in the browser.
+> ⚡ Remember we cannot use CJS in the browser.
 
-Let's update the UDM playground and run it again:
+Let's update the UMD playground and run it again:
 
 _./playgrounds/umd/index.js_
 
@@ -468,9 +518,8 @@ _./playgrounds/umd/index.html_
 
 ```bash
 cd ./playgrounds/umd
-npm start
-npx lite-server
-
+npm run start:webapp
+npm run start:nodeapp
 ```
 
 # About Basefactor + Lemoncode

@@ -52,21 +52,19 @@ export const App = () => {
 };
 ```
 
-- It's time to instantiate that main component, to be able to integrate it with the browser we have to make use of _ReactDOM.render_.
+- It's time to instantiate that main component, to be able to integrate it with the browser we have to make use of _createRoot_.
 
 _./src/index.tsx_
 
 ```tsx
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { App } from "./app";
 
-ReactDOM.render(
-  <div>
-    <App />
-  </div>,
-  document.getElementById("root")
-);
+const rootElement = document.getElementById("root");
+const root = createRoot(rootElement);
+
+root.render(<App />);
 ```
 
 - We are on the right track, but if we try to run this it will fail, since _babel_ does not know how to transform the _jsx_ (remember that this was a sugar, which was actually an XML) into javaScript, in order for babel to be able to understand this we have to install the _preset_ _@babel/preset-react_
@@ -114,12 +112,3 @@ _.babelrc_
 ```bash
 npm start
 ```
-
-
-
-
-
-
-
-
-

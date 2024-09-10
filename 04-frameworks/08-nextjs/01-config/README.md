@@ -28,12 +28,11 @@ _./package.json_
   "scripts": {
 +   "start": "next dev",
     "start:api-server": "cd api-server && npm run mock-server",
-    "postinstall": "cd ./api-server && npm install",
-    "clean": "rimraf .next"
+    "postinstall": "cd ./api-server && npm install"
   },
 ```
 
-Before Nextjs 13, we used to create pages inside the `pages` folder and the rest of our files with our custom project structure. Now, with the new version, we must place all our files inside the `app` folder and every component will be a `React Server Component` by default.
+Before Nextjs 13, we used to create pages inside the `pages` folder and the rest of our files with our custom project structure. Now, with the new version, we can place files inside the `app` folder and every component will be a `React Server Component` by default.
 
 [It's required create a `root layout`](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#root-layout-required) inside `app/layout.tsx` with the required <html> and <body> tags:
 

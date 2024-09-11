@@ -2,11 +2,11 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { routeConstants } from '@/_core/constants';
-import * as api from '../_api';
-import * as viewModel from '../car.vm';
+import { routeConstants } from '#core/constants';
+import * as api from './api';
+import * as viewModel from './car.vm';
+import { mapCarFromVmToApi } from './car.mappers';
 import classes from './car.module.css';
-import { mapCarFromVmToApi } from '../car.mappers';
 
 interface Props {
   car: viewModel.Car;
@@ -14,6 +14,7 @@ interface Props {
 
 export const Car: React.FC<Props> = (props) => {
   const { car } = props;
+  console.log('Car component', car);
   const router = useRouter();
 
   const handleBook = async () => {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Car } from '../car-list.vm';
-import { CarItem } from './car-item.component';
+import { Car } from './car-list.vm';
+import { CarItem } from './components';
 import classes from './car-list.module.css';
 
 interface Props {

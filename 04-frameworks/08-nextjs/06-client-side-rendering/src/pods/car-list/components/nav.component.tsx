@@ -1,5 +1,5 @@
 'use client';
-import { ThemeContext } from '@/theme.context';
+import { ThemeContext } from '#core/theme.context';
 import React from 'react';
 
 interface Props {

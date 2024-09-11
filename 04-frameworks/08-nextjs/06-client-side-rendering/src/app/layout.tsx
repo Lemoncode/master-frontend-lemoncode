@@ -2,7 +2,7 @@ import 'normalize.css';
 import './material-icons.css';
 import React from 'react';
 import { Inter } from 'next/font/google';
-import { ThemeProvider } from './theme.context';
+import { ThemeProvider } from '#core/theme.context';
 
 const inter = Inter({
   subsets: ['latin'],

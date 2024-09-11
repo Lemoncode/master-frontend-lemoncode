@@ -1,8 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { getCar } from './_api';
-import { Car } from './_components';
-import { mapCarFromApiToVm } from './car.mappers';
+import { Car, api, mapCarFromApiToVm } from '#pods/car';
 
 interface Props {
   params: { carId: string };
@@ -10,7 +8,8 @@ interface Props {
 
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
   const { params } = props;
-  const car = await getCar(params.carId, { cache: 'no-store' }); // Check 'force-cache' too
+  const car = await api.getCar(params.carId, { cache: 'no-store' }); // Check 'force-cache' too
+
   return {
     title: `Rent a car - Car ${car.name} details`,
   };
@@ -18,7 +17,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 
 const CarPage = async (props: Props) => {
   const { params } = props;
-  const car = await getCar(params.carId, { cache: 'no-store' }); // Check 'force-cache' too
+  const car = await api.getCar(params.carId, { cache: 'no-store' }); // Check 'force-cache' too
   console.log('Car page', car);
 
   return <Car car={mapCarFromApiToVm(car)} />;

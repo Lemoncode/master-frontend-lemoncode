@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Nav } from './_components';
+import { Nav } from '#pods/car-list';
 import classes from './layout.module.css';
 
 interface Props {

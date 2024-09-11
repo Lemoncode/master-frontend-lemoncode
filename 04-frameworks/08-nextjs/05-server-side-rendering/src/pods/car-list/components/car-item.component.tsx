@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
+import { routeConstants } from '#core/constants';
 import { Car } from '../car-list.vm';
 import classes from './car-item.module.css';
-import { routeConstants } from '@/_core/constants';
 
 interface Props {
   car: Car;

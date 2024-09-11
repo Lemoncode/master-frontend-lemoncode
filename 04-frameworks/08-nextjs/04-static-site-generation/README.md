@@ -42,7 +42,7 @@ _./package.json_
   },
 ```
 
-Take a look `app/cars/_api/car-list.api.ts`, it's using a env variable.
+Take a look `src/pods/car-list/api/car-list.api.ts`, it's using a env variable.
 
 Let's create it:
 
@@ -77,16 +77,14 @@ junit.xml
 
 Now, we will use this method to load car list on build time:
 
-_./app/cars/page.tsx_
+_./src/app/cars/page.tsx_
 
 ```diff
 - 'use client';
 import React from 'react';
 - import { useRouter } from 'next/navigation';
 + import { Metadata } from 'next';
-+ import { getCarList } from './_api';
-+ import { CarList } from './_components';
-+ import { mapCarListFromApiToVm } from './car-list.mappers';
++ import { CarList, api, mapCarListFromApiToVm } from '#pods/car-list';
 
 + export const metadata: Metadata = {
 +   title: 'Rent a car - Car list',
@@ -98,7 +96,7 @@ import React from 'react';
 -   const onNavigateBack = () => {
 -     router.push('/'); // or router.back()
 -   };
-+   const carList = await getCarList();
++   const carList = await api.getCarList();
 +   console.log('Car list at build time:', { carList });
 
 -   return (
@@ -120,7 +118,7 @@ export default CarListPage;
 
 Update `layout`:
 
-_./app/cars/layout.tsx_
+_./src/app/cars/layout.tsx_
 
 ```diff
 import React from 'react';
@@ -168,7 +166,7 @@ npm start
 >
 > [Debugging docs](https://nextjs.org/docs/advanced-features/debugging)
 
-Now, if we want fix the image issue, we needs to create the `BASE_PICTURES_URL` env variable (check `app/cars/car-list.mappers.ts`)
+Now, if we want fix the image issue, we needs to create the `BASE_PICTURES_URL` env variable (check `src/pods/car-list/car-list.mappers.ts`)
 
 _./.env.local_
 
@@ -196,14 +194,12 @@ If we need to define a list of pages to get availables at build time (like each 
 
 Update car `page`:
 
-_./app/cars/\[carId\]/page.tsx_
+_./src/app/cars/\[carId\]/page.tsx_
 
 ```diff
 import React from 'react';
 import { Metadata } from 'next';
-+ import { getCar } from './_api';
-+ import { Car } from './_components';
-+ import { mapCarFromApiToVm } from './car.mappers';
++ import { Car, api, mapCarFromApiToVm } from '#pods/car';
 
 interface Props {
   params: { carId: string };
@@ -219,7 +215,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 - const CarPage = (props: Props) => {
 + const CarPage = async (props: Props) => {
     const { params } = props;
-+   const car = await getCar(params.carId);
++   const car = await api.getCar(params.carId);
 +   console.log('Car page', car);
 
 -   return (
@@ -253,7 +249,7 @@ npm run start:prod
 
 But if we run this code at build time, we need to use [generateStaticParams](https://nextjs.org/docs/app/api-reference/functions/generate-static-params) too:
 
-_./app/cars/\[carId\]/page.tsx_
+_./src/app/cars/\[carId\]/page.tsx_
 
 ```diff
 ...
@@ -272,6 +268,21 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 ...
 ```
 
+Disable `prefetch`:
+
+_./src/pods/car-list/components/car-item.component.tsx_
+
+```diff
+...
+  return (
+    <Link
++     prefetch={false}
+      href={routeConstants.car(car.id)}
+      className={classes.root}
+    >
+    ...
+```
+
 Run again:
 
 ```bash
@@ -286,16 +297,31 @@ npm run start:prod
 >
 > It will render the HTML for each car detail page.
 
+Enable `prefetch` again:
+
+_./src/pods/car-list/components/car-item.component.tsx_
+
+```diff
+...
+  return (
+    <Link
+-     prefetch={false}
+      href={routeConstants.car(car.id)}
+      className={classes.root}
+    >
+    ...
+```
+
 We can fix the `page` title on `generateMetadata` using the api method `getCar` to fetch the car name:
 
-_./app/cars/\[carId\]/page.tsx_
+_./src/app/cars/\[carId\]/page.tsx_
 
 ```diff
 ...
 
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
   const { params } = props;
-+ const car = await getCar(params.carId);
++ const car = await api.getCar(params.carId);
   return {
 -   title: `Rent a car - Car ${params.carId} details`,
 +   title: `Rent a car - Car ${car.name} details`,
@@ -307,7 +333,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 
 > It will fetch the car details data only once.
 >
-> [Automatic fetch request deduping](https://nextjs.org/docs/app/building-your-application/data-fetching#automatic-fetch-request-deduping)
+> [Automatic fetch request deduping](https://nextjs.org/docs/app/building-your-application/data-fetching/fetching#reusing-data-across-multiple-functions)
 
 Run again:
 
@@ -319,10 +345,10 @@ npm run start:prod
 
 What's if `api-server` has new data, let's use [Incremental Static Regeneration or Revalidating Data](https://nextjs.org/docs/app/building-your-application/data-fetching/revalidating):
 
-_./app/cars/\_api/car-list.api.ts_
+_./src/pods/car-list/api/car-list.api.ts_
 
 ```diff
-import { envConstants } from '@/_core/constants';
+import { envConstants } from '#core/constants';
 import { Car } from './car-list.api-model';
 
 const url = `${envConstants.BASE_API_URL}/cars`;
@@ -335,23 +361,21 @@ const url = `${envConstants.BASE_API_URL}/cars`;
 
 ```
 
-_./app/cars/page.tsx_
+_./src/app/cars/page.tsx_
 
 ```diff
 import React from 'react';
 import { Metadata } from 'next';
-import { getCarList } from './_api';
-import { CarList } from './_components';
-import { mapCarListFromApiToVm } from './car-list.mappers';
+import { CarList, api, mapCarListFromApiToVm } from '#pods/car-list';
 
 export const metadata: Metadata = {
   title: 'Rent a car - Car list',
 };
 
 const CarListPage = async () => {
-- const carList = await getCarList();
+- const carList = await api.getCarList();
 + // cache: 'force-cache' is the default value
-+ const carList = await getCarList({ next: { revalidate: 10 } }); // In seconds
++ const carList = await api.getCarList({ next: { revalidate: 10 } }); // In seconds
   console.log('Car list at build time:', { carList });
 
   return <CarList carList={mapCarListFromApiToVm(carList)} />;
@@ -361,7 +385,7 @@ export default CarListPage;
 
 ```
 
-> It also have [on-demand revalidation](https://nextjs.org/docs/app/building-your-application/data-fetching/revalidating#using-on-demand-revalidation)
+> It also have other  [on-demand revalidation](https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration#time-based-revalidation) options
 
 Run again:
 
@@ -373,17 +397,17 @@ npm run start:prod
 
 Open browser at `http://localhost:8080/cars` and then add a new car:
 
-_./api-server/mock-data/data.json_
+_./api-server/src/mock-data.ts_
 
 ```diff
 ...
-+   {
-+     "id": "10",
-+     "name": "New car",
-+     "imageUrl": "/audi-q8.png",
-+     "features": [],
-+     "isBooked": false
-+   }
++ {
++   id: '10',
++   name: 'New car',
++   imageUrl: '/audi-q8.png',
++   features: [],
++   isBooked: false,
++ },
 ```
 
 While we navigate to car details:(`/cars/1`, `/cars/2`,...`/cars/4`) it doesn't update the car list.
@@ -394,17 +418,17 @@ If we refresh the `/cars` page again (F5) it pre-renders the `car page again` an
 
 Remove data:
 
-_./api-server/mock-data/data.json_
+_./api-server/src/mock-data.ts_
 
 ```diff
 ...
--   {
--     "id": "10",
--     "name": "New car",
--     "imageUrl": "/vw-touran.png",
--     "features": [],
--     "isBooked": false
--   }
+- {
+-   id: '10',
+-   name: 'New car',
+-   imageUrl: '/audi-q8.png',
+-   features: [],
+-   isBooked: false,
+- },
 ```
 
 For fix `images` on car details, we nee to add a `domain` to 'optimize images with `next/image` hosted in external service:

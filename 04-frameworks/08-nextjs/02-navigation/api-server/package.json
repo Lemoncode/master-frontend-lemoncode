@@ -4,11 +4,15 @@
   "description": "Car API",
   "main": "index.js",
   "scripts": {
-    "mock-server": "json-server --routes ./config/routes.json --watch mock-data/data.json --port 3001"
+    "mock-server": "tsx watch src/index.ts"
   },
   "author": "Lemoncode",
   "license": "MIT",
+  "dependencies": {
+    "@hono/node-server": "^1.12.2",
+    "hono": "^4.5.11"
+  },
   "devDependencies": {
-    "json-server": "^1.0.0-beta.2"
+    "tsx": "^4.19.0"
   }
 }

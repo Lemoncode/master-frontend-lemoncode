@@ -28,8 +28,8 @@ _./app/cars/page.tsx_
 ...
 const CarListPage = async () => {
   // cache: 'force-cache' is the default
-- const carList = await getCarList({ next: { revalidate: 10 } }); // In seconds
-+ const carList = await getCarList({ cache: 'no-store' });
+- const carList = await api.getCarList({ next: { revalidate: 10 } }); // In seconds
++ const carList = await api.getCarList({ cache: 'no-store' });
   console.log('Car list at build time:', { carList });
 
   return <CarList carList={mapCarListFromApiToVm(carList)} />;
@@ -82,7 +82,7 @@ npm run start:prod
 
 We could add `options` property in the API method:
 
-_./app/cars/\[carId\]/\_api/car.api.ts_
+_./pods/car/api/car.api.ts_
 
 ```diff
 import { envConstants } from '@/_core/constants';
@@ -104,15 +104,12 @@ export const getCar = async (
 
 ```
 
-
 _./app/cars/\[carId\]/page.tsx_
 
 ```diff
 import React from 'react';
 import { Metadata } from 'next';
-import { getCar } from './_api';
-import { Car } from './_components';
-import { mapCarFromApiToVm } from './car.mappers';
+import { Car, api, mapCarFromApiToVm } from '#pods/car';
 
 interface Props {
   params: { carId: string };
@@ -120,8 +117,8 @@ interface Props {
 
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
   const { params } = props;
-- const car = await getCar(params.carId);
-+ const car = await getCar(params.carId, { cache: 'no-store' }); // Check 'force-cache' too
+- const car = await api.getCar(params.carId);
++ const car = await api.getCar(params.carId, { cache: 'no-store' }); // Check 'force-cache' too
   return {
     title: `Rent a car - Car ${car.name} details`,
   };
@@ -129,8 +126,8 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 
 const CarPage = async (props: Props) => {
   const { params } = props;
-- const car = await getCar(params.carId);
-+ const car = await getCar(params.carId, { cache: 'no-store' }); // Check 'force-cache' too
+- const car = await api.getCar(params.carId);
++ const car = await api.getCar(params.carId, { cache: 'no-store' }); // Check 'force-cache' too
   console.log('Car page', car);
 
   return <Car car={mapCarFromApiToVm(car)} />;
@@ -140,9 +137,13 @@ export default CarPage;
 
 ```
 
-> `cache: 'force-cache'`  and empty cache: will fetch data only once but it will re-render the component on each refresh (F5).
+> All options will re-render the component on each refresh (F5)
 
->`cache: 'no-store'`: will fetch data and re-render the component on each refresh (F5).
+> `cache: 'force-cache'`: will fetch data only once.
+
+>`cache: 'no-store'`: will fetch data on each refresh (F5).
+
+>`next: { revalidate: 10 },`: will fetch data on each refresh (F5) after revalidate seconds.
 
 # About Basefactor + Lemoncode
 

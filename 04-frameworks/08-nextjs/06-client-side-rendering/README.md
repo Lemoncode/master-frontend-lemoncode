@@ -19,18 +19,18 @@ If we don't need to pre-render the data and frequently updating data.
 - Enalbe you to add client-side interactivity.
 - Need to use `'use client'` directive.
 - You cannot use Server Components inside a client-side component but you can use Server Components as children of a client-side component.
-- [More info about Client Components](https://nextjs.org/docs/getting-started/react-essentials#client-components)
+- [More info about Client Components](https://nextjs.org/docs/app/building-your-application/rendering/client-components)
 
 Let's look up the api method to book a car:
 
-_./app/cars/\[carId\]/\_api/car.api.ts_
+_./src/pods/car/api/car.api.ts_
 
 ```javascript
 ...
 
 export const bookCar = async (car: Car): Promise<boolean> => {
   await fetch(`${url}/${car.id}`, {
-    method: 'PATCH',
+    method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(car),
   });
@@ -41,7 +41,7 @@ export const bookCar = async (car: Car): Promise<boolean> => {
 
 And how are we using it:
 
-_./app/cars/\[carId\]/\_components/car.component.tsx_
+_./src/pods/car/car.component.tsx_
 
 ```javascript
 'use client';
@@ -85,7 +85,7 @@ IMAGES_DOMAIN=localhost
 
 ```
 
-_./app/\_core/constants/env.constants.ts_
+_./src/core/constants/env.constants.ts_
 
 ```diff
 export const envConstants = {
@@ -106,7 +106,7 @@ npm run start:prod
 
 On the other hand, we cannot use client-side interactivity in a Server Component but how can we implement a global `React context`?:
 
-_./app/layout.tsx_
+_./src/app/layout.tsx_
 
 ```diff
 import 'normalize.css';
@@ -167,7 +167,7 @@ export default RootLayout;
 
 It throws the error: `TypeError: createContext only works in Client Components. Add the "use client" directive`. But we can use like:
 
-_./app/theme.context.tsx_
+_./src/core/theme.context.tsx_
 
 ```jsx
 'use client';
@@ -211,14 +211,14 @@ export const ThemeProvider = ({ children }) => {
 
 > You cannot use a ServerComponent inside Client Component but [you can pass a Server Component as prop](https://nextjs.org/docs/getting-started/react-essentials#nesting-server-components-inside-client-components).
 
-_./app/layout.tsx_
+_./src/app/layout.tsx_
 
 ```diff
 import 'normalize.css';
 import './material-icons.css';
 import React from 'react';
 import { Inter } from 'next/font/google';
-+ import { ThemeProvider } from './theme.context';
++ import { ThemeProvider } from '#core/theme.context';
 
 - const ThemeContext = React.createContext({});
 
@@ -259,11 +259,11 @@ npm run start:prod
 
 Using theme:
 
-_./app/cars/\_components/nav.component.tsx_
+_./src/pods/car-list/components/nav.component.tsx_
 
 ```jsx
 'use client';
-import { ThemeContext } from '@/theme.context';
+import { ThemeContext } from '#core/theme.context';
 import React from 'react';
 
 interface Props {
@@ -289,7 +289,7 @@ export const Nav: React.FC<Props> = (props) => {
 
 ```
 
-_./app/cars/\_components/index.ts_
+_./src/pods/car-list/components/index.ts_
 
 ```diff
 export * from './car-list.component';
@@ -297,13 +297,13 @@ export * from './car-list.component';
 
 ```
 
-_./app/cars/layout.tsx_
+_./src/app/cars/layout.tsx_
 
 ```diff
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-+ import { Nav } from './_components';
++ import { Nav } from '#pods/car-list';
 import classes from './layout.module.css';
 
 interface Props {

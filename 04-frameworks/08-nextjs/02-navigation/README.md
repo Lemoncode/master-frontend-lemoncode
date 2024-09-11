@@ -131,7 +131,7 @@ export default CarPage;
 
 Open `http://localhost:3000/cars/audi`;
 
-Title tags are a very important part for SEO purposes, thats why we can [modifying head](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#modifying-head) to update html's head on each page:
+Title tags are a very important part for SEO purposes, thats why we can [modifying head](https://nextjs.org/docs/app/building-your-application/optimizing/metadata) to update html's head on each page:
 
 _./app/page.tsx_
 

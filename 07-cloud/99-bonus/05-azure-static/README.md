@@ -91,8 +91,8 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "/dist"
-          ski_app_build: true
-          ski_api_build: true
+          skip_app_build: true
+          skip_api_build: true
         env:
           NODE_VERSION: 20.17.0
 

@@ -21,7 +21,9 @@ Pasos:
 npm install
 ```
 
-- Encendemos la aplicación:
+> NOTA: Podemos usar `npm ci` de esta forma instalaremos las dependencias existentes en `package-lock.json` en vez de regenerarlas.
+
+- Arrancamos la aplicación:
 
 ```bash
 ng serve

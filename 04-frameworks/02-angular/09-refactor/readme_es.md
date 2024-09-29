@@ -21,7 +21,9 @@ Pasos:
 npm install
 ```
 
-- Encendemos la aplicación:
+> NOTA: Podemos usar `npm ci` de esta forma instalaremos las dependencias existentes en `package-lock.json` en vez de regenerarlas.
+
+- Arrancamos la aplicación:
 
 ```bash
 ng serve
@@ -318,11 +320,11 @@ export class UserEditComponent implements OnInit {
     this.avatarControl = this.editForm.get('avatar_url') as FormControl;
   }
 
-  handleEditFileInput($event: any) {
-    const files = $event.target.files as FileList;
+  handleEditFileInput(files: FileList) {
+    // const files = $event.target.files as FileList;
     const reader = new FileReader();
     reader.readAsDataURL(files[0]);
-    reader.onload = (event) => {
+    reader.onload = () => {
       this.avatarControl.setValue(reader.result);
     };
   }
@@ -543,7 +545,7 @@ _src/app/user/user-list/user-list.component.html_
 +<app-user-edit [member]="memberSelected"></app-user-edit>
 ```
 
-- En el ts de user-edit, usamos el método ngOnChanges() para setear el valor del formulario cada vez que la propiedad member cambie de valor
+- En el ts de user-edit, usamos el método `ngOnChanges()` para establecer el valor del formulario cada vez que la propiedad `member` actualice su valor
 
 _src/app/user/user-edit/user-edit.component.ts_
 
@@ -584,7 +586,6 @@ import { MemberEntity } from '../../model';
   constructor(private fb: FormBuilder) {}
 
 +  ngOnChanges(changes: SimpleChanges): void {
-+   console.log();
 +   if (changes['member'].currentValue) {
 +     this.editForm.patchValue(this.member);
 +   } 
@@ -653,7 +654,7 @@ _src/app/user/user-edit/user-edit.component.ts_
   }
 ```
 
-El decorador @Output provoca que la etiqueta app-user-edit disponga de un evento llamado saveEvent al que el padre se podrá bindear en el HTML.
+El decorador `@Output` provoca que la etiqueta app-user-edit disponga de un evento llamado saveEvent al que el padre se podrá bindear en el HTML.
 
 En el HTML de user-list:
 

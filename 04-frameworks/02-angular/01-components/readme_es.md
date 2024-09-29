@@ -12,7 +12,7 @@ Qué vamos a aprender en este ejemplo:
 
 - Crear un componente
 - Crear atributos custom al componente con el decorador @Input
-- Crear eventos custom con el decorador @Output
+- Crear eventos custom con el decorador `@Output`
 - Encapsulación de estilos
 
 Pasos:
@@ -25,7 +25,9 @@ Pasos:
 npm install
 ```
 
-- Encendemos la aplicación:
+> NOTA: Podemos usar `npm ci` de esta forma instalaremos las dependencias existentes en `package-lock.json` en vez de regenerarlas.
+
+- Arrancamos la aplicación:
 
 ```bash
 ng serve
@@ -74,6 +76,71 @@ En la pantalla se verá el contenido por defecto del componente Search:
 
 Colocamos el html del componente en el fichero _search.component.html_ y el css del componente en el fichero _search.component.scss_
 
+Update `app/utils/search/search.component.html`
+
+```html
+<p></p>
+
+<div class="container">
+  <input type="text" class="field" />
+  <div class="icons-container">
+      <div class="icon-search"></div>
+  </div>
+</div>
+```
+
+Update `app/utils/search/search.component.css`
+
+```css
+p {
+  color: blue;
+}
+
+.container {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  width: 150px;
+  height: 30px;
+}
+
+.field {
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+}
+
+.icons-container {
+  position: absolute;
+  top: 5px;
+  right: -10px;
+  width: 30px;
+  height: 30px;
+}
+
+.icon-search {
+  position: relative;
+  width: 50%;
+  height: 50%;
+  opacity: 1;
+  border-radius: 50%;
+  border: 3px solid #c7d0f8;
+}
+
+.icon-search:after {
+  content: "";
+  position: absolute;
+  bottom: -9px;
+  right: -2px;
+  width: 4px;
+  border-radius: 3px;
+  transform: rotate(-45deg);
+  height: 10px;
+  background-color: #c7d0f8;
+}
+```
+
 ¡Y listo!. El componente debería verse en la pantalla.
 
 ### Creación de atributos custom
@@ -100,13 +167,16 @@ export class SearchComponent {
   // ...
 ```
 
-Enlazamos las propiedades de clase en el template, actualizando `src/app/utils/search/search.component.ts`:
+Enlazamos las propiedades de clase en el template, actualizando `src/app/utils/search/search.component.html`:
 
 ```html
+<!-- diff -->
 <p>{{ label }}</p>
-
+<!-- diff -->
 <div class="container">
+  <!-- diff -->
   <input type="text" [placeholder]="ph" [value]="name" class="field" />
+  <!-- diff -->
   <div class="icons-container">
       <div class="icon-search"></div>
   </div>
@@ -169,7 +239,7 @@ Actualizamos `src/app/app.component.ts`
 export class AppComponent {
   title = 'app';
 
-  escribeLog($event: string) {
+  escribeLog($event: Event) {
     console.log($event);
   }
 }
@@ -217,6 +287,8 @@ export class SearchComponent {
 ```
 
 ### Encapsulación de los estilos
+
+> TODO: Desarrollar estos puntos
 
 Angular encapsula por defecto los estilos, con lo que no tenemos que preocuparnos de ello. No obstante se pueden configurar 3 formas de encapsulación:
 

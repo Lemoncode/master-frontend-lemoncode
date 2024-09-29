@@ -2,7 +2,7 @@
 
 ## Resumen
 
-Este ejemplo toma como punto de partida el ejemplo 05.
+Este ejemplo toma como punto de partida el ejemplo 06.
 
 Vamos a crear un formulario model-driven para la edición de miembros:
 
@@ -23,13 +23,15 @@ Pasos:
 npm install
 ```
 
-- Encendemos la aplicación:
+> NOTA: Podemos usar `npm ci` de esta forma instalaremos las dependencias existentes en `package-lock.json` en vez de regenerarlas.
+
+- Arrancamos la aplicación:
 
 ```bash
 ng serve
 ```
 
-- Importamos el módulo ReactiveFormsModule
+- Importamos el módulo `ReactiveFormsModule`
 
 _src/app/user/user-list/user-list.component.ts_
 
@@ -59,7 +61,7 @@ import { MembersService } from '../../services/members.service';
 })
 ```
 
-- Inyectamos el servicio FormBuilder en el ts
+- Inyectamos el servicio `FormBuilder` en el ts
 
 _src/app/user/user-list/user-list.component.ts_
 
@@ -101,10 +103,10 @@ export class UserListComponent implements OnInit {
 _src/app/user/user-list/user-list.component.ts_
 
 ```ts
-import { Component, OnInit } from '@angular/core';
-import { MemberEntity } from '../../model';
-import { NgFor, NgIf } from '@angular/common';
-import { HighlightDirective } from '../../directives/highlight.directive';
+import { Component, OnInit } from "@angular/core";
+import { MemberEntity } from "../../model";
+import { NgFor, NgIf } from "@angular/common";
+import { HighlightDirective } from "../../directives/highlight.directive";
 import {
   FormBuilder,
   FormControl,
@@ -114,12 +116,12 @@ import {
   /*diff*/
   Validators,
   /*diff*/
-} from '@angular/forms';
-import { SearchByLoginPipe } from '../../pipes/search-by-login.pipe';
-import { MembersService } from '../../services/members.service';
+} from "@angular/forms";
+import { SearchByLoginPipe } from "../../pipes/search-by-login.pipe";
+import { MembersService } from "../../services/members.service";
 
 @Component({
-  selector: 'app-user-list',
+  selector: "app-user-list",
   standalone: true,
   imports: [
     NgFor,
@@ -129,8 +131,8 @@ import { MembersService } from '../../services/members.service';
     SearchByLoginPipe,
     ReactiveFormsModule,
   ],
-  templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.css',
+  templateUrl: "./user-list.component.html",
+  styleUrl: "./user-list.component.css",
 })
 export class UserListComponent implements OnInit {
   members: MemberEntity[] = [];
@@ -150,9 +152,9 @@ export class UserListComponent implements OnInit {
   add(): void {
     this.members.push(this.newMember);
     this.newMember = {
-      id: '',
-      login: '',
-      avatar_url: '',
+      id: "",
+      login: "",
+      avatar_url: "",
     };
   }
 
@@ -169,9 +171,9 @@ export class UserListComponent implements OnInit {
     this.membersService.getAll().then((members) => (this.members = members));
 
     this.newMember = {
-      id: '',
-      login: '',
-      avatar_url: '',
+      id: "",
+      login: "",
+      avatar_url: "",
     };
     /*diff*/
     this.createEditForm();
@@ -180,18 +182,17 @@ export class UserListComponent implements OnInit {
   /*diff*/
   createEditForm(): void {
     this.editForm = this.fb.group({
-      id: ['', Validators.required],
-      login: ['', [Validators.required, Validators.minLength(6)]],
-      avatar_url: '',
+      id: ["", Validators.required],
+      login: ["", [Validators.required, Validators.minLength(6)]],
+      avatar_url: "",
     });
 
-    this.idControl = this.editForm.get('id') as FormControl;
-    this.loginControl = this.editForm.get('login') as FormControl;
-    this.avatarControl = this.editForm.get('avatar_url') as FormControl;
+    this.idControl = this.editForm.get("id") as FormControl;
+    this.loginControl = this.editForm.get("login") as FormControl;
+    this.avatarControl = this.editForm.get("avatar_url") as FormControl;
   }
   /*diff*/
 }
-
 ```
 
 Los formularios model-driven son muy flexibles en su forma de construirlos.
@@ -307,20 +308,23 @@ _src/app/user/user-list/user-list.component.html_
   <h2>Datos de XXXXXXX</h2>
   <form>
     <div>
-        <label>Id </label>
+      <label>Id </label>
     </div>
     <div>
-        <label>Name </label>
-        <input name="name"/>
+      <label>Name </label>
+      <input name="name" />
+      <div>
+        <div>El nombre es obligatorio</div>
         <div>
-          <div>El nombre es obligatorio</div>
-          <div>El nombre debe tener X caracteres mínimo. Tiene sólamente X caracteres.</div>
+          El nombre debe tener X caracteres mínimo. Tiene sólamente X
+          caracteres.
         </div>
+      </div>
     </div>
     <div>
-        <label>Avatar </label>
-        <input name="avatar" type="file" accept="image/*"/>
-        <div><img [src]="" width="50" /></div>
+      <label>Avatar </label>
+      <input name="avatar" type="file" accept="image/*" />
+      <div><img [src]="" width="50" /></div>
     </div>
     <button>Añadir</button>
   </form>
@@ -433,13 +437,16 @@ _src/app/user/user-list/user-list.component.html_
 y en el ts
 
 ```ts
-handleEditFileInput($event: any) {
-  const reader = new FileReader();
-  reader.readAsDataURL(files[0]);
-  reader.onload = (event) => {
-    this.avatarControl.setValue(reader.result);
-  };
-}
+// ....
+  handleEditFileInput($event: any): void {
+    const files = $event.target.files as FileList;
+    const reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = () => {
+      this.avatarControl.setValue(reader.result);
+    };
+  }
+// ....
 ```
 
 - Reemplazar el objeto original por el modificado
@@ -490,6 +497,6 @@ save() {
 
 - La propiedad `valueChanges`
 
-Tanto FormControl como FormGroup como FormArray tienen una propiedad **valueChanges** que es un _Observable_ del value del objeto en cuestión. 
+Tanto `FormControl` como `FormGroup` como `FormArray` tienen una propiedad **valueChanges** que es un _Observable_ del value del objeto en cuestión.
 
 Esto permite suscribirnos a los cambios en un control o en un grupo de controles...

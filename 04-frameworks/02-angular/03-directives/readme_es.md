@@ -21,7 +21,9 @@ Pasos:
 npm install
 ```
 
-- Encendemos la aplicación:
+> NOTA: Podemos usar `npm ci` de esta forma instalaremos las dependencias existentes en `package-lock.json` en vez de regenerarlas.
+
+- Arrancamos la aplicación:
 
 ```bash
 ng serve
@@ -156,7 +158,7 @@ export class HighlightDirective {
 
 De esta forma, tendremos en la variable _el_ una referencia al elemento th en el caso del listado de usuarios y una referencia al elemento p en el caso del menú.
 
-ElementRef tiene una única propiedad, _nativeElement_, que nos da acceso al elemento en sí. A través de nativeElement podemos acceder y modificar cualquier atributo de elemento en cuestión.
+`ElementRef` tiene una única propiedad, _nativeElement_, que nos da acceso al elemento en sí. A través de _nativeElement_ podemos acceder y modificar cualquier atributo de elemento en cuestión.
 
 Vamos a modificar el valor de `style.backgroundColor`:
 
@@ -179,7 +181,7 @@ export class HighlightDirective {
 }
 ```
 
-Si miramos el navegador veremos que Angular a cambiado el valor de style.backgroundColor a todos los elementos que tengan el atributo _appHighlight_.
+Si miramos el navegador veremos que Angular a cambiado el valor de `style.backgroundColor` a todos los elementos que tengan el atributo _appHighlight_.
 
 - Modificar la directiva para que solamente se resalte cuando pongamos el ratón encima del elemento
 
@@ -343,7 +345,7 @@ export class HighlightDirective {
 
 -  color = 'lightblue';
 +  @Input()
-+  public color;
++  public color!: string;
   
   constructor(private el: ElementRef) { }
 
@@ -365,7 +367,7 @@ export class HighlightDirective {
 }
 ```
 
-Este decorador @Input hace que los elementos afectados por appHighlight dispongan de un nuevo atributo, llamado _color_ (mismo nombre que la propiedad decorada con @Input). El valor del atributo color en el html se establecerá como valor de la propiedad en la directiva.
+Este decorador `@Input` hace que los elementos afectados por `appHighlight` dispongan de un nuevo atributo, llamado _color_ (mismo nombre que la propiedad decorada con `@Input`). El valor del atributo color en el html se establecerá como valor de la propiedad en la directiva.
 
 _src/app/user/user-list/user-list.component.html_
 
@@ -419,7 +421,7 @@ Con un poco de javascript podemos elegir un color por defecto en caso de que no 
 export class HighlightDirective {
 
   @Input()
-  public color;
+  public color!: string;
   
 +  private defaultColor = 'lightblue';
 
@@ -454,6 +456,27 @@ _src/app/layout/menu/menu.component.html_
 + <p appHighlight [color]="variableColorEnElTS">menu works!</p>
 ```
 
+_src/app/layout/menu/menu.component.ts_
+
+```ts
+import { Component } from '@angular/core';
+import { HighlightDirective } from '../../directives/highlight.directive';
+
+@Component({
+  selector: 'app-menu',
+  standalone: true,
+  imports: [HighlightDirective],
+  templateUrl: './menu.component.html',
+  styleUrl: './menu.component.css',
+})
+export class MenuComponent {
+  /*diff*/
+  public variableColorEnElTS = 'pink';
+  /*diff*/
+}
+
+```
+
 Así hacemos que sea el typescript del componente el que decida cuál es el color con el que la directiva debe resaltar el elemento.
 
 - Aprovechar el propio atributo de la directiva como `@Input` para el color.
@@ -462,15 +485,17 @@ El decorador `@Input` permite realizar la asociación aunque los nombres del atr
 
 _src/app/layout/menu/menu.component.html_
 
-```html
- <p appHighlight colorResaltado="green">menu works!</p>
+```diff
+-<p appHighlight color="green">menu works!</p>
+-<p appHighlight [color]="variableColorEnElTS">menu works!</p>
++<p appHighlight colorResaltado="green">menu works!</p>
 ```
 
 ```diff
 export class HighlightDirective {
 
 +  @Input('colorResaltado')
-  private color;
+  public color!: string;
 ```
 
 Esto se suele utilizar para aprovechar el propio atributo `appHighlight` para pasar uno de los parámetros que tengamos con @Input.
@@ -515,4 +540,3 @@ export class HighlightDirective {
 
 }
 ```
-

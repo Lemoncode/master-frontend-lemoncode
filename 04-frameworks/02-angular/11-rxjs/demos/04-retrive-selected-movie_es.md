@@ -1,10 +1,10 @@
-# Demo: Retrieve One Item by Id
+# Demo: Recupear un Item por Id
 
-- Retrieving data
+- Recuperar los datos
 
-  - Retrieve a single product by id
+  - Recuperar un único producto por id
 
-Update `movies/src/app/movies/movie.service.ts`
+Actualizar `movies/src/app/movies/movie.service.ts`
 
 ```ts
 export class MovieService {
@@ -29,7 +29,7 @@ export class MovieService {
 }
 ```
 
-Where do we call this method? On `movies/src/app/movies/movie-list/movie-list.component.html`
+¿Dónde llamaremos a este método? En `movies/src/app/movies/movie-list/movie-list.component.html`
 
 ```html
 <div class="card-body" *ngIf="movies.length">
@@ -47,7 +47,7 @@ Where do we call this method? On `movies/src/app/movies/movie-list/movie-list.co
 </div>
 ```
 
-We have a method `onSelected(movie.id)` that sets up the selected movie id, if we have a look down we will find out `app-movie-detail` component that is expecting an input property with the movie id value:
+Tenemos un método `onSelected(movie.id)`que establece el id del *movie* seleccionado, si bajamos un poco más en el documento encontraremos el componente `app-movie-detail` que está esperando una *input property* con el valor del *movie id*:
 
 ```html
 <div class="col-md-8">
@@ -55,7 +55,7 @@ We have a method `onSelected(movie.id)` that sets up the selected movie id, if w
 </div>
 ```
 
-- Update `movies/src/app/movies/movie-detail/movie-detail.component.ts`
+- Actualizar `movies/src/app/movies/movie-detail/movie-detail.component.ts`
 
 ```ts
 import { CurrencyPipe, NgFor, NgIf } from "@angular/common";
@@ -72,16 +72,16 @@ import { MovieService } from "../product.service"; /*diff*/
 import { Subscription } from "rxjs"; /*diff*/
 
 @Component({
-  selector: 'app-movie-detail',
+  selector: "app-movie-detail",
   standalone: true,
   imports: [NgIf, NgFor, CurrencyPipe],
-  templateUrl: './movie-detail.component.html',
-  styles: ``
+  templateUrl: "./movie-detail.component.html",
+  styles: ``,
 })
 export class MovieDetailComponent implements OnChanges, OnDestroy {
   // Just enough here for the template to compile
   @Input() movieId: number = 0;
-  errorMessage = '';
+  errorMessage = "";
   /*diff*/
   sub!: Subscription;
   /*diff*/
@@ -90,7 +90,9 @@ export class MovieDetailComponent implements OnChanges, OnDestroy {
   movie: Movie | null = null;
 
   // Set the page title
-  pageTitle = this.movie ? `Movie Detail for: ${this.movie.movieName}` : 'Movie Detail';
+  pageTitle = this.movie
+    ? `Movie Detail for: ${this.movie.movieName}`
+    : "Movie Detail";
 
   /*diff*/
   private movieService = inject(MovieService);
@@ -112,8 +114,6 @@ export class MovieDetailComponent implements OnChanges, OnDestroy {
     }
   }
   /*diff*/
-  addToCart(movie: Movie) {
-  }
+  addToCart(movie: Movie) {}
 }
-
 ```

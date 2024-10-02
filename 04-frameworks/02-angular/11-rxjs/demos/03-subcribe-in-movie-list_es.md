@@ -1,10 +1,10 @@
-# Demo: Subscribe to the Returned Observable in a Component
+# Demo: Subscribirse a un Observable en un Componente
 
-- Retrieving data
+- Recuperando datos
 
-  - Subscribe to the returned observable component
+  - Subscribirse al Observable devuelto
 
-Update `movies/src/app/movies/movie-list/movie-list.component.ts`
+Actualizar `movies/src/app/movies/movie-list/movie-list.component.ts`
 
 ```ts
 export class MovieListComponent {
@@ -24,7 +24,7 @@ export class MovieListComponent {
 }
 ```
 
-We currently init movies to an empty array. First we need to inject `MovieService`:
+Ahora mismo inicializamos *movies* a un array vacío. Primero necesitamos inyectar `MovieService`:
 
 ```diff
 # ....
@@ -43,25 +43,25 @@ export class MovieListComponent {
 }
 ```
 
-We need a place to start the Observable, and remove it when the Component is done, we implement for this purpose `OnInit` and `OnDestroy`.
+Necesitamos un 'sitio' donde arrancar el Observable, y eliminarlo cuamd el *Component* ha terminado, implementamos `OnInit` y `OnDestroy` para este proposito.
 
 ```ts
 import { NgClass, NgFor, NgIf } from "@angular/common";
 /*diff*/
 import { Component, OnDestroy, OnInit, inject } from "@angular/core";
 /*diff*/
-import { MovieDetailComponent } from '../movie-detail/movie-detail.component';
-import { Movie } from '../movie';
-import { MovieService } from '../movie.service';
+import { MovieDetailComponent } from "../movie-detail/movie-detail.component";
+import { Movie } from "../movie";
+import { MovieService } from "../movie.service";
 /*diff*/
 import { Subscription, tap } from "rxjs";
 /*diff*/
 
 @Component({
-  selector: 'app-movie-list',
+  selector: "app-movie-list",
   standalone: true,
   imports: [NgIf, NgClass, NgFor, MovieDetailComponent],
-  templateUrl: './movie-list.component.html',
+  templateUrl: "./movie-list.component.html",
   styles: ``,
 })
 export class MovieListComponent implements OnInit, OnDestroy {
@@ -103,7 +103,7 @@ export class MovieListComponent implements OnInit, OnDestroy {
 npm start
 ```
 
-Lets update the code to see the products on console:
+Actualicemos el código para ver los productos en consola:
 
 ```diff
   ngOnInit(): void {

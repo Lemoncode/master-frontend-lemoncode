@@ -1,13 +1,15 @@
 # Creating Observables
+# Creando Observables
 
 ## Creating an Observable (of and from)
+## Creadon un Observable (of y from)
 
-- Create observables
+- Creación de observables
     - of()
     - from()
-- Subscribe to each observable
+- Subscribirse a cada onservable
 
-Update `movies/src/app/app.component.ts`
+Actualizar `movies/src/app/app.component.ts`
 
 ```diff
 -import { Component } from '@angular/core';
@@ -39,7 +41,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 ```
 
-Lets start by using `of`
+Comenzanmos usando `of`
 
 ```ts
 /*diff*/
@@ -60,7 +62,7 @@ export class AppComponent implements OnInit, OnDestroy {
 }
 ```
 
-We need to get the subscription into a variable:
+Necesitamos volcar la subscripción en una variable:
 
 ```diff
 -import { of } from 'rxjs';
@@ -99,15 +101,15 @@ export class AppComponent implements OnInit, OnDestroy {
 }
 ```
 
-Lets give it a try.
+Probemos.
 
 ```bash
 npm start
 ```
 
-Open browser console. What is going to do `of` with an array:
+Abrir una consola en el navegador. ¿Qué es lo que va a hacer `of` con un array?:
 
-- Update `movies/src/app/app.component.ts`
+- Actualizar `movies/src/app/app.component.ts`
 
 ```diff
 export class AppComponent implements OnInit, OnDestroy {
@@ -130,7 +132,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
 ```
 
-Emits a single notification, with the array. For last lets add `from`
+Emite una únca notificación, con el array. Por último vamos añadir `from`
 
 ```ts
 /*diff*/
@@ -181,7 +183,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
 ```
 
-## Creating an Observable (fromEvent)
+## Creando un Observable (fromEvent)
 
 - Create an observable
   - fromEvent()
@@ -238,11 +240,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
 ```
 
-## Exercise
+## Ejercicio
 
-Create an Observable for key press on document element. We want to keep the pressed keys, create an Array to store their values.
+Crea un observable que obseve cuando el usuario teclee dentro del elemento document. Queremos almacenar cada uan de las teclas, crea un array para almacenar los valores.
 
-### Solution
+### Solución
 
 ```ts
 // 1. Create a new subscription

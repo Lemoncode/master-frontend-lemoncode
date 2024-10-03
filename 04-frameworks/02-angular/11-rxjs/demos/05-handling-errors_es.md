@@ -1,13 +1,13 @@
-# Handling Errors
+# Manejo de errores
 
-## Handling HTTP erros in a Service
+## Manejo de errores HTTP erros en un Servicio
 
-- HTTP error handling
-  - Caching the error in a service
+- Manejo de error HTTP
+  - Caching del error en un servicio
 
-Lets see what happens when we have an error, and we don't handle it.
+Primero veamos que ocurre cuando tenemos un error, y no lo manejamos.
 
-- Update `movies/src/app/movies/movie.service.ts`
+- Actualizar `movies/src/app/movies/movie.service.ts`
 
 ```diff
 export class MovieService {
@@ -19,7 +19,7 @@ export class MovieService {
 npm start
 ```
 
-No data is displayed, and we get an unhandled exception, that we can see on console. Lets start by catching the error:
+No se muestran datos, y tenemos una excepción no controlada, que podemos ver en consola. Vamos a comenzar por *atrapar* el error:
 
 ```diff
 import { HttpClient } from '@angular/common/http';
@@ -57,9 +57,9 @@ export class MovieService {
 
 ```
 
-If we go back to the browser, we keep seeing the error, because we have logged as error. We can also see the hard coded list of items. If we select an item, we get an unhandled exception, we donn't add code yet to solve this.
+Si volvemos al navegador, seguimos viendo el error, porque lo registramos en consola com un error. Podemos ver la list *hard coded* de elementos. Si seleccionamos un elemento, obtenemos una excepción no manejada, todavía no hemos añadido código para solucionar esto.
 
-We're going to use a different approach.
+Vamos a usar una aproximación diferente.
 
 ```diff
 import { HttpClient } from '@angular/common/http';
@@ -113,7 +113,7 @@ export class MovieService {
 }
 ```
 
-We can also use javascript `throw`, both will work:
+Podemos también usar la función `throw` de javascript, ambos funcionarían:
 
 ```ts
 class MovieService {
@@ -124,7 +124,7 @@ class MovieService {
 }
 ```
 
-We keep with `throwError`.
+Nos quedamos con `throwError`.
 
 ```diff
   getMovies(): Observable<Movie[]> {
@@ -139,16 +139,17 @@ We keep with `throwError`.
   }
 ```
 
-If we back to browser and open the console, we can see the formatted error.
+Si volvemos al navegador y abrimos la consola, podemos ver el error formateado.
 
-## Handling HTTP erros in a Component
+## Manejando errores HTTP en un Componente
 
-- HTTP error handling
-  - Catching the error in a component
+- Manejo de error HTTP
+  - Atrapando el error en un componente
 
-Update `movies/src/app/movies/movie-list/movie-list.component.ts`
+Actualizar `movies/src/app/movies/movie-list/movie-list.component.ts`
 
-We can handle the error in two ways, using the `observer` or in the `pipeline`. Using the `observer` looks like this:
+Podemos manejar el error de dos formas, usando el `observer` o en el `pipeline`. Usando el observer sería de esta forma:
+
 
 ```ts
 ngOnInit(): void {
@@ -167,7 +168,7 @@ ngOnInit(): void {
   }
 ```
 
-If we open the browser, we will see that the view it's now rendering a message with error details. Lets change the code to instead using callback observer functions use the pipeline.
+Si abrimos el navegador, veremos que la vista renderiza ahora un mensaje con los detalles del error. Vamos a cambiar el código para utilizar *observer functions* en lugar de utilizar *callbacks*.
 
 ```diff
 -import { Subscription, tap } from 'rxjs';
@@ -196,9 +197,9 @@ If we open the browser, we will see that the view it's now rendering a message w
   }
 ```
 
-If we open the browser we will find out the message.
+Si abrimos el navegador encontraremos el mensaje de error.
 
-Update `LCS/src/app/movies/movie.service.ts`
+Actualizamos `LCS/src/app/movies/movie.service.ts`
 
 ```diff
 export class MovieService {
@@ -206,8 +207,9 @@ export class MovieService {
 + private moviesUrl = 'api/movies';
 ```
 
-If we open the browser we will see the list of items.
+Si abrimos el navegador veremos la lista de artícuslos.
 
-## Exercise
+## Ejercicio
 
-Implement the error handling for `getMovie` on `movies/src/app/movies/movie.service.ts`  and implement error handling on `movies/src/app/movies/movie-detail/movie-detail.component.ts`
+
+Implementar el manejo de errores para `getMovie` en `movies/src/app/movies/movie.service.ts` e implemenatr el manejo de errores en `movies/src/app/movies/movie-detail/movie-detail.component.ts`

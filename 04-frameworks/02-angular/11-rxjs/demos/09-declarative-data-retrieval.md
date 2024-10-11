@@ -144,7 +144,7 @@ This code now uses a declarative approach, working with our observable directly 
 
 We don't need the `subscription` variable and we don't need our local movies variable. The observable will emit the array of movies for us. We also clean up the import statements.
 
-But looking at the browser, our code no longer works. Our template is using the products variable we just deleted.
+But looking at the browser, our code no longer works. Our template is using the movies variable we just deleted.
 
 ```console
 ✘ [ERROR] NG1: Property 'movies' does not exist on type 'MovieListComponent'. Did you mean 'movies$'? [plugin angular-compiler]

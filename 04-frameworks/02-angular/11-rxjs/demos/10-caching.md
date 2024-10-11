@@ -35,7 +35,7 @@ Start on the Home page and refresh the application. Then click the Movie List op
 
 When the `movies$` observable emits the next notification with our data, our `tap` operator logs that data to the console. 
 
-Now click Home and click Movie List again. Notice the delay again as it retrieves the product data.
+Now click Home and click Movie List again. Notice the delay again as it retrieves the movie data.
 
 Each time the user accesses the Movie List page, the component is initialized and the HTTP get request is executed. When the user returns to the Home page, the component and our observable are destroyed. The next time the user accesses the Movie List again, the component is initialized again, and the data is retrieved again. 
 

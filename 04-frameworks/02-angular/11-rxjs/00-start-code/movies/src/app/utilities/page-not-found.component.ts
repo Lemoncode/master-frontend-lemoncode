@@ -5,6 +5,8 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   template: ` <h1>This is not the page you were looking for!</h1> `,
-  styles: ``,
+  styles: ``
 })
-export class PageNotFoundComponent {}
+export class PageNotFoundComponent {
+
+}

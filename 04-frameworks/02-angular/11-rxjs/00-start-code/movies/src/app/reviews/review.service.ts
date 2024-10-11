@@ -4,9 +4,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ReviewService {
-  private reviewsUrl = 'api/reviews';
+  private reviewUrl = 'api/reviews';
 
   getReviewUrl(movieId: number): string {
-    return `${this.reviewsUrl}?movieId=^${movieId}$`;
+    return `${this.reviewUrl}?movieId=^${movieId}$`;
   }
 }

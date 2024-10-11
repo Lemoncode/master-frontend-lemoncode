@@ -13,7 +13,7 @@ export class ReviewData {
       id: 2,
       movieId: 5,
       userName: 'thor364',
-      title: "Not great...",
+      title: 'Not great...',
       text: 'I summon this film, and it does not heed my call',
     },
 

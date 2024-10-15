@@ -107,7 +107,7 @@ We'll bind that value to a `select` element. I'll paste the element above our di
 
 > That's because signals don't yet support two‑way binding. 
 
-When the user changes the value, we call `onQuantitySelected` in the component. We pass in $event, which is the user‑selected value. The selection options are defined under the select element. The first option hard codes help text for the user. The remaining options are generated using this `ngFor`. Notice how it uses our `qtyAvailable` signal. The `onQuantitySelected` method referenced here in the template doesn't yet exist in the component. Let's create it. 
+When the user changes the value, we call `onQuantitySelected` in the component. We pass in `$event`, which is the user‑selected value. The selection options are defined under the select element. The first option hard codes help text for the user. The remaining options are generated using this `ngFor`. Notice how it uses our `qtyAvailable` signal. The `onQuantitySelected` method referenced here in the template doesn't yet exist in the component. Let's create it. 
 
 Update `signals-lab/src/app/app.component.ts`
 

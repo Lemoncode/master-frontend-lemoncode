@@ -67,8 +67,8 @@ import {
   SimpleChanges /*diff*/,
   inject /*diff*/,
 } from "@angular/core";
-import { Moviw } from "../movie";
-import { MovieService } from "../product.service"; /*diff*/
+import { Movie } from "../movie";
+import { MovieService } from "../movie.service"; /*diff*/
 import { Subscription } from "rxjs"; /*diff*/
 
 @Component({

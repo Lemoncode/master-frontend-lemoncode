@@ -1,8 +1,6 @@
-# Creating Observables
 # Creando Observables
 
-## Creating an Observable (of and from)
-## Creadon un Observable (of y from)
+## Creando un Observable (of y from)
 
 - Creación de observables
     - of()

@@ -150,7 +150,6 @@ Actualizar `movies/src/app/movies/movie-list/movie-list.component.ts`
 
 Podemos manejar el error de dos formas, usando el `observer` o en el `pipeline`. Usando el observer sería de esta forma:
 
-
 ```ts
 ngOnInit(): void {
     this.sub = this.movieService
@@ -210,6 +209,5 @@ export class MovieService {
 Si abrimos el navegador veremos la lista de artícuslos.
 
 ## Ejercicio
-
 
 Implementar el manejo de errores para `getMovie` en `movies/src/app/movies/movie.service.ts` e implemenatr el manejo de errores en `movies/src/app/movies/movie-detail/movie-detail.component.ts`

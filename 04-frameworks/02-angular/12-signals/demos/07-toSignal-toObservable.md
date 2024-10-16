@@ -219,5 +219,5 @@ Update `template`
 })
 ```
 
-> TODO: Add toSignal and toObservable notes
-> TODO: Add zoneless notes
+- https://angular.dev/guide/experimental/zoneless
+- https://angular.dev/guide/signals/rxjs-interop

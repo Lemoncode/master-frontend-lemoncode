@@ -1,6 +1,5 @@
 ---
 theme: seriph
-highlighter: shikiji
 lineNumbers: true
 drawings:
   persist: false
@@ -21,8 +20,8 @@ class: text-center
 🖖
 
 ---
-layout: image-right
-image: paul.png
+layout: image-right-rounded
+image: paul.jpeg
 class: grid
 ---
 
@@ -30,36 +29,51 @@ class: grid
 
 <div class="my-auto">
 
-### Web Developer
+<h3 class="text-green-400">Web Engineer | Instructor</h3>
 
 - @paul_melero
 - paulmelero@gmail.com
+- https://graficos.net
 
 </div>
 
 
 ---
-layout: intro
+title: Qué es Vue.js
+layout: hero-image
+image: logo-vue-3d.png
 ---
 
-# ¿Qué es Vue.js?
+<h1 class="text-center">¿Qué es Vue.js?</h1>
 
-> Vue.js es un framework JavaScript de código abierto utilizado para construir interfaces de usuario. Destaca por su simplicidad y flexibilidad.
+<p class="text-center">https://vuejs.org/</p>
 
-Vue.js es un framework progresivo, lo que significa que se puede utilizar para construir desde una simple página web hasta una aplicación web compleja.
+---
+title: Definición
+layout: hero-image
+image: vue-cover.png
+---
+
+<v-clicks>
+
+- <logos-vue /> Vue.js es un framework JavaScript de **código abierto** utilizado para construir **interfaces de usuario**. Destaca por su simplicidad y flexibilidad.
+
+- <logos-vue /> Vue.js es un framework _progresivo_, lo que significa que se puede utilizar para construir desde una simple página web hasta una aplicación web compleja.
+
+</v-clicks>
 
 ---
 layout: quote
 ---
-# Características principales
+# <logos-vue /> Características principales
 
 <v-clicks>
 
 - Reactividad: Reactive Data Binding
 - Components: Component-based Architecture
-- Lenguaje dedicado: Directivas
+- Lenguaje dedicado (_domain-specific language (DSL)_)
 - Tooling: Vite, Vue CLI, Vue Devtools, Vue Router, Vuex, Pinia...
-- Meta-framework: Nuxt.js
+- Meta-framework: <logos-nuxt-icon /> Nuxt
 
 </v-clicks>
 
@@ -68,15 +82,16 @@ layout: quote
 layout: quote
 ---
 
-# Ventajas de Vue.js
+# <logos-vue /> Ventajas de Vue
 
 <v-clicks>
 
-- Ligero y fácil de aprender.
-- Integración gradual.
-- Reactividad (intuitivo).
-- Framework maduro.
-- Documentación completa y amigable.
+- 📈 Ligero y fácil de aprender.
+- 👣 Integración gradual.
+- ✅ Reactividad (intuitivo).
+- 🏛️ Framework maduro.
+- 📚 Documentación completa y amigable.
+- ⚡ Velociddad.
 
 </v-clicks>
 
@@ -97,6 +112,8 @@ image: /eco.jpeg
 title: Diagrama Ecosistema
 ---
 
+<!-- Por cierto, estos slides están hechos con Vue!  -->
+
 ---
 layout: section
 ---
@@ -107,17 +124,8 @@ layout: section
 layout: image
 title: Números
 image: /numbers.png
+backgroundSize: contain
 ---
-
-
----
-layout: image-right
-image: /friends.png
----
-
-# Comparación con Otros Frameworks
-
-(v2) https://v2.vuejs.org/v2/guide/comparison.html
 
 
 ---
@@ -174,7 +182,7 @@ layout: two-cols-header
 - Editor
   - (**VSCode**)
   - Extensiones: `Prettier`, `ESLint`
-- Volar
+- Extensión `Vue - Official` (para VSCode)
 - Gestor de paquetes (npm/**pnpm**/yarn)
   - `pnpm`
 - Vue DevTools
@@ -195,11 +203,16 @@ layout: two-cols-header
   </div>
 
   <div class="absolute translate-y-[-50%] max-h-md overflow-hidden" v-click=[4,5]>
-    <img src="/volar.png" />
-    <a href="https://marketplace.visualstudio.com/items?itemName=Vue.volar">Volar</a>
+    <img src="/vue-extension.png" />
+    <a href="https://marketplace.visualstudio.com/items?itemName=Vue.volar">(antes llamada "Volar")</a>
   </div>
 
-  <div class="absolute translate-y-[-50%] max-h-md overflow-hidden" v-click=[7,8]>
+  <div class="absolute translate-y-[-50%] max-h-md overflow-hidden" v-click=[6,7]>
+    <img src="/pnpm-logo.png" />
+    <a href="https://pnpm.io/"><code>pnpm</code></a>
+  </div>
+
+  <div class="absolute translate-y-[-50%] max-h-md overflow-hidden" v-click=[7,8,9,10,11,12]>
     <img src="/devtools.png" />
     <a href="https://devtools.vuejs.org/">Vue Devtools</a>
   </div>
@@ -255,7 +268,7 @@ h1 {
     - No es necesario que estén todos.
   - Otras opciones: `lang="ts"`, `lang="scss"`
 - En `template` no es necesario que haya 1 sólo elemento raíz.
-- `script setup` (recomendado)
+- <span v-mark="{ type:'circle', color: '#008f53' }">`script setup`</span> (recomendado)
 </v-clicks>
 
 
@@ -278,7 +291,7 @@ const msg = ref('My value')
 ::right::
 
 - La extensión del archivo sigue siendo `.vue`.
-- Pero añadimos `lang="ts"` en la etiquta `<script>`.
+- Pero añadimos <span v-mark="{ type:'circle', color: '#008f53' }">`lang="ts"`</span> en la etiquta `<script>`.
 
 
 ---
@@ -306,6 +319,42 @@ const MyComponent = {
 - Es necesario instalar `@vitejs/plugin-vue-jsx` para usar JSX/TSX y configurar
   Vite ([docs](https://www.npmjs.com/package/@vitejs/plugin-vue-jsx)).
 
+
+---
+layout: two-cols
+---
+
+## ❌ Sintaxis de "Options API"
+
+```vue {all|2,22|4|9|14|19|all}
+<script>
+export default {
+  name: 'MyComponent',
+  data() {
+    return {
+      msg: 'Hello Vue!'
+    }
+  },
+  computed: {
+    reversedMsg() {
+      return this.msg.split('').reverse().join('')
+    }
+  },
+  methods: {
+    reverseMsg() {
+      this.msg = this.reversedMsg
+    }
+  },
+  created() {
+    console.log('Component created')
+  },
+}
+</script>
+```
+
+::right::
+
+- **No es la forma recomendada** de escribir componentes de Vue desde la "Composition API" (`script setup` o `setup` _function_).
 
 ---
 layout: section
@@ -366,8 +415,8 @@ const todos = [
 <v-clicks depth="2">
 
 - `v-for="(item, index) in items"` o `v-for="(item, index) of items"`
-  - `item` y `index` son variables locales (pueden tener cualquier otro nombre).
-- `key` es necesario para que Vue pueda identificar los elementos y hacer el
+  - <span v-mark="{ at: 7, type:'underline', color: '#008f53' }">`item` y `index`</span> son variables locales (pueden tener cualquier otro nombre).
+- <span v-mark="{ at: 8, type:'underline', color: '#008f53' }">`key`</span> es necesario para que Vue pueda identificar los elementos y hacer el
   re-renderizado de forma eficiente.
 
 </v-clicks>
@@ -378,7 +427,7 @@ layout: two-cols
 
 # Eventos
 
-```vue {all|2,3|5,6|8,9|11,12|16|all}
+```vue {all|2,3|5,6|8,9|11,12|16,17|all}
 <template>
   <!-- 1 -->
   <button v-on:click="doThis"></button>
@@ -395,6 +444,7 @@ layout: two-cols
 
 <script setup>
 function doThis(event) { /* ... */ }
+function onEnter(event) { /* ... */ }
 </script>
 
 ```
@@ -439,52 +489,10 @@ const emit = defineEmits(['my-event'])
 
 <v-clicks depth="2">
 
-- Definimos eventos custom con `emit`.
-- Después, los escuchamos con `@`.
-
-</v-clicks>
-
----
-layout: two-cols-header
----
-
-# Two-way data binding (Formularios)
-
-::left::
-```vue {all|4,8,9|9|2-4|all}
-<script setup>
-import { ref } from 'vue'
-
-const msg = ref('World! 🔥🔥')
-</script>
-
-<template>
-  <h1>Hello {{ msg }}</h1>
-  <input v-model="msg" />
-</template>
-```
-
-::right::
-
-### `v-model`
-
-
-<v-clicks>
-
-- es un shortcut de `:value` + `@input`.
-
-```vue {all|4,8,9|9|2-4|all}
-<script setup>
-import { ref } from 'vue'
-
-const msg = ref('World! 🔥🔥')
-</script>
-
-<template>
-  <h1>Hello {{ msg }}</h1>
-  <input :value="msg" @input="e => msg = e.target.value" />
-</template>
-```
+<ul>
+  <li>Definimos eventos custom con <span v-mark="{ at: 3, type:'circle', color: '#008f53' }">`defineEmits`</span>.</li>
+  <li>Después, los escuchamos con `@&lt;nombre-del-evento&gt;`.</li>
+</ul>
 
 </v-clicks>
 
@@ -531,8 +539,71 @@ const msg = ref('My value')
 ::right::
 
 - `props` son los argumentos que recibe un componente.
-- Se definen con `defineProps`.
+- Se definen con <span v-mark="{ at: 2, type:'circle', color: '#008f53' }">`defineProps`</span>.
 - Se pasan como atributos al componente hijo con `:propName="propValue"`.
+
+
+---
+layout: section
+---
+
+# Two-way data binding
+## (`v-model`)
+
+---
+layout: two-cols
+---
+
+# Two-way data binding
+
+```vue {all|4,8,9|9|2-4|all}
+<script setup>
+import { ref } from 'vue'
+
+const msg = ref('World! 🔥🔥')
+</script>
+
+<template>
+  <h1>Hello {{ msg }}</h1>
+  <input v-model="msg" />
+</template>
+```
+
+---
+layout: two-cols-header
+---
+
+# Two-way data binding
+## `v-model`
+
+- es un shortcut de <span v-mark="{ type:'underline', color: '#008f53' }">`:value` + `@input`</span>.
+
+````md magic-move
+```vue {all|4,8,9|9|2-4|all}
+<script setup>
+import { ref } from 'vue'
+
+const msg = ref('World! 🔥🔥')
+</script>
+
+<template>
+  <h1>Hello {{ msg }}</h1>
+  <input :value="msg" @input="e => msg = e.target.value" />
+</template>
+```
+```vue {all|9|all}
+<script setup>
+import { ref } from 'vue'
+
+const msg = ref('World! 🔥🔥')
+</script>
+
+<template>
+  <h1>Hello {{ msg }}</h1>
+  <input v-model="msg" />
+</template>
+```
+````
 
 
 ---
@@ -549,7 +620,7 @@ layout: two-cols
 
 Defniniendo slots (hijo):
 
-```vue {all|3,7,11|11|all}
+```vue {all|3,7,11,12,13,14|11,12,13,14|all}
 <template>
   <header>
     <slot name="header" />
@@ -560,7 +631,10 @@ Defniniendo slots (hijo):
   </main>
 
   <footer>
-    <slot name="footer" :footerCopyright="'©️ 2024'" />
+    <slot
+      name="footer"
+      :footerCopyright="'©️ 2024'"
+    />
   </footer>
 </template>
 
@@ -573,14 +647,25 @@ defineOptions({
 
 ::right::
 
-<v-clicks depth="2">
+<v-clicks depth="3">
 
+**Qué son los `slots`?**
+- Permiten pasar contenido al componente hijo.
 - `slots` (como los `children` de React).
-- Se definen con `<slot>`.
+- Se definen con <span v-mark="{ at: 5, type:'circle', color: '#008f53' }">`<slot>`</span>.
   - Si no tienen `name`, se llaman `default`.
-- Se pueden pasar valores a los slots con props: `<slot name="slotName" :slotProp="slotPropValue" />`.
-  - Se llaman "Scoped Slots".
-- Se pueden pasar valores por defecto a los slots con `<slot name="slotName">Default value</slot>`.
+
+**Scoped slots**
+- Se pueden pasar valores a los slots con **props**.
+```
+<slot name="slotName" :slotProp="slotPropValue" />
+```
+
+**Default content**
+- Se pueden pasar "contenido" por defecto a los slots con
+```
+<slot name="slotName">Default content</slot>
+```
 
 </v-clicks>
 
@@ -600,7 +685,7 @@ Consumiendo componentes con slots (padre):
     </template>
 
     <!-- Default slot, no tiene `<template>` -->
-    <p>My content</p>
+    <PageContent />
 
     <template #footer="{ footerCopyrigth }">
       <p>{{ footerCopyrigth }}</p>
@@ -625,7 +710,9 @@ import PageLayout from './PageLayout.vue'
 layout: section
 ---
 
-# `defineProps`, `defineEmits`, `defineOptions`, `defineSlots`
+## Composition API
+
+## `defineProps`, `defineEmits`, `defineOptions`, `defineSlots`
 
 ---
 layout: two-cols-header
@@ -684,8 +771,7 @@ layout: two-cols
 # `defineProps`
 
 
-<div v-click=[0,1] class="absolute">
-
+````md magic-move
 ```vue
 <script setup lang="ts">
 import { defineProps } from 'vue'
@@ -697,10 +783,6 @@ const props = defineProps<{
 
 </script>
 ```
-</div>
-
-<div v-click=[1,2] class="absolute">
-
 ```vue
 <script setup lang="ts">
 import { defineProps } from 'vue'
@@ -713,11 +795,6 @@ const props = defineProps<Props>()
 
 </script>
 ```
-</div>
-
-
-<div v-click=[2,3] class="absolute">
-
 ```vue
 <script setup lang="ts">
 import { defineProps } from 'vue'
@@ -726,7 +803,8 @@ interface Props {
   msg: string
 }
 
-// Con `withDefaults` podemos definir valores por defecto
+// Con `withDefaults` podemos definir
+// valores por defecto
 const props = withDefaults(
   defineProps<Props>(),
   {
@@ -736,10 +814,6 @@ const props = withDefaults(
 
 </script>
 ```
-</div>
-
-<div v-click=[3,4] class="absolute">
-
 ```vue
 <script setup lang="ts">
 import { defineProps } from 'vue'
@@ -750,15 +824,11 @@ const props = defineProps({
 })
 </script>
 ```
-</div>
-
-<div v-click=[4,5] class="absolute">
-
 ```vue
 <script setup lang="ts">
 import { defineProps } from 'vue'
 
-// Los objetos nos dan más opcions:
+// Los "runtime objects" nos dan más opciones:
 const props = defineProps({
   msg: {
     type: String,
@@ -769,7 +839,7 @@ const props = defineProps({
 })
 </script>
 ```
-</div>
+````
 
 ---
 layout: two-cols-header
@@ -804,14 +874,15 @@ console.log(reversedTodos.value, reversedMsg.value) // `.value` para acceder al 
 
 <v-clicks depth="2">
 
-- ⭐️ `ref` para todo tipo de valores.
+- <span v-mark="{ at: 7, type:'underline', color: '#008f53' }">⭐️ `ref`</span> para todo tipo de valores.
 - `computed` para computar valores a partir de otros.
-  - No es necesario definir las dependencias.
 - `reactive` para objetos.
-  - no es necesario usar `.value` para acceder a los valores.
   - `toRefs` para desestructurar.
 
 </v-clicks>
+
+<!-- - (No es necesario definir las dependencias como en React.)
+- no es necesario usar `.value` para acceder a los valores como con `ref`. -->
 
 ---
 layout: two-cols
@@ -875,9 +946,9 @@ watchEffect(() => {
 
 <v-clicks depth="2">
 
-- `watch` para observar cambios en un valor.
+- <span v-mark="{ at: 4, type:'underline', color: '#008f53' }">`watch`</span> para observar cambios en un valor.
   - Es necesario definir las dependencias en el primer parámetro.
-- `watchEffect` para observar cambios en uno o varios valores y ejecutar una función.
+- <span v-mark="{ at: 6, type:'underline', color: '#008f53' }">`watchEffect`</span> para observar cambios en uno o varios valores y ejecutar una función.
   - No es necesario definir las dependencias.
 
 </v-clicks>
@@ -937,7 +1008,7 @@ layout: two-cols-header
 
 ::left::
 
-Al crear un proyecto con Nuxt, se crean las siguientes carpetas:
+Al crear un proyecto con Nuxt, se crean los siguientes archivos:
 
 ![Nuxt folders](/nuxt-inicio.png)
 
@@ -992,7 +1063,7 @@ layout: custom-cover
 background: vue-sticker.jpg
 ---
 
-# Vue - II
+# <logos-vue /> Vue - II
 
 ## 🌈 Vuenas tardes! 🌈
 
@@ -1003,7 +1074,7 @@ layout: quote
 # Agenda
 
 - Continuamos con el código
-  - Estlos
+  - Estilos
   - Chat
   - OpenAI
 
@@ -1069,6 +1140,7 @@ layout: two-cols
 layout: image
 image: /side-by-side.jpeg
 title: Code Side by Side
+backgroundSize: contain
 ---
 
 
@@ -1076,6 +1148,7 @@ title: Code Side by Side
 layout: image
 image: /setup-diagram.png
 title: Setup()
+backgroundSize: contain
 ---
 
 ---
@@ -1111,6 +1184,7 @@ layout: full
 layout: image
 image: /lego.jpeg
 title: Composables (Lego)
+backgroundSize: contain
 ---
 
 ---
@@ -1119,14 +1193,14 @@ image: /teclado.gif
 class: text-center
 ---
 
-# Vamos a seguir!! 🚀
+# <logos-vue /> Vamos a seguir!! 🚀
 
 ---
 layout: custom-cover
 background: vue-sticker.jpg
 ---
 
-# Vue - III
+# <logos-vue /> Vue - III
 
 ## 🌈 Vuenas tardes!!! 🌈
 

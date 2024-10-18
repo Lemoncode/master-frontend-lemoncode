@@ -17,6 +17,12 @@ class: text-center
 
 (y <logos-nuxt-icon /> Nuxt)
 
+<v-clicks>
+
+(y 🤖 IA)
+
+</v-clicks>
+
 🖖
 
 ---

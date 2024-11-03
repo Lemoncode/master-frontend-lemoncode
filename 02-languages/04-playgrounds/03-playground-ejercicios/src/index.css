@@ -22,14 +22,14 @@ html, body {
 }
 
 .title {
-  font-size: 5em;
+  font-size: min(max(calc(2rem + 48 * ((100vw - 360px) / 280)), 2rem), 5rem);
   font-weight: bolder;
   color: rgba(255, 255, 255, 0.7);
   margin: 1rem 0 1rem;
 }
 
 .caption {
-  font-size: 1.75rem;
+  font-size: min(max(calc(1.25rem + 16 * ((100vw - 360px) / 280)), 1.25rem), 2.25rem);
   color: rgba(255, 255, 255, 0.7);
   margin: 1rem 0 1rem;
 }

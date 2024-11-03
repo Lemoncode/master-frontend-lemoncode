@@ -176,7 +176,8 @@ type UserCommon = Common<UserDetails, UserID>; // Check intellisense!
 const calculateCommon = <A extends object, B extends object>(a: A, b: B): Common<A, B> => {
   const result = { ...a };
   for (const key in a) {
-    if (a.hasOwnProperty(key) && !b.hasOwnProperty(key)) delete result[key];
+    // A partir de ES2022 podemos usar Object.hasOwn como reemplazo de Object.prototype.hasOwnProperty
+    if (Object.hasOwn(a, key) && !Object.hasOwn(b, key)) delete result[key];
   }
   return result;
 };

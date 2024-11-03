@@ -125,7 +125,8 @@ console.log(juan.isMinimumSalary); // undefined
 
 // *** PROPIEDADES PRIVADAS
 
-// Sólo pueden ser accedidas desde métodos creados dentro del cuerpo de una clase
+// Sólo pueden ser accedidas desde métodos creados dentro del cuerpo de una clase.
+// La notación con el modificador # está disponible a partir de ES2022.
 
 class Person {
   // ⚠ Deben ser declaradas dentro de la clase
@@ -144,7 +145,7 @@ antonio.greet();
 console.log(antonio.name); // undefined
 console.log(antonio.#name); // Error!
 
-// Refactorización del mismo ejemplo Employee con propiedades privadas
+// Refactorización del mismo ejemplo Employee con propiedades privadas.
 
 class Employee {
   // Ahora este valor no es accesible de forma externa
@@ -178,6 +179,8 @@ console.log(antonio.getDetails());
 
 // Podemos inicializar propiedades que parten de valores fijos sin usar constructor. Si te fijas
 // las hemos visto anteriormente pero con otros modificadores: `static` y el prefijo de privado `#`.
+// Esta notación de class fields está disponible a partir de ES2022.
+
 // También podemos crear propiedades públicas de este modo:
 
 class Counter {

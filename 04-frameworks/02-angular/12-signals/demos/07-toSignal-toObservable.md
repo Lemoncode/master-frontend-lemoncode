@@ -173,6 +173,8 @@ This works but it has drawbacks:
 Update `persons/persons.component.ts`
 
 ```diff
++import { toSignal, toObservable } from '@angular/core/rxjs-interop';
+....
 export class PersonsComponent {
   numberOfPersons = signal<number>(0);
 - persons: Person[] = [];

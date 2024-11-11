@@ -11,7 +11,7 @@ Que vamos a aprender en este ejemplo:
 
 - Cómo crear un componente de visualización
 - Cómo hacer una llámada asícnrona para pedir datos a una api remota.
-- Cómo iterar y mostrar una lista de resultados con la directiva estructural *ngFor
+- Cómo iterar y mostrar una lista de resultados con la directiva estructural `*ngFor`
 
 También aprenderemos posteriormente la librería de Angular para realizar peticiones a APIs remotas.
 
@@ -25,14 +25,15 @@ Pasos:
 npm install
 ```
 
-- Encendemos la aplicación:
+> NOTA: Podemos usar `npm ci` de esta forma instalaremos las dependencias existentes en `package-lock.json` en vez de regenerarlas.
+
+- Arrancamos la aplicación:
 
 ```bash
 ng serve
 ```
 
-- Si queremos ver que tipo de datos vamos a manejar, podemos abrir el
-  navegador web y ver que devuelve la API Rest de Github
+- Si queremos ver que tipo de datos vamos a manejar, podemos abrir el navegador web y ver que devuelve la API Rest de Github
 
 ```bash
 https://api.github.com/orgs/lemoncode/members

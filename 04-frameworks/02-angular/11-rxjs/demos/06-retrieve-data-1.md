@@ -1,4 +1,4 @@
-## Demo: Retrieve Related Data 1
+# Demo: Retrieve Related Data 1
 
 In this demo, we retrieve related data. We'll get the movie, then get the reviews for that movie. Let's begin by running the application.
 
@@ -26,7 +26,7 @@ export class ReviewService {
 
 ```
 
-This service has a method that builds the correct URL endpoint given the `movieId`. It uses the base URL and appends a query parameter. This uses the caret and dollar regular expression anchor characters for an exact match of the `movieId`. We'll call this method to build a URL when retrieving the product reviews. Next, let's look at the movie interface.
+This service has a method that builds the correct URL endpoint given the `movieId`. It uses the base URL and appends a query parameter. This uses the caret and dollar regular expression anchor characters for an exact match of the `movieId`. We'll call this method to build a URL when retrieving the movie reviews. Next, let's look at the movie interface.
 
 Open `movies/src/app/movies/movie.ts`
 
@@ -49,7 +49,7 @@ export interface Movie {
 
 The interface has a Boolean property indicating whether this movie has reviews, and it has an array for those reviews. But those reviews aren't returned when we get the movie data, they have their own HTTP endpoint, so we have to issue another HTTP request to get this related data and assign this property to the response.
 
-Our plan is to read a products `hasReviews` property. If that property is true, we issue an HTTP get request to get the reviews for that movie. Then we add the retrieved reviews to this reviews property for display in the template. Let's create a method to do just that.
+Our plan is to read a movies `hasReviews` property. If that property is true, we issue an HTTP get request to get the reviews for that movie. Then we add the retrieved reviews to this reviews property for display in the template. Let's create a method to do just that.
 
 Update `movies/src/app/movies/movie.service.ts`
 
@@ -129,7 +129,7 @@ Now we just need to call this method from somewhere. For a great user experience
 
 That way we can display both in the template. Here in the `getMovie` pipeline, we use an operator to call `getMovieWithReviews`, but which one. 
 
-Should we use the `tap` operator? Well, the `getMovieWithReviews` method changes the passed‑in product to a new movie with the reviews. `tap` should only be used for processes that don't change the emitted value, so `tap` isn't the right choice in this case. How about `map`? Let's give that a try. In the `getMovie` pipeline, add a `map` operator after the `tap`. 
+Should we use the `tap` operator? Well, the `getMovieWithReviews` method changes the passed‑in movie to a new movie with the reviews. `tap` should only be used for processes that don't change the emitted value, so `tap` isn't the right choice in this case. How about `map`? Let's give that a try. In the `getMovie` pipeline, add a `map` operator after the `tap`. 
 
 ```diff
   getMovie(id: number): Observable<Movie> {

@@ -22,7 +22,9 @@ Pasos:
 npm install
 ```
 
-- Encendemos la aplicación:
+> NOTA: Podemos usar `npm ci` de esta forma instalaremos las dependencias existentes en `package-lock.json` en vez de regenerarlas.
+
+- Arrancamos la aplicación:
 
 ```bash
 ng serve
@@ -70,7 +72,7 @@ ng generate pipe pipes/search-by-login
 
 - Programamos la pipe
 
-La función transform de la pipe recibirá la lista de miembros sobre la que realizar la búsqueda y el valor por el que buscar. Devolverá una lista con los miembros cuyo campo contenga el valor buscado.
+La función `transform` de la pipe recibirá la lista de miembros sobre la que realizar la búsqueda y el valor por el que buscar. Devolverá una lista con los miembros cuyo campo contenga el valor buscado.
 
 _src/app/pipes/search-by-login.pipe.ts_
 
@@ -156,7 +158,7 @@ _src/app/user/user-list/user-list.component.html_
 
 Pero no ocurre nada, no está filtrando. Angular no encuentra motivo para revisar el html (que es cuando ejecutaría la pipe). 
 
-- Nos bindeamos al evento que nos interese de la caja de búsqueda, para que cuando ocurra el evento Angular revise el html y se ejecute la pipe.
+- Nos enlazamos al evento que nos interese de la caja de búsqueda, para que cuando ocurra el evento Angular revise el html y se ejecute la pipe.
 
 _src/app/user/user-list/user-list.component.html_
 

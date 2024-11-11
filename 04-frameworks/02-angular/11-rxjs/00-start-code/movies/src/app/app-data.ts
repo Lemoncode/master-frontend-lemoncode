@@ -1,4 +1,4 @@
-import { InMemoryDbService } from 'angular-in-memory-web-api';
+import { InMemoryDbService, RequestInfo } from 'angular-in-memory-web-api';
 
 import { MovieData } from './movies/movie-data';
 import { ReviewData } from './reviews/review-data';

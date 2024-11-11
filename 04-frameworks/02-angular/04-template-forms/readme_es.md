@@ -9,7 +9,7 @@ Vamos a crear un formulario para añadir miembros a la lista.
 Qué vamos a aprender en este ejemplo:
 
 - Formularios template-driven
-- La directiva ngModel
+- La directiva `ngModel`
 - Directivas de atributo para validaciones
 - Variables de plantilla
 - Resaltar con CSS los campos no válidos
@@ -25,7 +25,9 @@ Pasos:
 npm install
 ```
 
-- Encendemos la aplicación:
+> NOTA: Podemos usar `npm ci` de esta forma instalaremos las dependencias existentes en `package-lock.json` en vez de regenerarlas.
+
+- Arrancamos la aplicación:
 
 ```bash
 ng serve
@@ -217,7 +219,7 @@ _src/app/user/user-list/user-list.component.html_
     <div>
         <label>Name </label>
 -        <input name="name" [(ngModel)]="newMember.login"/>
-+        <input name="name" [(ngModel)]="newMember.login" required minLength="6"/>
++        <input name="name" [(ngModel)]="newMember.login" required minlength="6"/>
     </div>
     <div>
         <label>Avatar </label>
@@ -228,7 +230,7 @@ _src/app/user/user-list/user-list.component.html_
 </div>
 ```
 
-- Aprovechamos las clases ng-xxxxx que pone ngModel a los input para dar estilos CSS según el estado de validez de los campos
+- Aprovechamos las clases `ng-xxxxx` que pone `ngModel` a los input para dar estilos CSS según el estado de validez de los campos
 
 _src/app/user/user-list/user-list.component.css_
 
@@ -295,7 +297,7 @@ _src/app/user/user-list/user-list.component.html_
 </div>
 ```
 
-- Utilizamos otra variable de plantilla (esta vez extendida de la clase `ngForm`) para deshabilitar el botón si algún campo no es válido:
+- Utilizamos otra variable de plantilla (esta vez extendida de la directiva `ngForm`) para deshabilitar el botón si algún campo no es válido:
 
 _src/app/user/user-list/user-list.component.html_
 

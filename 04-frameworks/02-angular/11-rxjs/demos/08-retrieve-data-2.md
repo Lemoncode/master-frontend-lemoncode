@@ -4,13 +4,13 @@ In this demo, we go back to our sample application and get the related data we n
 
 Open `movies/src/app/movies/movie.service.ts`
 
-We're looking at the `product.service` exactly how we left it from earlier. Recall that we are facing several issues.
+We're looking at the `movie.service` exactly how we left it from earlier. Recall that we are facing several issues.
 
 ```ts
-class ProductService {
-  getProduct(id: number): Observable<Product> {
-    const productUrl = `${this.productsUrl}/${id}`;
-    return this.http.get<Product>(productUrl).pipe(
+class MovieService {
+  getMovie(id: number): Observable<Movie> {
+    const movieUrl = `${this.moviesUrl}/${id}`;
+    return this.http.get<Movie>(movieUrl).pipe(
       tap(() => console.log("In http.get by id pipeline")),
       map((p) => this.getProductsWithReviews(p)),
       tap((x) => console.log(x)),

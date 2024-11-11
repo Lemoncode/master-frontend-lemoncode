@@ -16,7 +16,7 @@ Here in the UI, if we select a quantity, our selection is set into the signal. T
 
 Next let's try the `update` and use the current signal value to calculate a new value. We'll have a two‑for‑one sale. Use the update method to multiply the quantity by 2. 
 
-Here in the constructor, call this.quantity.update. We pass in an arrow function. The arrow function gets the current quantity from the signal, which we'll call q for quantity. On the right side of the arrow function, multiply q times 2. This multiplies the current value of the signal by 2 and updates the signal with the result. 
+Here in the constructor, call `this.quantity.update`. We pass in an arrow function. The arrow function gets the current quantity from the signal, which we'll call `q` for quantity. On the right side of the arrow function, multiply q times 2. This multiplies the current value of the signal by 2 and updates the signal with the result. 
 
 ```diff
 constructor() {
@@ -30,7 +30,7 @@ Notice that the initial value shown in the select box is now 2. If we pick anoth
 
 First, I'm going to jump ahead for a moment so we can log the values of our signals. I'll use what's called an `effect`. With an `effect`, we run code when a signal value changes. We'll talk more about signal effects shortly. For now, we'll create an `effect` that logs the value of our quantity. 
 
-In the constructor, call `effect`. Then use the Quick Fix to add the needed import. We pass in a function defining the code to execute. We'll pass in an arrow function. An effect doesn't have a parameter, so we use empty parentheses, then define what we want it to do. We'll log a description and our quantity signal. We've already mentioned that this console.log only executes one time when the constructor is first executed. An effect is scheduled to run any time its reference signals change. In this code, it is scheduled to run whenever the quantity signal changes. 
+In the constructor, call `effect`. Then use the Quick Fix to add the needed import. We pass in a function defining the code to execute. We'll pass in an arrow function. An effect doesn't have a parameter, so we use empty parentheses, then define what we want it to do. We'll log a description and our quantity signal. We've already mentioned that this console.log only executes one time when the constructor is first executed. An `effect` **is scheduled to run any time its reference signals change**. In this code, it is scheduled to run whenever the quantity signal changes. 
 
 ```diff
   constructor() {
@@ -58,7 +58,7 @@ In the UI, pick a quantity from the select box, I'll pick 5, and notice that **o
 
 When the quantity was changed to 5, then 67, then 42, the signal provided notification that the signal's value changed, but the effect didn't have an opportunity to run until after the method was finished executing. 
 
-When the effect did run, it read the current value of the signal, which was 42. It's important to remember that signals are quite different from observables. Signals do not emit values and signals don't provide callback functions for an immediate reaction. 
+When the effect did run, it read the current value of the signal, which was 42. It's important to remember that signals are quite different from observables. **Signals do not emit values and signals don't provide callback functions for an immediate reaction**. 
 
 Rather, signal changes provide a notification, and the code responds to that notification when it has a chance to execute. 
 

@@ -8,7 +8,7 @@ import { Movie } from '../movie';
   standalone: true,
   imports: [NgIf, NgClass, NgFor, MovieDetailComponent],
   templateUrl: './movie-list.component.html',
-  styles: ``
+  styles: ``,
 })
 export class MovieListComponent {
   // Just enough here for the template to compile

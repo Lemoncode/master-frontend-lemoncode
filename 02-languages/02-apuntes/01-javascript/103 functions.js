@@ -14,10 +14,11 @@ function saySomething() {
 
 console.log(typeof saySomething); // "function" Aunque en el fondo, es también un objeto.
 
-// Añadiendo argumentos
+// Declarando parámetros a la función
 function saySomething(arg1, arg2) {
   console.log(arg1, arg2);
 }
+// La invocamos pasandole argumentos a los parámetros declarados
 saySomething("hello", "world"); // hello world
 saySomething("hello"); // hello undefined
 saySomething(); // undefined undefined
@@ -36,7 +37,8 @@ console.log(saySomething("hello")); // hello undefined, false
 
 // VARIADIC FUNCTIONS
 
-// Argumentos dinámicos o variables (variadic functions) mediante el objeto iterable arguments
+// No declaramos parámetros estáticos sino que tomará argumentos dinámicos o variables
+// (variadic functions) mediante el objeto iterable arguments
 function logArguments() {
   console.log(arguments); // "arguments" es un objeto array-like (iterable)
 }

@@ -2,13 +2,15 @@
 
 ## Crear un nuevo proyecto
 
-Para crear un nuevo proyecto, ejecuta:
+Para crear un nuevo proyecto, ejecutamos el siguiente comando:
 
 ```bash
 npx sv create <your-app-name>
 ```
 
-Esto creará un nuevo directorio con el nombre `<your-app-name>` y una estructura de archivos básica para tu aplicación de Svelte.
+Después de seleccionar varias opciones para la configuración de tu proyecto (_template_, si quieres trabajar con _typescript_, _eslint_, _prettier_, etc.), el comando creará un nuevo proyecto de Svelte en la carpeta con el nombre `<your-app-name>` y una estructura de archivos básica para tu aplicación.
+
+Para los ejemplos seleccionaremos el _template_ `SvelteKit minimal`, _typescript_ y _prettier_.
 
 Abrimos la carpeta del proyecto e instalamos las dependencias del package.json que nos ha creado:
 

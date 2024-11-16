@@ -112,7 +112,7 @@ export const head: DocumentHead = {
 
 ```
 
-1. Use useResource$() to set up how the data is fetched from the server.
+1. Use `useResource$()` to set up how the data is fetched from the server.
 2. We need a way to re-run fetching data whenever the `github.org` changes. Use `track` to trigger re-running of the this data fetching function.
 3. A good practice is to use `AbortController` to abort the fetching of data if new request comes in. We create a new `AbortController` and register a `cleanup` function which is called when this function re-runs.
 4. Fetch the data and return the promises.

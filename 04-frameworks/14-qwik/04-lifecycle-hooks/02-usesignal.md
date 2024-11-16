@@ -1,36 +1,34 @@
 # useSignal
 
-We use `useSignal()` to store any single value. 
+We use `useSignal()` to store any single value.
 
-`useSignal` is heavily optimized when it comes to re-rendering components. It is able to skip re-renderings of parent components even when the signal itself is defined in the parent. `useSignal` works with all [primitive types](https://developer.mozilla.org/en-US/docs/Glossary/Primitive) as well as with not nested / flat objects. 
+`useSignal` is heavily optimized when it comes to re-rendering components. It is able to skip re-renderings of parent components even when the signal itself is defined in the parent. `useSignal` works with all [primitive types](https://developer.mozilla.org/en-US/docs/Glossary/Primitive) as well as with not nested / flat objects.
 
 > If you need to store arrays or complex objects use `useStore` instead.
 
 Some examples would be:
 
-Some examples would be:
-
 ```ts
 const intStore = useSignal(0);
-const stringStore = useSignal('foo');
+const stringStore = useSignal("foo");
 const booleanStore = useSignal(true);
-const objectStore = useSignal({fruit: 'apple', color: 'green'});
- 
+const objectStore = useSignal({ fruit: "apple", color: "green" });
+
 // DON'T DO THIS!
-const arrayStore = useSignal(['banana','oranges']);
+const arrayStore = useSignal(["banana", "oranges"]);
 const nestedObjectStore = useSignal({
   fruits: {
     banana: 10,
-    apple: 5
+    apple: 5,
   },
   vegetables: {
     tomato: 7,
-    broccoli: 14
-  }
+    broccoli: 14,
+  },
 });
 ```
 
-To read or update the values you can simply access the value property:
+To read or update the values you can simply access the _value_ property:
 
 ```tsx
 <>
@@ -83,7 +81,6 @@ export default component$(() => {
     </main>
   );
 });
-
 ```
 
 If we run the code now it's not going to work, because the reference is not assing to `aside`

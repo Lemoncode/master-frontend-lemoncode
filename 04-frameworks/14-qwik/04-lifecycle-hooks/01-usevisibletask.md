@@ -101,7 +101,7 @@ import { Clock } from "~/components/clock";
 
 export default component$(() => {
   return (
-    <main style={{ backgroundColor: "black", color: "white" }}>
+    <main style={{ backgroundColor: "black", color: "white", fontFamily: 'sans-serif' }}>
       <p>
         This is an example of Lazy executing code on component when component
         becomes visible.

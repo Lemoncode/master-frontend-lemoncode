@@ -37,7 +37,7 @@ class SearchBar extends HTMLElement {
     container.appendChild(iconContainer);
     this.appendChild(container);
     /*diff*/
-    this.dispacthMyEvent();
+    this.dispatchMyEvent();
     /*diff*/
   }
 
@@ -48,7 +48,7 @@ class SearchBar extends HTMLElement {
     return placeholder;
   }
   /*diff*/
-  dispacthMyEvent() {
+  dispatchMyEvent() {
     const myEvent = eventFact("myEvent", {
       bubbles: true, // [1]
       cancelable: false, // [2]

@@ -160,3 +160,15 @@ If we inspect the developer tools we're able to see inside `search-bar`, the new
   background-color: #c7d0f8;
 }
 ```
+
+Update `index.html`
+
+```diff
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Web Components</title>
++ <link rel="stylesheet" href="style.css">
+</head>
+```

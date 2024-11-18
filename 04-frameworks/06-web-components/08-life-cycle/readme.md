@@ -6,13 +6,13 @@ The DOM manipulation is something that we will align to `lifecycle callbacks`
 
 ## connectedCallback
 
-The connectedCallback method is run whenever your element gets attached to the document, either by the HTML parser or by any JavaScript that appends it to a parent element. This is where you probably want to put most of your actual setup code, but be aware that `connectedCallback` can be run multiple times if your element is moved around.
+The `connectedCallback` method is run whenever your element gets attached to the document, either by the HTML parser or by any JavaScript that appends it to a parent element. This is where you probably want to put most of your actual setup code, but be aware that `connectedCallback` can be run multiple times if your element is moved around.
 
 Set up for HTML template and events.
 
 ## disconnectedCallback
 
-As the name implies, this method gets called when your element is disconnected from the document. It's a good place to put any cleanup code: removing observers or event listeners that might have been added in `connectedCallback()`. Don't assume that this will be called once for each connectedCallback(), either before or after.
+As the name implies, this method gets called when your element is disconnected from the document. It's a good place to put any cleanup code: removing observers or event listeners that might have been added in `connectedCallback()`. Don't assume that this will be called once for each `connectedCallback()`, either before or after.
 
 ## attributeChangedCallback
 
@@ -33,6 +33,20 @@ static get observedAttributes() {
 ## Step by step
 
 ### 1. Using `connectedCallback`
+
+Update `index.html`
+
+```diff
+  <body style="font-family: Arial, Helvetica, sans-serif">
+    <h1>Web Componentes</h1>
+    <p>Custom Element</p>
+
+    <search-bar id="searchbar" ph="buscar..."></search-bar>
+-   <div is="search-bar"></div>
+    <script type="module" src="searchbar.js"></script>
+    <script type="module" src="main.js"></script>
+  </body>
+```
 
 Update `searchbar.js`
 

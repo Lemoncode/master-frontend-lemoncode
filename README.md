@@ -5,14 +5,14 @@ En este repositorio podrás encontrar el código fuentes de las demos y ejemplos
 En muchos de los ejemplos encontrarás guías paso a paso para poder reproducirlos.
 
 Las áreas que se cubren:
-  - **Layout:** Building layouts with HMTL / CSS 3, SASS...
+  - **Layout:** Building layouts with HMTL / CSS 3, SASS, TailWind...
   - **Lenguajes:** Javascript ES5, ES6, Typescript.
-  - **Bundling:** Webpack / Parcel.
-  - **Frameworks:** React, Vuejs, Angular.
-  - **Testing**: Jest, React Testing Library.
+  - **Bundling:** Webpack / Vite.
+  - **Frameworks:** React, Vuejs, Angular, SolidJS, Svelte, Astro.
+  - **Testing**: Jest, Vitest React Testing Library, Cypress, Playwright.
   - **Rest-api**: fetch, axios, graphql.
-  - **Cloud**: demos heroku, amazon, azure + docker + github actions.
-  - **Mobile**: PWA, React Native, (proximamente Flutter).
+  - **Cloud**: render, amazon, azure + docker + github actions.
+  - **Mobile**: PWA, React Native.
  
 # ¿Te animas a cursar nuestro Máster?
 

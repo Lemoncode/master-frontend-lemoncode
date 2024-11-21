@@ -57,13 +57,19 @@ const student = {
   country: {
     id: 21,
     name: "Spain",
-    iso3: "SPA",
+    iso: "ES",
   },
 };
-const { name, country: { name: countryName, iso3 } } = student;
+const { name, country: { name: countryName, iso } } = student;
 console.log(name); // "Evan"
 console.log(countryName); // "Spain"
-console.log(iso3); // "SPA"
+console.log(iso); // "ES"
+
+// IMPORTANTE ⚠ incluso podemos capturar 2 veces una misma propiedad, por ejemplo,
+// para quedarnos con ella pero además hacer destructuring en profundidad también:
+const { country: { name: countryName, iso }, country } = student;
+console.log(country); // { ... }
+console.log(countryName, iso); // "Spain", "ES"
 
 // Incluso podemos aplicar "destructuring" sobre objetos que se pasan como argumento de una
 // función:
@@ -104,8 +110,8 @@ console.log(third); // "Ana"
 
 // Se puede aplicar "destructuring" sobre arrays pasados como argumento de una función:
 const students = ["Alan", "Evan", "Ana"];
-const getSecond = ([, second]) => second;
-console.log(getSecond(students)); // "Evan"
+const logSecond = ([, second]) => console.log(second);
+logSecond(students); // "Evan"
 
 // También se puede aplicar "destructuring" profundo en arrays bidimensionales.
 const matrix = [
@@ -117,6 +123,14 @@ const matrix = [
 const [, [, center]] = matrix;
 console.log(center); // 10;
 
+// IMPORTANTE ⚠: También se puede aplicar destructuring mixto, esto es, mezclar
+// desctructuring de arrays y de objetos, en cualquier orden. Para ilustrarlo, 
+// vamos a descomponer el array interior de la matriz con destructuring de objetos
+// puesto que recordad: los arrays son objetos.
+const [, { 1: center }] = matrix;
+console.log(center); // 10;
+
+
 // "DESTRUCTURING" PARA REASIGNAR VARIABLES
 
 // Se pueden hacer cosas bastante bizarras con el destructuring, como por ejemplo hacer un swap de
@@ -126,7 +140,7 @@ let a = "a";
 let b = "b";
 
 // Swap clásico, nos tenemos que apoyar en variables auxiliares
-let temp = a;
+const temp = a;
 a = b;
 b = temp;
 

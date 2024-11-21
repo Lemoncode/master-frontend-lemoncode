@@ -49,13 +49,13 @@ _./src/pages/about.astro_
  const pageTitle = "Acerca de dinámico";
 
 +  const identity = {
-+    firstName: "Sarah",
-+    country: "Canada",
-+    occupation: "Technical Writer",
-+    hobbies: ["photography", "birdwatching", "baseball"],
++    firstName: "Paquillo",
++    country: "Argentina",
++    occupation: "Programador",
++    hobbies: ["fotografía", "beber cerveza", "futbol"],
 +  };
 +
-+  const skills = ["HTML", "CSS", "JavaScript", "React", "Astro", "Writing Docs"];
++  const skills = ["HTML", "CSS", "JavaScript", "React", "Astro"];
 ---
 <html lang="en">
 ```
@@ -94,6 +94,48 @@ _./src/pages/about.astro_
 -  const skills = ["HTML", "CSS", "JavaScript", "React", "Astro", "Writing Docs"];
 + const skills: string[] = ["HTML", "CSS", "JavaScript", "React", "Astro", "Writing Docs"];
 ---
+```
+
+> Estos valores los podríamos haber leido de una API Rest por ejemplo.
+
+Y ahora lo vamos a usar:
+
+_./src/pages/about.astro_
+
+```diff
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <a href="/">Home</a>
+    <a href="/blog">Blog</a>
+    <a href="/about/">About</a>
+
+    <h1>{pageTitle}</h1>
+    <h2>Y mi nuevo blog</h2>
+
+    <p>Esta es la página de "acerca de".</p>
+
+-    <p>Aquí iría to BIO</p>
+<p>Here are a few facts about me:</p>
++  <ul>
++    <li>Me llamo {identity.firstName}.</li>
++    <li>vivo en {identity.country} y trabajo com {identity.occupation}.</li>
++    {identity.hobbies.length >= 2 &&
++      <li>Dos de mis hobbies son: {identity.hobbies[0]} and {identity.hobbies[1]}</li>
++    }
++  </ul>
++  <p>Mis skills:</p>
++  <ul>
++    {skills.map((skill) => <li>{skill}</li>)}
++  </ul>
+  </body>
+</html>
 ```
 
 Si te fijas prettier no está formateando el código, tenemos que hacer una serie de pasos:

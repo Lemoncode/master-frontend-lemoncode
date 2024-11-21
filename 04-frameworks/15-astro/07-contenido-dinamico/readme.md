@@ -138,6 +138,44 @@ _./src/pages/about.astro_
 </html>
 ```
 
+También esto soporte rendering condicional como en React:
+
+_./src/pages/about.astro_
+
+```diff
+---
+import type { Identity } from "./about.model.ts";
+
+const pageTitle = "Acerca de dinámico";
+
+const identity = {
+  firstName: "Paquillo",
+  country: "Argentina",
+  occupation: "Programador",
+  hobbies: ["fotografía", "beber cerveza", "futbol"],
+};
+
+const skills = ["HTML", "CSS", "JavaScript", "React", "Astro"];
+
++ const happy = true;
++ const finished = false;
++ const goal = 3;
+---
+```
+
+```diff
+<p>Mis skills</p>
+<ul>
+  {skills.map((skill) => <li>{skill}</li>)}
+</ul>
++ {happy && <p>Estoy mu contento !</p>}
+
++ {finished && <p>He completado este tutorial</p>}
+
++ {goal === 3 ? <p>Mi meta es completarlo en 3 días.</p> : <p>Pues no llevo tres días.</p>}
+```
+
+
 Si te fijas prettier no está formateando el código, tenemos que hacer una serie de pasos:
 
 - Instalar el plugin de prettier para astro

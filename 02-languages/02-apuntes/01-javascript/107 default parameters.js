@@ -1,6 +1,6 @@
 ///-- DEFAULT PARAMETERS *************************************************************************
 
-// OBJETOS
+// FUNCIONES
 
 // A partir de ES6 podemos asignar valores por defecto a los parámetros de una función:
 const greet = (name = "Unknown") => console.log(`Hello, ${name}!`);
@@ -57,7 +57,7 @@ const greet = user => {
 
 greet({ name: null }); // Hello, Unknown!
 
-// ARRAYS
+// // DESTRUCTURING ASSIGNMENT en ARRAYS
 
 // Ejemplo con arrays:
 const sumDice = ([d1 = 0, d2 = 0] = []) => d1 + d2;

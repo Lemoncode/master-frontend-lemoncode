@@ -1,0 +1,65 @@
+---
+import type { Identity } from "./about.model.ts";
+
+const pageTitle = "Acerca de dinámico";
+
+const identity = {
+  firstName: "Paquillo",
+  country: "Argentina",
+  occupation: "Programador",
+  hobbies: ["fotografía", "beber cerveza", "futbol"],
+};
+
+const skills = ["HTML", "CSS", "JavaScript", "React", "Astro"];
+const happy = true;
+const finished = false;
+const goal = 3;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <a href="/">Home</a>
+    <a href="/blog">Blog</a>
+    <a href="/about/">About</a>
+
+    <h1>{pageTitle}</h1>
+    <h2>Y mi nuevo blog</h2>
+
+    <p>Esta es la página de "acerca de".</p>
+
+    <ul>
+      <li>Me llamo {identity.firstName}.</li>
+      <li>vivo en {identity.country} y trabajo com {identity.occupation}.</li>
+      {
+        identity.hobbies.length >= 2 && (
+          <li>
+            Dos de mis hobbies son: {identity.hobbies[0]} and{" "}
+            {identity.hobbies[1]}
+          </li>
+        )
+      }
+    </ul>
+    <p>Mis skills</p>
+    <ul>
+      {skills.map((skill) => <li>{skill}</li>)}
+    </ul>
+    {happy && <p>Estoy mu contento !</p>}
+
+    {finished && <p>He completado este tutorial</p>}
+
+    {
+      goal === 3 ? (
+        <p>Mi meta es completarlo en 3 días.</p>
+      ) : (
+        <p>Pues no llevo tres días.</p>
+      )
+    }
+  </body>
+</html>

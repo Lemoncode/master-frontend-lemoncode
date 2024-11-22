@@ -1,0 +1,56 @@
+---
+import type { MarkdownInstance } from "astro";
+import BaseLayout from "../../layouts/base.astro";
+import type { Frontmatter } from "../../models/blog-post-frontmatter";
+
+// Tipar las props
+interface Props {
+  posts: MarkdownInstance<Frontmatter>[];
+}
+
+// Define los tipos para las rutas estáticas
+interface StaticPath {
+  params: {
+    tag: string;
+  };
+  props: Props;
+}
+
+export async function getStaticPaths(): Promise<StaticPath[]> {
+  const allPosts = await Astro.glob<Frontmatter>("../posts/*.md");
+
+  return [
+    { params: { tag: "astro" }, props: { posts: allPosts } },
+    { params: { tag: "blogging" }, props: { posts: allPosts } },
+    { params: { tag: "hola mundo" }, props: { posts: allPosts } },
+    { params: { tag: "learning in public" }, props: { posts: allPosts } },
+    { params: { tag: "successes" }, props: { posts: allPosts } },
+  ];
+}
+
+// Tipar los parámetros que recibe la página
+interface Params {
+  tag: string;
+}
+
+const { tag } = Astro.params as Params;
+const { posts } = Astro.props;
+
+// Ahora sacamos la lista de posts que tengan el tag
+const filteredPosts = posts.filter((post) =>
+  post.frontmatter.tags?.includes(tag),
+);
+---
+
+<BaseLayout pageTitle={tag}>
+  <p>Posts tagged with {tag}</p>
+  <ul>
+    {
+      filteredPosts.map((post) => (
+        <li>
+          <a href={post.url}>{post.frontmatter.title}</a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

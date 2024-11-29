@@ -14,6 +14,8 @@ Para ello creamos un archivo `.github/workflows/deploy.yml`:
 
 > A tener en cuenta, hay unas acciones específicas para Astro y desplegar en Github Pages, pero no las vamos a usar, vamos a hacerlo a mano.
 
+> Recordatorio hay un plugin de Read Hat para VSCode para darle soporte a YML.
+
 _.github/workflows/deploy.yml_
 
 ```yml

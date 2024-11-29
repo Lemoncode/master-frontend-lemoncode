@@ -34,7 +34,7 @@ const pageTitle = "Home Page";
 </html>
 ```
 
-Hasta aquí más o menos, pero entre el _header_ y el _footer_ tiene que ir el contenido ¿Qué hacemos? En React tenemos la propiedad _children_ que nos permite hacer esto, en Astro tenemos algo parecido, se llama _slot_.
+Hasta aquí más o menos, pero entre el _header_ y el _footer_ tiene que ir el contenido. ¿Qué hacemos? En React tenemos la propiedad _children_ que nos permite hacer esto, en Astro tenemos algo parecido, se llama _slot_.
 
 ```diff
   <body>
@@ -43,7 +43,7 @@ Hasta aquí más o menos, pero entre el _header_ y el _footer_ tiene que ir el c
 +   <slot />
     <Footer />
     <script>
-      import "../scripts/menu.js";
+      import "../scripts/hamburger.ts";
     </script>
   </body>
 ```
@@ -82,7 +82,7 @@ _./src/pages/index.astro_
 -</html>
 ```
 
-Nos falta un detalle, para el _h1_ del layout base, lo suyo es poder pasarle el contenido por prop, vamos a ello:
+Nos falta un detalle, para el _h1_ del layout base, lo suyo es poder pasarle el contenido por props, vamos a ello:
 
 _./src/layouts/base.astro_
 
@@ -149,7 +149,7 @@ _./src/pages/blog.astro_
       <li><a href="/posts/post-2/">Post 2</a></li>
       <li><a href="/posts/post-3/">Post 3</a></li>
     </ul>
-+ <BaseLayout>
++ </BaseLayout>
   </body>
 </html>
 ```
@@ -159,6 +159,7 @@ _./src/pages/about.astro_
 ```diff
 ---
 - import "../styles/global.css";
++ import BaseLayout from "../layouts/base.astro";
 import type { Identity } from "./about.model.ts";
 - import Navigation from "../components/navigation.astro";
 

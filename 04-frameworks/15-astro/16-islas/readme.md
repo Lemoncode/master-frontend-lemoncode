@@ -1,15 +1,15 @@
 # Islas
 
-Hasta ahora hemos visto como generar contenido estático en nuestro sitio Astro, y también ejecutar JS en el navegador, pero hay veces que nos hace falta meter componentes ricos, y hacerlos a pelo en vanilla JS puede ser un infierno ¿Qué podemos hacer? Astro nos permite meter componentes de React, Vue, Svelte, Angular, etc. en nuestro sitio, para ello utilizan el
+Hasta ahora hemos visto como generar contenido estático en nuestro sitio Astro, y también ejecutar JS en el navegador, pero hay veces que nos hace falta meter componentes ricos, y hacerlos a pelo en vanilla JS puede ser un infierno. ¿Qué podemos hacer? Astro nos permite meter componentes de React, Vue, Svelte, Angular, etc. en nuestro sitio, para ello utilizan el
 concepto de "islas".
 
 Vamos a:
 
-- Añadir un framework de UI, en este caso PReact.
+- Añadir un framework de UI, en este caso Preact.
 - Usar Preact para crear un componente interactivo de saludos.
 - Aprender cuando NO usar islas.
 
-> ¿Por qué usar PReact? porque es una librería muy ligera (pesa 3KB)
+> ¿Por qué usar Preact? porque es una librería muy ligera (pesa 3KB)
 
 # Manos a la obra
 
@@ -50,7 +50,7 @@ const Greeting: FunctionComponent<GreetingProps> = ({ messages }) => {
 export default Greeting;
 ```
 
-Y ahora vamos a suarlo en nuestra página principal:
+Y ahora vamos a usarlo en nuestra página principal:
 
 _./src/pages/index.astro_
 
@@ -80,4 +80,4 @@ _./src/pages/index.astro_
 </BaseLayout>
 ```
 
-Con esto ya tenemos el componente funcionando en cliente.
+Con esto, ya tenemos el componente funcionando en cliente.

@@ -63,11 +63,11 @@ jobs:
         uses: actions/deploy-pages@v1
 ```
 
-¿Qué pasos seguimos aquí? Le estoy indicando
+¿Qué pasos seguimos aquí? Le estoy indicando:
 
 - Que cuando se haga un push a main, se dispare esta acción.
 
-- Definimos los permisos que necesita esta acción (por ejemplo que tenga permisos de escritura en Github Pages).
+- Definimos los permisos que necesita esta acción (por ejemplo, que tenga permisos de escritura en Github Pages).
 
 - Le decimos que vamos a tener dos jobs:
 
@@ -87,7 +87,7 @@ jobs:
   - Le decimos que necesita el primer job (que lo ejecute).
   - Con el resultado del primer job, que suba el contenido a Github Pages.
 
-Vamo a hacer un commit un push y ver que pasa...
+Vamos a hacer un commit y un push y ver que pasa...
 
 En este caso el deploy nos falla, porque no hemos configurado Github Pages en el repo.
 
@@ -95,7 +95,7 @@ En este caso el deploy nos falla, porque no hemos configurado Github Pages en el
 Error: Error: Failed to create deployment (status: 404) with build version c66b3eb208d20489468f73217b174641f7b469a3. Ensure GitHub Pages has been enabled: https://github.com/brauliodiez/otra-prueba-astro/settings/pages
 ```
 
-Nos vamos a lo settings y lo configuramos (seccion pages >> elegir rama main).
+Nos vamos a los settings y lo configuramos (sección pages >> elegir rama main).
 
 ![Drawer menu settings pages](./content/settings-menu.png)
 
@@ -107,7 +107,7 @@ Si no se ha relanzado, podemos probar a lanzarlo manualmente desde el tab de _ac
 
 Tu página será:
 
-http://<aliasgithub>.github.io/<nombre-repo>
+http://\<aliasgithub>.github.io/\<nombre-repo>
 
 https://brauliodiez.github.io/otra-prueba-astro/
 

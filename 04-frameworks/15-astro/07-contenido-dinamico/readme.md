@@ -121,13 +121,13 @@ _./src/pages/about.astro_
 
     <p>Esta es la página de "acerca de".</p>
 
--    <p>Aquí iría to BIO</p>
+-    <p>Aquí iría tu BIO</p>
 <p>Here are a few facts about me:</p>
 +  <ul>
 +    <li>Me llamo {identity.firstName}.</li>
-+    <li>vivo en {identity.country} y trabajo com {identity.occupation}.</li>
++    <li>vivo en {identity.country} y trabajo como {identity.occupation}.</li>
 +    {identity.hobbies.length >= 2 &&
-+      <li>Dos de mis hobbies son: {identity.hobbies[0]} and {identity.hobbies[1]}</li>
++      <li>Dos de mis hobbies son: {identity.hobbies[0]} y {identity.hobbies[1]}</li>
 +    }
 +  </ul>
 +  <p>Mis skills:</p>
@@ -138,7 +138,7 @@ _./src/pages/about.astro_
 </html>
 ```
 
-También esto soporte rendering condicional como en React:
+También esto soporta rendering condicional como en React:
 
 _./src/pages/about.astro_
 
@@ -168,7 +168,7 @@ const skills = ["HTML", "CSS", "JavaScript", "React", "Astro"];
 <ul>
   {skills.map((skill) => <li>{skill}</li>)}
 </ul>
-+ {happy && <p>Estoy mu contento !</p>}
++ {happy && <p>Estoy mu contento!</p>}
 
 + {finished && <p>He completado este tutorial</p>}
 

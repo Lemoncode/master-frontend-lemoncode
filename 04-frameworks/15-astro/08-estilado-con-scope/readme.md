@@ -1,6 +1,6 @@
 # Estilado con Scope
 
-Vamos a cubrir un tema interesante y es el estilado.
+Vamos a cubrir un tema interesante, y es el estilado.
 
 En Astro podemos tener dos tipos de estilos:
 
@@ -11,7 +11,7 @@ Arrancamos con los locales.
 
 # Manos a la obra
 
-Una forma muy aceptada de usar estilos en Astro es metiendolos dentro del propios fichero.
+Una forma muy aceptada de usar estilos en Astro es metiendolos dentro del propio fichero.
 
 Vamos a empezar por estilar los _h1_
 
@@ -34,7 +34,7 @@ _./src/pages/about.astro_
   </head>
 ```
 
-Como puedes ver el _h1_ estilado se muestra solo en la página de _about_.
+Como puedes ver el _h1_ estilado se muestra sólo en la página de _about_.
 
 Vamos a añadir una clase:
 
@@ -132,7 +132,7 @@ import type { Identity } from "./about.model.ts";
     </ul>
 ```
 
-¿Por qué volvemos? Porque en el `style` de astro nos trae azucar para definir variable CSS.
+¿Por qué volvemos? Porque en el `style` de astro nos trae azúcar para definir variables CSS.
 
 Vamos a defininir una variable con el color de los skills.
 

@@ -70,7 +70,9 @@ y
 
 Vamos a probarlo
 
+```bash
 npm run dev
+```
 
 También podemos sacar los estilos fuera, le metemos el prefijo _.modules_ para que tenga scope
 Si lo ponemos sin modules:
@@ -89,7 +91,7 @@ _./src/pages/about.astro_
 ```diff
 ---
 import type { Identity } from "./about.model.ts";
-+ import styles from "./about.css";
++ import styles from "./about.module.css";
 
 const pageTitle = "Acerca de dinámico";
 ```

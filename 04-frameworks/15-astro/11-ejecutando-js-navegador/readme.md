@@ -10,7 +10,7 @@ Vamos a ello.
 
 El menú de cabecera sólo funciona bien si estamos en escritorio, si nos vamos a resolucón de móvil, nos haría falta ocultar el menú horizontal y mostrar un menú hamburguesa, para eso nos hace falta JavaScript.
 
-Creamos un component Hamburguer.
+Creamos un component Hamburguer (la opción del menú con tres lineas)
 
 _./src/components/hamburger.astro_
 
@@ -123,6 +123,7 @@ h1 {
     display: inline-block;
     padding: 15px 20px;
   }
+  /* OJO ESTO DENTRO DE LA MEDIA QUERY*/
 +  .hamburger {
 +    display: none;
 +  }

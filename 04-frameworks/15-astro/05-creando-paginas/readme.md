@@ -90,7 +90,7 @@ _./src/layouts/about.astro_
     <h2>Y mi nuevo blog</h2>
 ```
 
-Y ya que estamos en la págia principal:
+Y ya que estamos en la página principal:
 
 _./src/layouts/index.astro_
 

@@ -249,11 +249,7 @@ const day: WorkingDay = "sunday"; // TS error: '"sunday"' is not assignable to t
 
 // También es aplicable a números literales:
 type Dice = 1 | 2 | 3 | 4 | 5 | 6;
-const throwDice = (): Dice => {
-  const randomNum = Math.ceil(Math.random() * 6);
-  return (randomNum !== 0 ? randomNum : 1) as Dice;
-  // return 6; // Dado trucado MUAHAHAHAHA.
-};
+const throwDice = (): Dice => Math.floor(Math.random() * 6 + 1) as Dice;
 
 
 // *** TEMPLATE LITERALS ************************
@@ -275,28 +271,20 @@ type MyDayWithScale = `${DayMood} ${WorkingDay} - Level ${1 | 2 | 3}`;
 // tipo concreto:
 
 // -- Caso Base --
-interface Week {
-  monday: string;
-  tuesday: string;
-  wednesday: string;
-  thursday: string;
-  friday: string;
-  saturday: string;
-  sunday: string;
+interface Person {
+  name: string;
+  age: number;
+  adult: boolean;
 }
-type Day = keyof Week;
+type PersonKey = keyof Person; // type PersonKey = "name" | "age" | "adult";
 
 // -- Caso Práctico --
-const showProps = <O extends object>(obj: O, ...keys: (keyof O)[]): void => {
-  keys.forEach((key) => console.log(obj[key]));
+const showProps = <O extends object>(obj: O, ...keys: (keyof O)[]) => {
+  keys.forEach(key => console.log(key, obj[key]));
 };
 
-const dev = {
-  type: "frontend",
-  languages: ["js", "css", "html"],
-  senior: true,
-};
-showProps(dev, "type", "languages"); // Check intellisense!;
+const javi: Person = { name: "Javi", age: 41, adult: true };
+showProps(javi, "adult", "color"); // Check intellisense!;
 
 
 // *** TIPOS MAPEADOS (MAPPED TYPES) ***************

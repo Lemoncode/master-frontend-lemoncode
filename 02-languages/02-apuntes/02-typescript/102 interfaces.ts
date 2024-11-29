@@ -60,9 +60,9 @@ pos.lat = 3.4567; // [ts] Cannot assign to 'lat' because it is a read-only prope
 // por ejemplo:
 
 interface Address {
-  zipCode: number;
-  city: string;
   street: string;
+  zip: number;
+  city: string;
 }
 
 interface Coord {
@@ -75,9 +75,9 @@ const place: Coord = {
   lat: 3.3112,
   lon: 5.1123,
   address: {
-    city: "Málaga",
     street: "Héroes de Sostoa",
-    zipCode: 29002,
+    zip: 29002,
+    city: "Málaga",
   },
 };
 
@@ -85,9 +85,9 @@ const place: Coord = {
 // una interfaz puede extender de otra para combinar propiedades:
 
 interface Address {
-  zipCode: number;
-  city: string;
   street: string;
+  zip: number;
+  city: string;
 }
 
 interface Coord {
@@ -103,9 +103,9 @@ const place: Place = {
   lat: 3.3112,
   lon: 5.1123,
   address: {
-    city: "Málaga",
     street: "Héroes de Sostoa",
-    zipCode: 29002,
+    zip: 29002,
+    city: "Málaga",
   },
 };
 
@@ -115,9 +115,9 @@ interface Place extends Coord, Address {}
 const place: Place = {
   lat: 3.3112,
   lon: 5.1123,
-  city: "Málaga",
   street: "Héroes de Sostoa",
-  zipCode: 29002,
+  zip: 29002,
+  city: "Málaga",
 };
 
 // *** Duck typing ********************************************************************************

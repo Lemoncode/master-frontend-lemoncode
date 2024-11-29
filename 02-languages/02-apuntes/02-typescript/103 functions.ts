@@ -1,7 +1,7 @@
 ///-- FUNCIONES ***********************************************************************************
 
 // Tipar una función en TypeScript no es más que especificar los tipos de los argumentos que recibe
-// y el tipo del valor que devuelve. Es importante tener en cuenta que aquellos argumentos que
+// y el tipo del valor que devuelve. Es importante tener en cuenta que aquellos parámetros que
 // especifiquemos serán obligatorios, a menos que usemos un modificador de opcionalidad:
 
 // Veamos un primer ejempo con funciones clásicas:
@@ -60,41 +60,55 @@ const shout: ShoutFunction = (text, upperCase = true) =>
 console.log(shout("hi"));
 
 
+// OPCIONAL: Reusando tipados de función con alias
+
+type TextModifierFn = (text: string, modifier?: boolean) => string;
+
+const shout: TextModifierFn = (text, upperCase = false) =>
+  (upperCase ? text.toUpperCase() : text) + "!!!";
+
+const hyphenize: TextModifierFn = (text, snake = false) => text.replace(" ", snake ? "_" : "-");
+
+console.log(shout("hello world", true)); // HELLO WORLD!!!
+console.log(hyphenize("hello world")); // hello-world
+console.log(hyphenize("hello world", true)); // hello_world
+
+
 // *** Funciones como argumentos ******************************************************************
 
 // En el caso de pasar funciones como argumentos de otras, podemos tipar en línea dichos argumentos 
 // del siguiente modo:
 
-const shout = (text: string, getNumExclamation: () => number): string =>
-  text.toUpperCase() + "!".repeat(getNumExclamation());
+const shout = (text: string, exclamationCallback: () => string) =>
+  text.toUpperCase() + exclamationCallback();
 
-const getRandom = () => Math.ceil(Math.random() * 10); // Este es mi callback.
+const exclamationGenerator = () => "!".repeat(Math.ceil(Math.random() * 10)); // Callback
 
-console.log(shout("WoW", getRandom));
-console.log(shout("WoW", getRandom));
-console.log(shout("WoW", getRandom));
-console.log(shout("WoW", getRandom));
-console.log(shout("WoW", getRandom));
-console.log(shout("WoW", getRandom));
+console.log(shout("WoooW", exclamationGenerator));
+console.log(shout("WoooW", exclamationGenerator));
+console.log(shout("WoooW", exclamationGenerator));
+console.log(shout("WoooW", exclamationGenerator));
+
 
 
 // *** Sobrecarga de funciones ********************************************************************
 
-function switchType(c: string): number;
-function switchType(c: number): string;
-function switchType(c: any) {
-  if (typeof c === "string") {
-    return Number(c);
-  } else {
-    return String(c);
-  }
+function switchType(arg: number): string;
+function switchType(arg: string): number;
+function switchType(arg: string | number): string | number {
+  if (typeof arg === "string") return Number(arg);
+  else return String(arg);
 }
 
-const r1 = switchType(3);
-const r2 = switchType("65");
-const r3 = switchType({}); // [ts] Argument of type '{}' is not assignable to parameter of type 'number'
+const result1 = switchType("105");
+console.log(result1, typeof result1);
 
-// ⚠ Es posible sobrecargar funciones con diferente número de argumentos.
+const result2 = switchType(105);
+console.log(result2, typeof result2);
+
+switchType({});
+        // ^^^ [ts] 1/2 Argument of type '{}' is not assignable to parameter of type 'number'
+        // ^^^ [ts] 2/2 Argument of type '{}' is not assignable to parameter of type 'string'
 
 
 // *** Tipando funciones con interfaces ***********************************************************

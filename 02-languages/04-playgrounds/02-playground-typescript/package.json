@@ -26,9 +26,9 @@
   },
   "scripts": {
     "prestart": "npm run transpile && npm run copy",
-    "start": "concurrently \"npm:transpile -- -w\" npm:devserver",
+    "start": "concurrently \"npm:transpile -- --watch\" npm:devserver",
     "copy": "copyfiles --flat src/**/*.{html,css} transpiled",
-    "transpile": "tsc",
+    "transpile": "tsc --pretty",
     "devserver": "browser-sync start -c bs-config.json"
   },
   "dependencies": {

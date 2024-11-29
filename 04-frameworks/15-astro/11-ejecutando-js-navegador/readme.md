@@ -2,15 +2,15 @@
 
 Hasta ahora todo el código que hemos escrito se ha ejecutado en nuestra máquina local en tiempo de generación de las páginas HTML finales.
 
-Pero ¿Qué pasa si necesito ejecutar JavaScript en el navegador? Es muy normal quere meter interactividad más avanzada y no sólo HTML.
+Pero, ¿Qué pasa si necesito ejecutar JavaScript en el navegador? Es muy normal querer meter interactividad más avanzada y no sólo HTML.
 
 Vamos a ello.
 
 # Manos a la obra
 
-El menú de cabecera sólo funciona bien si estamos en escritorio, si nos vamos a resolucón de móvil, nos haría falta ocultar el menú horizontal y mostrar un menú hamburguesa, para eso nos hace falta JavaScript.
+El menú de cabecera sólo funciona bien si estamos en escritorio, si nos vamos a resolución de móvil, nos haría falta ocultar el menú horizontal y mostrar un menú hamburguesa, para eso nos hace falta JavaScript.
 
-Creamos un component Hamburguer (la opción del menú con tres lineas)
+Creamos un componente Hamburguer (la opción del menú con tres lineas)
 
 _./src/components/hamburger.astro_
 
@@ -24,7 +24,7 @@ _./src/components/hamburger.astro_
 </div>
 ```
 
-Vamos crear un componente de cabecera
+Vamos a crear un componente de cabecera
 
 _./src/components/header.astro_
 
@@ -184,7 +184,7 @@ _./src/pages/index.astro_
 </html>
 ```
 
-Esto no está mal, pero primero estamos metiendo JS dentro de la página, algo un poco feo y por otro lado no podemos usar _TypeScript_ vamos a sacar esto a un fichero externo.
+Esto no está mal, pero, primero estamos metiendo JS dentro de la página, algo un poco feo y por otro lado, no podemos usar _TypeScript_ vamos a sacar esto a un fichero externo.
 
 Primero eliminamos lo que habíamos incluido:
 

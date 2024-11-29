@@ -2,11 +2,11 @@
 
 Vamos a ver como podemos hacer para poder leer listas de ficheros en nuestro proyecto Astro.
 
-En concreto vamos a leer la lista de posts que tenemos y mostrarla en una página de listado de posts.
+En concreto, vamos a leer la lista de posts que tenemos y mostrarla en una página de listado de posts.
 
 # Manos a la obra
 
-Tenemos una página con un listado de posts `blog.astro`, vamos a leer lost posts de la lista de markdowns que tenemos y mostrarlos.
+Tenemos una página con un listado de posts `blog.astro`, vamos a leer los posts de la lista de markdowns que tenemos y mostrarlos.
 
 _./src/pages/blog.astro_
 
@@ -66,7 +66,7 @@ _./src/pages/posts/post-4.md_
 ```md
 ---
 layout: ../../layouts/markdown-post.astro
-title: Cuarto Post
+title: Cuarto post
 author: Lemoncode
 description: "Este post lo creamos y se muestra del tirón"
 image:
@@ -79,4 +79,4 @@ tags: ["astro", "successes"]
 Este es el cuarto post, si tenemos el proyecto arrancado, se regenerará y mostrará este cuarto post
 ```
 
-Y ahora podrás pensar, oye es que me quiero mostrarlo ordenado por fecha, pues, lo tienes fácil, la lista la tienes tipada junto con sus campos del front matter y podrías hacer un sort por el campo fecha.
+Y ahora podrás pensar, oye es que quiero mostrarlo ordenado por fecha, pues, lo tienes fácil, la lista la tienes tipada junto con sus campos del front matter y podrías hacer un sort por el campo fecha.

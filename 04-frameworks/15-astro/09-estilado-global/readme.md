@@ -1,6 +1,6 @@
 # Estilado global
 
-Ya hemos visto el estilo local en las páginas, pero hay veces que necesitamos definir estilos globales sin escapar, vamos a ver como hacelro.
+Ya hemos visto el estilo local en las páginas, pero hay veces que necesitamos definir estilos globales sin escapar, vamos a ver como hacerlo.
 
 # Manos a la obra
 

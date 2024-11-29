@@ -7,7 +7,7 @@ Vamos a crear páginas nuevas en Astro, y ver como funcionan, en este caso las p
 
 # A tener en cuenta:
 
-- En el ejemplo del repo del máster hemos eliminado la accíon para desplegar automáticamente (si quieres habilitarlo en tu repo, puedes seguir los ejemplos anteriores).
+- En el ejemplo del repo del máster hemos eliminado la acción para desplegar automáticamente (si quieres habilitarlo en tu repo, puedes seguir los ejemplos anteriores).
 
 - Recuerda tener instalada la extensión de VSC para Astro.
 
@@ -32,7 +32,7 @@ _./src/pages/about.astro_
 
     <p>Esta es la página de "acerca de".</p>
 
-    <p>Aquí iría to BIO</p>
+    <p>Aquí iría tu BIO</p>
     </body>
 </html>
 ```
@@ -63,7 +63,7 @@ _./src/pages/blog.astro_
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Acerca de</title>
+		<title>Blog</title>
 	</head>
 	<body>
     <a href="/">Home</a>
@@ -71,14 +71,14 @@ _./src/pages/blog.astro_
     <a href="/about/">About</a>
 
     <h1>Blog</h1>
-    <h2>Aqui va mi listado de posts</h2>
+    <h2>Aquí va mi listado de posts</h2>
     </body>
 </html>
 ```
 
 Y modificamos los enlaces en el about también:
 
-_./src/layouts/about.astro_
+_./src/pages/about.astro_
 
 ```diff
 	<body>
@@ -92,7 +92,7 @@ _./src/layouts/about.astro_
 
 Y ya que estamos en la página principal:
 
-_./src/layouts/index.astro_
+_./src/pages/index.astro_
 
 ```diff
   <body>
@@ -105,4 +105,4 @@ _./src/layouts/index.astro_
 
 Si ejecutamos podemos ver que la navegación funciona correctamente.
 
-Si hacemos commit y push podemos ver que se lanza la Github Actions y en unos minutos veremos la web actualizado en gh-pages.
+Si hacemos commit y push podemos ver que se lanza la Github Actions y en unos minutos veremos la web actualizada en gh-pages.

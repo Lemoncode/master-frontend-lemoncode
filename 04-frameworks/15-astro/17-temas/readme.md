@@ -1,8 +1,8 @@
 # Temas
 
-No siempre tenemos que tirar de islas para todo, en este caso vamos a ver como tener tema claro y oscuro en nuestro sitio sin tener que tirar de islas.
+No siempre tenemos que tirar de islas para todo, en este caso, vamos a ver como tener tema claro y oscuro en nuestro sitio sin tener que tirar de islas.
 
-En esta caso con JavaScript y CSS lo vamos a dejar listo :).
+En este caso, con JavaScript y CSS lo vamos a dejar listo :).
 
 # Manos a la obra
 
@@ -70,9 +70,9 @@ html {
 + .dark .nav-links a {
 +  color: #fff;
 + }
-``
+````
 
-Y volvemos al _header_ para añadir la lógica de cambio de tema (esta vez la vamos a hacer en JavaScript en línea, lo podríamos sacar a un fichero ts).
+Y volvemos al _header_ para añadir la lógica de cambio de tema, (esta vez la vamos a hacer en JavaScript en línea, lo podríamos sacar a un fichero ts).
 
 
 _./src/components/theme-icon.astro_

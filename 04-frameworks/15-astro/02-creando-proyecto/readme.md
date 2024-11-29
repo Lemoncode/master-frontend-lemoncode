@@ -15,9 +15,9 @@ Vamos a crear un proyecto desde cero, para ello usamos la tool de `Astro`:
 npm create astro@latest
 ```
 
-En la primera pregunta, `Where would you lik to create your new project?`, le decimos damos como nombre de carpeta `ejemplo`.
+En la primera pregunta, `Where would you like to create your new project?`, le damos como nombre de carpeta `ejemplo`.
 
-`Where would you lik to create your new project?`
+`Where would you like to create your new project?`
 ejemplo
 
 En cuanto a plantillas, vamos a decirle que partimos de un proyecto desde cero: `Empty Template`.

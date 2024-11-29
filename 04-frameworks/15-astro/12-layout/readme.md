@@ -162,6 +162,7 @@ _./src/pages/about.astro_
 + import BaseLayout from "../layouts/base.astro";
 import type { Identity } from "./about.model.ts";
 - import Navigation from "../components/navigation.astro";
++ import BaseLayout from "../layouts/base.astro";
 
 const pageTitle = "Acerca de dinámico";
 

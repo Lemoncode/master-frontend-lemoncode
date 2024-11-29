@@ -1,4 +1,6 @@
-Hemos generado una lista de posts estática, pero ¿qué pasa si queremos mostrar una lista paginada de posts? ¿cómo podríamos hacerlo?
+# Rutas dinámicas
+
+Hemos generado una lista de posts estática, pero ¿qué pasa si queremos mostrar una lista paginada de posts? ¿cómo podría hacerlo?
 
 ¿Y si quisiera hacerlo paginado? Aquí podría crearme una página con los 10 primeros posts y después generar páginas dinámicas, del tipo `blog/[page].astro` para ir renderizando los posts correspondientes a cada página.
 
@@ -86,6 +88,7 @@ _./src/pages/tags/[tag].astro_
 
 ```diff
 ---
++ import type { MarkdownInstance } from "astro";
 import BaseLayout from '../../layouts/base.astro';
 
 + // Deberíamos mover esto a un fichero de modelo común
@@ -121,14 +124,15 @@ export async function getStaticPaths(): Promise<StaticPath[]> {
 
   return [
 -    { params: { tag: "astro" } },
-+    { params: { tag: "astro"}, props: {posts: allPosts} },
++    { params: { tag: "astro" }, props: { posts: allPosts } },
 -    { params: { tag: "blogging" } },
-+   { params: { tag: "blogging"}, props: {posts: allPosts} },
++    { params: { tag: "blogging" }, props: { posts: allPosts } },
 -    { params: { tag: "hola mundo" } },
-+   { params: { tag: "hola mundo"}, props: {posts: allPosts} },
++   { params: { tag: "hola mundo" }, props: { posts: allPosts } },
 -    { params: { tag: "learning in public" } },
-+   { params: { tag: "learning in public"}, props: {posts: allPosts} },
++   { params: { tag: "learning in public" }, props: { posts: allPosts } },
 -    { params: { tag: "successes" }, props: {posts: allPosts} },
++   { params: { tag: "successes" }, props: { posts: allPosts } },
   ];
 }
 
@@ -190,7 +194,11 @@ import BaseLayout from "../../layouts/base.astro";
 </BaseLayout>
 ```
 
+<<<<<<< HEAD
 Vamos ahora a crear la página _index_ de los tags que va a tener la colección completa.
+=======
+Vamos ahora a crear la página _index_ de las tags que va a tener la colección completa de Tags (para no ir yendo directamente desde la URL)
+>>>>>>> master
 
 Antes que eso, vamos a sacar el modelo de _Frontmatter_ a un fichero común.
 
@@ -272,7 +280,9 @@ _./src/pages/tags/index.astro_
 ```diff
  <BaseLayout pageTitle={pageTitle}>
 -  <div>{tags.map((tag) => <p>{tag}</p>)}</div>
-+  {tags.map((tag) => <p><a href={`/tags/${tag}`}>{tag}</a></p>)}
++  <div class="tags">
++   {tags.map((tag) => <p class="tag"><a href={`/tags/${tag}`}>{tag}</a></p>)}
++  </div>
  </BaseLayout>
 ```
 

@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "target": "es5",
-    "module": "esnext",
+    "target": "ES5",
+    "module": "ESNext",
+    // "moduleResolution": "node", // Use node resolution for "undici types" issue
     "allowJs": true,
     "outDir": "transpiled"
   },

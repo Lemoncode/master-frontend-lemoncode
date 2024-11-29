@@ -101,6 +101,8 @@ import "../styles/global.css";
     <h1>Blog</h1>
 ```
 
+Y en la principal tambien (index), mismos pasos
+
 Vamos a crear un footer:
 
 _./src/components/footer.astro_
@@ -115,8 +117,6 @@ const username = "lemoncode";
   <p>Más proyectos: <a href={`https://www.${platform}.com/${username}`}>{platform}</a>!</p>
 </footer>
 ```
-
-Vamos a importarlo y cambiarlo en la ventana principal
 
 _./src/index.astro_
 
@@ -312,3 +312,4 @@ h1 {
 +
 + }
 ```
+> Si no ves nada es que está en resolucíon móvil (mira la media query), si lo haces más grande se ve (más adelante implementaremos menú hamburguesa para móvil).

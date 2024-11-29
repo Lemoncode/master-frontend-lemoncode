@@ -123,6 +123,7 @@ _./src/pages/about.astro_
 
 -    <p>Aquí iría tu BIO</p>
 <p>Here are a few facts about me:</p>
++  <p>Sobre mi:</p>
 +  <ul>
 +    <li>Me llamo {identity.firstName}.</li>
 +    <li>vivo en {identity.country} y trabajo como {identity.occupation}.</li>
@@ -138,7 +139,8 @@ _./src/pages/about.astro_
 </html>
 ```
 
-También esto soporta rendering condicional como en React:
+
+También tenemos soporte para rendering condicional como en React:
 
 _./src/pages/about.astro_
 
@@ -186,7 +188,7 @@ npm install --save-dev prettier-plugin-astro
 
 - Crear un fichero `.prettierrc` en la raíz del proyecto con el siguiente contenido:
 
-\__.prettierrc_
+_.prettierrc_
 
 ```json
 {
@@ -211,3 +213,5 @@ module.exports = {
   plugins: [require("prettier-plugin-astro")],
 };
 ```
+
+> Ojo si no ten funciona, asegurate que tienes abierto el proyecto en la carpeta raíz donde está el fichero `.prettierrc`, tambíen prueba a recargar las pestañas.

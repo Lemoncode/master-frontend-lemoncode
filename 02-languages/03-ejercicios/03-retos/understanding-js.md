@@ -22,15 +22,12 @@ console.log(isNaNValue(NaN)); // true
 
 ## Cuestión 3
 
-Habiendo resuelto la **Cuestion 2** ¿Existe alguna forma de que la expresión `!isNaNValue(x) && x !== x` de como resultado `true`?
+Habiendo resuelto la **Cuestion 2** ¿Existe alguna forma de que la expresión `!isNaNValue(x) && x !== x` de como resultado `true`? No debes modificar la implementación `isNaNValue` en este ejercicio.
 
 ```js
-const isNaNValue = v => ?
+// ¿x? <= Debes ingeniar un "x" que provoque lo siguiente:
 
-// ¿x?
-
-console.log(!isNaNValue(x) && x !== x); // false
-
+console.log(!isNaNValue(x) && x !== x); // true
 ```
 
 ## Cuestión 4

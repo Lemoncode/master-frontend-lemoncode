@@ -214,7 +214,7 @@ export const Footer = component$(() => {
       event.preventDefault();
       window.open("https://github.com/lemoncode");
     };
-    aHref.value!.addEventListener("click", handler);
+    aHref.value?.addEventListener("click", handler);
     cleanup(() => aHref.value!.removeEventListener("click", handler));
   });
   return (
@@ -232,7 +232,45 @@ Qwik warns us what is going on:
 
 ![warning](./resources/02-warning.png)
 
-Lets back to previous version just to remove the current warning:
+## `sync$()` Restriction (BETA)
+
+Although it stills in BETA, it's the recommended way to handle code synchrounisly. The main issue with `$sync`, **can NOT close over anything**. What are the implications of this?
+
+- access any state: The recommended way to get the state into function is to place on element attrbutes.
+- access any non-browser functions: No imports or closing over any variables or functions are allowed.
+- the function should be small as it will get inlined into the resulting HTML.
+
+Because above reasons the recomendation is to breaking up event handlers into two parts:
+
+1. **`sync$()`** The part which must be synchronous
+2. **`$()`** The part which can be asynchronous.
+
+Update `qwik-app/src/components/footer.component.tsx`
+
+```tsx
+import { component$, sync$, $ } from "@builder.io/qwik";
+
+export const Footer = component$(() => {
+  return (
+    <a
+      href="https://github.com/lemoncode"
+      onClick$={[
+        sync$((event: Event) => {
+          event.preventDefault();
+        }),
+        $(() => {
+          window.open("https://github.com/lemoncode");
+        }),
+      ]}
+    >
+      Go To Lemonland
+    </a>
+  );
+});
+
+```
+
+Sadly, seems to not to be working... Lets back to first version just to remove the warning and make it work:
 
 ```tsx
 import { component$ } from "@builder.io/qwik";

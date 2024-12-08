@@ -107,7 +107,7 @@ export default component$(() => {
         becomes visible.
       </p>
 
-      <p style={{ height: "800px" }}>
+      <p style={{ height: "1200px" }}>
         ⬇️ <strong>Scroll down</strong> until the clock is in view.
       </p>
 

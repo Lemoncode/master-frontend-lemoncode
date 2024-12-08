@@ -141,7 +141,7 @@ Asumamos que nuestra clase base trabaja con una propiedad que es un int. Ahora, 
 
 - Postconditions can not be weakened in a subclass.
 
-Asumamos el mismo escenario, pero en este caso la clase base garantiza que la propiedad sea positiva (no acepta números que no sean positivos en su setter). Y en este caso, la clase base sobreescribe el comportamiento del setter para que permita números negativos. Un código que use un getter de la propiedad asumiendo que siempre va a ser positivo (porque la clase base lo garantizaba) ahora estará roto debido a que se ha debilitado dicha restricción del getter.
+Asumamos el mismo escenario, pero en este caso la clase base garantiza que la propiedad sea positiva (no acepta números que no sean positivos en su setter). Y en este caso, la subclase sobreescribe el comportamiento del setter para que permita números negativos. Un código que use un getter de la propiedad asumiendo que siempre va a ser positivo (porque la clase base lo garantizaba) ahora estará roto debido a que se ha debilitado dicha restricción del getter.
 
 ## Ejemplo de precondiciones y postcondiciones
 

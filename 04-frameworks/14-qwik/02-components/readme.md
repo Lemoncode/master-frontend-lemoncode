@@ -4,7 +4,7 @@
 
 Components are declared using [component$()](https://qwik.builder.io/docs/components/overview/#component) and at a minimum need to return a JSX Element.
 
-The trailing `$` allows the `Optimizer` to break the components into an application tree into a separate chunk so that each chunk can be loaded (or not loaded if it is not needed) independently.**Without the $ the component would be always loaded if the parent component needs to be loaded.**
+The trailing `$` allows the `Optimizer` to break the components into an application tree into a separate chunk so that each chunk can be loaded (or not loaded if it is not needed) independently. **Without the `$` the component would be always loaded if the parent component needs to be loaded.**
 
 Update `qwik-app/src/routes/index.tsx`
 

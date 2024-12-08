@@ -91,7 +91,7 @@ Consider the following simplified HTML of the application below.
    - The `$` is a signal to the optimizer to extract the code for lazy-loading.
    - The `$` is a signal to you that lazy-loading "magic" happens at this point.
    - TypeScript rules ensure you don't skip any places where the `$` should appear.
-2. The optimizer looks for the $ and extracts the function wrapped by $ into a separate [lazy-loadable chunk](https://qwik.builder.io/docs/advanced/optimizer/).
+2. The optimizer looks for the `$` and extracts the function wrapped by `$` into a separate [lazy-loadable chunk](https://qwik.builder.io/docs/advanced/optimizer/).
 3. As the server renders the page, the JSX is executed and notices that there is a click listener. The click listener is serialized into the `<button>` element as `on:click` attribute. Qwik then knows how to hook this event back up on the client.
 4. Qwikloader scripts get inlined into HTML. The Qwikloader script sets up a global listener for all events in the browser. Qwikloader is about 1kb and executes in about 1ms.
 5. When a user clicks on the button, the Qwikloader intercepts the event and looks for an element with `on:click` attribute.
@@ -163,7 +163,13 @@ export default component$(() => {
 });
 ```
 
-We can see the confirmation dialog and immediately navigates to `GiTHub`. e wish to prevent this and call our callback instead. Add `preventdefault:click` to the `<a href>` to achieve this.
+Let's run the app:
+
+```bash
+npm start
+```
+
+We can see the confirmation dialog and immediately navigates to `GitHub`. We wish to prevent this and call our callback instead. Add `preventdefault:click` to the `<a href>` to achieve this.
 
 Update `qwik-app/src/components/footer.component.tsx`
 
@@ -208,7 +214,7 @@ export const Footer = component$(() => {
       event.preventDefault();
       window.open("https://github.com/lemoncode");
     };
-    aHref.value!.addEventListener("click", handler);
+    aHref.value?.addEventListener("click", handler);
     cleanup(() => aHref.value!.removeEventListener("click", handler));
   });
   return (
@@ -226,7 +232,45 @@ Qwik warns us what is going on:
 
 ![warning](./resources/02-warning.png)
 
-Lets back to previous version just to remove the current warning:
+## `sync$()` Restriction (BETA)
+
+Although it stills in BETA, it's the recommended way to handle code synchrounisly. The main issue with `$sync`, **can NOT close over anything**. What are the implications of this?
+
+- access any state: The recommended way to get the state into function is to place on element attrbutes.
+- access any non-browser functions: No imports or closing over any variables or functions are allowed.
+- the function should be small as it will get inlined into the resulting HTML.
+
+Because above reasons the recomendation is to breaking up event handlers into two parts:
+
+1. **`sync$()`** The part which must be synchronous
+2. **`$()`** The part which can be asynchronous.
+
+Update `qwik-app/src/components/footer.component.tsx`
+
+```tsx
+import { component$, sync$, $ } from "@builder.io/qwik";
+
+export const Footer = component$(() => {
+  return (
+    <a
+      href="https://github.com/lemoncode"
+      onClick$={[
+        sync$((event: Event) => {
+          event.preventDefault();
+        }),
+        $(() => {
+          window.open("https://github.com/lemoncode");
+        }),
+      ]}
+    >
+      Go To Lemonland
+    </a>
+  );
+});
+
+```
+
+Sadly, seems to not to be working... Lets back to first version just to remove the warning and make it work:
 
 ```tsx
 import { component$ } from "@builder.io/qwik";

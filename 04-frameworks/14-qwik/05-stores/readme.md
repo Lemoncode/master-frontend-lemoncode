@@ -8,7 +8,7 @@ Qwik tracks application state for two reasons:
 
 2. To create subscriptions on stores so that Qwik knows which components to re-render. If Qwik didn't track subscriptions, it would have to re-render the whole application - which would defeat the purpose of lazy-loading.
 
-Create `qwik-app/src/routes/examples/stores/index.tsx`
+Create `qwik-app/src/routes/examples/stores/serialization/index.tsx`
 
 ```tsx
 import { component$ } from "@builder.io/qwik";
@@ -36,7 +36,7 @@ This component doesn't work yet because **counter is just a plain object with no
 
 Lets fix this. We will wrap counter in [useStore()](https://qwik.builder.io/docs/components/state/#usestore) to enable dependency tracking and automatic re-rendering.
 
-Update `qwik-app/src/routes/examples/stores/index.tsx`
+Update `qwik-app/src/routes/examples/stores/serialization/index.tsx`
 
 ```diff
 -import { component$ } from "@builder.io/qwik";
@@ -59,7 +59,7 @@ export default component$(() => {
 
 Open the HTML tab to see what information is serialized by the server. Look in the `<script type="qwik/json">` block for serialization information and notice that:
 
-1. {count: 0} is in the serialized state.
+1. `{count: 0}` is in the serialized state.
 2. At the end of the serialized state are subs which contain "count". These subscriptions tell Qwik which component to re-render as the state changes.
 
 ```html
@@ -197,7 +197,7 @@ Stores can also include [Qwik URLs (QRLs)](https://qwik.builder.io/docs/advanced
 
 There is no limit to how many stores can be created per component, nor to where they are passed. While the best practice is to implement top-down data flows, Qwik doesn't require this design philosophy.
 
-Update `qwik-app/src/routes/examples/stores/index.tsx`
+Update `qwik-app/src/routes/examples/stores/graph/index.tsx`
 
 ```tsx
 import { QRL, component$, useStore, $ } from "@builder.io/qwik";
@@ -245,7 +245,13 @@ export default component$(() => {
 
 ```
 
-Lets update the code to insert a new chidren each time we increment the coun.
+Lets see if it works:
+
+```bash
+npm start
+```
+
+Lets update the code to insert a new chidren each time we increment the count.
 
 ```diff
 <button

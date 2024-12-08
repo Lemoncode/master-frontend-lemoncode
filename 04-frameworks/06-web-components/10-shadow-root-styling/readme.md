@@ -182,4 +182,4 @@ We can notice that is not taking any effect since is used **OUTSIDE** the Shadow
 
 ## References
 
-- https://stackoverflow.com/questions/50999753/host-selector-not-working-for-custom-element-having-shadow-dom
+- [Host Selector not working Shadow DOM](https://stackoverflow.com/questions/50999753/host-selector-not-working-for-custom-element-having-shadow-dom) 

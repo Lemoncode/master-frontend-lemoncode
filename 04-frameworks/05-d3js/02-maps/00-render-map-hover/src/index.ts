@@ -2,7 +2,9 @@ import * as d3 from "d3";
 import * as topojson from "topojson-client";
 const europejson = require("./europe.json");
 
-const aProjection = d3.geoMercator();
+const aProjection = d3.geoMercator()
+  .scale(500)
+  .translate([300, 900]);
 const geoPath = d3.geoPath().projection(aProjection);
 const geojson = topojson.feature(
   europejson,

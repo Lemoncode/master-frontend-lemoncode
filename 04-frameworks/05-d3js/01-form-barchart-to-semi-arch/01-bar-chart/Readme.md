@@ -147,14 +147,13 @@ svg
   - d3js offers us several scaling helpers, we are going to use _scaleLinear_ maps from vaues to pixels
 
 ```diff
-const svg = d3
-  .select("body")
-  .append("svg")
-  .attr("width", 500)
-  .attr("height", 500);
+import * as d3 from "d3";
+import { resultCollectionSpainJul23 } from './data';
 
-// Let's put the max scale to the most voted party
-+ const yScale = d3.scaleLinear().domain([0, 150]).range([0, 480]);
++ const yScale = d3
++   .scaleLinear()
++   .domain([0, 150])
++   .range([0, 480]);
 ```
 
 - And let's scale each bar position plus it's height:
@@ -178,16 +177,22 @@ svg
   _./src/index.ts_
 
 ```diff
-+  const svgDimensions = { width: 500, height: 500 }
-+  const margin = { left: 5, right: 5, top: 10, bottom: 10 };
-+  const chartDimensions = {
-+    width: svgDimensions.width - margin.left - margin.right,
-+    height: svgDimensions.height - margin.bottom - margin.top
-+  };
-+  const maxNumberSeats = resultCollectionSpainJul23.reduce(
++ const svgDimensions = { width: 500, height: 500 }
++ const margin = { left: 5, right: 5, top: 10, bottom: 10 };
++ const chartDimensions = {
++   width: svgDimensions.width - margin.left - margin.right,
++   height: svgDimensions.height - margin.bottom - margin.top
++ };
++
++ const maxNumberSeats = resultCollectionSpainJul23.reduce(
 +   (max, item) => (item.seats > max ? item.seats : max),
 +   0
-+  );
++ );
+
+const yScale = d3
+  .scaleLinear()
+  .domain([0, 150])
+  .range([0, 480]);
 
 const svg = d3
   .select("body")
@@ -213,16 +218,17 @@ const yScale = d3
 - Let's create a group that will add the top margin offset.
 
 ```diff
-const yScale = d3
-  .scaleLinear()
-  .domain([0, maxNumberSeats])
-  .range([0, chartDimensions.height]);
+const svg = d3
+  .select("body")
+  .append("svg")
+  .attr("width", svgDimensions.width)
+  .attr("height", svgDimensions.height);
 
 + const chartGroup = svg
-+ .append("g")
-+ .attr("transform", `translate(${margin.left}, ${margin.top})`)
-+ .attr("width", chartDimensions.width)
-+ .attr("height", chartDimensions.height);
++   .append("g")
++   .attr("transform", `translate(${margin.left}, ${margin.top})`)
++   .attr("width", chartDimensions.width)
++   .attr("height", chartDimensions.height);
 ```
 
 - And start our chart under that group.
@@ -239,8 +245,8 @@ const yScale = d3
   .attr("width", 50)
   .attr("height", d => yScale(d.seats))
   .attr("x", (d, i) => i * 60)
--  .attr("y", d => 490 - yScale(d.seats));
-+  .attr("y", d => chartDimensions.height - yScale(d.seats));
+- .attr("y", d => 490 - yScale(d.seats));
++ .attr("y", d => chartDimensions.height - yScale(d.seats));
 ```
 
 > In order to resize charts and keep aspect ratio, you can calculate new sizes or use svg ViewBox.
@@ -248,26 +254,43 @@ const yScale = d3
 - That was great for the y scale, what about X axis? In this case since we get a fix width per bar we can just setup a formula to calculate this.
 
 ```diff
+import * as d3 from "d3";
+import { resultCollectionSpainJul23 } from "./data";
+
 const svgDimensions = { width: 500, height: 500 };
 const margin = { left: 0, right: 0, top: 10, bottom: 10 };
 const chartDimensions = {
   width: svgDimensions.width,
   height: svgDimensions.height - margin.bottom - margin.top
 };
+
 const maxNumberSeats = resultCollectionSpainJul23.reduce(
   (max, item) => (item.seats > max ? item.seats : max),
   0
 );
-+ const politicalPartiesCount = resultCollectionSpainJul23.length;
-+ const barPadding = 5; // We could calculate this value as well
-+ const barWidth =
-+  (chartDimensions.width - barPadding * politicalPartiesCount) /
-+  politicalPartiesCount;
 
 const yScale = d3
   .scaleLinear()
   .domain([0, maxNumberSeats])
   .range([0, chartDimensions.height]);
+
++ const politicalPartiesCount = resultCollectionSpainJul23.length;
++ const barPadding = 5; // We could calculate this value as well
++ const barWidth =
++   (chartDimensions.width - barPadding * politicalPartiesCount) /
++   politicalPartiesCount;
+
+const svg = d3
+  .select("body")
+  .append("svg")
+  .attr("width", svgDimensions.width)
+  .attr("height", svgDimensions.height);
+
+const chartGroup = svg
+  .append("g")
+  .attr("transform", `translate(${margin.left}, ${margin.top})`)
+  .attr("width", chartDimensions.width)
+  .attr("height", chartDimensions.height);
 
 chartGroup
   .selectAll("rect")
@@ -278,7 +301,7 @@ chartGroup
 + .attr("width", barWidth)
   .attr("height", d => yScale(d.seats))
 - .attr("x", (d, i) => i * 60)
-+ .attr("x", (d, i) => i * (barWidth + barPadding) )
++ .attr("x", (d, i) => i * (barWidth + barPadding))
   .attr("y", d => chartDimensions.height - yScale(d.seats));
 ```
 
@@ -286,10 +309,16 @@ chartGroup
 
 - In this case we will create a discrete color palette based on the political parties:
 
-```typescript
-const partiesColorScale = d3
-  .scaleOrdinal(d3.schemeCategory10)
-  .domain(resultCollectionSpainJul23.map(party => party.party));
+```diff
+const politicalPartiesCount = resultCollectionSpainJul23.length;
+const barPadding = 5; // We could calculate this value as well
+const barWidth =
+  (chartDimensions.width - barPadding * politicalPartiesCount) /
+  politicalPartiesCount;
+
++ const partiesColorScale = d3
++   .scaleOrdinal(d3.schemeCategory10)
++   .domain(resultCollectionSpainJul23.map(party => party.party));
 ```
 
 - And let's use it on every chart:
@@ -305,7 +334,6 @@ chartGroup
   .attr("x", (d, i) => i * (barWidth + barPadding))
   .attr("y", d => chartDimensions.height - yScale(d.seats))
 + .attr("fill", d => partiesColorScale(d.party));
-  ;
 ```
 
 - That was nice but we want to use as each bar background it's corresponding political party background, let's go for that:

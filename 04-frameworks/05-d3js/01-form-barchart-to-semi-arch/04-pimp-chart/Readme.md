@@ -25,7 +25,7 @@ npm install
   we will go for the easy path), let's install
 
 ```bash
-npm i d3-svg-legend --save
+npm i d3-svg-legend
 ```
 
 - Let's import the legend in our index
@@ -71,7 +71,7 @@ arcs
   .attr("fill", (d) => {
     return partiesColorScale(d.data.party);
   })
-+ .on("mouseover", function (mouseEvent: MouseEvent, datum) { {
++ .on("mouseover", function (mouseEvent: MouseEvent, datum) {
 +   d3.select(this).attr("transform", `scale(1.1, 1.1)`);
 + })
 + .on("mouseout", function() {
@@ -132,7 +132,7 @@ const div = d3
 _./src/index.ts_:
 
 ```diff
-  .on("mouseover", function (mouseEvent: MouseEvent, datum) { {
+  .on("mouseover", function (mouseEvent: MouseEvent, datum) {
     d3.select(this).attr("transform", `scale(1.1, 1.1)`);
 +   const partyInfo = datum.data;
 +

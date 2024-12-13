@@ -13,9 +13,10 @@ const maxNumberSeats = resultCollectionSpainJul23.reduce(
   0
 );
 
-const partiesColorScale = d3
-  .scaleOrdinal(resultCollectionSpainJul23.map(party => party.color))
-  .domain(resultCollectionSpainJul23.map(party => party.party));
+const yScale = d3
+  .scaleLinear()
+  .domain([0, maxNumberSeats])
+  .range([0, chartDimensions.height]);
 
 const politicalPartiesCount = resultCollectionSpainJul23.length;
 const barPadding = 5; // We could calculate this value as well
@@ -23,16 +24,15 @@ const barWidth =
   (chartDimensions.width - barPadding * politicalPartiesCount) /
   politicalPartiesCount;
 
+const partiesColorScale = d3
+  .scaleOrdinal(resultCollectionSpainJul23.map(party => party.color))
+  .domain(resultCollectionSpainJul23.map(party => party.party));
+
 const svg = d3
   .select("body")
   .append("svg")
   .attr("width", svgDimensions.width)
   .attr("height", svgDimensions.height);
-
-const yScale = d3
-  .scaleLinear()
-  .domain([0, maxNumberSeats])
-  .range([0, chartDimensions.height]);
 
 const chartGroup = svg
   .append("g")

@@ -30,7 +30,7 @@ _index.ts_:
 import * as d3 from "d3";
 import { resultCollectionSpainJul23, ResultEntry } from "./data";
 
-const svgDimensions = { width: 800, height: 500 };
+const svgDimensions = { width: 500, height: 500 };
 const margin = { left: 5, right: 5, top: 10, bottom: 10 };
 
 const chartDimensions = {
@@ -83,9 +83,7 @@ const pieChart = d3
   .pie<ResultEntry>()
   .startAngle(-90 * (Math.PI / 180))
   .endAngle(90 * (Math.PI / 180))
-  .value(function (d: any) {
-    return d.seats;
-  });
+  .value(d => d["seats"]);
 ```
 
 - Let's create the chartGroup, set the data and start in enter (insert mode):

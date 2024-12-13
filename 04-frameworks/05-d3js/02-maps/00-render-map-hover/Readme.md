@@ -22,11 +22,11 @@ npm install
   features, let's install the needed package to work with:
 
 ```bash
-npm install topojson-client --save
+npm install topojson-client
 ```
 
 ```bash
-npm install @types/topojson-client --save-dev
+npm install -D @types/topojson-client
 ```
 
 - Let's remove part of the boilerplate test code:
@@ -69,11 +69,9 @@ const svg = d3
 + .attr("style", "background-color: #FBFAF0");
 ```
 
-- Now we need the data (arcs) to draw an Europe map in topojson format, hopefully there are a lot of maps avaiable in this
-  format, we can get the info from this great open source project: <https://github.com/deldersveld/topojson>
-  we are going to copy to our local the following json file: <https://github.com/deldersveld/topojson/blob/master/continents/europe.json>
+- Now we need the data (arcs) to draw an Europe map in topojson format. There are a lot of maps available in this format and we are going to use the `europe.json` stored under [99-resources](../99-resources/) folder. This map comes from a repository that is no longer available: <https://github.com/deldersveld/topojson>
 
-Let's download and copy that file under the _src_ folder
+Let's copy that file under the _src_ folder.
 
 _./src/europe.json_:
 
@@ -82,7 +80,7 @@ _./src/europe.json_:
 First we will install the _node_ typings to get _require_ typing.
 
 ```bash
-npm install @types/node --save-dev
+npm install -D @types/node
 ```
 
 Then, let's import _topojson_ converter and we load the json map using _require_
@@ -121,11 +119,11 @@ const aProjection = d3.geoMercator();
 - Now we need to convert from _topoJson_ to _geoJson_:
 
 ```diff
-   const geoPath = d3.geoPath().projection(aProjection);
-+  const geojson = topojson.feature(
-+    europejson,
-+    europejson.objects.continent_Europe_subunits
-+  );
+const geoPath = d3.geoPath().projection(aProjection);
++ const geojson = topojson.feature(
++   europejson,
++   europejson.objects.continent_Europe_subunits
++ );
 ```
 
 - Time to draw our map, let's append this to our _index.ts_ file.

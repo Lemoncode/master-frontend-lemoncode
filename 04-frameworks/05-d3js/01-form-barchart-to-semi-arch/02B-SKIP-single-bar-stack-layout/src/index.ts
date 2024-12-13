@@ -8,10 +8,21 @@ const chartDimensions = {
   height: svgDimensions.height - margin.bottom - margin.top,
 };
 
-const maxNumberSeats = resultCollectionSpainJul23.reduce(
-  (max, item) => (item.seats > max ? item.seats : max),
+const partiesColorScale = d3
+  .scaleOrdinal(resultCollectionSpainJul23.map(party => party.color))
+  .domain(resultCollectionSpainJul23.map(party => party.party));
+
+const barHeight = 200; // We could calculate this based on svg height
+
+const totalNumberSeats = resultCollectionSpainJul23.reduce(
+  (sum, item) => sum + item.seats,
   0
 );
+
+const xScale = d3
+  .scaleLinear()
+  .domain([0, totalNumberSeats])
+  .range([0, chartDimensions.width]);
 
 const politicalPartiesKeys: string[] = resultCollectionSpainJul23.map(
   (item) => item.party
@@ -41,34 +52,6 @@ const singleElectionResult = resultCollectionSpainJul23.reduce(
 // we just wrap it in an array
 const data = [singleElectionResult];
 
-const partiesColorScale = d3
-  .scaleOrdinal(resultCollectionSpainJul23.map(party => party.color))
-  .domain(resultCollectionSpainJul23.map(party => party.party));
-
-const barHeight = 200; // We could calculate this based on svg height
-
-const svg = d3
-  .select("body")
-  .append("svg")
-  .attr("width", svgDimensions.width)
-  .attr("height", svgDimensions.height);
-
-const totalNumberSeats = resultCollectionSpainJul23.reduce(
-  (sum, item) => sum + item.seats,
-  0
-);
-
-const xScale = d3
-  .scaleLinear()
-  .domain([0, totalNumberSeats])
-  .range([0, chartDimensions.width]);
-
-const chartGroup = svg
-  .append("g")
-  .attr("transform", `translate(${margin.left}, ${margin.top})`)
-  .attr("width", chartDimensions.width)
-  .attr("height", chartDimensions.height);
-
 // Let's create our stack layout
 // we are going to pass the keys (PP, PSOE, VOX, Sumar, ERC...)
 // to have them attached on every item
@@ -81,6 +64,18 @@ const stack = d3.stack().keys(politicalPartiesKeys);
 //  [[258, 291]] // VOX Entry
 //]
 const series = stack(data);
+
+const svg = d3
+  .select("body")
+  .append("svg")
+  .attr("width", svgDimensions.width)
+  .attr("height", svgDimensions.height);
+
+const chartGroup = svg
+  .append("g")
+  .attr("transform", `translate(${margin.left}, ${margin.top})`)
+  .attr("width", chartDimensions.width)
+  .attr("height", chartDimensions.height);
 
 chartGroup
   .selectAll("rect")

@@ -25,10 +25,10 @@ _./src/index.html_:
 
 ```diff
   <body>
-+    <div>
-+      <button id="july2023">Results July 2023</button>
-+      <button id="november2019">Results November 2019</button>
-+    </div>
++   <div>
++     <button id="july2023">Results July 2023</button>
++     <button id="november2019">Results November 2019</button>
++   </div>
     <script src="./index.ts"></script>
   </body>
 ```
@@ -89,7 +89,7 @@ const partiesColorScale = d3
       d3.select(this).attr("transform", ``);
       div.transition().duration(500).style("opacity", 0);
     });
-+}
++ };
 ```
 
 - Let's add a method to swap the data we are using. We will append all this code at the end of the index.ts file:

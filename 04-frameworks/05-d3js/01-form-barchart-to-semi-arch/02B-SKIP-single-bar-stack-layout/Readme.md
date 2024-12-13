@@ -27,9 +27,16 @@ npm install
 First let's extract all the parties keys:
 
 ```typescript
+const xScale = d3
+  .scaleLinear()
+  .domain([0, totalNumberSeats])
+  .range([0, chartDimensions.width]);
+
+// diff
 const politicalPartiesKeys: string[] = resultCollectionSpainJul23.map(
   (item) => item.party
 );
+// diff
 ```
 
 - Let's build a single serie

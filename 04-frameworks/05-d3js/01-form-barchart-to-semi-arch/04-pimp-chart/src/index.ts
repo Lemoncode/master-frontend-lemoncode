@@ -39,9 +39,7 @@ const pieChart = d3
   .pie<ResultEntry>()
   .startAngle(-90 * (Math.PI / 180))
   .endAngle(90 * (Math.PI / 180))
-  .value(function (d: any) {
-    return d.seats;
-  });
+  .value(d => d["seats"]);
 
 // Define the div for the tooltip
 const div = d3

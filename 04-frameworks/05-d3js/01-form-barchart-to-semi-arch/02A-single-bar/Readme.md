@@ -18,47 +18,45 @@ Let's give a try.
 npm install
 ```
 
-- Since x axis will be dynamic (depending on the seats assigned for each party)
-  let's calcualte the XScale (seats to pixels).
+- Since x axis will be dynamic (depending on the seats assigned for each party) let's calcualte the XScale (seats to pixels).
 
 First let's remove how we calculated the fixed bar width (now height will be fixed):
-
-```diff
-- const politicalPartiesCount = resultCollectionSpainJul23.length;
-- const barPadding = 5; // We could calculate this value as well
-- const barWidth =
--  (chartDimensions.width - barPadding * politicalPartiesCount) /
--  politicalPartiesCount;
-+ const barHeight = 200; // We could calculate this based on svg height
-```
 
 ```diff
 - const maxNumberSeats = resultCollectionSpainJul23.reduce(
 -   (max, item) => (item.seats > max ? item.seats : max),
 -   0
 - );
-...
+-
 - const yScale = d3
 -   .scaleLinear()
--  .domain([0, maxNumberSeats])
--  .range([0, chartDimensions.height]);
+-   .domain([0, maxNumberSeats])
+-   .range([0, chartDimensions.height]);
+-
+- const politicalPartiesCount = resultCollectionSpainJul23.length;
+- const barPadding = 5; // We could calculate this value as well
+- const barWidth =
+-   (chartDimensions.width - barPadding * politicalPartiesCount) /
+-   politicalPartiesCount;
 
+const partiesColorScale = d3
+  .scaleOrdinal(resultCollectionSpainJul23.map(party => party.color))
+  .domain(resultCollectionSpainJul23.map(party => party.party));
+
++ const barHeight = 200; // We could calculate this based on svg height
++
 + const totalNumberSeats = resultCollectionSpainJul23.reduce(
-+  (sum, item) => sum + item.seats,
-+  0
++   (sum, item) => sum + item.seats,
++   0
 + );
-
++
 + const xScale = d3
-+  .scaleLinear()
-+  .domain([0, totalNumberSeats])
-+  .range([0, chartDimensions.width]);
++   .scaleLinear()
++   .domain([0, totalNumberSeats])
++   .range([0, chartDimensions.width]);
 ```
 
-- Let's add the rectangles, this time, we will calculate the width dinamically and
-  the height will be fixed. We have one challenge here... each bar (PSOE, PP, ...)
-  has to start when the previous one finished, in order to solve this we are going
-  to use an accumulator (in the next example we will learn how to solve
-  this using a layout)
+- Let's add the rectangles, this time, we will calculate the width dinamically and the height will be fixed. We have one challenge here... each bar (PSOE, PP, ...) has to start when the previous one finished, in order to solve this we are going to use an accumulator (in the next example we will learn how to solve this using a layout)
 
 ```diff
 + let currentXPosition = 0;
@@ -68,19 +66,18 @@ chartGroup
   .data(resultCollectionSpainJul23)
   .enter()
   .append("rect")
--  .attr("width", barWidth)
-+  .attr("width", (d) => xScale(d.seats))
--  .attr("height", (d) => yScale(d.seats))
-+  .attr("height", barHeight)
--  .attr("x", (d, i) => i * (barWidth + barPadding))
-+  .attr("x", (d) => {
-+    const position = currentXPosition;
-+    currentXPosition += xScale(d.seats);
-+    return position;
-+  })
-
--  .attr("y", (d) => chartDimensions.height - yScale(d.seats))
-+  .attr("y", () => chartDimensions.height - barHeight)
+- .attr("width", barWidth)
++ .attr("width", (d) => xScale(d.seats))
+- .attr("height", (d) => yScale(d.seats))
++ .attr("height", barHeight)
+- .attr("x", (d, i) => i * (barWidth + barPadding))
++ .attr("x", (d) => {
++   const position = currentXPosition;
++   currentXPosition += xScale(d.seats);
++   return position;
++ })
+- .attr("y", (d) => chartDimensions.height - yScale(d.seats))
++ .attr("y", () => chartDimensions.height - barHeight)
   .attr("fill", (d) => partiesColorScale(d.party));
 ```
 

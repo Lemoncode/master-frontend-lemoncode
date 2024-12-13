@@ -36,7 +36,7 @@ import * as d3 from "d3";
 -
 - var colorLegend = legendColor().scale(partiesColorScale);
 -
-- legendGroup.call(colorLegend);
+- legendGroup.call(colorLegend as any);
 ```
 
 - Let's update the size of our svg (this will be enclosed in a viewbox, inside the viewBox we will play with exact coordinates, outside with percentages)
@@ -75,6 +75,10 @@ svg
   .attr("width", chartDimensions.width)
   .attr("height", chartDimensions.height)
   .attr("style", "fill: #FBFAF0");
+
+const chartGroup = svg
+  .append("g")
+  .attr("transform", `translate(${margin.left}, ${margin.top})`);
 ```
 
 - Now on the radius size, since we now exactly the _viewBox_ witdth and height we can adjust this entry:

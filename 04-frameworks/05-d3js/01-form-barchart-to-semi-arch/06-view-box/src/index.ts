@@ -63,9 +63,7 @@ const pieChart = d3
   .pie<ResultEntry>()
   .startAngle(-90 * (Math.PI / 180))
   .endAngle(90 * (Math.PI / 180))
-  .value(function (d: any) {
-    return d.seats;
-  })
+  .value(d => d["seats"])
   .sort(null);
 
 const generateChart = (data: ResultEntry[]) => {

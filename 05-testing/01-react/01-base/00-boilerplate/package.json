@@ -10,21 +10,24 @@
     "type-check:watch": "npm run type-check -- --watch",
     "clean": "rimraf dist"
   },
+  "imports": {
+    "#*": "./src/*"
+  },
   "author": "Lemoncode",
   "license": "MIT",
   "dependencies": {
-    "axios": "^1.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "axios": "^1.7.9",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@types/node": "^18.17.12",
-    "@types/react": "^18.2.21",
-    "@types/react-dom": "^18.2.7",
-    "@vitejs/plugin-react": "^4.0.4",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
+    "@vitejs/plugin-react": "^4.3.4",
     "npm-run-all": "^4.1.5",
-    "rimraf": "^5.0.1",
-    "typescript": "^5.2.2",
-    "vite": "^4.4.9"
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.3"
   }
 }

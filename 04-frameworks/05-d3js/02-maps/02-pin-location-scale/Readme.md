@@ -20,11 +20,9 @@ We have to face three challenges here:
 npm install
 ```
 
-- This time we will Spain topojson info: <https://github.com/deldersveld/topojson/blob/master/countries/spain/spain-comunidad-with-canary-islands.json>
+- This time we will use Spain topojson info from [spain.json](../99-resources/spain.json). Let's copy this file under the following route: _./src/spain.json_
 
-Let's copy it under the following route _./src/spain.json_
-
-- Now instead of importing _europe.json_ we will import _spain.json_.
+- Now, instead of importing _europe.json_, we will import _spain.json_.
 
 _./src/index.ts_:
 
@@ -195,6 +193,8 @@ _./src/index.ts_:
 ```diff
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
+const spainjson = require("./spain.json");
+const d3Composite = require("d3-composite-projections");
 + import { latLongCommunities } from "./communities";
 ```
 
@@ -357,8 +357,8 @@ svg
   .data(latLongCommunities)
   .enter()
   .append("circle")
--  .attr("r", 15)
-+  .attr("r", d => calculateRadiusBasedOnUnemploymentPercentage(d.name))
+- .attr("r", 15)
++ .attr("r", d => calculateRadiusBasedOnUnemploymentPercentage(d.name))
   .attr("cx", d => aProjection([d.long, d.lat])[0])
   .attr("cy", d => aProjection([d.long, d.lat])[1]);
 ```
@@ -403,7 +403,14 @@ svg
   .append("path")
 - .attr("class", "country")
 + .attr("class", "region")
-  .attr("d", geoPath as any);
+  .attr("d", geoPath as any)
+- .on("mouseover", function (d, i) {
+-   d3.select(this).attr("class", "selected-country");
+- })
+- .on("mouseout", function (d, i) {
+-   d3.select(this).attr("class", "country");
+- });
+
 svg
   .selectAll("circle")
   .data(latLongCommunities)
@@ -445,21 +452,20 @@ _./src/index.ts_:
 
 ```diff
 svg
-  .selectAll("path")
-  .data(geojson["features"])
+  .selectAll("circle")
+  .data(latLongCommunities)
   .enter()
-  .append("path")
-  .attr("class", "country")
-  // data loaded from json file
-  .attr("d", geoPath as any)
-  .on("mouseover", function(d, i) {
--   d3.select(this).attr("class", "selected-country");
+  .append("circle")
+  .attr("class", "marker")
+  .attr("r", (d) => calculateRadiusBasedOnUnemploymentPercentage(d.name))
+  .attr("cx", (d) => aProjection([d.long, d.lat])[0])
+  .attr("cy", (d) => aProjection([d.long, d.lat])[1])
++ .on("mouseover", function(d, i) {
 +   d3.select(this)
 +     .attr("class", "selected-marker")
 +     .style("cursor", "pointer");
-  })
-  .on("mouseout", function(d, i) {
--   d3.select(this).attr("class", "country");
++ })
++ .on("mouseout", function(d, i) {
 +   d3.select(this)
 +     .attr("class", "marker")
 +     .style("cursor", "default");
@@ -467,7 +473,7 @@ svg
 + .on("click", function(event, d) {
 +   const percentage = unemploymentRate2023Q4.find((element) => element.name === d.name).value;
 +   alert(`unemployment percentage in ${d.name}: ${percentage}%`)
-  });
++ });
 ```
 
 ## About Basefactor + Lemoncode

@@ -1,10 +1,7 @@
 import * as calculator from './calculator';
-import * as business from './business/calculator.business';
+import * as business from './business';
 
-jest.mock('./business/calculator.business', () => ({
-  isLowerThan: jest.fn(),
-  max: 7,
-}));
+vi.mock('./business');
 
 describe('Calculator tests', () => {
   describe('add', () => {
@@ -24,25 +21,26 @@ describe('Calculator tests', () => {
       // Arrange
       const a = 2;
       const b = 2;
+      vi.spyOn(business, 'max', 'get').mockReturnValue(7);
 
       // Act
-      const result = calculator.add(a, b);
+      calculator.add(a, b);
 
       // Assert
       expect(business.isLowerThan).toHaveBeenCalled();
       expect(business.isLowerThan).toHaveBeenCalledWith(4, 7);
     });
-  });
 
-  it('should call to original implementation isLowerThan', () => {
-    // Arrange
-    const a = 1;
-    const b = 2;
+    it('should call to original implementation isLowerThan', () => {
+      // Arrange
+      const a = 1;
+      const b = 2;
 
-    // Act
-    const result = calculator.add(a, b);
+      // Act
+      const result = calculator.add(a, b);
 
-    // Assert
-    expect(result).toEqual(3);
+      // Assert
+      expect(result).toEqual(3);
+    });
   });
 });

@@ -44,22 +44,44 @@ describe('CookiesDialog component specs', () => {
   it('should call onAgreeClick when it clicks on "Agree" button', async () => {
     // Arrange
     const props = {
-      onAgreeClick: jest.fn(),
+      onAgreeClick: vi.fn(),
     };
 
     // Act
     render(<CookiesDialog {...props} />);
 
-    // The only button available at this moment
-    const buttonElement = screen.getByRole('button');
+    const buttonElement = screen.getByRole('button', {
+      name: /learn more about our cookies/i,
+    });
     await userEvent.click(buttonElement);
 
-    const dialogElement = screen.getByRole('dialog');
-
-    const agreeButtonElement = within(dialogElement).getByRole('button');
+    const agreeButtonElement = screen.getByRole('button', { name: /agree/i });
     await userEvent.click(agreeButtonElement);
 
     // Assert
     expect(props.onAgreeClick).toHaveBeenCalled();
+  });
+
+  it('should has "Cookie" and "Purpose" headers the second table', async () => {
+    // Arrange
+    const props = {
+      onAgreeClick: vi.fn(),
+    };
+
+    // Act
+    render(<CookiesDialog {...props} />);
+
+    const buttonElement = screen.getByRole('button', {
+      name: /learn more about our cookies/i,
+    });
+    await userEvent.click(buttonElement);
+
+    const [, secondTable] = screen.getAllByRole('table');
+
+    // Assert
+    const [cookieHeader, purposeHeader] =
+      within(secondTable).getAllByRole('columnheader');
+    expect(cookieHeader).toHaveTextContent('Cookie');
+    expect(purposeHeader).toHaveTextContent('Purpose');
   });
 });

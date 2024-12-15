@@ -14,7 +14,7 @@ npm install
 
 Let's create a simple material-ui `Dialog`:
 
-### ./src/cookies-dialog.tsx
+_./src/cookies-dialog.tsx_
 
 ```javascript
 import React from 'react';
@@ -25,6 +25,11 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
 } from '@mui/material';
 
 interface Props {
@@ -51,11 +56,51 @@ export const CookiesDialog: React.FC<Props> = (props) => {
           <DialogContentText>
             Any information that you voluntarily provide to us, including your
             name and email address, will be used for the sole purpose for which
-            the information was provided to us. In addition, communication
-            exchanges on this website are public (not private) communications.
-            Therefore, any message that you post on this website will be
-            considered and treated as available for public use and distribution.
+            the information was provided to us.
           </DialogContentText>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Cookie</TableCell>
+                <TableCell>Purpose</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell>cookie 1</TableCell>
+                <TableCell>purpose 1</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>cookie 2</TableCell>
+                <TableCell>purpose 2</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+          <br />
+          <DialogContentText>
+            In addition, communication exchanges on this website are public (not
+            private) communications. Therefore, any message that you post on
+            this website will be considered and treated as available for public
+            use and distribution.
+          </DialogContentText>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Cookie</TableCell>
+                <TableCell>Purpose</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell>cookie 3</TableCell>
+                <TableCell>purpose 3</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>cookie 4</TableCell>
+                <TableCell>purpose 4</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={handleAgreeClick}>
@@ -66,11 +111,12 @@ export const CookiesDialog: React.FC<Props> = (props) => {
     </>
   );
 };
+
 ```
 
 Use it:
 
-### ./src/app.tsx
+_./src/app.tsx_
 
 ```diff
 import React from 'react';
@@ -95,7 +141,7 @@ export const App: React.FunctionComponent = () => {
 
 Let's add some specs:
 
-### ./src/cookies-dialog.spec.tsx
+_./src/cookies-dialog.spec.tsx_
 
 ```javascript
 import React from 'react';
@@ -114,7 +160,7 @@ describe('CookiesDialog component specs', () => {
 
 Should display a button with text "Learn more about our cookies":
 
-### ./src/cookies-dialog.spec.tsx
+_./src/cookies-dialog.spec.tsx_
 
 ```diff
 ...
@@ -143,7 +189,7 @@ describe('CookiesDialog component specs', () => {
 
 Should open a dialog when click on "learn more..." button:
 
-### ./src/cookies-dialog.spec.tsx
+_./src/cookies-dialog.spec.tsx_
 
 ```diff
 ...
@@ -180,7 +226,7 @@ Should call onAgreeClick when it clicks on "Agree" button:
 + it('should call onAgreeClick when it clicks on "Agree" button', async () => {
 +   // Arrange
 +   const props = {
-+     onAgreeClick: jest.fn(),
++     onAgreeClick: vi.fn(),
 +   };
 
 +   // Act
@@ -200,7 +246,11 @@ Should call onAgreeClick when it clicks on "Agree" button:
 
 ```
 
-An improvement could be use `within` method:
+> In this case filter by name is redundant, we could get the only button available at this moment because the DOM elements outside the dialog are hidden.
+>
+> Check Dev Tools to see the `aria-hidden` attribute.
+
+Sometimes we need to get elements inside another one, in those cases we can use `within` method:
 
 ```diff
 import React from 'react';
@@ -211,33 +261,28 @@ import { CookiesDialog } from './cookies-dialog';
 
 ...
 
++ it('should has "Cookie" and "Purpose" headers the second table', async () => {
++   // Arrange
++   const props = {
++     onAgreeClick: vi.fn(),
++   };
 
++   // Act
++   render(<CookiesDialog {...props} />);
 
-  it('should call onAgreeClick when it clicks on "Agree" button', async () => {
-    // Arrange
-    const props = {
-      onAgreeClick: jest.fn(),
-    };
++   const buttonElement = screen.getByRole('button', {
++     name: /learn more about our cookies/i,
++   });
++   await userEvent.click(buttonElement);
 
-    // Act
-    render(<CookiesDialog {...props} />);
++   const [, secondTable] = screen.getAllByRole('table');
 
--   const buttonElement = screen.getByRole('button', {
--     name: /learn more about our cookies/i,
--   });
-+   // The only button available at this moment
-+   const buttonElement = screen.getByRole('button');
-    await userEvent.click(buttonElement);
-
-+   const dialogElement = screen.getByRole('dialog');
-
--   const agreeButtonElement = screen.getByRole('button', { name: /agree/i });
-+   const agreeButtonElement = within(dialogElement).getByRole('button');
-    await userEvent.click(agreeButtonElement);
-
-    // Assert
-    expect(props.onAgreeClick).toHaveBeenCalled();
-  });
++   // Assert
++   const [cookieHeader, purposeHeader] =
++     within(secondTable).getAllByRole('columnheader');
++   expect(cookieHeader).toHaveTextContent('Cookie');
++   expect(purposeHeader).toHaveTextContent('Purpose');
++ });
 
 ```
 

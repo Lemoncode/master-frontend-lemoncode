@@ -14,7 +14,7 @@ npm install
 
 Now we will create a file that it will contain a call a remote api that returns a list of names.
 
-### ./src/name-api.ts
+_./src/name-api.ts_
 
 ```javascript
 import Axios from 'axios';
@@ -27,7 +27,7 @@ export const getNameCollection = (): Promise<string[]> =>
 
 Let's create a component that make use of this api and display that list.
 
-### ./src/name-collection.tsx
+_./src/name-collection.tsx_
 
 ```javascript
 import React from 'react';
@@ -54,7 +54,7 @@ export const NameCollection: React.FC = () => {
 
 Now let's use it in the _app.tsx_ file.
 
-### ./src/app.tsx
+_./src/app.tsx_
 
 ```diff
 import React from 'react';
@@ -75,7 +75,7 @@ export const App: React.FunctionComponent = () => {
 
 Time to test this async piece :), let's create a file called _name-collection.spec.tsx_
 
-### ./src/name-collection.spec.tsx
+_./src/name-collection.spec.tsx_
 
 ```javascript
 import React from 'react';
@@ -93,7 +93,7 @@ describe('NameCollection component specs', () => {
 
 Should display a list with one item when it mounts the component and it resolves the async call:
 
-### ./src/name-collection.spec.tsx
+_./src/name-collection.spec.tsx_
 
 ```diff
 import React from 'react';
@@ -105,9 +105,7 @@ describe('NameCollection component specs', () => {
 - it('', () => {
 + it('should display a list with one item when it mounts the component and it resolves the async call', async () => {
     // Arrange
-+   const getStub = jest
-+     .spyOn(api, 'getNameCollection')
-+     .mockResolvedValue(['John Doe']);
++   vi.spyOn(api, 'getNameCollection').mockResolvedValue(['John Doe']);
 
     // Act
 +   render(<NameCollection />);
@@ -116,7 +114,7 @@ describe('NameCollection component specs', () => {
 
     // Assert
 +   expect(items).toHaveLength(1);
-+   expect(getStub).toHaveBeenCalled();
++   expect(api.getNameCollection).toHaveBeenCalled();
   });
 });
 
@@ -126,15 +124,13 @@ describe('NameCollection component specs', () => {
 
 How to check if there is no element?
 
-### ./src/name-collection.spec.tsx
+_./src/name-collection.spec.tsx_
 
 ```diff
 ...
   it('should display a list with one item when it mounts the component and it resolves the async call', async () => {
     // Arrange
-    const getStub = jest
-      .spyOn(api, 'getNameCollection')
-      .mockResolvedValue(['John Doe']);
+    vi.spyOn(api, 'getNameCollection').mockResolvedValue(['John Doe']);
 
     // Act
     render(<NameCollection />);
@@ -146,7 +142,7 @@ How to check if there is no element?
 
     // Assert
     expect(items).toHaveLength(1);
-    expect(getStub).toHaveBeenCalled();
+    expect(api.getNameCollection).toHaveBeenCalled();
   });
 });
 
@@ -154,7 +150,7 @@ How to check if there is no element?
 
 If we know it could be null element, we should use `query...` instead of `get...`:
 
-### ./src/name-collection.spec.tsx
+_./src/name-collection.spec.tsx_
 
 ```diff
 ...
@@ -166,7 +162,7 @@ If we know it could be null element, we should use `query...` instead of `get...
 
     // Assert
     expect(items).toHaveLength(1);
-    expect(getStub).toHaveBeenCalled();
+    expect(api.getNameCollection).toHaveBeenCalled();
   });
 
 ```
@@ -175,7 +171,7 @@ If we know it could be null element, we should use `query...` instead of `get...
 
 Sometimes, we need to wait for some element to be removed and check it:
 
-### ./src/name-collection.tsx
+_./src/name-collection.tsx_
 
 ```diff
 ...
@@ -196,7 +192,7 @@ Sometimes, we need to wait for some element to be removed and check it:
 
 ```
 
-### ./src/name-collection.spec.tsx
+_./src/name-collection.spec.tsx_
 
 ```diff
 import React from 'react';
@@ -208,9 +204,7 @@ import { NameCollection } from './name-collection';
 
 + it('should remove no data description when it mounts the component and it resolves the async call', async () => {
 +     // Arrange
-+     const getStub = jest
-+       .spyOn(api, 'getNameCollection')
-+       .mockResolvedValue(['John Doe']);
++     vi.spyOn(api, 'getNameCollection').mockResolvedValue(['John Doe']);
 
 +     // Act
 +     render(<NameCollection />);
@@ -229,7 +223,7 @@ import { NameCollection } from './name-collection';
 
 Or using `waitForElementToBeRemoved`:
 
-### ./src/name-collection.spec.tsx
+_./src/name-collection.spec.tsx_
 
 ```diff
 import React from 'react';
@@ -246,9 +240,7 @@ import { NameCollection } from './name-collection';
 
 it('should remove no data description when it mounts the component and it resolves the async call', async () => {
     // Arrange
-    const getStub = jest
-      .spyOn(api, 'getNameCollection')
-      .mockResolvedValue(['John Doe']);
+    vi.spyOn(api, 'getNameCollection').mockResolvedValue(['John Doe']);
 
     // Act
     render(<NameCollection />);

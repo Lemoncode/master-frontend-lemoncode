@@ -13,7 +13,7 @@ describe('api specs', () => {
       },
     ];
 
-    const getStub = vi.spyOn(Axios, 'get').mockResolvedValue({
+    vi.spyOn(Axios, 'get').mockResolvedValue({
       data: members,
     });
 
@@ -21,7 +21,7 @@ describe('api specs', () => {
     const result = await getMembers();
 
     // Assert
-    expect(getStub).toHaveBeenCalledWith(
+    expect(Axios.get).toHaveBeenCalledWith(
       'https://api.github.com/orgs/lemoncode/members'
     );
     expect(result).toEqual(members);
@@ -29,7 +29,7 @@ describe('api specs', () => {
 
   it('should throw an error with "Too much Github API calls!" when it rejects the request with 403 status code', async () => {
     // Arrange
-    const getStub = vi.spyOn(Axios, 'get').mockRejectedValue({
+    vi.spyOn(Axios, 'get').mockRejectedValue({
       response: {
         status: 403,
       },
@@ -40,7 +40,7 @@ describe('api specs', () => {
       const result = await getMembers();
     } catch (error) {
       // Assert
-      expect(getStub).toHaveBeenCalledWith(
+      expect(Axios.get).toHaveBeenCalledWith(
         'https://api.github.com/orgs/lemoncode/members'
       );
       expect(error).toEqual('Too much Github API calls!');
@@ -49,7 +49,7 @@ describe('api specs', () => {
 
   it('should throw an error with "Unavailable service" when it rejects the request with 503 status code', async () => {
     // Arrange
-    const getStub = vi.spyOn(Axios, 'get').mockRejectedValue({
+    vi.spyOn(Axios, 'get').mockRejectedValue({
       response: {
         status: 503,
       },
@@ -60,7 +60,7 @@ describe('api specs', () => {
       const result = await getMembers();
     } catch (error) {
       // Assert
-      expect(getStub).toHaveBeenCalledWith(
+      expect(Axios.get).toHaveBeenCalledWith(
         'https://api.github.com/orgs/lemoncode/members'
       );
       expect(error).toEqual('Unavailable service');
@@ -69,7 +69,7 @@ describe('api specs', () => {
 
   it('should return undefined when it rejects the request with different status code', async () => {
     // Arrange
-    const getStub = vi.spyOn(Axios, 'get').mockRejectedValue({
+    vi.spyOn(Axios, 'get').mockRejectedValue({
       response: {
         status: 404,
       },
@@ -78,7 +78,7 @@ describe('api specs', () => {
     // Act
     const result = await getMembers();
     // Assert
-    expect(getStub).toHaveBeenCalledWith(
+    expect(Axios.get).toHaveBeenCalledWith(
       'https://api.github.com/orgs/lemoncode/members'
     );
     expect(result).toBeUndefined();

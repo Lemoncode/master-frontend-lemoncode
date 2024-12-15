@@ -1,6 +1,6 @@
 # 01 Hello
 
-In this example we will setup react testing library and create a simple test over a component that just display and _h1_
+In this example we will setup `react testing library` and create a simple test over a component that just display and _h1_
 
 We will start from `00-boilerplate`.
 
@@ -15,12 +15,12 @@ npm install
 Let's install [react-testing-library](https://github.com/testing-library/react-testing-library)
 
 ```bash
-npm install @testing-library/react --save-dev
+npm install @testing-library/react @testing-library/dom --save-dev
 ```
 
 We will create a simple component.
 
-### ./src/say-hello.tsx
+_./src/say-hello.tsx_
 
 ```javascript
 import React from 'react';
@@ -33,12 +33,11 @@ export const SayHello: React.FC<Props> = (props) => {
   const { person } = props;
   return <h1>Hello {person}</h1>;
 };
-
 ```
 
 Let's add our first test, we want to instantiate _SayHello_ and check that we are getting an h1 that contains the name of the person that we are passing.
 
-### ./src/say-hello.spec.tsx
+_./src/say-hello.spec.tsx_
 
 ```javascript
 import React from 'react';
@@ -61,47 +60,52 @@ describe('SayHello component specs', () => {
 });
 ```
 
+> [tagName MDN](https://developer.mozilla.org/en-US/docs/Web/API/Element/tagName)
+
 Running:
 
 ```bash
-npm run test:watch
+npm test
 
 ```
 
-Why it's failing? Because the default `jest running environment` is NodeJS, we could select `jsdom`. Since [jest v28](https://jestjs.io/docs/upgrading-to-jest28#jsdom) we have to install this environment separately:
+Why it's failing? Because the default the `default running environment` is NodeJS.
+We have some [environment](https://vitest.dev/config/#environment) alterantives:
+
+- [jsdom](https://github.com/jsdom/jsdom): More mature JavaScript implementation of web standards, for use with Node.js.
+- [happy-dom](https://github.com/capricorn86/happy-dom): A lightweight, fast and accurate DOM implementation for Node.js.
 
 ```bash
-npm install jest-environment-jsdom --save-dev
+npm install jsdom --save-dev
 
 ```
 
-### ./config/test/jest.js
+_./config/test/config.ts_
 
 ```diff
-module.exports = {
-  rootDir: '../../',
-  verbose: true,
-  preset: 'ts-jest',
-  restoreMocks: true,
-+ testEnvironment: 'jsdom',
-};
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  test: {
+    globals: true,
+    restoreMocks: true,
++   environment: 'jsdom',
+  },
+});
+
 
 ```
-
-> [Jest Docs](https://jestjs.io/docs/configuration#testenvironment-string)
->
-> [jsdom Docs](https://github.com/jsdom/jsdom)
 
 Running again:
 
 ```bash
-npm run test:watch
+npm test
 
 ```
 
 Another approach is to use `snapshot testing`:
 
-### ./src/say-hello.spec.tsx
+_./src/say-hello.spec.tsx_
 
 ```diff
 ...
@@ -121,12 +125,12 @@ Another approach is to use `snapshot testing`:
 
 It will add a file like:
 
-### ./src/\_\_snapshots\_\_/say-hello.spec.tsx.snap
+_./src/\_\_snapshots\_\_/say-hello.spec.tsx.snap_
 
 ```
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`SayHello component specs should display the person name using snapshot testing 1`] = `
+exports[`SayHello component specs > should display the person name using snapshot testing 1`] = `
 <DocumentFragment>
   <h1>
     Hello John
@@ -138,7 +142,7 @@ exports[`SayHello component specs should display the person name using snapshot 
 
 Or even, we could use `inline snapshots`:
 
-### ./src/say-hello.spec.tsx
+_./src/say-hello.spec.tsx_
 
 ```diff
 ...
@@ -160,7 +164,7 @@ This kind of tests are useful when we want to make sure the UI does not change. 
 
 On the other hand, this could be a `bad idea` in complex scenarios due to it could be complicated review the whole snapshot and we could fall into a bad habit of updating snapshot tests blindly.
 
-A third approach is using [jest-dom](https://github.com/testing-library/jest-dom) from testing-library. It provides a set of custom jest matchers to create declarative and clear to read expects.
+A third approach is using [jest-dom](https://github.com/testing-library/jest-dom) from testing-library (yes, we can even use it with Vitest). It provides a set of custom matchers to create declarative and clear to read expects.
 
 ```bash
 npm install @testing-library/jest-dom --save-dev
@@ -169,47 +173,45 @@ npm install @testing-library/jest-dom --save-dev
 
 Configure it:
 
-### ./config/test/setup-after.ts
+_./config/test/setup.ts_
 
 ```javascript
-import '@testing-library/jest-dom';
-
+import '@testing-library/jest-dom/vitest';
 ```
 
-Update `jest` config:
+Update config:
 
-### ./config/test/jest.js
+_./config/test/config.ts_
 
 ```diff
-module.exports = {
-  rootDir: '../../',
-  verbose: true,
-  preset: 'ts-jest',
-  restoreMocks: true,
-  testEnvironment: 'jsdom',
-+ setupFilesAfterEnv: ['<rootDir>/config/test/setup-after.ts'],
-};
+import { defineConfig } from 'vitest/config';
 
+export default defineConfig({
+  test: {
+    globals: true,
+    restoreMocks: true,
+    environment: 'jsdom',
++   setupFiles: ['./config/test/setup.ts'],
+  },
+});
 ```
 
-> [setupFilesAfterEnv](https://jestjs.io/docs/configuration#setupfilesafterenv-array)
->
-> We need to setup after jest environment execution.
+> [setupFiles](https://vitest.dev/config/#sequence-setupfiles)
 
 Update `tsconfig`:
 
-### ./tsconfig.json
+_./tsconfig.json_
 
 ```diff
 ...
-- "include": ["./src/**/*"],
-+ "include": ["./src/**/*", "./config/test/setup-after.ts"],
+- "include": ["./src/**/*", "./config/test/config.d.ts"]
++ "include": ["./src/**/*", "./config/test/config.d.ts", "./config/test/setup.ts"]
 }
 ```
 
 Now, we could write it like:
 
-### ./src/say-hello.spec.tsx
+_./src/say-hello.spec.tsx_
 
 ```diff
 ...
@@ -233,7 +235,7 @@ Here, there are some [best practices using react-testing-library](https://kentcd
 
 > The benefit of using `screen` is you no longer need to keep the `render` call destructure up-to-date as you add/remove the queries you need.
 
-### ./src/say-hello.spec.tsx
+_./src/say-hello.spec.tsx_
 
 ```diff
 import React from 'react';
@@ -283,7 +285,7 @@ Using `getByRole`:
 >
 > [Which query should I use?](https://testing-library.com/docs/guide-which-query)
 
-### ./src/say-hello.tsx
+_./src/say-hello.tsx_
 
 ```diff
 import React from 'react';
@@ -300,11 +302,11 @@ export const SayHello: React.FunctionComponent<Props> = (props) => {
 
 ```
 
-We have to update the snapshot test: ok! it's not a big deal, we press `u` key.
+> We have to update the snapshot test: ok! it's not a big deal, we press `u` key.
 
 But we have two specs still failling because the text is broken up by multiple elements. We can use `getByRole` that it`s a more flexible function and we are testing screen readers too.
 
-### ./src/say-hello.tsx
+_./src/say-hello.tsx_
 
 ```diff
 import React from 'react';
@@ -341,7 +343,7 @@ describe('SayHello component specs', () => {
 -   const element = screen.getByText('Hello John');
 +   const element = screen.getByRole('heading', {
 +     level: 1,
-+     name: 'Hello John',
++     name: /hello john/i,
 +   });
 
     // Assert

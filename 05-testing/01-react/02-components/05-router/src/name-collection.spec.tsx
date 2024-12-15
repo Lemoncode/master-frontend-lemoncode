@@ -23,9 +23,7 @@ const renderWithRouter = (component) =>
 describe('NameCollection component specs', () => {
   it('should display a list with one item when it mounts the component and it resolves the async call', async () => {
     // Arrange
-    const getStub = jest
-      .spyOn(api, 'getNameCollection')
-      .mockResolvedValue(['John Doe']);
+    vi.spyOn(api, 'getNameCollection').mockResolvedValue(['John Doe']);
 
     // Act
     renderWithRouter(<NameCollection />);
@@ -37,14 +35,12 @@ describe('NameCollection component specs', () => {
 
     // Assert
     expect(items).toHaveLength(1);
-    expect(getStub).toHaveBeenCalled();
+    expect(api.getNameCollection).toHaveBeenCalled();
   });
 
   it('should remove no data description when it mounts the component and it resolves the async call', async () => {
     // Arrange
-    const getStub = jest
-      .spyOn(api, 'getNameCollection')
-      .mockResolvedValue(['John Doe']);
+    vi.spyOn(api, 'getNameCollection').mockResolvedValue(['John Doe']);
 
     // Act
     renderWithRouter(<NameCollection />);
@@ -57,9 +53,10 @@ describe('NameCollection component specs', () => {
 
   it('should navigate to second user edit page when click in second user name', async () => {
     // Arrange
-    const getStub = jest
-      .spyOn(api, 'getNameCollection')
-      .mockResolvedValue(['John Doe', 'Jane Doe']);
+    vi.spyOn(api, 'getNameCollection').mockResolvedValue([
+      'John Doe',
+      'Jane Doe',
+    ]);
 
     // Act
     renderWithRouter(<NameCollection />);

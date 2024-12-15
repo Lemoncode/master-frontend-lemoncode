@@ -45,7 +45,7 @@ describe('useLogin specs', () => {
   it('should update user when it send valid credentials using onLogin', async () => {
     // Arrange
     const adminUser: User = { email: 'admin@email.com', role: 'admin' };
-    const loginStub = jest.spyOn(api, 'login').mockResolvedValue(adminUser);
+    vi.spyOn(api, 'login').mockResolvedValue(adminUser);
 
     // Act
     const { result } = renderHook(() => useLogin());
@@ -55,7 +55,7 @@ describe('useLogin specs', () => {
     });
 
     // Assert
-    expect(loginStub).toHaveBeenCalled();
+    expect(api.login).toHaveBeenCalled();
     await waitFor(() => {
       expect(result.current.user).toEqual(adminUser);
     });

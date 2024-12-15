@@ -11,7 +11,7 @@ describe('NameEdit component specs', () => {
     render(<NameEdit />);
 
     const h3Element = screen.getByRole('heading', { level: 3 });
-    const inputElement = screen.getByRole('textbox') as HTMLInputElement;
+    const inputElement = screen.getByRole('textbox');
 
     // Assert
     expect(h3Element).toBeInTheDocument();

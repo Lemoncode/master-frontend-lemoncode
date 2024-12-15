@@ -353,6 +353,8 @@ describe('SayHello component specs', () => {
 
 ```
 
+> [h1 MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements#technical_summary)
+
 # About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.

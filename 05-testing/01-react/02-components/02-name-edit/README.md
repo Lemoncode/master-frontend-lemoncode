@@ -20,7 +20,7 @@ npm install
 
 Let's create our _name-edit_ component.
 
-### ./src/name-edit.tsx
+_./src/name-edit.tsx_
 
 ```javascript
 import React from 'react';
@@ -39,7 +39,7 @@ export const NameEdit: React.FC = () => {
 
 Let's instantiate this component in our app.
 
-### ./src/app.tsx
+_./src/app.tsx_
 
 ```diff
 import React from 'react';
@@ -66,7 +66,7 @@ Let's start implementing a test, the scenario we want to test:
 
 If we try use `getByText`:
 
-### ./src/name-edit.spec.tsx
+_./src/name-edit.spec.tsx_
 
 ```javascript
 import React from 'react';
@@ -94,7 +94,7 @@ describe('NameEdit component specs', () => {
 
 Let's use `byRole`:
 
-### ./src/name-edit.spec.tsx
+_./src/name-edit.spec.tsx_
 
 ```diff
 import React from 'react';
@@ -123,11 +123,11 @@ describe('NameEdit component specs', () => {
 Should update h3 text when input changes. This library comes with `fireEvent`, it will simply trigger some event over the element but in some cases, [we could have some issues](https://github.com/testing-library/react-testing-library/issues/322). So let's install [@testing-library/user-event](https://github.com/testing-library/user-event) is a package that's built on top of `fireEvent`, but it provides several methods that resemble the user interactions more closely:
 
 ```bash
-npm install @testing-library/user-event @testing-library/dom --save-dev
+npm install @testing-library/user-event --save-dev
 
 ```
 
-### ./src/name-edit.spec.tsx
+_./src/name-edit.spec.tsx_
 
 ```diff
 import React from 'react';

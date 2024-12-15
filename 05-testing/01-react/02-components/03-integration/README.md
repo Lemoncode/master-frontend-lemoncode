@@ -15,7 +15,7 @@ npm install
 
 Now we will split our _name-edit_ component and we create the _display_ and _edit_ components.
 
-### ./src/display.tsx
+_./src/display.tsx_
 
 ```javascript
 import React from 'react';
@@ -31,7 +31,7 @@ export const Display: React.FC<Props> = (props) => {
 };
 ```
 
-### ./src/edit.tsx
+_./src/edit.tsx_
 
 ```javascript
 import React from 'react';
@@ -52,7 +52,7 @@ export const Edit: React.FC<Props> = (props) => {
 
 Update `name-edit` component:
 
-### ./src/name-edit.tsx
+_./src/name-edit.tsx_
 
 ```diff
 import React from 'react';
@@ -77,7 +77,7 @@ export const NameEdit: React.FunctionComponent = () => {
 Now, do we need to make any change on the _name-edit_ test? Let's see...
 
 ```bash
-npm run test:watch
+npm test
 ```
 
 Nope ! Wow ! how does this work? React Testing library just mounts the whole component and since we are keeping the same elements, the test is still valid as is.

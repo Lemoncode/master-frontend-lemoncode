@@ -13,7 +13,7 @@ describe('api specs', () => {
       },
     ];
 
-    const getStub = jest.spyOn(Axios, 'get').mockResolvedValue({
+    const getStub = vi.spyOn(Axios, 'get').mockResolvedValue({
       data: members,
     });
 
@@ -29,7 +29,7 @@ describe('api specs', () => {
 
   it('should throw an error with "Too much Github API calls!" when it rejects the request with 403 status code', async () => {
     // Arrange
-    const getStub = jest.spyOn(Axios, 'get').mockRejectedValue({
+    const getStub = vi.spyOn(Axios, 'get').mockRejectedValue({
       response: {
         status: 403,
       },
@@ -49,7 +49,7 @@ describe('api specs', () => {
 
   it('should throw an error with "Unavailable service" when it rejects the request with 503 status code', async () => {
     // Arrange
-    const getStub = jest.spyOn(Axios, 'get').mockRejectedValue({
+    const getStub = vi.spyOn(Axios, 'get').mockRejectedValue({
       response: {
         status: 503,
       },
@@ -69,7 +69,7 @@ describe('api specs', () => {
 
   it('should return undefined when it rejects the request with different status code', async () => {
     // Arrange
-    const getStub = jest.spyOn(Axios, 'get').mockRejectedValue({
+    const getStub = vi.spyOn(Axios, 'get').mockRejectedValue({
       response: {
         status: 404,
       },

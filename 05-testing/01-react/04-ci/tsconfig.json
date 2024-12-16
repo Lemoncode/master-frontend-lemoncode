@@ -13,8 +13,8 @@
     "esModuleInterop": true,
     "baseUrl": "./src/",
     "paths": {
-      "@/*": ["*"]
+      "#*": ["*"]
     }
   },
-  "include": ["./src/**/*", "./config/test/setup-after.ts"],
+  "include": ["./src/**/*", "./config/test/config.d.ts", "./config/test/setup.ts"]
 }

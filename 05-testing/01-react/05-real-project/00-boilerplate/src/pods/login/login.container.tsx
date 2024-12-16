@@ -1,10 +1,10 @@
 import React from 'react';
 import { trackPromise } from 'react-promise-tracker';
 import { useNavigate } from 'react-router-dom';
-import { routes } from 'core/router';
-import { literals } from 'core/i18n';
-import { AuthContext } from 'common-app/auth';
-import { useSnackbarContext } from 'common/components';
+import { routes } from '#core/router';
+import { literals } from '#core/i18n';
+import { AuthContext } from '#common-app/auth';
+import { useSnackbarContext } from '#common/components';
 import { isValidLogin } from './login.api';
 import { LoginComponent } from './login.component';
 import { Login } from './login.vm';

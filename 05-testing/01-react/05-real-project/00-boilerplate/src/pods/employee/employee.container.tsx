@@ -6,12 +6,12 @@ import {
   createEmptyEmployee,
   createEmptyReport,
 } from './employee.vm';
-import { useSnackbarContext } from 'common/components';
+import { useSnackbarContext } from '#common/components';
 import { trackPromise } from 'react-promise-tracker';
 import { getEmployeeById } from './api';
 import { mapEmployeeFromApiToVm } from './employee.mappers';
 import { useParams } from 'react-router-dom';
-import { isEditModeHelper } from 'common/helpers';
+import { isEditModeHelper } from '#common/helpers';
 
 export const EmployeeContainer: React.FunctionComponent = () => {
   const { id } = useParams<{ id: string }>();

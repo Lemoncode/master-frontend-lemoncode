@@ -1,6 +1,6 @@
 import React from 'react';
-import { AppLayout } from 'layouts';
-import { EmployeeContainer } from 'pods/employee';
+import { AppLayout } from '#layouts';
+import { EmployeeContainer } from '#pods/employee';
 
 export const EmployeeScene: React.FunctionComponent = () => {
   return (

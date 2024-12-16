@@ -1,5 +1,5 @@
 import { filterByFields, filterByText } from './filter.helpers';
-import { Lookup } from 'common/models';
+import { Lookup } from '#common/models';
 
 interface Item {
   id: string;

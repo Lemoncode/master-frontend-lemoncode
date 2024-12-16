@@ -16,8 +16,20 @@ interface Props {
   dataTestId?: string;
 }
 
-export const DashboardComponent: React.FC<Props> = props => {
-  const { items, classes, dataTestId } = props;
+export const DashboardComponent: React.FC<Props> = (props) => {
+  const {
+    items,
+    classes = {
+      root: '',
+      items: '',
+      item: {
+        root: '',
+        icon: '',
+        title: '',
+      },
+    },
+    dataTestId,
+  } = props;
   return (
     <div
       data-testid={dataTestId}
@@ -25,7 +37,7 @@ export const DashboardComponent: React.FC<Props> = props => {
     >
       <div className={cx(innerClasses.items, classes.items)}>
         {items.map(
-          item =>
+          (item) =>
             Boolean(item) && (
               <ItemComponent
                 key={item.title}
@@ -40,16 +52,4 @@ export const DashboardComponent: React.FC<Props> = props => {
       </div>
     </div>
   );
-};
-
-DashboardComponent.defaultProps = {
-  classes: {
-    root: '',
-    items: '',
-    item: {
-      root: '',
-      icon: '',
-      title: '',
-    },
-  },
 };

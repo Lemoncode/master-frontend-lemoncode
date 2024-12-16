@@ -1,5 +1,5 @@
 import React from 'react';
-import { Lookup } from 'common/models';
+import { Lookup } from '#common/models';
 
 export interface RowRendererProps<T = {}> {
   row: T;

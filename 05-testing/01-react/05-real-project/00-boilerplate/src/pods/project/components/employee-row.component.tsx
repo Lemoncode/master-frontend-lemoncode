@@ -4,7 +4,7 @@ import {
   RowRendererProps,
   RowComponent,
   CellComponent,
-} from 'common/components';
+} from '#common/components';
 import { EmployeeSummary } from '../project.vm';
 
 type Props = RowRendererProps<EmployeeSummary>;

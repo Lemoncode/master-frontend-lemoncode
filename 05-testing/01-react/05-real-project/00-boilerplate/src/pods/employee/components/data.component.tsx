@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import { TextFieldComponent, CheckboxComponent } from 'common/components';
-import produce from 'immer';
+import { TextFieldComponent, CheckboxComponent } from '#common/components';
+import { produce } from 'immer';
 import { CommandFooterComponent } from '../../../common-app/command-footer';
 import * as classes from './data.styles';
 import { cx } from '@emotion/css';
@@ -25,7 +25,7 @@ export const DataComponent: React.FunctionComponent<Props> = ({
   onCancel,
 }) => {
   React.useEffect(() => {
-    const newValidationSchema = produce(validationSchema, darft => {
+    const newValidationSchema = produce(validationSchema, (darft) => {
       darft.field.temporalPassword = isEditMode ? [] : [Validators.required];
     });
     formValidation.updateValidationSchema(newValidationSchema);

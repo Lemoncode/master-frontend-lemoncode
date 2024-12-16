@@ -1,5 +1,5 @@
 import React from 'react';
-import { DashboardComponent, DashboardItemProps } from 'common/components';
+import { DashboardComponent, DashboardItemProps } from '#common/components';
 
 interface Props {
   items: DashboardItemProps[];

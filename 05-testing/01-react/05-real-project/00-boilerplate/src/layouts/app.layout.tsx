@@ -1,6 +1,6 @@
 import React from 'react';
-import { AppBarComponent } from 'common-app/app-bar';
-import { FooterComponent } from 'common/components';
+import { AppBarComponent } from '#common-app/app-bar';
+import { FooterComponent } from '#common/components';
 import * as classes from './app.layout.styles';
 
 interface Props {

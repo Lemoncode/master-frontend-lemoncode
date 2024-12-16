@@ -4,7 +4,7 @@ import {
   TabComponent,
   TabListComponent,
   TabPanelComponent,
-} from 'common/components';
+} from '#common/components';
 import { DataComponent, ProjectComponent, ReportComponent } from './components';
 import { Employee, Report } from './employee.vm';
 import * as classes from './employee.styles';

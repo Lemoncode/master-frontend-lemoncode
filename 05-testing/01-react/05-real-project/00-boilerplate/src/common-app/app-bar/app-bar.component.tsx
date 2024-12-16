@@ -9,8 +9,8 @@ import {
   Typography,
 } from '@mui/material';
 import { AccountCircle, Menu as MenuIcon } from '@mui/icons-material';
-import { literals } from 'core/i18n';
-import { AuthContext, useLogout } from 'common-app/auth';
+import { literals } from '#core/i18n';
+import { AuthContext, useLogout } from '#common-app/auth';
 import { SideMenuComponent } from './components';
 import { useMenu } from './app-bar.hook';
 import * as classes from './app-bar.styles';

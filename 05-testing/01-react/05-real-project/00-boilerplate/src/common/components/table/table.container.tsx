@@ -1,10 +1,9 @@
 import React from 'react';
 import {
-  useTable,
-  usePagination,
-  TableInstance,
-  UsePaginationInstanceProps,
-} from 'react-table';
+  useReactTable,
+  getCoreRowModel,
+  getPaginationRowModel,
+} from '@tanstack/react-table';
 import { useConfirmationDialog } from '../confirmation-dialog';
 import {
   RowRendererProps,
@@ -13,8 +12,6 @@ import {
 } from './table.vm';
 import { TableComponent } from './table.component';
 import { mapColumnListFromStringToColumn } from './table.mappers';
-
-type TableProps = TableInstance & UsePaginationInstanceProps<{}>;
 
 interface Props<T = {}> {
   columns: string[];
@@ -32,8 +29,8 @@ interface Props<T = {}> {
   className?: string;
 }
 
-export const TableContainer: React.FunctionComponent<Props> = props => {
-  const { className } = props;
+export const TableContainer: React.FunctionComponent<Props> = (props) => {
+  const { className, enablePagination = false } = props;
 
   const labels = { ...createEmptyLabelProps(), ...props.labels };
 
@@ -43,32 +40,21 @@ export const TableContainer: React.FunctionComponent<Props> = props => {
   );
   const data = React.useMemo(() => props.rows, [props.rows]);
 
-  const {
-    getTableProps,
-    headerGroups,
-    rows,
-    prepareRow,
-    page,
-    gotoPage,
-    pageOptions,
-    state,
-  } = useTable(
-    {
-      columns,
-      data,
-      initialState: { pageSize: props.pageSize } as any,
+  const table = useReactTable({
+    columns,
+    data,
+    initialState: {
+      pagination: {
+        pageSize: props.pageSize,
+      },
     },
-    usePagination
-  ) as TableProps;
-  const { pageIndex } = state as any;
-
-  const {
-    isOpen,
-    itemToDelete,
-    onOpenDialog,
-    onClose,
-    onAccept,
-  } = useConfirmationDialog();
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+  });
+  const { pageIndex } = table.getState().pagination;
+  const pageOptions = table.getPageOptions();
+  const { isOpen, itemToDelete, onOpenDialog, onClose, onAccept } =
+    useConfirmationDialog();
 
   const handleDelete = () => {
     if (props.onDelete) {
@@ -80,11 +66,8 @@ export const TableContainer: React.FunctionComponent<Props> = props => {
   return (
     <TableComponent
       className={className}
-      tableProps={{ ...getTableProps() }}
-      headerGroups={headerGroups}
-      rows={props.enablePagination ? page : rows}
-      prepareRow={prepareRow}
-      rowRenderer={rowProps =>
+      tableProps={table}
+      rowRenderer={(rowProps) =>
         props.rowRenderer({
           ...rowProps,
           onEdit: props.onEdit,
@@ -100,7 +83,7 @@ export const TableContainer: React.FunctionComponent<Props> = props => {
       )}
       pageIndex={pageIndex}
       pageCount={pageOptions.length}
-      goToPage={gotoPage}
+      goToPage={table.setPageIndex}
       onCreate={props.onCreate}
       onDelete={Boolean(props.onDelete) ? handleDelete : undefined}
       isOpenConfirmation={isOpen}
@@ -108,9 +91,4 @@ export const TableContainer: React.FunctionComponent<Props> = props => {
       itemToDeleteName={itemToDelete.name}
     />
   );
-};
-
-TableContainer.defaultProps = {
-  enablePagination: false,
-  labels: createEmptyLabelProps(),
 };

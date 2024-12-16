@@ -3,7 +3,7 @@ import {
   TableContainer,
   RowRendererProps,
   useSearchBar,
-} from 'common/components';
+} from '#common/components';
 import { Project } from './project-list.vm';
 import { ProjectRowComponent } from './components';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableProps, HeaderGroup, Row } from 'react-table';
+import { Table as TableProps } from '@tanstack/react-table';
 import {
   Paper,
   TableContainer,
@@ -15,10 +15,7 @@ import { RowRendererProps, LabelProps } from './table.vm';
 import * as classes from './table.styles';
 
 interface Props<T extends object = {}> {
-  tableProps: TableProps;
-  headerGroups: HeaderGroup<T>[];
-  rows: Row<T>[];
-  prepareRow: (row: Row<T>) => void;
+  tableProps: TableProps<T>;
   rowRenderer: (props: RowRendererProps<T>) => React.ReactNode;
   labels: LabelProps;
   enableSearch: boolean;
@@ -39,9 +36,6 @@ interface Props<T extends object = {}> {
 export const TableComponent: React.FunctionComponent<Props> = (props) => {
   const {
     tableProps,
-    headerGroups,
-    rows,
-    prepareRow,
     rowRenderer,
     enableSearch,
     search,
@@ -72,10 +66,9 @@ export const TableComponent: React.FunctionComponent<Props> = (props) => {
         )}
         <TableContainer className={classes.table} component={Paper}>
           <Table {...tableProps}>
-            <HeaderComponent headerGroups={headerGroups} />
+            <HeaderComponent headerGroups={tableProps.getHeaderGroups()} />
             <BodyComponent
-              rows={rows}
-              prepareRow={prepareRow}
+              rows={tableProps.getRowModel().rows}
               rowRenderer={rowRenderer}
             />
           </Table>

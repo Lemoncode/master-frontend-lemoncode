@@ -75,7 +75,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (18 / 20+) if they are not alr
   🔍 Open file `dist/index.html` and notice how there is a new `<link>` tag created for us to reference the CSS file:
 
   ```html
-  <link rel="stylesheet" href="/assets/index.29b4e7b8.css" />
+  <link rel="stylesheet" href="/assets/index-29b4e7b8.css" />
   ```
 
-  🔍 Also notice our CSS file has been renamed to `index.<hash>.css` and its content has been minified.
+  🔍 Also notice our CSS file has been renamed to `index-<hash>.css` and its content has been minified.

@@ -113,15 +113,15 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
   ```bash
   dist
   ├── assets
-  │   ├── index.269d697a.css
-  │   ├── index.78986298.js
-  │   ├── logo_1.6bb1b83d.png
-  │   └── logo_2.cce7736d.png
+  │   ├── index-269d697a.css
+  │   ├── index-78986298.js
+  │   ├── logo_1-6bb1b83d.png
+  │   └── logo_2-cce7736d.png
   └── index.html
   ```
 
   🔎 Also notice in `dist/index.html` how `logo_2.png` source path has been added with its corresponding hash:
 
   ```html
-  <img src="/assets/logo_2.cce7736d.png" alt="logo lemoncode" />
+  <img src="/assets/logo_2-cce7736d.png" alt="logo lemoncode" />
   ```

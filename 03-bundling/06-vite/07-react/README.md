@@ -60,11 +60,17 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
   ```diff
     import { defineConfig } from "vite";
     import checker from "vite-plugin-checker";
+    import typescript from "@rollup/plugin-typescript";
   + import react from "@vitejs/plugin-react";
 
     export default defineConfig({
-  -   plugins: [react()],
+  -   plugins: [checker({ typescript: true })],
   +   plugins: [checker({ typescript: true }), react()],
+      build: {
+        rollupOptions: {
+          plugins: [typescript()],
+        },
+      },
     });
   ```
 
@@ -74,7 +80,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
 
   _src/hello.tsx_
 
-  ```javascript
+  ```ts
   import { FC } from "react";
 
   export const HelloComponent: FC = () => {
@@ -104,8 +110,6 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
   _src/index.tsx_
 
   ```diff
-  - import "./mystyles.scss";
-  -
   - const numberA: number = 2;
   - const numberB: number = 3;
   -
@@ -138,14 +142,14 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
 
   🔎 First of all, chech your `react` application is up and running!
 
-  🔎 Then, look at the dev-tools `network` tab (refresh if needed) and, appart from the source code ES moudules we already know, you will see a couple of `vite` pre-bundled dependencies: `react-dom_client` and `react_jsx-dev-runtime`. Take a look at both requests, they share a few things in common:
+  🔎 Then, look at the dev-tools `network` tab (refresh if needed) and, apart from the source code ES modules we already know, you will see a couple of `vite` pre-bundled dependencies: `react-dom_client` and `react_jsx-dev-runtime`. Take a look at both requests, they share a few things in common:
 
-  - Look at the request url: these files are comming from `/node_modules/.vite/deps` which is the default storage for your proyect pre-bundled dependencies.
+  - Look at the request url: these files are coming from `/node_modules/.vite/deps` which is the default storage for your project pre-bundled dependencies.
   - Take a look at the response header `Cache-Control` as well. Dev-server is telling the browser to keep them in its internal cache for as long as possible (1 year, which use to be the convention for the maximum allowed time).
   - They all use a cache busting pattern consisting in passing a hash through a query string param. With this technique, browser cache is defeated in case any of an update in any of the pre-bundled dependencies.
 
   🔎 Now press F5 to refresh the page and check again `network` requests. Take a look again to the dependency requests and see how the `200` status code is grayed out and under `size` it indicates that is being pulled from the `disk cache`.
 
-  ⚡ Remember that dependencies, which are not likely to change, are pre-bundled in development flow using `esbuild`. This process is useful to armonize modules format and optimize the number of requests needed to consume these dependencies.
+  ⚡ Remember that dependencies, which are not likely to change, are pre-bundled in development flow using `esbuild`. This process is useful to harmonize modules format and optimize the number of requests needed to consume these dependencies.
 
-  ⚡ With this approach, development gets amazingly light and fast. All of your heavy dependencies are consumed from your browser cache (except an ocassional update) and your source code ES modules are ready in record time, just available for your browser to request them when needed.
+  ⚡ With this approach, development gets amazingly light and fast. All of your heavy dependencies are consumed from your browser cache (except an occasional update) and your source code ES modules are ready in record time, just available for your browser to request them when needed.

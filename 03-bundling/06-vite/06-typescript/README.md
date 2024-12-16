@@ -26,6 +26,20 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
   npm install typescript --save-dev
   ```
 
+- We'll switch to `"type": "module"` in `package.json`.:
+
+  _package.json_
+
+  ```diff
+  {
+    "name": "hello-vite",
+    "private": true,
+  + "type": "module",
+    "version": "0.0.0",
+  ```
+
+  This is for plugins to load dependencies as ESModules. [See this.](https://vite.dev/guide/troubleshooting#vite-cjs-node-api-deprecated)
+
 - We have to setup `typescript`, so let's add a `tsconfig.json` file and populate it with a basic starting configuration:
 
   _tsconfig.json_
@@ -37,7 +51,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
       "isolatedModules": true,
       "lib": ["ESNext", "DOM"],
       "module": "ESNext",
-      "moduleResolution": "Node",
+      "moduleResolution": "bundler",
       "noEmit": true,
       "noImplicitAny": false,
       "noImplicitReturns": true,
@@ -76,19 +90,22 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
         <title>Vite App</title>
       </head>
 
-      <body>
+  -   <body class="m-3">
   -     <h1>Check the console log</h1>
   -     <div id="imgContainer"></div>
   -     <img src="/src/content/logo_2.png" alt="logo lemoncode" />
   -     <div class="card" style="width: 18rem">
   -       <div class="card-body">
   -         <h5 class="card-title">Card title</h5>
-  -         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  -         <p class="card-text">
+  -           Some quick example text to build on the card title and make up the bulk of the card's content.
+  -         </p>
   -         <a href="#" class="btn btn-primary">Go somewhere</a>
   -       </div>
   -     </div>
   -     <div class="red-background">RedBackground stuff</div>
   -     <script type="module" src="/src/index.js"></script>
+  +   <body>
   +     <script type="module" src="/src/index.ts"></script>
       </body>
     </html>
@@ -124,11 +141,9 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
   + const numberB: number = 3;
   +
   + console.log(numberA + numberB);
-  +
-  + export {}
   ```
 
-  🔎 Pay attention to the last `export` line. Remember we set `"isolatedModules": true"` in our TypeScript configuration cause `vite` needs it to avoid transpilation issues? One side effect is that every implementation file must be a module, which means, it must include some sort of `import/export` syntaxis to be considered as a module.
+  🔎 Notice we didn't need to add module syntax like `export {}` because TS already understands it's a module since we added `"type": "module"` in `package.json` file.
 
 - Time to start the project!
 
@@ -272,33 +287,10 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
       plugins: [checker({ typescript: true })],
   +   build: {
   +     rollupOptions: {
-  +       plugins: [typescript({ noEmitOnError: true })],
+  +       plugins: [typescript()],
   +     },
   +   },
     });
   ```
 
-  🔎 Now try the build with and without errors to see the difference.
-
-  Also as an alternative we can just use this plugin to inform `rollup` to use the `tsconfig.json` file as the TS configuration file:
-
-  _vite.config.ts_
-
-  ```diff
-    rollupOptions: {
-  -    plugins: [typescript({ noEmitOnError: true })],
-  +    plugins: [typescript({ tsconfig: "tsconfig.json" })],
-    },
-  ```
-
-  And finally add the `noEmitOnError` setting in that file:
-
-  _tsconfig.json_
-
-  ```diff
-    "moduleResolution": "Node",
-    "noEmit": true,
-  + "noEmitOnError": true,
-    "noImplicitAny": false,
-    "noImplicitReturns": true,
-  ```
+  > By default it takes our `tsconfig.json` as reference.

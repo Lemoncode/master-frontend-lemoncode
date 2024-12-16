@@ -14,7 +14,7 @@ npm install
 
 Let's create an `usePolling` custom hook:
 
-### ./src/polling.hooks.ts
+_./src/polling.hooks.ts_
 
 ```javascript
 import React from 'react';
@@ -35,14 +35,13 @@ export const usePolling = (pollingTime: number) => {
 
   return { count };
 };
-
 ```
 
 > NOTE: [useState functional updates](https://reactjs.org/docs/hooks-reference.html#functional-updates)
 
 Let's add some specs:
 
-### ./src/polling.hooks.spec.ts
+_./src/polling.hooks.spec.ts_
 
 ```javascript
 import { renderHook } from '@testing-library/react';
@@ -55,12 +54,11 @@ describe('usePolling specs', () => {
     // Assert
   });
 });
-
 ```
 
 Should return count equals 0 when initialize the hook:
 
-### ./src/polling.hooks.spec.ts
+_./src/polling.hooks.spec.ts_
 
 ```diff
 ...
@@ -81,7 +79,7 @@ Should return count equals 0 when initialize the hook:
 
 Should return count equals 1 when it waits for next update:
 
-### ./src/polling.hooks.spec.ts
+_./src/polling.hooks.spec.ts_
 
 ```diff
 - import { renderHook } from '@testing-library/react';
@@ -107,7 +105,7 @@ import { usePolling } from './polling.hooks';
 
 Should return count equals 3 when it waits 3 times for next update:
 
-### ./src/polling.hooks.spec.ts
+_./src/polling.hooks.spec.ts_
 
 ```diff
 ...
@@ -129,7 +127,7 @@ Should return count equals 3 when it waits 3 times for next update:
 
 Could we wait until value is three?:
 
-### ./src/polling.hooks.spec.ts
+_./src/polling.hooks.spec.ts_
 
 ```diff
 ...
@@ -144,16 +142,17 @@ Could we wait until value is three?:
     await waitFor(
       () => {
         expect(result.current.count).toEqual(3);
-      },
+-     }
++     },
 +     { timeout: 2000 }
     );
   });
 
 ```
 
-- should call clearInterval when it unmounts the component:
+Should call clearInterval when it unmounts the component:
 
-### ./src/polling.hooks.spec.ts
+_./src/polling.hooks.spec.ts_
 
 ```diff
 ...
@@ -161,40 +160,55 @@ Could we wait until value is three?:
 + it('should call clearInterval when it unmounts the component', () => {
 +   // Arrange
 +   const pollingTime = 500;
-+   const clearIntervalStub = jest.spyOn(window, 'clearInterval');
++   vi.spyOn(window, 'clearInterval');
 
 +   // Act
 +   const { unmount } = renderHook(() => usePolling(pollingTime));
 
 +   // Assert
-+   expect(clearIntervalStub).not.toHaveBeenCalled();
++   expect(clearInterval).not.toHaveBeenCalled();
 
 +   unmount();
-+   expect(clearIntervalStub).toHaveBeenCalled();
++   expect(clearInterval).toHaveBeenCalled();
 + });
 
 ```
 
-- If we don't want to wait all `ms` of the pollingTime, we can play with `fakeTimers`:
+If we don't want to wait all `ms` of the pollingTime, we can play with `fakeTimers`:
 
 ```diff
 ...
 
 describe('usePolling specs', () => {
 + beforeEach(() => {
-+   jest.useFakeTimers();
-+ });
-
-+ afterEach(() => {
-+   jest.runOnlyPendingTimers();
-+   jest.useRealTimers();
++   vi.useFakeTimers();
 + });
 
   it('should return count equals 0 when initialize the hook', () => {
 ...
 ```
 
-> Using [fake timers](https://testing-library.com/docs/using-fake-timers)
+> Using [fake timers](https://vitest.dev/guide/mocking.html#timers)
+>
+> There is an [issue with `vitest` timers and `react-testing-library`](https://github.com/testing-library/react-testing-library/issues/1197)
+>
+> [Here we can see a workaround](https://github.com/testing-library/react-testing-library/issues/1197#issuecomment-1693824628)
+
+Update the `setup` file:
+
+_./src/config/test/setup.ts_
+
+```diff
+import '@testing-library/jest-dom/vitest';
+
++ // Workaround to fix vitest timers for `waitFor` in `@testing-library/react`
++ // Issue: https://github.com/testing-library/react-testing-library/issues/1197
++ globalThis.jest = {
++   ...globalThis.jest,
++   advanceTimersByTime: vi.advanceTimersByTime.bind(vi),
++ };
+
+```
 
 # About Basefactor + Lemoncode
 

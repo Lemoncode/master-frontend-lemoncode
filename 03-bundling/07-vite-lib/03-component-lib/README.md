@@ -31,25 +31,25 @@ But we need to add `react` and `react-dom` as peer dependencies:
 _./common-library/package.json_
 
 ```diff
-{
-  ...
-  "scripts": {
-    "build": "vite build && npm run build:types",
-    "build:types": "tsc --emitDeclarationOnly --declaration"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.12",
-    "@types/react-dom": "^18.2.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "typescript": "^5.1.3",
-    "vite": "^4.3.9"
-  },
-+ "peerDependencies": {
-+   "react": "18.x",
-+   "react-dom": "18.x"
-+ }
-}
+  {
+    ...
+    "scripts": {
+      "build": "vite build && npm run build:types",
+      "build:types": "tsc --emitDeclarationOnly --declaration"
+    },
+    "devDependencies": {
+      "@types/react": "^18.2.12",
+      "@types/react-dom": "^18.2.5",
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "typescript": "^5.1.3",
+      "vite": "^4.3.9"
++   },
++   "peerDependencies": {
++     "react": "19.x",
++     "react-dom": "19.x"
+    }
+  }
 ```
 
 > [More info about peerDependencies](https://nodejs.org/en/blog/npm/peer-dependencies)
@@ -59,19 +59,18 @@ Update `vite config`:
 _./common-library/vite.config.ts_
 
 ```diff
-import { defineConfig } from "vite";
+  import { defineConfig } from "vite";
 + import react from "@vitejs/plugin-react";
 
-export default defineConfig({
-+ plugins: [react()],
-  build: {
-    lib: {
-      entry: "src/index.ts",
-      name: "CommonLibrary",
+  export default defineConfig({
++   plugins: [react()],
+    build: {
+      lib: {
+        entry: "src/index.ts",
+        name: "CommonLibrary",
+      },
     },
-  },
-});
-
+  });
 ```
 
 Update `tsconfig.json`:
@@ -79,19 +78,18 @@ Update `tsconfig.json`:
 _./common-library/tsconfig.json_
 
 ```diff
-{
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "skipLibCheck": true,
-    "isolatedModules": true,
-    "outDir": "dist",
-+   "jsx": "react-jsx"
-  },
-  "include": ["src"]
-}
-
+  {
+    "compilerOptions": {
+      "target": "ESNext",
+      "module": "ESNext",
+      "moduleResolution": "bundler",
+      "skipLibCheck": true,
+      "isolatedModules": true,
+      "outDir": "dist",
++     "jsx": "react-jsx"
+    },
+    "include": ["src"]
+  }
 ```
 
 > [jsx prop](https://www.typescriptlang.org/tsconfig#jsx)
@@ -112,9 +110,10 @@ _./common-library/src/components/button.module.css_
 _./common-library/src/components/button.tsx_
 
 ```typescript
+import { FC } from "react";
 import classes from "./button.module.css";
 
-export const Button = () => {
+export const Button: FC = () => {
   return <button className={classes.root}>Common button</button>;
 };
 ```
@@ -140,9 +139,8 @@ Update the entrypoint:
 _./common-library/src/index.ts_
 
 ```diff
-export * from "./helpers";
+  export * from "./helpers";
 + export * from "./components";
-
 ```
 
 Let's build the library:
@@ -156,28 +154,27 @@ If we check the `dist` folder, we can see that we have included `react` and `rea
 _./common-library/vite.config.ts_
 
 ```diff
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+  import { defineConfig } from "vite";
+  import react from "@vitejs/plugin-react";
 
-export default defineConfig({
-  plugins: [react()],
-  build: {
-    lib: {
-      entry: "src/index.ts",
-      name: "CommonLibrary",
-    },
-+   rollupOptions: {
-+     external: ["react", "react-dom", "react/jsx-runtime"],
-+     output: {
-+       globals: {
-+         react: "React",
-+         "react-dom": "ReactDOM",
+  export default defineConfig({
+    plugins: [react()],
+    build: {
+      lib: {
+        entry: "src/index.ts",
+        name: "CommonLibrary",
+      },
++     rollupOptions: {
++       external: ["react", "react-dom", "react/jsx-runtime"],
++       output: {
++         globals: {
++           react: "React",
++           "react-dom": "ReactDOM",
++         },
 +       },
 +     },
-+   },
-  },
-});
-
+    },
+  });
 ```
 
 Let's build again:
@@ -194,7 +191,6 @@ Let's update the playground to use the new component:
 cd playground
 npm install react react-dom --save
 npm install @types/react @types/react-dom --save-dev
-
 ```
 
 Add `tsconfig.json`:
@@ -220,20 +216,19 @@ Update html
 _./playground/index.html_
 
 ```diff
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Playground</title>
-  </head>
-  <body>
-+   <div id="root"></div>
--   <script type="module" src="src/index.ts"></script>
-+   <script type="module" src="src/index.tsx"></script>
-  </body>
-</html>
-
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Playground</title>
+    </head>
+    <body>
++     <div id="root"></div>
+-     <script type="module" src="src/index.ts"></script>
++     <script type="module" src="src/index.tsx"></script>
+    </body>
+  </html>
 ```
 
 Rename index.ts -> index.tsx
@@ -251,7 +246,6 @@ _./playground/src/index.tsx_
 
 + const root = createRoot(document.getElementById("root")!);
 + root.render(<Button />);
-
 ```
 
 Let's run the app:
@@ -273,7 +267,7 @@ _./common-library/package.json_
       "import": "./dist/common-library.js",
       "types": "./dist/index.d.ts"
     },
-+   "./style.css": "./dist/style.css"
++   "./style.css": "./dist/common-library.css"
   },
   ...
 }
@@ -313,24 +307,24 @@ If we want to work with aliases we need to add some configuration:
 
 ```bash
 cd common-library
-npm install @types/node@18 --save-dev
+npm install @types/node@22 --save-dev
 ```
 
 _./common-library/vite.config.ts_
 
 ```diff
 + import { fileURLToPath } from "node:url";
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+  import { defineConfig } from "vite";
+  import react from "@vitejs/plugin-react";
 
-export default defineConfig({
-  plugins: [react()],
-+ resolve: {
-+   alias: {
-+     "@": fileURLToPath(new URL("./src", import.meta.url)),
+  export default defineConfig({
+    plugins: [react()],
++   resolve: {
++     alias: {
++       "@": fileURLToPath(new URL("./src", import.meta.url)),
++     },
 +   },
-+ },
-  build: {
+    build: {
 ...
 ```
 
@@ -385,16 +379,15 @@ Update config:
 _./common-library/vite.config.ts_
 
 ```diff
-import { fileURLToPath } from "node:url";
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+  import { fileURLToPath } from "node:url";
+  import { defineConfig } from "vite";
+  import react from "@vitejs/plugin-react";
 + import dts from "vite-plugin-dts";
 
-export default defineConfig({
-- plugins: [react()],
-+ plugins: [react(), dts()],
-...
-
+  export default defineConfig({
+-   plugins: [react()],
++   plugins: [react(), dts()],
+  ...
 ```
 
 Update the `package.json`

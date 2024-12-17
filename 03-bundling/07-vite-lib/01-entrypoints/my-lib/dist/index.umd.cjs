@@ -1,13 +1,23 @@
-(function (global, factory) {
-  typeof exports == "object" && typeof module < "u"
-    ? factory(exports)
-    : typeof define == "function" && define.amd
-    ? define(["exports"], factory)
-    : ((global = typeof globalThis < "u" ? globalThis : global || self),
-      factory((global.MyLib = {})));
-})(this, function (exports) {
+(function(global, factory) {
+  if (typeof exports === "object" && typeof module !== "undefined") {
+    // CJS
+    console.log("[UMD] Serving in format CommonJS");
+    module.exports = factory();
+  } else if (typeof define === "function" && define.amd) {
+    // AMD
+    console.log("[UMD] Serving in format AMD");
+    define("my-lib", factory);
+  } else {
+    // Global VAR
+    console.log("[UMD] Serving in format global VAR");
+    global.MyLib = factory();
+  }
+})(globalThis || self || global || this, function factory() {
   function myFn() {
     console.log("I am UMD");
   }
-  exports.myFn = myFn;
+
+  return {
+    myFn,
+  };
 });

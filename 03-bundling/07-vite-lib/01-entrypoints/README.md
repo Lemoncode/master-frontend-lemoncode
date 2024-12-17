@@ -254,7 +254,7 @@ Let's run it:
 npm start:nodeapp
 ```
 
-✅ **CHECKPOINT**: It works also in Node! 
+✅ **CHECKPOINT**: It works also in Node!
 
 > ⚡ Note: The UMD format it's using the CJS export behind the scenes.
 
@@ -406,16 +406,6 @@ _./playgrounds/bundler/index.html_
 </html>
 ```
 
-Let's add a `index.js` file:
-
-_./playgrounds/bundler/index.js_
-
-```javascript
-import { myFn } from "my-lib";
-
-myFn();
-```
-
 Let's run it:
 
 ```bash
@@ -423,7 +413,6 @@ npm start
 ```
 
 ✅ **CHECKPOINT**: Open the browser console to see the output. It works!
-
 
 ## Improved library with exports notation
 

@@ -56,16 +56,18 @@ Install [Node.js and npm](https://nodejs.org/en/) (18 / 20+) if they are not alr
   💥 Notice we got an error here:
 
   ```cmd
-  [vite] Internal server error: Preprocessor dependency "sass" not found. Did you install it?
+  [vite] Internal server error: Preprocessor dependency "sass-embedded" not found. Did you install it? Try `npm install -D sass-embedded`.
     Plugin: vite:css
   ```
 
-  👍🏼 In fact is a `vite` reminder to install `sass` preprocessor dependency. We forgot to do it!
+  👍🏼 In fact is a `vite` reminder to install `sass-embedded` preprocessor dependency. We forgot to do it!
 
-- Let's go then! Just add `sass` to our project as development dependency. First, stop the server and then run:
+  > Note `sass-embedded` has same API that `sass` package but it's faster.
+
+- Let's go then! Just add `sass-embedded` to our project as development dependency. First, stop the server and then run:
 
   ```bash
-  npm install sass --save-dev
+  npm install sass-embedded --save-dev
   ```
 
 - Now run the dev server again:
@@ -82,12 +84,10 @@ Install [Node.js and npm](https://nodejs.org/en/) (18 / 20+) if they are not alr
   npm run build
   ```
 
-  🔍 Notice in `dist/assets/index.<hash>.css` the file has been transpiled correctly.
+  🔍 Notice in `dist/assets/index-<hash>.css` the file has been transpiled correctly.
 
   ```css
-  .red-background {
-    background-color: teal;
-  }
+  .red-background{background-color:teal}
   ```
 
   👍🏼 `vite` supports `sass` with not as much hassle.

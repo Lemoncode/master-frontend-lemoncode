@@ -4,15 +4,15 @@
   "version": "0.0.0",
   "description": "Let's start with a very basic sample, just add an html plus a simple console log (E5). This is what you can find in the getting started tutorial.",
   "scripts": {
-    "start": "vite",
+    "start": "vite --host",
     "build": "vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
-    "sass": "^1.69.5",
-    "vite": "^4.5.0"
+    "sass-embedded": "^1.83.0",
+    "vite": "^6.0.3"
   },
   "dependencies": {
-    "bootstrap": "^5.3.2"
+    "bootstrap": "^5.3.3"
   }
 }

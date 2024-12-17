@@ -64,7 +64,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (18 / 20+) if they are not alr
 
   ```diff
     "scripts": {
-  +   "build": "vite build",
+  +   "build": "vite build"
   -   "test": "echo \"Error: no test specified\" && exit 1"
     },
   ```
@@ -80,11 +80,11 @@ Install [Node.js and npm](https://nodejs.org/en/) (18 / 20+) if they are not alr
   ```text
   dist
   ├── assets
-  │   └── index.<hash>.js
+  │   └── index-<hash>.js
   └── index.html
   ```
 
-  If we inspect `assets/index.<hash>.js` we can notice the file is production ready because:
+  If we inspect `assets/index-<hash>.js` we can notice the file is production ready because:
 
   - It's already hashed (cache-busting strategy to bypass the browser cache completely).
   - File is minified.
@@ -189,10 +189,10 @@ Install [Node.js and npm](https://nodejs.org/en/) (18 / 20+) if they are not alr
 
     ```diff
     - console.log("This app is using Vite");
-    + console.log("New code update, it will to defeat cache !!!");
+    + console.log("New code update, it will bypass the cache!");
     ```
 
-  - Check again the last request for `index.js`, now the URL changed, cache busting has been applied and a new hash in the form of a query param has been added to the URL with the purpose of defeating browser cache and force a download of this modified module. This hash is just a timestamp in `ms` with the date and time of the change (compilation timestamp).You can convert it back to `Date` to check it out by doing:
+  - Check again the last request for `index.js`, now the URL changed, cache busting has been applied and a new hash in the form of a query param has been added to the URL with the purpose of bypassing browser cache and force a download of this modified module. This hash is just a timestamp in `ms` with the date and time of the change (compilation timestamp).You can convert it back to `Date` to check it out by doing:
 
     ```js
     console.log(new Date(t));

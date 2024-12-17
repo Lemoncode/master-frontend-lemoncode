@@ -43,12 +43,15 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
 
   ```diff
   ...
+  - <body>
   + <body class="m-3">
       <h1>Check the console log</h1>
   +   <div class="card" style="width: 18rem">
   +     <div class="card-body">
   +       <h5 class="card-title">Card title</h5>
-  +       <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  +       <p class="card-text">
+  +         Some quick example text to build on the card title and make up the bulk of the card's content.
+  +       </p>
   +       <a href="#" class="btn btn-primary">Go somewhere</a>
   +     </div>
   +   </div>
@@ -65,7 +68,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
 
   🔎 Verify `bootstrap` styles work properly and you see the new component.
 
-  > Important: we have not added a depencency (in vite context) yet, even if the css is comming from `node_modules` and it won't change frequently. CSS files are not pre-bundled but treated as source modules, unless we adjust under-the-hood `esbuild` options and add a plugin for bundling css. See [this issue](https://github.com/vitejs/vite/issues/7719).
+  > Important: we have not added a dependency (in vite context) yet, even if the css is coming from `node_modules` and it won't change frequently. CSS files are not pre-bundled but treated as source modules, unless we adjust under-the-hood `esbuild` options and add a plugin for bundling css. See [this issue](https://github.com/vitejs/vite/issues/7719).
 
 - ⚙ As an alternative, we could also import bootstrap from `index.html`. Let's first remove the `import` clause from `index.js`:
 
@@ -99,4 +102,4 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
   npm run build
   ```
 
-  Notice in `dist/assets/index.<hash>.css` Bootstrap's CSS is included.
+  Notice in `dist/assets/index-<hash>.css` Bootstrap's CSS is included.

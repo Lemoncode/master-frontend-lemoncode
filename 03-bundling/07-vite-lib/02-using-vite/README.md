@@ -24,7 +24,11 @@ _./common-library/package.json_
   "description": "Lemoncode common library",
   "author": "Lemoncode",
   "license": "MIT",
-  "keywords": ["lemoncode", "common", "library"],
+  "keywords": [
+    "lemoncode",
+    "common",
+    "library"
+  ],
   "type": "module"
 }
 ```
@@ -42,7 +46,7 @@ Add the vite configuration:
 
 _./common-library/vite.config.ts_
 
-```javascript
+```ts
 import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -153,9 +157,9 @@ _./common-library/package.json_
 + "types": "dist/index.d.ts",
 + "exports": {
 +   ".": {
++     "types": "./dist/index.d.ts",
 +     "require": "./dist/common-library.umd.cjs",
-+     "import": "./dist/common-library.js",
-+     "types": "./dist/index.d.ts"
++     "import": "./dist/common-library.js"
 +   }
 + },
   "scripts": {

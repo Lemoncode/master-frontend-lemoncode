@@ -5,14 +5,10 @@ import * as classes from './cell.styles';
 export const CellComponent: React.FunctionComponent<TableCellProps> = (
   props
 ) => {
-  const { children, ...rest } = props;
+  const { children, align = 'left', ...rest } = props;
   return (
-    <TableCell classes={{ head: classes.head }} {...rest}>
+    <TableCell classes={{ head: classes.head }} align={align} {...rest}>
       {children}
     </TableCell>
   );
-};
-
-CellComponent.defaultProps = {
-  align: 'left',
 };

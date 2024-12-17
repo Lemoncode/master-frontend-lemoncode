@@ -14,7 +14,7 @@ npm install
 
 Now, we will simulate the `login` method, but first let's create the user's model:
 
-### ./src/model.ts
+_./src/model.ts_
 
 ```diff
 export interface Credential {
@@ -31,7 +31,7 @@ export interface Credential {
 
 Create api method:
 
-### ./src/api.ts
+_./src/api.ts_
 
 ```javascript
 import { Credential, User } from './model';
@@ -44,7 +44,7 @@ export const login = (credential: Credential): Promise<User> => {
 
 Let's update `useLogin` hook to use `React.useEffect`:
 
-### ./src/login.hooks.ts
+_./src/login.hooks.ts_
 
 ```diff
 import React from 'react';
@@ -77,7 +77,7 @@ export const useLogin = () => {
 
 Should return user equals null and onLogin function:
 
-### ./src/login.hooks.spec.ts
+_./src/login.hooks.spec.ts_
 
 ```diff
 ...
@@ -97,7 +97,7 @@ Should return user equals null and onLogin function:
 
 Should update user when it send valid credentials using onLogin:
 
-### ./src/login.hooks.spec.ts
+_./src/login.hooks.spec.ts_
 
 ```diff
 import { renderHook, act } from '@testing-library/react';
@@ -111,7 +111,7 @@ import { useLogin } from './login.hooks';
 + it('should update user when it send valid credentials using onLogin', () => {
 +   // Arrange
 +   const adminUser: User = { email: 'admin@email.com', role: 'admin' };
-+   const loginStub = jest.spyOn(api, 'login').mockResolvedValue(adminUser);
++   vi.spyOn(api, 'login').mockResolvedValue(adminUser);
 
 +   // Act
 +   const { result } = renderHook(() => useLogin());
@@ -121,7 +121,7 @@ import { useLogin } from './login.hooks';
 +   });
 
 +   // Assert
-+   expect(loginStub).toHaveBeenCalled();
++   expect(api.login).toHaveBeenCalled();
 +   expect(result.current.user).toEqual(adminUser);
 + });
 
@@ -129,7 +129,7 @@ import { useLogin } from './login.hooks';
 
 Why does current spec fail? Because we have to `wait` until async call will be resolved:
 
-### ./src/login.hooks.spec.ts
+_./src/login.hooks.spec.ts_
 
 ```diff
 - import { renderHook, act } from '@testing-library/react';
@@ -143,7 +143,7 @@ import { useLogin } from './login.hooks';
 + it('should update user when it send valid credentials using onLogin', async () => {
     // Arrange
     const adminUser: User = { email: 'admin@email.com', role: 'admin' };
-    const loginStub = jest.spyOn(api, 'login').mockResolvedValue(adminUser);
+    vi.spyOn(api, 'login').mockResolvedValue(adminUser);
 
     // Act
     const { result } = renderHook(() => useLogin());
@@ -153,7 +153,7 @@ import { useLogin } from './login.hooks';
     });
 
     // Assert
-    expect(loginStub).toHaveBeenCalled();
+    expect(api.login).toHaveBeenCalled();
 +   await waitFor(() => {
       expect(result.current.user).toEqual(adminUser);
 +   });

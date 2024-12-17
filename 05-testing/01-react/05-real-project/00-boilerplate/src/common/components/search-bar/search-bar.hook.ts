@@ -1,6 +1,6 @@
 import React from 'react';
-import { useDebounce } from 'common/hooks';
-import { filterByText } from 'common/helpers';
+import { useDebounce } from '#common/hooks';
+import { filterByText } from '#common/helpers';
 
 export const useSearchBar = <Entity, Key extends keyof Entity>(
   collection: Entity[],

@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { EmployeeListComponent } from './employee-list.component';
 import { getEmployeeList, deleteEmployee } from './api';
 import { Employee } from './employee-list.vm';
-import { useSnackbarContext } from 'common/components';
+import { useSnackbarContext } from '#common/components';
 import { trackPromise } from 'react-promise-tracker';
 import { mapEmployeeListFromApiToVm } from './employee-list.mappers';
-import { routes } from 'core/router';
+import { routes } from '#core/router';
 const editEmployeeId = '0';
 
 export const EmployeeListContainer: React.FunctionComponent = () => {

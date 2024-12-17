@@ -1,8 +1,8 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import { SelectComponent } from 'common/components';
-import { monthList } from 'common/constants';
-import { CommandFooterComponent } from 'common-app/command-footer';
+import { SelectComponent } from '#common/components';
+import { monthList } from '#common/constants';
+import { CommandFooterComponent } from '#common-app/command-footer';
 import { cx } from '@emotion/css';
 import * as classes from './report.styles';
 

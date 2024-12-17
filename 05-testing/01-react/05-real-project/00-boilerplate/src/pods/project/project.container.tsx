@@ -1,12 +1,12 @@
 import React from 'react';
 import { ProjectComponent } from './project.component';
 import { useParams } from 'react-router-dom';
-import { useSnackbarContext } from 'common/components';
+import { useSnackbarContext } from '#common/components';
 import { getProjectById } from './api';
 import { trackPromise } from 'react-promise-tracker';
 import { mapProjectFromApiToVm } from './project.mapper';
 import { Project, createEmptyProject } from './project.vm';
-import { isEditModeHelper } from 'common/helpers';
+import { isEditModeHelper } from '#common/helpers';
 
 export const ProjectContainer: React.FunctionComponent = () => {
   const { id } = useParams<{ id: string }>();

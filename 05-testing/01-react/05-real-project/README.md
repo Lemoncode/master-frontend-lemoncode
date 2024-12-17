@@ -2,7 +2,7 @@
 
 In this example we will implement tests in a real project.
 
-We will start from [origin-front-admin repository](https://github.com/Lemoncode/origin-front-admin).
+This boilerplate is copy of the [origin-front-admin repository](https://github.com/Lemoncode/origin-front-admin).
 
 # Steps
 
@@ -14,19 +14,17 @@ npm install
 
 Let's add specs to `./src/common/components/form/select`:
 
-### ./src/common/components/form/select/select.component.spec.tsx
+_./src/common/components/form/select/select.component.spec.tsx_
 
 ```javascript
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { SelectComponent } from './select.component';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { SelectComponent } from "./select.component";
 
-describe('common/components/form/select/select.component specs', () => {
-  it('should render a select element when it feeds required props and three items', () => {
+describe("SelectComponent specs", () => {
+  it("should render a select element when it feeds required props and three items", () => {
     // Arrange
-    
     // Act
-    
     // Assert
   });
 });
@@ -35,65 +33,48 @@ describe('common/components/form/select/select.component specs', () => {
 Run test watch:
 
 ```bash
-npm run test:watch select
+npm test select
 ```
 
 Let's implement the first spec:
 
-### ./src/common/components/form/select/select.component.spec.tsx
+_./src/common/components/form/select/select.component.spec.tsx_
 
 ```diff
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { SelectComponent } from './select.component';
-+ import { Lookup } from 'common/models';
 
-describe('common/components/form/select/select.component specs', () => {
+describe('SelectComponent specs', () => {
   it('should render a select element when it feeds required props and three items', () => {
     // Arrange
-+   const props = {
++   const props: React.ComponentProps<typeof SelectComponent> = {
 +     items: [
 +       { id: '1', name: 'Item 1' },
 +       { id: '2', name: 'Item 2' },
 +       { id: '3', name: 'Item 3' },
-+     ] as Lookup[],
++     ],
 +     label: 'Test label',
 +     value: '',
 +   };
-    
+
     // Act
 +   render(<SelectComponent {...props} />);
-    
-+   const selectElement = screen.getByRole('button', { name: 'Test label' });
+
++   const selectElement = screen.getByRole('combobox', { name: 'Test label' });
     // Assert
 +   expect(selectElement).toBeInTheDocument();
   });
 });
 ```
 
-Since, it could found `webpack alias`, let's configure in jest:
-
-### ./config/test/jest.js
-
-```diff
-module.exports = {
-  rootDir: '../../',
-  verbose: true,
-  restoreMocks: true,
-  testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['<rootDir>/config/test/setup-after.ts'],
-+ moduleDirectories: ['<rootDir>/src', 'node_modules'],
-};
-
-```
-
-> [More info](https://www.basefactor.com/configuring-aliases-in-webpack-vs-code-typescript-jest)
+> An advantage of using `nodejs imports aliases` is that we don't need to configure for tests. It's already configured.
 >
-> [Official Docs](https://jestjs.io/docs/webpack)
+> If you are using webpack or vite aliases you can read this post about [configuring aliases for jest](https://www.basefactor.com/configuring-aliases-in-webpack-vs-code-typescript-jest)
 
 Testing it should shows 3 items when it clicks on select:
 
-### ./src/common/components/form/select/select.component.spec.tsx
+_./src/common/components/form/select/select.component.spec.tsx_
 
 ```diff
 import React from 'react';
@@ -103,12 +84,12 @@ import React from 'react';
 
 + it('should render a menu with three item when it clicks on select element', () => {
 +   // Arrange
-+   const props = {
++   const props: React.ComponentProps<typeof SelectComponent> = {
 +     items: [
 +       { id: '1', name: 'Item 1' },
 +       { id: '2', name: 'Item 2' },
 +       { id: '3', name: 'Item 3' },
-+     ] as Lookup[],
++     ],
 +     label: 'Test label',
 +     value: '',
 +   };
@@ -116,7 +97,7 @@ import React from 'react';
 +   // Act
 +   render(<SelectComponent {...props} />);
 
-+   const selectElement = screen.getByRole('button', { name: 'Test label' });
++   const selectElement = screen.getByRole('combobox', { name: 'Test label' });
 +   fireEvent.click(selectElement);
 +   const menuElement = screen.getByRole('listbox');
 
@@ -132,12 +113,12 @@ import React from 'react';
 Install library:
 
 ```bash
-npm install @testing-library/user-event @testing-library/dom --save-dev
+npm install @testing-library/user-event --save-dev
 ```
 
 Update spec:
 
-### ./src/common/components/form/select/select.component.spec.tsx
+_./src/common/components/form/select/select.component.spec.tsx_
 
 ```diff
 import React from 'react';
@@ -149,23 +130,22 @@ import React from 'react';
 - it('should render a menu with three item when it clicks on select element', () => {
 + it('should render a menu with three item when it clicks on select element', async () => {
     // Arrange
-    const props = {
+    const props: React.ComponentProps<typeof SelectComponent> = {
       items: [
         { id: '1', name: 'Item 1' },
         { id: '2', name: 'Item 2' },
         { id: '3', name: 'Item 3' },
-      ] as Lookup[],
+      ],
       label: 'Test label',
       value: '',
     };
-
     // Act
     render(<SelectComponent {...props} />);
 
-    const selectElement = screen.getByRole('button', { name: 'Test label' });
+    const selectElement = screen.getByRole('combobox', { name: 'Test label' });
 -   fireEvent.click(selectElement);
 +   expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
-    
+
 +   await userEvent.click(selectElement);
     const menuElement = screen.getByRole('listbox');
 +   const itemElementList = screen.getAllByRole('option');
@@ -178,28 +158,28 @@ import React from 'react';
 
 Testing should calls onChange method when it clicks on second item:
 
-### ./src/common/components/form/select/select.component.spec.tsx
+_./src/common/components/form/select/select.component.spec.tsx_
 
 ```diff
 ...
 
 + it('should calls onChange method with value equals 2 when it clicks on second item', async () => {
 +   // Arrange
-+   const props = {
++   const props: React.ComponentProps<typeof SelectComponent> = {
 +     items: [
 +       { id: '1', name: 'Item 1' },
 +       { id: '2', name: 'Item 2' },
 +       { id: '3', name: 'Item 3' },
-+     ] as Lookup[],
++     ],
 +     label: 'Test label',
 +     value: '',
-+     onChange: jest.fn(),
++     onChange: vi.fn(),
 +   };
 
 +   // Act
 +   render(<SelectComponent {...props} />);
 
-+   const selectElement = screen.getByRole('button', { name: 'Test label' });
++   const selectElement = screen.getByRole('combobox', { name: 'Test label' });
 
 +   await userEvent.click(selectElement);
 +   const itemElementList = screen.getAllByRole('option');
@@ -215,18 +195,18 @@ Testing should calls onChange method when it clicks on second item:
 
 Testing should update selected item when it clicks on third item using Formik:
 
-### ./src/common/components/form/select/select.component.spec.tsx
+_./src/common/components/form/select/select.component.spec.tsx_
 
 ```diff
 ...
 + it('should update selected item when it clicks on third item using Formik', () => {
 +   // Arrange
-+   const props = {
++   const props: React.ComponentProps<typeof SelectComponent> = {
 +     items: [
 +       { id: '1', name: 'Item 1' },
 +       { id: '2', name: 'Item 2' },
 +       { id: '3', name: 'Item 3' },
-+     ] as Lookup[],
++     ],
 +     label: 'Test label',
 +     name: 'selectedItem',
 +   };
@@ -238,7 +218,7 @@ Testing should update selected item when it clicks on third item using Formik:
 
 Create `renderWithFormik`:
 
-### ./src/common/components/form/select/select.component.spec.tsx
+_./src/common/components/form/select/select.component.spec.tsx_
 
 ```diff
 import React from 'react';
@@ -246,7 +226,6 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SelectComponent } from './select.component';
-import { Lookup } from 'common/models';
 
 + const renderWithFormik = (component, initialValues) =>
 +   render(
@@ -263,7 +242,7 @@ import { Lookup } from 'common/models';
 -   render(<SelectComponent {...props} />);
 +   renderWithFormik(<SelectComponent {...props} />, { selectedItem: '1' });
 
-+   const selectElement = screen.getByRole('button', { name: /Item 1/i });
++   const selectElement = screen.getByRole('combobox', { name: "Test label" });
 
 +   expect(selectElement.textContent).toEqual('Item 1');
 
@@ -278,14 +257,14 @@ import { Lookup } from 'common/models';
 
 We will testing `./src/common/components/search-bar`. It has a `component` and `hook` file:
 
-### ./src/common/components/search-bar/search-bar.component.spec.tsx
+_./src/common/components/search-bar/search-bar.component.spec.tsx_
 
 ```javascript
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { SearchBarComponent } from "./search-bar.component";
 
-describe("common/search-bar/search-bar.component specs", () => {
+describe("SearchBarComponent specs", () => {
   it("should render an input with placeholder and searchIcon when it feeds required props", () => {
     // Arrange
     // Act
@@ -296,19 +275,19 @@ describe("common/search-bar/search-bar.component specs", () => {
 
 Let's render the component and check the input element:
 
-### ./src/common/components/search-bar/search-bar.component.spec.tsx
+_./src/common/components/search-bar/search-bar.component.spec.tsx_
 
 ```diff
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { SearchBarComponent } from './search-bar.component';
 
-describe('common/search-bar/search-bar.component specs', () => {
+describe('SearchBarComponent specs', () => {
   it('should render an input with placeholder and searchIcon when it feeds required props', () => {
     // Arrange
-+   const props = {
++   const props: React.ComponentProps<typeof SearchBarComponent> = {
 +     search: 'test search',
-+     onSearch: jest.fn(),
++     onSearch: vi.fn(),
 +     labels: {
 +       placeholder: 'test placeholder',
 +     },
@@ -326,6 +305,7 @@ describe('common/search-bar/search-bar.component specs', () => {
 });
 
 ```
+
 > [ARIA roles](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles)
 >
 > [Which query should I use?](https://testing-library.com/docs/guide-which-query)
@@ -339,12 +319,12 @@ const inputElement = screen.getByPlaceholderText('test placeholder') as HTMLInpu
 Start test watch:
 
 ```bash
-npm run test:watch search-bar
+npm test search-bar
 ```
 
 If we want to search icon element, we have to update the code:
 
-### ./src/common/components/search-bar/search-bar.component.tsx
+_./src/common/components/search-bar/search-bar.component.tsx_
 
 ```diff
 ...
@@ -364,7 +344,7 @@ If we want to search icon element, we have to update the code:
 
 ```
 
-### ./src/common/components/search-bar/search-bar.component.spec.tsx
+_./src/common/components/search-bar/search-bar.component.spec.tsx_
 
 ```diff
 ...
@@ -394,7 +374,7 @@ If we want to search icon element, we have to update the code:
 
 Add second spec testing `onSearch` method:
 
-### ./src/common/components/search-bar/search-bar.component.spec.tsx
+_./src/common/components/search-bar/search-bar.component.spec.tsx_
 
 ```diff
 import React from 'react';
@@ -404,9 +384,9 @@ import { render, screen } from '@testing-library/react';
 
 + it('should call onSearch prop when it types on input change event', async () => {
 +   // Arrange
-+   const props = {
++   const props: React.ComponentProps<typeof SearchBarComponent> = {
 +     search: '',
-+     onSearch: jest.fn(),
++     onSearch: vi.fn(),
 +     labels: {
 +       placeholder: 'test placeholder',
 +     },
@@ -428,13 +408,13 @@ import { render, screen } from '@testing-library/react';
 
 Let's add `search-bar.hook` specs:
 
-### ./src/common/components/search-bar/search-bar.hook.spec.tsx
+_./src/common/components/search-bar/search-bar.hook.spec.tsx_
 
 ```javascript
 import { renderHook } from "@testing-library/react";
 import { useSearchBar } from "./search-bar.hook";
 
-describe("common/components/search-bar/search-bar.hook specs", () => {
+describe("useSearchBar specs", () => {
   it('should return search text, onSearch method and filteredList when it feeds colors array and "name" field', () => {
     // Arrange
     // Act
@@ -445,13 +425,13 @@ describe("common/components/search-bar/search-bar.hook specs", () => {
 
 Let's implement first spec:
 
-### ./src/common/components/search-bar/search-bar.hook.spec.tsx
+_./src/common/components/search-bar/search-bar.hook.spec.tsx_
 
 ```diff
 import { renderHook } from '@testing-library/react';
 import { useSearchBar } from './search-bar.hook';
 
-describe('common/components/search-bar/search-bar.hook specs', () => {
+describe('useSearchBar specs', () => {
   it('should return search text, onSearch method and filteredList when it feeds colors array and "name" field', () => {
     // Arrange
 +   const colors = [
@@ -478,7 +458,7 @@ describe('common/components/search-bar/search-bar.hook specs', () => {
 
 Testing `filteredList` when we calls `onSearch` with some color:
 
-### ./src/common/components/search-bar/search-bar.hook.spec.tsx
+_./src/common/components/search-bar/search-bar.hook.spec.tsx_
 
 > It's async because we are using useDebounce hook.
 
@@ -517,17 +497,11 @@ import { useSearchBar } from './search-bar.hook';
 
 Testing it calls to `useDebounce` hook:
 
-### ./src/common/components/search-bar/search-bar.hook.spec.tsx
-
-> Care with: import * as commonHooks from 'common/hooks';
->
-> https://stackoverflow.com/questions/53162001/typeerror-during-jests-spyon-cannot-set-property-getrequest-of-object-which
->
-> https://github.com/babel/babel/issues/8363
+_./src/common/components/search-bar/search-bar.hook.spec.tsx_
 
 ```diff
 import { renderHook, act } from '@testing-library/react';
-+ import * as commonHooks from 'common/hooks/debounce.hook';
++ import * as commonHooks from '#common/hooks';
 import { useSearchBar } from './search-bar.hook';
 ...
 
@@ -538,7 +512,7 @@ import { useSearchBar } from './search-bar.hook';
 +     { id: 2, name: 'blue' },
 +     { id: 3, name: 'green' },
 +   ];
-+   const debounceSearchStub = jest.spyOn(commonHooks, 'useDebounce');
++   const debounceSearchStub = vi.spyOn(commonHooks, 'useDebounce');
 
 +   // Act
 +   renderHook(() => useSearchBar(colors, ['name']));
@@ -546,12 +520,12 @@ import { useSearchBar } from './search-bar.hook';
 +   // Assert
 +   expect(debounceSearchStub).toHaveBeenCalledWith('', 250);
 + });
-  
+
 ```
 
 Testing `useDebounce` result:
 
-### ./src/common/components/search-bar/search-bar.hook.spec.tsx
+_./src/common/components/search-bar/search-bar.hook.spec.tsx_
 
 ```diff
 ...
@@ -563,7 +537,7 @@ Testing `useDebounce` result:
 +     { id: 2, name: 'blue' },
 +     { id: 3, name: 'green' },
 +   ];
-+   const debounceSearchStub = jest
++   const debounceSearchStub = vi
 +     .spyOn(commonHooks, 'useDebounce')
 +     .mockReturnValue('blue');
 
@@ -580,12 +554,12 @@ Testing `useDebounce` result:
 
 Testing it calls to `filterByText` method:
 
-### ./src/common/components/search-bar/search-bar.hook.spec.tsx
+_./src/common/components/search-bar/search-bar.hook.spec.tsx_
 
 ```diff
 import { renderHook, act, waitFor } from '@testing-library/react';
-import * as commonHooks from 'common/hooks/debounce.hook';
-+ import * as filterHelpers from 'common/helpers/filter.helpers';
+import * as commonHooks from '#common/hooks';
++ import * as filterHelpers from '#common/helpers';
 import { useSearchBar } from './search-bar.hook';
 ...
 
@@ -596,7 +570,7 @@ import { useSearchBar } from './search-bar.hook';
 +     { id: 2, name: 'blue' },
 +     { id: 3, name: 'green' },
 +   ];
-+   const filterByTextStub = jest.spyOn(filterHelpers, 'filterByText');
++   const filterByTextStub = vi.spyOn(filterHelpers, 'filterByText');
 
 +   // Act
 +   renderHook(() => useSearchBar(colors, ['name']));
@@ -604,12 +578,12 @@ import { useSearchBar } from './search-bar.hook';
 +   // Assert
 +   expect(filterByTextStub).toHaveBeenCalledWith(colors, '', ['name']);
 + });
-  
+
 ```
 
 Testing `filterByText` result:
 
-### ./src/common/components/search-bar/search-bar.hook.spec.tsx
+_./src/common/components/search-bar/search-bar.hook.spec.tsx_
 
 ```diff
 ...
@@ -621,7 +595,7 @@ Testing `filterByText` result:
 +     { id: 2, name: 'blue' },
 +     { id: 3, name: 'green' },
 +   ];
-+   const filterByTextStub = jest
++   const filterByTextStub = vi
 +     .spyOn(filterHelpers, 'filterByText')
 +     .mockReturnValue([
 +       { id: 2, name: 'blue' },
@@ -639,7 +613,7 @@ Testing `filterByText` result:
 +     { id: 3, name: 'green' },
 +   ]);
 + });
-  
+
 ```
 
 # About Basefactor + Lemoncode

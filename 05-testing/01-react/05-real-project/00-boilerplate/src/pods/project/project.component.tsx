@@ -4,7 +4,7 @@ import {
   TabComponent,
   TabListComponent,
   TabPanelComponent,
-} from 'common/components';
+} from '#common/components';
 import {
   DataComponent,
   EmployeeComponent,

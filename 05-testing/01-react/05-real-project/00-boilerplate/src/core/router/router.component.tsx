@@ -1,6 +1,6 @@
 import React from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import { AuthRoute } from 'common-app/auth';
+import { AuthRoute } from '#common-app/auth';
 import { routes } from './routes';
 import {
   LoginScene,
@@ -9,7 +9,7 @@ import {
   EmployeeListScene,
   ProjectScene,
   EmployeeScene,
-} from 'scenes';
+} from '#scenes';
 
 export const RouterComponent: React.FunctionComponent = () => {
   return (

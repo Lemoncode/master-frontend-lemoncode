@@ -22,7 +22,7 @@ This time, we want to handle `getMembers` errors:
 > 403: API rate limit exceeded
 > 503: Service unavailable
 
-### ./src/api.ts
+_./src/api.ts_
 
 ```diff
 - import Axios from 'axios';
@@ -48,10 +48,10 @@ export const getMembers = (): Promise<Member[]> =>
 
 Update app:
 
-### ./src/app.tsx
+_./src/app.tsx_
 
 ```diff
-import * as React from 'react';
+import React from 'react';
 import { getMembers } from './api';
 import { mapToMemberVMList } from './mapper';
 
@@ -72,7 +72,7 @@ export const App: React.FunctionComponent = () => {
 
 Let's start to test it:
 
-### ./src/api.spec.ts
+_./src/api.spec.ts_
 
 ```javascript
 import { getMembers } from './api';
@@ -88,7 +88,7 @@ describe('api specs', () => {
 
 Should return members when it resolves the request successfully:
 
-### ./src/api.spec.ts
+_./src/api.spec.ts_
 
 ```diff
 + import Axios from 'axios';
@@ -107,7 +107,7 @@ describe('api specs', () => {
 +     },
 +   ];
 
-+   const getStub = jest.spyOn(Axios, 'get').mockResolvedValue({
++   vi.spyOn(Axios, 'get').mockResolvedValue({
 +     data: members,
 +   });
 
@@ -115,7 +115,7 @@ describe('api specs', () => {
 +   const result = getMembers();
 
     // Assert
-+   expect(getStub).toHaveBeenCalledWith(
++   expect(Axios.get).toHaveBeenCalledWith(
 +     'https://api.github.com/orgs/lemoncode/members'
 +   );
 +   expect(result).toEqual(members);
@@ -124,9 +124,9 @@ describe('api specs', () => {
 
 ```
 
-Why is it failing? Because it's an async code and we have to tell `jest` that it has to wait to resolve `promise`:
+Why is it failing? Because it's an async code and we have to tell `vitest` that it has to wait to resolve `promise`:
 
-### ./src/api.spec.ts
+_./src/api.spec.ts_
 
 ```diff
 import Axios from 'axios';
@@ -135,48 +135,6 @@ import { getMembers } from './api';
 
 describe('api specs', () => {
 - it('should return members when it resolves the request successfully', () => {
-+ it('should return members when it resolves the request successfully', done => {
-    // Arrange
-    const members: Member[] = [
-      {
-        id: 1,
-        login: 'test login',
-        avatar_url: 'test avatar_url',
-      },
-    ];
-
-    const getStub = jest.spyOn(Axios, 'get').mockResolvedValue({
-      data: members,
-    });
-
-    // Act
--   const result = getMembers();
-+   getMembers().then(result => {
-      // Assert
-      expect(getStub).toHaveBeenCalledWith(
-        'https://api.github.com/orgs/lemoncode/members'
-      );
-      expect(result).toEqual(members);
-+     done();
-+   });
-  });
-});
-
-```
-
-A second approach is using `async/await`:
-
-> [Jest testing async code](https://jestjs.io/docs/en/asynchronous.html)
-
-### ./src/api.spec.ts
-
-```diff
-import Axios from 'axios';
-import { Member } from './api-model';
-import { getMembers } from './api';
-
-describe('api specs', () => {
-- it('should return members when it resolves the request successfully', done => {
 + it('should return members when it resolves the request successfully', async () => {
     // Arrange
     const members: Member[] = [
@@ -187,29 +145,29 @@ describe('api specs', () => {
       },
     ];
 
-    const getStub = jest.spyOn(Axios, 'get').mockResolvedValue({
+    vi.spyOn(Axios, 'get').mockResolvedValue({
       data: members,
     });
 
     // Act
--   getMembers().then(result => {
+-   const result = getMembers();
 +   const result = await getMembers();
 
-      // Assert
-      expect(getStub).toHaveBeenCalledWith(
-        'https://api.github.com/orgs/lemoncode/members'
-      );
-      expect(result).toEqual(members);
--     done();
--   });
+    // Assert
+    expect(Axios.get).toHaveBeenCalledWith(
+      'https://api.github.com/orgs/lemoncode/members'
+    );
+    expect(result).toEqual(members);
   });
 });
 
 ```
 
+> Old way [Done callback](https://vitest.dev/guide/migration.html#done-callback)
+
 Should throw an error with "Too much Github API calls!" when it rejects the request with 403 status code:
 
-### ./src/api.spec.ts
+_./src/api.spec.ts_
 
 ```diff
 - import Axios from 'axios';
@@ -220,7 +178,7 @@ import { getMembers } from './api';
 
 + it('should throw an error with "Too much Github API calls!" when it rejects the request with 403 status code', async () => {
 +   // Arrange
-+   const getStub = jest.spyOn(Axios, 'get').mockRejectedValue({
++   vi.spyOn(Axios, 'get').mockRejectedValue({
 +     response: {
 +       status: 403,
 +     },
@@ -231,7 +189,7 @@ import { getMembers } from './api';
 +     const result = await getMembers();
 +   } catch (error) {
 +     // Assert
-+     expect(getStub).toHaveBeenCalledWith(
++     expect(Axios.get).toHaveBeenCalledWith(
 +       'https://api.github.com/orgs/lemoncode/members'
 +     );
 +     expect(error).toEqual('Too much Github API calls!');
@@ -243,14 +201,14 @@ import { getMembers } from './api';
 
 Should throw an error with "Unavailable service" when it rejects the request with 503 status code:
 
-### ./src/api.spec.ts
+_./src/api.spec.ts_
 
 ```diff
 ...
 
 + it('should throw an error with "Unavailable service" when it rejects the request with 503 status code', async () => {
 +   // Arrange
-+   const getStub = jest.spyOn(Axios, 'get').mockRejectedValue({
++   vi.spyOn(Axios, 'get').mockRejectedValue({
 +     response: {
 +       status: 503,
 +     },
@@ -261,7 +219,7 @@ Should throw an error with "Unavailable service" when it rejects the request wit
 +     const result = await getMembers();
 +   } catch (error) {
 +     // Assert
-+     expect(getStub).toHaveBeenCalledWith(
++     expect(Axios.get).toHaveBeenCalledWith(
 +       'https://api.github.com/orgs/lemoncode/members'
 +     );
 +     expect(error).toEqual('Unavailable service');
@@ -273,14 +231,14 @@ Should throw an error with "Unavailable service" when it rejects the request wit
 
 Should return undefined when it rejects the request with different status code:
 
-### ./src/api.spec.ts
+_./src/api.spec.ts_
 
 ```diff
 ...
 
 + it('should return undefined when it rejects the request with different status code', async () => {
 +   // Arrange
-+   const getStub = jest.spyOn(Axios, 'get').mockRejectedValue({
++   vi.spyOn(Axios, 'get').mockRejectedValue({
 +     response: {
 +       status: 404,
 +     },
@@ -289,7 +247,7 @@ Should return undefined when it rejects the request with different status code:
 +   // Act
 +   const result = await getMembers();
 +   // Assert
-+   expect(getStub).toHaveBeenCalledWith(
++   expect(Axios.get).toHaveBeenCalledWith(
 +     'https://api.github.com/orgs/lemoncode/members'
 +   );
 +   expect(result).toBeUndefined();

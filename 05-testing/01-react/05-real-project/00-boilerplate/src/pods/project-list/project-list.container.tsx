@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { ProjectListComponent } from './project-list.component';
 import { getProjectList, deleteProject } from './api';
 import { Project } from './project-list.vm';
-import { useSnackbarContext } from 'common/components';
+import { useSnackbarContext } from '#common/components';
 import { trackPromise } from 'react-promise-tracker';
 import { mapProjectListFromApiToVm } from './project-list.mappers';
-import { routes } from 'core/router';
+import { routes } from '#core/router';
 const editProjectId = '0';
 
 export const ProjectListContainer: React.FunctionComponent = () => {

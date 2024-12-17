@@ -14,7 +14,7 @@ npm install
 
 Let's create `ThemeContext`:
 
-### ./src/theme.context.tsx
+_./src/theme.context.tsx_
 
 ```javascript
 import React from 'react';
@@ -63,14 +63,14 @@ If we want to use this `context`, we have to write something like this on top of
 
 And then use it like:
 
-### ./src/theme.hooks.ts
+_./src/theme.hooks.ts_
 
 ```javascript
 import React from 'react';
 import { ThemeContext } from './theme.context';
 
 export const useTheme = () => {
-  const { theme, setTheme } = React.useContext(ThemeContext);
+  const { theme, setTheme } = React.use(ThemeContext);
 
   const onChangeLightTheme = () => {
     setTheme({ primaryColor: 'white' });
@@ -91,7 +91,7 @@ export const useTheme = () => {
 
 Let's add some specs:
 
-### ./src/theme.hooks.spec.ts
+_./src/theme.hooks.spec.ts_
 
 ```javascript
 import { renderHook, act } from '@testing-library/react';
@@ -112,7 +112,7 @@ describe('useTheme specs', () => {
 
 Should return a theme equals `{ primaryColor: "black" }` when it renders the hook and calls to onChangeDarkTheme:
 
-### ./src/theme.hooks.spec.ts
+_./src/theme.hooks.spec.ts_
 
 ```diff
 ...
@@ -134,9 +134,9 @@ Should return a theme equals `{ primaryColor: "black" }` when it renders the hoo
 
 ```
 
-What is going on? That is because we have to initialize the `Provider` when we use a `Context`. IMPORTANT, rename to `tsx` and stop/start tests again (npm run test:watch):
+What is going on? That is because we have to initialize the `Provider` when we use a `Context`. IMPORTANT, rename to `tsx` and stop/start tests again (if needed):
 
-### ./src/theme.hooks.spec.tsx
+_./src/theme.hooks.spec.tsx_
 
 ```diff
 + import React from 'react';
@@ -166,11 +166,13 @@ describe('useTheme specs', () => {
 
 ```
 
+> Also the `render` method has the `wrapper` property that allows us to wrap the component with a provider -> `render(<MyComponent />, { wrapper: ThemeProvider });`
+>
 > Maybe you could have some error due to file rename. Stop and run it again (npm run test:watch).
 
 Or using ThemeProvider. We can rename to `.ts` again:
 
-### ./src/theme.hooks.spec.ts
+_./src/theme.hooks.spec.ts_
 
 ```diff
 - import React from 'react';

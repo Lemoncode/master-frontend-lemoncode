@@ -1,8 +1,8 @@
 import React from 'react';
-import { TableContainer, RowRendererProps } from 'common/components';
+import { TableContainer, RowRendererProps } from '#common/components';
 import { ProjectSummary } from '../employee.vm';
 import { EmployeeRowComponent } from './project-row.component';
-import { CommandFooterComponent } from 'common-app/command-footer';
+import { CommandFooterComponent } from '#common-app/command-footer';
 
 interface Props {
   projectSummaryList: ProjectSummary[];

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { HeaderGroup } from 'react-table';
+import { HeaderGroup } from '@tanstack/react-table';
 import { render } from '@testing-library/react';
 import { HeaderComponent } from './header.component';
 
@@ -7,17 +7,21 @@ describe('common/table/HeaderComponent', () => {
   it('should be rendered as expected passing required properties', () => {
     // Arrange
     const props = {
-      headerGroups: ([
+      headerGroups: [
         {
-          getHeaderGroupProps: jest.fn(),
+          id: '1',
           headers: [
             {
-              getHeaderProps: jest.fn(),
-              render: jest.fn().mockReturnValue('Test label'),
+              column: {
+                columnDef: {
+                  header: 'Test label',
+                },
+              },
+              getContext: vi.fn(),
             },
           ],
         },
-      ] as unknown) as HeaderGroup[],
+      ] as unknown as HeaderGroup<any>[],
     };
 
     // Act
@@ -30,26 +34,34 @@ describe('common/table/HeaderComponent', () => {
   it('should render two columns passing two columns', () => {
     // Arrange
     const props = {
-      headerGroups: ([
+      headerGroups: [
         {
-          getHeaderGroupProps: jest.fn(),
+          id: '1',
           headers: [
             {
-              getHeaderProps: jest.fn(),
-              render: jest.fn().mockReturnValue('Test label 1'),
+              column: {
+                columnDef: {
+                  header: 'Test label 1',
+                },
+              },
+              getContext: vi.fn(),
             },
           ],
         },
         {
-          getHeaderGroupProps: jest.fn(),
+          id: '2',
           headers: [
             {
-              getHeaderProps: jest.fn(),
-              render: jest.fn().mockReturnValue('Test label 2'),
+              column: {
+                columnDef: {
+                  header: 'Test label 2',
+                },
+              },
+              getContext: vi.fn(),
             },
           ],
         },
-      ] as unknown) as HeaderGroup[],
+      ] as unknown as HeaderGroup<any>[],
     };
 
     // Act

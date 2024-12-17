@@ -1,4 +1,4 @@
-import { mapToCollection } from 'common/mappers';
+import { mapToCollection } from '#common/mappers';
 import * as apiModel from './api/project.api-model';
 import * as viewModel from './project.vm';
 

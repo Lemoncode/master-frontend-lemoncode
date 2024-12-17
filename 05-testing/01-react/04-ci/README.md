@@ -24,7 +24,7 @@ git push -u origin main
 
 Create new branch on repository `feature/add-ci-file` and add ci config [Github workflow](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow):
 
-### ./.github/workflows/ci.yml
+_./.github/workflows/ci.yml_
 
 ```yml
 name: CI workflow
@@ -44,6 +44,8 @@ jobs:
 
 ```
 
+> [VSCode Yaml extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) is a good option to work with yaml files.
+
 Commit, push:
 
 ```bash
@@ -53,6 +55,33 @@ git push -u origin feature/add-ci-file
 ```
 
 Create a pull request.
+
+If you get an error like `Error: Cannot find module @rollup/rollup-linux-x64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828).`, you can try to add optional dependency:
+
+_./.github/workflows/ci.yml_
+
+```diff
+name: CI workflow
+
+on: pull_request
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install
+-       run: npm ci
++       run: |
++         npm ci
++         npm install @rollup/rollup-linux-x64-gnu --save-optional
+      - name: Tests
+        run: npm test
+
+```
+
+> Notice that tests are running only once since github actions has enable the process.env.CI variable.
 
 # About Basefactor + Lemoncode
 

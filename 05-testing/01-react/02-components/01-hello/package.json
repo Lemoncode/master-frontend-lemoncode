@@ -9,34 +9,35 @@
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
     "clean": "rimraf dist",
-    "test": "jest -c ./config/test/jest.js",
-    "test:watch": "npm test -- --watchAll -i"
+    "test": "vitest -c ./config/test/config.ts"
+  },
+  "imports": {
+    "#*": "./src/*"
   },
   "author": "Lemoncode",
   "license": "MIT",
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.14.7",
-    "axios": "^1.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.15.0"
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.2.0",
+    "axios": "^1.7.9",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.0.2"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.1.2",
-    "@testing-library/react": "^14.0.0",
-    "@types/jest": "^29.5.4",
-    "@types/node": "^18.17.12",
-    "@types/react": "^18.2.21",
-    "@types/react-dom": "^18.2.7",
-    "@vitejs/plugin-react": "^4.0.4",
-    "jest": "^29.6.4",
-    "jest-environment-jsdom": "^29.6.4",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "jsdom": "^25.0.1",
     "npm-run-all": "^4.1.5",
-    "rimraf": "^5.0.1",
-    "ts-jest": "^29.1.1",
-    "typescript": "^5.2.2",
-    "vite": "^4.4.9"
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.3",
+    "vitest": "^2.1.8"
   }
 }

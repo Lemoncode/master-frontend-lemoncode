@@ -1,15 +1,15 @@
 # 01 Config
 
-In this example we are going to add a basic setup needed to support unit testing with Jest.
+In this example we are going to add a basic setup needed to support unit testing with Vitest.
 
 We will start from `00-boilerplate`.
 
 Summary steps:
 
-- Install `jest`.
+- Install `vitest`.
 - Add configuration.
 - Add dummy spec.
-- External jest config file.
+- External vitest config file.
 
 # Steps to build it
 
@@ -21,40 +21,32 @@ npm install
 
 # Libraries
 
-- We are going to install the main library which we base all our unit tests, [Jest](https://facebook.github.io/jest/en/).
+- We are going to install the main library which we base all our unit tests, [Vitest](https://vitest.dev/).
 
-- [jest](https://github.com/facebook/jest): JavaScript Testing library with runner, assertion, mocks, etc.
-- [@types/jest](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/df38f202a0185eadfb6012e47dd91f8975eb6151/types/jest): Typings for jest.
+- [vitest](https://github.com/vitest-dev/vitest): JavaScript Testing library with runner, assertion, mocks, etc.
+
+> Jest it's a good option for React projects, but it doesn't support [ECMAScript Modules](https://jestjs.io/docs/ecmascript-modules) yet.
+>
+> [Migration from Jest](https://vitest.dev/guide/migration.html#migrating-from-jest)
 
 ```bash
-npm install jest @types/jest --save-dev
+npm install vitest --save-dev
 ```
-
-> If we are using `@babel/preset-typescript` it is not necessary install [ts-jest](https://github.com/kulshekhar/ts-jest): A preprocessor with sourcemap support to help use TypeScript with Jest.
->
-> [Official docs](https://jestjs.io/docs/getting-started#using-typescript)
->
-> NOTE: [Since jest v29.x it drops support for Node 12](https://github.com/facebook/jest/releases/tag/v29.0.0)
 
 # Config
 
-Jest test commands:
-  - `npm test`: to single run
-  - `npm run test:watch`: to run all specs after changes.
+Test commands:
+  - `npm test`: it will run all specs in watch mode (by default). But it depends on the [process.env.CI](https://vitest.dev/config/#watch)
 
-> NOTE:
+> NOTES:
+>
+> [CLI options](https://vitest.dev/guide/cli.html#options)
+>
+> [--watch](https://vitest.dev/guide/cli.html#watch): Enable watch mode
+>
+> [--globals](https://vitest.dev/guide/cli.html#globals): Inject Vitest methods into global scope
 
-> [Jest CLI options](https://facebook.github.io/jest/docs/en/cli.html#options)
-
-> --watchAll To rerun all tests.
-
-> --watch To rerun tests related to changed files.
-
-> --verbose Display individual test results with the test suite hierarchy.
-
-> -i or --runInBand Run all tests serially in the current process, rather than creating a worker pool of child processes that run tests. This can be useful for debugging
-
-### ./package.json
+_./package.json_
 
 ```diff
 {
@@ -63,8 +55,7 @@ Jest test commands:
     ...
 -   "clean": "rimraf dist"
 +   "clean": "rimraf dist",
-+   "test": "jest --verbose",
-+   "test:watch": "npm test -- --watchAll -i"
++   "test": "vitest --globals"
   },
   ...
 }
@@ -75,12 +66,12 @@ Jest test commands:
 Let's launch tests in watch mode:
 
 ```bash
-npm run test:watch
+npm test
 ```
 
 Adding success spec:
 
-### ./src/dummy.spec.ts
+_./src/dummy.spec.ts_
 
 ```javascript
 describe('dummy specs', () => {
@@ -95,9 +86,36 @@ describe('dummy specs', () => {
 });
 ```
 
+We could see that TypeScript doesn't recognize `vitest` methods, we need to add a `vitest` type definition:
+
+_./vitest.d.ts_
+
+```ts
+/// <reference types="vitest/globals" />
+
+```
+
+And add it to `tsconfig.json`:
+
+_./tsconfig.json_
+
+```diff
+{
+  ...
+  },
+- "include": ["./src/**/*"]
++ "include": ["./src/**/*", "./vitest.d.ts"]
+}
+
+```
+
+> Sometimes we need to restart the editor to recognize the new type definition
+>
+> Control/Command + Shift + P -> TypeScript: Restart TS server
+
 Adding failed spec:
 
-### ./src/dummy.spec.ts
+_./src/dummy.spec.ts_
 
 ```diff
 describe('dummy specs', () => {
@@ -125,35 +143,61 @@ describe('dummy specs', () => {
 
 We could create a jest config outside `package.json` to improve maintainability.
 
-> [Jest configuration options](https://facebook.github.io/jest/docs/en/configuration.html#options)
+> [Config file](https://vitest.dev/config/)
 
-Create config in `config/test/jest.js` file:
+Create config in `config/test/config.ts` file:
 
-### ./config/test/jest.js
+_./config/test/config.ts_
 
 ```js
-export default {
-  rootDir: '../../',
-  verbose: true,
-};
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  test: {
+    globals: true,
+  },
+});
 
 ```
-> Check `verbose: false` to see differences
->
-> We will add some configuration in next examples when needed
 
-And use that file:
+> We will add more configuration in next examples when needed
 
-### ./package.json
+Move also the `.d.ts` file:
+
+_./config/test/config.d.ts_
+
+```ts
+/// <reference types="vitest/globals" />
+
+```
+
+> Remove the ./vitest.d.ts file
+
+And update the `tsconfig.json`:
+
+_./tsconfig.json_
+
+```diff
+{
+  ...
+  },
+- "include": ["./src/**/*", "./vitest.d.ts"]
++ "include": ["./src/**/*", "./config/test/config.d.ts"]
+}
+
+```
+
+Update the `package.json`:
+
+_./package.json_
 
 ```diff
 {
   ...
   "scripts": {
     ...
--   "test": "jest --verbose",
-+   "test": "jest -c ./config/test/jest.js",
-    "test:watch": "npm run test -- --watchAll -i"
+-   "test": "vitest --globals"
++   "test": "vitest -c ./config/test/config.ts"
   },
   ...
 }
@@ -162,8 +206,10 @@ And use that file:
 Running specs again:
 
 ```bash
-npm run test:watch
+npm test
 ```
+
+> We could update the globals property in the config file to `false` to see the difference
 
 # About Basefactor + Lemoncode
 

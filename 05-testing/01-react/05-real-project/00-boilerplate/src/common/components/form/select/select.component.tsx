@@ -8,13 +8,13 @@ import {
   MenuItem,
   FormHelperText,
 } from '@mui/material';
-import { Lookup } from 'common/models';
+import { Lookup } from '#common/models';
 import * as classes from './select.styles';
 
-interface Props extends SelectProps {
+type Props = SelectProps<any> & {
   items: Lookup[];
   helperText?: string;
-}
+};
 
 export const SelectComponent: React.FunctionComponent<Props> = (props) => {
   const {

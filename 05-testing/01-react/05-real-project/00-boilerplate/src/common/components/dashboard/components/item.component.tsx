@@ -21,7 +21,12 @@ interface Props {
 export const ItemComponent: React.FC<Props> = (props) => {
   const {
     item: { icon: Icon, title, linkTo, subtitle },
-    classes,
+    classes = {
+      root: '',
+      icon: '',
+      title: '',
+      subtitle: '',
+    },
     dataTestId,
   } = props;
   return (
@@ -45,13 +50,4 @@ export const ItemComponent: React.FC<Props> = (props) => {
       </Typography>
     </Link>
   );
-};
-
-ItemComponent.defaultProps = {
-  classes: {
-    root: '',
-    icon: '',
-    title: '',
-    subtitle: '',
-  },
 };

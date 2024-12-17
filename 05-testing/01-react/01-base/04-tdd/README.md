@@ -17,15 +17,16 @@ npm install
 ```
 
 Let's remove all `calculator` stuff.
-  - `./src/business/calculator.business.ts`
-  - `./src/business/index.ts`
-  - `./src/calculator.spec.ts`
-  - `./src/calculator.ts`
-  - `./src/second.spec.ts`
+
+- `./src/business/calculator.business.ts`
+- `./src/business/index.ts`
+- `./src/calculator.spec.ts`
+- `./src/calculator.ts`
+- `./src/second.spec.ts`
 
 Create a simple `app` to retrieve data from `github`:
 
-### ./src/api-model.ts
+_./src/api-model.ts_
 
 ```javascript
 export interface Member {
@@ -35,7 +36,7 @@ export interface Member {
 }
 ```
 
-### ./src/api.ts
+_./src/api.ts_
 
 ```javascript
 import Axios from 'axios';
@@ -44,15 +45,15 @@ import { Member } from './api-model';
 const url = 'https://api.github.com/orgs/lemoncode/members';
 
 export const getMembers = (): Promise<Member[]> =>
-  Axios.get(url).then((response) => response.data)
+  Axios.get(url).then((response) => response.data);
 ```
 
 Let's use it:
 
-### ./src/app.tsx
+_./src/app.tsx_
 
 ```diff
-import * as React from 'react';
+import React from 'react';
 + import { getMembers } from './api';
 
 export const App: React.FunctionComponent = () => {
@@ -75,7 +76,7 @@ npm start
 
 We are retrieving too many properties, let's create a `view-model`:
 
-### ./src/view-model.ts
+_./src/view-model.ts_
 
 ```javascript
 export interface Member {
@@ -85,9 +86,15 @@ export interface Member {
 }
 ```
 
+Run specs:
+
+```bash
+npm test
+```
+
 What do we need now? We need a `mapper` to map from `api-model` to `view-model`. Since, we are going to apply TDD, we will start from `spec` before:
 
-### ./src/mapper.spec.ts
+_./src/mapper.spec.ts_
 
 ```javascript
 describe('mapper specs', () => {
@@ -101,7 +108,7 @@ describe('mapper specs', () => {
 
 Should return empty array when it feeds undefined:
 
-### ./src/mapper.spec.ts
+_./src/mapper.spec.ts_
 
 ```diff
 + import * as apiModel from './api-model';
@@ -114,10 +121,11 @@ describe('mapper specs', () => {
 +   const members: apiModel.Member[] = undefined;
 
     // Act
-+   const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
++   const result = mapMemberListFromApiToVm(members);
 
     // Assert
-+   expect(result).toEqual([]);
++   const expectedResult: viewModel.Member[] = [];
++   expect(result).toEqual(expectedResult);
   });
 });
 
@@ -125,7 +133,7 @@ describe('mapper specs', () => {
 
 Create the minimum implementation to pass the test:
 
-### ./src/mapper.ts
+_./src/mapper.ts_
 
 ```javascript
 import * as apiModel from './api-model';
@@ -138,7 +146,7 @@ export const mapMemberListFromApiToVm = (
 
 Let's update the spec:
 
-### ./src/mapper.spec.ts
+_./src/mapper.spec.ts_
 
 ```diff
 import * as apiModel from './api-model';
@@ -150,7 +158,7 @@ import * as viewModel from './view-model';
 
 Should return empty array when it feeds null:
 
-### ./src/mapper.spec.ts
+_./src/mapper.spec.ts_
 
 ```diff
 ...
@@ -160,9 +168,10 @@ Should return empty array when it feeds null:
 +   const members: apiModel.Member[] = null;
 
 +   // Act
-+   const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
++   const result = mapMemberListFromApiToVm(members);
 
 +   // Assert
++   const expectedResult: viewModel.Member[] = [];
 +   expect(result).toEqual([]);
 + });
 });
@@ -171,7 +180,7 @@ Should return empty array when it feeds null:
 
 Should return empty array when it feeds empty array:
 
-### ./src/mapper.spec.ts
+_./src/mapper.spec.ts_
 
 ```diff
 ...
@@ -181,10 +190,11 @@ Should return empty array when it feeds empty array:
 +   const members: apiModel.Member[] = [];
 
 +   // Act
-+   const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
++   const result = mapMemberListFromApiToVm(members);
 
 +   // Assert
-+   expect(result).toEqual([]);
++   const expectedResult: viewModel.Member[] = [];
++   expect(result).toEqual(expectedResult);
 + });
 });
 
@@ -192,7 +202,7 @@ Should return empty array when it feeds empty array:
 
 Yep, we are ready to deploy to production :^). Should return array one mapped item when it feed array with one item:
 
-### ./src/mapper.spec.ts
+_./src/mapper.spec.ts_
 
 ```diff
 ...
@@ -204,7 +214,7 @@ Yep, we are ready to deploy to production :^). Should return array one mapped it
 +   ];
 
 +   // Act
-+   const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
++   const result = mapMemberListFromApiToVm(members);
 
 +   // Assert
 +   const expectedResult: viewModel.Member[] = [
@@ -222,7 +232,7 @@ Yep, we are ready to deploy to production :^). Should return array one mapped it
 
 Let's update the implementation:
 
-### ./src/mapper.ts
+_./src/mapper.ts_
 
 ```diff
 import * as apiModel from './api-model';
@@ -243,7 +253,7 @@ export const mapMemberListFromApiToVm = (
 
 We've break two specs! How to solve this one?. Let's start with undefined:
 
-### ./src/mapper.ts
+_./src/mapper.ts_
 
 ```diff
 
@@ -260,7 +270,7 @@ export const mapMemberListFromApiToVm = (
 
 Let's continue with null:
 
-### ./src/mapper.ts
+_./src/mapper.ts_
 
 ```diff
 ...
@@ -278,7 +288,7 @@ export const mapMemberListFromApiToVm = (
 
 Or if we know about JavaScript Array [isArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray) method:
 
-### ./src/mapper.ts
+_./src/mapper.ts_
 
 ```diff
 ...
@@ -294,13 +304,13 @@ export const mapMemberListFromApiToVm = (
 
 ```
 
-Another tool provided by jest is the [each](https://jestjs.io/docs/api#testeachtablename-fn-timeout) method.
+Another tool provided by vitest is the [each](https://vitest.dev/api/#test-each) method.
 
 > We could have some issues typing arrays.
 >
 > That's why the `any` casting
 
-### ./src/mapper.spec.ts
+_./src/mapper.spec.ts_
 
 ```diff
 ...
@@ -324,9 +334,10 @@ describe('mapper specs', () => {
 -   const members: apiModel.Member[] = undefined;
 
 -   // Act
--   const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
+-   const result = mapMemberListFromApiToVm(members);
 
 -   // Assert
+-   const expectedResult: viewModel.Member[] = [];
 -   expect(result).toEqual([]);
 - });
 
@@ -335,9 +346,10 @@ describe('mapper specs', () => {
 -   const members: apiModel.Member[] = null;
 
 -   // Act
--   const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
+-   const result = mapMemberListFromApiToVm(members);
 
 -   // Assert
+-   const expectedResult: viewModel.Member[] = [];
 -   expect(result).toEqual([]);
 - });
 
@@ -346,16 +358,16 @@ describe('mapper specs', () => {
 -   const members: apiModel.Member[] = [];
 
 -   // Act
--   const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
+-   const result = mapMemberListFromApiToVm(members);
 
 -   // Assert
+-   const expectedResult: viewModel.Member[] = [];
 -   expect(result).toEqual([]);
 - });
 
 ...
 
 ```
-
 
 # About Basefactor + Lemoncode
 

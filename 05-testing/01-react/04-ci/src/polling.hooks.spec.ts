@@ -3,12 +3,7 @@ import { usePolling } from './polling.hooks';
 
 describe('usePolling specs', () => {
   beforeEach(() => {
-    jest.useFakeTimers();
-  });
-
-  afterEach(() => {
-    jest.runOnlyPendingTimers();
-    jest.useRealTimers();
+    vi.useFakeTimers({ shouldAdvanceTime: true });
   });
 
   it('should return count equals 0 when initialize the hook', () => {
@@ -54,15 +49,15 @@ describe('usePolling specs', () => {
   it('should call clearInterval when it unmounts the component', () => {
     // Arrange
     const pollingTime = 500;
-    const clearIntervalStub = jest.spyOn(window, 'clearInterval');
+    vi.spyOn(window, 'clearInterval');
 
     // Act
     const { unmount } = renderHook(() => usePolling(pollingTime));
 
     // Assert
-    expect(clearIntervalStub).not.toHaveBeenCalled();
+    expect(clearInterval).not.toHaveBeenCalled();
 
     unmount();
-    expect(clearIntervalStub).toHaveBeenCalled();
+    expect(clearInterval).toHaveBeenCalled();
   });
 });

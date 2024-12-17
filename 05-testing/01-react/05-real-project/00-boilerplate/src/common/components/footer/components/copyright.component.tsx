@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Link } from '@mui/material';
-import { literals } from 'core/i18n';
+import { literals } from '#core/i18n';
 
 export const CopyrightComponent: React.FC = () => (
   <Typography variant="body2" align="center">

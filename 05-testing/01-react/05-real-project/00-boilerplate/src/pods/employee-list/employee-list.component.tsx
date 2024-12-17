@@ -3,7 +3,7 @@ import {
   TableContainer,
   RowRendererProps,
   useSearchBar,
-} from 'common/components';
+} from '#common/components';
 import { Employee } from './employee-list.vm';
 import { EmployeeRowComponent } from './components';
 

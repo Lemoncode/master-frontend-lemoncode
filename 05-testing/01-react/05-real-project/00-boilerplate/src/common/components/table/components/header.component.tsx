@@ -1,10 +1,10 @@
 import React from 'react';
-import { HeaderGroup } from 'react-table';
+import { HeaderGroup, flexRender } from '@tanstack/react-table';
 import { TableHead, TableRow } from '@mui/material';
 import { CellComponent } from './cell.component';
 
 interface Props {
-  headerGroups: HeaderGroup[];
+  headerGroups: HeaderGroup<any>[];
 }
 
 export const HeaderComponent: React.FunctionComponent<Props> = (props) => {
@@ -12,10 +12,10 @@ export const HeaderComponent: React.FunctionComponent<Props> = (props) => {
   return (
     <TableHead>
       {headerGroups.map((headerGroup) => (
-        <TableRow {...headerGroup.getHeaderGroupProps()}>
-          {headerGroup.headers.map((column) => (
-            <CellComponent {...column.getHeaderProps()}>
-              {column.render('Header')}
+        <TableRow>
+          {headerGroup.headers.map((header) => (
+            <CellComponent>
+              {flexRender(header.column.columnDef.header, header.getContext())}
             </CellComponent>
           ))}
         </TableRow>

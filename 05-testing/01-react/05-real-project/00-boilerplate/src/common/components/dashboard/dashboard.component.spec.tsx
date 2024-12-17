@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { PeopleAlt as PeopleAltIcon } from '@mui/icons-material';
 import { Route } from 'react-router-dom';
-import { renderWithRouter } from 'common/test';
+import { renderWithRouter } from '#common/test';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardItemProps } from './dashboard.vm';
 

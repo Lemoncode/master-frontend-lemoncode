@@ -1,6 +1,6 @@
 # 01 Use State
 
-In this example we will setup react-hooks-testing-library and create a simple test over a custom hook.
+In this example we will create a simple test over a custom hook.
 
 We will start from `00-boilerplate`.
 
@@ -14,22 +14,20 @@ npm install
 
 It exists [react-hooks-testing-library](https://github.com/testing-library/react-hooks-testing-library) that allows you to create a simple test for React hooks but since [it is not fully supported by React 18](https://github.com/testing-library/react-hooks-testing-library#a-note-about-react-18-support), for now, we will use the [renderHook](https://testing-library.com/docs/react-testing-library/api/#renderhook) included in `@testing-library/react`
 
-
 When to use this method? When we are writing custom hooks outside components. So let's create a simple custom hook:
 
-### ./src/model.ts
+_./src/model.ts_
 
 ```javascript
 export interface Credential {
   name: string;
   password: string;
 }
-
 ```
 
-### ./src/login.hooks.ts
+_./src/login.hooks.ts_
 
-```javascript
+```tsx
 import React from 'react';
 import { Credential } from './model';
 
@@ -44,12 +42,11 @@ export const useLogin = () => {
     setCredential,
   };
 };
-
 ```
 
 It's simple hook, isn't it? Let's create the spec:
 
-### ./src/login.hooks.spec.ts
+_./src/login.hooks.spec.ts_
 
 ```javascript
 import { renderHook } from '@testing-library/react';
@@ -63,12 +60,11 @@ describe('useLogin specs', () => {
     // Assert
   });
 });
-
 ```
 
 Should return an object: credential with default values and setCredential a function when it calls it:
 
-### ./src/login.hooks.spec.ts
+_./src/login.hooks.spec.ts_
 
 ```diff
 ...
@@ -91,7 +87,7 @@ Should return an object: credential with default values and setCredential a func
 
 Should update credential when it calls setUser:
 
-### ./src/login.hooks.spec.ts
+_./src/login.hooks.spec.ts_
 
 ```diff
 ...
@@ -115,7 +111,7 @@ The test fails and we see a warning about to use `act` method.
 
 > [Read more](https://reactjs.org/docs/test-utils.html#act)
 
-### ./src/login.hooks.spec.ts
+_./src/login.hooks.spec.ts_
 
 ```diff
 - import { renderHook } from '@testing-library/react';

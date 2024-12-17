@@ -11,7 +11,10 @@ describe('SayHello component specs', () => {
     render(<SayHello person={person} />);
 
     // Assert
-    const element = screen.getByRole('heading', { name: 'Hello John' });
+    const element = screen.getByRole('heading', {
+      level: 1,
+      name: 'Hello John',
+    });
     expect(element).not.toBeNull();
     expect(element.tagName).toEqual('H1');
   });
@@ -36,15 +39,15 @@ describe('SayHello component specs', () => {
 
     // Assert
     expect(asFragment()).toMatchInlineSnapshot(`
-<DocumentFragment>
-  <h1>
-    Hello 
-    <strong>
-      John
-    </strong>
-  </h1>
-</DocumentFragment>
-`);
+      <DocumentFragment>
+        <h1>
+          Hello 
+          <strong>
+            John
+          </strong>
+        </h1>
+      </DocumentFragment>
+    `);
   });
 
   it('should display the person name using jest-dom', () => {
@@ -54,7 +57,10 @@ describe('SayHello component specs', () => {
     // Act
     render(<SayHello person={person} />);
 
-    const element = screen.getByRole('heading', { name: 'Hello John' });
+    const element = screen.getByRole('heading', {
+      level: 1,
+      name: /hello john/i,
+    });
 
     // Assert
     expect(element).toBeInTheDocument();

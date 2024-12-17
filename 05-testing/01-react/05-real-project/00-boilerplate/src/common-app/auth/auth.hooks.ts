@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { routes } from 'core/router';
+import { routes } from '#core/router';
 import { AuthContext } from './auth.context';
 import { createEmptyUserSession } from './auth.vm';
 

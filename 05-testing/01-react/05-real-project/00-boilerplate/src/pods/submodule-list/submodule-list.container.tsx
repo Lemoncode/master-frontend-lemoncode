@@ -4,8 +4,8 @@ import {
   Group as GroupIcon,
 } from '@mui/icons-material';
 import { SumoduleListComponent } from './submodule-list.component';
-import { DashboardItemProps } from 'common/components';
-import { routes } from 'core/router';
+import { DashboardItemProps } from '#common/components';
+import { routes } from '#core/router';
 
 export const SubmoduleListContainer: React.FunctionComponent = () => {
   const items: DashboardItemProps[] = React.useMemo(

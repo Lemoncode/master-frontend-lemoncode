@@ -14,7 +14,7 @@ npm install
 
 Create a second page to navigate `user-edit.tsx`
 
-### ./src/user-edit.tsx
+_./src/user-edit.tsx_
 
 ```javascript
 import React from 'react';
@@ -33,7 +33,7 @@ export const UserEdit: React.FC = (props) => {
 
 Create `router`:
 
-### ./src/router.tsx
+_./src/router.tsx_
 
 ```javascript
 import React from 'react';
@@ -51,12 +51,11 @@ export const Router: React.FC = () => {
     </HashRouter>
   );
 };
-
 ```
 
 Use it:
 
-### ./src/app.tsx
+_./src/app.tsx_
 
 ```diff
 import React from 'react';
@@ -79,7 +78,7 @@ export const App: React.FunctionComponent = () => {
 
 Add navigation from `name-collection` component:
 
-### ./src/name-collection.tsx
+_./src/name-collection.tsx_
 
 ```diff
 import React from 'react';
@@ -109,12 +108,12 @@ import { getNameCollection } from './name-api';
 Let's run tests:
 
 ```bash
-npm run test:watch
+npm test
 ```
 
 Why are they broken? Because we need to provide a `render with router` since as we know, `react-testing-library` mount all components:
 
-### ./src/name-collection.spec.tsx
+_./src/name-collection.spec.tsx_
 
 > Note: [testing with react-router](https://testing-library.com/docs/example-react-router)
 
@@ -162,7 +161,7 @@ import { NameCollection } from './name-collection';
 
 Should navigate to second user edit page when click in second user name:
 
-### ./src/name-collection.spec.tsx
+_./src/name-collection.spec.tsx_
 
 ```diff
 import React from 'react';
@@ -181,9 +180,10 @@ import { NameCollection } from './name-collection';
 
 + it('should navigate to second user edit page when click in second user name', async () => {
 +   // Arrange
-+   const getStub = jest
-+     .spyOn(api, 'getNameCollection')
-+     .mockResolvedValue(['John Doe', 'Jane Doe']);
++   vi.spyOn(api, 'getNameCollection').mockResolvedValue([
++     'John Doe',
++     'Jane Doe',
++   ]);
 
 +   // Act
 +   renderWithRouter(<NameCollection />);
@@ -205,18 +205,20 @@ import { NameCollection } from './name-collection';
 
 ```
 
-> NOTE: we could use screen.debug() to check DOM changes:
+Also, we can use `screen.debug()` to check DOM changes:
+
+_./src/name-collection.spec.tsx_
 
 ```diff
 ...
     const links = await screen.findAllByRole('link');
 
-+   screen.debug()
++   screen.debug();
 
     const secondUser = links[1];
     await userEvent.click(secondUser);
 
-+   screen.debug()
++   screen.debug();
 
     const userEditElement = screen.getByRole('heading', {
       name: 'User name: Jane Doe',

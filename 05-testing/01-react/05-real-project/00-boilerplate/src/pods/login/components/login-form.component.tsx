@@ -1,11 +1,11 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 import { Button } from '@mui/material';
-import { TextFieldComponent } from 'common/components';
+import { TextFieldComponent } from '#common/components';
 import { Login, createEmptyLogin } from '../login.vm';
 import { formValidation } from '../login.validation';
 import * as classes from './login-form.styles';
-import { literals } from 'core/i18n';
+import { literals } from '#core/i18n';
 
 interface Props {
   onLogin: (login: Login) => void;

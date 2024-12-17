@@ -15,7 +15,13 @@ interface Props {
 }
 
 export const SnackbarComponent: React.FunctionComponent<Props> = (props) => {
-  const { position, autoHideDuration } = props;
+  const {
+    position = {
+      horizontal: 'right',
+      vertical: 'top',
+    },
+    autoHideDuration = 3000,
+  } = props;
   const { open, onClose, options } = React.useContext(SnackbarContext);
 
   return (
@@ -36,12 +42,4 @@ export const SnackbarComponent: React.FunctionComponent<Props> = (props) => {
       />
     </Snackbar>
   );
-};
-
-SnackbarComponent.defaultProps = {
-  position: {
-    horizontal: 'right',
-    vertical: 'top',
-  },
-  autoHideDuration: 3000,
 };

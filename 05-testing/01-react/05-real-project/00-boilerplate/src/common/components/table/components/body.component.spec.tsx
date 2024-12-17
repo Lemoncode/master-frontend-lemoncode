@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Row } from 'react-table';
+import { Row } from '@tanstack/react-table';
 import { render } from '@testing-library/react';
 import { BodyComponent } from './body.component';
 import { RowComponent } from './row.component';
@@ -9,22 +9,22 @@ import { RowRendererProps } from '../table.vm';
 describe('common/table/BodyComponent', () => {
   it('should render as expected', () => {
     // Arrange
-    const TestRowComponent: React.FunctionComponent<RowRendererProps<
-      any
-    >> = props => (
+    const TestRowComponent: React.FunctionComponent<RowRendererProps<any>> = (
+      props
+    ) => (
       <RowComponent>
         <CellComponent>{props.row.testRow}</CellComponent>
       </RowComponent>
     );
 
     const props = {
-      rows: ([
-        { getRowProps: jest.fn(), original: { testRow: 1 } },
-        { getRowProps: jest.fn(), original: { testRow: 2 } },
-        { getRowProps: jest.fn(), original: { testRow: 3 } },
-      ] as unknown) as Row[],
+      rows: [
+        { original: { testRow: 1 } },
+        { original: { testRow: 2 } },
+        { original: { testRow: 3 } },
+      ] as unknown as Row<any>[],
       rowRenderer: TestRowComponent,
-      prepareRow: jest.fn(),
+      prepareRow: vi.fn(),
     };
 
     // Act

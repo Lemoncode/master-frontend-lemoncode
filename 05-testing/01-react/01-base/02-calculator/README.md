@@ -9,7 +9,7 @@ Summary steps:
 - Create `calculator` business.
 - Add unit tests.
 
-# Steps to build it
+## Steps to build it
 
 `npm install` to install previous sample packages:
 
@@ -19,7 +19,7 @@ npm install
 
 Create calculator:
 
-### ./src/calculator.ts
+_./src/calculator.ts_
 
 ```javascript
 export const add = (a, b) => a + b;
@@ -27,7 +27,7 @@ export const add = (a, b) => a + b;
 
 Rename `dummy.spec.ts` to `calculator.spec.ts`:
 
-### ./src/calculator.spec.ts
+_./src/calculator.spec.ts_
 
 ```diff
 + import * as calculator from "./calculator";
@@ -62,42 +62,25 @@ Rename `dummy.spec.ts` to `calculator.spec.ts`:
 
 ```
 
-Why it's failing? Since [jest still doesn't support ES6 modules](https://jestjs.io/docs/ecmascript-modules), we need a `babel` configuration to transpile our code to `commonjs` or [using `ts-jest`](https://kulshekhar.github.io/ts-jest/docs/getting-started/presets):
+> We can see that Vitest supports ESModules out of the box.
 
-```bash
-npm install ts-jest --save-dev
+## Differences between `toEqual` vs `toBe` vs `toStrictEqual`:
 
-```
+- `toBe`
 
-Update jest config:
+  - Fails if `expect({ id: 1 }).toBe({ id: 1 });`
+  - it's not the same object.
+  - We should use `toEqual` if we only want the value not the reference.
 
-### ./config/test/jest.js
-
-```diff
-export default {
-  rootDir: '../../',
-  verbose: true,
-+ preset: 'ts-jest',
-};
-
-```
-
-Run again:
-
-```bash
-npm run test:watch
-
-```
-
-> Differences between `toEqual` vs `toBe` vs `toStrictEqual`:
->
-> `toBe` fails if `expect({ id: 1 }).toBe({ id: 1 });`: it's not the same object. We should use `toEqual` if we only want the value not the reference
->
-> `toStrictEqual` pass if `expect({ id: 1 }).toStrictEqual({ id: 1 });` but it fails if `expect({ id: 1 }).toStrictEqual({ id: 1, name: undefined });`: it should have same fields, even undefined values. We should use `toEqual` if we don't care about it.
+- `toStrictEqual`
+  - Pass if `expect({ id: 1 }).toStrictEqual({ id: 1 });`
+  - But it fails if `expect({ id: 1 }).toStrictEqual({ id: 1, name: undefined });`
+  - It should have same fields, even undefined values.
+  - We should use `toEqual` if we don't care about it.
 
 Now, we need passing a method as parameter, whatever it is, we only want to check that it was called and with which arguments:
 
-### ./src/calculator.ts
+_./src/calculator.ts_
 
 ```diff
 - export const add = (a, b) => a + b
@@ -113,9 +96,11 @@ Now, we need passing a method as parameter, whatever it is, we only want to chec
 
 ```
 
+## Spy
+
 How we could test it? Using a `spy`:
 
-### ./src/calculator.spec.ts
+_./src/calculator.spec.ts_
 
 ```diff
 import * as calculator from "./calculator";
@@ -140,10 +125,10 @@ describe("Calculator tests", () => {
 +     // Arrange
 +     const a = 2;
 +     const b = 2;
-+     const isLowerThanFive = jest.fn();
++     const isLowerThanFive = vi.fn();
 
 +     // Act
-+     const result = calculator.add(a, b, isLowerThanFive);
++     calculator.add(a, b, isLowerThanFive);
 
 +     // Assert
 +     expect(isLowerThanFive).toHaveBeenCalled();
@@ -155,10 +140,16 @@ describe("Calculator tests", () => {
 ```
 
 > If we set `a = 3` this test fail.
+>
+> [Vi fn](https://vitest.dev/api/vi.html#vi-fn)
+>
+> [SinonJS spy](https://sinonjs.org/releases/v19/spies/)
+
+## Stub
 
 Sometimes, we need to `import` dependencies that we can't pass throught function parameters, we need to import as `external dependency`:
 
-### ./src/business/calculator.business.ts
+_./src/business/calculator.business.ts_
 
 ```javascript
 export const isLowerThanFive = (value) => {
@@ -168,16 +159,15 @@ export const isLowerThanFive = (value) => {
 
 Add barrel file:
 
-### ./src/business/index.ts
+_./src/business/index.ts_
 
 ```javascript
 export * from './calculator.business';
-
 ```
 
 Use it:
 
-### ./src/calculator.ts
+_./src/calculator.ts_
 
 ```diff
 + import { isLowerThanFive } from './business';
@@ -197,7 +187,7 @@ Use it:
 
 Same as before, we only want to test that function was called and with which arguments, but this time is an `external dependency`, so we need a stub:
 
-### ./src/calculator.spec.ts
+_./src/calculator.spec.ts_
 
 ```diff
 import * as calculator from './calculator';
@@ -209,7 +199,7 @@ describe('Calculator tests', () => {
       // Arrange
       const a = 2;
       const b = 2;
--     const isLowerThanFive = jest.fn();
+-     const isLowerThanFive = () => {};
 
       // Act
 -     const result = calculator.add(a, b, isLowerThanFive);
@@ -223,42 +213,35 @@ describe('Calculator tests', () => {
       // Arrange
       const a = 2;
       const b = 2;
--     const isLowerThanFive = jest.fn();
-+     const isLowerThanFive = jest.spyOn(business, 'isLowerThanFive');
+-     const isLowerThanFive = vi.fn();
++     vi.spyOn(business, 'isLowerThanFive');
 
       // Act
--     const result = calculator.add(a, b, isLowerThanFive);
-+     const result = calculator.add(a, b);
+-     calculator.add(a, b, isLowerThanFive);
++     calculator.add(a, b);
 
       // Assert
-      expect(isLowerThanFive).toHaveBeenCalled();
-      expect(isLowerThanFive).toHaveBeenCalledWith(4);
+-     expect(isLowerThanFive).toHaveBeenCalled();
++     expect(business.isLowerThanFive).toHaveBeenCalled();
+-     expect(isLowerThanFive).toHaveBeenCalledWith(4);
++     expect(business.isLowerThanFive).toHaveBeenCalledWith(4);
     })
   })
 })
 
 ```
 
-Why the second spec is failing? `TypeError: Cannot redefine property: isLowerThanFive`. We could find [many related issues](https://github.com/facebook/jest/issues/880) like this one or [using Object.defineProperty](https://github.com/facebook/jest/issues/6914) like this one. We should update the code:
-
-### ./src/calculator.spec.ts
-
-```diff
-import * as calculator from './calculator';
-- import * as business from './business';
-+ import * as business from './business/calculator.business';
-
-...
-
-```
-
-> Note: As we see in `console`, the `stub` doesn't replace original function behaviour. We have to mock it if we need it.
+> NOTES:
 >
-> [Alternative using jest.mock and __esModule: true](https://github.com/aelbore/esbuild-jest/issues/26#issuecomment-968853688)
+> [Vi spyOn](https://vitest.dev/api/vi.html#vi-spyon)
+>
+> [SinonJS stub](https://sinonjs.org/releases/v19/stubs/)
+>
+> As we see in `console`, the `stub` doesn't replace original function behaviour. We have to mock it if we need it.
 
 Mocking original behaviour:
 
-### ./src/calculator.spec.ts
+_./src/calculator.spec.ts_
 
 ```diff
 ...
@@ -267,23 +250,23 @@ Mocking original behaviour:
       // Arrange
       const a = 2;
       const b = 2;
--     const isLowerThanFive = jest.spyOn(business, 'isLowerThanFive');
-+     const isLowerThanFive = jest.spyOn(business, 'isLowerThanFive')
+-     vi.spyOn(business, 'isLowerThanFive');
++     vi.spyOn(business, 'isLowerThanFive')
 +       .mockImplementation((result) => console.log(`This is the result ${result}`));
 
       // Act
-      const result = calculator.add(a, b);
+      calculator.add(a, b);
 
       // Assert
-      expect(isLowerThanFive).toHaveBeenCalled();
-      expect(isLowerThanFive).toHaveBeenCalledWith(4);
+      expect(business.isLowerThanFive).toHaveBeenCalled();
+      expect(business.isLowerThanFive).toHaveBeenCalledWith(4);
     })
 
 ```
 
 Note, it's important reset the `mocks` implementation:
 
-### ./src/calculator.spec.ts
+_./src/calculator.spec.ts_
 
 ```diff
 ...
@@ -308,14 +291,14 @@ Note, it's important reset the `mocks` implementation:
 
 We should restore all mocks after run them:
 
-### ./src/calculator.spec.ts
+_./src/calculator.spec.ts_
 
 ```diff
 ...
 
 describe('Calculator tests', () => {
 + afterEach(() => {
-+   jest.restoreAllMocks();
++   vi.restoreAllMocks();
 + });
 
   describe('add', () => {
@@ -325,28 +308,30 @@ describe('Calculator tests', () => {
 
 Instead of use `restoreAllMocks` on each spec file, we could configure it globally:
 
-### ./config/test/jest.js
+_./config/test/config.ts_
 
 ```diff
-module.exports = {
-  rootDir: '../../',
-  verbose: true,
-  preset: 'ts-jest',
-+ restoreMocks: true,
-};
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  test: {
+    globals: true,
++   restoreMocks: true,
+  },
+});
 
 ```
 
-> [Jest configuration options](https://facebook.github.io/jest/docs/en/configuration.html#options)
+> [restoreMocks](https://vitest.dev/config/#restoremocks)
 
-### ./src/calculator.spec.ts
+_./src/calculator.spec.ts_
 
 ```diff
 ...
 
 describe('Calculator tests', () => {
 - afterEach(() => {
--   jest.restoreAllMocks();
+-   vi.restoreAllMocks();
 - });
 
   describe('add', () => {
@@ -354,11 +339,11 @@ describe('Calculator tests', () => {
 
 ```
 
-> Run again `npm run test:watch`
+## Stub a constant
 
-Finally, we could have a business with too much methods, or even, it is exporting an object:
+Finally, we could have a business with too much methods, or even, it is exporting a constant:
 
-### ./src/business/calculator.business.ts
+_./src/business/calculator.business.ts_
 
 ```diff
 - export const isLowerThanFive = (value) => {
@@ -367,13 +352,13 @@ Finally, we could have a business with too much methods, or even, it is exportin
 + console.log(`The value: ${value} is lower than ${max}`)
 }
 
-+ export const max = 6
++ export const max: number = 6;
 
 ```
 
 Use it:
 
-### ./src/calculator.ts
+_./src/calculator.ts_
 
 ```diff
 - import { isLowerThanFive } from './business'
@@ -393,18 +378,13 @@ export const add = (a, b) => {
 
 ```
 
-In this case, we need to mock the whole module:
+In this case, we need to mock the constant:
 
-### ./src/calculator.spec.ts
+_./src/calculator.spec.ts_
 
 ```diff
 import * as calculator from './calculator';
-import * as business from './business/calculator.business';
-
-+ jest.mock('./business/calculator.business', () => ({
-+   isLowerThan: jest.fn(),
-+   max: 7,
-+ }));
+import * as business from './business';
 
 describe('Calculator tests', () => {
   describe('add', () => {
@@ -425,16 +405,18 @@ describe('Calculator tests', () => {
       // Arrange
       const a = 2;
       const b = 2;
--     const isLowerThanFive = jest.spyOn(business, 'isLowerThanFive')
--       .mockImplementation((result) => console.log(`This is the result ${result}`));
+      vi.spyOn(business, 'isLowerThan').mockImplementation((result) =>
+        console.log(`This is the result ${result}`)
+      );
++     vi.spyOn(business, 'max', 'get').mockReturnValue(7);
 
       // Act
-      const result = calculator.add(a, b);
+      calculator.add(a, b);
 
       // Assert
--     expect(isLowerThanFive).toHaveBeenCalled();
+-     expect(business.isLowerThanFive).toHaveBeenCalled();
 +     expect(business.isLowerThan).toHaveBeenCalled();
--     expect(isLowerThanFive).toHaveBeenCalledWith(4);
+-     expect(business.isLowerThanFive).toHaveBeenCalledWith(4);
 +     expect(business.isLowerThan).toHaveBeenCalledWith(4, 7);
     })
 
@@ -455,7 +437,51 @@ describe('Calculator tests', () => {
 
 ```
 
-> If we change max value to 3. spec fails.
+## Mock
+
+There are cases where we need to mock a module, for example, if we have a module with a lot of functionality and we don't want to call original functionality but we don't want to mock all methods one by one:
+
+_./src/calculator.spec.ts_
+
+```diff
+import * as calculator from './calculator';
+import * as business from './business';
+
++ vi.mock('./business');
+
+describe('Calculator tests', () => {
+  describe('add', () => {
+    it('should return 4 when passing A equals 2 and B equals 2', () => {
+      // Arrange
+      const a = 2;
+      const b = 2;
+
+      // Act
+      const result = calculator.add(a, b);
+
+      // Assert
+      expect(result).toEqual(4);
+    });
+
+    it('should call to isLowerThan when passing A equals 2 and B equals 2', () => {
+      // Arrange
+      const a = 2;
+      const b = 2;
+-     vi.spyOn(business, 'isLowerThan').mockImplementation((result) =>
+-       console.log(`This is the result ${result}`)
+-     );
+      vi.spyOn(business, 'max', 'get').mockReturnValue(7);
+
+...
+
+```
+> [vi.mock](https://vitest.dev/api/vi.html#vi-mock)
+>
+> Notice that we don't see any `console.log` from original `isLowerThan` method.
+>
+> In this case we can also use `vi.mocked` instead of `vi.spyOn`: `vi.mocked(business.isLowerThan).mockImplementation(...)`
+>
+> Another use case is to [enable esModule support for a module that doesn't support it](https://github.com/vitest-dev/vitest/issues/3152#issuecomment-1566327217).
 
 # About Basefactor + Lemoncode
 

@@ -1,10 +1,11 @@
-import { Column, Cell } from 'react-table';
-import { mapToCollection } from 'common/mappers';
+import { ColumnDef } from '@tanstack/react-table';
+import { mapToCollection } from '#common/mappers';
 
-const mapColumnFromStringToColumn = (column: string): Column => ({
-  accessor: column,
-  Header: column,
+const mapColumnFromStringToColumn = (column: string): ColumnDef<any> => ({
+  accessorKey: column,
+  header: column,
 });
 
-export const mapColumnListFromStringToColumn = (columns: string[]): Column[] =>
-  mapToCollection(columns, mapColumnFromStringToColumn);
+export const mapColumnListFromStringToColumn = (
+  columns: string[]
+): ColumnDef<any>[] => mapToCollection(columns, mapColumnFromStringToColumn);

@@ -3,16 +3,19 @@ import * as viewModel from './view-model';
 import { mapMemberListFromApiToVm } from './mapper';
 
 describe('mapper specs', () => {
-  it.each<apiModel.Member[]>([undefined, null, []])(
-    'should return empty array when it feeds members equals %p',
-    (members: any) => {
+  it.each<{
+    members: apiModel.Member[];
+  }>([{ members: undefined }, { members: null }, { members: [] }])(
+    'should return empty array when it feeds members equals $members',
+    ({ members }) => {
       // Arrange
 
       // Act
-      const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
+      const result = mapMemberListFromApiToVm(members);
 
       // Assert
-      expect(result).toEqual([]);
+      const expectedResult: viewModel.Member[] = [];
+      expect(result).toEqual(expectedResult);
     }
   );
 
@@ -23,7 +26,7 @@ describe('mapper specs', () => {
     ];
 
     // Act
-    const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
+    const result = mapMemberListFromApiToVm(members);
 
     // Assert
     const expectedResult: viewModel.Member[] = [

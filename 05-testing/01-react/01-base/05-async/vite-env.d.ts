@@ -1,3 +1,3 @@
-// /// <reference types="vite/client" />
+/// <reference types="vite/client" />
 
-// // Reference: https://github.com/vitejs/vite/discussions/6799
+// Reference: https://github.com/vitejs/vite/discussions/6799

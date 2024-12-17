@@ -81,6 +81,8 @@ jobs:
 
 ```
 
+> Notice that tests are running only once since github actions has enable the process.env.CI variable.
+
 # About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.

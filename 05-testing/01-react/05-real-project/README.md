@@ -384,9 +384,9 @@ import { render, screen } from '@testing-library/react';
 
 + it('should call onSearch prop when it types on input change event', async () => {
 +   // Arrange
-+   const props = {
++   const props: React.ComponentProps<typeof SearchBarComponent> = {
 +     search: '',
-+     onSearch: jest.fn(),
++     onSearch: vi.fn(),
 +     labels: {
 +       placeholder: 'test placeholder',
 +     },
@@ -414,7 +414,7 @@ _./src/common/components/search-bar/search-bar.hook.spec.tsx_
 import { renderHook } from "@testing-library/react";
 import { useSearchBar } from "./search-bar.hook";
 
-describe("common/components/search-bar/search-bar.hook specs", () => {
+describe("useSearchBar specs", () => {
   it('should return search text, onSearch method and filteredList when it feeds colors array and "name" field', () => {
     // Arrange
     // Act
@@ -431,7 +431,7 @@ _./src/common/components/search-bar/search-bar.hook.spec.tsx_
 import { renderHook } from '@testing-library/react';
 import { useSearchBar } from './search-bar.hook';
 
-describe('common/components/search-bar/search-bar.hook specs', () => {
+describe('useSearchBar specs', () => {
   it('should return search text, onSearch method and filteredList when it feeds colors array and "name" field', () => {
     // Arrange
 +   const colors = [
@@ -499,15 +499,9 @@ Testing it calls to `useDebounce` hook:
 
 _./src/common/components/search-bar/search-bar.hook.spec.tsx_
 
-> Care with: import \* as commonHooks from 'common/hooks';
->
-> https://stackoverflow.com/questions/53162001/typeerror-during-jests-spyon-cannot-set-property-getrequest-of-object-which
->
-> https://github.com/babel/babel/issues/8363
-
 ```diff
 import { renderHook, act } from '@testing-library/react';
-+ import * as commonHooks from 'common/hooks/debounce.hook';
++ import * as commonHooks from '#common/hooks';
 import { useSearchBar } from './search-bar.hook';
 ...
 
@@ -518,7 +512,7 @@ import { useSearchBar } from './search-bar.hook';
 +     { id: 2, name: 'blue' },
 +     { id: 3, name: 'green' },
 +   ];
-+   const debounceSearchStub = jest.spyOn(commonHooks, 'useDebounce');
++   const debounceSearchStub = vi.spyOn(commonHooks, 'useDebounce');
 
 +   // Act
 +   renderHook(() => useSearchBar(colors, ['name']));
@@ -543,7 +537,7 @@ _./src/common/components/search-bar/search-bar.hook.spec.tsx_
 +     { id: 2, name: 'blue' },
 +     { id: 3, name: 'green' },
 +   ];
-+   const debounceSearchStub = jest
++   const debounceSearchStub = vi
 +     .spyOn(commonHooks, 'useDebounce')
 +     .mockReturnValue('blue');
 
@@ -564,8 +558,8 @@ _./src/common/components/search-bar/search-bar.hook.spec.tsx_
 
 ```diff
 import { renderHook, act, waitFor } from '@testing-library/react';
-import * as commonHooks from 'common/hooks/debounce.hook';
-+ import * as filterHelpers from 'common/helpers/filter.helpers';
+import * as commonHooks from '#common/hooks';
++ import * as filterHelpers from '#common/helpers';
 import { useSearchBar } from './search-bar.hook';
 ...
 
@@ -576,7 +570,7 @@ import { useSearchBar } from './search-bar.hook';
 +     { id: 2, name: 'blue' },
 +     { id: 3, name: 'green' },
 +   ];
-+   const filterByTextStub = jest.spyOn(filterHelpers, 'filterByText');
++   const filterByTextStub = vi.spyOn(filterHelpers, 'filterByText');
 
 +   // Act
 +   renderHook(() => useSearchBar(colors, ['name']));
@@ -601,7 +595,7 @@ _./src/common/components/search-bar/search-bar.hook.spec.tsx_
 +     { id: 2, name: 'blue' },
 +     { id: 3, name: 'green' },
 +   ];
-+   const filterByTextStub = jest
++   const filterByTextStub = vi
 +     .spyOn(filterHelpers, 'filterByText')
 +     .mockReturnValue([
 +       { id: 2, name: 'blue' },

@@ -88,6 +88,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (18 / 20+) if they are not alr
 
   - It's already hashed (cache-busting strategy to bypass the browser cache completely).
   - File is minified.
+  - It also adds a polyfill (via runtime IIFE) to add support for browsers that don't support natively `modulepreload`. It basically adds support to eagerly-download `<link>` assets in parallel mode meanwhile the app is being loaded and thus, reducing loading and processing time of scripts.
 
   This bundle has been created using `rollup` under the hood.
 

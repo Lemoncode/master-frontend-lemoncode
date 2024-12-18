@@ -10,6 +10,20 @@ Install [Node.js and npm](https://nodejs.org/en/) (18 / 20+) if they are not alr
 
 > ⚠ Verify that you are running at least latest Node LTS version and npm. You can check your current version by running `node -v` and `npm -v` in a terminal/console window. Older versions may not work.
 
+## A note before start
+
+Vite provides a powerful templating feature to quickly scaffold your project instead of starting from scratch. It publishes templates than can be used with npm command `npm create` to ramp up your project immediately. For example, for a `react` project with `typescript` we could type:
+
+```bash
+npm create vite@latest my-app -- --template react-ts
+```
+
+> This will instantiate `create-vite` package under the hood.
+
+In a real world, we could start as easy as that. However, if we do it now our class will end way too soon 😅. But also, and more important, 'automagic' creations are nice once you are familiar with Vite. Otherwise, whenever you need to tweak settings, you'll be lost.
+
+Our goal with these series of exercises is to show, step by step, how to configure Vite to deal with different resources and technologies and showcase along the way all the theory we have seen before. After these examples, we'll get to the same point as using the previous command for fast scaffolding.
+
 ## Steps
 
 - Navigate to the folder where you are going to create the empty project.

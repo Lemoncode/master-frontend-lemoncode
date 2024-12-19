@@ -102,7 +102,7 @@ NodeJS añade otros no oficiales en la doc a tener en cuenta: [Community Conditi
 
 ## Vite library mode
 
-Vamos a ver las librerías que utilizaremos y los bundlers para crear nosotros nuestras propias librerías. Hemos hablado de Rollup como bundler para librerías tanto de JS como de TS. Para aplicaciones web siempre ha predominado de Rollup. Hemos visto que Vite utiliza Rollup por debajo para las builds de producción y que podemos utilizar la configuración y plugins de Rollup para poder crear librerías y aprovechar su potencia.
+Vamos a ver las herramientas y bundlers que utilizaremos para crear nuestras propias librerías. Hemos hablado de Rollup como bundler para librerías tanto de JS como de TS. Para aplicaciones web siempre ha predominado Webpack o Vite. Hemos visto que Vite utiliza Rollup por debajo para las builds de producción y que podemos utilizar la configuración y plugins de Rollup para poder crear librerías y aprovechar su potencia.
 
 ## A tener en cuenta
 
@@ -114,7 +114,7 @@ Ojo que NPM no auto instala las peerDependencies con paquetes locales (mira el [
 
 También si creais librerías de componentes teneis que tener en cuenta la API, la flexibilidad a la hora de modificar el comportamiento de cada pieza e incluso los estilos... si van a ser CSS global, CSS in JS, módulos CSS, etc.
 
-Por último tener en cuenta la publicación de la librería. Si queremos que sea de acceso público a todo internet o privado. Para tenerlo privado sabed que tenemos varios proveedores y cada uno con su sistema de precios.. por ejemplo el propio registry de npm permite tener una cuenta y organización de pago.. otros como gitlab y github también ofrecen un registry privado donde publicar nuestros paquetes.. o incluso tenemos mediante software de terceros más artesanal el poder tener nuestro registry privado y gestionado por nosotros, algunos gratuítos como verdaccio o hasta de pago como artifactory. En caso de utilizar repositorios privados tendremos que configurar mediante un fichero `.npmrc` el tema de autentificación con este registry con su login, su token..
+Por último tener en cuenta la publicación de la librería. Si queremos que sea de acceso público a todo internet o privado. Para tenerlo privado sabed que tenemos varios proveedores y cada uno con su sistema de precios.. por ejemplo el propio registry de npm permite tener una cuenta y organización de pago.. otros como gitlab y github también ofrecen un registry privado donde publicar nuestros paquetes.. o incluso tenemos mediante software de terceros más artesanal el poder tener nuestro registry privado y gestionado por nosotros, algunos gratuítos como verdaccio o hasta de pago como artifactory. En caso de utilizar repositorios privados tendremos que configurar mediante un fichero `.npmrc` el tema de autentificación con este registry con su login, su token.
 
 ## Demos Vite
 

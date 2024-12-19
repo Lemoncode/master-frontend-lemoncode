@@ -1,8 +1,6 @@
-# Vite
+# Creando librerías con Vite
 
 [Link al repo](https://github.com/Lemoncode/master-frontend-lemoncode/tree/master/03-bundling/07-vite-lib)
-
-Recuerda abrir codepaster.
 
 ## Conceptos
 

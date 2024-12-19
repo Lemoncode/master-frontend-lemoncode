@@ -1,21 +1,19 @@
 # 01 Entrypoints
 
-In this example we are going to add support for Browser and Node.js process using multiple formats (ESM, CJS, UMD) using the `package.json` metadata.
+In this example we are going to create a simple mocked library as an example, and then we'll provide support for Browser (bundlers) and Node.js consumers entrypoints. This way, our lib should be properly linked from different projects using different module formats, like ESM, CJS and UMD. We will mainly configure the `package.json` metadata for that purpose. We will start from scratch, step by step.
 
-We will start from scratch.
+Summarized steps:
 
-Summary steps:
-
-- Create a basic library in the three formats (ESM, CJS, UMD).
+- Create a basic library exposed in different module flavours: ESM, CJS and UMD.
 - Add three playgrounds consuming each format.
 
 # Steps to build it
 
 ## Mocked library
 
-Let's start by creating the basic library in the three formats (ESM, CJS, UMD).
+Let's start by creating a basic mock library in 3 different module flavours: ESM, CJS and UMD.
 
-Add manually the `package.json` (another common approach is to use `npm init -y`):
+Add manually the `package.json` like below. Another common approach is to use `npm init -y`.
 
 _./my-lib/package.json_
 
@@ -82,7 +80,7 @@ _./my-lib/dist/index.umd.js_
 
 ## Playgrounds
 
-Now, we can create three playgrounds consuming each format, let's start with the CJS format:
+Now, we will create three playgrounds consuming each format. Let's start with the CJS format:
 
 ### CommonJS
 
@@ -383,14 +381,19 @@ _./playgrounds/bundler/package.json_
 }
 ```
 
-Let's install `vite`:
+Let's install our lib with:
+
+```bash
+npm install
+```
+
+and then also install `vite` bunler with:
 
 ```bash
 npm install vite --save-dev
-
 ```
 
-Let's add a `index.html` file:
+Now let's add a `index.html` file:
 
 _./playgrounds/bundler/index.html_
 
@@ -404,6 +407,16 @@ _./playgrounds/bundler/index.html_
     <script type="module" src="index.js"></script>
   </body>
 </html>
+```
+
+And copy paste the `index.js` file from ES playground:
+
+_./playgrounds/bundler/index.js_
+
+```javascript
+import { myFn } from "my-lib";
+
+myFn();
 ```
 
 Let's run it:

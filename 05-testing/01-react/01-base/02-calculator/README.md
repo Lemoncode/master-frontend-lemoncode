@@ -78,6 +78,9 @@ _./src/calculator.spec.ts_
   - It should have same fields, even undefined values.
   - We should use `toEqual` if we don't care about it.
 
+
+## Spy
+
 Now, we need passing a method as parameter, whatever it is, we only want to check that it was called and with which arguments:
 
 _./src/calculator.ts_
@@ -95,8 +98,6 @@ _./src/calculator.ts_
 + }
 
 ```
-
-## Spy
 
 How we could test it? Using a `spy`:
 

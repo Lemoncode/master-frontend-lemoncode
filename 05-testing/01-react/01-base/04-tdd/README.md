@@ -316,9 +316,11 @@ _./src/mapper.spec.ts_
 ...
 
 describe('mapper specs', () => {
-+ it.each<apiModel.Member[]>([undefined, null, []])(
-+   'should return empty array when it feeds members equals %p',
-+   (members: any) => {
++ it.each<{ members: apiModel.Member[] }>([
++   { members: undefined },
++   { members: null },
++   { members: [] },
++ ])('should return empty array when it feeds $members', ({ members }) => {
 +     // Arrange
 
 +     // Act

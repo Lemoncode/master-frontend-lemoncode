@@ -2,7 +2,7 @@ import Axios, { AxiosError } from 'axios';
 import { Member } from './api-model';
 import { getMembers } from './api';
 
-describe('api specs', () => {
+describe('getMembers specs', () => {
   it('should return members when it resolves the request successfully', async () => {
     // Arrange
     const members: Member[] = [

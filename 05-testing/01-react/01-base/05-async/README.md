@@ -20,6 +20,7 @@ npm install
 This time, we want to handle `getMembers` errors:
 
 > 403: API rate limit exceeded
+>
 > 503: Service unavailable
 
 _./src/api.ts_
@@ -77,7 +78,7 @@ _./src/api.spec.ts_
 ```javascript
 import { getMembers } from './api';
 
-describe('api specs', () => {
+describe('getMembers specs', () => {
   it('', () => {
     // Arrange
     // Act
@@ -95,7 +96,7 @@ _./src/api.spec.ts_
 + import { Member } from './api-model';
 import { getMembers } from './api';
 
-describe('api specs', () => {
+describe('getMembers specs', () => {
 - it('', () => {
 + it('should return members when it resolves the request successfully', () => {
     // Arrange
@@ -133,7 +134,7 @@ import Axios from 'axios';
 import { Member } from './api-model';
 import { getMembers } from './api';
 
-describe('api specs', () => {
+describe('getMembers specs', () => {
 - it('should return members when it resolves the request successfully', () => {
 + it('should return members when it resolves the request successfully', async () => {
     // Arrange

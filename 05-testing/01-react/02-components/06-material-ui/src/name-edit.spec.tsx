@@ -15,7 +15,9 @@ describe('NameEdit component specs', () => {
 
     // Assert
     expect(h3Element).toBeInTheDocument();
+    expect(h3Element.textContent).toEqual('');
     expect(inputElement).toBeInTheDocument();
+    expect(inputElement).toHaveAttribute('value', '');
   });
 
   it('should update h3 text when input changes', async () => {
@@ -30,7 +32,7 @@ describe('NameEdit component specs', () => {
     const h3Element = screen.getByRole('heading', { level: 3 });
 
     // Assert
-    expect(inputElement.value).toEqual('John');
     expect(h3Element.textContent).toEqual('John');
+    expect(inputElement).toHaveAttribute('value', 'John');
   });
 });

@@ -9,7 +9,7 @@ npx ng g c dashboard
 ```
 
 ```bash
-npx ng g c dashboard/dashboard-quote --flat
+npx ng g c dashboard/dashboard-quote --inline-template --flat
 ```
 
 Update `dashnoard-quote.component.ts`
@@ -35,6 +35,72 @@ export class DashboardQuoteComponent {
   click() {
     this.selected.emit(this.quote());
   }
+}
+```
+
+Update `dashnoard-quote.component.css`
+
+```css
+.quote {
+  padding: 20px;
+  position: relative;
+  text-align: center;
+  color: #eee;
+  max-height: 120px;
+  width: 100%;
+  min-width: 120px;
+  background-color: #607d8b;
+  border-radius: 2px;
+}
+
+.quote:hover {
+  background-color: #eee;
+  cursor: pointer;
+  color: #607d8b;
+}
+
+@media (max-width: 600px) {
+  .quote {
+    font-size: 10px;
+    max-height: 75px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .quote {
+    min-width: 60px;
+  }
+}
+```
+
+Update `twain/twain.service.ts`
+
+```diff
+@Injectable({
+  providedIn: 'root',
+})
+export class TwainService {
+- private url = 'https://dummyjson.com/quotesrandom';
++ private baseUrl = 'https://dummyjson.com/quotes';
+
+  constructor(private http: HttpClient) {}
+
+  getQuote(): Observable<string> {
+-   return this.http.get<Quote>(this.url).pipe(
++   return this.http.get<Quote>(`${this.baseUrl}/random`).pipe(
+      map((q: Quote) => q.quote),
+      catchError((err) => throwError(() => 'Can not get quote'))
+    );
+  }
++
++ getQuotes(): Observable<Quote[]> {
++   return this.http.get<{ quotes: any[] }>(`${this.baseUrl}`).pipe(
++     map(({ quotes }) => {
++       return quotes.map((q) => ({ id: q.id, quote: q.quote }));
++     }),
++     catchError((err) => throwError(() => 'Can not get quotes'))
++   );
++ }
 }
 ```
 
@@ -91,6 +157,47 @@ export class DashboardComponent implements OnInit {
 }
 ```
 
+Update `dashboard.component.css`
+
+```css
+[class*="col-"] {
+  float: left;
+}
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+h3 {
+  text-align: center;
+  margin-bottom: 0;
+}
+[class*="col-"] {
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+[class*="col-"]:last-of-type {
+  padding-right: 0;
+}
+.grid {
+  margin: 0;
+}
+.col-1-4 {
+  width: 25%;
+}
+.grid-pad {
+  padding: 10px 0;
+}
+.grid-pad > [class*="col-"]:last-of-type {
+  padding-right: 20px;
+}
+@media (max-width: 1024px) {
+  .grid {
+    margin: 0;
+  }
+}
+```
+
 ### Test `DashboardQuoteComponent` standalone
 
 Update `dashboard-quote.component.spec.ts`
@@ -128,11 +235,25 @@ describe("DashboardQuoteComponent", () => {
 });
 ```
 
+```bash
+npx ng test --include app/dashboard/dashboard-quote.component.spec.ts
+```
+
 ### Clicking
 
 Update `dashboard-quote.component.spec.ts`
 
+```diff
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { DashboardQuoteComponent } from './dashboard-quote.component';
+import { Quote } from "../twain/quote";
++import { By } from '@angular/platform-browser';
+....
+```
+
 ```ts
+// ....
 it("should raise selected event when clicked (triggerEventHandler)", async () => {
   const quoteDe = fixture.debugElement.query(By.css(".quote"));
   const expectedQuote: Quote = {
@@ -148,6 +269,7 @@ it("should raise selected event when clicked (triggerEventHandler)", async () =>
   quoteDe.triggerEventHandler("click");
   expect(selectedQuote).toBe(expectedQuote);
 });
+// ....
 ```
 
 The component's selected property returns an `EventEmitter`, which looks like an RxJS synchronous `Observable` to consumers. The test subscribes to it _explicitly_ just as the host component does _implicitly_.
@@ -159,6 +281,7 @@ The Angular `DebugElement.triggerEventHandler` can raise _any data-bound event_ 
 ### Click the element
 
 ```ts
+// ....
 it("should raise selected event when clicked (element.click)", async () => {
   const quoteEl = fixture.nativeElement.querySelector(".quote");
   const expectedQuote: Quote = {
@@ -175,6 +298,7 @@ it("should raise selected event when clicked (element.click)", async () => {
   quoteEl.click();
   expect(selectedQuote).toBe(expectedQuote);
 });
+// ....
 ```
 
 > Call native's element own `click()`

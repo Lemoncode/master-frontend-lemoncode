@@ -1,15 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, signal } from "@angular/core";
 
 @Component({
-  selector: 'app-banner',
+  selector: "app-banner",
   imports: [],
-  template: `
-    <p>
-      banner works!
-    </p>
+  template: `<h1>{{ title() }}</h1>`,
+  styles: `
+    h1 { color: green; font-size: 350%; }
   `,
-  styles: ``
 })
 export class BannerComponent {
-
+  title = signal("Test demos");
 }

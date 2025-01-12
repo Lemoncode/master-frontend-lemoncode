@@ -1,42 +1,3 @@
-# Testing Attribute Directives
-
-An _attribute directive_ modifies the behavior of an element, component or another directive. Its name reflects the way the directive is applied: as an attribute on a host element.
-
-Create `HighlightDirective`
-
-```bash
-npx ng g d highlight
-```
-
-```ts
-import { Directive, ElementRef, Input, OnChanges } from "@angular/core";
-
-@Directive({
-  selector: "[appHighlight]",
-})
-export class HighlightDirective implements OnChanges {
-  defaultColor = "rgb(211, 211, 211)";
-
-  @Input("appHighlight") bgColor = "";
-
-  constructor(private el: ElementRef) {
-    el.nativeElement.style.customProperty = true;
-  }
-
-  ngOnChanges(): void {
-    this.el.nativeElement.style.backgroundColor =
-      this.bgColor || this.defaultColor;
-  }
-}
-```
-
-The sample application's HighlightDirective sets the background color of an element based on either a data bound color or a default color (lightgray). It also sets a custom property of the element (`customProperty`) to `true` for no reason other than to show that it can.
-
-A directive is going to manipulate the DOM, so iff we want to test a directive we need a DOM to get updated by its use case. The best approach is to create a component that reflects all use cases using the directive.
-
-Update `highlight.directive.spec.ts`
-
-```ts
 import { Component } from "@angular/core";
 import { HighlightDirective } from "./highlight.directive";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
@@ -117,8 +78,3 @@ describe("HighlightDirective", () => {
       .toBe("green");
   });
 });
-```
-
-```bash
-npx ng test --include app/highlight.directive.spec.ts
-```

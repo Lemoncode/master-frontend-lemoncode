@@ -1,0 +1,18 @@
+{
+  "name": "solution",
+  "version": "1.0.0",
+  "main": "index.js",
+  "engines": {
+    "node": "22.x.x"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@angular/cli": "19.0.7"
+  }
+}

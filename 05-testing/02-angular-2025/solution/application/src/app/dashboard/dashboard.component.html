@@ -1,0 +1,11 @@
+<h2>{{ title }}</h2>
+
+<div class="grid grid-pad">
+  @for (quote of quotes; track quote) {
+  <app-dashboard-quote
+    class="col-1-4"
+    [quote]="quote"
+    (selected)="gotoDetail($any($event))"
+  ></app-dashboard-quote>
+  }
+</div>

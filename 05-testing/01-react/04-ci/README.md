@@ -22,7 +22,7 @@ git commit -m "add project with tests"
 git push -u origin main
 ```
 
-Create new branch on repository `feature/add-ci-file` and add ci config [Github workflow](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow):
+Create new branch on repository `feature/add-ci-file` and add ci config [Github workflow](https://docs.github.com/en/actions/writing-workflows):
 
 _./.github/workflows/ci.yml_
 

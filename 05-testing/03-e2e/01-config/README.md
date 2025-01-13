@@ -6,7 +6,7 @@ We will start from `00-boilerplate`.
 
 # Steps to build it
 
-- `npm install` to install previous sample packages:
+`npm install` to install previous sample packages:
 
 ```bash
 npm install
@@ -14,7 +14,7 @@ npm install
 
 # Libraries
 
-- We are going to install the main library which we base all our unit tests, [Cypress](https://www.cypress.io/).
+We are going to install the main library which we base all our unit tests, [Cypress](https://www.cypress.io/).
 
 ```bash
 npm install cypress --save-dev
@@ -22,9 +22,9 @@ npm install cypress --save-dev
 
 # Config
 
-- We can just add cypress command to scripts and running it:
+We can just add cypress command to scripts and running it:
 
-### ./package.json
+_./package.json_
 
 ```diff
 "scripts": {
@@ -34,7 +34,7 @@ npm install cypress --save-dev
   },
 ```
 
-- Run it:
+Run it:
 
 ```bash
 npm run test:e2e
@@ -58,15 +58,15 @@ Pick `Chrome`, after that Cypress will prompt us to scaffold examples or create 
 
 From here we will go in our own, cut the Cypress server by closing the opened browser windows, or from console using `Ctrl + C`
 
-- Let's remove `downloads`, `fixtures/example.json`, `support/commands.ts` and clear `support/e2e.ts` file content.
+Let's remove `downloads`, `fixtures/example.json`, `support/commands.ts` and clear `support/e2e.ts` file content.
 
 > We will use `support/e2e.ts`
 
-- Create `./cypress/e2e` folder
+Create `./cypress/e2e` folder
 
-- Add login spec inside `e2e` folder:
+Add login spec inside `e2e` folder:
 
-### ./cypress/e2e/login.spec.js
+_./cypress/e2e/login.spec.js_
 
 ```javascript
 describe('Login specs', () => {
@@ -76,9 +76,9 @@ describe('Login specs', () => {
 });
 ```
 
-- Update specPattern (by default is `cypress/e2e/**/*.cy.{js,jsx,ts,tsx}`):
+Update specPattern (by default is `cypress/e2e/**/*.cy.{js,jsx,ts,tsx}`):
 
-### ./cypress.config.ts
+_./cypress.config.ts_
 
 ```diff
 import { defineConfig } from "cypress";
@@ -95,9 +95,9 @@ export default defineConfig({
 
 > [Config API](https://docs.cypress.io/guides/references/configuration#Testing-Type-Specific-Options)
 
-- An important note is that we need to running the app to execute the e2e tests:
+An important note is that we need to running the app to execute the e2e tests:
 
-### ./package.json
+_./package.json_
 
 ```diff
 "scripts": {
@@ -108,16 +108,16 @@ export default defineConfig({
   },
 ```
 
-- Running:
+Running:
 
 ```bash
 npm run test:e2e
 
 ```
 
-- So far so good, we can add the base app url in `cypress.config.ts` to avoid repeat it in whole tests:
+So far so good, we can add the base app url in `cypress.config.ts` to avoid repeat it in whole tests:
 
-### ./cypress.config.ts
+_./cypress.config.ts_
 
 ```diff
 import { defineConfig } from "cypress";
@@ -132,7 +132,7 @@ export default defineConfig({
 
 > You can see more info [here](https://docs.cypress.io/guides/references/configuration.html#Options)
 
-### ./cypress/e2e/login.spec.js
+_./cypress/e2e/login.spec.js_
 
 ```diff
 describe('Login specs', () => {
@@ -144,13 +144,13 @@ describe('Login specs', () => {
 
 ```
 
-- Could we work with Typescript? If we rename spec to `.ts`:
+Could we work with Typescript? If we rename spec to `.ts`:
 
 _./cypress/e2e/login.spec.js_ -> _./cypress/e2e/login.spec.ts_
 
-- For now, it's not neccessary but advisable to add the `tsconfig.json` file inside cypress folder:
+For now, it's not neccessary but advisable to add the `tsconfig.json` file inside cypress folder:
 
-### ./cypress/tsconfig.json
+_./cypress/tsconfig.json_
 
 ```json
 {
@@ -166,9 +166,9 @@ _./cypress/e2e/login.spec.js_ -> _./cypress/e2e/login.spec.ts_
 
 > You can see more info [here](https://docs.cypress.io/guides/tooling/typescript-support#Configure-tsconfig-json)
 
-- Now it's fully supported. Let's try another spec:
+Now it's fully supported. Let's try another spec:
 
-### ./cypress/e2e/login.spec.ts
+_./cypress/e2e/login.spec.ts_
 
 ```diff
 describe('Login specs', () => {

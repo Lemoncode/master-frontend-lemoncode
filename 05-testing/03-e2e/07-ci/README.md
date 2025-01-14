@@ -12,9 +12,9 @@ We will start from `06-edit-hotel`.
 npm install
 ```
 
-- Add script commands to run in ci process:
+Add script commands to run in ci process:
 
-### ./package.json
+_./package.json_
 
 ```diff
 ...
@@ -30,7 +30,7 @@ npm install
 >
 > We can change browser to another one, with headless version, see [commands](https://docs.cypress.io/guides/guides/command-line.html#Commands)
 
-- And run it:
+And run it:
 
 ```bash
 npm run test:e2e:ci
@@ -38,7 +38,7 @@ npm run test:e2e:ci
 
 Update config:
 
-### ./cypress.config.ts
+_./cypress.config.ts_
 
 ```diff
 import { defineConfig } from 'cypress';
@@ -54,9 +54,9 @@ export default defineConfig({
 
 ```
 
-- Notice that `cypress` has added `screenshots` and `videos` with failing specs, we should ignore these folder for git:
+Notice that `cypress` has added `screenshots` and `videos` with failing specs, we should ignore these folder for git:
 
-### ./.gitignore
+_./.gitignore_
 
 ```diff
 ...
@@ -65,50 +65,26 @@ export default defineConfig({
 
 ```
 
-- Let's make a test fail:
+Let's make a test fail:
 
-### ./cypress/e2e/hotel-edit.spec.ts
+_./cypress/e2e/hotel-edit.spec.ts_
 
 ```diff
 ...
   it('should update hotel name when it edits an hotel and click on save button', () => {
-    // Arrange
-
-    // Act
-    cy.loadAndVisit(
-      '/hotel-collection',
-      [
-        { path: '/api/hotels', alias: 'loadHotels' },
-        { path: '/api/hotels/2' },
-        { path: '/api/cities' },
-      ],
-      () => {
-        cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {
-          buttons[1].click();
-        });
-      }
-    );
-
-    cy.findByLabelText('Name').should('not.have.value', '');
-
-    cy.findByLabelText('Name').clear().type('Updated hotel two');
-
-    cy.findByRole('button', { name: 'Save' }).click();
-
-    // Assert
-    cy.wait('@loadHotels');
+    ...
 -   cy.findByText('Updated hotel two');
 +   cy.findByText('Updated hotel three');
   });
 ```
 
-- And run it:
+And run it:
 
 ```bash
 npm run test:e2e:ci
 ```
 
-- We will configure [Github actions](https://github.com/features/actions) to run all tests in this app. Since Github has [free private/public repositories](https://github.com/pricing) we only need to create a github repository:
+We will configure [Github actions](https://github.com/features/actions) to run all tests in this app. Since Github has [free private/public repositories](https://github.com/pricing) we only need to create a github repository:
 
 ```bash
 git init
@@ -118,9 +94,9 @@ git commit -m "add project with tests"
 git push -u origin main
 ```
 
-- Create new branch on repository `feature/add-ci-file` and add ci config:
+Create new branch on repository `feature/add-ci-file` and add ci config:
 
-### ./.github/workflows/ci.yml
+_./.github/workflows/ci.yml_
 
 ```yml
 name: CI workflow
@@ -139,7 +115,7 @@ jobs:
         run: npm run test:e2e:ci
 ```
 
-- Commit, push:
+Commit, push:
 
 ```bash
 git add .
@@ -147,11 +123,11 @@ git commit -m "add ci file"
 git push -u origin feature/add-ci-file
 ```
 
-- Create a pull request.
+Create a `pull request`.
 
-- We can upload `screenshots` and `videos` as `artifacts` if specs `fail`:
+We can upload `screenshots` and `videos` as `artifacts` if specs `fail`:
 
-### ./.github/workflows/ci.yml
+_./.github/workflows/ci.yml_
 
 ```diff
 name: Ci workflow
@@ -182,7 +158,7 @@ jobs:
 +         path: ./cypress/videos
 ```
 
-- Commit again:
+Commit again:
 
 ```bash
 git add .
@@ -190,9 +166,9 @@ git commit -m "upload artifacts"
 git push
 ```
 
-- Restore specs:
+Restore specs:
 
-### ./cypress/e2e/hotel-edit.spec.ts
+_./cypress/e2e/hotel-edit.spec.ts_
 
 ```diff
   it('should update hotel name when it edits an hotel and click on save button', () => {

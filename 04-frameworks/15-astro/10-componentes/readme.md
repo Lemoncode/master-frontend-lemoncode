@@ -6,10 +6,10 @@ Vamos a ver como podemos definir componentes en _astro_
 
 En concreto vamos a ver como crear:
 
-- Un barra de navegación.
+- Una barra de navegación.
 - Un footer.
 - Un componente de redes sociales.
-- Un menú de navegacíon
+- Un menú de navegación
 
 # Manos a la obra
 

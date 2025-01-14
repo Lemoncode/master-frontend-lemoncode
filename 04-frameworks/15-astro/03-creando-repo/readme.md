@@ -6,12 +6,12 @@ OJO en el repo del Máster Front End no hemos añadido este paso (no hay repo lo
 
 Así que vamos a crearlo en directo :), podéis seguirme (puede que este paso nos de problemas a más de uno).
 
-Vamos a github, creamo un repo en nuestra cuenta.
+Vamos a github, creamos un repo en nuestra cuenta.
 
 Creamos un nuevo repo desde Github, IMPORTANTE:
   - Dejalo como público (podría ser privado).
 
-  - No le pongas un README (dejalo desmarcado).ñ
+  - No le pongas un README (dejalo desmarcado).
 
   - No añadas un `.gitignore` ni una licencia.
 

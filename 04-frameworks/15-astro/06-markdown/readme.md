@@ -47,7 +47,7 @@ Fijate que automáticamente `Astro` ha convertido nuestro archivo markdown en un
 
 > La información en la parte superior del archivo, que aparece como entre rejas, se llama frontmatter. Estos datos, que incluyen etiquetas (tags) y una imagen para la publicación, son información sobre tu publicación que Astro puede utilizar. No aparece automáticamente en la página, pero más adelante en el tutorial la usarás para mejorar tu sitio.
 
-Vamos a añadir un enlace al post en la página de posts:
+Vamos a añadir un enlace al post en la lista de posts:
 
 _./src/pages/blog.astro_
 
@@ -93,7 +93,7 @@ pubDate: 2024-11-25
 tags: ["astro", "blogging", "learning in public", "successes"]
 ---
 
-Ahí vamos, ya tenemos un tecer post aqui.
+Ahí vamos, ya tenemos un tercer post aqui.
 ```
 
 Y los añadimos a la lista de posts:

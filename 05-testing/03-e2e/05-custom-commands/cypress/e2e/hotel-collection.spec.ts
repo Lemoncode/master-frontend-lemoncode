@@ -1,7 +1,6 @@
 describe('Hotel collection specs', () => {
   it('should fetch hotel list and show it in screen when visit /hotel-collection url', () => {
     // Arrange
-
     // Act
     cy.loadAndVisit('/api/hotels', '/hotel-collection');
 
@@ -23,7 +22,7 @@ describe('Hotel collection specs', () => {
     // Arrange
 
     // Act
-    cy.loadAndVisit('/api/hotels', '/hotel-collection', 'hotels.json');
+    cy.loadAndVisit('/api/hotels', '/hotel-collection', 'hotels');
 
     // Assert
     cy.findAllByRole('listitem').should('have.length', 2);

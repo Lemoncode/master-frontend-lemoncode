@@ -1,7 +1,7 @@
 import React from 'react';
-import { ThemeProviderComponent } from 'core/theme';
-import { RouterComponent } from 'core/router';
-import { SessionProvider } from 'core/session-context';
+import { ThemeProviderComponent } from '#core/theme';
+import { RouterComponent } from '#core/router';
+import { SessionProvider } from '#core/session-context';
 
 interface AppProvidersProps {
   children: React.ReactNode;

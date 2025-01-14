@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import { Hotel } from './hotel-edit.api-model';
-import { Lookup } from 'common/models';
+import { Lookup } from '#common/models';
 
 const hotelListUrl = '/api/hotels';
 const cityListUrl = '/api/cities';

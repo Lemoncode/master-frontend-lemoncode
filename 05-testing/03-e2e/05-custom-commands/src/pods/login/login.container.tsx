@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SessionContext } from 'core/session-context';
-import { linkRoutes } from 'core/router';
+import { SessionContext } from '#core/session-context';
+import { linkRoutes } from '#core/router';
 import * as api from './api';
 import { LoginComponent } from './login.component';
 import { Login } from './login.vm';

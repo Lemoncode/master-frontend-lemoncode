@@ -12,9 +12,9 @@ We will start from `01-config`.
 npm install
 ```
 
-- Let's add some specs to login page:
+Let's add some specs to login page:
 
-### ./cypress/e2e/login.spec.ts
+_./cypress/e2e/login.spec.ts_
 
 ```diff
 ...
@@ -35,9 +35,9 @@ npm install
 
 ```
 
-- Notice that we are using selectors like css selectors, the first refactor that we could think is assign selectors to a variable like:
+Notice that we are using selectors like css selectors, the first refactor that we could think is assign selectors to a variable like:
 
-### ./cypress/e2e/login.spec.ts
+_./cypress/e2e/login.spec.ts_
 
 ```diff
 ...
@@ -66,9 +66,9 @@ npm install
 
 ```
 
-- This doesn't work, because `cypress commands` are enqueued and run it in async way. Let's refactor it:
+This doesn't work, because `cypress commands` are enqueued and run it in async way. Let's refactor it:
 
-### ./cypress/e2e/login.spec.ts
+_./cypress/e2e/login.spec.ts_
 
 ```diff
 ...
@@ -102,15 +102,15 @@ npm install
 
 > More info [here](https://docs.cypress.io/guides/core-concepts/variables-and-aliases.html#Return-Values)
 
-- The [get](https://docs.cypress.io/api/commands/get.html) return DOM element by selector or alias. But we want to write maintainable tests with same syntax like unit tests. We can use [cypress-testing-library](https://github.com/testing-library/cypress-testing-library):
+The [get](https://docs.cypress.io/api/commands/get.html) return DOM element by selector or alias. But we want to write maintainable tests with same syntax like unit tests. We can use [cypress-testing-library](https://github.com/testing-library/cypress-testing-library):
 
 ```bash
 npm install @testing-library/cypress --save-dev
 ```
 
-- Let's configure it for typescript:
+Let's configure it for typescript:
 
-### ./cypress/tsconfig.json
+_./cypress/tsconfig.json_
 
 ```diff
 {
@@ -125,15 +125,15 @@ npm install @testing-library/cypress --save-dev
 
 ```
 
-### ./cypress/support/e2e.ts
+_./cypress/support/e2e.ts_
 
 ```diff
-+ import '@testing-library/cypress/add-commands'
++ import '@testing-library/cypress/add-commands';
 ```
 
-- Update specs:
+Update specs:
 
-### ./cypress/e2e/login.spec.ts
+_./cypress/e2e/login.spec.ts_
 
 ```diff
 describe('Login specs', () => {
@@ -181,9 +181,9 @@ describe('Login specs', () => {
 >
 > [Which query should I use?](https://testing-library.com/docs/guide-which-query)
 
-- Checking modal error message when click on button with invalid credentials:
+Checking modal error message when click on button with invalid credentials:
 
-### ./cypress/e2e/login.spec.ts
+_./cypress/e2e/login.spec.ts_
 
 ```diff
 ...
@@ -218,9 +218,9 @@ describe('Login specs', () => {
 >
 > This stub is not necessary if we use the Snackbar component or similar.
 
-- Now, we could test when it's a succeded login:
+Now, we could test when it's a succeded login:
 
-### ./cypress/e2e/login.spec.ts
+_./cypress/e2e/login.spec.ts_
 
 ```diff
 ...

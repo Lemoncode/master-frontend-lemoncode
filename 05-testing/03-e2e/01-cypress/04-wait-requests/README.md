@@ -2,7 +2,7 @@
 
 In this example we are going to use real hotel request.
 
-We will start from `03-stub-requests`.
+We will start from `03-intercept-requests`.
 
 # Steps to build it
 

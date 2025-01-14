@@ -12,9 +12,9 @@ We will start from `02-selectors`.
 npm install
 ```
 
-- We will create `hotel-collection` specs:
+We will create `hotel-collection` specs:
 
-### ./cypress/e2e/hotel-collection.spec.ts
+_./cypress/e2e/hotel-collection.spec.ts_
 
 ```javascript
 describe('Hotel collection specs', () => {
@@ -26,9 +26,9 @@ describe('Hotel collection specs', () => {
 });
 ```
 
-- Update spec:
+Update spec:
 
-### ./cypress/e2e/hotel-collection.spec.ts
+_./cypress/e2e/hotel-collection.spec.ts_
 
 ```diff
 describe('Hotel collection specs', () => {
@@ -45,7 +45,7 @@ describe('Hotel collection specs', () => {
 
 ```
 
-- Maybe we could expect `have length greater than`:
+Maybe we could expect `have length greater than`:
 
 ```diff
 + it('should fetch hotel list greater than 0 when visit /hotel-collection url', () => {
@@ -59,9 +59,9 @@ describe('Hotel collection specs', () => {
 + });
 ```
 
-- But in some scenarios, maybe we need to simulate this fetch. How can we simulate, fetching 2 hotels?:
+But in some scenarios, maybe we need to simulate this fetch. How can we simulate, fetching 2 hotels?:
 
-### ./cypress/e2e/hotel-collection.spec.ts
+_./cypress/e2e/hotel-collection.spec.ts_
 
 ```diff
 + import { HotelEntityApi } from '../../src/pods/hotel-collection/api';
@@ -106,9 +106,9 @@ describe('Hotel collection specs', () => {
 >
 > Mock data, 404 responses, etc
 
-- This is a common task that we will have to do, so cypress provide the `fixtures` approach:
+This is a common task that we will have to do, so cypress provide the `fixtures` approach:
 
-### ./cypress/fixtures/hotels.json
+_./cypress/fixtures/hotels.json_
 
 ```json
 [
@@ -133,9 +133,9 @@ describe('Hotel collection specs', () => {
 ]
 ```
 
-- Update spec:
+Update spec:
 
-### ./cypress/e2e/hotel-collection.spec.ts
+_./cypress/e2e/hotel-collection.spec.ts_
 
 ```diff
 - import { HotelEntityApi } from '../../src/pods/hotel-collection/api';
@@ -176,9 +176,9 @@ describe('Hotel collection specs', () => {
 
 ```
 
-- Or a shorted way:
+Or a shorted way:
 
-### ./cypress/e2e/hotel-collection.spec.ts
+_./cypress/e2e/hotel-collection.spec.ts_
 
 ```diff
   it('should fetch two hotels when visit /hotel-collection url', () => {

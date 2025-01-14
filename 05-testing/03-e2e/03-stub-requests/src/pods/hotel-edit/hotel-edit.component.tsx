@@ -5,8 +5,8 @@ import {
   TextFieldComponent,
   SelectComponent,
   RatingComponent,
-} from 'common/components';
-import { Lookup } from 'common/models';
+} from '#common/components';
+import { Lookup } from '#common/models';
 import { formValidation } from './hotel-edit.validations';
 import { Hotel } from './hotel-edit.vm';
 import * as classes from './hotel-edit.styles';

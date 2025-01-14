@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
-import { SessionContext } from 'core/session-context';
-import { linkRoutes } from 'core/router';
+import { SessionContext } from '#core/session-context';
+import { linkRoutes } from '#core/router';
 import * as classes from './app.layout.styles';
 
 interface Props {

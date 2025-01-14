@@ -20,7 +20,7 @@ describe('Hotel collection specs', () => {
 
   it('should fetch two hotels when visit /hotel-collection url', () => {
     // Arrange
-    cy.intercept('GET', '/api/hotels', { fixture: 'hotels.json' });
+    cy.intercept('GET', '/api/hotels', { fixture: 'hotels' });
 
     // Act
     cy.visit('/hotel-collection');

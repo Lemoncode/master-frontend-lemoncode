@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "declaration": false,
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "jsx": "react",
+    "noLib": false,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "baseUrl": "./src/",
+    "paths": {
+      "#*": ["*"]
+    }
+  },
+  "include": ["./src/**/*"]
+}

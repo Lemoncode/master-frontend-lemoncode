@@ -18,12 +18,12 @@ describe('Login specs', () => {
     // Arrange
     const user = 'admin';
     const password = '1234';
+    cy.on('window:alert', cy.stub().as('alertStub'));
 
     // Act
     cy.visit('/');
     cy.findByRole('textbox').as('userInput');
     cy.findByLabelText('Password').as('passwordInput');
-    cy.on('window:alert', cy.stub().as('alertStub'));
 
     cy.get('@userInput').type(user);
     cy.get('@passwordInput').type(password);

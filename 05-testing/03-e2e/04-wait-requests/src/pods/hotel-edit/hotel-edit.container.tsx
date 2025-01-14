@@ -7,7 +7,7 @@ import {
   mapHotelFromVmToApi,
 } from './hotel-edit..mappers';
 import { HotelEditComponent } from './hotel-edit.component';
-import { Lookup } from 'common/models';
+import { Lookup } from '#common/models';
 
 export const HotelEditContainer: React.FunctionComponent = (props) => {
   const [hotel, setHotel] = React.useState<Hotel>(createEmptyHotel());

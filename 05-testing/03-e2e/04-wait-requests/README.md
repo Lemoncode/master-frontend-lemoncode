@@ -12,26 +12,15 @@ We will start from `03-stub-requests`.
 npm install
 ```
 
-- Maybe some times we need to use real backend server for some reason, we have a spec check hotel collection from "real backend" (it's a mock backend). It looks like it's working, but what's happend if we add some delay?:
+Maybe some times we need to use real backend server for some reason, we have a spec check hotel collection from "real backend" (it's a mock backend). It looks like it's working, but what's happend if we add some delay?:
 
-### ./server/package.json
+_./server/src/index.ts_
 
 ```diff
-{
-  "name": "hotel-api",
-  "version": "1.0.0",
-  "description": "Hotel API",
-  "main": "index.js",
-  "scripts": {
--   "mock-server": "json-server --routes ./config/routes.json --watch mock-data/hotels-data.json"
-+   "mock-server": "json-server --delay 4000 --routes ./config/routes.json --watch mock-data/hotels-data.json"
-  },
-  "author": "Lemoncode",
-  "license": "MIT",
-  "devDependencies": {
-    "json-server": "^0.17.1"
-  }
-}
+app.get('/api/hotels', async (context) => {
++ await delay(4000);
+  return context.json(db.hotels);
+});
 
 ```
 
@@ -42,21 +31,21 @@ npm run test:e2e
 
 ```
 
-- Now, it's failing due to cypress timeout, so we need to refactor it:
+Now, it's failing due to cypress timeout, so we need to refactor it:
 
 > Press run all specs again.
 
-- Add delay in the last spec using fixture:
+Notice that the latest spec if passing because we are using `cy.intercept` with a fixture but we can also use `cy.intercept` with a delay:
 
-### ./cypress/e2e/hotel-collection.spec.ts
+_./cypress/e2e/hotel-collection.spec.ts_
 
 ```diff
 ...
 
   it('should fetch two hotels when visit /hotel-collection url', () => {
     // Arrange
--   cy.intercept('GET', '/api/hotels', { fixture: 'hotels.json' });
-+   cy.intercept('GET', '/api/hotels', { fixture: 'hotels.json', delay: 4000 });
+-   cy.intercept('GET', '/api/hotels', { fixture: 'hotels' });
++   cy.intercept('GET', '/api/hotels', { fixture: 'hotels', delay: 4000 });
 
     // Act
     cy.visit('/hotel-collection');
@@ -66,9 +55,9 @@ npm run test:e2e
   });
 ```
 
-- [wait usage](https://docs.cypress.io/api/commands/wait#Usage)
+[wait usage](https://docs.cypress.io/api/commands/wait#Usage)
 
-### ./cypress/e2e/hotel-collection.spec.ts
+_./cypress/e2e/hotel-collection.spec.ts_
 
 ```diff
   it('should fetch hotel list and show it in screen when visit /hotel-collection url', () => {
@@ -85,9 +74,9 @@ npm run test:e2e
 
 ```
 
-- Apply same changes in other specs:
+Apply same changes in other specs:
 
-### ./cypress/e2e/hotel-collection.spec.ts
+_./cypress/e2e/hotel-collection.spec.ts_
 
 ```diff
 ...
@@ -105,9 +94,8 @@ npm run test:e2e
 
   it('should fetch two hotels when visit /hotel-collection url', () => {
     // Arrange
-+   cy.intercept('GET', '/api/hotels', { fixture: 'hotels.json', delay: 4000 });
     cy.intercept('GET', '/api/hotels', {
-      fixture: 'hotels.json',
+      fixture: 'hotels',
       delay: 4000,
 +   }).as('fetchHotels');
 
@@ -120,26 +108,15 @@ npm run test:e2e
   });
 ```
 
-- So, we need to take care with this stuff, let's restore the api request:
+So, we need to take care with this stuff, let's restore the api request:
 
-### ./server/package.json
+_./server/src/index.ts_
 
 ```diff
-{
-  "name": "hotel-api",
-  "version": "1.0.0",
-  "description": "Hotel API",
-  "main": "index.js",
-  "scripts": {
--   "mock-server": "json-server --delay 4000 --routes ./config/routes.json --watch mock-data/hotels-data.json"
-+   "mock-server": "json-server --routes ./config/routes.json --watch mock-data/hotels-data.json"
-  },
-  "author": "Lemoncode",
-  "license": "MIT",
-  "devDependencies": {
-    "json-server": "^0.17.1"
-  }
-}
+app.get('/api/hotels', async (context) => {
+- await delay(4000);
+  return context.json(db.hotels);
+});
 
 ```
 
@@ -150,9 +127,9 @@ npm run test:e2e
 
 ```
 
-- Lets also remove the delay in specs:
+Lets also remove the delay in specs:
 
-### ./cypress/e2e/hotel-collection.spec.ts
+_./cypress/e2e/hotel-collection.spec.ts_
 
 ```diff
 ...
@@ -160,7 +137,7 @@ npm run test:e2e
   it('should fetch two hotels when visit /hotel-collection url', () => {
     // Arrange
     cy.intercept('GET', '/api/hotels', {
-      fixture: 'hotels.json',
+      fixture: 'hotels',
 -     delay: 4000,
     }).as('fetchHotels');
 

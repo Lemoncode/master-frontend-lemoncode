@@ -14,7 +14,7 @@ import {
   MoreVert as MoreVertIcon,
   Edit as EditIcon,
 } from '@mui/icons-material';
-import { linkRoutes } from 'core/router';
+import { linkRoutes } from '#core/router';
 import { HotelEntityVm } from '../hotel-collection.vm';
 import * as classes from './hotel-card.styles';
 

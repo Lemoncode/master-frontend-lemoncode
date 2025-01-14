@@ -10,13 +10,19 @@ let db = {
   cities,
 };
 
+const delay = async (time: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time);
+  });
+};
+
 const app = new Hono();
 app.use(logger());
 app.use('/*', serveStatic({ root: './public' }));
 
 app.use('/api/*', cors());
 
-app.get('/api/hotels', (context) => {
+app.get('/api/hotels', async (context) => {
   return context.json(db.hotels);
 });
 

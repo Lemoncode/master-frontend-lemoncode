@@ -12,9 +12,9 @@ We will start from `05-custom-commands`.
 npm install
 ```
 
-- To edit an hotel we need to visit `hotels` and click on edit button:
+To edit an hotel we need to visit `hotels` and click on edit button:
 
-### ./cypress/e2e/hotel-edit.spec.ts
+_./cypress/e2e/hotel-edit.spec.ts_
 
 ```javascript
 describe('Hotel edit specs', () => {
@@ -26,9 +26,9 @@ describe('Hotel edit specs', () => {
 });
 ```
 
-- To get available `edit button selector`, we need to add accessibility label:
+To get available `edit button selector`, we need to add accessibility label:
 
-### ./src/pods/hotel-collection/components/hotel-card.component.tsx
+_./src/pods/hotel-collection/components/hotel-card.component.tsx_
 
 ```diff
 ...
@@ -42,47 +42,54 @@ describe('Hotel edit specs', () => {
     </CardActions>
 ```
 
-- Add spec:
+Add spec:
 
-### ./cypress/e2e/hotel-edit.spec.ts
+_./cypress/e2e/hotel-edit.spec.ts_
 
 ```diff
 ...
   it('should navigate to second hotel when click on edit second hotel', () => {
     // Arrange
++   cy.intercept('GET', '/api/hotels').as('fetchHotels');
 
     // Act
-+   cy.loadAndVisit('/api/hotels', '/hotel-collection');
-+   cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {
-+     buttons[1].click();
-+   });
++   cy.visit('/hotel-collection');
++   cy.wait('@fetchHotels');
++   cy.findAllByRole('button', { name: /edit hotel/i })
++     .eq(1)
++     .click();
 
     // Assert
 +   cy.url().should('equal', 'http://localhost:8080/#/hotel-edit/2');
   });
 
 ```
-
+> [eq command](https://docs.cypress.io/api/commands/eq)
+>
+> See also:
+>
+> `cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {   buttons[1].click(); });`
+>
 > [Official docs](https://docs.cypress.io/api/commands/then)
 
-- Add update hotel spec:
+Add update hotel spec:
 
-### ./cypress/e2e/hotel-edit.spec.ts
+_./cypress/e2e/hotel-edit.spec.ts_
 
 ```diff
 ...
 + it('should update hotel name when it edits an hotel and click on save button', () => {
 +   // Arrange
++   cy.intercept('GET', '/api/hotels').as('fetchHotels');
 
 +   // Act
-+   cy.loadAndVisit('/api/hotels', '/hotel-collection');
-
-+   cy.findAllByRole('button', { name: 'Edit hotel' }).then(($buttons) => {
-+     $buttons[1].click();
-+   });
++   cy.visit('/hotel-collection');
++   cy.wait('@fetchHotels');
++   cy.findAllByRole('button', { name: /edit hotel/i })
++     .eq(1)
++     .click();
 
 +   cy.findByLabelText('Name').clear().type('Updated hotel two');
-
 +   cy.findByRole('button', { name: 'Save' }).click();
 
 +   // Assert
@@ -90,209 +97,68 @@ describe('Hotel edit specs', () => {
 + });
 ```
 
-- The previous spec could works or not, due to we are not waiting to be resolved the get hotel request. If we change network to `Fast 3G` on `Chrome options` to simulate it, we will need do something like:
+The previous spec could works or not, due to we are not waiting to be resolved the get hotel request:
 
-### ./cypress/e2e/hotel-edit.spec.ts
+_./cypress/e2e/hotel-edit.spec.ts_
 
 ```diff
 ...
   it('should update hotel name when it edits an hotel and click on save button', () => {
     // Arrange
+    cy.intercept('GET', '/api/hotels').as('fetchHotels');
++   cy.intercept('GET', '/api/hotels/2').as('fetchHotel');
++   cy.intercept('GET', '/api/cities').as('fetchCities');
 
     // Act
-    cy.loadAndVisit('/api/hotels', '/hotel-collection');
+    cy.visit('/hotel-collection');
+    cy.wait('@fetchHotels');
+    cy.findAllByRole('button', { name: /edit hotel/i })
+      .eq(1)
+      .click();
 
-+   cy.intercept('GET', '/api/hotels/2').as('loadHotel');
++   cy.wait('@fetchHotel');
++   cy.wait('@fetchCities');
 
-    cy.findAllByRole('button', { name: 'Edit hotel' }).then(($buttons) => {
-      $buttons[1].click();
-    });
+    cy.findByLabelText('Name').clear().type('Updated hotel two');
+    cy.findByRole('button', { name: 'Save' }).click();
 
-+   cy.wait('@loadHotel');
+    // Assert
++   cy.wait('@fetchHotels');
+    cy.findByText('Updated hotel two');
+  });
+```
+
+But if we change network to `Fast 4G` on `Chrome options` to simulate a device with a slow connection, it will fail. Because it takes more time to render the hotel page with the new values from the server and the spec is not waiting for it.
+
+In this case, we can use a selector to wait for the component to have some value before writing the new one:
+
+_./cypress/e2e/hotel-edit.spec.ts_
+
+```diff
+...
+  it('should update hotel name when it edits an hotel and click on save button', () => {
+    // Arrange
+    cy.intercept('GET', '/api/hotels').as('fetchHotels');
+    cy.intercept('GET', '/api/hotels/2').as('fetchHotel');
+    cy.intercept('GET', '/api/cities').as('fetchCities');
+
+    // Act
+    cy.visit('/hotel-collection');
+    cy.wait('@fetchHotels');
+    cy.findAllByRole('button', { name: /edit hotel/i })
+      .eq(1)
+      .click();
+
+    cy.wait('@fetchHotel');
+    cy.wait('@fetchCities');
+
 +   cy.findByLabelText('Name').should('not.have.value', '');
-
     cy.findByLabelText('Name').clear().type('Updated hotel two');
-
     cy.findByRole('button', { name: 'Save' }).click();
 
     // Assert
-+   cy.wait('@load'); // TODO: Refactor custom command loadAndVisit
+    cy.wait('@fetchHotels');
     cy.findByText('Updated hotel two');
-  });
-```
-
-> Notice: some this has to wait until it has some value.
->
-> [Wait default timeouts](https://docs.cypress.io/guides/references/configuration#Timeouts)
-
-- Refactor command:
-
-### ./cypress/support/commands.ts
-
-```diff
-+ interface Resource {
-+   path: string;
-+   fixture?: string;
-+   alias?: string;
-+ }
-
-Cypress.Commands.add(
-  'loadAndVisit',
-- (apiPath: string, routePath: string, fixture?: string) => {
-+ (visitUrl: string, resources: Resource[], callbackAfterVisit?: () => void) => {
--   Boolean(fixture)
--     ? cy.intercept('GET', apiPath, { fixture }).as('load')
--     : cy.intercept('GET', apiPath).as('load');
-+   const aliasList = resources.map((resource, index) => {
-+     const alias = resource.alias || `load-${index}`;
-+     Boolean(resource.fixture)
-+       ? cy
-+           .intercept('GET', resource.path, { fixture: resource.fixture })
-+           .as(alias)
-+       : cy.intercept('GET', resource.path).as(alias);
-
-+     return alias;
-+   });
-
--   cy.visit(routePath);
-+   cy.visit(visitUrl);
-+   if (callbackAfterVisit) {
-+     callbackAfterVisit();
-+   }
-
--   cy.wait('@load');
-+   aliasList.forEach((alias) => {
-+     cy.wait(`@${alias}`);
-+   });
-  }
-);
-
-```
-
-- Update `d.ts`:
-
-### ./cypress/support/index.d.ts
-
-```diff
-declare namespace Cypress {
-+ interface Resource {
-+   path: string;
-+   fixture?: string;
-+   alias?: string;
-+ }
-
-  interface Chainable {
-    loadAndVisit(
--     apiPath: string,
-+     visitUrl: string,
--     routePath: string,
-+     resources: Resource[],
--     fixture?: string
-+     callbackAfterVisit?: () => void
-    ): Chainable<Element>;
-  }
-}
-
-```
-
-- Update specs:
-
-### ./cypress/e2e/hotel-edit.spec.ts
-
-```diff
-...
-  it('should navigate to second hotel when click on edit second hotel', () => {
-    // Arrange
-
-    // Act
--   cy.loadAndVisit('/api/hotels', '/hotel-collection');
-+   cy.loadAndVisit('/hotel-collection', [{ path: '/api/hotels' }]);
-
-    cy.findAllByRole('button', { name: 'Edit hotel' }).then(($buttons) => {
-      $buttons[1].click();
-    });
-
-    // Assert
-    cy.url().should('eq', 'http://localhost:8080/#/hotel-edit/2');
-  });
-
-  it('should update hotel name when it edits an hotel and click on save button', () => {
-    // Arrange
-
-    // Act
--   cy.loadAndVisit('/api/hotels', '/hotel-collection');
-+   cy.loadAndVisit(
-+     '/hotel-collection',
-+     [
-+       { path: '/api/hotels', alias: 'loadHotels' },
-+       { path: '/api/hotels/2' },
-+       { path: '/api/cities' },
-+     ],
-+     () => {
-+       cy.findAllByRole('button', { name: 'Edit hotel' }).then((buttons) => {
-+         buttons[1].click();
-+       });
-+     }
-+   );
-
--   cy.intercept('GET', '/api/hotels/2').as('loadHotel');
-
--   cy.findAllByRole('button', { name: 'Edit hotel' }).then(($buttons) => {
--     $buttons[1].click();
--   });
-
--   cy.wait('@loadHotel');
-
-    cy.findByLabelText('Name').should('not.have.value', '');
-
-    cy.findByLabelText('Name').clear().type('Updated hotel two');
-
-    cy.findByRole('button', { name: 'Save' }).click();
-
-    // Assert
--   cy.wait('@load'); // TODO: Refactor custom command loadAndVisit
-+   cy.wait('@loadHotels');
-    cy.findByText('Updated hotel two');
-  });
-```
-
-### ./cypress/e2e/hotel-collection.spec.ts
-
-```diff
-...
-  it('should fetch hotel list and show it in screen when visit /hotel-collection url', () => {
-    // Arrange
-
-    // Act
--   cy.loadAndVisit('/api/hotels', '/hotel-collection');
-+   cy.loadAndVisit('/hotel-collection', [{ path: '/api/hotels' }]);
-
-    // Assert
-    cy.findAllByRole('listitem').should('have.length', 10);
-  });
-
-  it('should fetch hotel list greater than 0 when visit /hotel-collection url', () => {
-    // Arrange
-
-    // Act
--   cy.loadAndVisit('/api/hotels', '/hotel-collection');
-+   cy.loadAndVisit('/hotel-collection', [{ path: '/api/hotels' }]);
-
-    // Assert
-    cy.findAllByRole('listitem').should('have.length.greaterThan', 0);
-  });
-
-  it('should fetch two hotels when visit /hotel-collection url', () => {
-    // Arrange
-
-    // Act
--   cy.loadAndVisit('/api/hotels', '/hotel-collection', 'hotels.json');
-+   cy.loadAndVisit('/hotel-collection', [
-+     { path: '/api/hotels', fixture: 'hotels' },
-+   ]);
-
-    // Assert
-    cy.findAllByRole('listitem').should('have.length', 2);
   });
 ```
 

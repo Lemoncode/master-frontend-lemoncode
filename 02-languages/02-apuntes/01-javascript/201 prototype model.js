@@ -67,8 +67,7 @@ dan.age = 26;
 console.log(dan.age); // 26
 console.log(james.age); // undefined
 
-// También podemos crear estas propiedades directamente en el "constructor".
-// Podemos crear funciones por ejemplo:
+// Genial, pues vamos a crear métodos, por ejemplo:
 function Person(name) {
   this.name = name;
   this.greet = function () {
@@ -186,12 +185,15 @@ function Taxi() {
 // Hacemos que Taxi "herede" de Automobile. Para ello creamos un prototipo para Taxi, gracias a
 // Object.create que crea un nuevo objeto cuyo prototipo podemos hacer que apunte a donde queramos.
 // Ademas hay que setear su constructor.
-Taxi.prototype = Object.create(Automobile.prototype); // Crea un objeto nuevo {__proto__: arg}
-Taxi.prototype.constructor = Taxi;
+
+Object.setPrototypeOf(Taxi.prototype, Automobile.prototype);
+
 // Una forma equivalente sería directamente apuntando a donde queramos
+// Taxi.prototype = Object.create(Automobile.prototype); // Crea un objeto nuevo {__proto__: arg}
+// Taxi.prototype.constructor = Taxi;
+// Incluso también podríamos hacerlo de la siguiente forma:
 // Taxi.prototype.__proto__ = Automobile.prototype;
-// Otra forma más limpia sin sobreescribir esta propiedad __proto__ es:
-// Object.setPrototypeOf(Taxi.prototype, Automobile.prototype);
+// Taxi.prototype.constructor = Taxi;
 
 // Añadimos también algún método a Taxi.
 Taxi.prototype.service = function () {

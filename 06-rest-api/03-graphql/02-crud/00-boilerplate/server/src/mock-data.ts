@@ -1,46 +1,6 @@
-import { Hotel, City } from './models/index.js';
-
-export const createDefaultHotel = (): Hotel => ({
-  id: '',
-  type: 'hotel',
-  name: '',
-  created: new Date().getMilliseconds(),
-  modified: new Date().getMilliseconds(),
-  address1: '',
-  airportCode: '',
-  amenityMask: 0,
-  city: '',
-  confidenceRating: 0,
-  countryCode: '',
-  deepLink: '',
-  highRate: 0,
-  hotelId: 0,
-  hotelInDestination: false,
-  hotelRating: 0,
-  location: {
-    latitude: 0,
-    longitude: 0,
-  },
-  locationDescription: '',
-  lowRate: 0,
-  metadata: {
-    path: '',
-  },
-  postalCode: 0,
-  propertyCategory: 0,
-  proximityDistance: 0,
-  proximityUnit: '',
-  rateCurrencyCode: '',
-  shortDescription: '',
-  stateProvinceCode: '',
-  thumbNailUrl: '/thumbnails/new-hotel.jpg',
-  tripAdvisorRating: 0,
-  tripAdvisorRatingUrl: '',
-});
-
-export const mockHotels: Hotel[] = [
+export const hotels = [
   {
-    id: '0248058a-27e4-11e6-ace6-a9876eff01b3',
+    id: '1',
     type: 'hotel',
     name: 'Motif Seattle',
     created: 1464777092568,
@@ -64,7 +24,7 @@ export const mockHotels: Hotel[] = [
     locationDescription: 'Near Pike Place Market',
     lowRate: 259,
     metadata: {
-      path: '/hotels/0248058a-27e4-11e6-ace6-a9876eff01b3',
+      path: '/hotels/1',
     },
     postalCode: 98101,
     propertyCategory: 1,
@@ -80,7 +40,7 @@ export const mockHotels: Hotel[] = [
       'http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/3.5-12345-4.gif',
   },
   {
-    id: '024bd61a-27e4-11e6-ad95-35ed01160e57',
+    id: '2',
     type: 'hotel',
     name: 'The Westin Seattle',
     created: 1464777092593,
@@ -104,7 +64,7 @@ export const mockHotels: Hotel[] = [
     locationDescription: 'Near Pike Place Market',
     lowRate: 209,
     metadata: {
-      path: '/hotels/024bd61a-27e4-11e6-ad95-35ed01160e57',
+      path: '/hotels/2',
     },
     postalCode: 98101,
     propertyCategory: 1,
@@ -120,7 +80,7 @@ export const mockHotels: Hotel[] = [
       'http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.0-12345-4.gif',
   },
   {
-    id: '024fcdba-27e4-11e6-af44-cd4c8e537e9c',
+    id: '3',
     type: 'hotel',
     name: 'Sheraton Seattle Hotel',
     created: 1464777092619,
@@ -144,7 +104,7 @@ export const mockHotels: Hotel[] = [
     locationDescription: 'Near Pike Place Market',
     lowRate: 205,
     metadata: {
-      path: '/hotels/024fcdba-27e4-11e6-af44-cd4c8e537e9c',
+      path: '/hotels/3',
     },
     postalCode: 98101,
     propertyCategory: 1,
@@ -160,7 +120,7 @@ export const mockHotels: Hotel[] = [
       'http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.0-12345-4.gif',
   },
   {
-    id: '0253773a-27e4-11e6-8ffe-278d3b0d044c',
+    id: '4',
     type: 'hotel',
     name: 'The Edgewater - A Noble House Hotel',
     created: 1464777092643,
@@ -184,7 +144,7 @@ export const mockHotels: Hotel[] = [
     locationDescription: 'Near Pike Place Market',
     lowRate: 179,
     metadata: {
-      path: '/hotels/0253773a-27e4-11e6-8ffe-278d3b0d044c',
+      path: '/hotels/4',
     },
     postalCode: 98121,
     propertyCategory: 1,
@@ -200,7 +160,7 @@ export const mockHotels: Hotel[] = [
       'http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.0-12345-4.gif',
   },
   {
-    id: '025720ba-27e4-11e6-8744-efc6f2251051',
+    id: '5',
     type: 'hotel',
     name: 'Hotel Max, a Provenance Hotel',
     created: 1464777092667,
@@ -216,7 +176,7 @@ export const mockHotels: Hotel[] = [
     highRate: 188.202,
     hotelId: 113426,
     hotelInDestination: true,
-    hotelRating: 3,
+    hotelRating: 3.5,
     location: {
       latitude: 47.61381,
       longitude: -122.33686,
@@ -224,7 +184,7 @@ export const mockHotels: Hotel[] = [
     locationDescription: 'Near Pike Place Market',
     lowRate: 187.202,
     metadata: {
-      path: '/hotels/025720ba-27e4-11e6-8744-efc6f2251051',
+      path: '/hotels/5',
     },
     postalCode: 98101,
     propertyCategory: 1,
@@ -240,7 +200,7 @@ export const mockHotels: Hotel[] = [
       'http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.0-12345-4.gif',
   },
   {
-    id: '025b3f6a-27e4-11e6-80d7-1ba3f907ab71',
+    id: '6',
     type: 'hotel',
     name: 'Hotel Monaco Seattle, a Kimpton Hotel',
     created: 1464777092694,
@@ -264,7 +224,7 @@ export const mockHotels: Hotel[] = [
     locationDescription: 'Near Pike Place Market',
     lowRate: 189,
     metadata: {
-      path: '/hotels/025b3f6a-27e4-11e6-80d7-1ba3f907ab71',
+      path: '/hotels/6',
     },
     postalCode: 98101,
     propertyCategory: 1,
@@ -280,7 +240,7 @@ export const mockHotels: Hotel[] = [
       'http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.5-12345-4.gif',
   },
   {
-    id: '025f5e1a-27e4-11e6-a36c-9fede5552112',
+    id: '7',
     type: 'hotel',
     name: 'Hotel Deca - A Noble House Hotel',
     created: 1464777092721,
@@ -296,7 +256,7 @@ export const mockHotels: Hotel[] = [
     highRate: 159,
     hotelId: 191964,
     hotelInDestination: true,
-    hotelRating: 3,
+    hotelRating: 3.5,
     location: {
       latitude: 47.66143,
       longitude: -122.31429,
@@ -304,7 +264,7 @@ export const mockHotels: Hotel[] = [
     locationDescription: 'In Seattle (University District)',
     lowRate: 119,
     metadata: {
-      path: '/hotels/025f5e1a-27e4-11e6-a36c-9fede5552112',
+      path: '/hotels/7',
     },
     postalCode: 98105,
     propertyCategory: 1,
@@ -320,7 +280,7 @@ export const mockHotels: Hotel[] = [
       'http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.0-12345-4.gif',
   },
   {
-    id: '026355c4-27e4-11e6-b3f9-09f86925339f',
+    id: '8',
     type: 'hotel',
     name: 'W Seattle',
     created: 1464777092747,
@@ -336,7 +296,7 @@ export const mockHotels: Hotel[] = [
     highRate: 210,
     hotelId: 213497,
     hotelInDestination: true,
-    hotelRating: 5,
+    hotelRating: 4,
     location: {
       latitude: 47.60688,
       longitude: -122.33361,
@@ -344,7 +304,7 @@ export const mockHotels: Hotel[] = [
     locationDescription: 'Near Pike Place Market',
     lowRate: 175,
     metadata: {
-      path: '/hotels/026355c4-27e4-11e6-b3f9-09f86925339f',
+      path: '/hotels/8',
     },
     postalCode: 98101,
     propertyCategory: 1,
@@ -355,12 +315,12 @@ export const mockHotels: Hotel[] = [
       'With a stay at W Seattle, you&apos;ll be centrally located in Seattle, steps from Seattle Public Library and Safeco Headquarters. This 4-star hotel is close to Pike Place',
     stateProvinceCode: 'WA',
     thumbNailUrl: '/thumbnails/284304_50_t.jpg',
-    tripAdvisorRating: 5,
+    tripAdvisorRating: 4,
     tripAdvisorRatingUrl:
       'http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.0-12345-4.gif',
   },
   {
-    id: '0267c28a-27e4-11e6-ab3b-5f1a4c39ef62',
+    id: '9',
     type: 'hotel',
     name: 'Hotel Andra',
     created: 1464777092776,
@@ -384,7 +344,7 @@ export const mockHotels: Hotel[] = [
     locationDescription: 'Near Pike Place Market',
     lowRate: 189.4252,
     metadata: {
-      path: '/hotels/0267c28a-27e4-11e6-ab3b-5f1a4c39ef62',
+      path: '/hotels/9',
     },
     postalCode: 98121,
     propertyCategory: 1,
@@ -400,7 +360,7 @@ export const mockHotels: Hotel[] = [
       'http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.5-12345-4.gif',
   },
   {
-    id: '026ccbae-27e4-11e6-afa7-536abd83599c',
+    id: '10',
     type: 'hotel',
     name: 'The Maxwell Hotel - Pineapple Hospitality',
     created: 1464777092809,
@@ -424,7 +384,7 @@ export const mockHotels: Hotel[] = [
     locationDescription: 'Near Pacific Northwest Ballet',
     lowRate: 229,
     metadata: {
-      path: '/hotels/026ccbae-27e4-11e6-afa7-536abd83599c',
+      path: '/hotels/10',
     },
     postalCode: 98109,
     propertyCategory: 1,
@@ -441,7 +401,7 @@ export const mockHotels: Hotel[] = [
   },
 ];
 
-export const mockCities: City[] = [
+export const cities = [
   {
     id: 'Seattle',
     name: 'Seattle',

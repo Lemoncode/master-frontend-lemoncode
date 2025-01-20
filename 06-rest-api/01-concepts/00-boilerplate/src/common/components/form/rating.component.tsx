@@ -1,13 +1,12 @@
 import React from 'react';
-import Rating from '@mui/material/Rating';
-import Typography from '@mui/material/Typography';
+import { Rating, Typography } from '@mui/material';
 import { useField } from 'formik';
 
 interface Props {
   name: string;
   max: number;
   value?: string;
-  onChange?: (value: number) => void;
+  onChange?: (value: string) => void;
   error?: boolean;
   helperText?: string;
 }
@@ -19,7 +18,7 @@ export const RatingComponent: React.FunctionComponent<Props> = (props) => {
   const hasError = error || Boolean(meta && meta.error);
   const helperText = Boolean(field) ? meta?.error : props.helperText;
 
-  const handleChange = (_, value: number) => {
+  const handleChange = (_, value) => {
     if (onChange) {
       onChange(value);
     } else {

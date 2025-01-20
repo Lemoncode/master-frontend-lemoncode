@@ -1,6 +1,6 @@
-import Axios from 'axios';
+import axios from 'axios';
 
 // https://github.com/axios/axios#config-defaults
 export const setHeader = (header: string, value: string) => {
-  Axios.defaults.headers.common[header] = value;
+  axios.defaults.headers.common[header] = value;
 };

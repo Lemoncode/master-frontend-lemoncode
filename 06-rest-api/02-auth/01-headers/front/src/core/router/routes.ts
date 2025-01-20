@@ -1,5 +1,3 @@
-import { generatePath } from 'react-router-dom';
-
 interface BaseRoutes {
   root: string;
   login: string;

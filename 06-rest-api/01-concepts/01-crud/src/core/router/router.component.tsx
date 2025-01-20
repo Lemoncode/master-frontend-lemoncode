@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { switchRoutes } from './routes';
-import { HotelCollectionScene, HotelScene } from 'scenes';
+import { HotelCollectionScene, HotelScene } from '#scenes';
 
 export const RouterComponent: React.FunctionComponent = () => {
   return (

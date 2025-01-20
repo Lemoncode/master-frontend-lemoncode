@@ -244,6 +244,8 @@ _./cypress/e2e/login.spec.ts_
 
 ```
 
+> Alternative: cy.url().should('contain', '/hotel-collection');
+
 # About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.

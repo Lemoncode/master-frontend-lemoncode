@@ -60,7 +60,7 @@ _./cypress/e2e/hotel-edit.spec.ts_
 +     .click();
 
     // Assert
-+   cy.url().should('equal', 'http://localhost:8080/#/hotel-edit/2');
++   cy.url().should('contain', '/hotel-edit/2');
   });
 
 ```

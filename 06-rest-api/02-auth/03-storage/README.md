@@ -1,16 +1,24 @@
 # 03 Storage
 
-In this example we will login an user using a JWT token in browser local storage and session storage.
+In this example we will login an user using a JWT token with headers + local storage and session storage.
 
-# Steps to build it
+## Install dependencies
 
-- `npm install` to install packages:
+`npm install` to install packages:
 
 ```bash
+cd back
 npm install
 ```
 
-- Start `back` app:
+```bash
+cd front
+npm install
+```
+
+## Start apps
+
+Start `back` app:
 
 ```bash
 cd ./back
@@ -19,7 +27,7 @@ npm start
 
 > NOTE: We added `.env` file only for demo purpose. We should ignore this one and add a `.env.example` as example.
 
-- Start `front` app:
+Start `front` app:
 
 ```bash
 cd ./front
@@ -52,52 +60,15 @@ npm start
 
 - Load client list in new tab.
 
-## Login flow
+## Code
 
-Backend:
+The backend is exactly the same as the `01-headers` example.
 
-  - `back/src/core/servers/express.server.ts`
-  - `back/src/app.ts`
-  - `back/src/pods/security/security.api.ts`
-  - Check user credentials.
-  - Create `jwt` by user credentials.
-  - Return token in body.
+Frontend, check the following files:
 
-Frontend:
-
-  - `front/src/pods/login/login.container.tsx`
-  - `front/src/pods/login/login.hooks.ts`
+  - `front/src/core/api/api.helpers.ts`
   - `front/src/pods/login/api/login.api.ts`
-  - `front/src/core/api/api/api.client.ts`
-  - `front/src/core/api/api/api.helpers.ts`
-  - `front/src/common-app/auth/auth.context.ts`
-  - `front/src/common-app/app-abr/app-bar.component.tsx`
-
-## Load list flow
-
-Backend:
-
-  - `back/src/app.ts`
-  - `back/src/pods/security/security.middlewares.ts`
-  - `back/src/pods/client/client.api.ts`
-  - `back/src/pods/order/order.api.ts`
-
-Frontend: 
-
-  - `front/src/pods/list/list.container.tsx`
-  - `front/src/pods/list/api/list.api.tsx`
-
-## Logout flow
-
-Backend:
-
-  - `back/src/app.ts`: We are not using `jwtMiddleware` on root security api.
-  - `back/src/pods/security/security.api.ts`
-
-Frontend: 
-
-  - `front/src/common-app/app-bar/app-bar.component.tsx`
-  - `front/src/common-app/app-bar/app-bar.api.tsx`: clear header.
+  - `front/src/app.ts`
 
 ## Session Storage
 
@@ -106,17 +77,26 @@ We can use session storage for auto-clean this one when users will close browser
 _./front/src/core/api/api.helpers.ts_
 
 ```diff
+import axios from 'axios';
+
 export const setHeader = (header: string, value: string) => {
+  axios.defaults.headers.common[header] = value;
 - localStorage.setItem(header, value);
 + sessionStorage.setItem(header, value);
 };
 
-- export const getHeader = (header: string) => localStorage.getItem(header);
-+ export const getHeader = (header: string) => sessionStorage.getItem(header);
+export const restoreHeader = (header: string) => {
+- const value = localStorage.getItem(header);
++ const value = sessionStorage.getItem(header);
+  if (value) {
+    axios.defaults.headers.common[header] = value;
+  }
+};
 
 ```
 
 > NOTE: Session storage is not loaded in other tabs.
+>
 > https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage
 
 # About Basefactor + Lemoncode

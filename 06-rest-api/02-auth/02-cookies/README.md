@@ -34,20 +34,6 @@ cd ./front
 npm start
 ```
 
-We don't need CORS because we are using a `proxy`, so it looks like same domain:
-
-_./front/vite.config.ts_
-
-```javascript
-...
-  server: {
-    proxy: {
-      '/api': 'http://localhost:3000',
-    },
-  },
-...
-```
-
 ## Demo
 
 - Open Chrome Dev tools > Network tab.

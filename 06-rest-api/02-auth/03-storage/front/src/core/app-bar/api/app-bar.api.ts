@@ -1,10 +1,10 @@
-import { axiosClient } from 'core/api';
-import { setHeader, headerConstants } from 'core/api';
+import axios from 'axios';
+import { setHeader, headerConstants } from '#core/api';
 
 const url = '/api/security/logout';
 
 export const logout = async (): Promise<boolean> => {
-  await axiosClient.post(url);
+  await axios.post(url);
   setHeader(headerConstants.authorization, '');
 
   return true;

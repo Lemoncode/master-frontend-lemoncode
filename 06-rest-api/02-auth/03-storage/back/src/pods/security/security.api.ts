@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
-import { User, UserSession } from './security.api-model';
-import { envConstants, headerConstants } from 'core/constants';
-import { jwtMiddleware } from './security.middlewares';
-import { jwtSignAlgorithm } from './security.constants';
+import { ENV, HEADERS } from '#core/constants/index.js';
+import { User, UserSession } from './security.api-model.js';
+import { jwtMiddleware } from './security.middlewares.js';
+import { JWT_SIGN_ALGORITHM } from './security.constants.js';
 
 export const securityApi = Router();
 
@@ -57,11 +57,11 @@ const createUserSession = (user: User): UserSession => {
 
 const createToken = (user: User): string => {
   const tokenPayload = { userId: user.id };
-  const token = jwt.sign(tokenPayload, envConstants.TOKEN_AUTH_SECRET, {
-    expiresIn: envConstants.ACCESS_TOKEN_EXPIRES_IN,
-    algorithm: jwtSignAlgorithm,
+  const token = jwt.sign(tokenPayload, ENV.TOKEN_AUTH_SECRET, {
+    expiresIn: ENV.ACCESS_TOKEN_EXPIRES_IN,
+    algorithm: JWT_SIGN_ALGORITHM,
   });
 
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication
-  return `${headerConstants.bearer} ${token}`;
+  return `${HEADERS.BEARER} ${token}`;
 };

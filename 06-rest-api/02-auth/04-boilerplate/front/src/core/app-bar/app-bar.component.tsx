@@ -9,16 +9,14 @@ import { AuthContext, createEmptyUserSession } from '../auth';
 import * as api from './api';
 import * as classes from './app-bar.styles';
 
-export const AppBarComponent: React.FC = () => {
+export const AppBarComponent: React.FunctionComponent = () => {
   const { userSession, onChangeUserSession } = React.useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    try {
-      await api.logout();
-      onChangeUserSession(createEmptyUserSession());
-      navigate(-1);
-    } catch {}
+    await api.logout();
+    onChangeUserSession(createEmptyUserSession());
+    navigate(-1);
   };
 
   return (

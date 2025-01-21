@@ -2,17 +2,23 @@
 
 In this example we will implement security and redirect to login page if is not authorized using a JWT token in Http Headers.
 
-# Steps to build it
+## Install dependencies
 
-- Copy previous example.
-
-- `npm install` to install packages:
+`npm install` to install packages:
 
 ```bash
+cd back
 npm install
 ```
 
-- Start `back` app:
+```bash
+cd front
+npm install
+```
+
+## Start apps
+
+Start `back` app:
 
 ```bash
 cd ./back
@@ -21,18 +27,15 @@ npm start
 
 > NOTE: We added `.env` file only for demo purpose. We should ignore this one and add a `.env.example` as example.
 
-- Start `front` app:
+Start `front` app:
 
 ```bash
 cd ./front
 npm start
 ```
 
-> NOTE:
-> [401 Unauthorized](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401)
-> [403 Forbidden](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403)
-
-- Let's add backend security, firts we will `create token` and return it on body response:
+## Login flow
+Let's add backend security, firts we will `create token` and return it on body response:
 
 _./back/src/pods/security/security.api.ts_
 
@@ -50,38 +53,45 @@ const createUserSession = (user: User): UserSession => {
 
 ```
 
-- Let's check this token on each requests:
+> NOTE:
+>
+> [401 Unauthorized](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401)
+>
+> [403 Forbidden](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403)
 
-_./back/src/app.ts_
+Let's check this token on each requests:
+
+_./back/src/index.ts_
 
 ```diff
 ...
-- import { securityApi } from 'pods/security';
-+ import { securityApi, jwtMiddleware } from 'pods/security';
-import { clientApi } from 'pods/client';
-import { orderApi } from 'pods/order';
+- import { securityApi } from '#pods/security/index.js';
++ import { securityApi, jwtMiddleware } from '#pods/security/index.js';
+import { clientApi } from '#pods/client/index.js';
+import { orderApi } from '#pods/order/index.js';
 
-const app = createApp();
+const app = createRestApiServer();
+app.use(express.json());
 
-app.use(apiRouteConstants.security, securityApi);
-- app.use(apiRouteConstants.client, clientApi);
-+ app.use(apiRouteConstants.client, jwtMiddleware, clientApi);
-- app.use(apiRouteConstants.order, orderApi);
-+ app.use(apiRouteConstants.order, jwtMiddleware, orderApi);
+app.use(API_ROUTES.SECURITY, securityApi);
+- app.use(API_ROUTES.CLIENTS, clientApi);
++ app.use(API_ROUTES.CLIENTS, jwtMiddleware, clientApi);
+- app.use(API_ROUTES.ORDERS, orderApi);
++ app.use(API_ROUTES.ORDERS, jwtMiddleware, orderApi);
 
-app.listen(envConstants.PORT, () => {
-  console.log(`Server ready at http://localhost:${envConstants.PORT}`);
+app.listen(ENV.PORT, () => {
+  console.log(`Server running http://localhost:${ENV.PORT}`);
 });
 
 ```
 
-- Now, we should set the `token` value in HTTP headers on each request:
+Now, we should set the `token` value in HTTP headers on each request:
 
 _./front/src/pods/login/api/login.api.ts_
 
 ```diff
-import Axios from 'axios';
-+ import { setHeader, headerConstants } from 'core/api';
+import axios from 'axios';
++ import { setHeader, headerConstants } from '#core/api';
 import { UserSession } from './login.api-model';
 
 const url = '/api/security/login';
@@ -90,19 +100,22 @@ export const isValidLogin = async (
   user: string,
   password: string
 ): Promise<UserSession> => {
-  const { data } = await Axios.post<UserSession>(url, { user, password });
+  const { data } = await axios.post<UserSession>(url, { user, password });
 + setHeader(headerConstants.authorization, data.token);
   return data;
 };
-
 ```
+
+## Logout flow
+
+Update backend endpoint:
 
 _./back/src/pods/security/security.api.ts_
 
 ```diff
 ...
-+ import { jwtMiddleware } from './security.middlewares';
-import { jwtSignAlgorithm } from './security.constants';
++ import { jwtMiddleware } from './security.middlewares.js';
+import { JWT_SIGN_ALGORITHM } from './security.constants.js';
 ...
 
 - .post('/logout', async (req, res) => {
@@ -115,26 +128,27 @@ import { jwtSignAlgorithm } from './security.constants';
   });
 
 ```
-> NOTE: It will fail if we use `jwtMiddleware` on securityApi
-> `app.use(apiRouteConstants.security, jwtMiddleware, securityApi);`
 
-- And clean it on logout:
+And updaste the frontend code to clean the header on client side:
 
-_./front/src/common-app/app-bar/api/app-bar.api.ts_
+_./front/src/core/app-bar/api/app-bar.api.ts_
 
 ```diff
-import Axios from 'axios';
-+ import { setHeader, headerConstants } from 'core/api';
+import axios from 'axios';
++ import { setHeader, headerConstants } from '#core/api';
 
 const url = '/api/security/logout';
 
 export const logout = async (): Promise<boolean> => {
-  await Axios.post(url);
+  await axios.post(url);
 + setHeader(headerConstants.authorization, '');
+
   return true;
 };
 
 ```
+
+## Redirect to login page
 
 - Now, we will implement a redirect to login page on `401` Not Authorize responses:
 

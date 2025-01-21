@@ -1,5 +1,5 @@
 import * as apiModel from './api/login.api-model';
-import * as viewModel from 'common-app/auth/auth.vm';
+import * as viewModel from '#core/auth/auth.vm';
 
 export const mapUserSessionFromApiToVm = (
   userSession: apiModel.UserSession

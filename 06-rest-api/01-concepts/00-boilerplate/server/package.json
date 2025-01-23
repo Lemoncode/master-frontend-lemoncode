@@ -2,13 +2,17 @@
   "name": "hotel-api",
   "version": "1.0.0",
   "description": "Hotel API",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "mock-server": "json-server --routes ./config/routes.json --watch mock-data/hotels-data.json --middlewares ./config/hotel.middleware.js --no-delete-cascade"
+    "mock-server": "tsx watch src/index.ts"
   },
   "author": "Lemoncode",
   "license": "MIT",
   "dependencies": {
-    "json-server": "^0.16.1"
+    "@hono/node-server": "^1.13.7",
+    "hono": "^4.6.16"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2"
   }
 }

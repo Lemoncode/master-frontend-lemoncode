@@ -1,1 +1,1 @@
-export * from './express.server';
+export * from './rest-api.server.js';

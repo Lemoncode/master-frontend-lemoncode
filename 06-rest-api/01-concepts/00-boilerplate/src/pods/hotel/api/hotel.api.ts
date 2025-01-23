@@ -1,5 +1,5 @@
 import { Hotel } from './hotel.api-model';
-import { Lookup } from 'common/models';
+import { Lookup } from '#common/models';
 import { mockCities, mockHotelCollection } from './hotel.mock-data';
 
 export const getHotel = async (id: string): Promise<Hotel> => {

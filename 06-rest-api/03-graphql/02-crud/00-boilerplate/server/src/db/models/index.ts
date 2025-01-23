@@ -1,2 +1,2 @@
-export * from './hotel.model';
-export * from './city,model';
+export * from './hotel.model.js';
+export * from './city.model.js';

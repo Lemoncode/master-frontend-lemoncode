@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import * as api from './api';
 import { createEmptyHotel, Hotel } from './hotel.vm';
 import { mapHotelFromApiToVm, mapHotelFromVmToApi } from './hotel.mappers';
-import { Lookup } from 'common/models';
+import { Lookup } from '#common/models';
 import { HotelComponent } from './hotel.component';
 
 export const HotelContainer: React.FunctionComponent = (props) => {

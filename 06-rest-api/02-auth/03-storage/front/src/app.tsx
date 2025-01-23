@@ -1,8 +1,11 @@
 import React from 'react';
-import { RouterComponent } from 'core/router';
-import { ThemeProviderComponent } from 'core/theme';
-import { SnackbarProvider, SnackbarComponent } from 'common/components';
-import { AuthProviderComponent } from 'common-app/auth';
+import { SnackbarProvider, SnackbarComponent } from '#common/components';
+import { RouterComponent } from '#core/router';
+import { ThemeProviderComponent } from '#core/theme';
+import { AuthProviderComponent } from '#core/auth';
+import { restoreHeader, headerConstants } from '#core/api';
+
+restoreHeader(headerConstants.authorization);
 
 const App: React.FunctionComponent = () => {
   return (

@@ -1,7 +1,7 @@
 import express from 'express';
 import { createRestApiServer } from '#core/servers/index.js';
 import { ENV, API_ROUTES } from '#core/constants/index.js';
-import { securityApi, jwtMiddleware } from '#pods/security/index.js';
+import { securityApi } from '#pods/security/index.js';
 import { clientApi } from '#pods/client/index.js';
 import { orderApi } from '#pods/order/index.js';
 

@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
-import { User, UserSession } from './security.api-model';
-import { envConstants, headerConstants } from 'core/constants';
-import { jwtMiddleware } from './security.middlewares';
-import { jwtSignAlgorithm, cookieOptions } from './security.constants';
+import { ENV, HEADERS } from '#core/constants/index.js';
+import { User, UserSession } from './security.api-model.js';
+import { jwtMiddleware } from './security.middlewares.js';
+import { JWT_SIGN_ALGORITHM, COOKIE_OPTIONS } from './security.constants.js';
 
 export const securityApi = Router();
 
@@ -35,8 +35,7 @@ securityApi
     if (currentUser) {
       const userSession = createUserSession(currentUser);
       const token = createToken(currentUser);
-
-      res.cookie(headerConstants.authorization, token, cookieOptions);
+      res.cookie(HEADERS.AUTHORIZATION, token, COOKIE_OPTIONS);
       res.send(userSession);
     } else {
       res.sendStatus(401);
@@ -44,10 +43,10 @@ securityApi
   })
   .post('/logout', jwtMiddleware, async (req, res) => {
     // NOTE: We cannot invalidate token using jwt libraries.
-    // Different approachs:
+    // Different approaches:
     // - Short expiration times in token
     // - Black list tokens on DB
-    res.clearCookie(headerConstants.authorization);
+    res.clearCookie(HEADERS.AUTHORIZATION);
     res.sendStatus(200);
   });
 
@@ -60,11 +59,11 @@ const createUserSession = (user: User): UserSession => {
 
 const createToken = (user: User): string => {
   const tokenPayload = { userId: user.id };
-  const token = jwt.sign(tokenPayload, envConstants.TOKEN_AUTH_SECRET, {
-    expiresIn: envConstants.ACCESS_TOKEN_EXPIRES_IN,
-    algorithm: jwtSignAlgorithm,
+  const token = jwt.sign(tokenPayload, ENV.TOKEN_AUTH_SECRET, {
+    expiresIn: ENV.ACCESS_TOKEN_EXPIRES_IN,
+    algorithm: JWT_SIGN_ALGORITHM,
   });
 
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication
-  return `${headerConstants.bearer} ${token}`;
+  return `${HEADERS.BEARER} ${token}`;
 };

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { Client } from './client.api-model';
+import { Client } from './client.api-model.js';
 
 export const clientApi = Router();
 

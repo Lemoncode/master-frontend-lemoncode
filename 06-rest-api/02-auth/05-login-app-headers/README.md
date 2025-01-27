@@ -151,146 +151,152 @@ export const logout = async (): Promise<boolean> => {
 
 ## Redirect to login page
 
-- Now, we will implement a redirect to login page on `401` Not Authorize responses:
+Now, we will implement a redirect to login page on `401` Not Authorize responses:
 
-_./front/src/common-app/auth/auth.hooks.ts_
+_./front/src/core/api/api.hooks.ts_
 
 ```javascript
-import { useNavigate } from 'react-router-dom';
-import { useSnackbarContext } from 'common/components';
-import { linkRoutes } from 'core/router';
-import { AxiosError } from 'axios';
+import React from "react";
+import axios, { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
+import { useSnackbarContext } from "#common/components";
+import { linkRoutes } from "#core/router";
 
-type Request = (...params: any[]) => Promise<any>;
-
-export const useAuthRequest = <T extends Request[]>(...requestList: T): T => {
+export const useApiConfig = () => {
   const navigate = useNavigate();
   const { showMessage } = useSnackbarContext();
 
-  const authRequestList = requestList.map((request) => async (...params) => {
-    try {
-      return await request(...params);
-    } catch (errorResponse) {
-      if (isAuthError(errorResponse)) {
-        navigate(linkRoutes.login);
-        showMessage('You should login', 'error');
-        throw undefined;
+  React.useEffect(() => {
+    axios.interceptors.response.use(
+      (response) => response,
+      (error: AxiosError) => {
+        if (error.response.status === 401) {
+          showMessage("You should login", "error");
+          navigate(linkRoutes.login);
+        }
       }
-      throw errorResponse;
-    }
-  }) as T;
-
-  return authRequestList;
+    );
+  }, []);
 };
-
-const isAuthError = (error: AxiosError): boolean => {
-  const errorCode = error.response.status;
-
-  return errorCode === 401;
-};
-
 ```
 
-- Update barrel file:
+Update barrel file:
 
-_./front/src/common-app/auth/index.ts_
+_./front/src/core/api/index.ts_
 
 ```diff
-export * from './auth.context';
-export * from './auth.vm';
-+ export * from './auth.hooks';
+export * from './api.helpers';
+export * from './api.constants';
++ export * from './api.hooks';
 
 ```
 
-- Use it on `list container`:
+Use it on `router.component`:
 
-_./front/src/pods/list/list.container.tsx_
+_./front/src/core/router/router.component.tsx_
 
 ```diff
 import React from 'react';
-+ import { useAuthRequest } from 'common-app/auth';
-import * as api from './api';
-...
-
-export const ListContainer: React.FunctionComponent<Props> = (props) => {
-  const { className } = props;
-+ const [getClientList, getOrderList] = useAuthRequest(
-+   api.getClientList,
-+   api.getOrderList
-+ );
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
++ import { useApiConfig } from '#core/api';
+import { LoginScene, ListScene } from '#scenes';
+import { switchRoutes } from './routes';
 
 ...
-  const handleLoadClientList = async () => {
-    try {
--     const apiClientList = await api.getClientList();
-+     const apiClientList = await getClientList();
-      const vmClientList = mapItemListFromApiToVm(apiClientList);
-      setClientList(vmClientList);
-    } catch {
-      setClientList(createNoTokenItemList());
-    }
-  };
 
-  const handleLoadOrderList = async () => {
-    try {
--     const apiOrderList = await api.getOrderList();
-+     const apiOrderList = await getOrderList();
-      const vmOrderList = mapItemListFromApiToVm(apiOrderList);
-      setOrderList(vmOrderList);
-    } catch {
-      setOrderList(createNoTokenItemList());
-    }
-  };
+const AppRoutes: React.FC = () => {
++ useApiConfig();
+  return (
+    <Routes>
+      <Route path={switchRoutes.login} element={<LoginScene />} />
+      <Route path={switchRoutes.list} element={<ListScene />} />
+      <Route
+        path={switchRoutes.root}
+        element={<Navigate to={switchRoutes.login} />}
+      />
+    </Routes>
+  );
+};
 
-...
 ```
 
-- Use it on `logout`:
+> Try to fetch clients or orders without login.
 
-_./front/src/common-app/app-bar/app-bar.component.tsx_
+Create `AuthRoute`:
+
+_./front/src/core/router/router.component.tsx_
 
 ```diff
-...
-- import { AuthContext, createEmptyUserSession } from '../auth';
-+ import { AuthContext, createEmptyUserSession, useAuthRequest } from '../auth';
-import * as api from './api';
-import * as classes from './app-bar.styles';
+import React from 'react';
+import {
+  HashRouter,
+  Routes,
+  Route,
+  Navigate,
++ Outlet,
+} from 'react-router-dom';
+import { useApiConfig } from '#core/api';
++ import { AuthContext } from '#core/auth';
+import { LoginScene, ListScene } from '#scenes';
+- import { switchRoutes } from './routes';
++ import { switchRoutes, linkRoutes } from './routes';
 
-export const AppBarComponent: React.FunctionComponent = () => {
-  const { userSession, onChangeUserSession } = React.useContext(AuthContext);
-  const history = useHistory();
-+ const [logout] = useAuthRequest(api.logout);
+export const RouterComponent: React.FC = () => {
+  return (
+    <HashRouter>
+      <AppRoutes />
+    </HashRouter>
+  );
+};
 
-  const handleLogout = async () => {
--   await api.logout();
-+   await logout();
-    onChangeUserSession(createEmptyUserSession());
-    history.goBack();
-  };
++ const PrivateRoutes = () => {
++   const { userSession } = React.useContext(AuthContext);
++   return userSession?.userName ? (
++     <Outlet />
++   ) : (
++     <Navigate to={linkRoutes.login} />
++   );
++ };
 
-...
+const AppRoutes: React.FC = () => {
+  useApiConfig();
+  return (
+    <Routes>
+      <Route path={switchRoutes.login} element={<LoginScene />} />
++     <Route element={<PrivateRoutes />}>
++       <Route path={switchRoutes.list} element={<ListScene />} />
++     </Route>
+      <Route
+        path={switchRoutes.root}
+        element={<Navigate to={switchRoutes.login} />}
+      />
+    </Routes>
+  );
+};
+
 ```
+
+> Try to navigate to /list without login.
 
 # Using CORS
 
-- Let's update example to check if it's working with cors:
+Let's update example to check if it's working with cors:
 
 ```bash
 npm install cors --save
+npm install @types/cors --save-dev
 ```
 
-> NOTE: we can install @types/cors for Typescript.
+Configure cors:
 
-_./back/src/core/servers/express.server.ts_
+_./back/src/core/servers/rest-api.server.ts_
 
 ```diff
 import express from 'express';
 + import cors from 'cors';
-import cookieParser from 'cookie-parser';
 
-export const createApp = () => {
+export const createRestApiServer = () => {
   const app = express();
-
   app.use(express.json());
 + app.use(
 +   cors({
@@ -298,58 +304,69 @@ export const createApp = () => {
 +     origin: '*',
 +   })
 + );
-  app.use(cookieParser());
 
   return app;
 };
 
 ```
 
-- Update front:
+> In a real scenario we should set `origin` to the real domain, for example: `http://my-domain.com`.
 
-_./front/config/webapck/dev.js_
+Update front:
+
+_./front/vite.config.ts_
 
 ```diff
 ...
-  devServer: {
-    inline: true,
-    host: 'localhost',
-    port: 8080,
-    stats: 'minimal',
-    hot: true,
--   proxy: {
--     '/api': 'http://localhost:8081',
--   },
-  },
+  plugins: [react()],
+-  server: {
+-    proxy: {
+-      '/api': 'http://localhost:3000',
+-    },
+-  },
+});
+
 ```
 
-- Update login request:
+Update login request:
 
 _./front/src/pods/login/api/login.api.ts_
 
 ```diff
-import Axios from 'axios';
-import { UserSession } from './login.api-model';
+...
 
 - const url = '/api/security/login';
-+ const url = 'http://localhost:8081/api/security/login';
++ const url = 'http://localhost:3000/api/security/login';
 
 ...
 
 ```
 
-- Update list requests:
+Update logout request:
+
+_./front/src/core/app-bar/api/app-bar.api.ts_
+
+```diff
+...
+
+- const url = '/api/security/logout';
++ const url = 'http://localhost:3000/api/security/logout';
+
+...
+
+```
+
+Update list requests:
 
 _./front/src/pods/list/api/list.api.ts_
 
 ```diff
-import Axios from 'axios';
-import { Item } from './list.api-model';
+...
 
 - const clientUrl = '/api/clients';
-+ const clientUrl = 'http://localhost:8081/api/clients';
++ const clientUrl = 'http://localhost:3000/api/clients';
 - const orderUrl = '/api/orders';
-+ const orderUrl = 'http://localhost:8081/api/orders';
++ const orderUrl = 'http://localhost:3000/api/orders';
 
 ...
 

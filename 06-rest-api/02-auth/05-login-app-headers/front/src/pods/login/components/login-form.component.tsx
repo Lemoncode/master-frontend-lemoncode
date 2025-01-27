@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 import Button from '@mui/material/Button';
-import { TextFieldComponent } from 'common/components';
+import { TextFieldComponent } from '#common/components';
 import { formValidation } from '../login.validation';
 import { Login, createEmptyLogin } from '../login.vm';
 import * as classes from './login-form.styles';

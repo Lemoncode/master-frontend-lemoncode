@@ -29,7 +29,6 @@ xhr.send();
 
 > [readyState official docs](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState)
 
-
 To get the data, we can use, for example, `responseText`:
 
 ```diff
@@ -45,7 +44,6 @@ xhr.open("GET", "https://api.github.com/orgs/lemoncode/members");
 xhr.send();
 
 ```
-
 
 So to know that everything has gone well, we can wait for the `readyState` to be 4 and the `status` to be 2xx
 
@@ -188,7 +186,8 @@ To avoid having to repeat so much code every time we want to make a call to any 
       }
     };
 
-    xhr.open("GET", "https://api.github.com/orgs/lemoncode/members");
+-   xhr.open("GET", "https://api.github.com/orgs/lemoncode/members");
++   xhr.open("GET", url);
 
 -   xhr.setRequestHeader("Accept", "application/xml");
 +   xhr.setRequestHeader("Accept", "application/json");
@@ -239,7 +238,4 @@ But of course, here are a lot of things missing:
 - What if we want to add several headers.
 - Or configure other concepts, such as Cache, CORS, etc.
 
-Here is [another example of XMLHttpRequest](
-https://codepen.io/Lemoncode/pen/MWyYbOp?editors=1111) with this more elaborate getJSON:
-
-
+Here is [another example of XMLHttpRequest](https://codepen.io/Lemoncode/pen/MWyYbOp?editors=1111) with this more elaborate getJSON:

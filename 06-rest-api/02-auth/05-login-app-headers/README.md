@@ -151,7 +151,81 @@ export const logout = async (): Promise<boolean> => {
 
 ## Redirect to login page
 
-Now, we will implement a redirect to login page on `401` Not Authorize responses:
+Create `AuthRoute`:
+
+_./front/src/core/router/router.component.tsx_
+
+```diff
+import React from 'react';
+import {
+  HashRouter,
+  Routes,
+  Route,
+  Navigate,
++ Outlet,
+} from 'react-router-dom';
+import { useApiConfig } from '#core/api';
++ import { AuthContext } from '#core/auth';
+import { LoginScene, ListScene } from '#scenes';
+- import { switchRoutes } from './routes';
++ import { switchRoutes, linkRoutes } from './routes';
+
+export const RouterComponent: React.FC = () => {
+  return (
+    <HashRouter>
+      <AppRoutes />
+    </HashRouter>
+  );
+};
+
++ const PrivateRoutes = () => {
++   const { userSession } = React.useContext(AuthContext);
++   return userSession?.userName ? (
++     <Outlet />
++   ) : (
++     <Navigate to={linkRoutes.login} />
++   );
++ };
+
+const AppRoutes: React.FC = () => {
+  useApiConfig();
+  return (
+    <Routes>
+      <Route path={switchRoutes.login} element={<LoginScene />} />
++     <Route element={<PrivateRoutes />}>
++       <Route path={switchRoutes.list} element={<ListScene />} />
++     </Route>
+      <Route
+        path={switchRoutes.root}
+        element={<Navigate to={switchRoutes.login} />}
+      />
+    </Routes>
+  );
+};
+
+```
+
+> Try to navigate to /list without login.
+
+Now, let's take the next scenario:
+
+1. User logs in.
+2. Make some requests and use the app.
+3. User goes to sleep and the token expires, but the app is still open.
+4. User wakes up and tries to make a request.
+5. We will recieve a `401` response. But the app doesn't redirect to login page.
+
+> Add comments to the `PrivateRoutes` code to explain the scenario.
+
+_./front/src/core/router/router.component.tsx_
+
+```jsx
+//    <Route element={<PrivateRoutes />}>
+        <Route path={switchRoutes.list} element={<ListScene />} />
+//    </Route>
+```
+
+Let's do it:
 
 _./front/src/core/api/api.hooks.ts_
 
@@ -221,62 +295,6 @@ const AppRoutes: React.FC = () => {
 ```
 
 > Try to fetch clients or orders without login.
-
-Create `AuthRoute`:
-
-_./front/src/core/router/router.component.tsx_
-
-```diff
-import React from 'react';
-import {
-  HashRouter,
-  Routes,
-  Route,
-  Navigate,
-+ Outlet,
-} from 'react-router-dom';
-import { useApiConfig } from '#core/api';
-+ import { AuthContext } from '#core/auth';
-import { LoginScene, ListScene } from '#scenes';
-- import { switchRoutes } from './routes';
-+ import { switchRoutes, linkRoutes } from './routes';
-
-export const RouterComponent: React.FC = () => {
-  return (
-    <HashRouter>
-      <AppRoutes />
-    </HashRouter>
-  );
-};
-
-+ const PrivateRoutes = () => {
-+   const { userSession } = React.useContext(AuthContext);
-+   return userSession?.userName ? (
-+     <Outlet />
-+   ) : (
-+     <Navigate to={linkRoutes.login} />
-+   );
-+ };
-
-const AppRoutes: React.FC = () => {
-  useApiConfig();
-  return (
-    <Routes>
-      <Route path={switchRoutes.login} element={<LoginScene />} />
-+     <Route element={<PrivateRoutes />}>
-+       <Route path={switchRoutes.list} element={<ListScene />} />
-+     </Route>
-      <Route
-        path={switchRoutes.root}
-        element={<Navigate to={switchRoutes.login} />}
-      />
-    </Routes>
-  );
-};
-
-```
-
-> Try to navigate to /list without login.
 
 # Using CORS
 

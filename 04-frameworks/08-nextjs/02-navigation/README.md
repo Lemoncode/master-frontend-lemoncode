@@ -128,6 +128,8 @@ export default CarPage;
 > [Dynamic routes](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes)
 >
 > [i18n-routing](https://nextjs.org/docs/app/building-your-application/routing/internationalization)
+>
+> [Warning `params` should be awaited before using its properties](https://nextjs.org/docs/messages/sync-dynamic-apis)
 
 Open `http://localhost:3000/cars/audi`;
 

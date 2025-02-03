@@ -49,7 +49,9 @@ const RootLayout = (props: Props) => {
   const { children } = props;
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <main>{children}</main>
+      </body>
     </html>
   );
 };
@@ -64,23 +66,11 @@ _./app/page.tsx_
 ```jsx
 import React from 'react';
 
-interface Props {
-  children: React.ReactNode;
-}
-
-const RootLayout = (props: Props) => {
-  const { children } = props;
-  return (
-    <html lang="en">
-      <body>
-        <main>{children}</main>
-      </body>
-    </html>
-  );
+const RootPage = () => {
+  return <h2>Hello from Nextjs</h2>;
 };
 
-export default RootLayout;
-
+export default RootPage;
 ```
 
 Run `start`:

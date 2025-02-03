@@ -64,11 +64,23 @@ _./app/page.tsx_
 ```jsx
 import React from 'react';
 
-const RootPage = () => {
-  return <h2>Hello from Nextjs</h2>;
+interface Props {
+  children: React.ReactNode;
+}
+
+const RootLayout = (props: Props) => {
+  const { children } = props;
+  return (
+    <html lang="en">
+      <body>
+        <main>{children}</main>
+      </body>
+    </html>
+  );
 };
 
-export default RootPage;
+export default RootLayout;
+
 ```
 
 Run `start`:

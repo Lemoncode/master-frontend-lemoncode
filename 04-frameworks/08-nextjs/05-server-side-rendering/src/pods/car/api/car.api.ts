@@ -14,7 +14,7 @@ export const getCar = async (
 
 export const bookCar = async (car: Car): Promise<boolean> => {
   await fetch(`${url}/${car.id}`, {
-    method: 'PUT',
+    method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(car),
   });

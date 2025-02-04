@@ -137,6 +137,43 @@ import classes from './layout.module.css';
 
 ```
 
+Fix the `car details` page:
+
+_./src/app/cars/\[carId\]/page.tsx_
+
+```diff
+import React from 'react';
+import { Metadata } from 'next';
+
+interface Props {
+- params: { carId: string };
++ params: Promise<{ carId: string }>;
+}
+
+export const generateMetadata = async (props: Props): Promise<Metadata> => {
+- const { params } = props;
++ const params = await props.params;
+  return {
+    title: `Rent a car - Car ${params.carId} details`,
+  };
+};
+
+- const CarPage = (props: Props) => {
++ const CarPage = async (props: Props) => {
+-   const { params } = props;
++   const params = await props.params;
+    return (
+      <>
+        <h2>Car detail page</h2>
+        <p>{params.carId}</p>
+      </>
+    );
+  };
+
+export default CarPage;
+
+```
+
 Run in `prod` mode (two terminals):
 
 ```bash
@@ -203,31 +240,21 @@ import React from 'react';
 import { Metadata } from 'next';
 + import { Car, api, mapCarFromApiToVm } from '#pods/car';
 
-interface Props {
-  params: { carId: string };
-}
+...
 
-export const generateMetadata = async (props: Props): Promise<Metadata> => {
-  const { params } = props;
-  return {
-    title: `Rent a car - Car ${params.carId} details`,
-  };
+const CarPage = async (props: Props) => {
+  const params = await props.params;
++ const car = await api.getCar(params.carId);
++ console.log('Car page', car);
+
+- return (
+-   <>
+-     <h2>Car detail page</h2>
+-     <p>{params.carId}</p>
+-   </>
+- );
++ return <Car car={mapCarFromApiToVm(car)} />;
 };
-
-- const CarPage = (props: Props) => {
-+ const CarPage = async (props: Props) => {
-    const { params } = props;
-+   const car = await api.getCar(params.carId);
-+   console.log('Car page', car);
-
--   return (
--     <>
--       <h2>Car detail page</h2>
--       <p>{params.carId}</p>
--     </>
--   );
-+   return <Car car={mapCarFromApiToVm(car)} />;
-  };
 
 export default CarPage;
 
@@ -249,7 +276,7 @@ npm run start:prod
 >
 > It will cache on routing navigation.
 
-But if we run this code at build time, we need to use [generateStaticParams](https://nextjs.org/docs/app/api-reference/functions/generate-static-params) too:
+But if we want to run this code at build time, we need to use [generateStaticParams](https://nextjs.org/docs/app/api-reference/functions/generate-static-params) too:
 
 _./src/app/cars/\[carId\]/page.tsx_
 
@@ -257,7 +284,7 @@ _./src/app/cars/\[carId\]/page.tsx_
 ...
 
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
-  const { params } = props;
+  const params = await props.params;
   return {
     title: `Rent a car - Car ${params.carId} details`,
   };
@@ -270,7 +297,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 ...
 ```
 
-Disable `prefetch`:
+Disable `prefetch` for demo purposes:
 
 _./src/pods/car-list/components/car-item.component.tsx_
 
@@ -322,7 +349,7 @@ _./src/app/cars/\[carId\]/page.tsx_
 ...
 
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
-  const { params } = props;
+  const params = await props.params;
 + const car = await api.getCar(params.carId);
   return {
 -   title: `Rent a car - Car ${params.carId} details`,

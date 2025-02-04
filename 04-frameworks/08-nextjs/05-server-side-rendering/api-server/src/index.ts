@@ -10,9 +10,9 @@ let db = {
 };
 
 const app = new Hono();
-app.use(logger());
 app.use('/*', serveStatic({ root: './public' }));
 
+app.use(logger());
 app.use('/api/*', cors());
 
 app.get('/api/cars', (context) => {

@@ -53,7 +53,7 @@ npm run start:prod
 >
 > Press F5 and check that it renders again.
 
-We can migrate use it on `car details` too:
+We can migrate and use it on `car details` too:
 
 _./app/cars/\[carId\]/page.tsx_
 
@@ -116,7 +116,7 @@ interface Props {
 }
 
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
-  const { params } = props;
+  const params = await props.params;
 - const car = await api.getCar(params.carId);
 + const car = await api.getCar(params.carId, { cache: 'no-store' }); // Check 'force-cache' too
   return {
@@ -125,7 +125,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 };
 
 const CarPage = async (props: Props) => {
-  const { params } = props;
+  const params = await props.params;
 - const car = await api.getCar(params.carId);
 + const car = await api.getCar(params.carId, { cache: 'no-store' }); // Check 'force-cache' too
   console.log('Car page', car);

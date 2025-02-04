@@ -4,13 +4,15 @@ Let's works with Nextjs using pages generated at build time.
 
 We will start from `03-boilerplate`.
 
-# Steps to build it
+## Steps to build it
 
 `npm install` to install previous sample packages:
 
 ```bash
 npm install
 ```
+
+## Rendering modes
 
 We can render Nextjs pages in 3 modes:
 
@@ -20,7 +22,7 @@ We can render Nextjs pages in 3 modes:
 
 > We can combine them
 
-# Static Site Generation
+## Static Site Generation
 
 Pages are generated at build time, it means that it will fetch all necessary data from backend at build time.
 

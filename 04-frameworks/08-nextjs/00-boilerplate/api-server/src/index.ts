@@ -23,7 +23,7 @@ app.get('/api/cars/:id', (context) => {
   return context.json(db.cars.find((c) => c.id === context.req.param('id')));
 });
 
-app.put('/api/cars/:id', async (context) => {
+app.patch('/api/cars/:id', async (context) => {
   const id = context.req.param('id');
   const car = await context.req.json();
   db.cars = db.cars.map((c) =>

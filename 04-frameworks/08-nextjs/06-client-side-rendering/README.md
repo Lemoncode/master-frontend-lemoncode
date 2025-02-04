@@ -16,7 +16,7 @@ npm install
 
 If we don't need to pre-render the data and frequently updating data.
 
-- Enalbe you to add client-side interactivity.
+- Enable you to add client-side interactivity.
 - Need to use `'use client'` directive.
 - You cannot use Server Components inside a client-side component but you can use Server Components as children of a client-side component.
 - [More info about Client Components](https://nextjs.org/docs/app/building-your-application/rendering/client-components)

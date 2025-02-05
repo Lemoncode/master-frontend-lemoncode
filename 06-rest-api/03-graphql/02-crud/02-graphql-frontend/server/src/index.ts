@@ -1,39 +1,22 @@
-import 'regenerator-runtime/runtime';
 import express from 'express';
-import path from 'path';
-import { ApolloServer } from 'apollo-server-express';
-import {
-  ApolloServerPluginLandingPageGraphQLPlayground,
-  ApolloServerPluginLandingPageDisabled,
-} from 'apollo-server-core';
-import { hotelApi, cityApi } from './api';
-import { typeDefs, resolvers } from './graphql';
+import path from 'node:path';
+import { hotelApi, cityApi } from './api/index.js';
+import { createGraphqlServer } from '#core/servers/index.js';
+import { typeDefs } from '#core/graphql/type-def.js';
+import { resolvers } from '#core/graphql/resolvers.js';
 
 const PORT = 3000;
-(async function () {
-  const app = express();
-  app.use(express.json());
-  const graphqlServer = new ApolloServer({
-    typeDefs,
-    resolvers,
-    plugins: [
-      process.env.NODE_ENV === 'production'
-        ? ApolloServerPluginLandingPageDisabled()
-        : ApolloServerPluginLandingPageGraphQLPlayground(),
-    ],
-  });
-  await graphqlServer.start();
-  graphqlServer.applyMiddleware({ app });
+const app = express();
+app.use(express.json());
 
-  const publicPath = path.resolve(__dirname, './public');
-  app.use(express.static(publicPath));
-  app.use('/api/hotels', hotelApi);
-  app.use('/api/cities', cityApi);
+app.use('/', express.static(path.resolve(import.meta.dirname, '../public')));
 
-  app.listen(PORT, () => {
-    console.log(`Server running http://localhost:${PORT}`);
-    console.log(
-      `GraphQL server ready at http://localhost:${PORT}${graphqlServer.graphqlPath}`
-    );
-  });
-})();
+createGraphqlServer(app, { schema: typeDefs, rootValue: resolvers });
+
+app.use('/api/hotels', hotelApi);
+app.use('/api/cities', cityApi);
+
+app.listen(PORT, () => {
+  console.log(`Server running http://localhost:${PORT}`);
+  console.log(`GraphQL Server ready at port http://localhost:${PORT}/graphql`);
+});

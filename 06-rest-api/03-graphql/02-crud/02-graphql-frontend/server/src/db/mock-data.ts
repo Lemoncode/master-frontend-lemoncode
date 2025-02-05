@@ -1,4 +1,4 @@
-import { Hotel, City } from './models';
+import { Hotel, City } from './models/index.js';
 
 export const createDefaultHotel = (): Hotel => ({
   id: '',
@@ -33,7 +33,7 @@ export const createDefaultHotel = (): Hotel => ({
   rateCurrencyCode: '',
   shortDescription: '',
   stateProvinceCode: '',
-  thumbNailUrl: '/thumbnails/50947_264_t.jpg',
+  thumbNailUrl: '/thumbnails/new-hotel.jpg',
   tripAdvisorRating: 0,
   tripAdvisorRatingUrl: '',
 });

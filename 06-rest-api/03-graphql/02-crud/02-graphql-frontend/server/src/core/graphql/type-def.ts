@@ -1,6 +1,6 @@
-import { gql } from 'apollo-server-express';
+import { buildSchema as graphql } from 'graphql';
 
-export const typeDefs = gql`
+export const typeDefs = graphql(`
   type Hotel {
     id: ID!
     type: String!
@@ -17,4 +17,4 @@ export const typeDefs = gql`
   type Query {
     hotels: [Hotel!]!
   }
-`;
+`);

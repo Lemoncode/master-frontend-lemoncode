@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "es6",
+    "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "declaration": false,
     "noImplicitAny": false,
@@ -13,12 +13,7 @@
     "esModuleInterop": true,
     "baseUrl": "./src/",
     "paths": {
-      "common": ["common"],
-      "core": ["core"],
-      "layouts": ["layouts"],
-      "pods": ["pods"],
-      "scenes": ["scenes"],
-      "common-app": ["common-app"]
+      "#*": ["*"]
     }
   },
   "include": ["./src/**/*"]

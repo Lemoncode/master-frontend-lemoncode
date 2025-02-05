@@ -39,39 +39,35 @@ npm install
 ### ./server/src/graphql/resolvers.ts
 
 ```diff
-- import { getHotelList, Hotel } from '../db';
-+ import { getHotelList, Hotel, getHotel } from '../db';
+- import { getHotelList } from '#db/index.js';
++ import { getHotelList, getHotel } from '#db/index.js';
+import { Hotel } from '#db/models/index.js';
 
 export const resolvers = {
-  Query: {
-    hotels: async (): Promise<Hotel[]> => {
-      const hotels = await getHotelList();
-      return hotels;
-    },
+  hotels: async (): Promise<Hotel[]> => {
+    const hotels = await getHotelList();
+    return hotels;
+  },
 +   hotel: async (parent, args): Promise<Hotel> => {
 +     const hotel = await getHotel(args.id);
 +     return hotel;
 +   },
-  },
 };
 
 ```
 
-> [Resolver signature](https://www.apollographql.com/docs/apollo-server/data/data/#resolver-type-signature)
-
-- We can play with graphql development tool at [http://localhost:3000/graphql](http://localhost:3000/graphql)
+- We can play with graphql development tool at [http://localhost:3000/playground](http://localhost:3000/playground)
 
 - Example query:
 
 ```graphql
 query {
-  hotel(id:"<replace-by-id>") {
+  hotel(id: "<replace-by-id>") {
     id
     name
     city
   }
 }
-
 ```
 
 - Now, it's time to update `hotel` api:
@@ -80,7 +76,6 @@ query {
 
 ```diff
 import Axios from 'axios';
-+ import { gql } from 'graphql-request';
 + import { graphQLClient } from 'core/api';
 import { Hotel } from './hotel.api-model';
 import { Lookup } from 'common/models';
@@ -95,22 +90,26 @@ const cityListUrl = '/api/cities';
 export const getHotel = async (id: string): Promise<Hotel> => {
 - const { data } = await Axios.get<Hotel>(`${hotelListUrl}/${id}`);
 - return data;
-+ const query = gql`
-+   query {
-+     hotel(id: "${id}") {
-+       id
-+       name
-+       shortDescription
-+       hotelRating
-+       address1
-+       thumbNailUrl
-+       city
-+     }
-+   }
-+ `;
++  const query = `
++    query($id: ID!) {
++      hotel(id: $id) {
++        id
++        name
++        shortDescription
++        hotelRating
++        address1
++        thumbNailUrl
++        city
++      }
++    }
++  `;
 
-+ const { hotel } = await graphQLClient.request<GetHotelResponse>(query);
-+ return hotel;
++  const { hotel } = await graphql<GetHotelResponse>({
++    query,
++    variables: { id },
++  });
+
++  return hotel;
 };
 
 ...
@@ -152,49 +151,43 @@ export const getHotel = async (id: string): Promise<Hotel> => {
 ### ./server/src/graphql/resolvers.ts
 
 ```diff
-import {
-  getHotelList,
-  Hotel,
-  getHotel,
-+ insertHotel,
-+ updateHotel,
-+ HotelEdit,
-} from '../db';
+- import { getHotelList, getHotel } from '#db/index.js';
+- import { Hotel} from '#db/models/index.js';
+import { getHotelList, getHotel, updateHotel, insertHotel } from '#db/index.js';
+import { Hotel, HotelEdit } from '#db/models/index.js';
 
 + interface SaveHotelArgs {
 +   hotel: HotelEdit;
 + }
 
 export const resolvers = {
-  Query: {
     ...
-  },
-+ Mutation: {
-+   saveHotel: async (parent, args: SaveHotelArgs): Promise<boolean> => {
-+     if (args.hotel.id) {
-+       await updateHotel(args.hotel);
-+     } else {
-+       await insertHotel(args.hotel);
-+     }
-+     return true;
-+   },
-+ },
++   saveHotel: async (args: SaveHotelArgs): Promise<boolean> => {
++    if (args.hotel.id) {
++      await updateHotel(args.hotel);
++    } else {
++      await insertHotel(args.hotel);
++    }
++    return true;
++  },
 };
 
 ```
 
-- Give a try using the following query at [http://localhost:3000/graphql](http://localhost:3000/graphql):
+- Give a try using the following query at [http://localhost:3000/playground](http://localhost:3000/playground):
 
 ```graphql
 mutation InsertHotel {
-  saveHotel(hotel: {
-    id: ""
-    name: "New name"
-    address1: "New address1"
-    city: "California"
-    hotelRating: 5
-    shortDescription: "New shortDescription"
-  })
+  saveHotel(
+    hotel: {
+      id: ""
+      name: "New name"
+      address1: "New address1"
+      city: "California"
+      hotelRating: 5
+      shortDescription: "New shortDescription"
+    }
+  )
 }
 
 query GetHotels {
@@ -209,16 +202,17 @@ query GetHotels {
 }
 
 mutation UpdateHotel {
-  saveHotel(hotel: {
-    id: "<replace-by-id>"
-    name: "Updated name"
-    address1: "Updated address1"
-    city: "Chicago"
-    hotelRating: 5
-    shortDescription: "Updated shortDescription"
-  })
+  saveHotel(
+    hotel: {
+      id: "<replace-by-id>"
+      name: "Updated name"
+      address1: "Updated address1"
+      city: "Chicago"
+      hotelRating: 5
+      shortDescription: "Updated shortDescription"
+    }
+  )
 }
-
 ```
 
 - We can use a [variable](https://graphql.org/learn/queries/#variables) too:
@@ -227,7 +221,6 @@ mutation UpdateHotel {
 mutation UpdateHotel($hotel: HotelInput!) {
   saveHotel(hotel: $hotel)
 }
-
 ```
 
 `QUERY VARIABLES`
@@ -263,15 +256,18 @@ export const saveHotel = async (hotel: Hotel): Promise<boolean> => {
 -   await Axios.post<Hotel>(hotelListUrl, hotel);
 - }
 - return true;
-+ const query = gql`
-+   mutation($hotel: HotelInput!) {
-+     saveHotel(hotel: $hotel)
-+   }
-+ `;
-+ const { saveHotel } = await graphQLClient.request<SaveHotelResponse>(query, {
-+   hotel,
-+ });
-+ return saveHotel;
++ const query = `
++     mutation($hotel: HotelInput!) {
++       saveHotel(hotel: $hotel)
++     }
++   `;
+
++   const { saveHotel } = await graphql<SaveHotelResponse>({
++     query,
++     variables: { hotel },
++   });
+
++   return saveHotel;
 };
 
 ```
@@ -306,16 +302,16 @@ export const saveHotel = async (hotel: Hotel): Promise<boolean> => {
 ### ./server/src/graphql/resolvers.ts
 
 ```diff
-import {
-  getHotelList,
-  Hotel,
-  getHotel,
-  insertHotel,
-  updateHotel,
-  HotelEdit,
-+ getCities,
-+ City,
-} from '../db';
+- import { getHotelList, getHotel, updateHotel, insertHotel } from '#db/index.js';
+- import { Hotel, HotelEdit } from '#db/models/index.js';
++ import {
++  getHotelList,
++  getHotel,
++  updateHotel,
++  insertHotel,
++  getCities,
++ } from '#db/index.js';
++ import { City, Hotel, HotelEdit } from '#db/models/index.js';
 
 ...
 
@@ -351,24 +347,26 @@ export const getCities = async (): Promise<Lookup[]> => {
 - const { data } = await Axios.get<Lookup[]>(cityListUrl);
 
 - return data;
-+ const query = gql`
-+   query {
-+     cities {
-+       id
-+       name
-+     }
-+   }
-+ `;
-+ const { cities } = await graphQLClient.request<GetCitiesResponse>(query);
++ const query = `
++    query {
++      cities {
++        id
++        name
++      }
++    }
++  `;
 
-+ return cities;
++  const { cities } = await graphql<GetCitiesResponse>({
++    query,
++  });
+
++  return cities;
 };
 
 ...
 ```
 
 - Migrate `deleteHotel` to GraphQL.
-
 
 ### ./server/src/graphql/type-defs.ts
 
@@ -390,24 +388,19 @@ export const getCities = async (): Promise<Lookup[]> => {
 ```diff
 import {
   getHotelList,
-  Hotel,
   getHotel,
-  insertHotel,
   updateHotel,
-  HotelEdit,
+  insertHotel,
   getCities,
-  City,
-+ deleteHotel,
-} from '../db';
++  deleteHotel,
+} from '#db/index.js';
 
 ...
-  Mutation: {
     ...
-+   deleteHotel: async (parent, args): Promise<boolean> => {
-+     return await deleteHotel(args.id);
-+   },
++   deleteHotel: async (args): Promise<boolean> => {
++    return await deleteHotel(args.id);
++  },
   },
-};
 
 ...
 
@@ -425,15 +418,17 @@ import {
 export const deleteHotel = async (id: string): Promise<boolean> => {
 - await Axios.delete(`${url}/${id}`);
 - return true;
-+ const query = gql`
-+   mutation {
-+     deleteHotel(id: "${id}")
-+   }
-+ `;
-+ const { deleteHotel } = await graphQLClient.request<DeleteHotelResponse>(
-+   query
-+ );
-+ return deleteHotel;
++  const query = `
++    mutation($id: ID!) {
++     deleteHotel(id: $id)
++    }
++  `;
+
++  const { deleteHotel } = await graphql<DeleteHotelResponse>({
++    query,
++    variables: { id },
++  });
++  return deleteHotel;
 };
 ```
 

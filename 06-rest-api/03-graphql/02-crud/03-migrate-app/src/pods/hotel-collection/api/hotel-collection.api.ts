@@ -10,17 +10,17 @@ interface GetHotelCollectionResponse {
 
 export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
   const query = `
-    query {
-      hotels {
-        id
-        name
-        shortDescription
-        hotelRating
-        address1
-        thumbNailUrl
-      }
-    }
-  `;
+   query {
+     hotels {
+       id
+       name
+       shortDescription
+       hotelRating
+       address1
+       thumbNailUrl
+     }
+   }
+ `;
 
   const { hotels } = await graphql<GetHotelCollectionResponse>({
     query,
@@ -36,7 +36,7 @@ interface DeleteHotelResponse {
 export const deleteHotel = async (id: string): Promise<boolean> => {
   const query = `
     mutation($id: ID!) {
-      deleteHotel(id: $id)
+     deleteHotel(id: $id)
     }
   `;
 

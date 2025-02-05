@@ -21,10 +21,6 @@ export const resolvers = {
     const hotel = await getHotel(args.id);
     return hotel;
   },
-  cities: async (): Promise<City[]> => {
-    const cities = await getCities();
-    return cities;
-  },
   saveHotel: async (args: SaveHotelArgs): Promise<boolean> => {
     if (args.hotel.id) {
       await updateHotel(args.hotel);
@@ -32,6 +28,10 @@ export const resolvers = {
       await insertHotel(args.hotel);
     }
     return true;
+  },
+  cities: async (): Promise<City[]> => {
+    const cities = await getCities();
+    return cities;
   },
   deleteHotel: async (args): Promise<boolean> => {
     return await deleteHotel(args.id);

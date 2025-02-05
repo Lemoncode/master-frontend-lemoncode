@@ -1,7 +1,7 @@
 import axios from 'axios';
+import { graphql } from '#core/api';
 import { Hotel } from './hotel.api-model';
 import { Lookup } from '#common/models';
-import { graphql } from '#core/api';
 
 const hotelListUrl = '/api/hotels';
 const cityListUrl = '/api/cities';
@@ -12,18 +12,18 @@ interface GetHotelResponse {
 
 export const getHotel = async (id: string): Promise<Hotel> => {
   const query = `
-  query($id: ID!) {
-    hotel(id: $id) {
-      id
-      name
-      shortDescription
-      hotelRating
-      address1
-      thumbNailUrl
-      city
+    query($id: ID!) {
+      hotel(id: $id) {
+        id
+        name
+        shortDescription
+        hotelRating
+        address1
+        thumbNailUrl
+        city
+      }
     }
-  }
-`;
+  `;
 
   const { hotel } = await graphql<GetHotelResponse>({
     query,
@@ -60,10 +60,10 @@ interface SaveHotelResponse {
 
 export const saveHotel = async (hotel: Hotel): Promise<boolean> => {
   const query = `
-    mutation($hotel: HotelInput!) {
-      saveHotel(hotel: $hotel)
-    }
-  `;
+     mutation($hotel: HotelInput!) {
+       saveHotel(hotel: $hotel)
+     }
+   `;
 
   const { saveHotel } = await graphql<SaveHotelResponse>({
     query,

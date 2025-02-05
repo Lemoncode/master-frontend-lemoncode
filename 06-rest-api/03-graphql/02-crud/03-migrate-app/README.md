@@ -19,9 +19,9 @@ npm install
 
 # Steps
 
-- Let's define `type-defs` for get one hotel by id:
+- Let's define `schema` for get one hotel by id:
 
-### ./server/src/graphql/type-defs.ts
+### ./server/src/graphql/schema.ts
 
 ```diff
 ...
@@ -48,7 +48,7 @@ export const resolvers = {
     const hotels = await getHotelList();
     return hotels;
   },
-+   hotel: async (parent, args): Promise<Hotel> => {
++   hotel: async (args): Promise<Hotel> => {
 +     const hotel = await getHotel(args.id);
 +     return hotel;
 +   },
@@ -76,9 +76,9 @@ query {
 
 ```diff
 import Axios from 'axios';
-+ import { graphQLClient } from 'core/api';
++ import { graphql } from '#core/api';
 import { Hotel } from './hotel.api-model';
-import { Lookup } from 'common/models';
+import { Lookup } from '#common/models';
 
 const hotelListUrl = '/api/hotels';
 const cityListUrl = '/api/cities';
@@ -120,7 +120,7 @@ export const getHotel = async (id: string): Promise<Hotel> => {
 
 - Let's implement save hotel. We will create an [input](https://graphql.org/learn/schema/#input-types) type to model hotel editing fields:
 
-### ./server/src/graphql/type-defs.ts
+### ./server/src/graphql/schema.ts
 
 ```diff
 ...
@@ -276,7 +276,7 @@ export const saveHotel = async (hotel: Hotel): Promise<boolean> => {
 
 - Migrate `getCities` to GraphQL.
 
-### ./server/src/graphql/type-defs.ts
+### ./server/src/graphql/schema.ts
 
 ```diff
 ...

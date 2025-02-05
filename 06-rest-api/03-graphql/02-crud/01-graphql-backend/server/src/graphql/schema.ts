@@ -1,6 +1,6 @@
 import { buildSchema as graphql } from 'graphql';
 
-export const typeDefs = graphql(`
+export const schema = graphql(`
   type Hotel {
     id: ID!
     type: String!

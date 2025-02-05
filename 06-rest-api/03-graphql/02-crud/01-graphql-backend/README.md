@@ -38,7 +38,7 @@ npm install graphql-http graphql  --save
 
 # Add Playground
 
-_./src/core/graphql/playground.html_
+_./server/src/graphql/playground.html_
 
 ```html
 <!DOCTYPE html>
@@ -101,6 +101,10 @@ _./src/core/graphql/playground.html_
 </html>
 ```
 
+The fetcher is set to point to the /graphql endpoint, which is where GraphiQL will send requests to
+interact with the GraphQL server. To work correctly, the backend must expose a GraphQL API at /graphql,
+matching this path.
+
 # Config
 
 - graphql-http comes with types definitions and we don't need an extra package for TypeScript. We have to define a new `graphql-http` instance to create a new `GraphQL Server` and let's create a dummy endpoint to test it:
@@ -132,13 +136,11 @@ app.use('/', express.static(path.resolve(import.meta.dirname, '../public')));
 +   },
 + };
 + app.use('/graphql', createHandler({ schema, rootValue: resolvers }));
-+ if (!ENV.IS_PRODUCTION) {
-+   app.use('/playground', async (req, res) => {
-+     res.sendFile(
-+       path.join(import.meta.dirname, './core/graphql/playground.html')
-+     );
-+   });
-+ }
++ app.use('/playground', async (req, res) => {
++   res.sendFile(
++     path.join(import.meta.dirname, './core/graphql/playground.html')
++   );
++ });
 
   app.use('/api/hotels', hotelApi);
   app.use('/api/cities', cityApi);
@@ -174,89 +176,14 @@ query {
 }
 ```
 
-Let's move GraphQL Server config to `core`:
-
-_./src/core/servers/graphql.server.ts_
-
-```javascript
-import path from 'node:path';
-import { Express } from 'express';
-import { createHandler, HandlerOptions } from 'graphql-http/lib/use/express';
-import { ENV } from '#core/constants/index.js';
-
-export const createGraphqlServer = (
-  expressApp: Express,
-  options: HandlerOptions
-) => {
-  expressApp.use('/graphql', createHandler(options));
-  if (!ENV.IS_PRODUCTION) {
-    expressApp.use('/playground', async (req, res) => {
-      res.sendFile(
-        path.join(import.meta.dirname, '../graphql/playground.html')
-      );
-    });
-  }
-};
-```
-
-Create barrel:
-
-_./src/core/servers/index.ts_
-
-```diff
-+ export * from './graphql.server.js';
-```
-
-Update app:
-
-_./src/index.ts_
-
-```diff
-import express from 'express';
-import path from 'node:path';
-import { hotelApi, cityApi } from './api/index.js';
-- import { createHandler } from 'graphql-http/lib/use/express';
-- import { buildSchema } from 'graphql';
-- import playground from 'graphql-playground-middleware-express';
-- const graphqlPlayground = playground.default;
-+ import {
-+ createGraphqlServer,
-+ } from '#core/servers/index.js';
-
-const PORT = 3000;
-const app = express();
-app.use(express.json());
-
-app.use('/', express.static(path.resolve(import.meta.dirname, '../public')));
-
-- const schema = buildSchema(`
--   type Query {
--     hello: String
--   }
-- `);
-- const resolvers = {
--   hello: () => {
--     return 'Working endpoint!';
--   },
-- };
-- restApiServer.use('/graphql', createHandler({ schema, rootValue: resolvers }));
-- if (!envConstants.isProduction) {
--   restApiServer.use('/playground', graphqlPlayground({ endpoint: '/graphql' }));
-- }
-+ createGraphqlServer(app, { schema: null, rootValue: null });
-
-...
-
-```
-
 - Now, we can start implementing `hotel` GraphQL Schema:
 
-### ./server/src/graphql/type-defs.ts
+### ./server/src/graphql/schema.ts
 
 ```javascript
 import { buildSchema as graphql } from 'graphql';
 
-export const typeDefs = graphql(`
+export const schema = graphql(`
   type Hotel {
     id: ID!
     type: String!
@@ -292,16 +219,7 @@ export const resolvers = {
 };
 ```
 
-- Let's create `barrel` file:
-
-### ./server/src/graphql/index.ts
-
-```javascript
-export * from './type-defs.js';
-export * from './resolvers.js';
-```
-
-- And use it:
+- And use them:
 
 ### ./server/src/index.ts
 
@@ -310,7 +228,9 @@ import express from 'express';
 import path from 'node:path';
 import { hotelApi, cityApi } from './api/index.js';
 import { createGraphqlServer } from '#core/servers/index.js';
-+ import { typeDefs, resolvers } from '#graphql/index.js';
+- import { buildSchema } from 'graphql';
++ import { schema } from './graphql/schema.js';
++ import { resolvers } from './graphql/resolvers.js';
 
 const PORT = 3000;
 const app = express();
@@ -318,8 +238,22 @@ app.use(express.json());
 
 app.use('/', express.static(path.resolve(import.meta.dirname, '../public')));
 
-- createGraphqlServer(app, { schema: null, rootValue: null });
-+ createGraphqlServer(app, { schema: typeDefs, rootValue: resolvers });
+- const schema = buildSchema(`
+-   type Query {
+-     hello: String
+-   }
+- `);
+- const resolvers = {
+-   hello: () => {
+-     return 'Working endpoint!';
+-   },
+- };
+app.use('/graphql', createHandler({ schema, rootValue: resolvers }));
+app.use('/playground', async (req, res) => {
+  res.sendFile(
+    path.join(import.meta.dirname, './core/graphql/playground.html')
+  );
+});
 
 ...
 ```

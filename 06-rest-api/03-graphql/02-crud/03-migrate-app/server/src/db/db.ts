@@ -1,6 +1,6 @@
 import crypto from 'crypto';
-import { createDefaultHotel, mockCities, mockHotels } from './mock-data';
-import { Hotel, HotelEdit, City } from './models';
+import { createDefaultHotel, mockCities, mockHotels } from './mock-data.js';
+import { Hotel, HotelEdit, City } from './models/index.js';
 
 let hotels = [...mockHotels];
 let cities = [...mockCities];

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getCities } from '../db';
+import { getCities } from '../db/index.js';
 
 export const cityApi = Router();
 

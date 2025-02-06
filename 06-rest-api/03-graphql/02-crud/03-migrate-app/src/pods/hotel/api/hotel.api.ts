@@ -1,8 +1,7 @@
-import Axios from 'axios';
-import { gql } from 'graphql-request';
-import { graphQLClient } from 'core/api';
+import axios from 'axios';
+import { graphql } from '#core/api';
 import { Hotel } from './hotel.api-model';
-import { Lookup } from 'common/models';
+import { Lookup } from '#common/models';
 
 const hotelListUrl = '/api/hotels';
 const cityListUrl = '/api/cities';
@@ -12,9 +11,9 @@ interface GetHotelResponse {
 }
 
 export const getHotel = async (id: string): Promise<Hotel> => {
-  const query = gql`
-    query {
-      hotel(id: "${id}") {
+  const query = `
+    query($id: ID!) {
+      hotel(id: $id) {
         id
         name
         shortDescription
@@ -26,7 +25,11 @@ export const getHotel = async (id: string): Promise<Hotel> => {
     }
   `;
 
-  const { hotel } = await graphQLClient.request<GetHotelResponse>(query);
+  const { hotel } = await graphql<GetHotelResponse>({
+    query,
+    variables: { id },
+  });
+
   return hotel;
 };
 
@@ -35,7 +38,7 @@ interface GetCitiesResponse {
 }
 
 export const getCities = async (): Promise<Lookup[]> => {
-  const query = gql`
+  const query = `
     query {
       cities {
         id
@@ -43,7 +46,10 @@ export const getCities = async (): Promise<Lookup[]> => {
       }
     }
   `;
-  const { cities } = await graphQLClient.request<GetCitiesResponse>(query);
+
+  const { cities } = await graphql<GetCitiesResponse>({
+    query,
+  });
 
   return cities;
 };
@@ -53,13 +59,16 @@ interface SaveHotelResponse {
 }
 
 export const saveHotel = async (hotel: Hotel): Promise<boolean> => {
-  const query = gql`
-    mutation ($hotel: HotelInput!) {
-      saveHotel(hotel: $hotel)
-    }
-  `;
-  const { saveHotel } = await graphQLClient.request<SaveHotelResponse>(query, {
-    hotel,
+  const query = `
+     mutation($hotel: HotelInput!) {
+       saveHotel(hotel: $hotel)
+     }
+   `;
+
+  const { saveHotel } = await graphql<SaveHotelResponse>({
+    query,
+    variables: { hotel },
   });
+
   return saveHotel;
 };

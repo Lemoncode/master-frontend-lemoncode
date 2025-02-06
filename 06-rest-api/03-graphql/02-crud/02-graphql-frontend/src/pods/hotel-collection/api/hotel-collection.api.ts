@@ -1,6 +1,5 @@
-import Axios from 'axios';
-import { gql } from 'graphql-request';
-import { graphQLClient } from 'core/api';
+import axios from 'axios';
+import { graphql } from '#core/api';
 import { HotelEntityApi } from './hotel-collection.api-model';
 
 const url = '/api/hotels';
@@ -10,25 +9,27 @@ interface GetHotelCollectionResponse {
 }
 
 export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
-  const query = gql`
-    query {
-      hotels {
-        id
-        name
-        shortDescription
-        hotelRating
-        address1
-        thumbNailUrl
-      }
-    }
-  `;
-  const { hotels } = await graphQLClient.request<GetHotelCollectionResponse>(
-    query
-  );
+  const query = `
+   query {
+     hotels {
+       id
+       name
+       shortDescription
+       hotelRating
+       address1
+       thumbNailUrl
+     }
+   }
+ `;
+
+  const { hotels } = await graphql<GetHotelCollectionResponse>({
+    query,
+  });
+
   return hotels;
 };
 
 export const deleteHotel = async (id: string): Promise<boolean> => {
-  await Axios.delete(`${url}/${id}`);
+  await axios.delete(`${url}/${id}`);
   return true;
 };

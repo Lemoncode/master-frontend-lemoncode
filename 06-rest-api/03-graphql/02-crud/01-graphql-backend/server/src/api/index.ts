@@ -1,2 +1,2 @@
-export * from './hotel.api';
-export * from './city.api';
+export * from './hotel.api.js';
+export * from './city.api.js';

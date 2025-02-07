@@ -1,33 +1,37 @@
 # Hello Socket IO
 
-Vamos a montar un ejemplo mínimo con sockets
+Vamos a montar un ejemplo básico con websockets
 
 ## Pasos
 
-- Copiamos el ejemplo anterior de boiler plate.
-
-- Entramos en el back, instalamos paquetes
+- Copiamos el contenido del [boilerplate](../00-boilerplate/), tanto la carpeta back como la front.
+- Entramos en el back e instalamos sus dependencias.
 
 ```bash
 npm install
 ```
 
-- Hacemos lo mismo en el front
+- Hacemos lo mismo en el front.
 
 ```bash
 npm install
+```
+
+- Podemos arrancar ambos proyectos para ver que tenemos antes de empezar con nuestra demo.
+
+```bash
+npm start # en ambos proyectos
 ```
 
 ## Back
 
-- Arrancamos por el back, vamos a instalar la librería de _socket.io_ y
-  sus typings.
+- Arrancamos por el back, vamos a instalar la librería de _socket.io_ y sus typings (viene todo en el mismo paquete).
 
 ```bash
-npm install socket.io --save
+npm i socket.io
 ```
 
-- Vamos a por el fichero principal y levantar nuestro websocket.
+- Vamos a por el fichero principal y levantar nuestro servidor de websocket.
 
 _./src/index.ts_:
 
@@ -122,7 +126,7 @@ de entorno), añadir al final de index.ts
 _./src/index.ts_:
 
 ```typescript
-const server = socketapp.listen(3000, function () {
+const server = socketapp.listen(3000, () => {
   console.log("listening on *:3000");
 });
 ```
@@ -135,26 +139,24 @@ _./src/index.ts_:
 ```typescript
 // whenever a user connects on port 3000 via
 // a websocket, log that a user has connected
-io.on("connection", function (socket: Socket) {
+io.on("connection", (socket: Socket) => {
   console.log("** connection recieved");
   socket.emit("message", { type: "CONNECTION_SUCCEEDED" });
 });
 ```
 
-> Fijate que con socket.emit se lo envío sólo la usuario que se conecto
+> Fijate que con `socket.emit` se lo envío sólo al usuario que se conectó
 
-- Ahora vamos a implementar nuestra aplicación de chat básica, nos quedamos
-  esperando a que un usuario envíe un mensaje de chat, cuando recibamos dicho mensaje
-  lo reenviamos a todos los usarios
+- Ahora vamos a implementar nuestra aplicación de chat básica, nos quedamos esperando a que un usuario envíe un mensaje de chat. Cuando recibamos dicho mensaje, lo reenviamos a todos los usuarios conectados.
 
 ```diff
 // whenever a user connects on port 3000 via
 // a websocket, log that a user has connected
-io.on("connection", function (socket: Socket) {
+io.on("connection", (socket: Socket) => {
 console.log("\*\* connection recieved");
 socket.emit("message", { type: "CONNECTION_SUCCEEDED" });
 
-+   socket.on('message', function (body: any) {
++   socket.on('message', (body: any) => {
 +     console.log(body);
 +     socket.broadcast.emit('message', body);
 +   });
@@ -202,7 +204,7 @@ Vamos a por el Front.
 Instalamos socket.io la versión para cliente
 
 ```bash
-npm install socket.io-client --save
+npm i socket.io-client
 ```
 
 - Vamos a hacernos una función de ayuda para crear la conexión.

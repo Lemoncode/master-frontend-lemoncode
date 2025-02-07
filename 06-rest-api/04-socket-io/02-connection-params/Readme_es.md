@@ -76,13 +76,14 @@ export interface ConnectionConfig {
   nickname: string;
 }
 
-let userSession = [];
+let userSession: UserSession[] = [];
 
 export const addUserSession = (
   connectionId: string,
   config: ConnectionConfig
 ) => {
-  userSession = [...userSession, { connectionId, config }];
+  userSession = [...userSession, { connectionId, nickname: config.nickname }];
+  console.log(`New user joined: ${config.nickname}`);
 };
 
 export const getNickname = (connectionId: string) => {
@@ -90,7 +91,7 @@ export const getNickname = (connectionId: string) => {
     (session) => session.connectionId === connectionId
   );
 
-  return session ? session.config.nickname : "ANONYMOUS :-@";
+  return session ? session.nickname : "ANONYMOUS :-@";
 };
 ```
 
@@ -193,13 +194,13 @@ _./front/src/api.ts_:
 
 ```diff
 - export const createSocket = (): Socket => {
-+ export const createSocket = (nickname:string): Socket => {
++ export const createSocket = (nickname: string): Socket => {
 
   const url = baseSocketUrl;
 
   const options: SocketIOClient.ConnectOpts = {
--    query: "nickname=pepe",
-+    query: {nickname},
+-    query: { nickname: "pepe" },
++    query: { nickname },
     timeout: 60000,
   };
 ```
@@ -215,4 +216,97 @@ npm start
 > Ejercicios: si os queréis divertir...
 
 - ¿ Cómo podría hacer para evitar nicknames duplicados?
+
+_./back/src/store.ts_:
+
+```ts
+interface UserSession {
+  connectionId: string;
+  nickname: string;
+}
+
+export interface ConnectionConfig {
+  nickname: string;
+}
+
+let userSession: UserSession[] = [];
+
+const isNicknameUsed = (newUserNickname: string): boolean =>
+  userSession.some(session => session.nickname.toLowerCase() === newUserNickname.toLowerCase());
+
+export const addUserSession = (
+  connectionId: string,
+  config: ConnectionConfig
+): boolean => {
+  if (isNicknameUsed(config.nickname)) {
+    console.log(`Nickname '${config.nickname}' is already in use`);
+    return false;
+  } else {
+    userSession = [...userSession, { connectionId, nickname: config.nickname }];
+    console.log(`New user joined: ${config.nickname}`);
+    return true;
+  }
+};
+
+export const getNickname = (connectionId: string) => {
+  const session = userSession.find(
+    (session) => session.connectionId === connectionId
+  );
+
+  return session ? session.nickname : "ANONYMOUS :-@";
+};
+```
+
+_./back/src/index.ts_:
+
+```ts
+io.on("connection", (socket: Socket) => {
+  console.log("** connection recieved");
+  const config: ConnectionConfig = { nickname: socket.handshake.query['nickname'] as string };
+  const isUserAdded = addUserSession(socket.id, config);
+  if (isUserAdded) {
+    socket.emit("message", { type: "CONNECTION_SUCCEEDED" });
+
+    socket.on('message', (body: any) => {
+      console.log(body);
+      socket.broadcast.emit('message', {
+        ...body,
+        payload: {
+          ...body.payload,
+          nickname: getNickname(socket.id),
+        },
+      });
+    });
+  } else {
+    socket.emit("message", { type: "NICKNAME_USED" });
+  }
+});
+```
+
+_./front/src/app.tsx_:
+
+```ts
+const establishConnection = () => {
+  const socketConnection = createSocket(nickname);
+  socketConnection.on("message", (body) => {
+    if (body && body.type) {
+      switch (body.type) {
+        case "CONNECTION_SUCCEEDED":
+          setIsConnected(true);
+          setSocket(socketConnection);
+          console.log("Connection succeded");
+          break;
+        case "CHAT_MESSAGE":
+          setChatlog((chatlog) => `${chatlog}\n[${body.payload.nickname}]${body.payload.content}`);
+          break;
+        case "NICKNAME_USED":
+          alert(`Nickname '${nickname}' is already in use`);
+          socketConnection.disconnect();
+          break;
+      }
+    }
+  });
+};
+```
+
 - Y si se me cae la conexión que pasa?

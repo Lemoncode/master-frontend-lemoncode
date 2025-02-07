@@ -11,11 +11,21 @@ export interface ConnectionConfig {
 
 let userSession = [];
 
+const isNicknameUsed = (newUserNickname: string): boolean =>
+  userSession.some(session => session.nickname.toLowerCase() === newUserNickname.toLowerCase());
+
 export const addUserSession = (
   connectionId: string,
   config: ConnectionConfig
-) => {
-  userSession = [...userSession, { connectionId, config }];
+): boolean => {
+  if (isNicknameUsed(config.nickname)) {
+    console.log(`Nickname '${config.nickname}' is already in use`);
+    return false;
+  } else {
+    userSession = [...userSession, { connectionId, config }];
+    console.log(`New user joined room '${config.room}': ${config.nickname}`);
+    return true;
+  }
 };
 
 export const getUserInfo = (connectionId: string): UserSession => {
@@ -29,5 +39,5 @@ export const getUserInfo = (connectionId: string): UserSession => {
         nickname: session.config.nickname,
         room: session.config.room,
       }
-    : { connectionId: -1, nickname: 'ANONYMOUS :-@', room: 'devops' };
+    : { connectionId: '-1', nickname: 'ANONYMOUS :-@', room: 'devops' };
 };

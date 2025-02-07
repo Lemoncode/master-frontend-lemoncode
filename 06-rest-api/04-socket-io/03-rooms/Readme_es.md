@@ -18,7 +18,7 @@ npm install
 npm install
 ```
 
-- Ahora queremos que cuando un usuario entre elija en que sala va a hablar... si quiero hablar de coches para que me voy a meter en la de futbol.
+- Ahora queremos que cuando un usuario entre en el chat elija en que sala va a hablar.
 
 - En el lado cliente vamos a crear la fontaneria de interfaz de usuario:
 
@@ -87,17 +87,16 @@ io.on('connection', function (socket: Socket) {
     nickname: socket.handshake.query['nickname'] as string,
 +   room: socket.handshake.query['room'] as string,
   }
-  addUserSession(socket.conn.id, config);
-+ socket.join(socket.handshake.query['room']);
-  socket.emit('message', { type: 'CONNECTION_SUCCEEDED' });
+  const isUserAdded = addUserSession(socket.conn.id, config);
+  if (isUserAdded) {
++   socket.join(socket.handshake.query['room']);
+    socket.emit('message', { type: 'CONNECTION_SUCCEEDED' });
 ```
 
-Bueno hacemos un _addUserSession_ para almacenarlo en nuestra _base de datos_ (memoria) pero... tenemos que decirle a _socket.io_
-que ese usuario se registra en la habitación que indica, esto lo hacemos de la siguiente manera:
+Bueno hacemos un _addUserSession_ para almacenarlo en nuestra _base de datos_ (memoria) pero... tenemos que decirle a _socket.io_ que ese usuario se registra en la habitación que indica, esto lo hacemos de la siguiente manera:
 
 ```diff
-  addUserSession(socket.conn.id, config);
-+ socket.join(socket.handshake.query['room']);
++   socket.join(socket.handshake.query['room']);
 ```
 
 Añadimos
@@ -141,7 +140,7 @@ _./back/src/store.ts_:
 +        nickname: session.config.nickname,
 +        room: session.config.room,
 +      }
-+    : { connectionId: -1, nickname: 'ANONYMOUS :-@', room: 'devops' };
++    : { connectionId: '-1', nickname: 'ANONYMOUS :-@', room: 'devops' };
 };
 ```
 

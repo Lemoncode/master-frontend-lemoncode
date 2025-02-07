@@ -56,13 +56,9 @@ _En front y back_:
 npm start
 ```
 
-- Seguimos ahora queremos que el usuario introduzca el nombre que quiera y el de a conectar:
-
-- ¡Genial! ya nos llega a servidor el valor, ¿Qué vamos a hacer ahora? Vamos a asociar el nickname
-  al connectionId del websocket de cliente asociado
-
-- Primero nos vamos a crear un sitio donde guardar esa info (lo ponemos en memoria en una aplicación
-  real podría por ejemplo ir a base de de datos).
+- Ahora queremos que el usuario introduzca el nombre que le apetezca y le de al botón de conectar.
+- ¡Genial! Ya nos llega a servidor el valor. ¿Qué vamos a hacer ahora? Vamos a asociar el nickname al connectionId del websocket de cliente.
+- Primero nos vamos a crear un sitio donde guardar esa info (lo ponemos en memoria en una aplicación real podría por ejemplo ir a base de de datos).
 
 _./back/src/store.ts_:
 
@@ -76,13 +72,14 @@ export interface ConnectionConfig {
   nickname: string;
 }
 
-let userSession = [];
+let userSession: UserSession[] = [];
 
 export const addUserSession = (
   connectionId: string,
   config: ConnectionConfig
 ) => {
-  userSession = [...userSession, { connectionId, config }];
+  userSession = [...userSession, { connectionId, nickname: config.nickname }];
+  console.log(`New user joined: ${config.nickname}`);
 };
 
 export const getNickname = (connectionId: string) => {
@@ -90,7 +87,7 @@ export const getNickname = (connectionId: string) => {
     (session) => session.connectionId === connectionId
   );
 
-  return session ? session.config.nickname : "ANONYMOUS :-@";
+  return session ? session.nickname : "ANONYMOUS :-@";
 };
 ```
 
@@ -144,14 +141,13 @@ _./front/src/app.tsx_:
 
 ```diff
     case "CHAT_MESSAGE":
--      setChatlog((chatlog) => `${chatlog}\n${body.payload.content}`);
-+      setChatlog((chatlog) => `${chatlog}\n[${body.payload.nickname}]${body.payload.content}`);
+-     setChatlog((chatlog) => `${chatlog}\n${body.payload.content}`);
++     setChatlog((chatlog) => `${chatlog}\n[${body.payload.nickname}]${body.payload.content}`);
       break;
   }
 ```
 
-- ¡Oye! pero aquí sale siempre PEPE :D, nada vamos a añadir una caja de texto cuando un usuario se una
-  para indicar el nickname
+- ¡Oye, pero aquí sale siempre _pepe_! No hay problema, vamos a añadir una caja de texto cuando un usuario se una para indicar el nickname.
 
 _./front/src/app.tsx_:
 
@@ -193,13 +189,13 @@ _./front/src/api.ts_:
 
 ```diff
 - export const createSocket = (): Socket => {
-+ export const createSocket = (nickname:string): Socket => {
++ export const createSocket = (nickname: string): Socket => {
 
   const url = baseSocketUrl;
 
   const options: SocketIOClient.ConnectOpts = {
--    query: "nickname=pepe",
-+    query: {nickname},
+-    query: { nickname: "pepe" },
++    query: { nickname },
     timeout: 60000,
   };
 ```
@@ -212,7 +208,104 @@ _en front y back_:
 npm start
 ```
 
-> Ejercicios: si os queréis divertir...
+## Bonus: ¿Cómo evitar nicknames duplicados?
 
-- ¿ Cómo podría hacer para evitar nicknames duplicados?
+- Añade la función `isNicknameUsed` para comprobar si el nickname está en uso. Si está en uso, la función `addUserSession` no añadirá el nuevo usuario al array (BD en memoria) de usuarios.
+
+_./back/src/store.ts_:
+
+```ts
+interface UserSession {
+  connectionId: string;
+  nickname: string;
+}
+
+export interface ConnectionConfig {
+  nickname: string;
+}
+
+let userSession: UserSession[] = [];
+
+const isNicknameUsed = (newUserNickname: string): boolean =>
+  userSession.some(session => session.nickname.toLowerCase() === newUserNickname.toLowerCase());
+
+export const addUserSession = (
+  connectionId: string,
+  config: ConnectionConfig
+): boolean => {
+  if (isNicknameUsed(config.nickname)) {
+    console.log(`Nickname '${config.nickname}' is already in use`);
+    return false;
+  } else {
+    userSession = [...userSession, { connectionId, nickname: config.nickname }];
+    console.log(`New user joined: ${config.nickname}`);
+    return true;
+  }
+};
+
+export const getNickname = (connectionId: string) => {
+  const session = userSession.find(
+    (session) => session.connectionId === connectionId
+  );
+
+  return session ? session.nickname : "ANONYMOUS :-@";
+};
+```
+
+- Volvamos al `index.ts` para hacer uso de la nueva funcionalidad. Si no se ha podido añadir el usuario porque el nickname está en uso, enviamos un mensaje del tipo `NICKNAME_USED`.
+
+_./back/src/index.ts_:
+
+```ts
+io.on("connection", (socket: Socket) => {
+  console.log("** connection recieved");
+  const config: ConnectionConfig = { nickname: socket.handshake.query['nickname'] as string };
+  const isUserAdded = addUserSession(socket.id, config);
+  if (isUserAdded) {
+    socket.emit("message", { type: "CONNECTION_SUCCEEDED" });
+
+    socket.on('message', (body: any) => {
+      console.log(body);
+      socket.broadcast.emit('message', {
+        ...body,
+        payload: {
+          ...body.payload,
+          nickname: getNickname(socket.id),
+        },
+      });
+    });
+  } else {
+    socket.emit("message", { type: "NICKNAME_USED" });
+  }
+});
+```
+
+- En el front debemos escuchar este tipo de mensajes nuevos (`NICKNAME_USED`) para cerrar la conexión websocket.
+
+_./front/src/app.tsx_:
+
+```ts
+const establishConnection = () => {
+  const socketConnection = createSocket(nickname);
+  socketConnection.on("message", (body) => {
+    if (body && body.type) {
+      switch (body.type) {
+        case "CONNECTION_SUCCEEDED":
+          setIsConnected(true);
+          setSocket(socketConnection);
+          console.log("Connection succeded");
+          break;
+        case "CHAT_MESSAGE":
+          setChatlog((chatlog) => `${chatlog}\n[${body.payload.nickname}]${body.payload.content}`);
+          break;
+        case "NICKNAME_USED":
+          alert(`Nickname '${nickname}' is already in use`);
+          socketConnection.disconnect();
+          break;
+      }
+    }
+  });
+};
+```
+
 - Y si se me cae la conexión que pasa?

@@ -61,17 +61,21 @@ const server = socketapp.listen(3000, function () {
 io.on('connection', function (socket: Socket) {
   console.log('** connection recieved');
   const config: ConnectionConfig = { nickname: socket.handshake.query['nickname'] as string };
-  addUserSession(socket.id, config);
-  socket.emit('message', { type: 'CONNECTION_SUCCEEDED' });
+  const isUserAdded = addUserSession(socket.id, config);
+  if (isUserAdded) {
+    socket.emit('message', { type: 'CONNECTION_SUCCEEDED' });
 
-  socket.on('message', function (body: any) {
-    console.log(body);
-    socket.broadcast.emit('message', {
-      ...body,
-      payload: {
-        ...body.payload,
-        nickname: getNickname(socket.id),
-      }
+    socket.on('message', function (body: any) {
+      console.log(body);
+      socket.broadcast.emit('message', {
+        ...body,
+        payload: {
+          ...body.payload,
+          nickname: getNickname(socket.id),
+        }
+      });
     });
-  });
+  } else {
+    socket.emit("message", { type: "NICKNAME_USED" });
+  }
 });

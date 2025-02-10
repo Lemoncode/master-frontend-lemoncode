@@ -1,4 +1,4 @@
-FROM node:20-alpine AS base
+FROM node:22-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -18,4 +18,4 @@ COPY ./server/index.js ./
 RUN npm ci --omit=dev
 
 ENV PORT=8080
-CMD node index.js
+CMD ["node", "index.js"]

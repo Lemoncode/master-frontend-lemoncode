@@ -66,6 +66,7 @@ Creating new container with same image:
 
 ```bash
 docker run hello-world
+docker ps -a
 ```
 
 > NOTE: We can name a container like: `docker run --name my-container hello-world`
@@ -73,8 +74,8 @@ docker run hello-world
 Let's remove all stopped containers:
 
 ```bash
-docker ps -a
 docker container rm <CONTAINER ID>
+docker rm <CONTAINER ID>
 docker container prune
 ```
 
@@ -87,7 +88,7 @@ docker image rm <IMAGE NAME>:<TAG>
 docker rmi <IMAGE NAME>:<TAG>
 docker image prune
 ```
-> `prune`: Remove all dangling images, that is, all images with name equals <none>. Dangling images are not referenced by other images and are safe to delete
+> `prune`: Remove all dangling images, that is, all images with name equals <none>. Dangling images are not referenced by other images and are safe to delete.
 
 # About Basefactor + Lemoncode
 

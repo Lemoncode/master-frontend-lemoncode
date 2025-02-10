@@ -30,6 +30,26 @@ export default defineConfig({
 
 ```
 
+And router configuration:
+
+_./src/core/router/router.ts_
+
+```diff
+- import { createRouter, createHashHistory } from '@tanstack/react-router';
++ import { createRouter } from '@tanstack/react-router';
+// The route-tree file is generated automatically. Do not modify this file manually.
+import { routeTree } from './route-tree';
+
+- const history = createHashHistory();
+
+export const router = createRouter({
+  routeTree,
+- history,
+});
+...
+
+```
+
 Run build:
 
 ```bash

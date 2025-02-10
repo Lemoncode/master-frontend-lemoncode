@@ -37,7 +37,6 @@ const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {
   console.log(`App running on http://localhost:${PORT}`);
 });
-
 ```
 
 We can run it on local:
@@ -82,8 +81,6 @@ Go to resource.
 ![03-go-to-resource](./readme-resources/03-go-to-resource.png)
 
 Enable FTP:
-
-
 
 ![04-enable-ftp](./readme-resources/04-enable-ftp.png)
 

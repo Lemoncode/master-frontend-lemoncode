@@ -30,7 +30,7 @@ export default defineConfig({
 
 ```
 
-And router configuration:
+And restore router configuration:
 
 _./src/core/router/router.ts_
 
@@ -119,7 +119,7 @@ Configure web service:
 
 ![05-configure-runtime](./readme-resources/05-configure-runtime.png)
 
-Clicks on `Create Web Service` button.
+Select `Free plan` and clicks on `Deploy Web Service` button.
 
 After the successful deploy, open `https://<app-name>.onrender.com`.
 

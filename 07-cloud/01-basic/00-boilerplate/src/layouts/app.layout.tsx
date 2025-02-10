@@ -1,6 +1,7 @@
 import React from 'react';
+import { AppBar, Toolbar } from '@mui/material';
+import logo from '#assets/logo.png';
 import * as classes from './app.layout.styles';
-import { AppBarComponent } from '@/common-app/app-bar';
 
 interface ChildrenProps {
   className: string;
@@ -15,7 +16,11 @@ export const AppLayout: React.FC<Props> = (props) => {
 
   return (
     <>
-      <AppBarComponent />
+      <AppBar position="static">
+        <Toolbar variant="dense" className={classes.root}>
+          <img className={classes.logo} src={logo} />
+        </Toolbar>
+      </AppBar>
       <main>{children({ className: classes.content })}</main>
     </>
   );

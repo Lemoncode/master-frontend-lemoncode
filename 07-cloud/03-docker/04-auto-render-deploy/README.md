@@ -45,7 +45,7 @@ Update docker settings (Advanced settings):
 
 ![06-docker-settings](./readme-resources/06-docker-settings.png)
 
-Clicks on `Create Web Service` button.
+Clicks on `Deploy Web Service` button.
 
 After the successful deploy, open `https://<app-name>.onrender.com`.
 

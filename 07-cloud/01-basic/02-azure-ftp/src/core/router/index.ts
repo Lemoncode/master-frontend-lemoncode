@@ -1,2 +1,2 @@
-export * from './router.component';
-export * from './routes';
+export * from './router.dev-tools';
+export * from './router';

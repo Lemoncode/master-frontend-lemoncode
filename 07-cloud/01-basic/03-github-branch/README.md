@@ -50,6 +50,10 @@ git commit -m "upload files"
 git push -u origin gh-pages
 ```
 
+> Check Github Actions tab to see the deployment process.
+>
+> Check Github repository > Settings tab > Pages section.
+
 Now, we have deployed our website in: `https://<user-name>.github.io/<repository-name>`:
 
 ![01-open-gh-pages-url](./readme-resources/01-open-gh-pages-url.png)
@@ -71,10 +75,8 @@ This issue is related with the references to assets in the `index.html` file. We
     <title>Cloud Module</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
--   <script type="module" crossorigin src="/assets/index-a824b72f.js"></script>
--   <link rel="modulepreload" crossorigin href="/assets/vendor-13e230a0.js">
-+   <script type="module" crossorigin src="./assets/index-a824b72f.js"></script>
-+   <link rel="modulepreload" crossorigin href="./assets/vendor-13e230a0.js">
+-   <script type="module" crossorigin src="/assets/index-CBHDhUW6.js"></script>
++   <script type="module" crossorigin src="./assets/index-CBHDhUW6.js"></script>
   </head>
   <body>
     <div id="root"></div>
@@ -97,9 +99,7 @@ Update config:
 _./vite.config.js_
 
 ```diff
-import { defineConfig, splitVendorChunkPlugin } from 'vite';
-import react from '@vitejs/plugin-react';
-import { fileURLToPath } from 'node:url';
+...
 
 export default defineConfig({
 + base: './',
@@ -108,6 +108,26 @@ export default defineConfig({
 ```
 
 > [Vite Public base path](https://vitejs.dev/guide/build.html#public-base-path)
+
+And configure `hash history` in the router:
+
+_./src/core/router/router.ts_
+
+```diff
+- import { createRouter } from '@tanstack/react-router';
++ import { createRouter, createHashHistory } from '@tanstack/react-router';
+// The route-tree file is generated automatically. Do not modify this file manually.
+import { routeTree } from './route-tree';
+
++ const history = createHashHistory();
+
+export const router = createRouter({
+  routeTree,
++ history,
+});
+...
+
+```
 
 Run build command:
 
@@ -118,13 +138,22 @@ npm run build
 
 ```
 
-Copy `dist` folder to `gh-pages` branch as above.
-
-Commit and push:
+Commit and push in `main` branch:
 
 ```bash
 git add .
-git commit -m "upload files with base path"
+git commit -m "update base path"
+git push
+
+```
+
+Copy `dist` folder to `gh-pages` branch as above.
+
+Commit and push in `gh-pages` branch:
+
+```bash
+git add .
+git commit -m "update base path"
 git push
 
 ```

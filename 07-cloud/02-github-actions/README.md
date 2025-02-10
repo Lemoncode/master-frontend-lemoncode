@@ -38,8 +38,9 @@ _./package.json_
   "scripts": {
     "start": "run-p -l type-check:watch start:dev",
     "start:dev": "vite --port 8080",
-    "build": "npm run type-check && npm run clean && npm run build:prod",
-    "build:prod": "vite build",
+    "prebuild": "npm run type-check && npm run clean",
+    "build": "vite build",
++   "prebuild:dev": "npm run prebuild",
 +   "build:dev": "vite build --mode development",
 +   "deploy": "gh-pages -d dist",
     ...
@@ -84,7 +85,6 @@ jobs:
 
       - name: Deploy
         run: npm run deploy
-
 ```
 
 Add commit with changes:
@@ -95,21 +95,26 @@ git commit -m "add continuos deployment"
 git push
 ```
 
-As we saw, the workflow was failed. Why? Because each time a Github job is executed, it's a new and clean machine outside repository. That is, we need to allow job's git push. The best approach is creating a new ssh key on local:
+As we saw, the workflow failed. Why? Because each time a Github job is executed, it's a new and clean machine outside repository. That is, we need to allow job's git push. The best approach is creating a new ssh key on local:
 
 ```bash
 ssh-keygen -m PEM -t rsa -C "cd-user@my-app.com"
 ```
+
 ```bash
-> Enter file in which to save the key (/c/Users/nasda/.ssh/id_rsa): `./id_rsa`
+> Enter file in which to save the key: `./id_rsa`
 > Enter passphrase (empty for no passphrase): `Pulse Enter for empty`
 > Enter same passphrase again: `Pulse Enter for empty`
 ```
 
-> NOTES
+> NOTES:
+>
 > -m PEM: Format to apply. PEM is a common public/private key certificate format.
+>
 > rsa: RSA is the crypto algorithm.
+>
 > Enter `./id_rsa` to save files in currect directory
+>
 > You can leave empty the passphrasse field.
 
 Copy `id_rsa.pub` content to `Github Settings` > `Deploy keys` section:
@@ -171,6 +176,7 @@ jobs:
 ```
 
 > NOTES:
+>
 > "Use SSH key" step: create id_rsa with ssh private key in default ssh folder and add write permits.
 >
 > "Deploy" step: update deploy command with repository's SSH URL.

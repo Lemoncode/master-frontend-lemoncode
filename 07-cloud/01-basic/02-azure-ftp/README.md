@@ -33,6 +33,10 @@ const app = express();
 const staticFilesPath = path.resolve(__dirname, './public');
 app.use('/', express.static(staticFilesPath));
 
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(staticFilesPath, 'index.html'));
+});
+
 const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {
   console.log(`App running on http://localhost:${PORT}`);
@@ -77,35 +81,41 @@ Now, we can configure a web server in `Azure` to upload files via FTP.
 
 ![02-create-app-service](./readme-resources/02-create-app-service.png)
 
-Navigate to deploy center.
+Go to resource.
 
 ![03-go-to-resource](./readme-resources/03-go-to-resource.png)
 
-![04-navigate-deploy-center](./readme-resources/04-navigate-deploy-center.png)
+Enable FTP:
+
+![04-enable-ftp](./readme-resources/04-enable-ftp.png)
+
+Navigate to `Deployment Center`:
+
+![05-navigate-deploy-center](./readme-resources/05-navigate-deploy-center.png)
 
 And click on FTP:
 
-![05-use-ftp](./readme-resources/05-use-ftp.png)
+![06-use-ftp](./readme-resources/06-use-ftp.png)
 
 We can use whatever ftp client to connect to our server and copy all files from. In this case we will user [Filezilla portable version](https://filezilla-project.org/)
 
 Copy `Host`, `Username` and `Password` values
 
-![06-use-ftp-credentials](./readme-resources/06-use-ftp-credentials.png)
+![07-use-ftp-credentials](./readme-resources/07-use-ftp-credentials.png)
 
 Remove `hostingstart.html`:
 
-![07-remove-file](./readme-resources/07-remove-file.png)
+![08-remove-file](./readme-resources/08-remove-file.png)
 
 Copy inner `./server` folders and files.
 
-![08-upload-files](./readme-resources/08-upload-files.png)
+![09-upload-files](./readme-resources/09-upload-files.png)
 
 > Important: including `node_modules`.
 
 Open server URL:
 
-![09-open-server-url](./readme-resources/09-open-server-url.png)
+![10-open-server-url](./readme-resources/10-open-server-url.png)
 
 # About Basefactor + Lemoncode
 

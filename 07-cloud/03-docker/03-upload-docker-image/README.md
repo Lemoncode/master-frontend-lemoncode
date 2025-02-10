@@ -20,6 +20,7 @@ docker login <registry>
 ```
 
 > `<registry>`: By default is docker.io.
+>
 > We can use `docker info` to see it.
 
 Then we need tag the image with registry and path information to match with the `DockerHub` repository name that we would like to upload:
@@ -33,6 +34,7 @@ docker tag my-app:2 <user-name>/<app-name>
 ```
 
 > `<registry>`: By default is docker.io.
+>
 > `<path-to-repository>`: In the DockerHub case is <user-name>/<app-name> > `<tag>`: is optionally, by default would be latest.
 
 Check image list now:

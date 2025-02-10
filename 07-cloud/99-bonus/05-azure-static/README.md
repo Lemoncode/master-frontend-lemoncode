@@ -35,17 +35,21 @@ Configure the app:
 
 ![Configure the app](./readme-resources/03-configure-new-static-web.png)
 
+Build details:
+
+![Build details](./readme-resources/04-build-details.png)
+
 Review and create:
 
-![Review and create](./readme-resources/04-review-and-create.png)
+![Review and create](./readme-resources/05-review-and-create.png)
 
 Once we click on `Create`, Azure will create automatically a new Github Workflow in your repository like:
 
-![Automatically added Github Workflow](readme-resources/05-automatically-added-github-workflow.png)
+![Automatically added Github Workflow](readme-resources/06-automatically-added-github-workflow.png)
 
 And a new `Action Secret`:
 
-![Automatically added Action Secret](readme-resources/06-automatically-added-action-secret.png)
+![Automatically added Action Secret](readme-resources/07-automatically-added-action-secret.png)
 
 Let's download the new repository changes to local:
 
@@ -94,7 +98,7 @@ jobs:
           skip_app_build: true
           skip_api_build: true
         env:
-          NODE_VERSION: 20.17.0
+          NODE_VERSION: 22.13.0
 
 ```
 

@@ -17,7 +17,7 @@ We can create our custom images. In this case, we will use [the node image](http
 _./Dockerfile_
 
 ```Docker
-FROM node:20-alpine
+FROM node:22-alpine
 ```
 
 > You can use [Docker VSCode extension](https://code.visualstudio.com/docs/containers/overview)
@@ -27,7 +27,7 @@ Let's create the path where we are going to copy our app:
 _./Dockerfile_
 
 ```diff
-FROM node:20-alpine
+FROM node:22-alpine
 + RUN mkdir -p /usr/app
 + WORKDIR /usr/app
 
@@ -58,7 +58,7 @@ Copy all files:
 _./Dockerfile_
 
 ```diff
-FROM node:20-alpine
+FROM node:22-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -71,7 +71,7 @@ Execute install and build:
 _./Dockerfile_
 
 ```diff
-FROM node:20-alpine
+FROM node:22-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -108,7 +108,7 @@ We can create some docker steps to install server and execute it:
 _./Dockerfile_
 
 ```diff
-FROM node:20-alpine
+FROM node:22-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -119,13 +119,13 @@ RUN npm run build
 + RUN cp -r ./dist ./server/public
 + RUN cd server && npm ci
 
-+ CMD node server/index.js
++ CMD ["node", "server/index.js"]
 
 ```
 
 > RUN vs CMD: I don't want to run `node server` when we build the image, we want to run it when run the container.
 >
-> CMD VS ENTRYPOINT: https://docs.doppler.com/docs/dockerfile
+> [CMD VS ENTRYPOINT](https://codewithyury.com/docker-run-vs-cmd-vs-entrypoint/)
 
 Run the container:
 
@@ -134,9 +134,9 @@ docker build -t my-app:1 .
 docker images
 
 ```
-> It creates a <none> image due to replace same tag.
+> In earlier versions of Docker when you re-use the same tag, it will create a new image with the same tag, but with a different ID. This is called a dangling image and you can remove it with `docker image prune`
 >
-> We can remove it with `docker image prune`
+> But in the latest versions of Docker, it will delete the old image for you.
 
 Run new container:
 
@@ -167,7 +167,7 @@ _./Dockerfile_
 ...
 
 + ENV PORT=8083
-CMD node server/index.js
+CMD ["node", "server/index.js"]
 
 ```
 
@@ -196,12 +196,10 @@ If we check `docker images` we can see dangling images, due to use same tags for
 
 ```bash
 docker images
-docker image prune
-docker images
 
 ```
 
-On the other hand, we have an image with `~382MB`, too much size isn't it?. We should use [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/) to decrease this size, with only the necessary info:
+On the other hand, we have an image with `~592MB`, too much size isn't it?. We should use [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/) to decrease this size, with only the necessary info:
 
 > Change container project structure:
 
@@ -225,8 +223,8 @@ On the other hand, we have an image with `~382MB`, too much size isn't it?. We s
 _./Dockerfile_
 
 ```diff
-- FROM node:20-alpine
-+ FROM node:20-alpine AS base
+- FROM node:22-alpine
++ FROM node:22-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -247,12 +245,12 @@ RUN npm run build
 + RUN npm ci --omit=dev
 
 ENV PORT=8083
-- CMD node server/index.js
-+ CMD node index.js
+- CMD ["node", "server/index.js"]
++ CMD ["node", "index.js"]
 
 ```
 
-> We could use `npm ci` instead of `npm install` if we have a `package-lock.json` generated.
+> We can use `npm ci` instead of `npm install` because we have a `package-lock.json` generated.
 
 Run it:
 
@@ -279,6 +277,10 @@ const app = express();
 - const staticFilesPath = path.resolve(__dirname, './public');
 + const staticFilesPath = path.resolve(__dirname, process.env.STATIC_FILES_PATH);
 app.use('/', express.static(staticFilesPath));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(staticFilesPath, 'index.html'));
+});
 
 const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {

@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import { theme } from '@/core/theme';
+import { theme } from '#core/theme';
 
 export const cell = css`
   padding: 0.5rem;

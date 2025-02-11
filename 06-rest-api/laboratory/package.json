@@ -1,0 +1,44 @@
+{
+  "name": "06-rest-api-01-concepts",
+  "version": "1.0.0",
+  "description": "Rest API demos",
+  "type": "module",
+  "scripts": {
+    "start": "run-p -l type-check:watch start:dev start:server",
+    "start:dev": "vite --port 8080",
+    "start:server": "cd server && npm run mock-server",
+    "prebuild": "npm run type-check",
+    "build": "vite build",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "postinstall": "cd ./server && npm install"
+  },
+  "imports": {
+    "#*": "./src/*"
+  },
+  "author": "Lemoncode",
+  "license": "MIT",
+  "dependencies": {
+    "@emotion/css": "^11.13.5",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@lemoncode/fonk": "^1.5.4",
+    "@lemoncode/fonk-formik": "^4.0.1",
+    "@lemoncode/fonk-min-number-validator": "^1.2.0",
+    "@mui/icons-material": "^6.3.1",
+    "@mui/material": "^6.3.1",
+    "axios": "^1.7.9",
+    "formik": "^2.4.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.1.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.6",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7"
+  }
+}

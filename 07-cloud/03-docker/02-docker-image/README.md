@@ -157,8 +157,8 @@ Try to access `http://localhost:8081`
 Why can't we access to `http://localhost:8081`? Because this process is executing itself inside container, we need to expose to our machine:
 
 ```
-docker container stop my-app-container
-docker container rm my-app-container
+docker stop my-app-container
+docker rm my-app-container
 ```
 
 _./Dockerfile_

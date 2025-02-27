@@ -1,4 +1,4 @@
-# 04 Auto render deploy
+# 04 Auto Azure deploy
 
 In this example we are going to upload Docker image with a front app to Azure.
 

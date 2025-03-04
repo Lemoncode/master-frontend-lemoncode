@@ -2,18 +2,11 @@
 
 In this example, we are going to learn how we can work with `npm` workspaces.
 
-We will start from `00-boilerplate`.
+We will start from `scratch` but we will copy some projects from `00-boilerplate`.
 
 ## Steps to build it
 
-Let's start by creating the main `package.json` (we can use `npm init -y` to create it and then edit it):
-
-```bash
-npm init -y
-
-```
-
-Let's edit:
+Let's start by creating the main `package.json`:
 
 _./package.json_
 
@@ -31,7 +24,6 @@ _./.gitignore_
 ```
 node_modules
 dist
-.turbo
 
 ```
 
@@ -81,7 +73,7 @@ npm install
 
 ```
 
-Let's remove the `my-workspace` project and copy the `house-helpers` and `motto-helpers` projects from the `00-boilerplate` folder.
+Let's remove the `my-workspace` project, the root `package-lock.json` and copy the `house-helpers` and `motto-helpers` projects from the `00-boilerplate` folder.
 
 Let's run `npm install` again:
 
@@ -90,7 +82,7 @@ npm install
 
 ```
 
-Notice that the `package-lock.json` has been updated with the `house-helpers` and `motto-helpers` projects dependencies and the symlinks have been created ( inside `node_modules/@my-org` folder).
+Notice that the `package-lock.json` has been updated with the `house-helpers` and `motto-helpers` projects dependencies and the symlinks have been created (inside `node_modules/@my-org` folder).
 
 > NOTE: also, we only have the root `node_modules` folder and the `package-lock.json` file, not inside each project.
 
@@ -103,9 +95,10 @@ _./helpers/house-helpers/package.json_
 ```json
 {
   ...
-  "types": "src/index.ts",
   "type": "module",
-  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
 }
 
 ```
@@ -120,14 +113,14 @@ _./helpers/motto-helpers/package.json_
 {
   ...
   "type": "module",
-  "module": "./dist/motto-helpers.js",
-  "main": "./dist/motto-helpers.umd.cjs",
+  "module": "./dist/index.js",
+  "main": "./dist/index.umd.cjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/motto-helpers.js",
-      "require": "./dist/motto-helpers.umd.cjs",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
     }
   },
   "scripts": {
@@ -136,13 +129,6 @@ _./helpers/motto-helpers/package.json_
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch  --preserveWatchOutput"
   },
-
-```
-
-Delete the `package-lock.json` file to force `npm` to create a new one:
-
-```bash
-rm package-lock.json
 
 ```
 
@@ -244,13 +230,7 @@ npm install
 Every app will have the `house-helpers` and `motto-helpers` projects as dependencies. Let's install them using the workspace:
 
 ```bash
-npm install @my-org/house-helpers @my-org/motto-helpers -w @my-org/house-baratheon
-
-npm install @my-org/house-helpers @my-org/motto-helpers -w @my-org/house-lannister
-
-npm install @my-org/house-helpers @my-org/motto-helpers -w @my-org/house-stark
-
-npm install @my-org/house-helpers @my-org/motto-helpers -w @my-org/house-targaryen
+npm install @my-org/house-helpers @my-org/motto-helpers -w @my-org/house-baratheon -w @my-org/house-lannister -w @my-org/house-stark -w @my-org/house-targaryen
 
 ```
 
@@ -278,7 +258,7 @@ export default App;
 
 ```
 
-> NOTE: Rest app projects are updated.
+> NOTE: The rest app projects are updated.
 
 If we want to run all the projects at the same time, [npm has some flags](https://docs.npmjs.com/cli/v7/using-npm/workspaces#ignoring-missing-scripts) to run multiple workspaces commands at the same time:
 
@@ -288,6 +268,15 @@ npm start --workspaces --if-present
 ```
 
 > But it doesn't work with watch mode because it blocks the execution on the first project.
+
+Another option is to run the commands in parallel using the `&` operator:
+
+```bash
+npm start -w @my-org/house-stark & npm start -w @my-org/house-targaryen
+
+```
+
+> But it doesn't work if put it in the `package.json` > `scripts` fiel on windows because it using the `cmd` shell by default and it doesn't support the `&` operator.
 
 Let's install a third party library [npm-run-all](https://www.npmjs.com/package/npm-run-all) to run commands in parallel:
 

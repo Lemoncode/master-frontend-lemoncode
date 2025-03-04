@@ -2,20 +2,21 @@
   "name": "@my-org/motto-helpers",
   "version": "1.0.0",
   "private": false,
+  "sideEffects": false,
   "author": "Lemoncode",
   "license": "MIT",
   "files": [
     "dist"
   ],
   "type": "module",
-  "module": "./dist/motto-helpers.js",
-  "main": "./dist/motto-helpers.umd.cjs",
+  "module": "./dist/index.js",
+  "main": "./dist/index.umd.cjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/motto-helpers.js",
-      "require": "./dist/motto-helpers.umd.cjs",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
     }
   },
   "scripts": {

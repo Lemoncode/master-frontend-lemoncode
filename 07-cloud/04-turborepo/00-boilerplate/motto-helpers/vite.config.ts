@@ -7,6 +7,7 @@ export default defineConfig({
     lib: {
       entry: "src/index.ts",
       name: "MottoHelpers",
+      fileName: "index",
     },
   },
 });

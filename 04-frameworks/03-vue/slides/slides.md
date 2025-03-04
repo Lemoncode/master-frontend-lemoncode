@@ -15,14 +15,6 @@ class: text-center
 
 # Bienvenid@s a <carbon-logo-vue /> Vue.js!
 
-(y <logos-nuxt-icon /> Nuxt)
-
-<v-clicks>
-
-(y 🤖 IA)
-
-</v-clicks>
-
 🖖
 
 ---
@@ -35,11 +27,11 @@ class: grid
 
 <div class="my-auto">
 
-<h3 class="text-green-400">Web Engineer | Instructor</h3>
+<h3 class="text-green-400 mb-3">Web Engineer | Vue.js Instructor</h3>
 
-- @paul_melero
-- paulmelero@gmail.com
-- https://graficos.net
+- <logos-bluesky />&nbsp;[@gnet.click](https://bsky.app/profile/gnet.click)
+- 📩&nbsp;&nbsp;paulmelero@gmail.com
+- 🌐&nbsp;&nbsp;https://graficos.net
 
 </div>
 
@@ -75,11 +67,11 @@ layout: quote
 
 <v-clicks>
 
-- Reactividad: Reactive Data Binding
-- Components: Component-based Architecture
+- **Reactividad**: Reactive Data Binding
+- **Componentes**: Component-based Architecture
+- **Tooling**: Vite, Vue CLI, Vue Devtools, Vue Router, Pinia...
+- **Meta-framework**: <logos-nuxt-icon /> Nuxt
 - Lenguaje dedicado (_domain-specific language (DSL)_)
-- Tooling: Vite, Vue CLI, Vue Devtools, Vue Router, Vuex, Pinia...
-- Meta-framework: <logos-nuxt-icon /> Nuxt
 
 </v-clicks>
 
@@ -107,7 +99,179 @@ layout: quote
 layout: section
 ---
 
-# Ecosistema
+# Diferencias con otros frameworks
+
+---
+layout: two-cols
+layoutClass: custom-top
+title: Tablas de Diferencias
+---
+
+# Vue.js <carbon-arrows-horizontal /> React
+
+<table><tbody><tr><td>
+<b style="color: var(--slidev-theme-primary)">Vue</b>
+</td><td>
+<b style="color: rgb(88 196 220/1)">React</b>
+</td></tr>
+<tr><td>
+Reactividad
+</td><td>
+APIs Declarativas
+</td></tr>
+<tr><td>
+Two way data binding
+</td><td>
+One way data flow
+</td></tr>
+<tr><td>
+SFC
+</td><td>
+JSX
+</td></tr>
+<tr><td>
+Javascript en HTML
+</td><td>
+CSS y HTML en JS
+</td></tr>
+<tr><td>
+Vuex/Pinia
+</td><td>
+Context API u otras lib
+</td></tr>
+<tr><td>
+Vite
+</td><td>
+CRA / Next.js
+</td></tr>
+<tr><td>
+No muy adecuado para Mobile (Vue Native)
+</td><td>
+React Native / Expo
+</td></tr>
+</tbody>
+</table>
+
+::right::
+
+
+# Vue.js <carbon-arrows-horizontal /> Angular
+
+<table><tbody><tr><td>
+<b style="color: var(--slidev-theme-primary)">Vue</b>
+</td><td>
+<b style="color: rgb(220 88 88/1)">Angular</b>
+</td></tr>
+<tr><td>
+Reactividad
+</td><td>
+RxJS
+</td></tr>
+<tr><td>
+SFC
+</td><td>
+Componentes/Modulos
+</td></tr>
+<tr><td>
+Vuex/Pinia
+</td><td>
+NgRx/Services
+</td></tr>
+<tr><td>
+Vite
+</td><td>
+Vite
+</td></tr>
+<tr><td>
+Apto para pequeños proyectos
+</td><td>
+Aplicaciones grandes
+</td></tr>
+</tbody>
+</table>
+
+---
+layout: section
+---
+
+# Similitudes con otros frameworks
+
+---
+layout: two-cols
+layoutClass: custom-top
+title: Listas de Similitudes
+---
+
+# Vue.js <carbon-arrows-horizontal /> React
+
+<v-clicks>
+
+- **Componentes** (reutilizables)
+- **Virtual DOM**
+- Librería o Framework
+- Velocidad/Performance
+- Escalabilidad
+- Meta-frameworks: **Nuxt**, **Next.js**
+- Diferentes modos de renderizado: **SPA**, **SSR**, **SSG**
+- **TypeScript** (opcional)
+- **Testing** (Jest, Vitest, Testing Library)
+- **PWA** (Progressive Web Apps)
+- **Licencia** MIT
+
+</v-clicks>
+
+::right::
+
+# Vue.js <carbon-arrows-horizontal /> Angular
+
+<v-clicks>
+
+- **Componentes** (reutilizables)
+- **Reactividad**: Two way data binding
+- **Directivas**: JS en HTML
+- Diferentes modos de renderizado: **SPA**, **SSR**
+- **TypeScript** (opcional en Vue)
+- **Testing** (Jest, Vitest, Testing Library)
+- **PWA** (Progressive Web Apps)
+- **Licencia** MIT
+
+</v-clicks>
+
+
+---
+layout: quote
+---
+
+# Números
+
+---
+layout: image
+title: Números
+image: /numbers.png
+backgroundSize: contain
+---
+
+<!-- Dar opinión sobre empleabilidad -->
+
+---
+layout: center
+---
+
+# Consejo Personal
+
+<v-clicks>
+
+- 📚 Mi consejo es que aprendáis a usar todos los frameworks del Máster. (Al menos, 2.)
+- 🚀 Para la empleabilidad, muchas veces se valora el esfuerzo y las ganas de aprender.
+- 😉 Pero, si os gusta uno en concreto, especializaos en él.
+
+</v-clicks>
+
+---
+layout: section
+---
+
+# Ecosistema de Vue.js
 
 https://vuejs.org/guide/extras/ways-of-using-vue
 
@@ -119,19 +283,6 @@ title: Diagrama Ecosistema
 ---
 
 <!-- Por cierto, estos slides están hechos con Vue!  -->
-
----
-layout: section
----
-
-# Números
-
----
-layout: image
-title: Números
-image: /numbers.png
-backgroundSize: contain
----
 
 
 ---
@@ -175,65 +326,169 @@ layout: section
 
 
 ---
-layout: two-cols-header
+layout: section
 ---
 
-# ¿Qué necesitamos?
+# Qué es la **Reactividad**?
 
-### Herramientas
+---
+layout: center
+title: Reactividad (video)
+---
 
-::left::
-<v-clicks depth="2">
-
-- Editor
-  - (**VSCode**)
-  - Extensiones: `Prettier`, `ESLint`
-- Extensión `Vue - Official` (para VSCode)
-- Gestor de paquetes (npm/**pnpm**/yarn)
-  - `pnpm`
-- Vue DevTools
-</v-clicks>
-
-::right::
-
-<div class="relative">
-  <div class="absolute translate-y-[-50%] max-h-md overflow-hidden" v-click=[2,3]>
-    <img src="/vscode.png" class="mb-5" />
-    <a href="https://code.visualstudio.com/docs/nodejs/vuejs-tutorial"><em>Using Vue in Visual Studio Code</em></a>
-  </div>
-
-  <div class="absolute translate-y-[-50%] max-h-md overflow-hidden" v-click=[3,4]>
-    <img src="/eslintprettier.png" />
-    <a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">Prettier</a>
-    <a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">ESLint</a>
-  </div>
-
-  <div class="absolute translate-y-[-50%] max-h-md overflow-hidden" v-click=[4,5]>
-    <img src="/vue-extension.png" />
-    <a href="https://marketplace.visualstudio.com/items?itemName=Vue.volar">(antes llamada "Volar")</a>
-  </div>
-
-  <div class="absolute translate-y-[-50%] max-h-md overflow-hidden" v-click=[6,7]>
-    <img src="/pnpm-logo.png" />
-    <a href="https://pnpm.io/"><code>pnpm</code></a>
-  </div>
-
-  <div class="absolute translate-y-[-50%] max-h-md overflow-hidden" v-click=[7,8,9,10,11,12]>
-    <img src="/devtools.png" />
-    <a href="https://devtools.vuejs.org/">Vue Devtools</a>
-  </div>
-</div>
+<video src="/reactividad.mp4" autoplay loop controls class="m-auto" />
 
 ---
 layout: section
 ---
 
-## Introducción a la sintaxis de Vue.js
+# Reactividad en Vue
 
-<!-- image centered -->
-<div class="text-center mt-10">
-  <img src="/catlemon.gif" class="m-auto" />
-</div>
+---
+layout: center
+---
+
+# Objetos
+
+```ts{all|1|3|1-5|all}
+const obj = { count: 0 }
+
+console.log(obj.count) // 0
+
+obj.count = 1
+
+console.log(obj.count) // 1
+```
+
+---
+layout: center
+---
+
+# Getters y Setters
+
+```ts{all|1-9|3,6|3,11|6,13|all}
+const obj = {
+  _count: 0,
+  get count() {
+    return this._count
+  },
+  set count(value) {
+    this._count = value
+  }
+}
+
+console.log(obj.count) // 0
+
+obj.count = 1
+
+console.log(obj.count) // 1
+```
+
+---
+layout: center
+---
+
+# Getters y Setters (+ transfomación)
+
+```ts{all|4|2,3-5,11|2,3-5,13,15|all}
+const obj = {
+  _count: 0,
+  get count() {
+    return BigInt(this._count)
+  },
+  set count(value) {
+    this._count = value
+  }
+}
+
+console.log(obj.count) // 0n
+
+obj.count = 1
+
+console.log(obj.count) // 1n
+```
+
+---
+layout: center
+---
+
+# JS Proxies
+
+```ts{all}
+const obj = { count: 0 }
+
+const proxiedObj = new Proxy(obj, {
+  get(target, prop) {
+    return target[prop]
+  },
+  set(target, prop, value) {
+    target[prop] = value
+  }
+})
+```
+---
+layout: center
+---
+
+# JS Proxies (+ transfomación o _side effects_)
+
+```ts{all|1-3|4,8|5,9|9,14|15|all}
+const obj = { count: 0 }
+
+const proxiedObj = new Proxy(obj, {
+  get(target, prop) {
+    console.log(`Getting ${prop}`)
+    return target[prop]
+  },
+  set(target, prop, value) {
+    console.log(`Setting ${prop} to ${value}`)
+    target[prop] = value
+  }
+})
+
+proxiedObj.count = 1
+// > "Setting count to 1"
+```
+
+---
+layout: center
+---
+
+# Cómo funciona la **Reactividad** en Vue?
+
+```ts{all|5,9|9,14-15|5,17-19|all}
+const obj = { count: 0 }
+
+const ref = new Proxy(obj, {
+  get(target, prop) {
+    track(target, prop)
+    return target[prop]
+  },
+  set(target, prop, value) {
+    trigger(target, prop)
+    target[prop] = value
+  }
+})
+
+ref.count = 1
+// triggers reactivity
+
+console.log(ref.count)
+// también triggers reactivity
+// > 1
+```
+
+---
+layout: statement
+---
+
+# Sintaxis
+
+---
+layout: section
+---
+
+# `MyComponent.vue`
 
 ---
 layout: two-cols
@@ -275,6 +530,7 @@ h1 {
   - Otras opciones: `lang="ts"`, `lang="scss"`
 - En `template` no es necesario que haya 1 sólo elemento raíz.
 - <span v-mark="{ type:'circle', color: '#008f53' }">`script setup`</span> (recomendado)
+
 </v-clicks>
 
 
@@ -327,11 +583,21 @@ const MyComponent = {
 
 
 ---
-layout: two-cols
+layout: default
+title: ❌ Sintaxis de "Options API"
 ---
+<v-switch>
 
-## ❌ Sintaxis de "Options API"
+<template #0-7>
+  <h1>❌ Sintaxis de "Options API" 🧑🏽‍🦳</h1>
+</template>
+<template #7>
+  <h1>✅ Sintaxis de "Composition API" 🧑🏽</h1>
+</template>
 
+</v-switch>
+
+````md magic-move{at:1}
 ```vue {all|2,22|4|9|14|19|all}
 <script>
 export default {
@@ -357,13 +623,59 @@ export default {
 }
 </script>
 ```
+```vue
+<script setup>
+import { ref, computed } from 'vue'
+
+defineOptions({
+  name: 'MyComponent'
+})
+
+const msg = ref('Hello Vue!')
+
+const reversedMsg = computed(() => msg.value.split('').reverse().join(''))
+
+const reverseMsg = () => msg.value = reversedMsg.value
+
+console.log('Component created')
+</script>
+```
+````
+
+
+<!-- **No es la forma recomendada** de escribir componentes de Vue desde la "Composition API" (`script setup` o `setup` _function_). -->
+
+
+---
+layout: quote
+---
+
+# Interpolación
+
+---
+layout: two-cols
+---
+
+# Interpolación
+
+```vue {all|2|all}
+<template>
+  <h1>{{ msg }}</h1>
+</template>
+```
 
 ::right::
 
-- **No es la forma recomendada** de escribir componentes de Vue desde la "Composition API" (`script setup` o `setup` _function_).
+<v-clicks>
+
+- `{{ msg }}` es una expresión de Vue.
+- Se evalúa y se muestra en el DOM.
+- Se actualiza automáticamente si `msg` cambia.
+
+</v-clicks>
 
 ---
-layout: section
+layout: quote
 ---
 
 # Directivas
@@ -386,7 +698,7 @@ const seen = true
 
 ::right::
 
-### `v-if`
+## `v-if`
 
 ---
 layout: two-cols
@@ -394,7 +706,7 @@ layout: two-cols
 
 # Loops
 
-```vue {all|2-5|11-12|14|3,4,14|all}
+```vue {all|2-5|11-12|11,14|3,4,11,14|all}
 <script setup>
 const todos = [
   { text: 'Learn Vue' },
@@ -428,10 +740,16 @@ const todos = [
 </v-clicks>
 
 ---
+layout: quote
+---
+
+# Manejando Eventos
+
+---
 layout: two-cols
 ---
 
-# Eventos
+# Eventos (interacción)
 
 ```vue {all|2,3|5,6|8,9|11,12|16,17|all}
 <template>
@@ -459,13 +777,26 @@ function onEnter(event) { /* ... */ }
 
 ### `v-on:` (alias de `@`)
 
+<v-clicks depth="2">
+
+- `v-on:click="doThis"`
+  - o <span v-mark="{ at: 8, type:'underline', color: '#008f53' }">`@click="doThis"`</span>
+  - o `v-on:click="doThis($event)"`
+  - o `@click="doThis($event)"`
+  - o `@click="$event => doThis($event)"`
+- El evento se pasa automáticamente como argumento a la función.
+- Se pueden usar modificadores de teclado (`.enter`, `.ctrl`, `.shift`, `.alt`, `.meta`).
+- También se pueden usar keyCodes (`.keyCode`). [Más info](https://vuejs.org/guide/essentials/event-handling.html#key-modifiers)
+
+</v-clicks>
+
 ---
 layout: two-cols
 ---
 
 # Custom events
 
-#### Componente Hijo:
+#### Componente Hijo: (`MyChild.vue`)
 
 ```vue {all|2-4,12|all}
 <template>
@@ -476,18 +807,18 @@ layout: two-cols
 
 <script setup>
 defineOptions({
-  name: 'MyComponent'
+  name: 'MyChild'
 })
 
 const emit = defineEmits(['my-event'])
 </script>
 ```
 
-#### Componente Padre:
+#### Componente Padre: (`Parent.vue`)
 
 ```vue
 <template>
-  <MyComponent @my-event="onMyEvent" />
+  <MyChild @my-event="onMyEvent" />
 </template>
 ```
 
@@ -503,7 +834,7 @@ const emit = defineEmits(['my-event'])
 </v-clicks>
 
 ---
-layout: section
+layout: quote
 ---
 
 # Props
@@ -550,7 +881,7 @@ const msg = ref('My value')
 
 
 ---
-layout: section
+layout: quote
 ---
 
 # Two-way data binding
@@ -579,10 +910,11 @@ const msg = ref('World! 🔥🔥')
 layout: two-cols-header
 ---
 
-# Two-way data binding
-## `v-model`
+# Two-way data binding (`v-model`)
 
 - es un shortcut de <span v-mark="{ type:'underline', color: '#008f53' }">`:value` + `@input`</span>.
+
+<br />
 
 ````md magic-move
 ```vue {all|4,8,9|9|2-4|all}
@@ -613,7 +945,7 @@ const msg = ref('World! 🔥🔥')
 
 
 ---
-layout: section
+layout: quote
 ---
 
 # Slots
@@ -711,6 +1043,21 @@ import PageLayout from './PageLayout.vue'
 - Se pasan como contenido al componente padre con `<template #slotName>`.
   - Para el slot `default`, se puede omitir `<template>`.
 </v-clicks>
+
+---
+layout: image
+title: Slots
+image: /slots.png
+backgroundSize: contain
+transition: fade
+---
+
+---
+layout: image
+title: Named Slots
+image: /named-slots.png
+backgroundSize: contain
+---
 
 ---
 layout: section
@@ -848,6 +1195,12 @@ const props = defineProps({
 ````
 
 ---
+layout: quote
+---
+
+# Reactivity API: Core
+
+---
 layout: two-cols-header
 ---
 
@@ -894,42 +1247,6 @@ console.log(reversedTodos.value, reversedMsg.value) // `.value` para acceder al 
 layout: two-cols
 ---
 
-# Lifecycle Hooks
-
-```vue
-<script setup>
-import { onMounted, onUnmounted } from 'vue'
-
-onMounted(() => {
-  console.log('mounted')
-})
-
-onUnmounted(() => {
-  console.log('unmounted')
-})
-</script>
-```
-
-::right::
-
-- `onMounted()`
-- `onUpdated()`
-- `onUnmounted()`
-- `onBeforeMount()`
-- `onBeforeUpdate()`
-- `onBeforeUnmount()`
-- `onErrorCaptured()`
-- `onRenderTracked()`
-- `onRenderTriggered()`
-- `onActivated()`
-- `onDeactivated()`
-- `onServerPrefetch()`
-
-
----
-layout: two-cols
----
-
 # `watch` y `watchEffect`
 
 ```vue {all|5-8|9-12|all}
@@ -960,109 +1277,120 @@ watchEffect(() => {
 </v-clicks>
 
 ---
+layout: quote
+---
+
+# Lifecycle Hooks
+
+---
+layout: two-cols
+title: Lifecycle Hooks
+---
+
+<v-clicks depth="2">
+
+- 🧬 Lifecycle Hooks (en orden):
+  - `onBeforeMount()`
+  - `onMounted()`
+  - `onBeforeUpdate()`
+  - `onUpdated()`
+  - `onBeforeUnmount()`
+  - `onUnmounted()`
+
+- 🦆 Debug Hooks:
+  - `onErrorCaptured()`
+  - `onRenderTracked()`
+  - `onRenderTriggered()`
+
+</v-clicks>
+
+::right::
+
+<v-clicks depth="2">
+
+- 🥀 `<KeepAlive>` Hooks:
+  - `onActivated()`
+  - `onDeactivated()`
+
+- 🛜 SSR Hook:
+  - `onServerPrefetch()`
+
+</v-clicks>
+
+
+---
 layout: image
 image: /mhm.gif
 title: Homer
 ---
 
 ---
-layout: section
+layout: statement
 ---
 
-# <logos-nuxt-icon /> Nuxt
-
----
-layout: hero-image
-image: /nuxt.png
----
-
-### ¿Qué es Nuxt?
-
-Es un framework que nos facilita la creación de aplicaciones modernas de Vue.js.
-
-https://nuxt.com/
-
----
-layout: quote
----
-
-# <logos-nuxt-icon /> Características principales
-
-<v-clicks depth="2">
-
-- Diferentes modos de renderizado:
-  - SSR (Server Side Rendering)
-  - Generación de sitios estáticos (SSG, JAMStack)
-  - SPA (Single Page Application)
-  - Híbrido (SSR + SPA)
-  - Islas (Componentes que se renderizan en el servidor y no son interactivos)
-- File-based routes: Rutas dinámicas y anidadas
-- Vite (servidor de desarrollo y bundler)
-  - Code-splitting
-  - Hot Module Reloading
-- Backend (APIs) integrado
-- TypeScript
-
-</v-clicks>
+# Parte práctica
 
 ---
 layout: two-cols-header
 ---
 
+# ¿Qué necesitamos?
 
-# <logos-nuxt-icon /> Configuración de carpetas
+### Herramientas
 
 ::left::
+<v-clicks depth="2">
 
-Al crear un proyecto con Nuxt, se crean los siguientes archivos:
-
-![Nuxt folders](/nuxt-inicio.png)
-
-
+- Editor
+  - (**VSCode**)
+  - Extensiones: `Prettier`, `ESLint`
+  - Extensión `Vue - Official` (para VSCode)
+- Gestor de paquetes (npm/**pnpm**/yarn)
+  - `pnpm`
+- Vue DevTools
+</v-clicks>
 
 ::right::
 
-<v-clicks>
+<div class="relative">
+  <div class="absolute translate-y-[-50%] max-h-md overflow-hidden" v-click=[2,3]>
+    <img src="/vscode.png" class="mb-5" />
+    <a href="https://code.visualstudio.com/docs/nodejs/vuejs-tutorial"><em>Using Vue in Visual Studio Code</em></a>
+  </div>
 
-- Pero terminaremos con algo así:
+  <div class="absolute translate-y-[-50%] max-h-md overflow-hidden" v-click=[3,4]>
+    <img src="/eslintprettier.png" />
+    <a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">Prettier</a>
+    <a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">ESLint</a>
+  </div>
 
-![Nuxt folders](/nuxt-completo.png)
+  <div class="absolute translate-y-[-50%] max-h-md overflow-hidden" v-click=[4,5]>
+    <img src="/vue-extension.png" />
+    <a href="https://marketplace.visualstudio.com/items?itemName=Vue.volar">(antes llamada "Volar")</a>
+  </div>
 
-</v-clicks>
+  <div class="absolute translate-y-[-50%] max-h-md overflow-hidden" v-click=[6,7]>
+    <img src="/pnpm-logo.png" />
+    <a href="https://pnpm.io/"><code>pnpm</code></a>
+  </div>
+
+  <div class="absolute translate-y-[-50%] max-h-md overflow-hidden" v-click=[7,8,9,10,11,12]>
+    <img src="/devtools.png" />
+    <a href="https://devtools.vuejs.org/">Vue Devtools</a>
+  </div>
+</div>
+
 
 ---
-layout: two-cols-header
----
-
-# <logos-nuxt-icon /> Bootstrapping
-
-::left::
-
-
-```bash
-pnpm dlx nuxi@latest init <project-name>
-```
-
-```bash
-❯ Which package manager would you like to use
-  pnpm
-❯ Initialize git repository?
-  Yes
-```
-
----
-layout: section
+layout: hero-image
+image: /teclado.gif
 class: text-center
 ---
 
 # A los teclados!
 
-<!-- image centered -->
-<div class="text-center">
-  <img src="/lemonade.gif" class="m-auto object-contain max-h-sm" />
-</div>
 
-
+<!-- Fin de la sesión I -->
 
 ---
 layout: custom-cover
@@ -1071,7 +1399,7 @@ background: vue-sticker.jpg
 
 # <logos-vue /> Vue - II
 
-## 🌈 Vuenas tardes! 🌈
+## 🌈 Vuenas tardes a tod@s! 🌈
 
 ---
 layout: quote
@@ -1079,13 +1407,7 @@ layout: quote
 
 # Agenda
 
-- Continuamos con el código
-  - Estilos
-  - Chat
-  - OpenAI
-
 - Composition API
-- Refactor con Composables
 
 
 ---
@@ -1216,13 +1538,8 @@ layout: quote
 
 # Agenda
 
-- Continuamos con el código
-  - Open AI
-  - Chat
-
+- onMounted, watchers, etc.
 - Testing
-
-- Extra: definePageMeta, useSeoMeta, onMounted, watchers, etc.
 
 
 ---

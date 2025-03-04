@@ -3,3 +3,18 @@
 [layout="image-left"] > div {
   background-size: contain !important;
 }
+
+.slidev-layout:not(.custom-top).two-cols-header,
+.slidev-layout:not(.custom-top).two-columns {
+  .col-left,
+  .col-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-inline-start: 1rem;
+  }
+}
+
+table {
+  font-size: 0.8em;
+}

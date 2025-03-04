@@ -314,7 +314,7 @@ const msg = ref('World! 🔥🔥')
 
 
 ---
-layout: section
+layout: statement
 ---
 
 # ¿List@s para Empezar?
@@ -1317,12 +1317,252 @@ title: Lifecycle Hooks
 
 </v-clicks>
 
-
 ---
 layout: image
 image: /mhm.gif
 title: Homer
 ---
+
+---
+layout: section
+---
+
+# Estilos: `class` y `style`
+
+---
+layout: quote
+---
+
+# Clases dinámicas
+
+---
+layout: two-cols
+---
+
+# Clases dinámicas (condicionales)
+
+```vue{all|2|2,6|all}
+<template>
+  <div :class="{ active: isActive }"></div>
+</template>
+
+<script setup>
+const isActive = ref(true)
+</script>
+```
+
+::right::
+
+### `:class` (Object syntax)
+
+<v-clicks>
+
+- (alias de`v-bind:class`)
+- Se le pasa un objecto `:class="{ className: condition }"`
+- En este caso: La clase `'active'` se añade si `isActive` es `true`.
+
+</v-clicks>
+
+
+---
+layout: two-cols
+---
+
+# Clases dinámicas (composición)
+
+```vue{all|2|2,6-7|all}
+<template>
+  <div :class="[class1, class2]"></div>
+</template>
+
+<script setup>
+const class1 = 'active'
+const class2 = ref('text-red bg-blue')
+</script>
+```
+
+::right::
+
+### `:class` (Array syntax)
+
+<v-clicks>
+
+- (alias de`v-bind:class`)
+- Se le pasa un array `:class="[class1, class2]"`
+- En este caso: Se añaden las clases `'active'`, `'text-red'` y `'bg-blue'`.
+
+</v-clicks>
+
+---
+layout: two-cols
+---
+
+# Clases dinámicas (mezcla)
+
+```vue{all|2-5|2-5,9-10|all}
+<template>
+  <div :class="[
+    class1,
+    { active: isActive }
+  ]"></div>
+</template>
+
+<script setup>
+const class1 = 'text-red'
+const isActive = ref(true)
+</script>
+```
+
+::right::
+
+### `:class` (Combining syntaxes)
+
+<v-clicks>
+
+- (alias de`v-bind:class`)
+- Se le pasa un array que puede contener objetos `:class="[class1, { active: isActive }]"`
+- En este caso: Se añaden las clases `'active'` y `'text-red'`.
+
+</v-clicks>
+
+---
+layout: quote
+---
+
+# Estilos en línea
+
+---
+layout: two-cols
+---
+
+# Estilos en línea
+
+```vue{all|2|2,6|all}
+<template>
+  <div :style="{ backgroundColor: bgColor }"></div>
+</template>
+
+<script setup>
+const bgColor = ref('red')
+</script>
+```
+
+::right::
+
+### `:style`
+
+<v-clicks depth="2">
+
+- (alias de`v-bind:style`)
+- Se le pasa un objecto `:style="{ styleName: value }"`
+  - Los nombres de las propiedades son "camelCase", como en <logos-javascript /> JS.
+- En este caso: El fondo del elemento será rojo.
+
+</v-clicks>
+
+---
+layout: quote
+---
+
+# Scoped Styles
+
+---
+layout: two-cols
+---
+
+# Bloque de estilo en los componentes
+
+```vue{all|5|2,5-9|all}
+<template>
+  <div>Ejemplo</div>
+</template>
+
+<style scoped>
+div {
+  background-color: red;
+}
+</style>
+```
+
+::right::
+
+### `scoped`
+
+<v-clicks>
+
+- Si añade el atributo `scoped` al bloque de estilos, los estilos se aplican solo al componente actual.
+
+```vue
+<style>
+/* global styles: leaking */
+</style>
+
+<style scoped>
+/* local styles: contained */
+</style>
+```
+
+</v-clicks>
+
+
+---
+layout: quote
+---
+
+# <logos-css-3 /> Estilos Globales
+
+---
+layout: two-cols
+transition: fade
+---
+
+# Estilos Globales (JS/TS)
+
+## Opción 1: <logos-typescript-icon /> `import`
+
+```ts{all}
+// main.ts
+import { createApp } from 'vue'
+import App from './App.vue'
+// 👇🏽 Importamos los estilos globales
+// Vite se encarga de importarlos en el HTML
+import './styles.css'
+
+createApp(App).mount('#app')
+```
+---
+layout: two-cols
+---
+
+# Estilos Globales (HTML)
+
+## Opción 2: <logos-html-5 /> `link` o `<style>`
+
+```html{all}
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+      /* global styles */
+    </style>
+    <title>Vue App</title>
+  </head>
+    <!-- ... -->
+```
+
+::right::
+
+<v-clicks>
+
+- Normalmente, se importan en el `main.ts` o en el `index.html`.
+- Se pueden importar como un módulo JS o como un archivo CSS normal.
+
+</v-clicks>
+
 
 ---
 layout: statement

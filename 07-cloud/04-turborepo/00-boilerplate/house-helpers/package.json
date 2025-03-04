@@ -8,6 +8,6 @@
   "type": "module",
   "main": "src/index.ts",
   "devDependencies": {
-    "typescript": "^5.4.2"
+    "typescript": "^5.8.2"
   }
 }

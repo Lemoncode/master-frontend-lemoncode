@@ -30,11 +30,9 @@ git push -u origin main
 This time we will install a third party library to help us with the monorepo package management, [changesets](https://github.com/changesets/changesets) is a tool to manage versioning and changelogs with a focus on multi-package repositories but you can use it in single package repositories too:
 
 ```bash
-npm install @changesets/cli @changesets/changelog-github --save-dev
+npm install @changesets/cli --save-dev
 
 ```
-
-> Also, we will install `@changesets/changelog-github` to be used in a Github workflow
 
 Create `changesets` config:
 
@@ -43,20 +41,16 @@ npx changeset init
 
 ```
 
-> Another valid command `node_modules/.bin/changeset init`
+> We can delete the `.changeset/README.md` file.
 
 The command above will create a `.changeset` folder with a `config.js` file:
 
 _./.changeset/config.js_
 
-```diff
+```json
 {
-  "$schema": "https://unpkg.com/@changesets/config@2.3.1/schema.json",
-- "changelog": "@changesets/cli/changelog",
-+ "changelog": [
-+   "@changesets/changelog-github",
-+   { "repo": "<user-name>/<repository-name>" }
-+ ],
+  "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
+  "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
   "linked": [],
@@ -68,7 +62,7 @@ _./.changeset/config.js_
 
 ```
 
-> `changelog`: We will use `@changesets/changelog-github` to generate a changelog file in the Github workflow
+> Notice that we will publish the packages as private packages, so we need to set the `access` field to `restricted` (it will publish the packages as private packages in the npm registry).
 >
 > More info about [changeset config file](https://github.com/changesets/changesets/blob/main/docs/config-file-options.md#changelog-false-or-a-path)
 
@@ -80,7 +74,7 @@ _./package.json_
 {
   ...
   "scripts": {
-    "start": "turbo start type-check:watch",
+    "start": "turbo watch start",
     "build": "turbo build",
 +   "changeset": "changeset",
 +   "publish-packages": "changeset publish"
@@ -136,9 +130,8 @@ permissions:
 +      - name: Setup Node.js
 +        uses: actions/setup-node@v4
 +        with:
-+          node-version: "20.x"
++          node-version: "22.x"
 +          registry-url: "https://npm.pkg.github.com"
-+          always-auth: true
 +          scope: "@${{ github.repository_owner }}"
 
 +      - name: Install
@@ -168,6 +161,8 @@ permissions:
 > [More info about github context variables](https://docs.github.com/en/actions/learn-github-actions/contexts#github-context)
 >
 > [changesets/action](https://github.com/changesets/action)
+>
+> [Random npm bug with optional deps](https://github.com/npm/cli/issues/4828). Temporal solution: `rm -rf node_modules package-lock.json && npm install`
 
 Reset packages versions to `0.0.0`:
 
@@ -175,7 +170,8 @@ _./helpers/house-helpers/package.json_
 
 ```diff
 {
-  "name": "@<user-name>/house-helpers",
+- "name": "@my-org/motto-helpers",
++ "name": "@<user-name>/house-helpers",
 - "version": "1.0.0",
 + "version": "0.0.0",
 ...
@@ -339,6 +335,8 @@ git push
 
 ```
 
+> Ensure that you don't have any package published in the Github npm registry with the same name, otherwise, it will fail with 403 error.
+
 The first time, if there are no changesets and no version of any package is published, the workflow will publish the versions of all packages (which have `private` field set to false).
 
 ![02-published-tags-and-packages](./readme-resources/02-published-tags-and-packages.png)
@@ -380,6 +378,8 @@ npm run changeset
 
 ```
 
+> Remove version in apps if you don't want to see them in the menu.
+>
 > `Package to include`: Select only the `house-helpers` package with `space` and press `enter` to continue.
 >
 > `major`: Press `enter` without select any package to continue.

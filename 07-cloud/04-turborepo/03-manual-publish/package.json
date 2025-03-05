@@ -5,11 +5,12 @@
     "helpers/*",
     "apps/*"
   ],
+  "packageManager": "npm@10.0.0",
   "scripts": {
-    "start": "turbo start type-check:watch",
+    "start": "turbo watch start",
     "build": "turbo build"
   },
   "devDependencies": {
-    "turbo": "^1.12.5"
+    "turbo": "^2.4.4"
   }
 }

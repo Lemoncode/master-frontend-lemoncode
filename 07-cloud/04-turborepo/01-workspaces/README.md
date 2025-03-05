@@ -124,10 +124,8 @@ _./helpers/motto-helpers/package.json_
     }
   },
   "scripts": {
-    "start": "run-p -l type-check:watch \"build -- --watch\"",
     "build": "npm run type-check && vite build",
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --watch  --preserveWatchOutput"
+    "type-check": "tsc --noEmit"
   },
 
 ```
@@ -162,7 +160,7 @@ export const getHouseMotto = (house: House): string => MOTTOS[house];
 Everything seems to be working fine, including the typings. Let's run it locally:
 
 ```bash
-npm run start -w @my-org/motto-helpers
+npm run build -w @my-org/motto-helpers
 
 ```
 
@@ -299,7 +297,6 @@ _./package.json_
   ],
 + "scripts": {
 +   "start": "run-p start:*",
-+   "start:motto-helpers": "npm start -w @my-org/motto-helpers",
 +   "start:stark": "npm start -w @my-org/house-stark",
 +   "start:targaryen": "npm start -w @my-org/house-targaryen",
 +   "start:lannister": "npm start -w @my-org/house-lannister",
@@ -316,7 +313,7 @@ npm start
 
 ```
 
-> Add some updates in `motto-helpers` and `house-helpers` to check the watch mode.
+> If we add some updates in `motto-helpers` we cannot see the changes in the web apps because the `npm start` command doesn't watch the changes in the `motto-helpers` project.
 
 # About Basefactor + Lemoncode
 

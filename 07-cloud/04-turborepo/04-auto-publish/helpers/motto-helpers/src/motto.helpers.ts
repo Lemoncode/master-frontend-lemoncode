@@ -1,4 +1,4 @@
-import { House } from "@<user-name>/house-helpers";
+import { House } from "@nasdan/house-helpers";
 
 const MOTTOS: Record<House, string> = {
   stark: "Winter is Coming!",

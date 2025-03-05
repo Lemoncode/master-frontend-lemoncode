@@ -15,7 +15,7 @@ npm install
 Let's replace `npm-run-all` by `turborepo`:
 
 ```bash
-npm uninstall npm-run-all --save-dev
+npm uninstall npm-run-all
 
 npm install turbo --save-dev
 
@@ -30,7 +30,7 @@ _./turbo.json_
 ```json
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "start": {
       "cache": false,
       "persistent": true
@@ -52,6 +52,7 @@ _./package.json_
 
 ```diff
 ...
++ "packageManager": "npm@10.0.0",
   "scripts": {
 -   "start": "run-p start:*",
 +   "start": "turbo start"
@@ -63,6 +64,8 @@ _./package.json_
   },
 ...
 ```
+
+> [Add a packageManager](https://turbo.build/repo/docs/getting-started/add-to-existing-repository#add-a-packagemanager-field-to-root-packagejson)
 
 Run it:
 
@@ -78,7 +81,7 @@ _./turbo.json_
 ```diff
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "start": {
       "cache": false,
       "persistent": true
@@ -114,14 +117,25 @@ _./helpers/motto-helpers/package.json_
 ```diff
 ...
   "scripts": {
-    "start": "run-p -l type-check:watch \"build -- --watch\"",
 -   "build": "npm run type-check && vite build",
 +   "build": "vite build",
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --watch --preserveWatchOutput"
+    "type-check": "tsc --noEmit"
   },
 ...
 ```
+
+Let's add the `.turbo` folder to `.gitignore`:
+
+_./.gitignore_
+
+```diff
+node_modules
+dist
++.turbo
+
+```
+
+> [Edit .gitignore](https://turbo.build/repo/docs/getting-started/add-to-existing-repository#edit-gitignore)
 
 Run it:
 
@@ -135,65 +149,6 @@ npm run build
 > Run multiple times to check that it is cached.
 >
 > Add some error in `motto-helpers` to check that the process is stopped.
-
-If we want to apply the same approach to the `type-check:watch` command, we can run [multiple tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks#turborepo-can-multitask) in parallel:
-
-_./helpers/motto-helpers/package.json_
-
-```diff
-...
-  "scripts": {
--   "start": "run-p -l type-check:watch \"build -- --watch\"",
-+   "start": "npm run build -- --watch",
-    "build": "vite build",
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --watch --preserveWatchOutput"
-  },
-...
-```
-
-Update `turbo.json`:
-
-_./turbo.json_
-
-```diff
-...
-    "start": {
-      "cache": false,
-      "persistent": true
-    },
-+   "type-check:watch": {},
-    "build": {
-...
-```
-
-Update `package.json`:
-
-_./package.json_
-
-```diff
-...
-  "scripts": {
--   "start": "turbo start",
-+   "start": "turbo start type-check:watch",
-    "build": "turbo build"
-  },
-...
-```
-
-Uninstall `npm-run-all` in `motto-helpers`:
-
-```bash
-npm uninstall npm-run-all --save-dev -w @my-org/motto-helpers
-
-```
-
-Run it:
-
-```bash
-npm start
-
-```
 
 If we have more than one project where we need to run the `build` command, and they depend on each other, it will automatically resolve the execution order according to the dependencies.
 
@@ -212,30 +167,27 @@ _./helpers/house-helpers/package.json_
   "version": "1.0.0",
 - "private": true,
 + "private": false,
+  "sideEffects": false,
   "author": "Lemoncode",
   "license": "MIT",
-- "types": "src/index.ts",
-- "type": "module",
-- "main": "src/index.ts",
 + "files": [
 +   "dist"
 + ],
-+ "type": "module",
-+ "module": "dist/house-helpers.js",
-+ "main": "dist/house-helpers.umd.cjs",
+  "type": "module",
++ "module": "dist/index.js",
++ "main": "dist/index.umd.cjs",
 + "types": "dist/index.d.ts",
-+ "exports": {
+  "exports": {
+-   ".": "./src/index.ts"
 +   ".": {
-+     "import": "./dist/house-helpers.js",
-+     "require": "./dist/house-helpers.umd.cjs",
-+     "types": "./dist/index.d.ts"
-+   }
-+ },
++     "types": "./dist/index.d.ts",
++     "import": "./dist/index.js",
++     "require": "./dist/index.umd.cjs"
++   },
+  },
 + "scripts": {
-+   "start": "npm run build -- --watch",
 +   "build": "vite build",
 +   "type-check": "tsc --noEmit",
-+   "type-check:watch": "npm run type-check -- --watch --preserveWatchOutput"
 + },
 ...
 
@@ -255,6 +207,7 @@ export default defineConfig({
     lib: {
       entry: "src/index.ts",
       name: "HouseHelpers",
+      fileName: "index",
     },
   },
 });
@@ -264,7 +217,7 @@ export default defineConfig({
 Run it:
 
 ```bash
-npm start
+npm run build
 
 ```
 
@@ -279,12 +232,11 @@ _./turbo.json_
 ```diff
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "start": {
       "cache": false,
       "persistent": true,
     },
-    "type-check:watch": {},
     "build": {
       "outputs": ["dist/**/*"],
 -     "dependsOn": ["type-check"]
@@ -305,7 +257,7 @@ _./turbo.json_
 ```diff
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "start": {
       "cache": false,
       "persistent": true
@@ -330,7 +282,7 @@ npm run build
 
 ```
 
-Knowing the above, we could have some errors if we are running the `start` command without running the `build` command before (for example if we remove the dist folder on helpers):
+Knowing the above, we can build the helpers projects before starting the applications:
 
 
 ```bash
@@ -338,21 +290,20 @@ npm start
 
 ```
 
+
 Let's update it:
+
 
 _./turbo.json_
 
 ```diff
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "start": {
       "cache": false,
       "persistent": true,
-+     "dependsOn": ["build"]
-    },
-    "type-check:watch": {
-+     "dependsOn": ["build"]
++     "dependsOn": ["^build"]
     },
     "build": {
       "outputs": ["dist/**/*"],
@@ -368,6 +319,30 @@ _./turbo.json_
 
 > NOTE: We cannot use a `watch mode` command such as `dependsOn` because it will block the process.
 
+Update the `package.json`:
+
+_./package.json_
+
+```diff
+...
+  "scripts": {
+    "start": "turbo start",
++   "start": "turbo watch start",
+...
+
+```
+
+> [Using watch](https://turbo.build/repo/docs/reference/watch)
+
+Run it:
+
+```bash
+npm start
+
+```
+
+> Make some changes in `house-helpers` and `motto-helpers` to check that the process is restarted.
+
 Finally, if we only want to run a command for some projects, we can do it using the [filter](https://turbo.build/repo/docs/core-concepts/monorepos/filtering#multiple-filters) flag:
 
 
@@ -377,6 +352,24 @@ npm start -- --filter=@my-org/house-stark
 ```
 
 > Another filter example if we want projects inside folder: `--filter='./helpers/*'`
+
+Or even run multiple tasks at the same time:
+
+_./package.json_
+
+```diff
+...
+  "scripts": {
+    "start": "turbo watch start",
+-   "build": "turbo build"
++   "build": "turbo build test"
+  },
+...
+
+```
+
+> [Multiple tasks](https://turbo.build/repo/docs/crafting-your-repository/running-tasks#running-multiple-tasks)
+
 
 # About Basefactor + Lemoncode
 

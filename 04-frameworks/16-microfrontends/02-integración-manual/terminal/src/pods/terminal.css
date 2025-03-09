@@ -1,0 +1,45 @@
+#terminal {
+  background-color: rgba(0, 0, 0, 0);
+  background-image: radial-gradient(rgba(0, 150, 0, 0.75), black 120%);
+  color: white;
+  font:
+    1.3rem Inconsolata,
+    monospace;
+  text-shadow: 0 0 5px #dedede;
+  font-size: 48px;
+  user-select: none;
+  padding: 16px;
+  letter-spacing: 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 10px solid lightgrey;
+}
+
+.crt {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.15) 2px,
+    transparent 3px,
+    transparent 2px
+  );
+}
+
+#terminal:after {
+  content: ' ';
+  margin-left: -2rem;
+
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+}

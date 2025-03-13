@@ -1049,7 +1049,6 @@ layout: image
 title: Slots
 image: /slots.png
 backgroundSize: contain
-transition: fade
 ---
 
 ---
@@ -1647,8 +1646,57 @@ layout: quote
 
 # Agenda
 
-- Composition API
+<v-clicks depth="3">
 
+- Repaso de la teoría del día anterior
+  - **Teoría**
+    - 🧩 _Componentes_ (_SFC_): `template`, `script`, `style`
+    - 🔠 _Interpolación_: `{{ }}`
+    - 📝 _Directivas_: `v-if`, `v-for`, `v-model`
+    - ⚡️ _Composition API_: `defineProps`, `defineEmits`
+    - 🎯 _Props_: `:propName="propValue"`
+    - 🎬 _Eventos_: `@click`, `@input`, `@my-event`
+    - 🎰 _Slots_: `<slot>` y `<template #slotName>`
+    - 🔄 _Lifecycle Hooks_: `onMounted`, `onBeforeUnmount`, etc
+    - 🎨 _Estilos_: `:class`, `:style`, `scoped`
+- **Práctica**: Crear una ToDo App con Vue 3 y Vite
+
+</v-clicks>
+
+---
+layout: quote
+---
+
+```bash
+pnpm create vue@latest
+# yarn dlx create-vue@latest # Yarn ^v4.11
+# npm create vue@latest
+```
+
+<hr />
+
+<v-clicks>
+
+```bash
+✔ Project name: ToDoApp
+✔ Add TypeScript? Yes
+✔ Add JSX Support? No
+✔ Add Vue Router for Single Page Application development? Yes
+✔ Add Pinia for state management? Yes
+✔ Add Vitest for Unit testing? Yes
+✔ Add an End-to-End Testing Solution? No
+✔ Add ESLint for code quality? Yes
+✔ Add Prettier for code formatting? Yes
+✔ Add Vue DevTools 7 extension for debugging? Yes
+
+Scaffolding project in ./todoapp...
+Done.
+```
+
+</v-clicks>
+
+---
+---
 
 ---
 layout: hero-image
@@ -1762,6 +1810,103 @@ class: text-center
 ---
 
 # <logos-vue /> Vamos a seguir!! 🚀
+
+---
+layout: section
+---
+
+# Gestión de Estado con <logos-pinia /> Pinia
+
+---
+layout: quote
+---
+
+# ¿Qué es un gestor de estado? 🤔
+
+---
+layout: two-cols
+title: Gestor de Estado
+---
+
+
+<v-clicks depth="2">
+
+- 🏪 Almacén centralizado de datos
+- 🔄 Flujo unidireccional de datos
+  - `actions` modifican el `state`
+  - El `state` actualiza las vistas
+  - Las vistas disparan `actions`
+- 🎯 Beneficios:
+  - Mantenimiento más sencillo
+  - Debugging más fácil
+- 🆕 Sucesor oficial de **Vuex**
+  - ⚡️ Más ligero y rápido
+  - 🦾 Mejor soporte TypeScript
+  - 🔧 API más simple
+  - 🧩 Modular por diseño
+  - 🛠️ DevTools integradas
+
+</v-clicks>
+
+::right::
+
+<v-clicks>
+
+<div class="grid items-center h-full">
+  <img src="/pinia.png" class="object-contain max-h-sm" />
+</div>
+
+</v-clicks>
+---
+layout: default
+---
+
+# <logos-pinia /> Pinia
+````md magic-move
+```ts
+// stores/counter.ts
+import { defineStore } from 'pinia'
+
+export const useCounterStore = defineStore('counter', {
+  // Estado (reactive)
+  state: () => ({
+    count: 0
+  }),
+  // Getters (computed)
+  getters: {
+    doubleCount: (state) => state.count * 2
+  },
+  // Actions (methods)
+  actions: {
+    increment() {
+      this.count++
+    }
+  }
+})
+```
+
+```ts
+// stores/counter.ts
+import { defineStore } from 'pinia'
+
+export const useCounterStore = defineStore('counter', () => {
+  // Estado (reactive)
+  const count = ref(0)
+
+  // Getters (computed)
+  const doubleCount = computed(() => count.value * 2)
+
+  // Actions (methods)
+  const increment = () => count.value++
+
+  return {
+    count,
+    doubleCount,
+    increment
+  }
+})
+```
+````
 
 ---
 layout: custom-cover

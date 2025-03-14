@@ -2054,6 +2054,14 @@ describe('MyComponent', () => {
 
 ```
 
+---
+layout: hero-image
+image: /teclado.gif
+class: text-center
+---
+
+# <logos-vitest /> A los teclados!
+
 
 ---
 layout: end

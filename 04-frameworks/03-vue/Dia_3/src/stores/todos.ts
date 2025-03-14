@@ -1,7 +1,8 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 
 import type { ToDo } from '../types'
+import { useStorage } from '../composables/storage'
 
 const toDoFactory = (text: string): ToDo => ({
   timestamp: Date.now(),
@@ -9,28 +10,24 @@ const toDoFactory = (text: string): ToDo => ({
   completed: false,
 })
 
-const getTodosFromLocalStorage = (): ToDo[] => {
-  const todos = localStorage.getItem('todos') ? JSON.parse(localStorage.getItem('todos')!) : []
-  return todos
-}
-
-const setTodosToLocalStorage = (todo: ToDo) => {
-  const storedValue = getTodosFromLocalStorage()
-  storedValue.push(todo)
-  localStorage.setItem('todos', JSON.stringify(storedValue))
-}
-
 export const useTodosStore = defineStore('todosStore', () => {
   const todos = ref<ToDo[]>([])
+  const completedToDos = computed(() => todos.value.filter((todo) => todo.completed))
+  const pendingToDos = computed(() => todos.value.filter((todo) => !todo.completed))
+
+  const total = computed(() => todos.value.length)
+  const completed = computed(() => completedToDos.value.length)
+
+  const storage = useStorage<ToDo[]>('todos')
 
   const loadTodos = () => {
-    todos.value = getTodosFromLocalStorage()
+    todos.value = storage.get()
   }
 
   const addTodo = (todo: string) => {
     const newTodo = toDoFactory(todo)
     todos.value.push(newTodo)
-    setTodosToLocalStorage(newTodo)
+    storage.set(todos.value)
   }
 
   const toggleCompleted = (timestamp: number) => {
@@ -38,6 +35,7 @@ export const useTodosStore = defineStore('todosStore', () => {
     if (todo) {
       todo.completed = !todo.completed
     }
+    storage.set(todos.value)
   }
 
   const removeTodo = (timestamp: number) => {
@@ -45,10 +43,15 @@ export const useTodosStore = defineStore('todosStore', () => {
     if (index !== -1) {
       todos.value.splice(index, 1)
     }
+    storage.set(todos.value)
   }
 
   return {
     todos,
+    total,
+    completed,
+    completedToDos,
+    pendingToDos,
     loadTodos,
     addTodo,
     toggleCompleted,

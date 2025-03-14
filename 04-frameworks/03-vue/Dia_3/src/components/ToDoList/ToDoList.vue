@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useTodosStore } from '../stores/todos'
+import { ref, onMounted } from 'vue'
+import { useTodosStore } from '../../stores/todos'
 
 const todosStore = useTodosStore()
-
-onMounted(() => {
-  todosStore.loadTodos()
-})
 
 const onChange = (timestamp: number) => {
   todosStore.toggleCompleted(timestamp)
@@ -15,11 +11,34 @@ const onChange = (timestamp: number) => {
 const onClick = (timestamp: number) => {
   todosStore.removeTodo(timestamp)
 }
+
+const toDosToShow = ref(todosStore.todos)
+
+const showOnlyPendingToDos = (event: Event) => {
+  if ((event.target as HTMLInputElement)?.checked) {
+    toDosToShow.value = todosStore.pendingToDos
+  } else {
+    toDosToShow.value = todosStore.todos
+  }
+}
+
+onMounted(() => {
+  todosStore.loadTodos()
+  toDosToShow.value = todosStore.todos
+})
 </script>
 
 <template>
+  <div v-if="todosStore.total">
+    <p>Completed: {{ todosStore.completed }} / {{ todosStore.total }}</p>
+  </div>
+  <div>
+    <input type="checkbox" id="toggle" @change="showOnlyPendingToDos" />
+    <label for="toggle">Show only pending</label>
+  </div>
+  <hr />
   <ul class="max-w-[500px]">
-    <li v-for="todo in todosStore.todos" :key="todo.timestamp">
+    <li v-for="todo in toDosToShow" :key="todo.timestamp">
       <form @submit.prevent class="flex items-center justify-between">
         <input
           type="checkbox"

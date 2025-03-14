@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import HelloWorld from '../components/HelloWorld/HelloWorld.vue'
 import ToDoForm from '../components/ToDoForm.vue'
-import TodoList from '../components/TodoList.vue'
+import TodoList from '../components/ToDoList/ToDoList.vue'
 </script>
 
 <template>
@@ -9,4 +9,7 @@ import TodoList from '../components/TodoList.vue'
     <ToDoForm />
     <TodoList />
   </main>
+  <footer>
+    <HelloWorld msg="holaaaa" />
+  </footer>
 </template>

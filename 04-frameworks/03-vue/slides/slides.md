@@ -583,68 +583,8 @@ const MyComponent = {
 
 
 ---
-layout: default
-title: ❌ Sintaxis de "Options API"
+src: ./options-api.md
 ---
-<v-switch>
-
-<template #0-7>
-  <h1>❌ Sintaxis de "Options API" 🧑🏽‍🦳</h1>
-</template>
-<template #7>
-  <h1>✅ Sintaxis de "Composition API" 🧑🏽</h1>
-</template>
-
-</v-switch>
-
-````md magic-move{at:1}
-```vue {all|2,22|4|9|14|19|all}
-<script>
-export default {
-  name: 'MyComponent',
-  data() {
-    return {
-      msg: 'Hello Vue!'
-    }
-  },
-  computed: {
-    reversedMsg() {
-      return this.msg.split('').reverse().join('')
-    }
-  },
-  methods: {
-    reverseMsg() {
-      this.msg = this.reversedMsg
-    }
-  },
-  created() {
-    console.log('Component created')
-  },
-}
-</script>
-```
-```vue
-<script setup>
-import { ref, computed } from 'vue'
-
-defineOptions({
-  name: 'MyComponent'
-})
-
-const msg = ref('Hello Vue!')
-
-const reversedMsg = computed(() => msg.value.split('').reverse().join(''))
-
-const reverseMsg = () => msg.value = reversedMsg.value
-
-console.log('Component created')
-</script>
-```
-````
-
-
-<!-- **No es la forma recomendada** de escribir componentes de Vue desde la "Composition API" (`script setup` o `setup` _function_). -->
-
 
 ---
 layout: quote
@@ -1644,7 +1584,7 @@ background: vue-sticker.jpg
 layout: quote
 ---
 
-# Agenda
+# Agenda – Día II
 
 <v-clicks depth="3">
 
@@ -1695,122 +1635,15 @@ Done.
 
 </v-clicks>
 
----
----
 
 ---
 layout: hero-image
 image: /teclado.gif
 class: text-center
+title: 🚀 A los teclados!
 ---
 
 # Vuelta a los teclados!
-
----
-layout: hero-image
-image: /composition-docs.png
----
-
-## Composition API
-
-
-
----
-layout: quote
----
-
-# Docs
-
-<img src="/toggle.png" class="max-h-xs" />
-
-https://vuejs.org/guide/introduction.html
-
----
-layout: two-cols
----
-
-# Composition API
-
-![](/comparison.png)
-
-::right::
-
-<v-clicks depth="2">
-
-- Ventajas:
-
-  - Ordenar por features
-  - Incluso módulos/paquetes
-  - Composición de funciones.
-
-- Desventajas:
-
-  - Arquitectura menos definida
-  - Requiere más conocimientos de Vue y JS
-  - Llamadas asíncronas requieren `<Suspense>`
-
-</v-clicks>
-
-
----
-layout: image
-image: /side-by-side.jpeg
-title: Code Side by Side
-backgroundSize: contain
----
-
-
----
-layout: image
-image: /setup-diagram.png
-title: Setup()
-backgroundSize: contain
----
-
----
-layout: full
----
-
-# Mimimimi
-
-<div class="grid grid-cols-[1fr_5fr]">
-  <img src="/brain.png" class="m-auto object-contain max-h-sm" />
-
-  <section>
-    <div v-click="1">
-      <h3>Options API</h3>
-      <a href="https://codesandbox.io/s/traductor-mimimi-vue-3-uie1x" target="_blank">https://codesandbox.io/s/traductor-mimimi-vue-3-uie1x</a>
-    </div>
-    <div v-click="2" class="mt-10">
-      <h3>Composition API con setup()</h3>
-      <a href="https://codesandbox.io/s/traductor-mimimi-vue-3-composition-api-tuip2" target="_blank">https://codesandbox.io/s/traductor-mimimi-vue-3-composition-api-tuip2</a>
-    </div>
-    <div v-click="3" class="mt-9">
-      <h3>Composition API con <code>&lt;script setup&gt;</code></h3>
-      <a href="https://codesandbox.io/s/traductor-mimimi-vue-3-composition-api-script-setup-sbf4yn?file=/src/App.vue" target="_blank">https://codesandbox.io/s/traductor-mimimi-vue-3-composition-api-script-setup-sbf4yn?file=/src/App.vue</a>
-    </div>
-    <div v-click="4" class="mt-2">
-      <h3>Composables con <code>&lt;script setup&gt;</code></h3>
-      <a href="https://codesandbox.io/s/traductor-mimimi-vue-3-composition-api-composables-84t5x?file=/src/App.vue" target="_blank">https://codesandbox.io/s/traductor-mimimi-vue-3-composition-api-composables-84t5x?file=/src/App.vue</a>
-    </div>
-  </section>
-</div>
-
----
-layout: image
-image: /lego.jpeg
-title: Composables (Lego)
-backgroundSize: contain
----
-
----
-layout: hero-image
-image: /teclado.gif
-class: text-center
----
-
-# <logos-vue /> Vamos a seguir!! 🚀
-
 ---
 layout: section
 ---
@@ -1921,10 +1754,305 @@ background: vue-sticker.jpg
 layout: quote
 ---
 
-# Agenda
+# Agenda – Día III
 
-- onMounted, watchers, etc.
+- Composition API / Composables
+- Práctica
 - Testing
+
+---
+layout: section
+---
+
+# Composition API
+
+---
+layout: hero-image
+image: /composition-docs.png
+---
+
+## Composition API
+
+
+---
+layout: quote
+---
+
+# Docs
+
+<img src="/toggle.png" class="max-h-xs" />
+
+https://vuejs.org/guide/introduction.html
+
+---
+layout: image
+image: /setup-diagram.png
+title: Setup()
+backgroundSize: contain
+---
+
+---
+layout: image
+image: /side-by-side.jpeg
+title: Code Side by Side
+backgroundSize: contain
+---
+
+---
+src: ./options-api.md
+---
+
+
+---
+layout: two-cols
+title: Composition API
+---
+
+# Composition API
+
+![](/comparison.png)
+
+::right::
+
+<v-clicks depth="2">
+
+- Ventajas:
+
+  - Ordenar por features
+  - Incluso módulos/paquetes
+  - Composición de funciones.
+
+- Desventajas:
+
+  - Arquitectura menos definida
+  - Requiere más conocimientos de Vue y JS
+  - Llamadas asíncronas requieren `<Suspense>`
+
+</v-clicks>
+
+
+---
+layout: image
+image: /lego.jpeg
+title: Composables (Lego)
+backgroundSize: contain
+---
+
+---
+layout: hero-image
+image: /composables-docs.png
+---
+
+## Qué son los "Composables"?
+
+---
+layout: two-cols
+title: Ejemplo Composable
+---
+
+```ts{2,5-9|all}
+// composables/useCounter.ts
+import { ref, computed } from 'vue'
+
+export function useCounter(initial = 0) {
+  const counter = ref(initial)
+  const doubled = computed(() => counter.value * 2)
+
+  const increment = () => counter.value++
+  const decrement = () => counter.value--
+
+  return {
+    counter,
+    doubled,
+    increment,
+    decrement
+  }
+}
+```
+
+---
+layout: two-cols
+title: Ejemplo Composable 2
+---
+
+```vue{all|2,4|all}
+<script setup>
+import { useCounter } from './composables/useCounter'
+
+const { counter, doubled, increment, decrement } = useCounter(10)
+</script>
+
+<template>
+  <div>
+    <p>Counter: {{ counter }}</p>
+    <p>Doubled: {{ doubled }}</p>
+    <button @click="increment">+</button>
+    <button @click="decrement">-</button>
+  </div>
+</template>
+```
+
+---
+layout: full
+---
+
+# Mimimimi
+
+<div class="grid grid-cols-[1fr_5fr]">
+  <img src="/brain.png" class="m-auto object-contain max-h-sm" />
+
+  <section>
+    <div v-click="1">
+      <h3>Options API</h3>
+      <a href="https://codesandbox.io/s/traductor-mimimi-vue-3-uie1x" target="_blank">https://codesandbox.io/s/traductor-mimimi-vue-3-uie1x</a>
+    </div>
+    <div v-click="2" class="mt-10">
+      <h3>Composition API con setup()</h3>
+      <a href="https://codesandbox.io/s/traductor-mimimi-vue-3-composition-api-tuip2" target="_blank">https://codesandbox.io/s/traductor-mimimi-vue-3-composition-api-tuip2</a>
+    </div>
+    <div v-click="3" class="mt-9">
+      <h3>Composition API con <code>&lt;script setup&gt;</code></h3>
+      <a href="https://codesandbox.io/s/traductor-mimimi-vue-3-composition-api-script-setup-sbf4yn?file=/src/App.vue" target="_blank">https://codesandbox.io/s/traductor-mimimi-vue-3-composition-api-script-setup-sbf4yn?file=/src/App.vue</a>
+    </div>
+    <div v-click="4" class="mt-2">
+      <h3>Composables con <code>&lt;script setup&gt;</code></h3>
+      <a href="https://codesandbox.io/s/traductor-mimimi-vue-3-composition-api-composables-84t5x?file=/src/App.vue" target="_blank">https://codesandbox.io/s/traductor-mimimi-vue-3-composition-api-composables-84t5x?file=/src/App.vue</a>
+    </div>
+  </section>
+</div>
+
+<!-- Ariane Jurado de Bilbao (Ari Reinventada) -->
+
+---
+layout: hero-image
+image: /teclado.gif
+class: text-center
+---
+
+# <logos-vue /> Vamos a seguir!! 🚀
+
+
+---
+layout: section
+---
+
+# Testing
+
+---
+layout: quote
+---
+
+<h2><logos-vitest /> Vitest <span v-click="2">
+(con <logos-vue /> <em>Vue</em> y <logos-vue /> <em>Vue Test Utils</em>)
+</span></h2>
+
+<br />
+
+<v-clicks>
+
+#### (<logos-jest /> ~Jest)
+
+</v-clicks>
+
+
+---
+layout: two-cols
+---
+
+# Instalación Vitest
+
+```bash
+pnpm add -D vitest
+# yarn add -D vitest
+# npm install -D vitest
+```
+
+<br />
+
+<v-clicks>
+
+```json
+{
+  "scripts": {
+    "test": "vitest"
+  }
+}
+```
+
+</v-clicks>
+
+
+---
+layout: quote
+---
+
+# Vitest Config
+
+```ts
+// vitest.config.ts
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  test: {
+    environment: 'jsdom', // Simulates a browser environment
+  },
+});
+```
+
+---
+layout: quote
+---
+
+## @vue/test-utils
+
+```bash
+pnpm add -D @vue/test-utils
+# yarn add -D @vue/test-utils
+# npm install -D @vue/test-utils
+```
+
+https://test-utils.vuejs.org/
+
+---
+layout: two-cols
+---
+
+```ts{all|5|all}
+import { mount } from '@vue/test-utils'
+import MyComponent from './MyComponent.vue'
+
+const comp = mount(MyComponent)
+//           ^^^^^
+```
+
+::right::
+
+### `mount`
+
+
+---
+layout: two-cols
+title: Ejemplo Test
+---
+
+# Ejemplo Test Unitario
+
+```ts
+// MyComponent.spec.ts
+
+import { mount } from '@vue/test-utils'
+import { describe, it, expect } from 'vitest'
+
+import MyComponent from './MyComponent.vue'
+
+describe('MyComponent', () => {
+  it('renders a message', () => {
+    const wrapper = mount(MyComponent)
+    expect(wrapper.text()).toContain('Hello world')
+  })
+})
+
+```
 
 
 ---

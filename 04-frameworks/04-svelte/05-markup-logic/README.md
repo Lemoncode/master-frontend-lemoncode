@@ -4,12 +4,12 @@ Vamos a necesitar para estos ejemplos una interface de datos, vamos a crear un f
 
 ```typescript
 export interface User {
-	id: number;
+	id: string;
 	name: string;
 	email: string;
 }
 
-export const createUserList = () => [
+export const createUserList = (): User[] => [
 	{
 		id: '1',
 		name: 'John Doe',
@@ -50,8 +50,8 @@ _src/lib/playground.svelte_:
 	const users = $state<User[]>(createUserList());
 </script>
 
-{#each users as user (user.id)}
-	<div>{user.name} - {user.email}</div>
+{#each users as user, index (user.id)}
+	<div>{index + 1}: {user.name} - {user.email}</div>
 {/each}
 ```
 
@@ -94,6 +94,8 @@ Y utilizamos la llamada a la API en el componente:
 	{#each users as user (user.id)}
 		<div>{user.name} - {user.email}</div>
 	{/each}
+{:catch error}
+	<div>Ooops! Error</div>
 {/await}
 ```
 
@@ -114,6 +116,8 @@ Podemos incluso actualizar la llamada cuando cambie un estado para filtrar por n
 	{#each users as user (user.id)}
 		<div>{user.name} - {user.email}</div>
 	{/each}
+{:catch error}
+	<div>Ooops! Error</div>
 {/await}
 ```
 
@@ -147,6 +151,8 @@ Vamos a utilizarlo para mostrar un mensaje cuando no se encuentren usuarios:
 +	{#if users.length === 0}
 +		<p>No users found</p>
 +	{/if}
+{:catch error}
+	<div>Ooops! Error</div>
 {/await}
 ```
 
@@ -195,6 +201,8 @@ Para renderizar los `snippets` necesitamos utilizar la directiva `@render`:
 	{#if users.length === 0}
 		<p>No users found</p>
 	{/if}
+{:catch error}
+	<div>Ooops! Error</div>
 {/await}
 ```
 
@@ -207,7 +215,7 @@ Con todo lo anterior podríamos tener un componente como el siguiente:
 	import { getUsers } from './api';
 	import type { User } from './model';
 
-	let name = '';
+	let name = $state('');
 </script>
 
 <input bind:value={name} placeholder="Enter user name" />

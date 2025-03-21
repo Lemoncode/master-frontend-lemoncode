@@ -27,6 +27,8 @@ También podemos crear la función en el script de la siguiente manera:
 
 ```diff
 <script lang="ts">
++   import type { FormEventHandler } from 'svelte/elements';
+
     let name = 'Lemoncoders!';
 
 +   const handleInput: FormEventHandler<HTMLInputElement> = (e) => {
@@ -51,7 +53,7 @@ Incluso tenemos un `shorthand`, una forma corta de escribir esto, si llamamos a 
 
 ```diff
 <script lang="ts">
-+   import type { FormEventHandler } from 'svelte/elements';
+    import type { FormEventHandler } from 'svelte/elements';
 
     let name = 'Lemoncoders!';
 

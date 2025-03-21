@@ -162,7 +162,7 @@ permissions:
 >
 > [changesets/action](https://github.com/changesets/action)
 >
-> [Random npm bug with optional deps](https://github.com/npm/cli/issues/4828). Temporal solution: `rm -rf node_modules package-lock.json && npm install`
+> [Random npm bug with optional deps](https://github.com/npm/cli/issues/4828). Temporal solution: `rm -rf package-lock.json && npm install`
 
 Reset packages versions to `0.0.0`:
 

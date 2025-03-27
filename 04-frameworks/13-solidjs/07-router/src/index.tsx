@@ -1,4 +1,4 @@
-import { Router, Route, Routes } from "@solidjs/router";
+import { Router, Route } from "@solidjs/router";
 import { render } from "solid-js/web";
 import "./styles.css";
 import { MemberProvider } from "./members.store";
@@ -8,10 +8,8 @@ import { MemberDetailPage } from "./member-detail.page";
 const App = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<MemberListPage />} />
-        <Route path="/member/:id" element={<MemberDetailPage />} />
-      </Routes>
+      <Route path="/" component={MemberListPage} />
+      <Route path="/member/:id" component={MemberDetailPage} />
     </Router>
   );
 };

@@ -2,15 +2,23 @@
 
 In this example we will login an user using a JWT token in Cookies and load client and order collections.
 
-# Steps to build it
+## Install dependencies
 
-- `npm install` to install packages:
+`npm install` to install packages:
 
 ```bash
+cd back
 npm install
 ```
 
-- Start `back` app:
+```bash
+cd front
+npm install
+```
+
+## Start apps
+
+Start `back` app:
 
 ```bash
 cd ./back
@@ -19,25 +27,11 @@ npm start
 
 > NOTE: We added `.env` file only for demo purpose. We should ignore this one and add a `.env.example` as example.
 
-- Start `front` app:
+Start `front` app:
 
 ```bash
 cd ./front
 npm start
-```
-
-- We don't need CORS because we are using `webpack's proxy`, so it looks like same domain:
-
-_./front/config/webpack/dev.js_
-
-```javascript
-...
- devServer: {
-...
-    proxy: {
-      '/api': 'http://localhost:8081',
-    },
-  },
 ```
 
 ## Demo
@@ -67,14 +61,15 @@ _./front/config/webpack/dev.js_
 - Load client list in new tab.
 
 > NOTE: Right now, the cookie expires when we close all brower's tabs.
+>
 > Check Browser lock icon > Cookies
 
 ## Login flow
 
 Backend:
 
-  - `back/src/core/servers/express.server.ts`
-  - `back/src/app.ts`
+  - `back/src/core/servers/rest-api.server.ts`
+- `back/src/index.ts`
   - `back/src/pods/security/security.api.ts`
   - `back/src/pods/security/security.constants.ts`
   - Check user credentials.
@@ -86,7 +81,7 @@ Frontend:
   - `front/src/pods/login/login.container.tsx`
   - `front/src/pods/login/login.hooks.ts`
   - `front/src/pods/login/api/login.api.ts`
-  - `front/src/core/api/api/api.helpers.ts`: Deleted
+  - `front/src/core/api/api.helpers.ts`: Deleted
   - `front/src/common-app/auth/auth.context.ts`
   - `front/src/common-app/app-abr/app-bar.component.tsx`
 
@@ -94,7 +89,7 @@ Frontend:
 
 Backend:
 
-  - `back/src/app.ts`
+- `back/src/index.ts`
   - `back/src/pods/security/security.middlewares.ts`: `req.cookies`.
   - `back/src/pods/client/client.api.ts`
   - `back/src/pods/order/order.api.ts`
@@ -108,7 +103,7 @@ Frontend:
 
 Backend:
 
-  - `back/src/app.ts`: We are not using `jwtMiddleware` on root security api.
+  - `back/src/index.ts`: We are not using `jwtMiddleware` on root security api.
   - `back/src/pods/security/security.api.ts`: clear cookie
 
 Frontend: 
@@ -124,18 +119,18 @@ _./back/src/pods/security/security.constants.ts_
 
 ```diff
 import { CookieOptions } from 'express';
-import { envConstants } from 'core/constants';
+import { ENV } from '#core/constants/index.js';
 
-export const jwtSignAlgorithm = 'HS256';
+export const JWT_SIGN_ALGORITHM = 'HS256';
 
-- export const cookieOptions: CookieOptions = {
+- export const COOKIE_OPTIONS: CookieOptions = {
 -   httpOnly: true,
--   secure: envConstants.isProduction
+-   secure: ENV.IS_PRODUCTION,
 - };
 
 + export const getCookieOptions = (expires: Date): CookieOptions => ({
 +   httpOnly: true,
-+   secure: envConstants.isProduction,
++   secure: ENV.IS_PRODUCTION,
 +   expires,
 + });
 
@@ -145,8 +140,8 @@ _./back/src/pods/security/security.api.ts_
 
 ```diff
 ...
-- import { jwtSignAlgorithm, cookieOptions } from './security.constants';
-+ import { jwtSignAlgorithm, getCookieOptions } from './security.constants';
+- import { JWT_SIGN_ALGORITHM, COOKIE_OPTIONS } from './security.constants.js';
++ import { JWT_SIGN_ALGORITHM, getCookieOptions } from './security.constants.js';
 
 ...
 
@@ -161,18 +156,16 @@ _./back/src/pods/security/security.api.ts_
       const token = createToken(currentUser);
 +     const expires = new Date();
 +     expires.setDate(new Date().getDate() + 1); // Add one day
-
+      
       res.cookie(
-        headerConstants.authorization,
+        HEADERS.AUTHORIZATION,
         token,
--       cookieOptions
+-       COOKIE_OPTIONS
 +       getCookieOptions(expires)
       );
       res.send(userSession);
     } else {
-      res.sendStatus(401);
-    }
-  })
+...
 
 ```
 
@@ -184,15 +177,16 @@ _./back/src/pods/security/security.constants.ts_
 
 ```diff
 import { CookieOptions } from 'express';
-import { envConstants } from 'core/constants';
+import { ENV } from '#core/constants/index.js';
 
-export const jwtSignAlgorithm = 'HS256';
+export const JWT_SIGN_ALGORITHM = 'HS256';
 
-export const cookieOptions: CookieOptions = {
+export const getCookieOptions = (expires: Date): CookieOptions => ({
 - httpOnly: true,
 + httpOnly: false,
-  secure: envConstants.isProduction,
-};
+  secure: ENV.IS_PRODUCTION,
+  expires,
+});
 
 ```
 

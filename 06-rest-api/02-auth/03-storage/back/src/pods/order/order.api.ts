@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { Order } from './order.api-model';
+import { Order } from './order.api-model.js';
 
 export const orderApi = Router();
 

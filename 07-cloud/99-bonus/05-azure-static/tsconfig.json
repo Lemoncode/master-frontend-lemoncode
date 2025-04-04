@@ -11,10 +11,11 @@
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "strict": true,
     "baseUrl": "./src/",
     "paths": {
-      "@/*": ["*"]
+      "#*": ["*"]
     }
   },
-  "include": ["./src/**/*", "./vite-env.d.ts", "./config/test/config.d.ts", ]
+  "include": ["./src/**/*", "./vite-env.d.ts", "./config/test/config.d.ts"]
 }

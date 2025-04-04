@@ -6,13 +6,13 @@ We will start from `01-graphql-backend`.
 
 Summary steps:
 
-- Install `graphql-request`.
-- Add configuration.
+- Configure the GraphQL endpoint.
+- Implement requests using fetch.
 - Update queries.
 
 # Steps to build it
 
-- `npm install` to install previous sample packages:
+Run the following command to install dependencies from the previous sample:
 
 ```bash
 npm install
@@ -20,42 +20,66 @@ npm install
 
 # Libraries
 
-- We are going to install a library to work with graphql in front side, [graphql-request](https://github.com/prisma-labs/graphql-request). Make sure you are over `root` folder in terminal
+Typically, we can use libraries like [graffle](https://github.com/graffle-js/graffle) or [Apollo Client](https://www.npmjs.com/package/@apollo/client) to interact with a GraphQL API. For example:
 
 ```bash
-npm install graphql-request graphql --save
+npm install graffle@next graphql --save
 ```
 
-> It has `graphql` lib as peerDependency.
-> Install this library on frontend package.json
+However, in this case, we will not use any external libraries and will handle GraphQL requests manually using the native fetch API.
+
+Example request using fetch:
+
+```javascript
+const query = `
+  query {
+    users {
+      id
+      name
+      email
+    }
+  }
+`;
+
+fetch('https://your-graphql-endpoint.com/graphql', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ query }),
+})
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((error) => console.error('Error:', error));
+```
+
+This approach gives us full control over the requests without relying on third-party dependencies.
 
 # Other libraries
 
 - [relay](https://github.com/facebook/relay)
-- [apollo-client](https://github.com/apollographql/apollo-client)
 - [axios](https://github.com/axios/axios): We could create grapqhl queries using axios too.
 
 # Config
 
-- `graphql-request` has TypeScript support and we don't need an extra package:
+- Add `vite proxy` config to avoid configure `cors`:
 
-- Add `webpack proxy` config to avoid configure `cors`:
-
-### ./config/webpack/dev.js
+### ./vite.config.js
 
 ```diff
-...
-  devServer: {
-    inline: true,
-    host: 'localhost',
-    port: 8080,
-    stats: 'minimal',
-    hot: true,
+ import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
     proxy: {
       '/api': 'http://localhost:3000',
+      '/thumbnails': 'http://localhost:3000',
 +     '/graphql': 'http://localhost:3000',
     },
   },
+});
 ```
 
 - Create `GraphQL client` for use same url in all queries:
@@ -63,13 +87,45 @@ npm install graphql-request graphql --save
 ### ./core/api/graphql.client.ts
 
 ```javascript
-import { GraphQLClient } from 'graphql-request';
-
 const url = '/graphql';
 
-export const graphQLClient = new GraphQLClient(url);
+interface GraphqlProps<Variables> {
+  query: string;
+  variables?: Variables;
+}
 
+export const graphql = async <Response, Variables = unknown>(
+  props: GraphqlProps<Variables>
+): Promise<Response> => {
+  const { query, variables } = props;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query,
+      variables,
+    }),
+  });
+  const { data, errors } = await response.json();
+
+  if (errors) {
+    console.error(errors);
+  }
+
+  return data;
+};
 ```
+
+The `graphql function` allows sending queries and retrieving data from the GraphQL server. It is responsible for:
+
+- Sending the query to the server.
+- Passing the required parameters or variables.
+- Receiving the server response.
+- Handling possible errors.
+
+Currently, errors are simply logged to the console. However, in the future, we could implement a more robust error-handling mechanism, such as throwing exceptions, displaying user-friendly error messages, or integrating with an error-tracking system.
 
 - Add barrel file:
 
@@ -77,7 +133,6 @@ export const graphQLClient = new GraphQLClient(url);
 
 ```javascript
 export * from './graphql.client';
-
 ```
 
 - Update `hotel-collection` api:
@@ -85,36 +140,37 @@ export * from './graphql.client';
 ### ./src/pods/hotel-collection/api/hotel-collection.api.ts
 
 ```diff
-import Axios from 'axios';
-+ import { gql } from 'graphql-request';
-+ import { graphQLClient } from 'core/api';
+import axios from 'axios';
++ import { graphql } from '#core/api';
 import { HotelEntityApi } from './hotel-collection.api-model';
 
 const url = '/api/hotels';
 
 + interface GetHotelCollectionResponse {
-+   hotels: HotelEntityApi[];
++  hotels: HotelEntityApi[];
 + }
 
 export const getHotelCollection = async (): Promise<HotelEntityApi[]> => {
-+ const query = gql`
-+   query {
-+     hotels {
-+       id
-+       name
-+       shortDescription
-+       hotelRating
-+       address1
-+       thumbNailUrl
-+     }
-+   }
-+ `;
-- const { data } = await Axios.get<HotelEntityApi[]>(url);
-- return data;
-+ const { hotels } = await graphQLClient.request<GetHotelCollectionResponse>(
-+   query
-+ );
-+ return hotels;
+-  const { data } = await axios.get<HotelEntityApi[]>(url);
+-  return data;
++  const query = `
++    query {
++      hotels {
++        id
++        name
++        shortDescription
++        hotelRating
++        address1
++        thumbNailUrl
++      }
++    }
++  `;
+
++  const { hotels } = await graphql<GetHotelCollectionResponse>({
++    query,
++  });
+
++  return hotels;
 };
 
 ...

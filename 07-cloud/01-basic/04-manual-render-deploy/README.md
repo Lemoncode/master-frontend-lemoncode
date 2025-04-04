@@ -30,6 +30,26 @@ export default defineConfig({
 
 ```
 
+And restore router configuration:
+
+_./src/core/router/router.ts_
+
+```diff
+- import { createRouter, createHashHistory } from '@tanstack/react-router';
++ import { createRouter } from '@tanstack/react-router';
+// The route-tree file is generated automatically. Do not modify this file manually.
+import { routeTree } from './route-tree';
+
+- const history = createHashHistory();
+
+export const router = createRouter({
+  routeTree,
+- history,
+});
+...
+
+```
+
 Run build:
 
 ```bash
@@ -99,7 +119,7 @@ Configure web service:
 
 ![05-configure-runtime](./readme-resources/05-configure-runtime.png)
 
-Clicks on `Create Web Service` button.
+Select `Free plan` and clicks on `Deploy Web Service` button.
 
 After the successful deploy, open `https://<app-name>.onrender.com`.
 

@@ -78,7 +78,6 @@ _./src/calculator.spec.ts_
   - It should have same fields, even undefined values.
   - We should use `toEqual` if we don't care about it.
 
-
 ## Spy
 
 Now, we need passing a method as parameter, whatever it is, we only want to check that it was called and with which arguments:
@@ -476,13 +475,26 @@ describe('Calculator tests', () => {
 ...
 
 ```
+
 > [vi.mock](https://vitest.dev/api/vi.html#vi-mock)
 >
 > Notice that we don't see any `console.log` from original `isLowerThan` method.
 >
 > In this case we can also use `vi.mocked` instead of `vi.spyOn`: `vi.mocked(business.isLowerThan).mockImplementation(...)`
->
-> Another use case is to [enable esModule support for a module that doesn't support it](https://github.com/vitest-dev/vitest/issues/3152#issuecomment-1566327217).
+
+Another use case is to [enable esModule support for a module that doesn't support it](https://github.com/vitest-dev/vitest/issues/3152#issuecomment-1566327217).
+
+```js
+import thirdParty from 'third-party';
+
+vi.mock('third-party', async (importOriginal) => {
+  const original = await importOriginal();
+  return {
+    ...original,
+    __esModule: true,
+  };
+});
+```
 
 # About Basefactor + Lemoncode
 

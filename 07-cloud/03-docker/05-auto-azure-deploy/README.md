@@ -1,4 +1,4 @@
-# 04 Auto render deploy
+# 04 Auto Azure deploy
 
 In this example we are going to upload Docker image with a front app to Azure.
 
@@ -50,6 +50,8 @@ If we want a public image we can use the previous uploaded image that we push to
 > [Official Github Container Registry Docs](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)
 
 Create a new Github Personal Access Token:
+
+> We have to create a `classic` token because [there is a open issue to migrate to `fine-grained` token](https://github.com/github/roadmap/issues/558).
 
 ![07-perfil-settings](./readme-resources/07-perfil-settings.png)
 
@@ -145,9 +147,11 @@ Create `secrets` in Github repository:
 
 - `AZURE_PUBLISH_PROFILE` (you can download it from Azure portal and paste the value in the secret):
 
-![15-download-publish-profile](./readme-resources/15-download-publish-profile.png)
+![15-enable-basic-auth](./readme-resources/15-enable-basic-auth.png)
 
-![16-publish-profile](./readme-resources/16-publish-profile.png)
+![16-download-publish-profile](./readme-resources/16-download-publish-profile.png)
+
+![17-publish-profile](./readme-resources/17-publish-profile.png)
 
 Upload changes:
 

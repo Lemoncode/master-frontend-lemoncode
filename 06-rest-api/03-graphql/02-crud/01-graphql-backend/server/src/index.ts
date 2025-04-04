@@ -1,39 +1,28 @@
-import 'regenerator-runtime/runtime';
 import express from 'express';
-import path from 'path';
-import { ApolloServer } from 'apollo-server-express';
-import {
-  ApolloServerPluginLandingPageGraphQLPlayground,
-  ApolloServerPluginLandingPageDisabled,
-} from 'apollo-server-core';
-import { hotelApi, cityApi } from './api';
-import { typeDefs, resolvers } from './graphql';
+import path from 'node:path';
+import { hotelApi, cityApi } from './api/index.js';
+import { createHandler } from 'graphql-http/lib/use/express';
+import { schema } from '#graphql/schema.js';
+import { resolvers } from '#graphql/resolvers.js';
 
 const PORT = 3000;
-(async function () {
-  const app = express();
-  app.use(express.json());
-  const graphqlServer = new ApolloServer({
-    typeDefs,
-    resolvers,
-    plugins: [
-      process.env.NODE_ENV === 'production'
-        ? ApolloServerPluginLandingPageDisabled()
-        : ApolloServerPluginLandingPageGraphQLPlayground(),
-    ],
-  });
-  await graphqlServer.start();
-  graphqlServer.applyMiddleware({ app });
+const app = express();
+app.use(express.json());
 
-  const publicPath = path.resolve(__dirname, './public');
-  app.use(express.static(publicPath));
-  app.use('/api/hotels', hotelApi);
-  app.use('/api/cities', cityApi);
+app.use('/', express.static(path.resolve(import.meta.dirname, '../public')));
 
-  app.listen(PORT, () => {
-    console.log(`Server running http://localhost:${PORT}`);
-    console.log(
-      `GraphQL server ready at http://localhost:${PORT}${graphqlServer.graphqlPath}`
-    );
-  });
-})();
+app.use('/graphql', createHandler({ schema, rootValue: resolvers }));
+app.use('/playground', async (req, res) => {
+  res.sendFile(path.join(import.meta.dirname, './graphql/playground.html'));
+});
+
+app.use('/api/hotels', hotelApi);
+app.use('/api/cities', cityApi);
+
+app.listen(PORT, () => {
+  console.log(`Server running http://localhost:${PORT}`);
+  console.log(
+    `GraphQL Playground running at http://localhost:${PORT}/playground`
+  );
+  console.log(`GraphQL Server ready at por http://localhost:${PORT}/graphql`);
+});

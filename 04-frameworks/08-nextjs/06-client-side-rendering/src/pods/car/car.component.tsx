@@ -14,7 +14,6 @@ interface Props {
 
 export const Car: React.FC<Props> = (props) => {
   const { car } = props;
-  console.log('Car component', car);
   const router = useRouter();
 
   const handleBook = async () => {

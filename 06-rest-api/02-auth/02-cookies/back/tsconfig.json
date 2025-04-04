@@ -1,16 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "es6",
-    "moduleResolution": "node",
-    "declaration": false,
-    "noImplicitAny": false,
-    "sourceMap": true,
-    "noLib": false,
-    "allowJs": true,
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "skipLibCheck": true,
+    "isolatedModules": true,
     "esModuleInterop": true,
-    "baseUrl": "./src"
+    "baseUrl": "./src/",
+    "paths": {
+      "#*": ["*"]
+    }
   },
   "include": ["src/**/*"]
 }

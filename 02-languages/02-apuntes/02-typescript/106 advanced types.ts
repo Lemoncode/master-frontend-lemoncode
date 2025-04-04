@@ -368,7 +368,7 @@ const myTree: TreeNode<number> = {
 
 // Aunque aplicando la recursividad en interfaces si que podíamos hacer cosas muy interesantes
 // como esta:
-type IterableList<T> = T & { next: IterableList<T> | null };
+type IterableList<T extends object> = T & { next: IterableList<T> | null };
 
 interface Student {
   name: string;
@@ -422,14 +422,11 @@ const myTreeMM: TreeNodeMM<string> = ["hello", [["world"], "!"]];
 // introduce nuevos tipos genéricos ineridos sobre la marcha: la keyword "infer".
 
 // EJEMPLO MÁS SENCILLO SIN RECURSIVIDAD ***************
-type IsStringArray<T extends any[]> = T extends Array<infer Items>
-  ? Items extends string
-    ? true
-    : false
-  : never;
+type IsPrimitiveArray<T extends any[]> = T extends (infer Type)[] ? Type extends object? false : true : never;
 
-type Result1 = IsStringArray<[1, 2]>; // false
-type Result2 = IsStringArray<["hello", "world"]>; // true
+type Result1 = IsPrimitiveArray<[1, 2]>;
+type Result2 = IsPrimitiveArray<["a", "b"]>;
+type Result3 = IsPrimitiveArray<[{}]>;
 
 // EJEMPLO CON RECURSIVIDAD ****************************
 type RemoveZeroes<T extends any[]> = T extends [infer Head, ...infer Tail]
@@ -438,4 +435,13 @@ type RemoveZeroes<T extends any[]> = T extends [infer Head, ...infer Tail]
     : [Head, ...RemoveZeroes<Tail>]
   : T;
 
-type Result3 = RemoveZeroes<[0, 1, true, 0, 2, 0, "hello", 0, {}]>;
+type Result4 = RemoveZeroes<[0, 1, true, 0, 2, 0, "hello", 0, {}]>;
+
+// Y una implementación básica, podría ser:
+
+// Fijaos como he añadido el genérico T como const para que lo interprete como una tupla.
+const removeZeroes = <const T extends any[]>(array: T): RemoveZeroes<T> => 
+  array?.filter(x => x !== 0) as any;
+
+// Mira intellisense encima de 'result'
+const result = removeZeroes([0, 1, true, "hello", 0, {name: "Santi"}, 0]);

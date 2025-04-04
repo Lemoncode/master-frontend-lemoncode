@@ -6,7 +6,7 @@ Partiremos del ejemplo anterior [03-event-handler](../03-event-handler/README.md
 
 En los ejemplos anteriores, hemos visto cómo al cambiar el valor de una variable, Svelte se encarga de actualizar el DOM automáticamente. Sin embargo, la reactividad que hemos utilizado es una forma antigua de trabajar (versiones anteriores a Svente 5). No vamos a entrar en detalle, pero antes la reactividad se basaba en **asignación de valores**. Si asignabamos un nuevo valor a una variable, Svelte se encargaba de actualizar el DOM.
 
-En Svelte 5 aparecen las **runas**. El cambio está justificado en varios aspectos, tanto en la forma de escribir bloques de código reactivos a cambio como en la tecnología que hay detrás. Las **runas** utilizan **signals** (adoptado por multitud de otros frameworks).
+En Svelte 5 aparecen las **runas**. El cambio está justificado en varios aspectos, tanto en la forma de escribir bloques de código reactivos como en la tecnología que hay detrás. Las **runas** utilizan **signals** (adoptado por multitud de otros frameworks).
 
 Primero vamos a desactivar la reactividad antigua para ver que no se actualiza el DOM automáticamente con la asignación de nuevos valores a simples variables:
 
@@ -27,7 +27,8 @@ const config = {
         // If your environment is not supported, or you settled on a specific   environment, switch out the adapter.
         // See https://svelte.dev/docs/kit/adapters for more information about  adapters.
         adapter: adapter()
-    },
+-    }
++    },
 
 +   compilerOptions: {
 +       runes: true
@@ -94,7 +95,7 @@ Vamos a probar :) Sustituimos el contenido de nuestro componente _Playground_ po
 ```svelte
 <script lang="ts">
 	let name = $state('Svelte');
-	let list = $state([]);
+	let list = $state<string[]>([]);
 
 	const onclick = () => {
 		list.push(name);
@@ -134,12 +135,6 @@ _src/lib/playground.svelte_:
 
 <button {onclick}>Clicked {count} times!</button>
 <div>Double: {double}</div>
-
-<style>
-	h1 {
-		color: indianred;
-	}
-</style>
 ```
 
 Si necesitamos hacer derivaciones más complejas, podemos utilizar `$derived.by`:
@@ -171,15 +166,23 @@ _src/lib/playground.svelte_:
 
 ```svelte
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	let count = $state(0);
 
-	$effect(() => {
+	onMount(() => {
 		const interval = setInterval(() => {
 			count += 1;
 		}, 1000);
 
 		// return the cleanup function
-		return () => clearInterval(interval);
+		return () => {
+			clearInterval(interval);
+		};
+	});
+
+	$effect(() => {
+		console.log('Count:', count);
 	});
 </script>
 
@@ -200,17 +203,13 @@ _src/lib/playground.svelte_:
 
 ```diff
 <script lang="ts">
-	import Greetings from './greetings.svelte';
-	import TextField from './text-field.svelte';
-
 	let name = $state('Lemoncoders!');
-
-+	$inspect(name);
+	$inspect(name);
 </script>
 
-<Greetings {name} />
+<h1>Hello, {name}!</h1>
 
-<TextField bind:value={name} />
+<input type="text" bind:value={name} />
 ```
 
 Podemos ejecutar el proyecto y comprobar que en la consola del navegador se muestra el valor de `name` cada vez que cambia.
@@ -288,21 +287,21 @@ Y lo utilizamos en _Playground_:
 
 _src/lib/playground.svelte_:
 
-```svelte
+```diff
 <script lang="ts">
 	import Greetings from './greetings.svelte';
-	import TextField from './text-field.svelte';
++	import TextField from './text-field.svelte';
 
-	let name = $state('Lemoncoders!');
++	let name = $state('Lemoncoders!');
 
-	const onchangetext = (value: string) => {
-		name = value;
-	};
++	const onchangetext = (value: string) => {
++		name = value;
++	};
 </script>
 
-<Greetings {name} />
-
-<TextField value={name} {onchangetext} />
+- <Greetings name="Lemoncoders!" />
++ <Greetings {name} />
++ <TextField value={name} {onchangetext} />
 ```
 
 ## $bindable: Bindable props
@@ -323,12 +322,12 @@ _src/lib/text-field.svelte_:
 	}
 
 -	let { id, name, value, onchangetext }: Props = $props();
-+	let { id, name, value = $bindable(), onchangetext }: Props = $props();
++	let { id, name, value = $bindable() }: Props = $props();
 
 	const oninput: FormEventHandler<HTMLInputElement> = (e) => {
 		const target = e.target as HTMLInputElement;
 +		value = target.value;
-		onchangetext?.(target.value);
+-		onchangetext?.(target.value);
 	};
 </script>
 

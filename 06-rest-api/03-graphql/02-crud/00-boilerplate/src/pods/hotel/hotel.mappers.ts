@@ -13,11 +13,11 @@ export const mapHotelFromApiToVm = (
 });
 
 export const mapHotelFromVmToApi = (hotel: viewModel.Hotel): apiModel.Hotel =>
-  (({
+  ({
     id: hotel.id,
     name: hotel.name,
     shortDescription: hotel.description,
     hotelRating: hotel.rating,
     address1: hotel.address,
     city: hotel.city,
-  } as unknown) as apiModel.Hotel);
+  } as unknown as apiModel.Hotel);

@@ -116,7 +116,7 @@ class Point3D {
   constructor(coord: Coord) {
     this.coord = {
       ...coord,
-      z: coord.z || 0,
+      z: coord.z ?? 0,
     };
   }
   getZ() {
@@ -272,6 +272,10 @@ type MyPick<T, K extends keyof T> = {
   [P in K]: T[P];
 };
 type MyOmit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
+// Alternative
+// type MyOmit<T extends object, K extends keyof T> = { 
+//   [P in Exclude<keyof T, K>]: T[P]
+// }
 
 // *** RECORD ***************
 

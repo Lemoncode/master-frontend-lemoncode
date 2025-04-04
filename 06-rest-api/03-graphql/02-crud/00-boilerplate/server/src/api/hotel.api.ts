@@ -6,7 +6,7 @@ import {
   updateHotel,
   insertHotel,
   deleteHotel,
-} from '../db';
+} from '../db/index.js';
 
 export const hotelApi = Router();
 

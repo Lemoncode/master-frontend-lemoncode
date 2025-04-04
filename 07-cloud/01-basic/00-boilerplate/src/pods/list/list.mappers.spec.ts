@@ -4,42 +4,26 @@ import { mapMemberListFromApiToVm } from './list.mappers';
 
 describe('list mappers specs', () => {
   describe('mapMemberListFromApiToVm', () => {
-    it('should return empty array when it feeds memberList equals undefined', () => {
+    it.each<{ members: apiModel.Member[] }>([
+      { members: undefined! },
+      { members: null! },
+      { members: [] },
+    ])(
+      'should return empty array when it feeds members equals $members',
+      ({ members }) => {
+        // Arrange
+
+        // Act
+        const result = mapMemberListFromApiToVm(members);
+
+        // Assert
+        expect(result).toEqual([]);
+      }
+    );
+
+    it('should return array with one mapped item when it feeds members with one item', () => {
       // Arrange
-      const memberList: apiModel.Member[] = undefined;
-
-      // Act
-      const result = mapMemberListFromApiToVm(memberList);
-
-      // Assert
-      expect(result).toEqual([]);
-    });
-
-    it('should return empty array when it feeds memberList equals null', () => {
-      // Arrange
-      const memberList: apiModel.Member[] = null;
-
-      // Act
-      const result = mapMemberListFromApiToVm(memberList);
-
-      // Assert
-      expect(result).toEqual([]);
-    });
-
-    it('should return empty array when it feeds memberList equals empty array', () => {
-      // Arrange
-      const memberList: apiModel.Member[] = [];
-
-      // Act
-      const result = mapMemberListFromApiToVm(memberList);
-
-      // Assert
-      expect(result).toEqual([]);
-    });
-
-    it('should return array with one mapped item when it feeds memberList with one item', () => {
-      // Arrange
-      const memberList: apiModel.Member[] = [
+      const members: apiModel.Member[] = [
         {
           id: 'test-id',
           login: 'test-login',
@@ -48,7 +32,7 @@ describe('list mappers specs', () => {
       ];
 
       // Act
-      const result = mapMemberListFromApiToVm(memberList);
+      const result = mapMemberListFromApiToVm(members);
 
       // Assert
       const expectedResult: viewModel.Member[] = [

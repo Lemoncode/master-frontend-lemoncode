@@ -2,32 +2,31 @@
   "name": "@my-org/motto-helpers",
   "version": "1.0.0",
   "private": false,
+  "sideEffects": false,
   "author": "Lemoncode",
   "license": "MIT",
   "files": [
     "dist"
   ],
   "type": "module",
-  "module": "./dist/motto-helpers.js",
-  "main": "./dist/motto-helpers.umd.cjs",
+  "module": "./dist/index.js",
+  "main": "./dist/index.umd.cjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/motto-helpers.js",
-      "require": "./dist/motto-helpers.umd.cjs",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
     }
   },
   "scripts": {
-    "start": "npm run build -- --watch",
     "build": "vite build",
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --watch  --preserveWatchOutput"
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "typescript": "^5.4.2",
-    "vite": "^5.1.6",
-    "vite-plugin-dts": "^3.7.3"
+    "typescript": "^5.8.2",
+    "vite": "^6.2.0",
+    "vite-plugin-dts": "^4.5.3"
   },
   "dependencies": {
     "@my-org/house-helpers": "^1.0.0"

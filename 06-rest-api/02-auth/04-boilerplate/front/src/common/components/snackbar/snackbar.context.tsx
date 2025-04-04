@@ -11,7 +11,7 @@ interface Context {
 
 export const SnackbarContext = React.createContext<Context>(null);
 
-export const SnackbarProvider: React.FC<PropsWithChildren> = (props) => {
+export const SnackbarProvider: React.FC<PropsWithChildren> = props => {
   const { children } = props;
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState<SnackbarOptions>({

@@ -1,9 +1,9 @@
 import { CookieOptions } from 'express';
-import { envConstants } from 'core/constants';
+import { ENV } from '#core/constants/index.js';
 
-export const jwtSignAlgorithm = 'HS256';
+export const JWT_SIGN_ALGORITHM = 'HS256';
 
-export const cookieOptions: CookieOptions = {
+export const COOKIE_OPTIONS: CookieOptions = {
   httpOnly: true,
-  secure: envConstants.isProduction,
+  secure: ENV.IS_PRODUCTION,
 };

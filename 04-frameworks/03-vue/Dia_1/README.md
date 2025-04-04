@@ -1,75 +1,41 @@
-# Nuxt 3 Minimal Starter
+# dia-1
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+```
+pnpm create vue@latest ToDoList
+```
 
-## Setup
+## Opciones
 
-Make sure to install the dependencies:
+```
+Vue.js - The Progressive JavaScript Framework
 
-```bash
-# npm
-npm install
+✔ Package name: … todolist
+✔ Add TypeScript? … No / Yes
+✔ Add JSX Support? … No / Yes
+✔ Add Vue Router for Single Page Application development? … No / Yes
+✔ Add Pinia for state management? … No / Yes
+✔ Add Vitest for Unit Testing? … No / Yes
+✔ Add an End-to-End Testing Solution? › No
+✔ Add ESLint for code quality? › Yes
+✔ Add Prettier for code formatting? … No / Yes
+```
 
-# pnpm
+## Extensiones recomendadas
+
+- Ver `.vscode/extensions.json`
+- En VS Code, aparecerá un mensaje para instalar las extensiones recomendadas
+  al abrir el proyecto.
+
+## Desarrollo
+
+```
+cd todolist
 pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+pnpm dev
 ```
 
-## Development Server
+## Compilación
 
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+pnpm build
 ```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

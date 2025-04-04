@@ -2,9 +2,9 @@
 
 Hemos generado una lista de posts estática, pero ¿qué pasa si queremos mostrar una lista paginada de posts? ¿cómo podría hacerlo?
 
-¿Y si quisiera hacerlo paginado? Aquí podría crearme una pagina con los 10 primeros posts y después generar paginas dinámicas, del tipo `blog/[page].astro` para ir renderizando los posts correspondientes a cada página.
+¿Y si quisiera hacerlo paginado? Aquí podría crearme una página con los 10 primeros posts y después generar páginas dinámicas, del tipo `blog/[page].astro` para ir renderizando los posts correspondientes a cada página.
 
-Para ver como funcional las páginas dinámica, vamos a ver un ejemplo más sencillo con los tags de un blog.
+Para ver como funcionan las páginas dinámicas, vamos a ver un ejemplo más sencillo con los tags de un blog.
 
 ¿Qué vamos a hacer?
 
@@ -22,11 +22,11 @@ Nos arrancamos por crear la página dinámica.
 
 - Vamos a crear una carpeta `tags` dentro de `pages`
 
-- El nombre del parametro va a tener entre corchete el nombre `[tag]`, con eso le indicamos que ese campo va a ser dinamico.
+- El nombre del parámetro que va a tener entre corchete el nombre `[tag]`, con eso le indicamos que ese campo va a ser dinámico.
 
-- Lo siguiente es decirle que valores puede aceptar `[tag]`, con eso Astro ya sabe cuantas páginas estaticas tiene que generar y que plantilla usar (una por cada tag en el array).
+- Lo siguiente, es decirle que valores puede aceptar `[tag]`, con eso Astro ya sabe cuantas páginas estáticas tiene que generar y que plantilla usar (una por cada tag en el array).
 
-- Y ahora nos centrams en el parametro, leemos lo que viene del parametro `tag` (es decir `[tag]`) e indicamos que estams mostrando los posts que tengan ese tag.
+- Y ahora nos centrams en el parámetro, leemos lo que viene del parámetro `tag` (es decir, `[tag]`) e indicamos que estamos mostrando los posts que tengan ese tag.
 
 _./src/pages/tags/[tag].astro_
 
@@ -56,7 +56,7 @@ interface Params {
   tag: string;
 }
 
-const { tag } = Astro.params as Params;
+const { tag } = Astro.props as Params;
 ---
 <BaseLayout pageTitle={tag}>
   <p>Posts tagged with {tag}</p>
@@ -65,24 +65,24 @@ const { tag } = Astro.params as Params;
 
 Si ahora visitamos, por ejemplo:
 
-- `http://localhost:3000/tags/astro`
-- `http://localhost:3000/tags/blogging`
+- `http://localhost:4321/tags/astro`
+- `http://localhost:4321/tags/blogging`
 - `http://localhost:4321/tags/hola%20mundo`
-- `http://localhost:3000/tags/learning%20in%20public`
-- `http://localhost:3000/tags/successes`
+- `http://localhost:4321/tags/learning%20in%20public`
+- `http://localhost:4321/tags/successes`
 
 Podemos ver la página correspondiente a cada tag.
 
-Bueno, esto funciona, pero puede ser un poco rollo tener que ir añadiendo tags a mano cada vez que metas uno en un post, ya que esto se ejecuta una sóla vez y ya se genera todo estático, ¿No sería más fácil leer de los posts los tags que tenemos y generar una lista?
+Bueno, esto funciona, pero puede ser un poco rollo tener que ir añadiendo tags a mano cada vez que metas uno en un post, ya que esto se ejecuta una sola vez y ya se genera todo estático, ¿No sería más fácil leer de los posts los tags que tenemos y generar una lista?
 
 Vamos a hacer eso:
 
-- Leemos todos los posts en `.md`.
-- Eso `md` tiene definido un frontmatter con los tags.
+- Leemos todos los posts `.md`.
+- Ese `md` tiene definido un frontmatter con los tags.
 - Iteramos y leemos las listas.
 - Las añadimos a un conjunto de tags.
 
-Para optimizar vamos a leer la lista de posts una sola vez, aprovechando **getStaticPaths**, y s se lo pasamos como prop a cada tag para que despues haga el filtrado.
+Para optimizar vamos a leer la lista de posts una sola vez, aprovechando **getStaticPaths**, y se lo pasamos como prop a cada tag para que después haga el filtrado.
 
 _./src/pages/tags/[tag].astro_
 
@@ -194,9 +194,13 @@ import BaseLayout from "../../layouts/base.astro";
 </BaseLayout>
 ```
 
+<<<<<<< HEAD
+Vamos ahora a crear la página _index_ de los tags que va a tener la colección completa.
+=======
 Vamos ahora a crear la página _index_ de las tags que va a tener la colección completa de Tags (para no ir yendo directamente desde la URL)
+>>>>>>> master
 
-Antes que eso vamos a sacar el modelo de _Frontmatter_ a un fichero común.
+Antes que eso, vamos a sacar el modelo de _Frontmatter_ a un fichero común.
 
 _./src/models/blog-post-frontmatter.ts_
 
@@ -216,7 +220,7 @@ export interface Frontmatter {
 }
 ```
 
-Y usarlo en `[tag].astro``
+Y usarlo en `[tag].astro`
 
 _./src/pages/tags/[tag].astro_
 

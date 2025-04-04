@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@solidjs/router": "^0.8.2",
+    "@solidjs/router": "^0.15.3",
     "solid-js": "^1.7.7"
   },
   "devDependencies": {

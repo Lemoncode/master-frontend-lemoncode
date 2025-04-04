@@ -3,7 +3,7 @@
 Ya tenemos el layout definido en... casí todas las ventanas, nos queda cunado pinchamos en un post, aquí podríamos:
 
 - Usar el componente `Markdown` de Astro y encastrarlo todo en un layout.
-- Definie un layou para el markdown.
+- Definir un layout para el markdown.
 
 # Manos a la obra
 
@@ -61,7 +61,7 @@ _./src/pages/posts/post-2.md_
 ```diff
 ---
 + layout: ../../layouts/markdown-post.astro
-title: Mi Segundo Post
+title: Mi segundo post
 author: Lemoncoder
 description: "Segundo post para el ejemplo"
 image:
@@ -81,7 +81,7 @@ _./src/pages/posts/post-3.md_
 ```diff
 ---
 + layout: ../../layouts/markdown-post.astro
-title: Mi tercer Post
+title: Mi tercer post
 author: Lemoncoder
 description: "Tercer post para el ejemplo"
 image:

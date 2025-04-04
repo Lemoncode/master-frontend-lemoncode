@@ -18,53 +18,17 @@ _./vite.config.ts_
 
 ```javascript
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { fileURLToPath } from 'node:url';
+...
 
 export default defineConfig({
   envPrefix: 'PUBLIC_',
-  plugins: [
-    react({
-      babel: {
-        plugins: ['@emotion'],
-      },
-    }),
-  ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
+  ...
 });
+
 
 ```
 
 > [Vite env variables](https://vitejs.dev/guide/env-and-mode.html)
-
-We can split vendor chunks if we want:
-
-_./vite.config.ts_
-
-```diff
-- import { defineConfig } from 'vite';
-+ import { defineConfig, splitVendorChunkPlugin } from 'vite';
-import react from '@vitejs/plugin-react';
-import { fileURLToPath } from 'node:url';
-
-export default defineConfig({
-  envPrefix: 'PUBLIC_',
-  plugins: [
-    react({
-      babel: {
-        plugins: ['@emotion'],
-      },
-    }),
-+   splitVendorChunkPlugin(),
-  ],
-...
-});
-
-```
 
 Let's add a different env variables for `production`:
 
@@ -84,8 +48,8 @@ _./package.json_
   "scripts": {
     "start": "run-p -l type-check:watch start:dev",
     "start:dev": "vite --port 8080",
-+   "build": "npm run type-check && npm run clean && npm run build:prod",
-+   "build:prod": "vite build",
++   "prebuild": "npm run type-check && npm run clean",
++   "build": "vite build",
     "type-check": "tsc --noEmit --preserveWatchOutput",
     ...
   },

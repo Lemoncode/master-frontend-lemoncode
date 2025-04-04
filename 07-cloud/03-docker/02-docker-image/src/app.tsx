@@ -1,11 +1,12 @@
 import React from 'react';
-import { RouterComponent } from '@/core/router';
-import { ThemeProviderComponent } from '@/core/theme';
+import { RouterProvider } from '@tanstack/react-router';
+import { router } from '#core/router';
+import { ThemeProviderComponent } from '#core/theme';
 
 const App: React.FC = () => {
   return (
     <ThemeProviderComponent>
-      <RouterComponent />
+      <RouterProvider router={router} />
     </ThemeProviderComponent>
   );
 };

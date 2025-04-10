@@ -1,0 +1,122 @@
+---
+import { marked } from "marked";
+import Layout from "../../layouts/Layout.astro";
+import { getPosts } from "./post.api";
+import hljs from "highlight.js";
+import Like from "../../components/LikeButton.component.tsx";
+
+const renderer = new marked.Renderer();
+renderer.code = ({ text, lang }) => {
+  const validLang = hljs.getLanguage(lang || "plaintext")
+    ? lang || "plaintext"
+    : "plaintext";
+  const highlighted = hljs.highlight(text, { language: validLang }).value;
+  return `<pre><code class="hljs ${validLang}">${highlighted}</code></pre>`;
+};
+
+marked.setOptions({ renderer });
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    params: {
+      slug: post.title
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-"),
+    },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+const postContent = marked(post.content || "");
+const postDate = new Date(post.date).toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+const postImage = `url(${post.image.link})`;
+---
+
+<Layout>
+  <div class="container background">
+    <article class="article">
+      <header class="article__header">
+        <p>
+          <time datetime="2025-03-05">{postDate}</time>
+        </p>
+        <h1 class="article__title">{post.title}</h1>
+      </header>
+      <div set:html={postContent} class="article__content" />
+      <footer>
+        <p>Written by <strong>{post.author}</strong></p>
+        <Like client:load />
+      </footer>
+    </article>
+  </div>
+</Layout>
+
+<style define:vars={{ postImage }}>
+  .background::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 360px;
+    background-image: var(--postImage);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top center;
+  }
+
+  .article {
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: var(--space-2xl);
+    padding: var(--space-lg);
+    background-color: var(--pure-white);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .article__header {
+    text-align: center;
+  }
+  .article__title {
+    font-size: var(--fs-3xl);
+    font-family: var(--ff-title);
+  }
+
+  .article__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+
+    h2 {
+      margin-top: var(--space-sm);
+    }
+    ul {
+      padding-left: var(--space-md);
+    }
+    img {
+      width: 100%;
+      object-fit: cover;
+      aspect-ratio: 21/9;
+      border-radius: var(--border-radius);
+    }
+
+    code {
+      font-size: var(--fs-xs);
+      border-radius: var(--border-radius);
+      padding: var(--space-xs);
+    }
+  }
+</style>

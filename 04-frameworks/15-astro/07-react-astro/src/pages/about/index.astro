@@ -1,0 +1,98 @@
+---
+import { marked } from "marked";
+import Layout from "../../layouts/Layout.astro";
+import { getAbout } from "./about.api.ts";
+
+const about = await getAbout();
+
+const aboutExtendedBio = marked(about.extendedBio || "");
+---
+
+<Layout>
+  <div class="about__header">
+    <img src={about.picture.link} alt="" class="about__image" />
+    <div class="about__intro">
+      <h1>I'am, <br /> {about.fullname}</h1>
+      <p>
+        {about.shortBio}
+      </p>
+    </div>
+  </div>
+  <div set:html={aboutExtendedBio} class="about__bio" />
+</Layout>
+
+<style>
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .about__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    align-items: flex-end;
+  }
+
+  @media screen and (min-width: 768px) {
+    .about__header {
+      flex-direction: row;
+    }
+  }
+
+  .about__intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+
+    h1 {
+      font-size: var(--fs-4xl);
+      font-family: var(--ff-title);
+      width: 10ch;
+      line-height: 1.1;
+    }
+    p {
+      max-width: 30ch;
+      font-size: var(--fs-md);
+    }
+  }
+  @media screen and (min-width: 768px) {
+    .about__intro {
+      padding-bottom: var(--space-md);
+    }
+  }
+
+  .about__image {
+    width: 100%;
+    object-fit: cover;
+    aspect-ratio: 16/9;
+    border-radius: var(--border-radius);
+  }
+  @media screen and (min-width: 768px) {
+    .about__image {
+      width: 50%;
+      aspect-ratio: 10/16;
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    .about__image {
+      width: 30%;
+    }
+  }
+  .about__bio {
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+
+    img {
+      width: 100%;
+      object-fit: cover;
+      aspect-ratio: 21/9;
+      border-radius: var(--border-radius);
+    }
+  }
+</style>

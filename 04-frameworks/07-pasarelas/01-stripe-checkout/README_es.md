@@ -2,19 +2,25 @@
 
 [🇬🇧 English version](./README.md)
 
-# Que vamos a cubrir
+## Que vamos a cubrir
 
-Vamos a configurar el kiosko de stripe (checkout) para hacer una compra (sin notificación a servidor, eso lo veremos en el siguiente ejemplo).
+Vamos a configurar el checkout de Stripe para hacer una compra (sin notificación a servidor, eso lo veremos en el siguiente ejemplo).
 
-# Pasos
+## Pasos
 
 - Definimos un fichero de variables de entorno en local:
 
-_./env_
+_./env_:
 
 ```env
 NODE_ENV=development
 PORT=8081
+```
+
+- Instalamos las dependencias:
+
+```bash
+npm install
 ```
 
 - Podemos arrancar el proyecto y ver que hay en el boiler plate:
@@ -23,19 +29,19 @@ PORT=8081
 npm start
 ```
 
-en http://localhost:8081 tenemos la página home
+en <http://localhost:8081> tenemos la página home
 
-en http://localhost:8081/api tenemos un endpoint que devuelve datos
+en <http://localhost:8081/api> tenemos un endpoint que devuelve datos
 
-- Vamos a instalar la librería de servidor de stripe (esta ya trae los typings incorporados):
+- Vamos a parar la ejecución e instalar la librería de servidor de Stripe (esta ya trae los typings incorporados):
 
 ```bash
-npm install stripe --save
+npm i stripe
 ```
 
 - Creamos una hoja de estilo para que nuestras páginas tengan buena pinta (la del ejemplo de Stripe):
 
-_./src/static/style.css_
+_./src/static/style.css_:
 
 ```css
 body {
@@ -122,7 +128,7 @@ h5 {
 
 - Vamos a crear la maquetacíon de la página (reemplazamos el contenido del fichero completo)
 
-_./static/index.html_
+_./static/index.html_:
 
 ```html
 <!DOCTYPE html>
@@ -150,7 +156,7 @@ _./static/index.html_
 </html>
 ```
 
-- Vamos a probar que se muestra la ventana aunque esta no tendrá funcionalidad (abrimos nuestro browser favorito y navegamos a http://localhost:8081).
+- Vamos a probar que se muestra la ventana aunque esta no tendrá funcionalidad (abrimos nuestro browser favorito y navegamos a <http://localhost:8081>).
 
 ```bash
 npm start
@@ -169,7 +175,7 @@ npm start
 Para este ejemplo vamos a usar una clave genérica de stripe
 (Chequear [este enlace](https://stripe.com/docs/checkout/quickstart?lang=node#init-stripe) para ver si hay una clave diferente):
 
-_./.env_
+_./.env_:
 
 ```diff
 NODE_ENV=development
@@ -179,7 +185,7 @@ PORT=8081
 
 Y enlazarla a nuestro fichero de constantes:
 
-_./env.constants.ts_
+_./env.constants.ts_:
 
 ```diff
 export const envConstants = {
@@ -192,7 +198,7 @@ export const envConstants = {
 - Y en el lado de los endpoints vamos a traernos  la librería
 de servidor de stripe, como vamos a usar el import en modo genérico, vamos a configurar esto en nuetro tsconfig
 
-_./tsconfig.json_
+_./tsconfig.json_:
 
 ```diff
 {
@@ -206,7 +212,7 @@ _./tsconfig.json_
     "noLib": false,
     "allowJs": true,
     "suppressImplicitAnyIndexErrors": true,
-+    "allowSyntheticDefaultImports": true,
++   "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "baseUrl": "./src"
@@ -217,13 +223,13 @@ _./tsconfig.json_
 
 - Vamos ahora a nuestro fichero de _api_ e importarnos Stripe, configurandolo con la cuenta que acabamos de introducir en nuestra variable de entorno.
 
-_./src/api.ts_
+_./src/api.ts_:
 
 ```diff
 
 import { Router } from 'express';
 + import Stripe from 'stripe';
-+ import {envConstants} from './env.constants';
++ import { envConstants } from './env.constants';
 
 + // https://github.com/stripe/stripe-node#usage-with-typescript
 + const stripe = new Stripe(envConstants.STRIPE_SECRET, {
@@ -245,7 +251,7 @@ api.get('/', async (req, res) => {
   - Le indicamos lo que cuesta.
   - Le indicamos la dirección de ok y ko (transacción completada con éxito, o transacción errónea)
 
-_./src/api.ts_
+_./src/api.ts_:
 
 ```diff
 api.get('/', async (req, res) => {
@@ -281,7 +287,7 @@ api.get('/', async (req, res) => {
 
 - Vamos a definir la página de exito y la de error:
 
-_./src/static/success.html_
+_./src/static/success.html_:
 
 ```html
 <html>
@@ -300,7 +306,7 @@ _./src/static/success.html_
 </html>
 ```
 
-_./src/static/error.html_
+_./src/static/error.html_:
 
 ```html
 <html>
@@ -325,7 +331,7 @@ _./src/static/error.html_
   - Redirigimos a la pasarela de Stripe.
   - Stripe ya tiene el mando, nos redirigirá a la página de success o de cancel según se complete la operación.
 
-_./src/static/index.html_
+_./src/static/index.html_:
 
 ```diff
 <!DOCTYPE html>

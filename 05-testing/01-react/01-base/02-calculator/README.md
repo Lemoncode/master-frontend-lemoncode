@@ -63,6 +63,8 @@ _./src/calculator.spec.ts_
 ```
 
 > We can see that Vitest supports ESModules out of the box.
+>
+> Check `npx jest` to see how it works with Jest ([Jest ECMAScript Modules](https://jestjs.io/docs/ecmascript-modules))
 
 ## Differences between `toEqual` vs `toBe` vs `toStrictEqual`:
 
@@ -405,7 +407,8 @@ describe('Calculator tests', () => {
       // Arrange
       const a = 2;
       const b = 2;
-      vi.spyOn(business, 'isLowerThan').mockImplementation((result) =>
+-     vi.spyOn(business, 'isLowerThanFive').mockImplementation((result) =>
++     vi.spyOn(business, 'isLowerThan').mockImplementation((result) =>
         console.log(`This is the result ${result}`)
       );
 +     vi.spyOn(business, 'max', 'get').mockReturnValue(7);
@@ -448,52 +451,41 @@ import * as calculator from './calculator';
 import * as business from './business';
 
 + vi.mock('./business');
-
-describe('Calculator tests', () => {
-  describe('add', () => {
-    it('should return 4 when passing A equals 2 and B equals 2', () => {
-      // Arrange
-      const a = 2;
-      const b = 2;
-
-      // Act
-      const result = calculator.add(a, b);
-
-      // Assert
-      expect(result).toEqual(4);
-    });
-
-    it('should call to isLowerThan when passing A equals 2 and B equals 2', () => {
-      // Arrange
-      const a = 2;
-      const b = 2;
--     vi.spyOn(business, 'isLowerThan').mockImplementation((result) =>
--       console.log(`This is the result ${result}`)
--     );
-      vi.spyOn(business, 'max', 'get').mockReturnValue(7);
-
 ...
 
 ```
 
 > [vi.mock](https://vitest.dev/api/vi.html#vi-mock)
 >
-> Notice that we don't see any `console.log` from original `isLowerThan` method.
+> [SinonJS mock](https://sinonjs.org/releases/v19/mocks/)
 >
-> In this case we can also use `vi.mocked` instead of `vi.spyOn`: `vi.mocked(business.isLowerThan).mockImplementation(...)`
+> Notice that we don't see any `console.log` from original `isLowerThan` method.
 
-Another use case is to [enable esModule support for a module that doesn't support it](https://github.com/vitest-dev/vitest/issues/3152#issuecomment-1566327217).
+Another use case is the typical error `Cannot redefine property: X`. [enable esModule support for a module that doesn't support it](https://github.com/vitest-dev/vitest/issues/3152#issuecomment-1566327217).
 
-```js
-import thirdParty from 'third-party';
+> Check this issue installing `react-promise-tracker`.
 
-vi.mock('third-party', async (importOriginal) => {
-  const original = await importOriginal();
-  return {
-    ...original,
-    __esModule: true,
-  };
-});
+Add `react-promise-tracker`
+
+```bash
+npm install react-promise-tracker
+```
+
+Add `spyOn` to check the error:
+
+```ts
+import * as tracker from 'react-promise-tracker';
+vi.spyOn(tracker, 'usePromiseTracker');
+```
+
+> You can see the error `TypeError: Cannot redefine property: usePromiseTracker`
+
+Use a mock to solve it:
+
+```diff
+import * as tracker from 'react-promise-tracker';
++ vi.mock('react-promise-tracker');
+vi.spyOn(tracker, 'usePromiseTracker');
 ```
 
 # About Basefactor + Lemoncode

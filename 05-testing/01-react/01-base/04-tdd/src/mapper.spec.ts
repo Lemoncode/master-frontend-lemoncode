@@ -7,15 +7,19 @@ describe('mapper specs', () => {
     { members: undefined },
     { members: null },
     { members: [] },
-  ])('should return empty array when it feeds $members', ({ members }) => {
-    // Arrange
+  ])(
+    'should return empty array when it feeds members equals $members',
+    ({ members }) => {
+      // Arrange
 
-    // Act
-    const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
+      // Act
+      const result = mapMemberListFromApiToVm(members);
 
-    // Assert
-    expect(result).toEqual([]);
-  });
+      // Assert
+      const expectedResult: viewModel.Member[] = [];
+      expect(result).toEqual(expectedResult);
+    }
+  );
 
   it('should return array one mapped item when it feed array with one item', () => {
     // Arrange

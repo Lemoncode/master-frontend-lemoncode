@@ -320,11 +320,13 @@ describe('mapper specs', () => {
 +   { members: undefined },
 +   { members: null },
 +   { members: [] },
-+ ])('should return empty array when it feeds $members', ({ members }) => {
++ ])(
++   'should return empty array when it feeds members equals $members',
++   ({ members }) => {
 +     // Arrange
 
 +     // Act
-+     const result: viewModel.Member[] = mapMemberListFromApiToVm(members);
++     const result = mapMemberListFromApiToVm(members);
 
 +     // Assert
 +     expect(result).toEqual([]);

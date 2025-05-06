@@ -5,7 +5,7 @@ import {
   SnackbarContent,
   IconButton,
 } from '@mui/material';
-import { Close as CloseIcon } from '@mui/icons-material';
+import CloseIcon from '@mui/icons-material/Close';
 import { SnackbarContext } from './snackbar.context';
 import * as classes from './snackbar.styles';
 

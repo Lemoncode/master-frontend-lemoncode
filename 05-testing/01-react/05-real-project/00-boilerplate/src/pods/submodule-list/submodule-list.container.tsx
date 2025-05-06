@@ -1,8 +1,6 @@
 import React from 'react';
-import {
-  AccountBalance as AccountBalanceIcon,
-  Group as GroupIcon,
-} from '@mui/icons-material';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import GroupIcon from '@mui/icons-material/Group';
 import { SumoduleListComponent } from './submodule-list.component';
 import { DashboardItemProps } from '#common/components';
 import { routes } from '#core/router';

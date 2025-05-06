@@ -216,8 +216,6 @@ _./src/cookies-dialog.spec.tsx_
 
 ```
 
-> Instead of get title element text, we should get element by role when it's available.
-
 Should call onAgreeClick when it clicks on "Agree" button:
 
 ```diff

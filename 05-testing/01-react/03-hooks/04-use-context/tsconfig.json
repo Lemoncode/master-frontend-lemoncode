@@ -16,5 +16,9 @@
       "#*": ["*"]
     }
   },
-  "include": ["./src/**/*", "./config/test/config.d.ts", "./config/test/setup.ts"]
+  "include": [
+    "./src/**/*",
+    "./config/test/config.d.ts",
+    "./config/test/setup.ts"
+  ]
 }

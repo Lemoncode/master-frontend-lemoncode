@@ -18,7 +18,7 @@ _./src/user-edit.tsx_
 
 ```javascript
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 type ParamProps = {
   name: string;
@@ -37,7 +37,7 @@ _./src/router.tsx_
 
 ```javascript
 import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router';
 import { NameCollection } from './name-collection';
 import { UserEdit } from './user-edit';
 
@@ -82,7 +82,7 @@ _./src/name-collection.tsx_
 
 ```diff
 import React from 'react';
-+ import { Link } from 'react-router-dom';
++ import { Link } from 'react-router';
 import { getNameCollection } from './name-api';
 
 ...
@@ -119,7 +119,7 @@ _./src/name-collection.spec.tsx_
 
 ```diff
 import React from 'react';
-+ import { HashRouter, Routes, Route } from 'react-router-dom';
++ import { HashRouter, Routes, Route } from 'react-router';
 import {
   render,
   screen,
@@ -165,7 +165,7 @@ _./src/name-collection.spec.tsx_
 
 ```diff
 import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router';
 import {
   render,
   screen,

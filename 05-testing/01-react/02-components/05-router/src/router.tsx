@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router';
 import { NameCollection } from './name-collection';
 import { UserEdit } from './user-edit';
 

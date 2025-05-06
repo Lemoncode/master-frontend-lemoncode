@@ -139,7 +139,7 @@ describe('dummy specs', () => {
 
 # External config
 
-We could create a jest config outside `package.json` to improve maintainability.
+We could create a config outside `package.json` to improve maintainability.
 
 > [Config file](https://vitest.dev/config/)
 

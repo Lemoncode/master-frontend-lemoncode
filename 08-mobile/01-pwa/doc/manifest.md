@@ -293,7 +293,7 @@ Los eventos asociados a la API Web App Manifest son:
 - onappinstalled
 - onbeforeinstallprompt
 
-Podemos, por lo tanto, programrar Listeners y hacer cosas en el momento de la instalación o en el momento justo antes de enseñar el baner de instalación.
+Podemos, por lo tanto, programar Listeners y hacer cosas en el momento de la instalación o en el momento justo antes de enseñar el baner de instalación.
 
 ```javascript
 //Hace unos meses era "install". Ahora es "appinstalled".

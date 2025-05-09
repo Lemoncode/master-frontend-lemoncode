@@ -201,13 +201,13 @@ Esto lo hacemos con el decorador **@HostListener**. Este decorador configura un 
 })
 export class HighlightDirective {
 
-  constructor(el: ElementRef) {
+  constructor(public el: ElementRef) {
 -   el.nativeElement.style.backgroundColor = 'lightblue';
   }
 
 +  @HostListener('mouseenter')
 +  onMouseEnterEvent() {
-+    el.nativeElement.style.backgroundColor = 'lightblue';
++    this.el.nativeElement.style.backgroundColor = 'lightblue';
 +  }
 
 }

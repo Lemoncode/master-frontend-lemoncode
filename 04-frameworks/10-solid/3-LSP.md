@@ -120,7 +120,7 @@ driver.go(bike);
 
 El error saltará en el código del Driver, cuyo código seguramente lleve meses sin que nadie lo haya tocado, pero lo hemos roto por meter una clase hija sin cumplir el principio de Liskov.
 
-Una clase hija debe respetar el "contrato" de la clase padre. Si no lo respeta, no puede ser hija suya. Y en el caso de Bike, el contrato es que el método _chageGear_ recibe un único argumento numérico. Y la clase Bike no respeta eso.
+Una clase hija debe respetar el "contrato" de la clase padre. Si no lo respeta, no puede ser hija suya. Y en el caso de Bike, el contrato es que el método _changeGear_ recibe un único argumento numérico. Y la clase Bike no respeta eso.
 
 Igual en vez de herencia en los vehículos donde deberíamos tener herencia es en los conductores. O igual lo que tenemos que repensar es el proceso de conducir con otro interfaz distinto en el que no se hable de "acelerar" y de "cambios de marcha" sino que se hable simplemente de "cambios de velocidad en km/h".
 

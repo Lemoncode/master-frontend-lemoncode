@@ -1,7 +1,6 @@
 {
   "name": "05-testing-01-react",
   "version": "1.0.0",
-  "description": "Learn testing by sample using Jest and React, each of the samples contains a readme.md file that indicates the purpose of the sample plus an step by step guide to reproduce it.",
   "type": "module",
   "scripts": {
     "start": "run-p -l type-check:watch start:dev start:server",

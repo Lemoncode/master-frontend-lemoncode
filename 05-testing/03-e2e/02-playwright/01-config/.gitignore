@@ -7,6 +7,8 @@ junit.xml
 *.log
 *.orig
 .awcache
+
+# Playwright
 /test-results/
 /playwright-report/
 /blob-report/

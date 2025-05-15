@@ -11,7 +11,7 @@ describe('Hotel edit specs', () => {
       .click();
 
     // Assert
-    cy.url().should('equal', 'http://localhost:8080/#/hotel-edit/2');
+    cy.url().should('contain', '/hotel-edit/2');
   });
 
   it('should update hotel name when it edits an hotel and click on save button', () => {

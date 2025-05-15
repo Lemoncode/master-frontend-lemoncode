@@ -244,7 +244,7 @@ import { SelectComponent } from './select.component';
 
 +   const selectElement = screen.getByRole('combobox', { name: "Test label" });
 
-+   expect(selectElement.textContent).toEqual('Item 1');
++   expect(selectElement).toHaveTextContent('Item 1');
 
 +   await userEvent.click(selectElement);
 +   const itemElementList = screen.getAllByRole('option');

@@ -24,7 +24,6 @@ describe('Login specs', () => {
     cy.visit('/');
     cy.findByRole('textbox').as('userInput');
     cy.findByLabelText('Password').as('passwordInput');
-
     cy.get('@userInput').type(user);
     cy.get('@passwordInput').type(password);
     cy.findByRole('button', { name: 'Login' }).click();
@@ -54,5 +53,6 @@ describe('Login specs', () => {
 
     // Assert
     cy.url().should('equal', 'http://localhost:8080/#/hotel-collection');
+    cy.location('hash').should('equal', '#/hotel-collection');
   });
 });

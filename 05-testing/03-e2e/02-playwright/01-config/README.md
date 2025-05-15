@@ -223,6 +223,8 @@ test("should fetch hotel list and show it in screen when visit /hotel-collection
 });
 ```
 
+> [More info](https://playwright.dev/docs/api/class-page#page-wait-for-response)
+
 # About Basefactor + Lemoncode
 
 We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.

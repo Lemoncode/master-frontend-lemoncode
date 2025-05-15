@@ -240,11 +240,10 @@ _./cypress/e2e/login.spec.ts_
 
 +   // Assert
 +   cy.url().should('equal', 'http://localhost:8080/#/hotel-collection');
++   cy.location('hash').should('equal', '#/hotel-collection');
 + });
 
 ```
-
-> Alternative: cy.url().should('contain', '/hotel-collection');
 
 # About Basefactor + Lemoncode
 

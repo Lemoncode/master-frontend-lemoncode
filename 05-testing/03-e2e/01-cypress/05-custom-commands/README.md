@@ -62,7 +62,7 @@ _./cypress/tsconfig.json_
 
 ```
 
-> More info [here](https://docs.cypress.io/guides/tooling/typescript-support.html#Types-for-custom-assertions)
+> More info [here](https://docs.cypress.io/app/tooling/typescript-support#Types-for-Custom-Commands)
 
 Use it:
 

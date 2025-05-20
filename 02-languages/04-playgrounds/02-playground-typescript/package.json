@@ -20,6 +20,7 @@
     "Antonio Contreras <antonio.contreras@lemoncode.net> (https://github.com/antonio06)"
   ],
   "main": "index.html",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Lemoncode/master-frontend-lemoncode.git"

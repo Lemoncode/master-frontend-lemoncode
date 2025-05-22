@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Avatar, Typography } from '@mui/material';
-import { LockOutlined as LockOutlinedIcon } from '@mui/icons-material';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import * as classes from './container.styles';
 
 interface Props {

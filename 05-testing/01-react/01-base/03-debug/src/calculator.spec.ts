@@ -21,6 +21,9 @@ describe('Calculator tests', () => {
       // Arrange
       const a = 2;
       const b = 2;
+      vi.spyOn(business, 'isLowerThan').mockImplementation((result) =>
+        console.log(`This is the result ${result}`)
+      );
       vi.spyOn(business, 'max', 'get').mockReturnValue(7);
 
       // Act

@@ -1,0 +1,70 @@
+:root {
+  --primary-color: #1d3353;
+  --secondary-color: #fff;
+  --border-color: #333;
+  --pure-white: #fff;
+
+  /*text colors*/
+  --text-color: #333;
+  --text-color-light: #fff;
+
+  /*title hover color*/
+  --title-hover-color: #033378;
+
+  /*font family*/
+  --ff-title: "IBM Plex Sans Condensed", sans-serif;
+  --ff-body: "IBM Plex Sans", sans-serif;
+
+  /*font sizes*/
+  --fs-2xs: clamp(0.7813rem, 0.7747rem + 0.0326vw, 0.8rem);
+  --fs-xs: clamp(0.9375rem, 0.9158rem + 0.1087vw, 1rem);
+  --fs-sm: clamp(1.125rem, 1.0815rem + 0.2174vw, 1.25rem);
+  --fs-md: clamp(1.35rem, 1.2761rem + 0.3696vw, 1.5625rem);
+  --fs-lg: clamp(1.62rem, 1.5041rem + 0.5793vw, 1.9531rem);
+  --fs-xl: clamp(1.944rem, 1.771rem + 0.8651vw, 2.4414rem);
+  --fs-2xl: clamp(2.3328rem, 2.0827rem + 1.2504vw, 3.0518rem);
+  --fs-3xl: clamp(2.7994rem, 2.4462rem + 1.7658vw, 3.8147rem);
+  --fs-4xl: clamp(3.3592rem, 2.8691rem + 2.4507vw, 4.7684rem);
+
+  /*spacing*/
+  --space-3xs: clamp(0.25rem, 0.5vw, 0.5rem);
+  --space-2xs: clamp(0.5rem, 1vw, 1rem);
+  --space-xs: clamp(1rem, 2vw, 1.5rem);
+  --space-sm: clamp(1.5rem, 3vw, 2rem);
+  --space-md: clamp(2rem, 4vw, 3rem);
+  --space-lg: clamp(3rem, 6vw, 4rem);
+  --space-xl: clamp(4rem, 8vw, 6rem);
+  --space-2xl: clamp(6rem, 10vw, 8rem);
+
+  /*border radius*/
+  --border-radius: 6px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--ff-body);
+  font-size: var(--fs-sm);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: var(--text-color);
+}
+
+main {
+  flex: 1;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+  position: relative;
+}

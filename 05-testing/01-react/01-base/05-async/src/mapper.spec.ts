@@ -3,9 +3,11 @@ import * as viewModel from './view-model';
 import { mapMemberListFromApiToVm } from './mapper';
 
 describe('mapper specs', () => {
-  it.each<{
-    members: apiModel.Member[];
-  }>([{ members: undefined }, { members: null }, { members: [] }])(
+  it.each<{ members: apiModel.Member[] }>([
+    { members: undefined },
+    { members: null },
+    { members: [] },
+  ])(
     'should return empty array when it feeds members equals $members',
     ({ members }) => {
       // Arrange

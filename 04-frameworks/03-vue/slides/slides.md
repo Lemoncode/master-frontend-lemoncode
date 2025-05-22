@@ -583,68 +583,8 @@ const MyComponent = {
 
 
 ---
-layout: default
-title: ❌ Sintaxis de "Options API"
+src: ./options-api.md
 ---
-<v-switch>
-
-<template #0-7>
-  <h1>❌ Sintaxis de "Options API" 🧑🏽‍🦳</h1>
-</template>
-<template #7>
-  <h1>✅ Sintaxis de "Composition API" 🧑🏽</h1>
-</template>
-
-</v-switch>
-
-````md magic-move{at:1}
-```vue {all|2,22|4|9|14|19|all}
-<script>
-export default {
-  name: 'MyComponent',
-  data() {
-    return {
-      msg: 'Hello Vue!'
-    }
-  },
-  computed: {
-    reversedMsg() {
-      return this.msg.split('').reverse().join('')
-    }
-  },
-  methods: {
-    reverseMsg() {
-      this.msg = this.reversedMsg
-    }
-  },
-  created() {
-    console.log('Component created')
-  },
-}
-</script>
-```
-```vue
-<script setup>
-import { ref, computed } from 'vue'
-
-defineOptions({
-  name: 'MyComponent'
-})
-
-const msg = ref('Hello Vue!')
-
-const reversedMsg = computed(() => msg.value.split('').reverse().join(''))
-
-const reverseMsg = () => msg.value = reversedMsg.value
-
-console.log('Component created')
-</script>
-```
-````
-
-
-<!-- **No es la forma recomendada** de escribir componentes de Vue desde la "Composition API" (`script setup` o `setup` _function_). -->
-
 
 ---
 layout: quote
@@ -1049,7 +989,6 @@ layout: image
 title: Slots
 image: /slots.png
 backgroundSize: contain
-transition: fade
 ---
 
 ---
@@ -1645,18 +1584,187 @@ background: vue-sticker.jpg
 layout: quote
 ---
 
-# Agenda
+# Agenda – Día II
 
-- Composition API
+<v-clicks depth="3">
+
+- Repaso de la teoría del día anterior
+  - **Teoría**
+    - 🧩 _Componentes_ (_SFC_): `template`, `script`, `style`
+    - 🔠 _Interpolación_: `{{ }}`
+    - 📝 _Directivas_: `v-if`, `v-for`, `v-model`
+    - ⚡️ _Composition API_: `defineProps`, `defineEmits`
+    - 🎯 _Props_: `:propName="propValue"`
+    - 🎬 _Eventos_: `@click`, `@input`, `@my-event`
+    - 🎰 _Slots_: `<slot>` y `<template #slotName>`
+    - 🔄 _Lifecycle Hooks_: `onMounted`, `onBeforeUnmount`, etc
+    - 🎨 _Estilos_: `:class`, `:style`, `scoped`
+- **Práctica**: Crear una ToDo App con Vue 3 y Vite
+
+</v-clicks>
+
+---
+layout: quote
+---
+
+```bash
+pnpm create vue@latest
+# yarn dlx create-vue@latest # Yarn ^v4.11
+# npm create vue@latest
+```
+
+<hr />
+
+<v-clicks>
+
+```bash
+✔ Project name: ToDoApp
+✔ Add TypeScript? Yes
+✔ Add JSX Support? No
+✔ Add Vue Router for Single Page Application development? Yes
+✔ Add Pinia for state management? Yes
+✔ Add Vitest for Unit testing? Yes
+✔ Add an End-to-End Testing Solution? No
+✔ Add ESLint for code quality? Yes
+✔ Add Prettier for code formatting? Yes
+✔ Add Vue DevTools 7 extension for debugging? Yes
+
+Scaffolding project in ./todoapp...
+Done.
+```
+
+</v-clicks>
 
 
 ---
 layout: hero-image
 image: /teclado.gif
 class: text-center
+title: 🚀 A los teclados!
 ---
 
 # Vuelta a los teclados!
+---
+layout: section
+---
+
+# Gestión de Estado con <logos-pinia /> Pinia
+
+---
+layout: quote
+---
+
+# ¿Qué es un gestor de estado? 🤔
+
+---
+layout: two-cols
+title: Gestor de Estado
+---
+
+
+<v-clicks depth="2">
+
+- 🏪 Almacén centralizado de datos
+- 🔄 Flujo unidireccional de datos
+  - `actions` modifican el `state`
+  - El `state` actualiza las vistas
+  - Las vistas disparan `actions`
+- 🎯 Beneficios:
+  - Mantenimiento más sencillo
+  - Debugging más fácil
+- 🆕 Sucesor oficial de **Vuex**
+  - ⚡️ Más ligero y rápido
+  - 🦾 Mejor soporte TypeScript
+  - 🔧 API más simple
+  - 🧩 Modular por diseño
+  - 🛠️ DevTools integradas
+
+</v-clicks>
+
+::right::
+
+<v-clicks>
+
+<div class="grid items-center h-full">
+  <img src="/pinia.png" class="object-contain max-h-sm" />
+</div>
+
+</v-clicks>
+---
+layout: default
+---
+
+# <logos-pinia /> Pinia
+````md magic-move
+```ts
+// stores/counter.ts
+import { defineStore } from 'pinia'
+
+export const useCounterStore = defineStore('counter', {
+  // Estado (reactive)
+  state: () => ({
+    count: 0
+  }),
+  // Getters (computed)
+  getters: {
+    doubleCount: (state) => state.count * 2
+  },
+  // Actions (methods)
+  actions: {
+    increment() {
+      this.count++
+    }
+  }
+})
+```
+
+```ts
+// stores/counter.ts
+import { defineStore } from 'pinia'
+
+export const useCounterStore = defineStore('counter', () => {
+  // Estado (reactive)
+  const count = ref(0)
+
+  // Getters (computed)
+  const doubleCount = computed(() => count.value * 2)
+
+  // Actions (methods)
+  const increment = () => count.value++
+
+  return {
+    count,
+    doubleCount,
+    increment
+  }
+})
+```
+````
+
+---
+layout: custom-cover
+background: vue-sticker.jpg
+---
+
+# <logos-vue /> Vue - III
+
+## 🌈 Vuenas tardes!!! 🌈
+
+---
+layout: quote
+---
+
+# Agenda – Día III
+
+- Composition API / Composables
+- Práctica
+- Testing
+
+---
+layout: section
+---
+
+# Composition API
 
 ---
 layout: hero-image
@@ -1664,7 +1772,6 @@ image: /composition-docs.png
 ---
 
 ## Composition API
-
 
 
 ---
@@ -1678,7 +1785,27 @@ layout: quote
 https://vuejs.org/guide/introduction.html
 
 ---
+layout: image
+image: /setup-diagram.png
+title: Setup()
+backgroundSize: contain
+---
+
+---
+layout: image
+image: /side-by-side.jpeg
+title: Code Side by Side
+backgroundSize: contain
+---
+
+---
+src: ./options-api.md
+---
+
+
+---
 layout: two-cols
+title: Composition API
 ---
 
 # Composition API
@@ -1706,18 +1833,64 @@ layout: two-cols
 
 ---
 layout: image
-image: /side-by-side.jpeg
-title: Code Side by Side
+image: /lego.jpeg
+title: Composables (Lego)
 backgroundSize: contain
 ---
 
+---
+layout: hero-image
+image: /composables-docs.png
+---
+
+## Qué son los "Composables"?
 
 ---
-layout: image
-image: /setup-diagram.png
-title: Setup()
-backgroundSize: contain
+layout: two-cols
+title: Ejemplo Composable
 ---
+
+```ts{2,5-9|all}
+// composables/useCounter.ts
+import { ref, computed } from 'vue'
+
+export function useCounter(initial = 0) {
+  const counter = ref(initial)
+  const doubled = computed(() => counter.value * 2)
+
+  const increment = () => counter.value++
+  const decrement = () => counter.value--
+
+  return {
+    counter,
+    doubled,
+    increment,
+    decrement
+  }
+}
+```
+
+---
+layout: two-cols
+title: Ejemplo Composable 2
+---
+
+```vue{all|2,4|all}
+<script setup>
+import { useCounter } from './composables/useCounter'
+
+const { counter, doubled, increment, decrement } = useCounter(10)
+</script>
+
+<template>
+  <div>
+    <p>Counter: {{ counter }}</p>
+    <p>Doubled: {{ doubled }}</p>
+    <button @click="increment">+</button>
+    <button @click="decrement">-</button>
+  </div>
+</template>
+```
 
 ---
 layout: full
@@ -1748,12 +1921,7 @@ layout: full
   </section>
 </div>
 
----
-layout: image
-image: /lego.jpeg
-title: Composables (Lego)
-backgroundSize: contain
----
+<!-- Ariane Jurado de Bilbao (Ari Reinventada) -->
 
 ---
 layout: hero-image
@@ -1763,23 +1931,136 @@ class: text-center
 
 # <logos-vue /> Vamos a seguir!! 🚀
 
+
 ---
-layout: custom-cover
-background: vue-sticker.jpg
+layout: section
 ---
 
-# <logos-vue /> Vue - III
-
-## 🌈 Vuenas tardes!!! 🌈
+# Testing
 
 ---
 layout: quote
 ---
 
-# Agenda
+<h2><logos-vitest /> Vitest <span v-click="2">
+(con <logos-vue /> <em>Vue</em> y <logos-vue /> <em>Vue Test Utils</em>)
+</span></h2>
 
-- onMounted, watchers, etc.
-- Testing
+<br />
+
+<v-clicks>
+
+#### (<logos-jest /> ~Jest)
+
+</v-clicks>
+
+
+---
+layout: two-cols
+---
+
+# Instalación Vitest
+
+```bash
+pnpm add -D vitest
+# yarn add -D vitest
+# npm install -D vitest
+```
+
+<br />
+
+<v-clicks>
+
+```json
+{
+  "scripts": {
+    "test": "vitest"
+  }
+}
+```
+
+</v-clicks>
+
+
+---
+layout: quote
+---
+
+# Vitest Config
+
+```ts
+// vitest.config.ts
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  test: {
+    environment: 'jsdom', // Simulates a browser environment
+  },
+});
+```
+
+---
+layout: quote
+---
+
+## @vue/test-utils
+
+```bash
+pnpm add -D @vue/test-utils
+# yarn add -D @vue/test-utils
+# npm install -D @vue/test-utils
+```
+
+https://test-utils.vuejs.org/
+
+---
+layout: two-cols
+---
+
+```ts{all|5|all}
+import { mount } from '@vue/test-utils'
+import MyComponent from './MyComponent.vue'
+
+const comp = mount(MyComponent)
+//           ^^^^^
+```
+
+::right::
+
+### `mount`
+
+
+---
+layout: two-cols
+title: Ejemplo Test
+---
+
+# Ejemplo Test Unitario
+
+```ts
+// MyComponent.spec.ts
+
+import { mount } from '@vue/test-utils'
+import { describe, it, expect } from 'vitest'
+
+import MyComponent from './MyComponent.vue'
+
+describe('MyComponent', () => {
+  it('renders a message', () => {
+    const wrapper = mount(MyComponent)
+    expect(wrapper.text()).toContain('Hello world')
+  })
+})
+
+```
+
+---
+layout: hero-image
+image: /teclado.gif
+class: text-center
+---
+
+# <logos-vitest /> A los teclados!
 
 
 ---

@@ -44,6 +44,8 @@ jobs:
 
 ```
 
+> [Available Github OS runners](https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#standard-github-hosted-runners-for-public-repositories)
+>
 > [VSCode Yaml extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) is a good option to work with yaml files.
 
 Commit, push:

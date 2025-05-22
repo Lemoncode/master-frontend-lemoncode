@@ -1,0 +1,12 @@
+---
+import { getDogFact } from "../dog-fact.api";
+
+export const prerender = false;
+
+const fact = await getDogFact();
+---
+
+<section>
+  <h2>Dog Fact</h2>
+  <p>{fact}</p>
+</section>

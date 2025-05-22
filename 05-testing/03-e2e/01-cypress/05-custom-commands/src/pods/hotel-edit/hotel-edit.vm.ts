@@ -10,7 +10,7 @@ export interface Hotel {
 
 export const createEmptyHotel = (): Hotel => ({
   id: '',
-  picture: '',
+  picture: null,
   name: '',
   description: '',
   rating: 3,

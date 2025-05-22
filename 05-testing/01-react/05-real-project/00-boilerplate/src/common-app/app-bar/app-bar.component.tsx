@@ -8,7 +8,8 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import { AccountCircle, Menu as MenuIcon } from '@mui/icons-material';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import MenuIcon from '@mui/icons-material/Menu';
 import { literals } from '#core/i18n';
 import { AuthContext, useLogout } from '#common-app/auth';
 import { SideMenuComponent } from './components';

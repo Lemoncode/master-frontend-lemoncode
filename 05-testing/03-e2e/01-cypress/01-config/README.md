@@ -148,7 +148,7 @@ Could we work with Typescript? If we rename spec to `.ts`:
 
 _./cypress/e2e/login.spec.js_ -> _./cypress/e2e/login.spec.ts_
 
-For now, it's not neccessary but advisable to add the `tsconfig.json` file inside cypress folder:
+For now, it's not necessary but advisable to add the `tsconfig.json` file inside cypress folder:
 
 _./cypress/tsconfig.json_
 
@@ -161,7 +161,6 @@ _./cypress/tsconfig.json_
   },
   "include": ["**/*.ts"]
 }
-
 ```
 
 > You can see more info [here](https://docs.cypress.io/guides/tooling/typescript-support#Configure-tsconfig-json)

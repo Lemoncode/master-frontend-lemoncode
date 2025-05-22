@@ -200,6 +200,38 @@ import { getMembers } from './api';
 
 ```
 
+Alternatively, you can use `expect().rejects`:
+
+_./src/api.spec.ts_
+
+```diff
+...
+it('should throw an error with "Unavailable service" when it rejects the request with 503 status code', async () => {
+  // Arrange
+  vi.spyOn(Axios, 'get').mockRejectedValue({
+    response: {
+      status: 403,
+    },
+  } as AxiosError);
+
+  // Act
+- try {
+-   const result = await getMembers();
++   const result = () => getMembers();
+- } catch (error) {
+    // Assert
+    expect(Axios.get).toHaveBeenCalledWith(
+      'https://api.github.com/orgs/lemoncode/members'
+    );
+-   expect(error).toEqual('Too much Github API calls!');
++   expect(result).rejects.toEqual('Too much Github API calls!');
+  }
+});
+
+```
+
+> Or like `expect(getMembers).rejects.toEqual('Too much Github API calls!');`
+
 Should throw an error with "Unavailable service" when it rejects the request with 503 status code:
 
 _./src/api.spec.ts_

@@ -3,9 +3,8 @@ import { usePolling } from './polling.hooks';
 
 describe('usePolling specs', () => {
   beforeEach(() => {
-    vi.useFakeTimers({ shouldAdvanceTime: true });
+    vi.useFakeTimers();
   });
-
   it('should return count equals 0 when initialize the hook', () => {
     // Arrange
     const pollingTime = 500;

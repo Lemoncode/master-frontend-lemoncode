@@ -1,0 +1,16 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import CatFact from "./components/CatFact.astro";
+import DogFact from "./components/DogFact.astro";
+import LoadingFallback from "../../components/LoadingFallback.astro";
+
+export const prerender = false;
+---
+
+<Layout>
+  <h1>Streaming</h1>
+  <CatFact />
+  <DogFact server:defer>
+    <div slot="fallback">🐶 Loading dog fact..</div>
+  </DogFact>
+</Layout>

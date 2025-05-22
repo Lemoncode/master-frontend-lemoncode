@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 import { Button } from '@mui/material';
-import { TextFieldComponent } from '#common/components';
+import { TextField } from '#common/components';
 import { Login, createEmptyLogin } from '../login.vm';
 import { formValidation } from '../login.validations';
 import * as classes from './login-form.styles';
@@ -20,8 +20,8 @@ export const LoginFormComponent: React.FunctionComponent<Props> = (props) => {
     >
       {() => (
         <Form className={classes.root}>
-          <TextFieldComponent name="name" label="Name" />
-          <TextFieldComponent
+          <TextField name="name" label="Name" />
+          <TextField
             name="password"
             label="Password"
             type="password"

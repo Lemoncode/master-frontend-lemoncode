@@ -23,8 +23,8 @@ Cypress.Commands.add('loadAndVisit', () => {
 
   cy.wait('@fetchHotels');
 });
-
 ```
+
 > Note: we will fix typings errors adding a d.ts file
 
 _./cypress/support/e2e.ts_
@@ -62,7 +62,7 @@ _./cypress/tsconfig.json_
 
 ```
 
-> More info [here](https://docs.cypress.io/guides/tooling/typescript-support.html#Types-for-custom-assertions)
+> More info [here](https://docs.cypress.io/app/tooling/typescript-support#Types-for-Custom-Commands)
 
 Use it:
 
@@ -110,20 +110,22 @@ Even, we could pass parameters if we want to be more generic:
 _./cypress/support/commands.ts_
 
 ```diff
-- Cypress.Commands.add('loadAndVisit', () => {
-+ Cypress.Commands.add(
-+   'loadAndVisit',
-+   (apiPath: string, routePath: string, fixture?: string) => {
-- cy.intercept('GET', '/api/hotels').as('fetchHotels');
-+ Boolean(fixture)
+Cypress.Commands.add(
+  'loadAndVisit',
+- () => {
++ (apiPath: string, routePath: string, fixture?: string) => {
+-   cy.intercept('GET', '/api/hotels').as('fetchHotels');
++   Boolean(fixture)
 +     ? cy.intercept('GET', apiPath, { fixture }).as('load')
 +     : cy.intercept('GET', apiPath).as('load');
-- cy.visit('/hotel-collection');
-+ cy.visit(routePath);
 
-- cy.wait('@fetchHotels');
-+ cy.wait('@load');
-});
+-   cy.visit('/hotel-collection');
++   cy.visit(routePath);
+
+-   cy.wait('@fetchHotels');
++   cy.wait('@load');
+  }
+);
 
 ```
 
@@ -134,12 +136,11 @@ _./cypress/support/index.d.ts_
 ```diff
 declare namespace Cypress {
   interface Chainable {
--   loadAndVisit(): Chainable<Element>;
-+   loadAndVisit(
+    loadAndVisit(
 +     apiPath: string,
 +     routePath: string,
 +     fixture?: string
-+   ): Chainable<Element>;
+    ): Chainable<Element>;
   }
 }
 

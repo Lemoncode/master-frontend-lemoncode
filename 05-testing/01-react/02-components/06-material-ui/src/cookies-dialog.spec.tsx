@@ -6,7 +6,7 @@ import { CookiesDialog } from './cookies-dialog';
 describe('CookiesDialog component specs', () => {
   it('should display a button with text "Learn more about our cookies"', () => {
     // Arrange
-    const props = {
+    const props: React.ComponentProps<typeof CookiesDialog> = {
       onAgreeClick: () => {},
     };
 
@@ -53,6 +53,9 @@ describe('CookiesDialog component specs', () => {
     const buttonElement = screen.getByRole('button', {
       name: /learn more about our cookies/i,
     });
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+
     await userEvent.click(buttonElement);
 
     const agreeButtonElement = screen.getByRole('button', { name: /agree/i });

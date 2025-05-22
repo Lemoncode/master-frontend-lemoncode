@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextField } from '@mui/material';
-import { Search as SearchIcon } from '@mui/icons-material';
+import SearchIcon from '@mui/icons-material/Search';
 
 interface LabelProps {
   placeholder: string;
@@ -22,8 +22,10 @@ export const SearchBarComponent: React.FunctionComponent<Props> = (props) => {
       value={search}
       onChange={(e) => onSearch(e.target.value)}
       placeholder={labels.placeholder}
-      InputProps={{
-        startAdornment: <SearchIcon />,
+      slotProps={{
+        input: {
+          startAdornment: <SearchIcon />,
+        },
       }}
     />
   );

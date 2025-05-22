@@ -244,7 +244,7 @@ import { SelectComponent } from './select.component';
 
 +   const selectElement = screen.getByRole('combobox', { name: "Test label" });
 
-+   expect(selectElement.textContent).toEqual('Item 1');
++   expect(selectElement).toHaveTextContent('Item 1');
 
 +   await userEvent.click(selectElement);
 +   const itemElementList = screen.getAllByRole('option');
@@ -334,9 +334,11 @@ _./src/common/components/search-bar/search-bar.component.tsx_
       value={search}
       onChange={e => onSearch(e.target.value)}
       placeholder={labels.placeholder}
-      InputProps={{
--       startAdornment: <SearchIcon />,
-+       startAdornment: <SearchIcon aria-label="Search icon" />,
+      slotProps={{
+        input: {
+-         startAdornment: <SearchIcon />,
++         startAdornment: <SearchIcon aria-label="Search icon" />,
+        },
       }}
     />
   );
@@ -512,13 +514,13 @@ import { useSearchBar } from './search-bar.hook';
 +     { id: 2, name: 'blue' },
 +     { id: 3, name: 'green' },
 +   ];
-+   const debounceSearchStub = vi.spyOn(commonHooks, 'useDebounce');
++   vi.spyOn(commonHooks, 'useDebounce');
 
 +   // Act
 +   renderHook(() => useSearchBar(colors, ['name']));
 
 +   // Assert
-+   expect(debounceSearchStub).toHaveBeenCalledWith('', 250);
++   expect(commonHooks.useDebounce).toHaveBeenCalledWith('', 250);
 + });
 
 ```
@@ -537,15 +539,13 @@ _./src/common/components/search-bar/search-bar.hook.spec.tsx_
 +     { id: 2, name: 'blue' },
 +     { id: 3, name: 'green' },
 +   ];
-+   const debounceSearchStub = vi
-+     .spyOn(commonHooks, 'useDebounce')
-+     .mockReturnValue('blue');
++   vi.spyOn(commonHooks, 'useDebounce').mockReturnValue('blue');
 
 +   // Act
 +   const { result } = renderHook(() => useSearchBar(colors, ['name']));
 
 +   // Assert
-+   expect(debounceSearchStub).toHaveBeenCalledWith('', 250);
++   expect(commonHooks.useDebounce).toHaveBeenCalledWith('', 250);
 +   expect(result.current.search).toEqual('');
 +   expect(result.current.filteredList).toEqual([{ id: 2, name: 'blue' }]);
 + });
@@ -570,13 +570,13 @@ import { useSearchBar } from './search-bar.hook';
 +     { id: 2, name: 'blue' },
 +     { id: 3, name: 'green' },
 +   ];
-+   const filterByTextStub = vi.spyOn(filterHelpers, 'filterByText');
++   vi.spyOn(filterHelpers, 'filterByText');
 
 +   // Act
 +   renderHook(() => useSearchBar(colors, ['name']));
 
 +   // Assert
-+   expect(filterByTextStub).toHaveBeenCalledWith(colors, '', ['name']);
++   expect(filterHelpers.filterByText).toHaveBeenCalledWith(colors, '', ['name']);
 + });
 
 ```
@@ -595,18 +595,18 @@ _./src/common/components/search-bar/search-bar.hook.spec.tsx_
 +     { id: 2, name: 'blue' },
 +     { id: 3, name: 'green' },
 +   ];
-+   const filterByTextStub = vi
-+     .spyOn(filterHelpers, 'filterByText')
-+     .mockReturnValue([
-+       { id: 2, name: 'blue' },
-+       { id: 3, name: 'green' },
-+     ]);
++   vi.spyOn(filterHelpers, 'filterByText').mockReturnValue([
++     { id: 2, name: 'blue' },
++     { id: 3, name: 'green' },
++   ]);
 
 +   // Act
 +   const { result } = renderHook(() => useSearchBar(colors, ['name']));
 
 +   // Assert
-+   expect(filterByTextStub).toHaveBeenCalledWith(colors, '', ['name']);
++   expect(filterHelpers.filterByText).toHaveBeenCalledWith(colors, '', [
++     'name',
++   ]);
 +   expect(result.current.search).toEqual('');
 +   expect(result.current.filteredList).toEqual([
 +     { id: 2, name: 'blue' },

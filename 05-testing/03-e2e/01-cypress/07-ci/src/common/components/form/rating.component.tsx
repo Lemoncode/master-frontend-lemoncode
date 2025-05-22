@@ -1,5 +1,5 @@
 import React from 'react';
-import { Rating, Typography } from '@mui/material';
+import { Rating as MuiRating, Typography } from '@mui/material';
 import { useField } from 'formik';
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
   helperText?: string;
 }
 
-export const RatingComponent: React.FunctionComponent<Props> = (props) => {
+export const Rating: React.FC<Props> = (props) => {
   const { name, max, value, onChange, error } = props;
 
   const [field, meta, helpers] = Boolean(name) ? useField(name) : [];
@@ -27,7 +27,11 @@ export const RatingComponent: React.FunctionComponent<Props> = (props) => {
   };
   return (
     <>
-      <Rating value={value || field?.value} max={max} onChange={handleChange} />
+      <MuiRating
+        value={value || field?.value}
+        max={max}
+        onChange={handleChange}
+      />
       {hasError && (
         <Typography variant="caption" color="error" gutterBottom>
           {helperText}

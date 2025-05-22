@@ -1,0 +1,12 @@
+---
+import { getCatFact } from "../cat-fact.api";
+
+export const prerender = false;
+
+const fact = await getCatFact();
+---
+
+<section>
+  <h2>Cat Fact</h2>
+  <p>{fact}</p>
+</section>

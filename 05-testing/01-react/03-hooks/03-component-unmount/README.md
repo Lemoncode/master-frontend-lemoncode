@@ -150,6 +150,8 @@ _./src/polling.hooks.spec.ts_
 
 ```
 
+> [waitFor](https://testing-library.com/docs/dom-testing-library/api-async/#waitfor) default timeout is 1000ms.
+
 Should call clearInterval when it unmounts the component:
 
 _./src/polling.hooks.spec.ts_

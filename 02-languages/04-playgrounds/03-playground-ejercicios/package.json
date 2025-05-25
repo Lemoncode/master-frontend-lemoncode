@@ -33,7 +33,7 @@
     "devserver": "browser-sync start -c bs-config.json"
   },
   "dependencies": {
-    "browser-sync": "^3.0.2"
+    "browser-sync": "^3.0.4"
   },
   "peerDependencies": {},
   "devDependencies": {

@@ -3,7 +3,7 @@ import { useField } from 'formik';
 import {
   FormControl,
   InputLabel,
-  Select,
+  Select as MuiSelect,
   SelectProps,
   MenuItem,
   FormHelperText,
@@ -16,7 +16,7 @@ type Props = SelectProps & {
   helperText?: string;
 };
 
-export const SelectComponent: React.FunctionComponent<Props> = (props) => {
+export const SelectComponent: React.FC<Props> = (props) => {
   const {
     name,
     items,
@@ -43,24 +43,29 @@ export const SelectComponent: React.FunctionComponent<Props> = (props) => {
       <InputLabel htmlFor={name} id={labelId}>
         {label}
       </InputLabel>
-      <Select
+      <MuiSelect
         {...otherProps}
         classes={{
           select: classes.select,
         }}
-        id={name}
         labelId={labelId}
+        label={label}
         name={name}
         onChange={onChange || field?.onChange}
         onBlur={onBlur || field?.onBlur}
         value={value || field?.value}
+        slotProps={{
+          input: {
+            id: name,
+          },
+        }}
       >
         {items.map((item) => (
           <MenuItem key={item.id} value={item.id}>
             {item.name}
           </MenuItem>
         ))}
-      </Select>
+      </MuiSelect>
       {hasError && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );

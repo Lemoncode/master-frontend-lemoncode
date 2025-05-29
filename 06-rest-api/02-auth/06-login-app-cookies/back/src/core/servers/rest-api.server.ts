@@ -8,7 +8,7 @@ export const createRestApiServer = () => {
   app.use(
     cors({
       credentials: true,
-      origin: '*',
+      origin: 'http://localhost:8080',
     })
   );
   app.use(cookieParser());

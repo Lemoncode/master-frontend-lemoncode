@@ -40,6 +40,7 @@ Let's install `cookie-parser` to save token in a cookie (backend project):
 
 ```bash
 npm install cookie-parser --save
+npm install @types/cookie-parser --save-dev
 ```
 
 Configure it:
@@ -136,6 +137,7 @@ export const JWT_SIGN_ALGORITHM = 'HS256';
 + };
 
 ```
+
 _./back/src/pods/security/security.api.ts_
 
 ```diff
@@ -209,10 +211,64 @@ _./back/src/pods/security/security.api.ts_
 ```
 
 > Try to login and get list using the frontend app.
->
-> We need extra configuration to make it works Cookies with CORS.
 
-Restore proxy configuration:
+We need extra configuration to make it works Cookies with CORS:
+
+_./back/src/core/servers/rest-api.server.ts_
+
+```diff
+import express from 'express';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+
+export const createRestApiServer = () => {
+  const app = express();
+  app.use(express.json());
+  app.use(
+    cors({
+      credentials: true,
+-     origin: '*',
++     origin: 'http://localhost:8080',
+    })
+  );
+  app.use(cookieParser());
+
+  return app;
+};
+
+```
+
+And update the frontend requests like:
+
+_./front/src/pods/login/api/login.api.ts_
+
+```diff
+import axios from 'axios';
+import { setHeader, headerConstants } from '#core/api';
+import { UserSession } from './login.api-model';
+
+const url = 'http://localhost:3000/api/security/login';
+
+export const isValidLogin = async (
+  user: string,
+  password: string
+): Promise<UserSession> => {
+  const { data } = await axios.post<UserSession>(
+    url,
+    { user, password },
++   { withCredentials: true }
+  );
+  setHeader(headerConstants.authorization, data.token);
+  return data;
+};
+
+```
+
+> If you are using `fetch` instead of `axios`, you should add `credentials: 'include'` to the request options.
+>
+> fetch(url, { credentials: 'include', ... });
+
+Another option is restoring proxy configuration:
 
 _./front/vite.config.ts_
 
@@ -240,6 +296,11 @@ _./front/src/pods/login/api/login.api.ts_
 + const url = '/api/security/login';
 
 ...
+  const { data } = await axios.post<UserSession>(
+    url,
+    { user, password },
+-   { withCredentials: true }
+  );
 
 ```
 

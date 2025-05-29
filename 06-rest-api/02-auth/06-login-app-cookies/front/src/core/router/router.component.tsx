@@ -1,7 +1,7 @@
 import React from 'react';
-import { HashRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import { useApiConfig } from '#core/api';
+import { HashRouter, Routes, Route, Navigate, Outlet } from 'react-router';
 import { AuthContext } from '#core/auth';
+import { useApiConfig } from '#core/api';
 import { LoginScene, ListScene } from '#scenes';
 import { switchRoutes, linkRoutes } from './routes';
 

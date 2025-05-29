@@ -151,7 +151,7 @@ export const logout = async (): Promise<boolean> => {
 
 ## Redirect to login page
 
-Create `AuthRoute`:
+Create `PrivateRoute`:
 
 _./front/src/core/router/router.component.tsx_
 
@@ -163,8 +163,7 @@ import {
   Route,
   Navigate,
 + Outlet,
-} from 'react-router-dom';
-import { useApiConfig } from '#core/api';
+} from 'react-router';
 + import { AuthContext } from '#core/auth';
 import { LoginScene, ListScene } from '#scenes';
 - import { switchRoutes } from './routes';
@@ -193,7 +192,7 @@ const AppRoutes: React.FC = () => {
     <Routes>
       <Route path={switchRoutes.login} element={<LoginScene />} />
 +     <Route element={<PrivateRoutes />}>
-+       <Route path={switchRoutes.list} element={<ListScene />} />
+        <Route path={switchRoutes.list} element={<ListScene />} />
 +     </Route>
       <Route
         path={switchRoutes.root}
@@ -221,7 +220,7 @@ _./front/src/core/router/router.component.tsx_
 
 ```jsx
 //    <Route element={<PrivateRoutes />}>
-        <Route path={switchRoutes.list} element={<ListScene />} />
+<Route path={switchRoutes.list} element={<ListScene />} />
 //    </Route>
 ```
 
@@ -232,7 +231,7 @@ _./front/src/core/api/api.hooks.ts_
 ```javascript
 import React from "react";
 import axios, { AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useSnackbarContext } from "#common/components";
 import { linkRoutes } from "#core/router";
 
@@ -271,10 +270,11 @@ _./front/src/core/router/router.component.tsx_
 
 ```diff
 import React from 'react';
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate, Outlet } from 'react-router';
+import { AuthContext } from '#core/auth';
 + import { useApiConfig } from '#core/api';
 import { LoginScene, ListScene } from '#scenes';
-import { switchRoutes } from './routes';
+import { switchRoutes, linkRoutes } from './routes';
 
 ...
 
@@ -297,6 +297,40 @@ const AppRoutes: React.FC = () => {
 > Try to fetch clients or orders without login.
 
 # Using CORS
+
+In this example we will use CORS to allow the frontend app to access the backend API instead of using a proxy.
+
+Let's remove the proxy configuration from the frontend app:
+
+_./front/vite.config.ts_
+
+```diff
+...
+  plugins: [react()],
+-  server: {
+-    proxy: {
+-      '/api': 'http://localhost:3000',
+-    },
+-  },
+});
+
+```
+
+If we try to fetch data from some API endpoint, we will get a CORS error. Update login request:
+
+_./front/src/pods/login/api/login.api.ts_
+
+```diff
+...
+
+- const url = '/api/security/login';
++ const url = 'http://localhost:3000/api/security/login';
+
+...
+
+```
+
+> NOTE: The browser will block the request because of CORS policy but the server will receive the request and respond with a 200 status code. We can check it if we add a console log in the backend API.
 
 Let's update example to check if it's working with cors:
 
@@ -329,36 +363,6 @@ export const createRestApiServer = () => {
 ```
 
 > In a real scenario we should set `origin` to the real domain, for example: `http://my-domain.com`.
-
-Update front:
-
-_./front/vite.config.ts_
-
-```diff
-...
-  plugins: [react()],
--  server: {
--    proxy: {
--      '/api': 'http://localhost:3000',
--    },
--  },
-});
-
-```
-
-Update login request:
-
-_./front/src/pods/login/api/login.api.ts_
-
-```diff
-...
-
-- const url = '/api/security/login';
-+ const url = 'http://localhost:3000/api/security/login';
-
-...
-
-```
 
 Update logout request:
 

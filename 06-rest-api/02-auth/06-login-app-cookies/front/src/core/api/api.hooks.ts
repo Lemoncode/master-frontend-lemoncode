@@ -1,6 +1,6 @@
 import React from 'react';
 import axios, { AxiosError } from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useSnackbarContext } from '#common/components';
 import { linkRoutes } from '#core/router';
 

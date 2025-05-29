@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router';
 import { LoginScene, ListScene } from '#scenes';
 import { switchRoutes } from './routes';
 

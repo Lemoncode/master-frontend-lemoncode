@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader/CardHeader';
+import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar/Avatar';
-import IconButton from '@mui/material/IconButton/IconButton';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { HotelEntityVm } from '../hotel-collection.vm';

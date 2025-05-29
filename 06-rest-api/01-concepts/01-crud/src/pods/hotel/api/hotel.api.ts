@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { Hotel } from './hotel.api-model';
 import { Lookup } from '#common/models';
-import { mockCities } from './hotel.mock-data';
 
 const hotelListUrl = '/api/hotels';
 const cityListUrl = '/api/cities';

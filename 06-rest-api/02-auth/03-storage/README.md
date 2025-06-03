@@ -40,7 +40,7 @@ npm start
 
 - Login with `admin` credentials
 
-- Open Chrome Dev tools > Application tab > Cookies
+- Open Chrome Dev tools > Application tab > Local storage
 
 - Load client list
 

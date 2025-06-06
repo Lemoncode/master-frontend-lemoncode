@@ -192,14 +192,14 @@ docker run --name my-app-container --rm -d -p 8080:8083 my-app:1
 
 Open `http://localhost:8080`
 
-If we check `docker images` we can see dangling images, due to use same tags for each build.
+Check `docker images`:
 
 ```bash
 docker images
 
 ```
 
-On the other hand, we have an image with `~592MB`, too much size isn't it?. We should use [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/) to decrease this size, with only the necessary info:
+We can see our image `my-app:1` with the size of `~582MB`, too much size isn't it?. We should use [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/) to decrease this size, with only the necessary info:
 
 > Change container project structure:
 

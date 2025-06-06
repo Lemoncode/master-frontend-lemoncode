@@ -4,7 +4,7 @@ In this example we are going to create a production server using Github pages an
 
 We will start from `03-github-branch`.
 
-# Steps to build it
+## Steps to build it
 
 `npm install` to install previous sample packages:
 
@@ -190,6 +190,79 @@ git push
 ```
 
 ![05-open-gh-pages-url](./readme-resources/05-open-gh-pages-url.png)
+
+## deploy-pages Github action
+
+As an alternative to `gh-pages` package, we can use [deploy-pages Github action](https://github.com/actions/deploy-pages).
+
+This is a official Github action to deploy static sites to Github pages and it's easier to configure than `gh-pages` package.
+
+First, we need to change the `gh-pages` settings in our repository:
+
+![06-gh-pages-settings](./readme-resources/06-gh-pages-settings.png)
+
+Then we can update our workflow like this:
+
+_./.github/workflows/cd.yml_
+
+```diff
+name: CD workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
++   permissions:
++     pages: write
++     id-token: write
++   environment:
++     name: github-pages
++     url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+-     - name: Use SSH key
+-       run: |
+-         mkdir -p ~/.ssh/
+-         echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
+-         sudo chmod 600 ~/.ssh/id_rsa
+
+-     - name: Git config
+-       run: |
+-         git config --global user.email "cd-user@my-app.com"
+-         git config --global user.name "cd-user"
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
++     - name: Upload artifact
++       uses: actions/upload-pages-artifact@v3
++       with:
++         path: dist
+
+      - name: Deploy
++       id: deployment
+-       run: npm run deploy -- -r git@github.com:nasdan/to-rm-gh-auto.git
++       uses: actions/deploy-pages@v4
+```
+
+Upload changes:
+
+```bash
+git add .
+git commit -m "using deploy-pages Github action"
+git push
+```
+
+> Using this action, we don't need to install `gh-pages` package nor create a SSH key.
 
 # About Basefactor + Lemoncode
 

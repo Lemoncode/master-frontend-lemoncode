@@ -8,20 +8,15 @@ on:
 jobs:
   cd:
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Use SSH key
-        run: |
-          mkdir -p ~/.ssh/
-          echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
-          sudo chmod 600 ~/.ssh/id_rsa
-
-      - name: Git config
-        run: |
-          git config --global user.email "cd-user@my-app.com"
-          git config --global user.name "cd-user"
 
       - name: Install
         run: npm ci
@@ -29,5 +24,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
       - name: Deploy
-        run: npm run deploy -- -r git@github.com:<your-repo>.git
+        id: deployment
+        uses: actions/deploy-pages@v4

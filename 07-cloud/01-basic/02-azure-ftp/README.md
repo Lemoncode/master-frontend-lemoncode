@@ -8,7 +8,7 @@ We will start from `01-production-bundle`.
 
 We have a `dist` folder with app files, but to public this files in a production server, we need some kind of `server` to serve this static files. In this case, we are going to use a `nodejs` server.
 
-Create new `server` folder and:
+Create new `server` folder:
 
 ```bash
 cd ./server
@@ -33,7 +33,7 @@ const app = express();
 const staticFilesPath = path.resolve(__dirname, './public');
 app.use('/', express.static(staticFilesPath));
 
-app.get('*', (req, res) => {
+app.get(/(.*)/, (req, res) => {
   res.sendFile(path.resolve(staticFilesPath, 'index.html'));
 });
 

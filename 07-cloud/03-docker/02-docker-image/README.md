@@ -100,7 +100,7 @@ docker run --name my-app-container -it my-app:1 sh
 > ls dist
 > exit
 
-docker container rm my-app-container
+docker rm my-app-container
 ```
 
 We can create some docker steps to install server and execute it:

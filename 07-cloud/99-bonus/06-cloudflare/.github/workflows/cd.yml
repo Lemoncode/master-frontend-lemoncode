@@ -1,0 +1,37 @@
+name: CD Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  cd:
+    environment:
+      name: 'My Static Web App'
+      # Replace <YOUR_WEB_STATIC_URL> with the url of your static web app
+      url: <YOUR_WEB_STATIC_URL>
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          # Replace <YOUR_AUTO_GENERATED_TOKEN> with the name of your secret token
+          azure_static_web_apps_api_token: ${{ secrets.<YOUR_AUTO_GENERATED_TOKEN> }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "/dist"
+          skip_app_build: true
+          skip_api_build: true
+        env:
+          NODE_VERSION: 22.16.0

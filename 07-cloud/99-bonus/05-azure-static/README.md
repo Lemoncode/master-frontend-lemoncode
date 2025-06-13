@@ -79,7 +79,7 @@ jobs:
     name: Build and Deploy Job
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install
         run: npm ci
@@ -98,7 +98,7 @@ jobs:
           skip_app_build: true
           skip_api_build: true
         env:
-          NODE_VERSION: 22.13.0
+          NODE_VERSION: 22.16.0
 
 ```
 

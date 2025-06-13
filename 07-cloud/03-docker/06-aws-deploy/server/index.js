@@ -5,7 +5,7 @@ const app = express();
 const staticFilesPath = path.resolve(__dirname, process.env.STATIC_FILES_PATH);
 app.use('/', express.static(staticFilesPath));
 
-app.get('*', (req, res) => {
+app.get(/(.*)/, (req, res) => {
   res.sendFile(path.resolve(staticFilesPath, 'index.html'));
 });
 

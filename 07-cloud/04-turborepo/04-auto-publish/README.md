@@ -189,7 +189,7 @@ _./helpers/motto-helpers/package.json_
 ...
   "dependencies": {
 -   "@my-org/house-helpers": "^1.0.0"
-+   "@<user-name>house-helpers": "*"
++   "@<user-name>house-helpers": "^0.0.0"
   }
 }
 
@@ -323,6 +323,7 @@ Remove `package-lock.json` and run install to renew it:
 
 ```bash
 npm install
+npm run build
 
 ```
 

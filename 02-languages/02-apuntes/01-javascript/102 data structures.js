@@ -52,8 +52,8 @@ person["greet"](); // logs "Hello!"
 // ⚠ Orden de aparición === orden de asignación/creación, excepto para propiedades puramente
 // numéricas que aparecerán primero por orden ascendente.
 for (const prop in person) {
-  console.log(prop, person[prop]); 
-} 
+  console.log(prop, person[prop]);
+}
 // "21"        "twenty one"
 // "name"      "John"
 // "greet"     function() { console.log("Hello!"); }
@@ -71,7 +71,6 @@ const boy = { age: 15 };
 console.log(boy === { age: 15 }); // ⚠⚠ false. Se comparan REFERENCIAS! NO SE COMPARA CONTENIDO!.
 console.log(boy === boy); // true
 console.log(boy.toString()); // [object Object]
-
 
 ///-- ARRAYS *************************************************************************************
 
@@ -120,12 +119,14 @@ collection.forEach(function (item) {
   console.log(item); // "hey", "ho", "let's go", "yay", "nice", "oops!"
 });
 
-// 2. for(...)
+// 2. for(...). Directiva clásica de iteración donde tenemos control sobre el índice.
 for (let i = 0; i < collection.length; i++) {
   console.log(collection[i]); // "hey", "ho", "let's go", "yay", "nice", empty x 95, "oops!"
 }
 
-// 3. for..of (azúcar sintáctico para objetos iterables)
+// 3. for..of es un estructura iterativa para objetos iterable. La diferencia con for
+// es que mientras for itera por los índices, for..of lo hace por los valores de objetos
+// iterables. Se suele decir que es azúcar sintáctico para objetos iterables.
 for (const item of collection) {
   console.log(item); // "hey", "ho", "let's go", "yay", "nice", empty x 95, "oops!"
 }
@@ -159,7 +160,6 @@ console.log(collection === [3]); // false. Different object.
 console.log(collection === collection); // true
 console.log([] == ""); // true (type coertion). [].toString() => "" == ''
 
-
 ///-- MUTABILIDAD EN ESTRUCTURAS DE DATOS ********************************************************
 
 /*
@@ -168,7 +168,7 @@ Estas 2 formas diferenciadas se entenderán mejor cuando expliquemos una tercera
 keyword "var", que se empleaba de forma primigenia hasta la llegada de "let" y "const".
 
 Las diferencias entre ellas tienen más que ver con su ámbito y su capacidad de ser re-declaradas
-y re-asigandas. Y esto último es muy importante: RE-ASIGNCIÓN.
+y re-asigandas. Y esto último es muy importante: RE-ASIGNACIÓN.
 
 UN ERROR COMÚN es pensar que "const" hace "constante" cualquier variable. Es decir, que "const"
 de algún modo congela el valor que le hayamos asignado, no siendo posible mutarlo en la práctica.
@@ -192,7 +192,6 @@ const list = ["hey", "ho", "let's go"];
 list[2] = "yay";
 console.log(list); // ["hey", "ho", "yay"]
 list = []; // TypeError: Assignment to constant variable
-
 
 const user = {
   name: "Adam",

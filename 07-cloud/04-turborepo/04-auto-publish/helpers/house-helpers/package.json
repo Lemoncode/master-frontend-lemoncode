@@ -1,6 +1,6 @@
 {
   "name": "@<user-name>/house-helpers",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": false,
   "sideEffects": false,
   "author": "Lemoncode",
@@ -10,22 +10,21 @@
   ],
   "type": "module",
   "module": "dist/index.js",
-  "main": "dist/index.umd.cjs",
+  "main": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs"
+      "require": "./dist/index.umd.js"
     }
   },
   "scripts": {
-    "build": "vite build",
+    "build": "tsdown",
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "typescript": "^5.8.2",
-    "vite": "^6.2.0",
-    "vite-plugin-dts": "^4.5.3"
+    "tsdown": "^0.12.7",
+    "typescript": "^5.8.3"
   }
 }

@@ -37,14 +37,13 @@ _./turbo.json_
     }
   }
 }
-
 ```
 
 > NOTES
 >
 > [cache](https://turbo.build/repo/docs/reference/configuration#cache): enabled by default to cache the commands output.
 >
-> [persistent](https://turbo.build/repo/docs/reference/configuration#persistent): if it is a long-running process, such as a --watch mode. Without setting this config, if any other task depends on it, it will never run, because it never exits. 
+> [persistent](https://turbo.build/repo/docs/reference/configuration#persistent): if it is a long-running process, such as a --watch mode. Without setting this config, if any other task depends on it, it will never run, because it never exits.
 
 Update `package.json`:
 
@@ -117,8 +116,8 @@ _./helpers/motto-helpers/package.json_
 ```diff
 ...
   "scripts": {
--   "build": "npm run type-check && vite build",
-+   "build": "vite build",
+-   "build": "npm run type-check && tsdown",
++   "build": "tsdown",
     "type-check": "tsc --noEmit"
   },
 ...
@@ -155,7 +154,7 @@ If we have more than one project where we need to run the `build` command, and t
 Let's update the `house-helpers` project to add the `build` command:
 
 ```bash
-npm install vite vite-plugin-dts --save-dev -w @my-org/house-helpers
+npm install tsdown --save-dev -w @my-org/house-helpers
 
 ```
 
@@ -175,15 +174,15 @@ _./helpers/house-helpers/package.json_
 + ],
   "type": "module",
 + "module": "dist/index.js",
-+ "main": "dist/index.umd.cjs",
++ "main": "dist/index.umd.js",
 + "types": "dist/index.d.ts",
   "exports": {
 -   ".": "./src/index.ts"
 +   ".": {
 +     "types": "./dist/index.d.ts",
 +     "import": "./dist/index.js",
-+     "require": "./dist/index.umd.cjs"
-+   },
++     "require": "./dist/index.umd.js"
++   }
   },
 + "scripts": {
 +   "build": "vite build",
@@ -193,23 +192,20 @@ _./helpers/house-helpers/package.json_
 
 ```
 
-Add `vite.config.ts`:
+Add `tsdown.config.ts`:
 
-_./helpers/house-helpers/vite.config.ts_
+_./helpers/house-helpers/tsdown.config.ts_
 
 ```typescript
-import { defineConfig } from "vite";
-import dts from "vite-plugin-dts";
+import { defineConfig } from "tsdown";
 
 export default defineConfig({
-  plugins: [dts()],
-  build: {
-    lib: {
-      entry: "src/index.ts",
-      name: "HouseHelpers",
-      fileName: "index",
-    },
+  entry: "src/index.ts",
+  format: ["esm", "umd"],
+  outputOptions: {
+    name: "HouseHelpers",
   },
+  minify: true,
 });
 
 ```
@@ -284,15 +280,12 @@ npm run build
 
 Knowing the above, we can build the helpers projects before starting the applications:
 
-
 ```bash
 npm start
 
 ```
 
-
 Let's update it:
-
 
 _./turbo.json_
 
@@ -303,6 +296,7 @@ _./turbo.json_
     "start": {
       "cache": false,
       "persistent": true,
++     "interruptible": true,
 +     "dependsOn": ["^build"]
     },
     "build": {
@@ -326,7 +320,7 @@ _./package.json_
 ```diff
 ...
   "scripts": {
-    "start": "turbo start",
+-   "start": "turbo start",
 +   "start": "turbo watch start",
 ...
 
@@ -344,7 +338,6 @@ npm start
 > Make some changes in `house-helpers` and `motto-helpers` to check that the process is restarted.
 
 Finally, if we only want to run a command for some projects, we can do it using the [filter](https://turbo.build/repo/docs/core-concepts/monorepos/filtering#multiple-filters) flag:
-
 
 ```bash
 npm start -- --filter=@my-org/house-stark
@@ -369,7 +362,6 @@ _./package.json_
 ```
 
 > [Multiple tasks](https://turbo.build/repo/docs/crafting-your-repository/running-tasks#running-multiple-tasks)
-
 
 # About Basefactor + Lemoncode
 

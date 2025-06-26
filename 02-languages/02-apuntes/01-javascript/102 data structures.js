@@ -12,7 +12,8 @@ const person = { name: "John" }; // {} => inicializador de objetos
 const name = "John";
 const person = { name: name };
 
-// Si los nombres de la propiedad y la variable coinciden, se puede expresar de forma corta:
+// Si los nombres de la propiedad y la variable coinciden, se puede 
+// expresar de forma corta:
 const person = { name };
 
 // Accediendo a propiedades

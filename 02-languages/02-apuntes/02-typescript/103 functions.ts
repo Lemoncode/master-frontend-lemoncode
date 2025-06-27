@@ -60,14 +60,15 @@ const shout: ShoutFunction = (text, upperCase = true) =>
 console.log(shout("hi"));
 
 
-// OPCIONAL: Reusando tipados de función con alias
+// EJEMPLO ALIAS: Reusando tipados de función con alias
 
-type TextModifierFn = (text: string, modifier?: boolean) => string;
+type TextUtilityFn = (text: string, flag?: boolean) => string;
 
-const shout: TextModifierFn = (text, upperCase = false) =>
+const shout: TextUtilityFn = (text, upperCase = false) =>
   (upperCase ? text.toUpperCase() : text) + "!!!";
 
-const hyphenize: TextModifierFn = (text, snake = false) => text.replace(" ", snake ? "_" : "-");
+const hyphenize: TextUtilityFn = (text, snake = false) => 
+  text.replace(" ", snake ? "_" : "-");
 
 console.log(shout("hello world", true)); // HELLO WORLD!!!
 console.log(hyphenize("hello world")); // hello-world

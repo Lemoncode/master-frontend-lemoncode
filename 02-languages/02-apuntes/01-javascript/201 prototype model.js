@@ -81,8 +81,12 @@ const james = new Person("James");
 dan.greet(); // "Hello, I'm Dan"
 james.greet(); // "Hello, I'm James"
 
+// Sin embargo esta implementación, aunque efectiva, no es eficiente. Aqui tenemos
+// mucho márgen de mejora, y la pista está en lo siguiente:
+console.log(dag.greet === james.greet); // false
+
 /*
-⚠ Pero aqui hay un problema. El constructor ha creado una nueva función cada vez que ha sido
+⚠ PROBLEMA: El constructor ha creado una nueva función cada vez que ha sido
 invocado. Cada función será un objeto diferente, es decir, cada instancia tendrá una función
 distinta. Si tenemos miles de instancias habrá miles de funciones "greet" creadas.
 En lugar de eso, ¿por qué no almacenamos una única función en un lugar común para que todas las
@@ -108,6 +112,8 @@ const dan = new Person("Dan");
 const james = new Person("James");
 dan.greet(); // "Hello, I'm Dan"
 james.greet(); // "Hello, I'm James"
+
+console.log(dag.greet === james.greet); // ⚠ AHORA ES true, es la misma función!
 
 /*
 Como vemos, tanto "dan" como "james" son 2 objetos con el mismo prototipo, puesto que han sido
@@ -138,10 +144,9 @@ new => {name: "Dan", __proto__: Person.prototype}
 
 console.log(Person.prototype); // Es el mismo objeto
 console.log(Object.getPrototypeOf(dan)); // Es el mismo objeto
-console.log(dan.__proto__) // OPCIONAL: Equivalente a Object.getPrototypeOf(dan)
+console.log(dan.__proto__); // OPCIONAL: Equivalente a Object.getPrototypeOf(dan)
 console.log(Person.prototype === Object.getPrototypeOf(dan)); // true
 console.log(dan instanceof Person); // true
-
 
 ///-- HERENCIA PROTOTÍPICA **********************************************************************
 
@@ -172,7 +177,6 @@ Automobile.prototype.showKms = function () {
   console.log("Total Kms: " + this.kms);
 };
 
-
 // A continuación creamos otro objeto algo más específico, un Taxi. Vamos a hacer que Taxi "herede"
 // de Automobile. Para eso, queremos que el objeto que llama al constructor Taxi() invoque también
 // al constructor Automobile().
@@ -180,7 +184,6 @@ function Taxi() {
   Automobile.call(this, 4); // super();
   this.isOccupied = false;
 }
-
 
 // Hacemos que Taxi "herede" de Automobile. Para ello creamos un prototipo para Taxi, gracias a
 // Object.create que crea un nuevo objeto cuyo prototipo podemos hacer que apunte a donde queramos.
@@ -244,7 +247,6 @@ Taxi.prototype.__proto__ ---> Automobile.prototype
                                                                   Object.prototype.__proto__: ---> null
 */
 
-
 ///-- CREACIÓN DE OBJETOS Y SU CADENA DE PROTOTIPOS **********************************************
 
 // Hay 3 formas de crear objetos, que difieren en la cadena de prototipos que generan:
@@ -276,7 +278,6 @@ me -----> Person.prototype -----> Object.prototype -----> null
 const a = { name: "a" }; // a -----> Object.prototype -----> null.
 const b = Object.create(a); // b -----> a -----> Object.prototype -----> null.
 const c = Object.create(b); // c -----> b -----> a -----> Object.prototype -----> null.
-
 
 ///-- CONSTRUCTORES POR DEFECTO ******************************************************************
 
@@ -321,7 +322,6 @@ console.log(Number("32")); // 32
 console.log(Boolean("32")); // true
 console.log(!!"32"); // true
 
-
 ///-- THIS **************************************************************************************
 
 /*
@@ -339,7 +339,6 @@ function sayAge() {
   console.log("I'm " + this.age + " years old");
 }
 sayAge(); // I'm undefined years old.
-
 
 // ¿Porque undefined? Porque age no existe en this. ¿Y quien es this? La entidad que invoca a la
 // función sayAge, que en este caso es el contexto global, es decir, el objeto "window".
@@ -376,7 +375,6 @@ const me = {
   },
 };
 me.sayAge(); // "I'm 36 years old"
-
 
 // *** PROBLEMA CON EL THIS EN LAS FUNCIONES CLÁSICAS
 
@@ -415,27 +413,26 @@ me.sayDelayedAge(); // transcurrido un segundo se muestra ... undefined ... a qu
 // Para demostrarlo basta hacer lo siguiente:
 window.age = 50; // Añade esta linea y ejecuta de nuevo.
 
-
 // *** FIX 1: 'Self' ***
-Person.prototype.sayDelayedAge = function() {
+Person.prototype.sayDelayedAge = function () {
   const self = this;
-  setTimeout(function() {
+  setTimeout(function () {
     console.log(self.age);
   }, 1000);
-}
+};
 
 // *** FIX 2: Bind ***
-Person.prototype.sayDelayedAge = function() {
-  const sayAge = function() {
+Person.prototype.sayDelayedAge = function () {
+  const sayAge = function () {
     console.log(this.age);
   };
   setTimeout(sayAge.bind(this), 1000);
-}
+};
 
 // *** FIX 3: Arrow function! ***
-Person.prototype.sayDelayedAge = function() {
+Person.prototype.sayDelayedAge = function () {
   setTimeout(() => console.log(this.age), 1000);
-}
+};
 
 // *** PROBLEMA CON EL THIS EN LAS FUNCIONES FLECHA ---------------------------------------------
 
@@ -452,11 +449,10 @@ const Person = name => {
 const dan = new Person("Dan"); // Uncaught TypeError: Person is not a constructor
 
 // ⚡ Y tampoco tienen propiedad "prototype" puesto que no pueden ser constructoras.
-const Person = (name) => {
+const Person = name => {
   this.name = name;
 };
 console.log(Person.prototype); // undefined. (OJO en Stackblitz)
-
 
 ///-- GETTERS & SETTERS **************************************************************************
 

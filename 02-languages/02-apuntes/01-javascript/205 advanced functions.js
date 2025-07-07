@@ -111,8 +111,26 @@ métodos que devolvemos como interfaz para manejar datos (increase, decrease, pr
 cada instancia. Por tanto, no es tan óptimo como el prototipo.
 */
 
+///-- CURRY ***************************************************************************************
 
-///-- IIFE (Immediately Invoked Function Expression) ******************
+// Uno de los usos más simples pero potentes gracias a los closures, se consigue aplicando una 
+// técnica llamada CURRY. 
+
+// El curry nos permite crear funciones especializadas donde alguno de sus parámetros ha sido
+// pre-configurado:
+
+const includeVAT = rate => value => rate * value;
+
+const vatESP = includeVAT(1.21); // 21% VAT in Spain
+const vatLUX = includeVAT(1.17); // 17% VAT in Luxembourg
+
+console.log(vatESP(10)); // 12.1
+console.log(vatLUX(10)); // 11.7
+
+// Las funciones especializadas recuerdan los parámetros 'prefijados' gracias al closure.
+
+
+///-- IIFE (Immediately Invoked Function Expression) **********************************************
 
 // Las funciones se pueden invocar inmediatamente tras su declaración. A esto se le conoce como
 // IIFE:

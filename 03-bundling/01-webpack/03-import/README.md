@@ -34,7 +34,9 @@ _./src/students.js_
 
   const messageToDisplay = `average score ${averageScore}`;
 
-  document.write(messageToDisplay);
+  const messageElement = document.createElement("p");
+  messageElement.textContent = messageToDisplay;
+  document.body.appendChild(messageElement);
 ```
 
 - Por último, vamos a ejecutar _webpack_ desde el terminal ejecutando el siguiente comando:
@@ -78,7 +80,7 @@ function getTotalScore(scores) {
 
 _./src/students.js_
 
-````diff
+```diff
 - import {getAvg} from "./averageService.js";
 + import getAvg from "./averageService.js";
 
@@ -87,8 +89,10 @@ const averageScore = getAvg(scores);
 
 const messageToDisplay = `average score ${averageScore}`;
 
-document.write(messageToDisplay);
-````
+const messageElement = document.createElement("p");
+messageElement.textContent = messageToDisplay;
+document.body.appendChild(messageElement);
+```
 
 ### Múltiple named exports
 
@@ -127,12 +131,16 @@ const averageScore = getAvg(scores);
 + const totalScore = getTotalScore(scores);
 
 - const messageToDisplay = `average score ${averageScore}`;
-+ const messageToDisplayAvg = `average score ${averageScore} `;
++ const messageToDisplayAvg = `average score ${averageScore}`;
 + const messageToDisplayTotal = `total score ${totalScore}`;
 
-- document.write(messageToDisplay);
-+ document.write(messageToDisplayAvg);
-+ document.write(messageToDisplayTotal);
+const messageElement = document.createElement("p");
+- messageElement.textContent = messageToDisplay;
++ messageElement.textContent = messageToDisplayAvg;
+
++ const totalElement = document.createElement("p");
++ totalElement.textContent = messageToDisplayTotal;
++ document.body.appendChild(totalElement);
 ```
 
 - Importa el contenido de todo el módulo usando el comodín `*` y un _name_ para nuestro módulo. Este _name_ contendrá todos los elementos exportados en nuestro ámbito actual (se utiliza _name_ como espacio de nombres):
@@ -152,8 +160,13 @@ const scores = [90, 75, 60, 99, 94, 30];
 const messageToDisplayAvg = `average score ${averageScore} `;
 const messageToDisplayTotal = `total score ${totalScore}`;
 
-document.write(messageToDisplayAvg);
-document.write(messageToDisplayTotal);
+const messageElement = document.createElement("p");
+messageElement.textContent = messageToDisplayAvg;
+document.body.appendChild(messageElement);
+
+const totalElement = document.createElement("p");
+totalElement.textContent = messageToDisplayTotal;
+document.body.appendChild(totalElement);
 ```
 
 # ¿Te apuntas a nuestro máster?

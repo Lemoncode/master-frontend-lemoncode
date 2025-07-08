@@ -30,11 +30,19 @@ import { getAvg } from "./averageService.js";
 + import "./mystyles.scss";
 
 const scores = [90, 75, 60, 99, 94, 30];
-const averageScore = getAvg(scores);
+const averageScore = averageService.getAvg(scores);
+const totalScore = averageService.getTotalScore(scores);
 
-const messageToDisplay = `average score ${averageScore}`;
+const messageToDisplayAvg = `average score ${averageScore} `;
+const messageToDisplayTotal = `total score ${totalScore}`;
 
-document.write(messageToDisplay);
+const messageElement = document.createElement("p");
+messageElement.textContent = messageToDisplayAvg;
+document.body.appendChild(messageElement);
+
+const totalElement = document.createElement("p");
+totalElement.textContent = messageToDisplayTotal;
+document.body.appendChild(totalElement);
 ```
 
 - Instalamos [sass-loader](https://github.com/webpack-contrib/sass-loader) y [sass](https://github.com/sass/sass), recuera los loaders hacen de puente entre _webpack_ y la herramienta que realmente el trabajo
@@ -88,6 +96,7 @@ Vamos a cambiar **`style-loader`** por **`MiniCssExtractPlugin`** para que cree 
 - Configuramos **`webpack.config.js`**:
 
 _./webpack.config.js_
+
 ```diff
 .....
 {

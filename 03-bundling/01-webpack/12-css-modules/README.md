@@ -164,6 +164,7 @@ $background: indianred;
 - Y los importamos los estilos en el componente **`TotalScoreComponent`** .
 
 _./src/totalScoreComponent.jsx_
+
 ```diff
 import React from "react";
 import { getTotalScore } from "./averageService";
@@ -277,7 +278,7 @@ _./src/averageComponent.jsx_
 import React from 'react';
 import { getAvg } from './averageService';
 - import "./averageComponentStyles.scss";
-+ import classes from "./averageComponentStyles.scss";
++ import * as classes from "./averageComponentStyles.scss";
 
 export const AverageComponent: React.FunctionComponent = () => {
   ...
@@ -323,7 +324,7 @@ _./src/totalScoreComponent.jsx_
 ```diff
 import React from 'react';
 import { getTotalScore } from './averageService';
-+ import classes from './totalScoreComponentStyles.scss';
++ import * as classes from './totalScoreComponentStyles.scss';
 
 export const TotalScoreComponent: React.FunctionComponent = () => {
   ...
@@ -438,6 +439,7 @@ Para ello vamos a introducir una propiedad nueva a la configuración:
 - **localIdentName**: pone como prefijo en el nombre del fichero, y a continuación introduce dos barras bajas, después añadimos el nombre de la clase **`css`** y dos guiones para separarlo por un valor de **`hash`** donde se calcula un valor único en base al path y el nombre del fichero (si queremos podemos especificar nuestra propia función hash).
 
 _./webpack.config.js_
+
 ```diff
   {
     loader: "css-loader",
@@ -450,7 +452,7 @@ _./webpack.config.js_
   },
 ```
 
-> [localIdentName](https://webpack.js.org/loaders/css-loader/#localidentname) 
+> [localIdentName](https://webpack.js.org/loaders/css-loader/#localidentname)
 
 - Si echamos un vistazo a la consola del navegador, podemos ver cómo **`webpack`** transforma los nombres de las clases **`css`**, agregando sufijos.
 
@@ -502,7 +504,7 @@ _./webpack.config.js_
 ```diff
   entry: {
     app: "./index.jsx",
-+   vendorStyles: ['../node_modules/bootstrap/dist/css/bootstrap.css'],    
++   vendorStyles: ['../node_modules/bootstrap/dist/css/bootstrap.css'],
     appStyles: "./averageComponentStyles.scss",
   },
 ```

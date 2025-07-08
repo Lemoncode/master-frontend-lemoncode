@@ -45,7 +45,7 @@ _./src/index.html_
 </html>
 ```
 
-Si hacemos un _npm run build_, ¿ creéis que nuestro archivo mystyles.css formará parte de nuestro código para producción? Pues la respuesta es **NO**, porque _webpack_ actúa como una tela de araña y no estamos referenciando mystyles.css en ningún sitio.
+Si hacemos un _npm run build_, ¿creéis que nuestro archivo mystyles.css formará parte de nuestro código para producción? Pues la respuesta es **NO**, porque _webpack_ actúa como una tela de araña y no estamos referenciando mystyles.css en ningún sitio.
 
 - Agreguemos este estilo a nuestro punto de entrada:
 
@@ -251,6 +251,7 @@ export default {
 - Configuramos el _loader_ para la extensión _.css_.
 
 _webpack.config.js_
+
 ```diff
   module: {
     rules: [
@@ -280,6 +281,7 @@ _webpack.config.js_
 - Finalmente, agregamos el objeto del _plugin_ a la sección de _plugins_ de nuestro _webpack.config.js_:
 
 _webpack.config.js_
+
 ```diff
 plugins: [
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
@@ -295,7 +297,7 @@ plugins: [
   ],
 ```
 
-- Creamos la _build_ nuevamente, 
+- Creamos la _build_ nuevamente,
 
 ```bash
 npm run build
@@ -312,6 +314,7 @@ Pero ahora nos preguntaremos, ¿por qué se sigue generando el _appStyles.js_? Y
 ¿Y si lo quito?
 
 _webpack.config.js_
+
 ```diff
 .....
 module.exports = {
@@ -337,11 +340,19 @@ import { getAvg } from "./averageService.js";
 + import "./mystyles.css";
 
 const scores = [90, 75, 60, 99, 94, 30];
-const averageScore = getAvg(scores);
+const averageScore = averageService.getAvg(scores);
+const totalScore = averageService.getTotalScore(scores);
 
-const messageToDisplay = `average score ${averageScore}`;
+const messageToDisplayAvg = `average score ${averageScore} `;
+const messageToDisplayTotal = `total score ${totalScore}`;
 
-document.write(messageToDisplay);
+const messageElement = document.createElement("p");
+messageElement.textContent = messageToDisplayAvg;
+document.body.appendChild(messageElement);
+
+const totalElement = document.createElement("p");
+totalElement.textContent = messageToDisplayTotal;
+document.body.appendChild(totalElement);
 
 ```
 

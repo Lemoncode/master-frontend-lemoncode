@@ -73,7 +73,7 @@ export default {
   },
   output: {
     filename: "[name].[chunkhash].js",
-    path: path.resolve(__dirname, "dist"),
+    clean: true,
   },
   module: {
     rules: [
@@ -148,7 +148,7 @@ export default {
 _./webpack.dev.js_
 
 ```javascript
-import common from './webpack.common.js';
+import common from "./webpack.common.js";
 
 export default {};
 ```
@@ -217,6 +217,7 @@ npm install webpack-merge --save-dev
 - Y para utilizarlo lo hacemos de la siguiente forma:
 
 _webpack.dev.js_
+
 ```diff
 + import { merge } from "webpack-merge";
 import common from "./webpack.common.js";

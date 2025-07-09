@@ -83,3 +83,15 @@ const compareType = <T, U>(arg1: T, arg2: U): boolean => typeof arg1 === typeof 
 
 console.log(compareType<string, number>("1", 1));
 console.log(compareType<string, string>("halloween", "halloween"));
+
+
+// CONSTRAINTS EN GENÉRICOS (Genéricos si, pero no demasiado)
+
+// En muchas ocasiones, queremos la flexibilidad que nos otorgan los genéricos pero 
+// cumpliendo ciertas limitaciones. Es decir, queremos que el genérico cumpla con
+// alguna regla concreta. Para eso tenemos la palabra clave 'extends'.
+
+const getLength = <T extends { length: number }>(input: T): number => input?.length;
+
+console.log(getLength([1, 2, 3]));
+console.log(getLength("hello world"));

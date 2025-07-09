@@ -28,11 +28,13 @@ _./src/students.js_
 -  // Usemos algunas características de ES6
 +  import { getAvg } from './averageService.js';
 
+-  const randomNumber = Math.random() * 100;
 +  const scores = [90, 75, 60, 99, 94, 30];
--  const averageScore = "90";
 +  const averageScore = getAvg(scores);
 
-  const messageToDisplay = `average score ${averageScore}`;
+-  const messageToDisplay = `random number is ${randomNumber}`;
++  const messageToDisplay = `average score ${averageScore}`;
+
 
   const messageElement = document.createElement("p");
   messageElement.textContent = messageToDisplay;

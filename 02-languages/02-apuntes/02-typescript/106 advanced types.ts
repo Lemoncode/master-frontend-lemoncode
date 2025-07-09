@@ -26,22 +26,34 @@ type Whatever<T> = {
 // continuar extendiéndolos con múltiples declaraciones, los type alias son cerrados y solo podemos 
 // definirlos 1 vez:
 
-interface PersonInterface {
+interface PersonI {
   name: string;
 }
-interface PersonInterface {
+interface PersonI {
   age: number;
 }
-const me: PersonInterface = { name: "John", age: 30 };
+const me: PersonI = { name: "John", age: 30 };
 
-type PersonType = { name: string };  // [ts] Duplicate identifier
-type PersonType = { age: number };   // [ts] Duplicate identifier
+type PersonT = { name: string };  // [ts] Duplicate identifier
+type PersonT = { age: number };   // [ts] Duplicate identifier
 
 // Por lo general se suele recomendar el uso de interfaces para tipar objetos debido a esta
 // capacidad extra.
 // https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces
 
-// -- Caso Práctico --
+// -- Caso Práctico Simple --
+
+type StringValidator = (input: string) => boolean;
+
+const isEvenWord: StringValidator = input => input?.length % 2 === 0;
+const isEmail: StringValidator = input => /\S+@\S+\.\S+/.test(input);
+
+console.log(isEvenWord("yes"));
+console.log(isEvenWord("no"));
+console.log(isEmail("not-an-email.com"));
+console.log(isEmail("example@domain.com"));
+
+// -- Caso Práctico Extendido (Reducer, opcional) --
 
 // Alias es muy util para abstraernos de definiciones complejas. No crea nuevos tipos, solo nuevos
 // nombres para referirse a ellos.
@@ -103,10 +115,10 @@ type MergedCollision = { a: string } & { a: number }; // a: never
 const abc: MergedCollision = { a: 1 }; // Ni number ni string
 
 // -- Caso Práctico --
-const compose = <A, B>(a: A, b: B): A & B => ({ ...a, ...b });
+const merge = <A, B>(a: A, b: B): A & B => ({ ...a, ...b });
 
-const cat = compose({ type: "feline" }, { skill: "hunting" });
-const pigeon = compose({ type: "bird" }, { wings: true });
+const cat = merge({ type: "feline" }, { skill: "hunting" });
+const pigeon = merge({ type: "bird" }, { wings: true });
 
 console.log(cat.type);
 console.log(pigeon.skill); // TS error: Property 'skill' is missing.
@@ -125,14 +137,18 @@ type AB = A | B; // string | number
 
 // -- Caso Práctico --
 
-// Por ejemplo, sin unión, tendriamos que recurrir al any para admitir argumentos de tipo string
-// o númerico:
-const saySomething = (message: any) => console.log(message);
+// Por ejemplo, sin unión, tendriamos que recurrir al any para admitir argumentos híbridos,
+// es decir, que puedan ser de múltiples tipos (ejemplo: string o number):
+const double = (value: any): any => (typeof value === "number" ? value * 2 : value + value);
+
+console.log(double("hello")); // "hellohello"
+console.log(double(4)); // 8
 
 // Pero con la unión, restringimos el argumento a los tipos deseados:
-const saySomethingTyped = (message: string | number) => console.log(message);
+const double = (value: string | number): string | number =>
+  typeof value === "number" ? value * 2 : value + value;
 
-saySomethingTyped(true); // TS error: Argument of type 'true' is not assignable
+double(true); // TS error: Argument of type 'true' is not assignable
 
 
 // *** GUARDAS ***************

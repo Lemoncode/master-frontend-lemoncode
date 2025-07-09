@@ -461,3 +461,63 @@ const removeZeroes = <const T extends any[]>(array: T): RemoveZeroes<T> =>
 
 // Mira intellisense encima de 'result'
 const result = removeZeroes([0, 1, true, "hello", 0, {name: "Santi"}, 0]);
+
+
+// *** OPERADORES AVANZADOS *****************************************************************
+
+/**
+ * 1. Const inference
+ * La palabra clave `const` puede usarse en TS para indicar al sistema de inferencia de tipos
+ * que sea lo más específico posible, de manera que extraiga todos los valores literales exactos 
+ * como tipos, en lugar de usar tipos convencionales como string, number, boolean, etc.
+ * 
+ * Esto es útil cuando queremos hacer ciertos valores inmutables y poder extarer su tipado de manera
+ * literal, haciendo que su tipo sea exactamente los valores que tiene asignados.
+ */
+
+const DEBUG_CONFIG = { // Chequea el tipo inferido con y sin 'as const'
+  env: 'development',
+  debug: true,
+} as const;
+
+const ROLES = ["admin", "user", "viewer"] as const; // Chequea el tipo inferido con y sin 'as const'
+
+/**
+ * 2. Const type parameters
+ * 
+ * De igual modo, podemos utilizar la palabra clave const delante de parámetros de tipo (genéricos)
+ * para indicar a TS que, una vez se pase algún valor como argumento de dicho parámetro, se extraiga
+ * su tipo forma literal. 
+ * 
+ * Esto permite que los genéricos conserven los valores literales exactos. Suele ser muy útil para 
+ * trabajar con tuplas e interfaces literales.
+*/
+
+// Sin const
+const createTuple = <T extends any[]>(...items: T) => items;
+const result = createTuple(1, "hello", true); // Tipo inferido => [number, string, boolean]
+
+// Con const
+const createTuple = <const T extends any[]>(...items: T) => items;
+const result = createTuple(1, "hello", true); // Tipo inferido => [1, "hello", true]
+
+/**
+ * 3. Satisfies
+ * 
+ * El operador 'satisfies' verifica que un valor cumple exactamente con un tipo o interfaz, sin 
+ * cambiar el tipo inferido del valor. 
+ * 
+ * Es útil para asegurar que un objeto literal respeta una estructura, pero mantiene sus tipos 
+ * literales. En otras palabras, ayuda a validar estructuras sin perder la precisión de los tipos
+ * literales.
+ */
+
+interface Admin {
+  id: number;
+  name: string;
+}
+
+const ADMINS = [
+  { id: 1, name: "Santi" },
+  { id: 2, name: "Javi" },
+] as const satisfies Admin[];

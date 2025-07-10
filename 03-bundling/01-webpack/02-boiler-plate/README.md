@@ -116,10 +116,12 @@ _./src/students.js_
 
 ```javascript
 // Usemos algunas características de ES6
-const averageScore = "90";
-const messageToDisplay = `average score ${averageScore}`;
+const randomNumber = Math.random() * 100;
+const messageToDisplay = `random number is ${randomNumber}`;
 
-document.write(messageToDisplay);
+const messageElement = document.createElement("p");
+messageElement.textContent = messageToDisplay;
+document.body.appendChild(messageElement);
 ```
 
 - Vamos a saltar a la configuración de _webpack_, creamos un fichero de configuración que llamaremos **`webpack.config.js`**, e indicamos el punto de entrada: apuntamos al fichero _js_ que hemos creado justo en el paso anterior,
@@ -191,16 +193,15 @@ _./dist/main.js_
 
 ```javascript
 ...
-/***/ "./students.js":
-/*!*********************!*\
-  !*** ./students.js ***!
-  \*********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/***/ "./src/students.js":
+/*!*************************!*\
+  !*** ./src/students.js ***!
+  \*************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-eval("var averageScore = \"90\";\nvar messageToDisplay = \"average score \".concat(averageScore);\ndocument.write(messageToDisplay);\n\n//# sourceURL=webpack:///./students.js?");
+eval("{__webpack_require__.r(__webpack_exports__);\n// Usemos algunas características de ES6\nvar randomNumber = Math.random() * 100;\nvar messageToDisplay = \"random number is \".concat(randomNumber);\nvar messageElement = document.createElement(\"p\");\nmessageElement.textContent = messageToDisplay;\ndocument.body.appendChild(messageElement);\n\n//# sourceURL=webpack://02-boiler-plate/./src/students.js?\n}");
 
-/***/ }),
+/***/ })
 ...
 ```
 

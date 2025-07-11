@@ -55,22 +55,14 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
     </body>
   ```
 
-- Now it's time to check it out! Run the development server:
 
-  ```bash
-  npm start
-  ```
-
-  👍🏼 `vite` supports css out of the box! No need for plugins or configuration.
-
-  🔍 Pay attention to the requests made by your browser, a new `mystyles.css` module is now being requested.
-  You can also check `Elements` tab to see how your new styles are injected in the `<head>` tag.
-
-- Finally, let's check the production bundle as well. Run the build script like this:
+- Let's start checking the result for production. Run the build script like this:
 
   ```bash
   npm run build
   ```
+  
+  👍🏼 `vite` supports css out of the box! No need for plugins or configuration.
 
   🔍 Open file `dist/index.html` and notice how there is a new `<link>` tag created for us to reference the CSS file:
 
@@ -79,3 +71,36 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
   ```
 
   🔍 Also notice our CSS file has been renamed to `index-<hash>.css` and its content has been minified.
+
+- Let's run now a preview of the built bundles for production:
+
+  ```bash
+  npm run preview
+  ```
+
+  🔍 Now check the network requests to see how the browser is downloading the new `css` bundle as `index-<hash>.css`. ⚠ Pay attention to the icon of the assets downloaded.
+
+- Now it's time to check it out in development flow:
+
+  ```bash
+  npm start
+  ```
+
+  🔍 Pay attention to the requests made by your browser, a new `mystyles.css` module is now being requested. If you do a change in the css file like:
+
+  ```diff
+  .red-background {
+  + background-color: red;
+  }
+  ```
+
+  Check how now the module has been hot replaced with a new version with the timestamp:
+  `mystyles.css?t=<timestamp>` ... like any other ES module ... wait ... ⚠ look at the icon of the resource downloaded 💥... it is not CSS, it is just another module!
+
+  🔍 Click the resource and check its content:
+  - It contains a runtime made out by utilities imported from `@vite/client` like `updateStyle` and `removeStyle`.
+  - This runtime enables hot-injection of new CSS in the application without having to refresh the whole page. 
+  - It uses HMR APIs to replace styles in the browser, removing the old ones and adding the new ones.
+
+
+  🔍 You can also check `Elements` tab to see how your new styles are injected in the `<head>` tag.

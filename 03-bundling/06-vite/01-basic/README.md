@@ -6,7 +6,7 @@ Let's start with a very basic sample, just add an html plus a simple console log
 
 ## Prerequisites
 
-Install [Node.js and npm](https://nodejs.org/en/) (18 / 20+) if they are not already installed on your computer.
+Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they are not already installed on your computer.
 
 > ⚠ Verify that you are running at least latest Node LTS version and npm. You can check your current version by running `node -v` and `npm -v` in a terminal/console window. Older versions may not work.
 
@@ -15,10 +15,14 @@ Install [Node.js and npm](https://nodejs.org/en/) (18 / 20+) if they are not alr
 Vite provides a powerful templating feature to quickly scaffold your project instead of starting from scratch. It publishes templates than can be used with npm command `npm create` to ramp up your project immediately. For example, for a `react` project with `typescript` we could type:
 
 ```bash
-npm create vite@latest my-app -- --template react-ts
+npm create vite@latest my-app
 ```
 
 > This will instantiate `create-vite` package under the hood.
+> Just follow the questions provided by the CLI and select:
+>
+> - `React` as framework and
+> - `Typescript` as variant.
 
 In a real world, we could start as easy as that. However, if we do it now our class will end way too soon 😅. But also, and more important, 'automagic' creations are nice once you are familiar with Vite. Otherwise, whenever you need to tweak settings, you'll be lost.
 

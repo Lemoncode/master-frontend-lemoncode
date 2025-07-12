@@ -20,6 +20,6 @@
     "vite-plugin-checker": "^0.9.3"
   },
   "dependencies": {
-    "bootstrap": "^5.3.3"
+    "bootstrap": "^5.3.7"
   }
 }

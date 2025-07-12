@@ -226,32 +226,18 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
 
   🔎 Check how we also get error feedback in the console.
 
-- Unfortunately, it doesn't prevent us from generating the production bundle, eventhough the `build` script apparently failed. Actually you can run it with:
+- We can see thank to `vite-plugin-checker` it is preventing us from generating the production bundle, with errors.
 
-  ```bash
-  npm run preview
-  ```
+  ```text
+  vite v7.0.4 building for production...
+  ✓ 2 modules transformed.
+  src/index.ts:2:7 - error TS2322: Type 'number' is not assignable to type 'string'.
 
-- But there are a couple of alternatives we can do:
+  2 const numberB: string = 3;
+          ~~~~~~~
 
-### Alternative 1
 
-- Let's update the `package.json` to run `tsc` before production build:
-
-  ```diff
-    "scripts": {
-      "start": "vite",
-  +   "type-check": "tsc --noEmit",
-  +   "prebuild": "npm run type-check",
-      "build": "vite build",
-      "preview": "vite preview"
-    },
-  ```
-
-  🔎 Let's check we cannot build for production until all compilation errors are cleared:
-
-  ```bash
-  npm run build
+  Found 1 error in src/index.ts:2
   ```
 
 - So, we can only fix the issue to continue:
@@ -265,32 +251,3 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
   ```
 
   🔎 Run now a production build and check how it goes smoothly.
-
-### Alternative 2
-
-- Let's tweak `rollup`, which is run under the hood for bundling in production, and let's configure its typescript plugin to prevent emitting any artifact if transpilation fails. First, install the plugin and a required `tslib` dependency:
-
-  ```bash
-  npm install @rollup/plugin-typescript tslib --save-dev
-  ```
-
-- Then, add the following to `vite` config file:
-
-  _vite.config.ts_
-
-  ```diff
-    import { defineConfig } from "vite";
-    import checker from "vite-plugin-checker";
-  + import typescript from "@rollup/plugin-typescript";
-
-    export default defineConfig({
-      plugins: [checker({ typescript: true })],
-  +   build: {
-  +     rollupOptions: {
-  +       plugins: [typescript()],
-  +     },
-  +   },
-    });
-  ```
-
-  > By default it takes our `tsconfig.json` as reference.

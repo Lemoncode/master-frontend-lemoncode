@@ -60,17 +60,11 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
   ```diff
     import { defineConfig } from "vite";
     import checker from "vite-plugin-checker";
-    import typescript from "@rollup/plugin-typescript";
   + import react from "@vitejs/plugin-react";
 
     export default defineConfig({
   -   plugins: [checker({ typescript: true })],
   +   plugins: [checker({ typescript: true }), react()],
-      build: {
-        rollupOptions: {
-          plugins: [typescript()],
-        },
-      },
     });
   ```
 
@@ -140,7 +134,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
   npm start
   ```
 
-  🔎 First of all, chech your `react` application is up and running!
+  🔎 First of all, check your `react` application is up and running!
 
   🔎 Then, look at the dev-tools `network` tab (refresh if needed) and, apart from the source code ES modules we already know, you will see a couple of `vite` pre-bundled dependencies: `react-dom_client` and `react_jsx-dev-runtime`. Take a look at both requests, they share a few things in common:
 

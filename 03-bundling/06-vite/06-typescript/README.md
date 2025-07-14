@@ -76,7 +76,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
 
   The rest is just a starting boilerplate configuration you can tweak based on your needs.
 
-- Let's simplify our `index.html` file just to focus on TS:
+- ⚠️ It's time to do a bit of cleanup. Let's simplify our `index.html` file just to focus on TS:
 
   _index.html_
 
@@ -144,6 +144,19 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
   ```
 
   🔎 Notice we didn't need to add module syntax like `export {}` because TS already understands it's a module since we added `"type": "module"` in `package.json` file.
+
+- ⚠️ Finally, now that we removed the usage of `SASS`, `bootstrap` and `images` let's delete related files to keep project tidy:
+
+  ```bash
+  DELETE src/content/
+  DELETE src/mystyles.scss
+  ```
+
+  and also uninstall dependencies:
+
+  ```bash
+  npm uninstall bootstrap sass-embedded
+  ```
 
 - Time to start the project!
 

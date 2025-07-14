@@ -20,12 +20,16 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
   npm install
   ```
 
-- Let's add a TailwindCSS and TailwindCSS's Vite plugin:
-
-  _.env_
+- Let's add a TailwindCSS package:
 
   ```bash
-  npm install tailwindcss @tailwindcss/vite --save-dev
+  npm install tailwindcss
+  ```
+
+  and also TailwindCSS's Vite plugin:
+
+  ```bash
+  npm install @tailwindcss/vite --save-dev
   ```
 
 - Let's modify `vite.config.ts` to include the plugin:
@@ -44,9 +48,9 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
     });
   ```
 
-- Create `src/styless.css` that will contain TailwindCSS entrypoint:
+- Create `src/styles.css` that will contain TailwindCSS entrypoint:
 
-  _src/styless.css_
+  _src/styles.css_
 
   ```css
   @import "tailwindcss";
@@ -54,7 +58,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
 
 - And import it in our `index.tsx`;
 
-  _index.html_
+  _index.tsx_
 
   ```diff
     import { createRoot } from "react-dom/client";
@@ -93,7 +97,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
 
   🔎 Navigate to [http://localhost:5173](http://localhost:5173) and you'll see the card with style.
 
-- Let's do one more update. We'll add a dark mode. Modify `src/styles.css` to add new variant:
+- Let's do one more update. We'll add a **dark mode**. Modify `src/styles.css` to add new variant:
 
   _src/styles.css_
 
@@ -133,13 +137,50 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
   + </a>
   ```
 
-- Finally to see our style in action update `index.html`:
+- Let's go to our main `index.html` to apply a bunch of general css rules to the whole page:
+
+  _index.html_
+
+  ```diff
+  <!DOCTYPE html>
+  - <html lang="en">
+  + <html lang="en" class="p-2 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+      <head>
+  ```
+
+- Finally, to see our dark styles in action, just add the following attribute update `index.html`:
 
   _index.html_
 
   ```diff
     <!DOCTYPE html>
-  - <html lang="en">
-  + <html lang="en" data-theme="dark">
-      <head>
+    <html
+      lang="en"
+      class="p-2 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200"
+  +   data-theme="dark"
+      >
+        <head>
+  ```
+
+## Optional
+
+- You could also add a toggle component to trigger from dark and light theme! Go to `hello.tsx` and create a button with the following click handler:
+
+  \__src/hello.tsx_
+
+  ```diff
+  return (
+    <>
+  +   <button
+  +     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+  +     onClick={() => {
+  +       const html = document.documentElement;
+  +       const isDark = html.getAttribute("data-theme") === "dark";
+  +       if (isDark) html.setAttribute("data-theme", "");
+  +       else html.setAttribute("data-theme", "dark");
+  +     }}
+  +   >
+  +     Toggle theme
+  +   </button>
+      <h2>Hello from React</h2>
   ```

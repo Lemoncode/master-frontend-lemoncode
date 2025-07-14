@@ -10,9 +10,9 @@
   },
   "devDependencies": {
     "sass-embedded": "^1.89.2",
-    "vite": "^7.0.2"
+    "vite": "^7.0.4"
   },
   "dependencies": {
-    "bootstrap": "^5.3.3"
+    "bootstrap": "^5.3.7"
   }
 }

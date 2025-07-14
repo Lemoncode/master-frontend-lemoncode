@@ -1,25 +1,17 @@
 {
   "name": "hello-vite",
   "private": true,
-  "type": "module",
   "version": "0.0.0",
   "description": "Let's start with a very basic sample, just add an html plus a simple console log (E5). This is what you can find in the getting started tutorial.",
   "scripts": {
     "start": "vite --host",
-    "type-check": "tsc --noEmit",
-    "prebuild": "npm run type-check",
     "build": "vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "^12.1.4",
-    "sass-embedded": "^1.89.2",
     "tslib": "^2.8.1",
     "typescript": "^5.8.3",
-    "vite": "^7.0.2",
-    "vite-plugin-checker": "^0.9.3"
-  },
-  "dependencies": {
-    "bootstrap": "^5.3.3"
+    "vite": "^7.0.4",
+    "vite-plugin-checker": "^0.10.0"
   }
 }

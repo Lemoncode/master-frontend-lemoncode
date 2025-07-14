@@ -81,6 +81,8 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
   + }
   ```
 
+  > ℹ️ This extension to already existing types is usually called "augmentation".
+
   ⚡ One important thing to note here is that all variables are **strings**. If you need some variables as `boolean` or `number` you may prefer to create your own `environment.ts` or `config.ts` to pre-process and parse them.
 
 - Let's add another variable to our `.env` file:

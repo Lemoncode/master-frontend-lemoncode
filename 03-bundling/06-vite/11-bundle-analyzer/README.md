@@ -30,12 +30,12 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
   >
   > These tools are critical to manually increase application performance before we commit to production, and, therefore, they are usually applied over production bundles only.
   >
-  > There are different libraries out there, like `rollup-plugin-visualizer`, `vite-bundle-analyzer`, etc. We will use the first one for this sample.
+  > There are different libraries out there, like `vite-bundle-analyzer`, `rollup-plugin-visualizer`, etc. We will use the first one for this sample.
 
-- Given these tools are usually plug and play, their usage is as simple as installing it first:
+- These tools are usually plug and play, so their usage is as simple as installing it first:
 
   ```bash
-  npm install rollup-plugin-visualizer --save-dev
+  npm install vite-bundle-analyzer --save-dev
   ```
 
 - And then, use it as a plugin in `vite.config.js`:
@@ -47,14 +47,47 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
     import checker from "vite-plugin-checker";
     import react from "@vitejs/plugin-react";
     import tailwindcss from "@tailwindcss/vite";
-  + import { visualizer } from "rollup-plugin-visualizer";
+  + import { analyzer } from "vite-bundle-analyzer";
 
     export default defineConfig({
       plugins: [
         checker({ typescript: true }),
         tailwindcss(),
         react(),
-  +     visualizer(),
+  +     analyzer(),
       ],
     });
+  ```
+
+- Let's see what we get out-of-the-box:
+
+  ```bash
+  npm build
+  ```
+
+  🔎 Check how `localhost:8888` is automatically opened after the build is complete. This is the default behaviour of the package.
+
+  This server renders a report showing an interactive tree map that represents what the the different bundles are made of. It shows every module proportionally to its size.
+
+  You can also expand a search panel to look for specific modules and check its size under different assumptions (gzipped, brotli, etc).
+
+- We can also pass options to the analyzer like:
+
+  ```diff
+        react(),
+  +     analyzer({
+  +       analyzerMode: "static",
+  +       openAnalyzer: false,
+  +       reportTitle: "Bundle Analysis",
+  +       fileName: "bundle-report.html",
+  +     }),
+      ],
+  ```
+
+  > ℹ️ These settings will make analyzer work in static mode instead of server mode. This way, an `html` document is generated with the desired name, we can open it manually, but no server is created.
+
+- And build again:
+
+  ```bash
+    npm build
   ```

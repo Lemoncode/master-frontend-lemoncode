@@ -154,17 +154,67 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
 
   ⚠️ Close used terminal in windows to 'unset' env variable.
 
-- Now, let's do a simple exercise, let's copy paste `math.ts` module as `math-duplicated.ts`, import it from `index.tsx` and use its functionality to avoid vite tree-shaking. We want to include duplicated code on purpose:
+- Now, let's do a simple exercise, let's copy paste `math.ts` module as `math2.ts`, import it dynamically from `hello.tsx` component by duplicating the button and the handler:
 
-  _src/index.tsx_
+  _src/hello.tsx_
 
   ```diff
-    import "./styles.css";
-  + import { operate } from "./math-duplicated";
+    const applyOperation = async () => {
+      const { operate } = await import("./math");
+      setCounter(prevCounter => operate(prevCounter));
+    };
 
-  + console.log("***", operate(43));
+  + const applyOperation2 = async () => {
+  +   const { operate } = await import("./math2");
+  +   setCounter(prevCounter => operate(prevCounter));
+  + };
 
-    const root = createRoot(document.getElementById("root"));
+    return (
+      <>
+        <h2>Hello from React</h2>
+        <p>Api server is {config.API_BASE}</p>
+        <p>Feature A is {config.IS_FEATURE_A_ENABLED ? "enabled" : "disabled"}</p>
+        <p>Counter state: {counter}</p>
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={applyOperation}
+        >
+          Apply operation
+        </button>
+  +     <button
+  +       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+  +       onClick={applyOperation2}
+  +     >
+  +       Apply operation 2
+  +     </button>
+  ```
+
+- Now install a new library called 'loglevel':
+
+  ```bash
+  npm install loglevel
+  ```
+
+- And let's use it in both math modules:
+
+  _src/math.tsx_
+
+  ```diff
+  + import log from "loglevel";
+
+  + log.warn("*** Executing lazy-loaded math chunk");
+
+    const randomBetween = (min: number, max: number) =>
+  ```
+
+  _src/math2.tsx_
+
+  ```diff
+  + import log from "loglevel";
+
+  + log.warn("*** Executing lazy-loaded math2 chunk");
+
+    const randomBetween = (min: number, max: number) =>
   ```
 
 - Run again the build in a clean terminal:
@@ -173,4 +223,6 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
   npm run build
   ```
 
-- 🔎 Now check the stats again and see how our latest build is compared against the baseline, offering differences in size, etc.
+- 🔎 Now check the stats again and see how our latest build is compared against the baseline, offering differences in a bunch of stats, mainly size, which allow us to compare any improvement or decline in optimization.
+
+- 🤯 It is specially worth mentioning that we won't see any stat related to duplicated code or duplicated modules. We would expect our library `loglevel` to be included in both chunks `math` and `math2`. However, vite is smart enough to avoid duplicates as much as possible by extracting this common library to a separate bundle. Amazing!

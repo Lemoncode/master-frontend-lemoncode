@@ -91,3 +91,86 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
   ```bash
     npm build
   ```
+
+## Optional
+
+- Another very interesing analyzer is a rollup plugin to extract bundle statistics. It's called `rollup-plugin-bundle-stats`. Just install it:
+
+  ```bash
+  npm install rollup-plugin-bundle-stats --save-dev
+  ```
+
+- And now let's configure in vite config file like this:
+
+  ```diff
+    import { defineConfig } from "vite";
+    import checker from "vite-plugin-checker";
+    import react from "@vitejs/plugin-react";
+    import tailwindcss from "@tailwindcss/vite";
+    import { analyzer } from "vite-bundle-analyzer";
+  + import { bundleStats } from "rollup-plugin-bundle-stats";
+
+    export default defineConfig({
+      plugins: [
+        checker({ typescript: true }),
+        tailwindcss(),
+        react(),
+        analyzer({
+          analyzerMode: "static",
+          openAnalyzer: false,
+          reportTitle: "Bundle Analysis",
+          fileName: "bundle-report.html",
+        }),
+  +     bundleStats(),
+      ],
+    });
+  ```
+
+- Build it again:
+
+  ```bash
+    npm build
+  ```
+
+  🔎 Check new `bundle-stats.html` page and explore its powerfull features.
+
+- One of the advanced features of this tool is the ability to compare our current build against a baseline build. First of all, we must indicate which run is our baseline. A simple, quick way, is to set an env variable when building our baseline build:
+
+  ⚡ If you are using Linux/Bash, you can run:
+
+  ```bash
+  BUNDLE_STATS_BASELINE=true npm run build
+  ```
+
+  ⚠️ Under Window's powershell terminal, you could first set variable for the session and then build it, like:
+
+  ```bash
+  $env:BUNDLE_STATS_BASELINE="true"
+  ```
+
+  ```bash
+  npm run build
+  ```
+
+  ⚠️ Close used terminal in windows to 'unset' env variable.
+
+- Now, let's do a simple exercise, let's copy paste `math.ts` module as `math-duplicated.ts`, import it from `index.tsx` and use its functionality to avoid vite tree-shaking. We want to include duplicated code on purpose:
+
+  _src/index.tsx_
+
+  ```diff
+    import "./styles.css";
+  + import { operate } from "./math-duplicated";
+
+  + console.log("***", operate(43));
+
+    const root = createRoot(document.getElementById("root"));
+  ```
+
+- Run again the build in a clean terminal:
+
+  ```bash
+  npm run build
+  ```
+
+- 🔎 Now check the stats again and see how our latest build is compared against the baseline, offering differences in size, etc.

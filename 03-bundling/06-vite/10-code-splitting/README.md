@@ -32,38 +32,6 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
 
 This means parts of the code are only loaded when needed (e.g. when a user navigates to a specific page or triggers a certain action), which reduces the initial bundle size, improves load times, and enhances user experience.
 
-- ⚡ As a pre-step to prepare our sample, let's extend our app functionality with a simple counter feature that gets updated automatically every second. This can be done with the following code:
-
-  _src/hello.tsx_
-
-  ```diff
-  - import { FC } from "react";
-  + import { FC, useEffect, useState } from "react";
-    import config from "./env-config";
-
-    export const HelloComponent: FC = () => {
-  +   const [counter, setCounter] = useState(0);
-
-  +   useEffect(() => {
-  +     const timer = setInterval(() => {
-  +       setCounter(prev => prev + 1);
-  +     }, 1_000);
-
-  +     return () => clearInterval(timer);
-  +   }, []);
-
-      return (
-        <>
-          <h2>Hello from React</h2>
-          <p>Api server is {config.API_BASE}</p>
-          <p>Feature A is {config.IS_FEATURE_A_ENABLED ? "enabled" : "disabled"}</p>
-  +       <p>Counter state: {counter}</p>
-          <a
-
-  ```
-
-  🔎 You can now check the browser to see the counter automatically getting increased.
-
 Now we can go the topic: **code splitting**. In this example we're going to use a module that is loaded on demand.
 
 - Let's add _src/math.ts_ file.

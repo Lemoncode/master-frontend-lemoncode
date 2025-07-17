@@ -62,7 +62,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
 - Let's see what we get out-of-the-box:
 
   ```bash
-  npm build
+  npm run build
   ```
 
   🔎 Check how `localhost:8888` is automatically opened after the build is complete. This is the default behaviour of the package.
@@ -89,7 +89,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
 - And build again:
 
   ```bash
-    npm build
+    npm run build
   ```
 
 ## Optional
@@ -129,7 +129,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
 - Build it again:
 
   ```bash
-    npm build
+    npm run build
   ```
 
   🔎 Check new `bundle-stats.html` page and explore its powerfull features.

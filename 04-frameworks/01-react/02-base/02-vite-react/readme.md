@@ -70,9 +70,9 @@ export const App = () => {
 };
 ```
 
-- It's time to instantiate that main component, to be able to integrate it with the browser we have to make use of _createRoot_.
+Lets update our _./src/index.ts_ to _./src/index.tsx_. We also adjust in the _./index.html_ file.
 
-Lets update our _./src/index.ts_ to _./src/index.tsx_
+- It's time to instantiate that main component, to be able to integrate it with the browser we have to make use of _createRoot_.
 
 ```tsx
 import React from "react";

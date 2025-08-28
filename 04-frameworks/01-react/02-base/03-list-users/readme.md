@@ -2,7 +2,7 @@
 
 ## Summary
 
-This example takes the _03-webpack-react_ example as a starting point.
+This example takes the _02-vite-react_ example as a starting point.
 
 We're going to ask the Github API for the list of members that belong to an
 organisation and display it on the screen.
@@ -150,6 +150,22 @@ body {
 }
 ```
 
+In order to be able to use our styles, we must import them into our project:
+
+_./index.tsx_
+
+```diff
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { App } from "./app";
++  import "./styles.css";
+
+const container = document.getElementById("root");
+const root = createRoot(container);
+
+root.render(<App />);
+```
+
 - And let's integrate it in our app component:
 
 _./src/app.tsx_
@@ -227,6 +243,8 @@ _./src/app.tsx_
 +      .then((json) => setMembers(json));
   }, []);
 ```
+
+A little bit down the module we will see how react 19 brings a specific hook which is ideal for asynchronous operations like data fetching.
 
 What are we doing here? We are making a call to the Github REST API, this api is asynchronous (hence why we use
 promises), first we parse the result to _json_ and then we assign that result to the state of our component by

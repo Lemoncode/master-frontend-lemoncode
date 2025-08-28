@@ -2,7 +2,7 @@
 
 ## Resumen
 
-Este ejemplo toma como punto de partida el ejemplo _03-webpack-react_.
+Este ejemplo toma como punto de partida el ejemplo _02-vite-react_.
 
 Vamos a pedirle a la API de Github la lista de miembros que pertenece a una
 organización y vamos a mostrarla por pantalla.
@@ -155,6 +155,22 @@ body {
 }
 ```
 
+Para poder usar los estilos tenemos que importarlos dentro de nuestro proyecto:
+
+_./index.tsx_
+
+```diff
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { App } from "./app";
++  import "./styles.css";
+
+const container = document.getElementById("root");
+const root = createRoot(container);
+
+root.render(<App />);
+```
+
 - Y vamos a integrarlo en el componente de nuestra aplicación:
 
 _./src/app.tsx_
@@ -233,6 +249,8 @@ _./src/app.tsx_
 +      .then((json) => setMembers(json));
   }, []);
 ```
+
+Más adelante veremos que React 19 ya trae un hook específico para esto.
 
 ¿Qué estamos haciendo aquí? Estamos haciendo una llamada a la API REST de Github, esta api es asíncrona (de ahí que utlicemos
 promesas), primero parseamos el resultado a _json_ y después asignamos ese resultado al estado de nuestro componente

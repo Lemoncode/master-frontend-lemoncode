@@ -1,6 +1,6 @@
 # 01 Basic - Hola React
 
-Vamos a migrar el [ejemplo terminado de _01-concepts_](https://codesandbox.io/p/sandbox/strange-tdd-evsp07) a react. Para ello vamos a crearnos un codesandbox de react.
+Vamos a migrar la aplicación en Javascript de _01-concepts_ a react. [Aquí tenéis el ejemplo completo que vamos a desarrollar](https://codesandbox.io/p/sandbox/react-basic-h9rhkk) Para ello vamos a crearnos un codesandbox de react.
 
 Creamos el mismo fichero _./api_
 
@@ -103,7 +103,7 @@ const List = () => {
 };
 ```
 
-Al hacer esto, la consola se nos va a lanzar un error que aparece cuando renderizamos elementos iterando por una lista. Como vemos en la traza, nos pide que le pasemos al componente una key con valor único (ya veremos más adelante a que se debe):
+Al hacer esto, la consola nos va a lanzar un error que aparece cuando renderizamos elementos iterando por una lista. Como vemos en la traza, nos pide que le pasemos al componente una key con valor único (ya veremos más adelante a que se debe):
 
 ```diff
 const List = () => {
@@ -140,7 +140,7 @@ Si nos fijamos vemos, que a pesar de que es un setTimeout (debería ejecutarse u
 
 En el código, el setTimeout está dentro del cuerpo del componente. Eso significa que cada vez que el componente se re-ejecuta, React vuelve a crear un nuevo setTimeout.
 
-Cuando el setTimeout se cumple, llamas a setRandomNumber, lo cual cambia el estado. Ese cambio de estado provoca un nuevo renderizado, y en ese nuevo renderizado se vuelve a crear otro setTimeout. Así entras en un bucle infinito:
+Cuando el setTimeout se cumple, llama a setRandomNumber, lo cual cambia el estado. Ese cambio de estado provoca un nuevo renderizado, y en ese nuevo renderizado se vuelve a crear otro setTimeout. Así entras en un bucle infinito:
 
 1. ejecución/render → crea setTimeout.
 2. setTimeout → randomNumber cambia estado.
@@ -193,7 +193,7 @@ setTimeout(() => {
 };
 ```
 
-Vamos a crear ahora un button que al clicar, me añada un nuevo elemento a mi lista:
+Vamos a crear ahora un button que al clicar, me añada un nuevo elemento a la lista:
 
 ```diff
 const List = () => {

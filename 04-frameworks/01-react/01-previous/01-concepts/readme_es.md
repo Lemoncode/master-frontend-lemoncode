@@ -3,7 +3,7 @@
 ## Resumen
 
 En este ejemplo vamos a crear un _codesandbox_ para entender los primeros conceptos de React y los motivos principales por los que necesitamos una librería como esta.
-[Aquí tenéis el ejemplo completo que vamos a desarrollar.](https://codesandbox.io/p/sandbox/react-concepts-rncyq4?file=%2Fsrc%2Findex.js%3A36%2C1)
+[Aquí tenéis el ejemplo completo que vamos a desarrollar.](https://codesandbox.io/p/sandbox/react-concepts-rncyq4)
 
 Para comenzar, partiremos de un proyecto en vanilla JavaScript e iremos añadiendo poco a poco funcionalidades que nos acerquen al enfoque que propone React. El objetivo es ver cómo React resuelve de forma más elegante y potente problemas comunes del desarrollo web.
 

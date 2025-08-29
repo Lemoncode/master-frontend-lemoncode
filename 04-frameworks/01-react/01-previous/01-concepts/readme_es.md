@@ -293,3 +293,20 @@ El botón aparece pero al clicar en él, no aparece ni siquiera el alert. ¿Qué
 De nuevo, cuando `List` se ejecuta, la función `handleClick` se crea. Sin embargo, esa función no se ejecuta hasta que clicamos en el botón y cuando esto ocurre, la función ya no existe, porque la función `List` se ha ejecutado y ha muerto.
 
 Este es otro de los problemas que va a venir a solucionar React, ya que nos va a permitir, persistir datos, funciones entre ejecución y ejecución de nuestros componentes.
+
+De cara a dejar el ejemplo preparado para el siguiente ejercicio vamos a hacer el siguiente cambio:
+
+```diff
++   export default function App() {
++     return `
++     ${Header()}
++     ${List()}
++   `;
+}
+
++   document.getElementById("app").innerHTML = App();
+-   document.getElementById("app").innerHTML = `
+-       ${Header()}
+-       ${List()}
+-   `;
+```

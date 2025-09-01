@@ -1,17 +1,17 @@
 import React, { use } from "react";
-import { User } from "./app";
+import { User } from "./parent";
 
 interface MyComponentProps {
-  usersPromise: Promise<User[]>;
+  userPromise: Promise<User[]>;
 }
 
-export const MyComponent: React.FC<MyComponentProps> = ({ usersPromise }) => {
-  const users = use(usersPromise);
+export const MyComponent: React.FC<MyComponentProps> = ({ userPromise }) => {
+  const userCollection = use(userPromise);
 
   return (
     <div>
       <ul>
-        {users?.map((user, index) => (
+        {userCollection.map((user, index) => (
           <li key={index}>{user.name}</li>
         ))}
       </ul>

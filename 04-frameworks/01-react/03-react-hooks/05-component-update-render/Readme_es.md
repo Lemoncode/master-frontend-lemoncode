@@ -26,10 +26,10 @@ export const MyComponent = () => {
 
   return (
     <>
-      {visible && <MyChildComponent />}
       <button onClick={() => setVisible(!visible)}>
         Toggle Child component visibility
       </button>
+      {visible && <MyChildComponent />}
     </>
   );
 };
@@ -92,6 +92,55 @@ React.useEffect(() => {
 ```
 
 - Si ejecutamos podemos ver como se invocan las dos funciones.
+
+Como hemos visto, si no pasamos un segundo argumento a _useEffect_, el effect o callback que pasamos por primer parámetro se ejecutará en cada re-ejecución. Sin embargo, si queremos controlar cuándo se ejecuta el efecto y su función de limpieza, debemos indicar explícitamente las dependencias en el segundo parámetro.
+
+Para comprobar este comportamiento, eliminamos el useEffect del ejemplo anterior y creamos uno nuevo que se dispare cada vez que cambie cualquier valor dentro de _userInfo_:
+
+```diff
+const MyChildComponent = () => {
+  const [userInfo, setUserInfo] = React.useState({
+    name: "John",
+    lastname: "Doe"
+  });
+
+-   React.useEffect(() => {
+-     console.log("A. Called right after every render");
+-     return () => console.log("B. Cleanup function called after every render");
+-   });
+
++   React.useEffect(() => {
++     console.log("Effect ran: component rendered with userInfo:", userInfo);
++     return () =>
++       console.log("Cleanup before running new effect, userInfo was", userInfo);
++   }, [userInfo]);
+```
+
+Independientemente de qué propiedad modifiquemos, el efecto y su función de limpieza se ejecutarán. Esto ocurre porque hemos definido como dependencia al estado completo _userInfo_.
+
+Si queremos diferenciar la ejecución del efecto en función de propiedades concretas, basta con especificar directamente la propiedad dentro del array de dependencias:
+
+```diff
+const MyChildComponent = () => {
+  const [userInfo, setUserInfo] = React.useState({
+    name: "John",
+    lastname: "Doe"
+  });
+
+   React.useEffect(() => {
+-     console.log("Effect ran: component rendered with userInfo:", userInfo);
++     console.log(`Effect ran: component rendered with name: ${userInfo.name}`);
++     return () =>
+-       console.log("Cleanup before running new effect, userInfo was", userInfo);
++       console.log(`Cleanup before running new effect, name: ${userInfo.name}`);
++   }, [userInfo.name]);
+
++   React.useEffect(() => {
++     console.log(`Effect ran: component rendered with lastname: ${userInfo.lastname}`);
++     return () =>
++       console.log(`Cleanup before running new effect, lastname: ${userInfo.lastname}`);
++   }, [userInfo.lastname]);
+```
 
 ```bash
 npm start

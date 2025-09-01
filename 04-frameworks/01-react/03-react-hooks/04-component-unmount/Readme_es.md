@@ -39,10 +39,10 @@ _./src/demo.tsx_
 ```diff
   return (
     <>
-      {visible && <h4>Hello</h4>}
 +      <button onClick={() => setVisible(!visible)}>
 +        Toggle Child component visibility
 +      </button>
+      {visible && <h4>Hello</h4>}
     </>
   );
 ```
@@ -61,11 +61,11 @@ export const MyComponent = () => {
 
   return (
     <>
--      {visible && <h4>Hello</h4>}
-+      {visible && <MyChildComponent/>}
       <button onClick={() => setVisible(!visible)}>
         Toggle Child component visibility
       </button>
+-      {visible && <h4>Hello</h4>}
++      {visible && <MyChildComponent/>}
     </>
   );
 };

@@ -2,7 +2,7 @@
 
 ## Resume
 
-This example takes the _03-component-dom-onload_ example as starting point.
+This example takes the _03-component-mount_ example as starting point.
 
 In this example we are going to see how to free resources when we unmount a DOM component.
 

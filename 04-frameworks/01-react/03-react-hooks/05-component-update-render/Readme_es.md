@@ -2,7 +2,7 @@
 
 ## Resumen
 
-Este ejemplo toma como punto de partida el ejemplo \_04-component-dom-unmount.
+Este ejemplo toma como punto de partida el ejemplo \_04-component-unmount.
 
 En este ejemplo vamos a ver como usar React.useEffect para ejecutar
 un código justo después de cada renderizado.

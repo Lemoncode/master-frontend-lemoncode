@@ -2,7 +2,7 @@
 
 ## Resume
 
-We will take as starting point sample \_04-component-dom-unmount.
+We will take as starting point sample \_04-component-unmount.
 
 In this example we will check how to use React.useEffect in order to execute a given code right after each render.
 

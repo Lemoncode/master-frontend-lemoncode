@@ -2,7 +2,7 @@
 
 ## Resumen
 
-Este ejemplo toma como punto de partida el ejemplo _03-component-dom-onload_.
+Este ejemplo toma como punto de partida el ejemplo _03-component-mount_.
 
 En este ejemplo vamos a ver como liberar recursos cuando desmontamos un
 componente del DOM.

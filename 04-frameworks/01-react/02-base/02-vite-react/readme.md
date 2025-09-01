@@ -21,6 +21,12 @@ npm install
 npm install react react-dom --save
 ```
 
+- No install types for `react` y `react-dom` ad dev dependencies:
+
+```bash
+npm install @types/react @types/react-dom -D
+```
+
 - Now open `tsconfig.json` file and set following compiler option to support `jsx` notation in our TypeScript files:
 
   _tsconfig.json_

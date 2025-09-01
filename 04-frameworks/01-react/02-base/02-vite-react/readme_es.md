@@ -20,6 +20,12 @@ npm install
 npm install react react-dom --save
 ```
 
+- A continuación instalamos los tipos de las librerías `react` y `react-dom` como dependencias de desarrollo:
+
+```bash
+npm install @types/react @types/react-dom -D
+```
+
 - Para hacer que TS entienda la notación `jsx` añadimos lo siguiente en el fichero `tsconfig.json`:
 
   _tsconfig.json_

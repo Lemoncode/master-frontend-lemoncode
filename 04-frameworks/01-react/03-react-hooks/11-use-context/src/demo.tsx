@@ -14,9 +14,7 @@ export const MyContextProvider = (props) => {
   const [username, setUsername] = React.useState("John Doe");
 
   return (
-    <MyContext.Provider value={{ username, setUsername }}>
-      {props.children}
-    </MyContext.Provider>
+    <MyContext value={{ username, setUsername }}>{props.children}</MyContext>
   );
 };
 

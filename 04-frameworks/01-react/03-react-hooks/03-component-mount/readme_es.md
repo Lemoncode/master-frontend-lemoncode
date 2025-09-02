@@ -19,9 +19,10 @@ ejemplo cargar una ficha de un cliente de una API REST de servidor.
 También hay operaciones que queremos poder ejecutar cuando cambie un
 valor, o en después de cada render.
 
-¿Qué pasa si esas operaciones no son síncronas? Por ejemplo quiero
-tirar de un setTimeout o hacer un llamada a un servidor, esto devolvera una promesa, no es nada seguro ejecutar esto directamente en un componente funcional
-ya que este se ejecuta y destruye, para esto (gestionar side effects) tenemos
+¿Qué pasa si esas operaciones no son síncronas? Por ejemplo si quiero
+tirar de un setTimeout o hacer un llamada a un servidor, esto devolverá una promesa.
+No es nada seguro ejecutar esto directamente en un componente funcional
+ya que este se ejecuta y destruye; para esto (gestionar side effects) tenemos
 _React.useEffect_
 
 En este ejemplo vamos a ver como cambiar un nombre, justo cuando se
@@ -36,7 +37,7 @@ utilizando _setTimeout_.
 npm install
 ```
 
-- Vamos a sobreescribir el fichero _demo.tsx_ con el siguiente código:
+- Vamos a sobrescribir el fichero _demo.tsx_ con el siguiente código:
 
 ```tsx
 import React from "react";
@@ -64,7 +65,7 @@ npm start
 - Vemos que el campo nombre está en blanco, esto es normal ya que
   le hemos asignado el valor inicialización a cade en blanco.
 
-- ¿Y si quisieramos asignar un valor justo cuando se monta el componente
+- ¿Y si quisiéramos asignar un valor justo cuando se monta el componente
   en el dom? Podemos hacer uso de _React.useEffect_
 
 ```diff
@@ -80,7 +81,7 @@ export const MyComponent = () => {
 
 Al ejecutar esto podemos ver como aparece el nombre de _John_ por pantalla.
 
-Si depuramos podemos y ponemos un breakpoint justo donde se invoca
+Si depuramos y ponemos un breakpoint justo donde se invoca
 a _react.useState_, otro en el render y otro dentro del código de _useEffect_ podemos ver que se llaman en el siguiente orden:
 
 - Primero el _useState_
@@ -94,16 +95,16 @@ a ejecutar el código…
 
 **React.useEffect**
 
-En su primer parametro un código que puede contener sideffects
+En su primer parámetro un código que puede contener sideffects
 (una llamada a servidor, un setTimeout...).
 
-Si no le informamos más parametros, esta función se ejecutara siempre
-despues de cada render.
+Si no le informamos más parámetros, esta función se ejecutará siempre
+después de cada render.
 
 Esto no está mal, pero mucha veces nos hace falta acotar la ejecución
-de cierto código (ejecutate sólo después del primer render del componente,
-ejecutate sólo antes ciertas condiciones), por ejemplo podríamos decirle
-al código que se ejecutará sólo cuando cambiará la propiedad _username_
+de cierto código (ejecútate sólo después del primer render del componente,
+ejecútate sólo antes ciertas condiciones), por ejemplo podríamos decirle
+al código que se ejecutará sólo cuando cambie la propiedad _username_
 
 ```tsx
 React.useEffect(() => {
@@ -112,24 +113,24 @@ React.useEffect(() => {
 ```
 
 Este ejemplo sería un poco tonto porque estamos modificando _username_ dentro
-del propio _useEffect_ se metería en un bucle infinito.
+del propio \_useEffect, por lo que se metería en un bucle infinito.
 
 Un tema interesante:
 
-- Hemos visto que si no informamos el segundo parametro no para de ejecutarse
-  despues de cada render.
+- Hemos visto que si no informamos el segundo parámetro no para de ejecutarse
+  después de cada render.
 
-- También que si informamos una lista de valores como segundo parametro
+- También que si informamos una lista de valores como segundo parámetro
   se ejecuta cuando estos valores cambian.
 
 Peeero ¿Y si informamos esa lista como vacía? Si hacemos esto, el código
 dentro del useEffect se ejecutará la primera vez (después del primer renderizado)
-y no volvera a ejecutarse más ya que le estamos diciendo que no depende de ningún
-valor de las propiedades o del estado, de esta manera no volverás a ejecutarse
+y no volverá a ejecutarse más ya que le estamos diciendo que no depende de ningún
+valor de las propiedades o del estado, de esta manera no volverá a ejecutarse
 (Para los que ya hayáis trabajado antes con React esto se parece al
 componentDidMount de los componentes de clase de React).
 
-Para cerrar este ejemplo vamos a simular una llamada asíncrono utilizando
+Para cerrar este ejemplo vamos a simular una llamada asíncrona utilizando
 _setTimeout_
 
 ```diff

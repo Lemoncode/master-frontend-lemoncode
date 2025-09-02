@@ -34,7 +34,7 @@ export const MyComponent: React.FC = () => {
 
 Así creamos un estado al que le almacenamos el objeto, pero nos vendría
 bien tener algo de strong typing que nos ayude a encontrar fallos tontos
-del tipo _me olvide poner la "t" en lastname_.
+del tipo _me olvidé poner la "t" en lastname_.
 
 ```diff
 + interface UserInfo {
@@ -66,7 +66,7 @@ export const MyComponent: React.FC = () => {
 - Si arrancamos la aplicación podemos ver cómo se muestra el nombre y apellido.
 
 - Ahora vamos al turrón, podríamos estar tentados de modificar directamente userInfo y
-  ver qué pasa, hacer algo así como (**SPOILER ALERT: ESTO ESTA MAL**):
+  ver qué pasa, hacer algo así como (**SPOILER ALERT: ESTO ESTÁ MAL**):
 
 ```diff
   return (

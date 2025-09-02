@@ -12,7 +12,7 @@ vamos a usarlo para acceder a un nodo del dom.
 npm install
 ```
 
-- En _demo.js_ pegamos el siguiente código (fijate que aquí definimos
+- En _demo.tsx_ pegamos el siguiente código (fijate que aquí definimos
   el _useRef_ y lo asociamos en el _div_ container).
 
 _./src/demo.tsx_

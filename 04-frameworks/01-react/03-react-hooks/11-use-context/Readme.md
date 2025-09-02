@@ -1,6 +1,6 @@
 # 11 useContext
 
-## Resume
+## Summary
 
 This example takes the _10-use-reducer_ example as a starting point.
 

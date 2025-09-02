@@ -83,7 +83,7 @@ If we start the application we can see how the name and lastname are displayed.
 
 This is not going to work, we are again applying a Java / Angular approach,
 we are trying to modify something that is alive only while the function is being
-executed, once the component is rerended this value is be lost.
+executed, once the component is rerendered this value is lost.
 
 - The way to do this is by creating a new object and assigning it using the _setState_
   method. In order to do this copy we use the spread operator (by doing this, all the fields

@@ -67,8 +67,8 @@ If you come to a React project and you come across code like this, it's a bad sm
   of the variable _myName_ will always be _John Doe_. Why? the component
   is just function that is executed over and over on each repaint.
 
-- If we asign a value directly to the _input_ we are skipping two
-  main pillars of React: unidirection flow and asynchronous state assignment.
+- If we assign a value directly to the _input_ we are skipping two
+  main pillars of React: unidirectional flow and asynchronous state assignment.
 
 If you want to see it in action (input not working) you just have to add it to the _app.tsx_ file.
 
@@ -86,7 +86,7 @@ export const App = () => {
 
 Ok... How can I handle this? Using React hooks! Let's take a look to _React.useState_, this hook:
 
-- Is initialized with a default value.
+- Optionally, it can be initialized to a given value.
 
 - It returns an array that contains a getter and a setter (it allows you
   to access the value that is in useState and allows you

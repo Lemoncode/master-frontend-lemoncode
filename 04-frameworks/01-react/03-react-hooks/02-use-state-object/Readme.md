@@ -17,7 +17,7 @@ add an update on a given object, we create a new one).
 npm install
 ```
 
-- Let's go store in the state an object that has the name
+- Let's store in the state an object that has the name
   and last name of a given user. We can write something like:
 
 _./src/demo.tsx_
@@ -72,7 +72,7 @@ If we start the application we can see how the name and lastname are displayed.
       <h4>
         {userInfo.name} {userInfo.lastname}
       </h4>
--     <input value={myName} onChange={(e) => setMyName(e.target.value)} />      
+-     <input value={myName} onChange={(e) => setMyName(e.target.value)} />
 +     <input
 +       value={userInfo.name}
 +       onChange={e => userInfo.name = e.target.value}
@@ -82,8 +82,8 @@ If we start the application we can see how the name and lastname are displayed.
 ```
 
 This is not going to work, we are again applying a Java / Angular approach,
-we are trying to modify something that is alive only when the function is being
-executed, once the component is rerended this value will be lost.
+we are trying to modify something that is alive only while the function is being
+executed, once the component is rerended this value is be lost.
 
 - The way to do this is by creating a new object and assigning it using the _setState_
   method. In order to do this copy we use the spread operator (by doing this, all the fields
@@ -143,8 +143,7 @@ entry for the one that had changes.
   );
 ```
 
-Now we can test and see that we can update both the name and
-lastname.
+Now we can test and see that we can update both the name and lastname.
 
 # About Basefactor + Lemoncode
 

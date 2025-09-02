@@ -1,22 +1,16 @@
-## 02 Web Boiler plate
+# 02 Vite boiler plate - React
 
 ## Summary
 
-In this example there is a vite boiler plate set up with Typescript support, just in the step before
-to adding React support.
+Boiler plate extracted from _02-base/02-vite-react_.
 
-It is based on the Vite examples.
+Below, main points. For more info, check the original repo or the Vite module.
 
-This example is the only one that doesn't have a step-by-step (if you need guidance, you can go to the
-vite examples you'll find in this repository).
-
-Highlights:
-
-- Added TypeScript as a local dev dependency.
-- Switched project to use ES Modules in package.json.
-- Created a `tsconfig.json` with a minimal configuration.
+- Installation of `typeScript` as a local development dependency.
+- Installation of `@vitejs/plugin-react` as a local development dependency (support for `jsx` and `tsx`).
+- Installation of `react` and `react-dom` as dependencies.
+- Installation of the types `@types/react` and `@types/react-dom` as local development dependencies.
+- The project was changed to use ES Modules `package.json`.
+- A `tsconfig.json` was created with a minimal configuration, prepared to support `jsx` format.
 - Vite uses esbuild for transpilation (fast, no type checking).
-- Enabled `isolatedModules` and `useDefineForClassFields` for `esbuild`compatibility.
-
-In the following example we will take this as a starting point and we will go step by step adding
-support for React.
+- `isolatedModules` and `useDefineForClassFields` were enabled to be compatible with `esbuild`.

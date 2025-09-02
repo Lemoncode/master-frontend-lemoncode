@@ -27,7 +27,7 @@ _demo.tsx_
 import React from "react";
 ```
 
-Añadimos al fichero un componente de tipo funcion:
+Añadimos al fichero un componente de tipo función:
 
 _demo.tsx_
 
@@ -38,15 +38,15 @@ export const MyComponent: React.FC = () => {
 ```
 
 - Usando la palabra reservada _export_ podemos exponer este fichero al exterior.
-- No es extrictamente necesario tiparlo con _React.FC_ (Function Component), pero
+- No es estrictamente necesario tiparlo con _React.FC_ (Function Component), pero
   es buena idea, todo lo que nos atemos a _Typescript_ nos servirá para tener
   menos dolores de cabeza en el futuro.
 - El componente no es más que una función que devuelve elementos de React.
-  Fijate que en este caso no hemos puesto _Props_ ya que no consume ninguna
+  Fíjate que en este caso no hemos puesto _Props_ ya que no consume ninguna
   del exterior.
 
 - Vamos a por la parte interesante, seguro que nuestra mente Java o Angular
-  nos mueve a implementar lo siguiente (**IMPORTANTE: ESTO ESTA MAL**).
+  nos mueve a implementar lo siguiente (**IMPORTANTE: ESTO ESTÁ MAL**).
 
 ```diff
 export const MyComponent : React.FC = () => {
@@ -65,7 +65,7 @@ export const MyComponent : React.FC = () => {
 ```
 
 Si llegáis a un proyecto React y os encontráis código como este, huele a que los
-que lo han codificado no se tomaron el tiempo de aprender las bases de esta
+que lo han codificado no se tomaron el tiempo de aprender las bases de estas
 librerías, veamos por qué:
 
 - Al crear una variable, cada vez que se vuelva a repintar el componente
@@ -93,13 +93,13 @@ export const App = () => {
 Vale... ¿Cómo puedo manejar esto? ¡Con los hooks de React! Tenemos
 _React.useState_.
 
-- Se inicializa con un valor por defecto.
+- Opcionalmente, se puede inicializar con un valor determinado.
 
 - Te devuelve un array que contiene una especie getter y un setter (te permite
   acceder al valor que está en useState y te permite
   hacer una petición y setearlo de forma asíncrona).
 
-- La manera más cómoda de consumir lo que devuevel ese _useState_ es hacer
+- La manera más cómoda de consumir lo que devuelve ese _useState_ es hacer
   destructuring sabiendo que el primer elemento del array siempre será
   nuestro _getter_ y el segundo nuestro \_setter.
 
@@ -156,7 +156,7 @@ setear el estado de _myName_.
 - Cuando se ejecute el código del componente y llegue a la línea
   de código que hace el _useState_, en vez de _John Doe_ se le
   facilitará el nombre que se almaceno con _setState_
-- Al repintar el componente se usará ese nuevo valor mostrandolo
+- Al repintar el componente se usará ese nuevo valor mostrándolo
   por pantalla.
 
 Es un cambio de mentalidad grande,... intenta repetir este ejemplo

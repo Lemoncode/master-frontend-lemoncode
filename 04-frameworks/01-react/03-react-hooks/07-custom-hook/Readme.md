@@ -1,8 +1,8 @@
 # 07 Custom hooks
 
-## Resume
+## Summary
 
-This example takes as its starting point the \ _06-ajax-field-change example.
+This example takes as its starting point the \ \_06-ajax-field-change example.
 
 Hooks are cool, but our functional component seems to get cluttered, is
 there a way to extract functionality outside the functional component?
@@ -31,13 +31,13 @@ export const MyComponent = () => {
   // Load full list when the component gets mounted and filter gets updated
   React.useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/users?name_like=${filter}`)
-      .then(response => response.json())
-      .then(json => setUserCollection(json));
+      .then((response) => response.json())
+      .then((json) => setUserCollection(json));
   }, [filter]);
 
   return (
     <div>
-      <input value={filter} onChange={e => setFilter(e.target.value)} />
+      <input value={filter} onChange={(e) => setFilter(e.target.value)} />
       <ul>
         {userCollection.map((user, index) => (
           <li key={index}>{user.name}</li>
@@ -53,7 +53,7 @@ export const MyComponent = () => {
 
 A. Encapsulating as well the _UseEffect_
 
-_./src/demo.js_
+_./src/demo.tsx_
 
 ```diff
 import React from "react";

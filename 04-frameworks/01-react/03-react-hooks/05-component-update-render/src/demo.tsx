@@ -5,10 +5,10 @@ export const MyComponent = () => {
 
   return (
     <>
-      {visible && <MyChildComponent />}
       <button onClick={() => setVisible(!visible)}>
         Toggle Child component visibility
       </button>
+      {visible && <MyChildComponent />}
     </>
   );
 };
@@ -20,10 +20,20 @@ const MyChildComponent = () => {
   });
 
   React.useEffect(() => {
-    console.log("A. Called right after every render");
+    console.log(`Effect ran: component rendered with name: ${userInfo.name}`);
+    return () =>
+      console.log(`Cleanup before running new effect, name: ${userInfo.name}`);
+  }, [userInfo.name]);
 
-    return () => console.log("B. Cleanup function called after every render");
-  });
+  React.useEffect(() => {
+    console.log(
+      `Effect ran: component rendered with lastname: ${userInfo.lastname}`
+    );
+    return () =>
+      console.log(
+        `Cleanup before running new effect, lastname: ${userInfo.lastname}`
+      );
+  }, [userInfo.lastname]);
 
   return (
     <div>

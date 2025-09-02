@@ -1,6 +1,6 @@
 # 05 Component update render
 
-## Resume
+## Summary
 
 We will take as starting point sample \_04-component-unmount.
 
@@ -59,12 +59,12 @@ const MyChildComponent = () => {
 };
 ```
 
-- Now comes the interesting part: by calling _React.useEffect_ without a second
+- Now it comes the interesting part: by calling _React.useEffect_ without a second
   parameter, the code inside _useEffect_ will be triggered right when the
   component is just mounted and on any update (clean up function will be called
   right before the effect is triggered again).
 
-_./src/demo.js_
+_./src/demo.tsx_
 
 ```diff
 const MyChildComponent = () => {
@@ -94,9 +94,6 @@ React.useEffect(() => {
 +      );
   });
 ```
-
-- If we start the project and open the browser console we can check the
-  expected behavior.
 
 # About Basefactor + Lemoncode
 

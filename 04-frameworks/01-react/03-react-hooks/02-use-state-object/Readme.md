@@ -1,6 +1,6 @@
 # 02 Use State Object
 
-## Resume
+## Summary
 
 This example takes the _01-use-state_ as a starting point.
 

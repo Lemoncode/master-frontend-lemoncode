@@ -1,8 +1,8 @@
 # 04 Component unmount
 
-## Resume
+## Summary
 
-This example takes the _03-component-mount_ example as starting point.
+This example takes the _03-component-mount_ example as a starting point.
 
 In this example we are going to see how to free resources when we unmount a DOM component.
 
@@ -16,9 +16,9 @@ npm install
 
 - We are going to create a component that shows or hides a text depending on a boolean flag.
 
-Overwrite _demo.js_ file with the following content.
+Overwrite _demo.tsx_ file with the following content.
 
-_./src/demo.js_
+_./src/demo.tsx_
 
 ```jsx
 import React from "react";
@@ -76,10 +76,10 @@ export const MyComponent = () => {
 };
 ```
 
-- Now we got a childr component that is mounted / unmounted from the dom when a user clicks on a button.
+- Now we got a child component that is mounted / unmounted from the DOM when an user clicks on a button.
 
-How could we do to display a message on the console
-browser when the child component will be mounted?
+How could display a message in the browser console
+when the child component is mounted?
 If we remember the previous example, we can use _React.useEffect_.
 Before continue just give a try by yourself.
 
@@ -97,10 +97,10 @@ export const MyChildComponent = () => {
 };
 ```
 
-- Now comes the interesting part, what if we want to show a message on the browser console when the component is unmounted from the DOM? Just
+- Now it comes the interesting part, what if we want to show a message in the browser console when the component is unmounted from the DOM? Just
   by adding in the return value of that _useEffect_ a function that will be called when the component is unmounted.
 
-_./src/demo.js_
+_./src/demo.tsx_
 
 ```diff
 export const MyChildComponent = () => {
@@ -110,7 +110,7 @@ export const MyChildComponent = () => {
   }, []);
 ```
 
-Any useful scenarios? Imagine that you open a connection to a websocket and you want to close it when the user hides the component, how do you free resources in a proper way? By using this approach.
+Any useful scenarios? Imagine you open a connection to a websocket and you want to close it when the component is unmounted, how do you free resources in a proper way? By using this approach.
 
 # About Basefactor + Lemoncode
 

@@ -1,30 +1,30 @@
 # 03 Component Did Mount
 
-## Resume
+## Summary
 
 This example takes as a starting point the _02-use-state-object_ example.
 
 Let's start practicing with another React's core hook: _useEffect_
 
 This Hook allows us to subscribe on certain events (check when the
-component is mounted, check when the component is unmounted, on
+component is mounted, when the component is unmounted, on
 every render, or when a given property is updated).
 
-Let's start with the most basic, execute a given code when a
+Let's start with the most basic: execute a given code when a
 component is mounted in the DOM.
 
-A common scenario: you want to run some code when a component it's loaded into
+A common scenario: running some code when a component it's loaded into
 the DOM, for example loading a list of clients when the component is mounted.
 
 There can be scenarios when we need some code to be executed when a given
 property value changes or right after each render.
 
-There may be scenarios when all this operations are not synchronous? For instance I want making a call to a server rest api,
-this will return a promise, it is not safe at all to run this directly in a functional component
-since the functional component is executed and destroyed, to manage these side effects) we can make use of
+What if these operations are not synchronous? For instance making a call to a server rest api will return a promise,
+so it is not safe at all to run this directly in a functional component,
+since the functional component is executed and destroyed (to manage these side effects) we can make use of
 _React.useEffect_
 
-In this example we are going to simulate a call to a rest api, in order to retrieve a name (we will use
+In this example we are going to simulate a request to a rest api, in order to retrieve a name (we will use
 _setTimeout_).
 
 ## Steps
@@ -54,13 +54,13 @@ export const MyComponent = () => {
 };
 ```
 
-- If we run the example, the name field will be empty, but we want
+- If we run the example, the name field will be empty, but how
   to assign some value right when the component is mounted? We can make use of
-  _React.useEffect_ passing as a second argument an empty array (that's important
+  _React.useEffect_, passing as a second argument an empty array (that's important
   if we don't pass this the code inside the _useEffect_ would be executed on
   mount and after every render).
 
-_./src/demo.js_
+_./src/demo.tsx_
 
 ```diff
 import React from "react";
@@ -86,7 +86,7 @@ export const MyComponent = () => {
 * Let's go one step further, let's simulate an asynchronous call (we will do it
   using _setTimeout_).
 
-_./src/demo.js_
+_./src/demo.tsx_
 
 ```diff
 import React from "react";
@@ -111,8 +111,9 @@ export const MyComponent = () => {
 };
 ```
 
-- Now _John_ is displayed after 1,5 seconds, instead of _setTimeout_ you could
-  use here _fetch_ or any other similar approach to make an ajax request.
+Now _John_ is displayed after 1,5 seconds.
+As a next step, instead of a _setTimeout_ you could
+use here _fetch_ or any other similar approach to make an ajax request.
 
 # About Basefactor + Lemoncode
 

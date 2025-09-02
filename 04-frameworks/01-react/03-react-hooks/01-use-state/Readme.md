@@ -1,6 +1,6 @@
 # 01 Use State
 
-## Resume
+## Summary
 
 This example takes the _00-boiler-plate_ example as a starting point.
 

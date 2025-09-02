@@ -15,7 +15,7 @@ un código justo después de cada renderizado.
 npm install
 ```
 
-- Vamos abrir el fichero _demo.js_ y crear el ejemplo de un componente
+- Vamos abrir el fichero _demo.tsx_ y crear el ejemplo de un componente
   padre y un hijo que se muestra dependiendo de una condición booleana.
 
 ```tsx
@@ -59,7 +59,7 @@ const MyChildComponent = () => {
 ```
 
 - Ahora viene la parte interesante, vamos a llamar a _React.useEffect_ sólo
-  informando el primer parametro.
+  informando el primer parámetro.
 
 ```diff
 const MyChildComponent = () => {
@@ -78,7 +78,7 @@ const MyChildComponent = () => {
 
 - Si ejecutamos podemos ver que este código se ejecuta después de cada renderizado del componente.
 
-- También podemos añadir una función para liberar recursos justo antes de que se ejecute el siguiente render.
+- También podemos añadir una función de limpieza (clean-up function) para liberar recursos justo antes de que se ejecute el siguiente render.
 
 ```diff
 React.useEffect(() => {
@@ -140,10 +140,6 @@ const MyChildComponent = () => {
 +     return () =>
 +       console.log(`Cleanup before running new effect, lastname: ${userInfo.lastname}`);
 +   }, [userInfo.lastname]);
-```
-
-```bash
-npm start
 ```
 
 # ¿Te apuntas a nuestro máster?

@@ -1,10 +1,10 @@
-# 05 List Refactor
+# 04 List Refactor
 
 ## Summary
 
 This example takes the _03-list-users_ example as a starting point.
 
-We will add some refactor to enhance project readiblity and maintalibility.
+We will add some refactor to enhance project readability and maintainability.
 
 ## Step by step guided example
 
@@ -119,7 +119,7 @@ import { MemberEntity } from './model';
 ```
 
 > We could even create a subcomponent for the table headers if we wanted to,
-> this will be an excercise to do in a next example.
+> this will be an exercise to do in a next example.
 
 - One last step, the _App_ component still has too much code, it should just instantiate the main component and that's it.
   the main component and that's it, let's simplify this.
@@ -193,5 +193,4 @@ export const App = () => {
 };
 ```
 
-Can we continue to clean up this code and build something that is maintainable and scalable in the future? The answer is yes, we will see
-we'll see later on.
+Can we continue to clean up this code and build something that is maintainable and scalable in the future? The answer is yes, we'll see later on.

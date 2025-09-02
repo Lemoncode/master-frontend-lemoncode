@@ -1,4 +1,4 @@
-# 05 List Refactor
+# 04 List Refactor
 
 ## Resumen
 
@@ -14,7 +14,7 @@ npm install
 
 - Antes de seguir vamos a arreglar un pequeño bug que dejamos en el ejemplo
   anterior, se nos olvido poner la key en el map don de generamos dinámicamente
-  la files con los miembros que pertenecen a una organizacion.
+  la files con los miembros que pertenecen a una organización.
 
 _./src/app.tsx_
 
@@ -59,8 +59,8 @@ export const App = () => {
 - Ahora si cometemos una equivocación al escribir uno de los campos en nuestro
   componente fila, el IDE nos lo marcará en rojo.
 
-- La siguiente mejora que vamos a introducir tiene que ver con el JSX que genramos,
-  fijate que apenas hemos metido una tabla y ya nos cuesta seguirlo, ¿No podríamos
+- La siguiente mejora que vamos a introducir tiene que ver con el JSX que generamos,
+  fíjate que apenas hemos metido una tabla y ya nos cuesta seguirlo, ¿No podríamos
   simplificar esto? La respuesta si, podemos extraer la parte que pinta un miembro
   en la tabla a un componente, esto lo podemos dejar en el mismo fichero o sacarlo
   a un fichero aparte, vamos a ello:
@@ -88,7 +88,7 @@ export const MemberTableRow: React.FC<Props> = (props) => {
 };
 ```
 
-Fijate que interesante como un componente se queda como una caja negra que expone su interacción con
+Fíjate que interesante como un componente se queda como una caja negra que expone su interacción con
 el exterior vía propiedades.
 
 - Ahora podemos sustituirlo en App:

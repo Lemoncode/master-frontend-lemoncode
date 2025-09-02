@@ -1,6 +1,6 @@
 # Resumen
 
-Ahora es tu turno de mojarte las manos codificando :)
+Ahora es tu turno de mojarte las manos con algunos desafíos :)
 
 # Desafíos
 
@@ -23,5 +23,5 @@ Pistas ¿ Qué tienes que tocar?
 
 1. Actualiza el modelo y añade el campo de perfil
 2. Actualiza el componente member-table-row, añade una columna más
-3. En esa columna muestra el nuevo campo y metelo
+3. En esa columna muestra el nuevo campo y mételo
    dentro de un anchor (un enlace de html)

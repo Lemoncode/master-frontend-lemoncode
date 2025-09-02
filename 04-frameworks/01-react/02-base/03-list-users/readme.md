@@ -1,4 +1,4 @@
-# 04 List Users
+# 03 List Users
 
 ## Summary
 
@@ -115,12 +115,9 @@ export const App = () => {
 With these lines of code, we are iterating through the array of members and creating a span element for each entry,
 to take into account:
 
-- key: when we create elements dynamically, we need to add a unique key to them (so React can optimise the rendering).
-  the rendering).
-
+- key: when we create elements dynamically, we need to add a unique key to them (so React can optimize the rendering).
 - Member Login: we read the value of the current array element and display the login field.
-
-- Now that we see that it works we are going to fit this in a grid, let's define some gobal styles
+- Now that we see that it works we are going to fit this in a grid, let's define some global styles
   (check [CSS modules example](https://github.com/Lemoncode/master-frontend-lemoncode/tree/master/03-bundling/01-webpack/12-css-modules), to learn how to configure component isolated CSS)
 
 _./src/styles.css_

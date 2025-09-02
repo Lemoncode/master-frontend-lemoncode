@@ -17,7 +17,6 @@ Puntos destacados:
 - Se creó un `tsconfig.json` con una configuración mínima.
 - Vite utiliza esbuild para la transpilación (rápido, sin comprobación de tipos).
 - Se habilitó `isolatedModules` y `useDefineForClassFields` para que sea compatible con `esbuild`.
-- La comprobación de tipos se maneja por separado (a través de tsc o del IDE).
 
 En el siguiente ejemplo tomaremos este como punto de partida y, paso a paso, añadiremos
 soporte para React.

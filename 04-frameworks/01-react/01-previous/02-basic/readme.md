@@ -1,8 +1,8 @@
-# 01 Basic - Hola React
+# 01 Basic - Hi React
 
-Vamos a migrar la aplicación en Javascript de _01-concepts_ a react. [Aquí tenéis el ejemplo completo que vamos a desarrollar](https://codesandbox.io/p/sandbox/react-basic-h9rhkk) Para ello vamos a crearnos un codesandbox de react.
+We are going to migrate the JavaScript application from _01-concepts_ ato react. [Here you have the complete example we are going to develop](https://codesandbox.io/p/sandbox/react-basic-h9rhkk) For this, we’ll create a React codesandbox..
 
-Creamos el mismo fichero _./api_
+We create the same file _./api.js_
 
 ```js
 export const getUsers = () => [
@@ -12,13 +12,13 @@ export const getUsers = () => [
 ];
 ```
 
-A continuación, desde el ejemplo que hemos dejado preparado en _01-concepts_ vamos a copiar y pegar _index.js_. Vamos a cambiar únicamente lo que devuelve cada uno de los componentes. El motivo es que en react, los componentes devuelven elementos `jsx`, que no es más que azucar sintáctico de javascript.
+Next, from the example we left ready in _01-concepts_, we are going to copy and paste _index.js_. We are only going to change what each of the components returns. The reason is that in React, components return `jsx` elements, which is nothing more than syntactic sugar for JavaScript.
 
-**Reemplazamos literales por elementos jsx en los componentes:**
+**We replace string literals with jsx elements in the components:**
 
-Por ejemplo, en el componente `Header`:
+For example in the `Header` component:
 
-- En código Javascript:
+- In Javascript:
 
 ```js
 const Header = () => {
@@ -26,7 +26,7 @@ const Header = () => {
 };
 ```
 
-- En código React:
+- In React:
 
 ```jsx
 const Header = () => {
@@ -34,7 +34,7 @@ const Header = () => {
 };
 ```
 
-Si aplicamos el mismo tipo de cambio en el resto de componentes, el fichero _index.jsx_ nos tendría que quedar así:
+If we apply the same type of change in the rest of the components, the index.jsx file should look like this:
 
 ```jsx
 import React from "react";
@@ -75,10 +75,10 @@ export default function App() {
 }
 ```
 
-Comprobamos que nuestra aplicación renderiza la lista por la pantalla.
+We check that our application renders the list on the screen.
 
-**Sintaxis React**
-En React vamos a poder usar la sintaxis jsx cuando invocamos nuestros componentes:
+**React syntax**
+In React we are able to use `jsx` syntax when we invoke our components:
 
 ```diff
 export default function App() {
@@ -93,7 +93,7 @@ export default function App() {
 }
 ```
 
-Además, si queremos pasar un argumento por props (argumentos de entrada a nuestro componente):
+Also, if we want to pass an argument through props (the input arguments to our component):
 
 ```diff
 const List = () => {
@@ -103,7 +103,7 @@ const List = () => {
 };
 ```
 
-Al hacer esto, la consola nos va a lanzar un error que aparece cuando renderizamos elementos iterando por una lista. Como vemos en la traza, nos pide que le pasemos al componente una key con valor único (ya veremos más adelante a que se debe):
+When doing this, the console will throw an error that appears when we render elements by iterating over a list. As we can see in the trace, it asks us to pass the component a unique `key` value (later on we’ll see why this is necessary):
 
 ```diff
 const List = () => {
@@ -113,7 +113,7 @@ const List = () => {
 };
 ```
 
-Pero Como estamos viendo la variable `randomNumber` sigue estando desincronizada de nuestra interfaz de usuario. Esto se debe a que no estamos guardando ese valor en un estado, por lo que react no se entera del cambio. Para que nuestra aplicación sea reactiva hacemos el siguiente cambio:
+But as we can see, the `randomNumber` variable is still out of sync with our user interface. This happens because we are not storing that value in state, so React doesn’t know about the change. To make our application reactive, we make the following change:
 
 ```diff
 const User = ({ user }) => {
@@ -136,24 +136,24 @@ setTimeout(() => {
 };
 ```
 
-Si nos fijamos vemos, que a pesar de que es un setTimeout (debería ejecutarse una sola vez), se está ejecutando cada tres segundos ¿Por qué?
+If we look closely, we see that even though it’s a setTimeout (which should execute only once), it’s actually running every three seconds. Why?
 
-En el código, el setTimeout está dentro del cuerpo del componente. Eso significa que cada vez que el componente se re-ejecuta, React vuelve a crear un nuevo setTimeout.
+In the code, the setTimeout is inside the body of the component. That means every time the component re-renders, React creates a new setTimeout.
 
-Cuando el setTimeout se cumple, llama a setRandomNumber, lo cual cambia el estado. Ese cambio de estado provoca un nuevo renderizado, y en ese nuevo renderizado se vuelve a crear otro setTimeout. Así entras en un bucle infinito:
+When the setTimeout finishes, it calls setRandomNumber, which changes the state. That state change triggers a new render, and in that render a new setTimeout is created again. This creates an infinite loop:
 
-1. ejecución/render → crea setTimeout.
-2. setTimeout → randomNumber cambia estado.
-3. React detecta cambio de estado → React ejecuta componente de nuevo.
-4. Vuelve al paso 1.
+1. Execution/render → creates setTimeout.
+2. SetTimeout → randomNumber changes state.
+3. React detects state change → React re-renders component.
+4. Back to step 1.
 
-La clave: no es que el setTimeout se repita automáticamente, sino que se vuelve a crear en cada ejecución.
+The key: it’s not that the setTimeout repeats automatically, but that it gets recreated on every execution.
 
-Cuando escribimos lógica directamente dentro de un componente de React, esa lógica se va a ejecutar en cada renderizado. Esto puede generar problemas de rendimiento o incluso bucles infinitos (como en el caso de setTimeout, que se vuelve a crear en cada render).
+When we write logic directly inside a React component, that logic will run on every render. This can cause performance issues, application errors, or even infinite loops (like in this setTimeout case, which gets recreated every render).
 
-Para controlar cuándo y con qué condiciones se ejecuta cierto código, React nos proporciona el hook `useEffect`, que nos permite manejar efectos secundarios (side effects), como temporizadores, peticiones a APIs o suscripciones a eventos, de forma controlada.
+To control when and under what conditions some code executes, React gives us the useEffect hook, which allows us to manage side effects (like timers, API requests, or event subscriptions) in a controlled way.
 
-Su sintaxis es la siguiente:
+Its syntax is:
 
 ```jsx
 useEffect(() => {
@@ -161,18 +161,18 @@ useEffect(() => {
 }, [dependencias]);
 ```
 
-Parámetros de useEffect:
+Parameters of useEffect:
 
-- Callback (efecto): la función que queremos ejecutar.
-- Lista de dependencias: un array que indica cuándo debe volver a ejecutarse ese callback.
+- Callback (effect): the function we want to execute.
+- Dependency list: an array that tells React when to re-run the callback.
 
-Ejemplos:
+Examples:
 
-- [] → el efecto solo se ejecuta una vez, cuando el componente se monta.
-- [estado] → el efecto se ejecuta cada vez que cambia estado.
-- undefined → el efecto se ejecuta en cada renderizado. (evitar)
+- [] → the effect runs only once, when the component mounts.
+- [state] → the effect runs every time that state changes.
+- undefined → the effect runs on every render.
 
-Así, usamos `useEffect` con un array de depencias vacio, porque queremos que el `setTimeout` se ejecute una sola vez, cuando se crea el componente:
+So, we use `useEffect` with an empty dependency array, because we want the setTimeout to run only once, when the component is created:
 
 ```diff
 const User = ({ user }) => {
@@ -193,7 +193,7 @@ setTimeout(() => {
 };
 ```
 
-Vamos a crear ahora un button que al clicar, me añada un nuevo elemento a la lista:
+Now let’s create a button that, when clicked, adds a new element to the list:
 
 ```diff
 const List = () => {

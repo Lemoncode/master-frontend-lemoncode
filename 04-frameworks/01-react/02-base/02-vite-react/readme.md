@@ -1,4 +1,4 @@
-# 02 Vite React
+# 02 Vite boiler plate - React
 
 ## Summary
 
@@ -7,7 +7,7 @@ This example takes the _01-vite-boiler_ example as a starting point.
 We will go step by step adding the necessary configuration so that we integrate
 **React** into our build process.
 
-# Step by Step guide
+# Step by Step
 
 - First we copy the previous example, and do a _npm install_
 
@@ -21,7 +21,7 @@ npm install
 npm install react react-dom --save
 ```
 
-- No install types for `react` y `react-dom` ad dev dependencies:
+- Install types for `react` y `react-dom` ad dev dependencies:
 
 ```bash
 npm install @types/react @types/react-dom -D
@@ -29,40 +29,40 @@ npm install @types/react @types/react-dom -D
 
 - Now open `tsconfig.json` file and set following compiler option to support `jsx` notation in our TypeScript files:
 
-  _tsconfig.json_
+_tsconfig.json_
 
-  ```diff
-    "compilerOptions": {
-      "esModuleInterop": true,
-      "isolatedModules": true,
-  +   "jsx": "react-jsx",
-      "lib": ["ESNext", "DOM"],
-      "module": "ESNext",
-  ```
+```diff
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "isolatedModules": true,
++   "jsx": "react-jsx",
+    "lib": ["ESNext", "DOM"],
+    "module": "ESNext",
+```
 
-  ⚡ `jsx` is a JavaScript syntax extension that will allow us to write HTML-in-JS and is typically used by React components.
+⚡ `jsx` is a JavaScript syntax extension that will allow us to write HTML-in-JS and is typically used by React components.
 
 - In order to make `vite` fully support `jsx` syntax (among other things) we will add a plugin, otherwise, `esbuild` won't be able to transpile our `react` source files written in `jsx` syntax:
 
-  ```bash
-  npm install @vitejs/plugin-react --save-dev
-  ```
+```bash
+npm install @vitejs/plugin-react --save-dev
+```
 
 - Finally, let's modify `vite.config.ts` to add the newly installed plugin:
 
-  _vite.config.ts_
+_vite.config.ts_
 
-  ```diff
-    import { defineConfig } from "vite";
-    import checker from "vite-plugin-checker";
-  + import react from "@vitejs/plugin-react";
+```diff
+  import { defineConfig } from "vite";
+  import checker from "vite-plugin-checker";
++ import react from "@vitejs/plugin-react";
 
-    export default defineConfig({
-  -   plugins: [checker({ typescript: true })],
-  +   plugins: [checker({ typescript: true }), react()],
-    });
+  export default defineConfig({
+-   plugins: [checker({ typescript: true })],
++   plugins: [checker({ typescript: true }), react()],
+  });
 
-  ```
+```
 
 - Let's create our first React component.
 

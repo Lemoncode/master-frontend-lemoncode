@@ -63,7 +63,7 @@ _index.html_
 </html>
 ```
 
-Yn en _index.js_:
+Y en _index.js_:
 
 ```diff
 +   import "./styles.css";
@@ -202,7 +202,7 @@ document.getElementById("app").innerHTML = `
 `;
 ```
 
-En react sin embargo el argumento `props` es un único parámetro, un objeto al que voy a poder pasarle todo lo que quiera. Adaptamos el código.
+En react sin embargo el argumento `props` es un único parámetro, un objeto al que voy a poder pasar todo lo que quiera. Adaptamos el código.
 
 ```diff
 import { getUsers } from "./api";

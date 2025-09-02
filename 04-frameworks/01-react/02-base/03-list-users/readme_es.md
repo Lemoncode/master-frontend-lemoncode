@@ -1,4 +1,4 @@
-# 04 List Users
+# 03 List Users
 
 ## Resumen
 
@@ -14,7 +14,7 @@ con TypeScript y como hacer nuestro código más mantenible.
 Que vamos a aprender en este ejemplo:
 
 - Cómo crear un componente de visualización sin tener que depender de leer
-  de una fuenta remota.
+  de una fuente remota.
 - Cómo iterar y mostrar una lista de resultados.
 - Cómo hacer una llámada asícnrona para pedir datos a una api remota.
 - Cómo meter estos datos en el estado de nuestro componente en React.
@@ -36,7 +36,7 @@ npm install
 https://api.github.com/orgs/lemoncode/members
 ```
 
-- Vamos a crear un set de datos parecido que mueste dos miembros de una organización.
+- Vamos a crear un set de datos parecido que muestre dos miembros de una organización.
 
 _./src/app.tsx_
 
@@ -125,7 +125,7 @@ a tener en cuenta:
 
 - Ahora que vemos que funciona vamos a encajar esto en un tabla:
 
-- Ahora que vemos que funciona vamos a encajar esto en un _grid_, vamos a definir algunos estilos gobales
+- Ahora que vemos que funciona vamos a encajar esto en un _grid_, vamos a definir algunos estilos globales
   (revisa [Ejemplo de módulos CSS](https://github.com/Lemoncode/master-frontend-lemoncode/tree/master/03-bundling/01-webpack/12-css-modules), para aprender a configurar el CSS aislado de los componentes).
 
 _./src/styles.css_
@@ -199,7 +199,7 @@ export const App = () => {
 Así que hemos creado aquí un contenedor CSS Grid añadimos la cabecera y un bucle de todos los elementos de la lista de usuarios.
 
 - Hasta aquí muy bien pero... yo quiero tirar de la API de Github no de datos mockeados, vamos a empezar
-  por eliminar los datos mock e inicializar el estado de nuestro componente a un array vacio:
+  por eliminar los datos mock e inicializar el estado de nuestro componente a un array vacío:
 
 ```diff
 - const membersMock = [
@@ -220,7 +220,7 @@ export const App = () => {
 +  const [members, setMembers] = React.useState([]);
 ```
 
-- ¿Cómo puedo hacer la llamada al servidor de Github y traerme los datos justo cuando el compomenten se monte en mi HTML?
+- ¿Cómo puedo hacer la llamada al servidor de Github y traerme los datos justo cuando el componente se monte en mi HTML?
   Para ello vamos a usar _useEffect_ esto lo veremos más adelante cuando cubramos la parte de hooks
 
 _./src/app.tsx_
@@ -236,7 +236,7 @@ export const App = () => {
 ```
 
 Aquí ejecutamos un código justo cuando el componente se monta el DOM, los corchetes que nos encontramos al final de useEffect
-son los que indican que sólo se ejecute una sóla vez al montarse el componente, aprenderemos como funciona esto en detalle más adelante.
+son los que indican que sólo se ejecute una sola vez al montarse el componente, aprenderemos como funciona esto en detalle más adelante.
 
 - Ahora nos queda realizar la llamada AJAX dentro de ese _useEffect_
 
@@ -252,7 +252,7 @@ _./src/app.tsx_
 
 Más adelante veremos que React 19 ya trae un hook específico para esto.
 
-¿Qué estamos haciendo aquí? Estamos haciendo una llamada a la API REST de Github, esta api es asíncrona (de ahí que utlicemos
+¿Qué estamos haciendo aquí? Estamos haciendo una llamada a la API REST de Github, esta api es asíncrona (de ahí que utilicemos
 promesas), primero parseamos el resultado a _json_ y después asignamos ese resultado al estado de nuestro componente
 invocando a _setMembers_
 

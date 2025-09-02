@@ -1,6 +1,6 @@
 # Summary
 
-Now is your turn to get your hands wet coding some use stories :)
+Now is your turn to get your hands wet coding with some challenges :)
 
 # Challenges
 

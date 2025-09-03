@@ -1,4 +1,4 @@
-## 01 Vite boiler plate
+## 01 Vite boilerplate
 
 ## Resumen
 

@@ -1,8 +1,8 @@
-## 01 Vite boiler plate
+## 01 Vite boilerplate
 
 ## Summary
 
-In this example there is a vite boiler plate set up with Typescript support, just in the step before
+In this example there is a vite boilerplate set up with Typescript support, just in the step before
 to adding React support.
 
 It is based on the Vite examples.

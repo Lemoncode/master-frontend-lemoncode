@@ -1,4 +1,4 @@
-# 02 Vite boiler plate - React
+# 02 Vite boilerplate - React
 
 ## Summary
 

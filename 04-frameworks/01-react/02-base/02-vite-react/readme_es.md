@@ -1,4 +1,4 @@
-# 02 Vite boiler plate - React
+# 02 Vite boilerplate - React
 
 ## Resumen
 
@@ -8,7 +8,7 @@ Vamos a ir paso a paso, añadiendo la configuración necesaria para integrar **R
 
 # Paso a paso
 
-- Antes que nada nos instalamos todos los paquetes necesarios del boiler plate ejecutando _npm install_
+- Antes que nada nos instalamos todos los paquetes necesarios del boilerplate ejecutando _npm install_
 
 ```bash
 npm install

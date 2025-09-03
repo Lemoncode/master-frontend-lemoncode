@@ -80,33 +80,14 @@ Ahora el contenido lo genera JavaScript. Comprobamos que es el fichero de JavaSc
 
 ### Componentes
 
-Vamos a ir partiendo nuestra lista en partes. Para ello primero segregamos el título:
-
-```diff
- import "./styles.css";
-
-+   const Header = () => {
-+     return ` <h4>Lista de usuarios</h4>`;
-+   };
-+
-    document.getElementById("app").innerHTML = `
--       <h4>Lista de usuarios</h4>
-+       ${Header()}
-        <div>1955: Rick Sánchez</div>
-        <div>8765: Beth Harmon</div>
-        <div>7562: Farrokh Bulsara</div>
-```
-
-A esta función que acabamos de crear, en React, la vamos a llamar componente. Es decir, **en React los componentes son funciones.** Por el momento este componente nos devuelve un trocito de nuestra aplicación, en este caso el título, que renderiza algo en el DOM.
-
-Vamos a seguir rompiendo o componentizando nuestra aplicación. Vamos a crear un componente nuevo que nos devuelva la lista únicamente.
+Vamos a ir partiendo nuestra lista en partes. Así, vamos a segregar el header y la lista en dos componentes a parte
 
 ```diff
 import "./styles.css";
 
-const Header = () => {
-  return `<h4>Lista de usuarios</h4>`;
-};
++   const Header = () => {
++     return `<h4>Lista de usuarios</h4>`;
++   };
 
 +   const List = () => {
 +     return `
@@ -118,13 +99,16 @@ const Header = () => {
 +   };
 
 document.getElementById("app").innerHTML = `
-    ${Header()}
++       ${Header()}
++       ${List()}
+-       <h4>Lista de usuarios</h4>
 -       <div>1955: Rick Sánchez</div>
 -       <div>8765: Beth Harmon</div>
 -       <div>7562: Farrokh Bulsara</div>
-+       ${List()}
 `;
 ```
+
+A esta funciones que acabamos de crear, en React, las vamos a llamar componentes. Es decir, **en React los componentes son funciones.** Por el momento estos componentes nos devuelven un trocito de nuestra aplicación, en este caso el título y la lista, es decir, renderizan algo en el DOM.
 
 ### Props
 
@@ -302,7 +286,7 @@ De cara a dejar el ejemplo preparado para el siguiente ejercicio vamos a hacer e
 +     ${Header()}
 +     ${List()}
 +   `;
-}
++   }
 
 +   document.getElementById("app").innerHTML = App();
 -   document.getElementById("app").innerHTML = `

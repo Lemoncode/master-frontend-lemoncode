@@ -157,18 +157,13 @@ body {
 
 Para poder usar los estilos tenemos que importarlos dentro de nuestro proyecto:
 
-_./index.tsx_
+\__./src/index.tsx_
 
 ```diff
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./app";
 +  import "./styles.css";
-
-const container = document.getElementById("root");
-const root = createRoot(container);
-
-root.render(<App />);
 ```
 
 - Y vamos a integrarlo en el componente de nuestra aplicación:

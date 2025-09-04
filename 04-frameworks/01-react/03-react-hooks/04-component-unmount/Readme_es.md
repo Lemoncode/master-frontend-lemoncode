@@ -2,7 +2,7 @@
 
 ## Resumen
 
-Este ejemplo toma como punto de partida el ejemplo _03-component-dom-onload_.
+Este ejemplo toma como punto de partida el ejemplo _03-component-mount_.
 
 En este ejemplo vamos a ver como liberar recursos cuando desmontamos un
 componente del DOM.
@@ -39,10 +39,10 @@ _./src/demo.tsx_
 ```diff
   return (
     <>
-      {visible && <h4>Hello</h4>}
 +      <button onClick={() => setVisible(!visible)}>
 +        Toggle Child component visibility
 +      </button>
+      {visible && <h4>Hello</h4>}
     </>
   );
 ```
@@ -61,22 +61,22 @@ export const MyComponent = () => {
 
   return (
     <>
--      {visible && <h4>Hello</h4>}
-+      {visible && <MyChildComponent/>}
       <button onClick={() => setVisible(!visible)}>
         Toggle Child component visibility
       </button>
+-      {visible && <h4>Hello</h4>}
++      {visible && <MyChildComponent/>}
     </>
   );
 };
 ```
 
-- Ahora tenemos un componente hijo que pinchando en un botón
+- Ahora tenemos un componente hijo que clicando en un botón
   se monta o desmonta del dom.
 
 ¿Cómo podríamos hacer para mostrar un mensaje por la consola
 del navegador cuando se montara el componente hijo?
-Si recordamos el ejemplo anterior,sería con _React.useEffect_
+Si recordamos el ejemplo anterior, sería con _React.useEffect_
 ¿Te animas a intentarlo? Dale a la pausa al video y ponte :).
 
 Podríamos hacer algo así como:
@@ -93,9 +93,9 @@ export const MyChildComponent = () => {
 };
 ```
 
-- Ahora viene la parte interesante, y si queremos mostrar un mensaje
-  por la console del navegador cuando el componente se desmonta del DOM?
-  En la misma función que ponemos como primer parametro devolvemos
+- Ahora viene la parte interesante, ¿Y si queremos mostrar un mensaje
+  por la consola del navegador cuando el componente se desmonta del DOM?
+  En la misma función que ponemos como primer parámetro devolvemos
   la función de "limpieza"... _useEffect_ se va a guardar esa función
   hasta que desmonte el DOM para invocarla:
 
@@ -107,7 +107,7 @@ export const MyChildComponent = () => {
   }, []);
 ```
 
-¿Para que me puede servir esto? Imaginate que abres una conexión a un websocket
+¿Para que me puede servir esto? Imagínate que abres una conexión a un websocket
 y quieres cerrarla cuando el usuario oculte el componente, ¿ cómo liberas
 recursos de forma ordenada? Aquí lo tienes.
 

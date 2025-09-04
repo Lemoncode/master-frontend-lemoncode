@@ -179,10 +179,10 @@ const User = ({ user }) => {
 const [randomNumber, setRandomNumber] = React.useState(Math.random())
 
 +   React.useEffect(()=>{
-setTimeout(() => {
-    setRandomNumber(Math.random());
-    console.log(randomNumber);
-}, 3000);
+      setTimeout(() => {
+        setRandomNumber(Math.random());
+        console.log(randomNumber);
+      }, 3000);
 +   },[])
 
   return (

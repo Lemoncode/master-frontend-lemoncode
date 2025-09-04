@@ -80,7 +80,7 @@ Ahora el contenido lo genera JavaScript. Comprobamos que es el fichero de JavaSc
 
 ### Componentes
 
-Vamos a ir partiendo nuestra lista en partes. Así, vamos a segregar el header y la lista en dos componentes a parte
+Vamos a ir partiendo nuestra lista en partes. Así, vamos a segregar el header y la lista en dos componentes a parte.
 
 ```diff
 import "./styles.css";
@@ -99,16 +99,16 @@ import "./styles.css";
 +   };
 
 document.getElementById("app").innerHTML = `
-+       ${Header()}
-+       ${List()}
--       <h4>Lista de usuarios</h4>
--       <div>1955: Rick Sánchez</div>
--       <div>8765: Beth Harmon</div>
--       <div>7562: Farrokh Bulsara</div>
++     ${Header()}
++     ${List()}
+-     <h4>Lista de usuarios</h4>
+-     <div>1955: Rick Sánchez</div>
+-     <div>8765: Beth Harmon</div>
+-     <div>7562: Farrokh Bulsara</div>
 `;
 ```
 
-A esta funciones que acabamos de crear, en React, las vamos a llamar componentes. Es decir, **en React los componentes son funciones.** Por el momento estos componentes nos devuelven un trocito de nuestra aplicación, en este caso el título y la lista, es decir, renderizan algo en el DOM.
+A estas funciones que acabamos de crear, en React, las vamos a llamar componentes. Es decir, **en React los componentes son funciones.** Por el momento estos componentes nos devuelven un trocito de nuestra aplicación, en este caso el título y la lista, es decir, renderizan algo en el DOM.
 
 ### Props
 
@@ -128,12 +128,12 @@ const Header = () => {
 const List = () => {
   return `
     <div>
-+         ${User({id: 1955, name 'Rick Sánchez'})}
-+         ${User({id: 8765, name 'Beth Harmon'})}
-+         ${User({id: 7562, name 'Farrokh Bulsara'})}
--         <div>1955: Rick Sánchez</div>
--         <div>8765: Beth Harmon</div>
--         <div>7562: Farrokh Bulsara</div>
++     ${User({id: 1955, name 'Rick Sánchez'})}
++     ${User({id: 8765, name 'Beth Harmon'})}
++     ${User({id: 7562, name 'Farrokh Bulsara'})}
+-     <div>1955: Rick Sánchez</div>
+-     <div>8765: Beth Harmon</div>
+-     <div>7562: Farrokh Bulsara</div>
     </div>`;
 };
 
@@ -173,10 +173,10 @@ const List = () => {
 +   const users = getUsers();
   return `
     <div>
-+         ${users.map(user=>User(user)).join('')}
--         ${User({id: 1955, name 'Rick Sánchez'})}
--         ${User({id: 8765, name 'Beth Harmon'})}
--         ${User({id: 7562, name 'Farrokh Bulsara'})}
++     ${users.map(user=>User(user)).join('')}
+-     ${User({id: 1955, name 'Rick Sánchez'})}
+-     ${User({id: 8765, name 'Beth Harmon'})}
+-     ${User({id: 7562, name 'Farrokh Bulsara'})}
     </div>`;
 };
 
@@ -206,8 +206,8 @@ const List = () => {
   const users = getUsers();
   return `
     <div>
--        ${users.map((user) => User(user)).join("")}
-+        ${users.map((user) => User({ user })).join("")}
+-     ${users.map((user) => User(user)).join("")}
++     ${users.map((user) => User({ user })).join("")}
     </div>`;
 };
 
@@ -233,12 +233,12 @@ Si lo actualizamos con un setTimeout, vemos que el valor cambia en consola, pero
 
 ```diff
 const User = ({ user }) => {
--  const randomNumber = Math.random();
-+  let randomNumber = Math.random();
-+  setTimeout(() => {
-+    randomNumber = Math.random();
-+    console.log(randomNumber);
-+  }, 3000);
+-   const randomNumber = Math.random();
++   let randomNumber = Math.random();
++   setTimeout(() => {
++     randomNumber = Math.random();
++     console.log(randomNumber);
++   }, 3000);
   return `<div>${user.id}: ${user.name} - ${randomNumber}</div>`;
 };
 ```
@@ -267,8 +267,8 @@ const List = () => {
 
   return `
     <div>
-         ${users.map((user) => User({ user })).join("")}
-+        <button onclick="javascript:handleClick()">Add user</button>
+      ${users.map((user) => User({ user })).join("")}
++     <button onclick="javascript:handleClick()">Add user</button>
     </div>`;
 };
 ```
@@ -290,7 +290,7 @@ De cara a dejar el ejemplo preparado para el siguiente ejercicio vamos a hacer e
 
 +   document.getElementById("app").innerHTML = App();
 -   document.getElementById("app").innerHTML = `
--       ${Header()}
--       ${List()}
+-     ${Header()}
+-     ${List()}
 -   `;
 ```

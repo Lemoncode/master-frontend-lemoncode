@@ -4,7 +4,7 @@ Vamos a ver el nuevo hook _use_, introducido en la versión 19 de react. En este
 
 ## Punto de Partida
 
-Este ejemplo parte del ejercicio \_06-ajax-field-change. Si no tienes el código a mano te lo dejamos por aquí.
+Este ejemplo parte del ejercicio _06-ajax-field-change_. Si no tienes el código a mano te lo dejamos por aquí.
 
 _./src/demo.tsx_
 
@@ -92,7 +92,7 @@ export const MyComponent = () => {
   return (
 ```
 
-Si levantamos el proyecto, abrimos las _devTools_ y vemos los logs del browser, nos damos cuenta de que hemos entrado en un bucle infinito (el log debe aparecer muchas veces). Esto se debe a como funciona el hook _use_ por dentro y a que nos hemos saltado una regla fundamental establecida por la documentación de React: al hook _use_ hay que pasarle una referencia estable.
+Si levantamos el proyecto, abrimos las _devTools_ y vemos los logs del browser, nos damos cuenta de que hemos entrado en un bucle infinito (el log aparece muchas veces). Esto se debe a como funciona el hook _use_ por dentro y a que nos hemos saltado una regla fundamental establecida por la documentación de React: al hook _use_ hay que pasarle una referencia estable.
 Esto se diferencia a lo que hemos hecho dentro de nuestro componente, donde dentro de cada ejecución _fetchMockedUsers()_ crea una nueva referencia en cada re-ejecución, por lo que el componente se va a re-ejecutar infinitas veces.
 
 Para poder adaptarnos a las condiciones de uso de _use_ esa referencia debe ser estable, por lo que le deberá llegar a nuestro componente como _prop_. De esta manera esa _prop_ no se calculará en cada ejecución.
@@ -154,11 +154,11 @@ import React, { use } from "react";
 
 -   export const MyComponent = () => {
 +   export const MyComponent: React.FC<MyComponentProps> = ({ userPromise }) => {
-  const [filter, setFilter] = React.useState("");
+      const [filter, setFilter] = React.useState("");
 -     const userCollection = use(fetchMockedUsers());
 +     const userCollection = use(userPromise);
 
-  return (
+      return (
 ```
 
 Reemplazamos en _./src/app.tsx_
@@ -195,7 +195,7 @@ export interface User {
 +   const fetchUsers = async (filter): Promise<User[]> => {
 +     const res = await fetch(
 +       `https://jsonplaceholder.typicode.com/users?name_like=${filter}`
-+     );
++       );
 +     return res.json();
 +   };
 
@@ -206,10 +206,10 @@ export const MyParentComponent = () => {
 
   return (
     <>
-+         <input value={filter} onChange={(e) => setFilter(e.target.value)} />
++     <input value={filter} onChange={(e) => setFilter(e.target.value)} />
       <Suspense fallback={<>Loading</>}>
--         <MyComponent userPromise={mockedUsersPromise} />
-+         <MyComponent userPromise={usersPromise} />
+-        <MyComponent userPromise={mockedUsersPromise} />
++        <MyComponent userPromise={usersPromise} />
       </Suspense>
     </>
   );
@@ -223,12 +223,12 @@ _./src/demo.tsx_
 ```diff
 export const MyComponent: React.FC<MyComponentProps> = ({ userPromise }) => {
 -     const [filter, setFilter] = React.useState("");
-  const userCollection = use(userPromise);
+      const userCollection = use(userPromise);
 
-  return (
-    <div>
+      return (
+        <div>
 -         <input value={filter} onChange={(e) => setFilter(e.target.value)} />
-      <ul>
+        <ul>
 ```
 
 Y si quisiéramos implementar el useDebounce?
@@ -249,8 +249,8 @@ import React, { Suspense } from "react";
 
 export const MyParentComponent = () => {
   const [filter, setFilter] = React.useState("");
-+     const [debouncedFilter] = useDebounce(filter, 1500);
--     const usersPromise = fetchUsers(filter);
++   const [debouncedFilter] = useDebounce(filter, 1500);
+-   const usersPromise = fetchUsers(filter);
 
 +  const usersPromise = React.useMemo(
 +    () => fetchUsers(debouncedFilter),
@@ -259,7 +259,7 @@ export const MyParentComponent = () => {
 
   return (
     <>
-+         <div>Debounced filter: {debouncedFilter}</div>
++     <div>Debounced filter: {debouncedFilter}</div>
       <input value={filter} onChange={(e) => setFilter(e.target.value)} />
       <Suspense fallback={<>Loading</>}>
 ```

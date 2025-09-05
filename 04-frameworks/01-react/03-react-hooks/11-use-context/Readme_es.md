@@ -69,7 +69,7 @@ React incorpora un mecanismo muy potente, se llama **Context**
   o de por ejemplo una ventana que contenga varios tabs.
 
 Y a todo esto tenemos que añadirle que React incorpora un hook que se llama
-_use_ que hace que usarlo sea muy facil.
+_use_ que hace que usarlo sea muy fácil.
 
 **En versiones anteriores a la 19, usar _usecontext_ para consumir contextos**
 

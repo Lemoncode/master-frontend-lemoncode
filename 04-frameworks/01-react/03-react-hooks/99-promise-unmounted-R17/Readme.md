@@ -1,6 +1,6 @@
 # 15 Promise unmounted
 
-## Resume
+## Summary
 
 This example takes as a starting point the example _14-use-ref-dom_.
 
@@ -63,7 +63,7 @@ export const MyChildComponent = () => {
 
 - Now we want to launch an ajax request every time the user writes in the filter's text field (we'll add some latency).
 
-_./src/demo.js_
+_./src/demo.tsx_
 
 ```diff
 export const MyChildComponent = () => {

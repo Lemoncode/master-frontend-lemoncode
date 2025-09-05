@@ -1,6 +1,6 @@
 # 11 useContext
 
-## Resume
+## Summary
 
 This example takes the _10-use-reducer_ example as a starting point.
 
@@ -36,12 +36,11 @@ userGlobalDAta.login = "john";
 
 This approach that we could first try to defend (it is flat ES6, so React account only takes care of the UI...), it brings us several problems:
 
-- What if the value of _userGlobalData.login_ changes and I have multiple parts of the         application they are using it? How do I notify you of the change? Would have to play pulling and collecting global events to go repainting.
+- What if the value of _userGlobalData.login_ changes and I have multiple parts of the application they are using it? How do I notify you of the change? Would have to play pulling and collecting global events to go repainting.
 
 - And now to finish, if I want to use Server Side Rendering (that is, pregenerate the pages on the server to serve HTML, this is good for example for have a good SEO), we would have a big problem ... communicating vessels, all the requests would share the same static variables.
 
 React incorporates a very powerful mechanism, it is called ** Context **
-
 
 - The ** Context ** allows me to share data between components without going through the props.
 
@@ -49,9 +48,10 @@ React incorporates a very powerful mechanism, it is called ** Context **
 
 - I can place the Context at the level I want in the component tree, that is, I can make that data available at the full application level or for example a window containing several tabs.
 
-
 And to all this we have to add that React incorporates a hook called
-_useContext_ which makes using it very easy.
+_use_ which makes using it very easy.
+
+**In previous versions to react 19, use _usecontext_ to consume contexts**
 
 Let's see how this works.
 
@@ -99,11 +99,34 @@ const MyContext = React.createContext({
 +  const [username, setUsername] = React.useState("John Doe");
 +
 +  return (
-+    <MyContext.Provider value={{ username, setUsername }}>
++    <MyContext value={{ username, setUsername }}>
 +      {props.children}
-+    </MyContext.Provider>
++    </MyContext>
 +  );
 + };
+```
+
+In previous versions to react 19, the provider is only available as a method inside the context. From react 19,
+this is still possible, but only as legacy. We prefer to use the new approach.
+
+```jsx
+import React from "react";
+
+const MyContext = React.createContext({
+  username: "",
+  setUsername: () => {},
+});
+
+export const MyContextProvider = (props) => {
+  const [username, setUsername] = React.useState("John Doe");
+
+  return (
+    // MyContext.Provider is legacy
+    <MyContext.Provider value={{ username, setUsername }}>
+      {props.children}
+    </MyContext.Provider>
+  );
+};
 ```
 
 Check out what we have here:
@@ -158,7 +181,7 @@ _./src/demo.tsx_
 
 ```diff
 export const MyComponent = () => {
-+  const myContext = React.useContext(MyContext);
++  const myContext = React.use(MyContext);
 
   return (
     <>
@@ -168,6 +191,7 @@ export const MyComponent = () => {
   )
 }
 ```
+
 - If we execute the example we can see it working:
 
 ```bash

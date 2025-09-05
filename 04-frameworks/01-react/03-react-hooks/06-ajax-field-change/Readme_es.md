@@ -21,7 +21,7 @@ así llamadas innecesarias).
 npm install
 ```
 
-- Vamos abrir el fichero _demo.js_ y vamos añadir una entrada en el
+- Vamos abrir el fichero _demo.tsx_ y vamos añadir una entrada en el
   estado que almacene el filtro actual de busqueda, y otra en la que almacene
   una lista de usuarios.
 

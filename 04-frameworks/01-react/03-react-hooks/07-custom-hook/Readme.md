@@ -1,8 +1,8 @@
 # 07 Custom hooks
 
-## Resume
+## Summary
 
-This example takes as its starting point the \ _06-ajax-field-change example.
+This example takes as its starting point the _06-ajax-field-change_ example.
 
 Hooks are cool, but our functional component seems to get cluttered, is
 there a way to extract functionality outside the functional component?
@@ -53,7 +53,7 @@ export const MyComponent = () => {
 
 A. Encapsulating as well the _UseEffect_
 
-_./src/demo.js_
+_./src/demo.tsx_
 
 ```diff
 import React from "react";

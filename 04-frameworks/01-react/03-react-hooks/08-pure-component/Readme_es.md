@@ -17,7 +17,7 @@ Vamos a ello.
 npm install
 ```
 
-- Vamos a pegar un ejemplo en _demo.js_, este código va tener dos
+- Vamos a pegar un ejemplo en _demo.tsx_, este código va tener dos
   valores editables: _name_ y _lastname_ y vamos a tener un control
   hijo que sólo va a mostrar el _name_ (de hecho este componente
   sólo pedirá el campo nombre en las propiedades).

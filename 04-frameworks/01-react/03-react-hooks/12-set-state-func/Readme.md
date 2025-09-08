@@ -1,6 +1,6 @@
 # 12 set state func
 
-## Resume
+## Summary
 
 This example takes the _11-use-context_ example as a starting point.
 

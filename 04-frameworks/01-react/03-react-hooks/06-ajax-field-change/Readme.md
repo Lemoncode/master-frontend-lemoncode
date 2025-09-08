@@ -1,6 +1,6 @@
 # 06 Ajax field change
 
-## Resume
+## Summary
 
 This example takes as a starting point the example \ \_05-component-update-render.
 
@@ -16,7 +16,7 @@ As a bonus, we will check how to use Debounce (wait a little until the user stop
 npm install
 ```
 
-- Let's open the _demo.js_, and let's add an entry in the state that stores the current search filter, and another state in which we
+- Let's open the _demo.tsx_, and let's add an entry in the state that stores the current search filter, and another state in which we
   are going to store a list of users.
 
 _./src/demo.tsx_

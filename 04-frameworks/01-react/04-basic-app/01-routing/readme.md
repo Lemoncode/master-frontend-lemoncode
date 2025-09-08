@@ -257,10 +257,23 @@ export const App = () => {
 };
 ```
 
-- There is a catch with all this and it is that if you go for example to the listing page and click on refresh (F5)
-  it gives you an error, what happens here? That it goes to server to try to load that route, and in the server
-  doesn't exist... we have to define a redirect in the web server to serve the root page.
+When we use BrowserRouter in a SPA application, route management happens on the client side. However,
+the browser still has its natural behavior: if you refresh the page on a route other than the root
+(for example /list), the browser will try to request that resource directly from the server.
 
+- With Vite: the development server is already set up for SPAs. By default, it always returns index.html
+  for any unknown route. This way, React Router can handle which view to display without throwing an error.
+
+- With Webpack Dev Server: this behavior is not enabled by default. If you refresh on /list,
+  the browser will request /list from the server, but since that file doesn’t exist in the file system, you’ll get a 404.
+  To prevent this, you need to configure historyApiFallback in webpack.config.js. This forces the server
+  to redirect all unknown routes to index.html, allowing React Router to properly manage navigation.
+
+In production the same thing will happen: if your server does not redirect all routes to index.html,
+refreshing on a page other than the root will result in an error. The solution is to configure the
+fallback or rewrite rule depending on the server (Nginx, Apache, Netlify, etc.).
+
+**ATTENTION: CONFIGURATION FOR WEBPACK**
 If you want to fix it in _webpack.config_ for local development:
 
 _./webpack.config.js_

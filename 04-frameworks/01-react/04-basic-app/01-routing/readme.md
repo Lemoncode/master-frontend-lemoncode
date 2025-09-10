@@ -82,9 +82,14 @@ export const DetailPage: React.FC = () => {
 
 _./src/app.tsx_
 
-```diff
-import React from "react";
-+ import { HashRouter, Routes, Route } from "react-router-dom";
+````diff
++ import React from "react";
++ import {
++  BrowserRouter as Router,
++  Routes,
++  Route,
++  Navigate,
++ } from "react-router-dom";
 + import {LoginPage} from './login';
 + import {ListPage} from './list';
 + import {DetailPage} from './detail';
@@ -98,17 +103,17 @@ export const App = () => {
 +       <Route path="/" element={<LoginPage/>} />
 +       <Route path="/list" element={<ListPage/>} />
 +       <Route path="/detail" element={<DetailPage/>} />
++       <Route path="*" element={<Navigate to="/" />} />
 +     </Routes>
 +   </HashRouter>
 + );
 };
-```
 
 - Let's run and see what happens (we can navigate by typing in the url of the browser):
 
 ```bash
 npm start
-```
+````
 
 - Navigating by typing the url is fine but the normal thing to do is to click on links or buttons,
   so let's go for it.

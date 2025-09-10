@@ -84,8 +84,13 @@ export const DetailPage: React.FC = () => {
 _./src/app.tsx_
 
 ```diff
-import React from "react";
-+ import { HashRouter, Routes, Route } from "react-router-dom";
++ import React from "react";
++ import {
++  BrowserRouter as Router,
++  Routes,
++  Route,
++  Navigate,
++ } from "react-router-dom";
 + import {LoginPage} from './login';
 + import {ListPage} from './list';
 + import {DetailPage} from './detail';
@@ -99,6 +104,7 @@ export const App = () => {
 +       <Route path="/" element={<LoginPage/>} />
 +       <Route path="/list" element={<ListPage/>} />
 +       <Route path="/detail" element={<DetailPage/>} />
++       <Route path="*" element={<Navigate to="/" />} />
 +     </Routes>
 +   </HashRouter>
 + );

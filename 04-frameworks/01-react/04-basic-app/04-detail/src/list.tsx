@@ -18,7 +18,7 @@ export const ListPage: React.FC = () => {
 
   return (
     <>
-      <h2>Hello from List page</h2>+{" "}
+      <h2>Hello from List page</h2>
       <div className="list-user-list-container">
         <span className="list-header">Avatar</span>
         <span className="list-header">Id</span>

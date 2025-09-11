@@ -14,7 +14,7 @@ navegando entre ellas:
 
 - Una de login.
 - Una de listado.
-- Una de detalle (esta recibirá un parametro en la url).
+- Una de detalle (esta recibirá un parámetro en la url).
 
 ## Paso a Paso
 
@@ -25,7 +25,7 @@ npm install
 ```
 
 - Para poder implementar una aplicación SPA nos hace falta un router,
-  vamos a instalar _react-router_ (la versión 6 ya incluye los typings).
+  vamos a instalar _react-router_ (la versión 7 ya incluye los typings).
 
 ```bash
 npm install react-router-dom --save
@@ -84,8 +84,13 @@ export const DetailPage: React.FC = () => {
 _./src/app.tsx_
 
 ```diff
-import React from "react";
-+ import { HashRouter, Routes, Route } from "react-router-dom";
++ import React from "react";
++ import {
++  BrowserRouter as Router,
++  Routes,
++  Route,
++  Navigate,
++ } from "react-router-dom";
 + import {LoginPage} from './login';
 + import {ListPage} from './list';
 + import {DetailPage} from './detail';
@@ -99,6 +104,7 @@ export const App = () => {
 +       <Route path="/" element={<LoginPage/>} />
 +       <Route path="/list" element={<ListPage/>} />
 +       <Route path="/detail" element={<DetailPage/>} />
++       <Route path="*" element={<Navigate to="/" />} />
 +     </Routes>
 +   </HashRouter>
 + );
@@ -106,13 +112,13 @@ export const App = () => {
 ```
 
 - Vamos a ejecutar y ver qué pasa (podemos ir navegando tecleando en le url del
-  navegador, por ejemplo http://localhost:8081/#/list):
+  navegador, por ejemplo http://localhost:5173/#/list):
 
 ```bash
 npm start
 ```
 
-- Navegar tecleando la url está bien pero lo normal es hacerlo clickando en enlaces
+- Navegar tecleando la url está bien pero lo normal es hacerlo clicando en enlaces
   o botones, vamos a ello.
 
 Vamos a añadir unos enlaces en cada página:
@@ -261,10 +267,25 @@ export const App = () => {
 };
 ```
 
-- Hay una pega con todo esto y es que si te vas por ejemplo a la página de listado y pulsas en refresh (F5)
-  te da un error, ¿Qué es lo que pasa aquí? Que va a servidor a intentar cargar esa ruta, y en el servidor
-  no existe... tenemos que definir un redirect en el servidor web para que sirva la página raíz.
+Cuando usamos BrowserRouter en una aplicación SPA, la gestión de rutas se hace del lado del cliente.
+Sin embargo, el navegador sigue teniendo su comportamiento natural; si refrescas la página en una ruta
+distinta de la raíz (por ejemplo /list), el navegador intentará pedir ese recurso directamente al servidor.
 
+- Con Vite: el servidor de desarrollo ya está preparado para SPAs. Por defecto, devuelve siempre el
+  index.html para cualquier ruta desconocida. De esta forma, React Router puede encargarse de resolver
+  qué vista mostrar sin dar error.
+
+- Con Webpack Dev Server: este comportamiento no viene activado por defecto. Al refrescar en /list,
+  el navegador pedirá /list al servidor, pero como ese archivo no existe en el sistema de ficheros,
+  obtendrás un 404. Para evitarlo, hay que configurar `historyApiFallback` en webpack.config.js.
+  Esto obliga al servidor a redirigir todas las rutas desconocidas al index.html, permitiendo que
+  React Router gestione la navegación correctamente.
+
+En producción ocurrirá lo mismo: si tu servidor no redirige todas las rutas al index.html, al refrescar
+en una página distinta de la raíz obtendrás un error. La solución es configurar la regla de fallback o
+rewrite según el servidor (Nginx, Apache, Netlify, etc.).
+
+**ATENCIÓN: CONFIGURACIÓN PARA WEBPACK**
 Si lo quieres arreglar en _webpack.config_ para desarrollar en local:
 
 _./webpack.config.js_
@@ -279,9 +300,6 @@ _./webpack.config.js_
 +    historyApiFallback: true,
 +  },
 ```
-
-> NO TE OLVIDES DE PARAR EL SERVIDOR DE DESARROLLO Y VOLVERLO A
-> ARRANCAR PARA QUE SE ACTUALICE EL CAMBIO.
 
 Y para arreglarlo en producción: https://tylermcginnis.com/react-router-cannot-get-url-refresh/
 

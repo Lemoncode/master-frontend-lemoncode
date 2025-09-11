@@ -112,6 +112,17 @@ _./src/styles.css_
 +}
 ```
 
+Importamos los estilos en _./src/index.tsx_
+
+```diff
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { App } from "./app";
++   import "./styles.css";
+
+const container = document.getElementById("root");
+```
+
 _./src/list.tsx_
 
 ```diff
@@ -126,11 +137,11 @@ _./src/list.tsx_
 +        <span className="list-header">Id</span>
 +        <span className="list-header">Name</span>
 +        {members.map((member) => (
-+          <>
++          <React.Fragment key={member.id}>
 +            <img src={member.avatar_url} />
 +            <span>{member.id}</span>
 +            <span>{member.login}</span>
-+          </>
++          </React.Fragment>
 +        ))}
 +      </div>
     </>

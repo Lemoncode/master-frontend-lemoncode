@@ -63,7 +63,9 @@ export const ProfileContext = React.createContext<Context>({
     ),
 });
 
-export const ProfileProvider: React.FC = ({ children }) => {
+export const ProfileProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const [userProfile, setUserProfile] = React.useState<UserProfile>(
     createEmptyUserProfile()
   );
@@ -96,8 +98,8 @@ _./src/app.tsx_
 
 ```diff
 import React from "react";
-import { RouterComponent } from "@/core";
-+ import { ProfileProvider } from '@/core/profile';
+import { RouterComponent } from "core";
++ import { ProfileProvider } from 'core/profile';
 
 
 export const App = () => {
@@ -116,8 +118,8 @@ _./src/scenes/login.tsx_
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { routes } from "core";
-import { CenterLayout } from "@/layouts";
-+ import { ProfileContext } from "@/core/profile";
+import { CenterLayout } from "layouts";
++ import { ProfileContext } from "core/profile";
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -143,10 +145,10 @@ _./src/layouts/app.layout.tsx_
 
 ```diff
 import React from "react";
-+ import { ProfileContext } from "@/core/profile";
++ import { ProfileContext } from "core/profile";
 
--export const AppLayout: React.FC = ({ children }) => (
-+ export const AppLayout: React.FC = ({ children }) => {
+-export const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
++ export const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
 +  const { userName } = React.useContext(ProfileContext);
 +  return (
   <div className="layout-app-container">

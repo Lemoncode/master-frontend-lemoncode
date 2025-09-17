@@ -1,8 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { routes } from "core";
-import {CenterLayout} from '@/layouts';
-import { ProfileContext } from "@/core/profile";
+import { CenterLayout } from "layouts";
+import { ProfileContext } from "core/profile";
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -46,6 +46,6 @@ export const LoginPage: React.FC = () => {
 
         <button type="submit">Login</button>
       </form>
-      </CenterLayout>
+    </CenterLayout>
   );
 };

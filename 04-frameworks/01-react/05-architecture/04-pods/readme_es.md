@@ -48,6 +48,27 @@ mkdir list
 mkdir detail
 ```
 
+Incluimos el nuevo alias en _tsconfig.json_:
+
+```diff
+{
+  "compilerOptions": {
+    ...
+   "paths": {
+      "scenes": ["src/scenes"],
+      "scenes/*": ["src/scenes/*"],
+      "core": ["src/core"],
+      "core/*": ["src/core/*"],
+      "layouts": ["src/layouts"],
+      "layouts/*": ["src/layouts/*"]
++     "pods": ["src/pods"],
++     "pods/*": ["src/pods/*"]
+    }
+  },
+  "include": ["src"]
+}
+```
+
 Empecemos a migrar el contenido de la página de _login_, normalmente crearemos un componente contenedor de primer nivel
 que contendrá el estado y un componente _dumb_ que contendrá el _layout_ (en este caso podríamos discutir
 si esto no es necesario y en otros necesitaremos una solución más elaborada por ejemplo crear
@@ -62,7 +83,7 @@ _./pods/login/login.container.tsx_
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { routes } from "core";
-import { ProfileContext } from "@/core/profile";
+import { ProfileContext } from "core/profile";
 
 export const LoginContainer: React.FC = () => {
   const navigate = useNavigate();
@@ -105,7 +126,7 @@ _./src/login.container.tsx_
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { routes } from "core";
-import { ProfileContext } from "@/core/profile";
+import { ProfileContext } from "core/profile";
 + import {LoginComponent} from './login.component';
 ```
 
@@ -187,11 +208,11 @@ _./src/scenes/login.tsx_
 
 ```diff
 import React from "react";
-+ import { LoginContainer } from '@/pods/login';
++ import { LoginContainer } from 'pods/login';
 - import { useNavigate } from "react-router-dom";
 - import { routes } from "core";
-import { CenterLayout } from "@/layouts";
-- import { ProfileContext } from "@/core/profile";
+import { CenterLayout } from "layouts";
+- import { ProfileContext } from "core/profile";
 
 export const LoginPage: React.FC = () => {
 -  const navigate = useNavigate();
@@ -288,7 +309,7 @@ export const ListContainer: React.FC = () => {
 _./pods/list/list.component.tsx_
 
 ```tsx
-import { routes } from "@/core";
+import { routes } from "core";
 import React from "react";
 import { Link } from "react-router-dom";
 import { MemberEntity } from "./list.vm";
@@ -335,8 +356,8 @@ _./src/scenes/list.tsx_
 import React from "react";
 - import { Link } from "react-router-dom";
 - import { routes } from "core";
-import { AppLayout } from "@/layouts";
-+ import { ListContainer } from '@/pods/list';
+import { AppLayout } from "layouts";
++ import { ListContainer } from 'pods/list';
 
 - interface MemberEntity {
 -  id: string;
@@ -501,8 +522,8 @@ import React from "react";
 - import { Link, useParams } from "react-router-dom";
 + import { useParams } from "react-router-dom";
 - import { routes } from "core";
-import { AppLayout } from "@/layouts";
-+ import { DetailContainer } from '@/pods/detail';
+import { AppLayout } from "layouts";
++ import { DetailContainer } from 'pods/detail';
 
 - interface MemberDetailEntity {
 -  id: string;

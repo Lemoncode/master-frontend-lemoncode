@@ -47,7 +47,7 @@ _./src/pods/login/login.container.ts_
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { routes } from "core";
-import { ProfileContext } from "@/core/profile";
+import { ProfileContext } from "core/profile";
 import { LoginComponent } from "./login.component";
 import { doLogin } from "./login.api";
 + import { Login } from './login.vm';
@@ -227,6 +227,29 @@ wrapper around the input field, since this wrapper could
 be reused in other projects we will add it to the root
 folder _./src/common_
 
+Include the new alias in _tsconfig.json_:
+
+```diff
+{
+  "compilerOptions": {
+    ...
+   "paths": {
+      "scenes": ["src/scenes"],
+      "scenes/*": ["src/scenes/*"],
+      "core": ["src/core"],
+      "core/*": ["src/core/*"],
+      "layouts": ["src/layouts"],
+      "layouts/*": ["src/layouts/*"]
+      "pods": ["src/pods"],
+      "pods/*": ["src/pods/*"]
++     "common": ["src/common"],
++     "common/*": ["src/common/*"]
+    }
+  },
+  "include": ["src"]
+}
+```
+
 _./src/common/components/forms/input-formik.component.tsx_
 
 ```tsx
@@ -296,7 +319,7 @@ Let's replace the form input (and simplify them):
 _./src/pods/login/login.component.tsx_
 
 ```diff
-+ import { InputFormik } from '@/common/components';
++ import { InputFormik } from 'common/components';
 
 -  <input
 +  <InputFormik

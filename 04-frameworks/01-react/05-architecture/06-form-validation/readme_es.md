@@ -47,7 +47,7 @@ _./src/pods/login/login.container.tsx_
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { routes } from "core";
-import { ProfileContext } from "@/core/profile";
+import { ProfileContext } from "core/profile";
 import { LoginComponent } from "./login.component";
 import { doLogin } from "./login.api";
 + import { Login } from './login.vm';
@@ -265,6 +265,29 @@ ya que esta envoltura podría ser reutilizado en otros proyectos lo añadiremos 
     - Este componente es mejorable, ya que por ejemplo, sería buena idea que en vez de usar un style
       para el input, usáramos una clase.
 
+Incluimos el nuevo alias en _tsconfig.json_:
+
+```diff
+{
+  "compilerOptions": {
+    ...
+   "paths": {
+      "scenes": ["src/scenes"],
+      "scenes/*": ["src/scenes/*"],
+      "core": ["src/core"],
+      "core/*": ["src/core/*"],
+      "layouts": ["src/layouts"],
+      "layouts/*": ["src/layouts/*"]
+      "pods": ["src/pods"],
+      "pods/*": ["src/pods/*"]
++     "common": ["src/common"],
++     "common/*": ["src/common/*"]
+    }
+  },
+  "include": ["src"]
+}
+```
+
 _./src/common/components/forms/input-formik.component.tsx_
 
 ```tsx
@@ -334,7 +357,7 @@ Reemplacemos las entradas del formulario (y simplifiquémoslas):
 _./src/pods/login/login.component.tsx_
 
 ```diff
-+ import { InputFormik } from '@/common/components';
++ import { InputFormik } from 'common/components';
 
 -  <input
 +  <InputFormik

@@ -1,7 +1,7 @@
 import React from "react";
 import { Login, createEmptyLogin } from "./login.vm";
 import { Formik, Form } from "formik";
-import { InputFormik } from "@/common/components";
+import { InputFormik } from "common/components";
 import { formValidation } from "./login.validation";
 
 interface Props {

@@ -1,4 +1,4 @@
-import { routes } from "@/core";
+import { routes } from "core";
 import React from "react";
 import { Link } from "react-router-dom";
 import { MemberEntity } from "./list.vm";
@@ -17,11 +17,11 @@ export const ListComponent: React.FC<Props> = (props) => {
         <span className="list-header">Id</span>
         <span className="list-header">Name</span>
         {members.map((member) => (
-          <>
+          <React.Fragment key={member.id}>
             <img src={member.avatar_url} />
             <span>{member.id}</span>
             <Link to={routes.details(member.login)}>{member.login}</Link>
-          </>
+          </React.Fragment>
         ))}
       </div>
     </>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { routes } from "core";
-import { ProfileContext } from "@/core/profile";
+import { ProfileContext } from "core/profile";
 import { LoginComponent } from "./login.component";
 import { doLogin } from "./login.api";
 

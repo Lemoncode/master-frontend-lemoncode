@@ -21,6 +21,25 @@ cd src
 mkdir layouts
 ```
 
+We include the new alias in _tsconfig.json_:
+
+```diff
+{
+  "compilerOptions": {
+    ...
+   "paths": {
+      "scenes": ["src/scenes"],
+      "scenes/*": ["src/scenes/*"],
+      "core": ["src/core"],
+      "core/*": ["src/core/*"],
++     "layouts": ["src/layouts"],
++     "layouts/*": ["src/layouts/*"]
+    }
+  },
+  "include": ["src"]
+}
+```
+
 - First of all we will create a layout that will center the content, this layout will let us
   simplifiy our Login Page:
 
@@ -29,9 +48,9 @@ _./src/layouts/center.layout.tsx_
 ```tsx
 import React from "react";
 
-export const CenterLayout: React.FC = ({ children }) => (
-  <div className="layout-center">{children}</div>
-);
+export const CenterLayout: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => <div className="layout-center">{children}</div>;
 ```
 
 - Let's create the barrel for the layout subfolder:
@@ -50,7 +69,7 @@ _./src/scenes/login.tsx_
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { routes } from "core";
-+ import {CenterLayout} from '@/layouts';
++ import {CenterLayout} from 'layouts';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -139,7 +158,7 @@ _./src/layouts/app.layout.tsx_
 ```tsx
 import React from "react";
 
-export const AppLayout: React.FC = ({ children }) => (
+export const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
   <div className="layout-app-container">
     <div className="layout-app-header">User Logged in</div>
     {children}
@@ -161,7 +180,7 @@ export * from "./center.layout";
 _./src/scenes/list.tsx_
 
 ```diff
-+ import {AppLayout} from '@/layouts';
++ import {AppLayout} from 'layouts';
 // (...)
 
   return (
@@ -192,7 +211,7 @@ the layout in that pages by yourself.
 _./src/scenes/detail.tsx_
 
 ```diff
-+ import {AppLayout} from '@/layouts';
++ import {AppLayout} from 'layouts';
 // (...)
 
   return (

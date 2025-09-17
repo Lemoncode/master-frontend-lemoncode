@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { routes } from "core";
-import { AppLayout } from "@/layouts";
+import { AppLayout } from "layouts";
 
 interface MemberEntity {
   id: string;

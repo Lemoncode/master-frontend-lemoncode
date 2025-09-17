@@ -21,6 +21,25 @@ cd src
 mkdir layouts
 ```
 
+Incluimos el nuevo alias en _tsconfig.json_:
+
+```diff
+{
+  "compilerOptions": {
+    ...
+   "paths": {
+      "scenes": ["src/scenes"],
+      "scenes/*": ["src/scenes/*"],
+      "core": ["src/core"],
+      "core/*": ["src/core/*"],
++     "layouts": ["src/layouts"],
++     "layouts/*": ["src/layouts/*"]
+    }
+  },
+  "include": ["src"]
+}
+```
+
 - En primer lugar vamos a crear un diseño que centrará el contenido, este diseño nos permitirá
   simplificar nuestra página de inicio de sesión:
 
@@ -29,13 +48,9 @@ _./src/layouts/center.layout.tsx_
 ```tsx
 import React from "react";
 
-interface Props {
-  children: React.ReactNode;
-}
-
-export const CenterLayout: React.FC<Props> = ({ children }) => (
-  <div className="layout-center">{children}</div>
-);
+export const CenterLayout: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => <div className="layout-center">{children}</div>;
 ```
 
 - Vamos a crear el _barrel_ para la subcarpeta de _layouts_:
@@ -54,7 +69,7 @@ _./src/scenes/login.tsx_
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { routes } from "core";
-+ import {CenterLayout} from '@/layouts';
++ import {CenterLayout} from 'layouts';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -143,12 +158,7 @@ _./src/layouts/app.layout.tsx_
 ```tsx
 import React from "react";
 
-// New on React 18
-interface Props {
-  children: React.ReactNode;
-}
-
-export const AppLayout: React.FC<Props> = ({ children }) => (
+export const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
   <div className="layout-app-container">
     <div className="layout-app-header">User Logged in</div>
     {children}
@@ -170,7 +180,7 @@ export * from "./center.layout";
 _./src/scenes/list.tsx_
 
 ```diff
-+ import {AppLayout} from '@/layouts';
++ import {AppLayout} from 'layouts';
 // (...)
 
   return (
@@ -201,7 +211,7 @@ el diseño en esas páginas por ti mismo.
 _./src/scenes/detail.tsx_
 
 ```diff
-+ import {AppLayout} from '@/layouts';
++ import {AppLayout} from 'layouts';
 // (...)
 
   return (

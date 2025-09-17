@@ -54,70 +54,50 @@ Pero si estuviéramos importando esta escena desde una subcarpeta empezaríamos 
 infierno de los puntos suspendidos, podríamos acabar con importaciones como _../../../escenas/inicio de sesión_, ¿por qué
 no crear alias para las carpetas raíz a las que se pueda acceder de forma sencilla?
 
-Podemos definir rutas en _tsconfig_ y alias en _webpack_ uuh espera pero entonces
-tenemos que definir cosas similares en dos lugares, vamos a dar una solución que
-que evite esto, en primer lugar vamos a definir un alias _@_ en nuestro
-_tsconfig.json_:
+Podemos definir rutas en _tsconfig_ y alias en _vite.config.ts_. Sin embargo, si lo hiciéramos así, tendríamos los paths definidos en dos lugares distintos.
+Para permitir que vite pueda usar los paths de TS, instalamos la siguiente librería como dependencia de desarrollo:
 
+```bash
+npm i vite-tsconfig-paths -D
+```
+
+En la configuración de typescript definimos los alias:
 _tsconfig.json_
 
 ```diff
-    "esModuleInterop": true,
-+    "baseUrl": "src",
-+    "paths": {
-+      "@/*": ["*"]
-+    }
+{
+  "compilerOptions": {
+    ...
+    "useDefineForClassFields": true,
++   "baseUrl": ".",
++   "paths": {
++     "scenes": ["src/scenes"],
++     "scenes/*": ["src/scenes/*"],
++     "core": ["src/core"],
++     "core/*": ["src/core/*"]
++  }
   },
+  "include": ["src"]
+}
 ```
 
-Genial, ahora podríamos añadir esta configuración a webpack (ESPERA no lo hagas):
+Añadimos el plugin a vite:
 
-_webpack.config.json_
+_vite.config.ts_
 
 ```diff
-  resolve: {
-    extensions: [".js", ".ts", ".tsx"],
-+   alias: {
-+     '@': path.resolve(__dirname, 'src'),
-+   },
-  },
+import { defineConfig } from "vite";
+import checker from "vite-plugin-checker";
+import react from "@vitejs/plugin-react";
++ import tsconfigPaths from "vite-tsconfig-paths";
+
+export default defineConfig({
+-  plugins: [checker({ typescript: true }), react()],
++  plugins: [tsconfigPaths(), checker({ typescript: true }), react()],
+});
 ```
 
-Pero como no queremos repetir código, vamos a ver si alguien ha
-implementado alguna magia que permita a webpack leer esta configuración desde
-el _tsconfig_
-
-Tenemos dos enfoques:
-
-- Código fuente de Gist: https://gist.github.com/nerdyman/2f97b24ab826623bff9202750013f99e
-
-- Plugin de webpack: https://www.npmjs.com/package/tsconfig-paths-webpack-plugin
-
-Vamos a optar por la opción del plugin de webpack:
-
-```bash
-npm install tsconfig-paths-webpack-plugin --save-dev
-```
-
-Ahora consumamos este plugin:
-
-_./webpack.config.js_
-
-```diff
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-+ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const path = require("path");
-const basePath = __dirname;
-
-module.exports = {
-  context: path.join(basePath, "src"),
-  resolve: {
-    extensions: [".js", ".ts", ".tsx"],
-+   plugins: [new TsconfigPathsPlugin()]
-  },
-```
-
-Ahora podemos actualizar las importaciones para utilizar el nuevo alias _@_.
+Ahora podemos actualizar las importaciones para utilizar el nuevo alias _scenes_.
 
 _./src/app.tsx_
 
@@ -127,9 +107,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 - import { LoginPage } from "./scenes/login";
 - import { ListPage } from "./scenes/list";
 - import { DetailPage } from "./scenes/detail";
-+ import { LoginPage } from "@/scenes/login";
-+ import { ListPage } from "@/scenes/list";
-+ import { DetailPage } from "@/scenes/detail";
++ import { LoginPage } from "scenes/login";
++ import { ListPage } from "scenes/list";
++ import { DetailPage } from "scenes/detail";
 ```
 
 Afinemos un poco, tener que pegar una importación por
@@ -152,10 +132,10 @@ _./src/app.tsx_
 ```diff
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-- import { LoginPage } from "@/scenes/login";
-- import { ListPage } from "@/scenes/list";
-- import { DetailPage } from "@/scenes/detail";
-+ import {LoginPage, ListPage, DetailPage} from "@/scenes";
+- import { LoginPage } from "scenes/login";
+- import { ListPage } from "scenes/list";
+- import { DetailPage } from "scenes/detail";
++ import { LoginPage, ListPage, DetailPage } from "scenes";
 
 export const App = () => {
 ```
@@ -240,8 +220,8 @@ _./src/core/router/router.component.tsx_
 ```tsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { LoginPage, ListPage, DetailPage } from "scenes";
 import { switchRoutes } from "./routes";
-import { LoginPage, ListPage, DetailPage } from "@/scenes";
 
 export const RouterComponent: React.FC = () => {
   return (
@@ -273,7 +253,7 @@ _./src/app.tsx_
 ```diff
 import React from "react";
 - import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-- import { LoginPage, ListPage, DetailPage } from "@/scenes";
+- import { LoginPage, ListPage, DetailPage } from "scenes";
 + import { RouterComponent } from 'core';
 
 export const App = () => {

@@ -13,24 +13,26 @@ export const LoginComponent: React.FC<Props> = (props) => {
   const { onLogin } = props;
 
   return (
-    <Formik
-      onSubmit={onLogin}
-      initialValues={createEmptyLogin()}
-      validate={formValidation.validateForm}
-    >
-      {() => (
-        <Form>
-          <div className={css.container}>
-            <InputFormik name="username" placeholder="Username" />
-            <InputFormik
-              name="password"
-              placeholder="Password"
-              type="password"
-            />
-            <button type="submit">login</button>
-          </div>
-        </Form>
-      )}
-    </Formik>
+    <div className="layout-center">
+      <Formik
+        onSubmit={onLogin}
+        initialValues={createEmptyLogin()}
+        validate={formValidation.validateForm}
+      >
+        {() => (
+          <Form>
+            <div className={css.container}>
+              <InputFormik name="username" placeholder="Username" />
+              <InputFormik
+                name="password"
+                placeholder="Password"
+                type="password"
+              />
+              <button type="submit">login</button>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 };

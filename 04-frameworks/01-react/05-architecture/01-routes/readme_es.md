@@ -75,6 +75,8 @@ Instalamos la librería para permitir que Vite extraiga los alias de la cofigura
 npm i vite-tsconfig-paths -D
 ```
 
+Usamos el plugin en Vite:
+
 _./vite.config.ts_
 
 ```diff

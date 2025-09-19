@@ -317,12 +317,12 @@ _./src/scenes/list.tsx_
 // (...)
 
         {members.map((member) => (
-          <>
+          <React.Fragment key={member.id}>
             <img src={member.avatar_url} />
             <span>{member.id}</span>
 -            <Link to={`/detail/${member.login}`}>{member.login}</Link>
 +            <Link to={routes.details(member.login)}>{member.login}</Link>
-          </>
+          </React.Fragment>
         ))}
       </div>
 -      <Link to="/detail">Navigate to detail page</Link>

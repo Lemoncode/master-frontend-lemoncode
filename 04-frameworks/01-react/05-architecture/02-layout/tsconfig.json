@@ -1,22 +1,23 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "es6",
-    "moduleResolution": "node",
-    "declaration": false,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "jsx": "react",
-    "noLib": false,
-    "suppressImplicitAnyIndexErrors": true,
-    "skipLibCheck": true,
     "esModuleInterop": true,
-    "baseUrl": "src",
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "lib": ["ESNext", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "baseUrl": "./src",
     "paths": {
       "@/*": ["*"]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["src"]
 }

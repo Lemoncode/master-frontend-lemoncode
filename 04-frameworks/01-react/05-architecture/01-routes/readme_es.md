@@ -54,7 +54,7 @@ Pero si estuviéramos importando esta escena desde una subcarpeta empezaríamos 
 infierno de los puntos suspendidos, podríamos acabar con importaciones como _../../../escenas/inicio de sesión_, ¿por qué
 no crear alias para las carpetas raíz a las que se pueda acceder de forma sencilla?
 
-Podemos definir rutas en _tsconfig_ y alias en _webpack_ uuh espera pero entonces
+Podemos definir rutas en _tsconfig_ y alias en _vite_ uuh espera pero entonces
 tenemos que definir cosas similares en dos lugares, vamos a dar una solución que
 que evite esto, en primer lugar vamos a definir un alias _@_ en nuestro
 _tsconfig.json_:
@@ -63,58 +63,32 @@ _tsconfig.json_
 
 ```diff
     "esModuleInterop": true,
-+    "baseUrl": "src",
++    "baseUrl": "./src",
 +    "paths": {
 +      "@/*": ["*"]
 +    }
-  },
 ```
 
-Genial, ahora podríamos añadir esta configuración a webpack (ESPERA no lo hagas):
-
-_webpack.config.json_
-
-```diff
-  resolve: {
-    extensions: [".js", ".ts", ".tsx"],
-+   alias: {
-+     '@': path.resolve(__dirname, 'src'),
-+   },
-  },
-```
-
-Pero como no queremos repetir código, vamos a ver si alguien ha
-implementado alguna magia que permita a webpack leer esta configuración desde
-el _tsconfig_
-
-Tenemos dos enfoques:
-
-- Código fuente de Gist: https://gist.github.com/nerdyman/2f97b24ab826623bff9202750013f99e
-
-- Plugin de webpack: https://www.npmjs.com/package/tsconfig-paths-webpack-plugin
-
-Vamos a optar por la opción del plugin de webpack:
+Instalamos la librería para permitir que Vite extraiga los alias de la cofiguración de typescript:
 
 ```bash
-npm install tsconfig-paths-webpack-plugin --save-dev
+npm i vite-tsconfig-paths -D
 ```
 
-Ahora consumamos este plugin:
+Usamos el plugin en Vite:
 
-_./webpack.config.js_
+_./vite.config.ts_
 
 ```diff
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-+ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const path = require("path");
-const basePath = __dirname;
+import { defineConfig } from "vite";
+import checker from "vite-plugin-checker";
+import react from "@vitejs/plugin-react";
++ import tsconfigPaths from "vite-tsconfig-paths";
 
-module.exports = {
-  context: path.join(basePath, "src"),
-  resolve: {
-    extensions: [".js", ".ts", ".tsx"],
-+   plugins: [new TsconfigPathsPlugin()]
-  },
+export default defineConfig({
+-  plugins: [checker({ typescript: true }), react()],
++  plugins: [tsconfigPaths(), checker({ typescript: true }), react()],
+});
 ```
 
 Ahora podemos actualizar las importaciones para utilizar el nuevo alias _@_.
@@ -317,12 +291,12 @@ _./src/scenes/list.tsx_
 // (...)
 
         {members.map((member) => (
-          <>
+          <React.Fragment key={member.id}>
             <img src={member.avatar_url} />
             <span>{member.id}</span>
 -            <Link to={`/detail/${member.login}`}>{member.login}</Link>
 +            <Link to={routes.details(member.login)}>{member.login}</Link>
-          </>
+          </React.Fragment>
         ))}
       </div>
 -      <Link to="/detail">Navigate to detail page</Link>

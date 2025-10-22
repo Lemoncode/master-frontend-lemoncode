@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Prueba de Normalize CSS</title>
+    <!-- Si quieres probar con normalize, agrega este link -->
+    <!-- <link rel="stylesheet" href="normalize.css" /> -->
+    <style>
+      body {
+        padding: 20px;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      section {
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Prueba de elementos que Normalize corrige</h1>
+
+    <section>
+      <h2>1. Títulos dentro de section/article</h2>
+      <article>
+        <h1>Encabezado dentro de un article</h1>
+        <p>
+          El normalize ajusta el tamaño y márgenes del h1 en estos contextos.
+        </p>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet,
+          culpa iusto? Architecto tempora magni earum. Soluta molestiae mollitia
+          aliquam ad odio assumenda dignissimos natus numquam quo. Autem soluta
+          voluptatum nulla nemo distinctio, praesentium natus quidem
+          consequuntur harum molestias cumque provident vitae exercitationem
+          temporibus! Itaque iste ad, quae libero quos dolore cum corrupti,
+          velit quis corporis maiores odio. Illum at voluptatem pariatur
+          corrupti soluta, nulla iste mollitia velit? Necessitatibus nihil quae
+          iste perferendis! Minima est cum mollitia eius fugiat eaque pariatur
+          quisquam vero totam consequuntur facilis quos quis cupiditate optio,
+          voluptatibus, enim nostrum iure alias maxime praesentium ex nemo,
+          natus deserunt? Magnam beatae ad non nihil sit deserunt, rerum labore
+          quam aut molestiae dolorem officia est quibusdam quae saepe adipisci
+          in quidem fugiat, accusantium aliquid doloribus ipsa. Iusto, ratione
+          corporis minus temporibus id debitis voluptatem reiciendis ipsam
+          quaerat quod odio ea aut repudiandae dolor iste laudantium porro quis
+          dicta assumenda quibusdam magni. Et voluptate doloribus esse facilis
+          fuga aperiam eos obcaecati aliquam quidem, voluptatum enim magnam,
+          voluptatibus, distinctio sed reiciendis assumenda! Animi magni quos
+          voluptatum officia et dolorem laboriosam sint. Nulla quis fuga
+          necessitatibus labore dolorum veritatis vero velit aliquam facilis
+          cumque et nam ea accusamus non repudiandae natus, architecto pariatur.
+        </p>
+      </article>
+    </section>
+
+    <section>
+      <h2>2. Texto en línea</h2>
+      <p>
+        Texto con <abbr title="Organización de las Naciones Unidas">ONU</abbr>,
+        <b>negrita</b>, <strong>strong</strong>, <code>código</code>,
+        <sub>sub</sub> y <sup>sup</sup>.
+      </p>
+      <p>
+        Normalize corrige tamaños, subrayados, herencia de fuentes, y la
+        alineación de sub/sup.
+      </p>
+    </section>
+
+    <section>
+      <h2>3. Formularios</h2>
+      <form>
+        <p>
+          <label>Texto: <input type="text" placeholder="Escribe algo" /></label>
+        </p>
+        <p>
+          <label>Número: <input type="number" value="5" /></label>
+        </p>
+        <p>
+          <label
+            >Búsqueda: <input type="search" placeholder="Buscar..."
+          /></label>
+        </p>
+        <p>
+          <label>Archivo: <input type="file" /></label>
+        </p>
+        <p>
+          <label><input type="checkbox" /> Acepto</label>
+          <label><input type="radio" name="r" /> Opción 1</label>
+          <label><input type="radio" name="r" /> Opción 2</label>
+        </p>
+        <p>
+          <button type="submit">Botón</button>
+          <input type="submit" value="Enviar" />
+        </p>
+      </form>
+      <p>Normalize corrige paddings, bordes, herencia de tipografía.</p>
+    </section>
+
+    <section>
+      <h2>4. Otros</h2>
+      <hr />
+      <pre>Texto preformateado</pre>
+      <details>
+        <summary>Detalles</summary>
+        <p>Contenido dentro de details/summary.</p>
+      </details>
+      <p>Normalize corrige hr, pre, y el tipo de display de details/summary.</p>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prueba de Reset CSS</title>
+    <!-- Si quieres probar los cambios al aplicar el reset, agrega este link -->
+    <!-- <link rel="stylesheet" href="reset.css" /> -->
+    <style>
+      /* Estilos de prueba para ver los efectos del reset CSS */
+      body {
+        border: 1px solid rgb(0, 85, 255);
+        padding: 20px;
+        > * {
+          border: 1px solid rgb(255, 0, 204);
+        }
+      }
+
+      p {
+        width: 100%;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: palegreen;
+      }
+
+      @supports (interpolate-size: allow-keywords) {
+        details {
+          height: 31px;
+          transition: height 0.5s ease;
+
+          &[open] {
+            overflow: clip;
+            height: auto;
+          }
+        }
+      }
+
+      details {
+        div {
+          padding: 10px;
+          background-color: lightgray;
+        }
+        summary {
+          background-color: lightblue;
+          padding: 5px 10px;
+          cursor: pointer;
+        }
+      }
+
+      .card {
+        height: 42px;
+        overflow: hidden;
+        border: 1px solid black;
+        padding: 10px;
+        width: 200px;
+        background-color: lightgray;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: height 300ms;
+        &:hover {
+          height: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Prueba de Reset CSS</h1>
+    <p>Este es un párrafo de prueba para ver los efectos del reset CSS.</p>
+    <a href="#">Este es un enlace de prueba</a>
+    <ul>
+      <li>Elemento de lista 1</li>
+      <li>Elemento de lista 2</li>
+      <li>Elemento de lista 3</li>
+    </ul>
+    <div class="card">
+      <h3>Título de la tarjeta</h3>
+      <p>Contenido de la tarjeta.</p>
+    </div>
+
+    <details name="accordion" class="accordion">
+      <summary>Sección 1</summary>
+      <div>Este es el contenido del primer acordeón.</div>
+    </details>
+
+    <details name="accordion" class="accordion">
+      <summary>Sección 2</summary>
+      <div>Este es el contenido del segundo acordeón.</div>
+    </details>
+
+    <details name="accordion" class="accordion">
+      <summary>Sección 3</summary>
+      <div>Este es el contenido del tercer acordeón.</div>
+    </details>
+  </body>
+</html>

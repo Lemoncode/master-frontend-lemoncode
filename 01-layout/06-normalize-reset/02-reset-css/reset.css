@@ -1,0 +1,122 @@
+*,
+*::before,
+*::after {
+  /* Incluimos el padding y border en el calculo del width y height */
+  box-sizing: border-box;
+}
+
+* {
+  /* Quitamos los margenes por defecto */
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Controvertido: Apple introdujo esta propiedad pero ya no la usa en sus apps nativas.
+     Los navegadores la mantienen por compatibilidad. Puede hacer el texto más delgado
+     y menos legible en pantallas de baja resolución. Evaluar si realmente mejora la UX */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Permite animar la altura de los elementos, poco soporte de momento */
+/* https://caniuse.com/mdn-css_properties_interpolate-size_allow-keywords */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (interpolate-size: allow-keywords) {
+    html {
+      interpolate-size: allow-keywords;
+    }
+  }
+}
+
+/* Quita todas las animaciones, transiciones y el smooth scroll para las personas que no las quieren ver */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  /* Respaldo para la tipografía */
+  font-family: system-ui, sans-serif;
+  /* personalmente me gusta usar svh en vez de vh o dvh */
+  min-height: 100svh;
+  /* para evitar que la web se vea mal en pantallas muy pequeñas */
+  min-width: 360px;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  /* evitamos márgenes raros en las imágenes, que es debido a que estas se alinean con la línea base del texto
+y por eso tienen un espacio abajo */
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+p {
+  overflow-wrap: break-word;
+}
+
+@supports (text-wrap: pretty) {
+  p {
+    /* Ahora mismo no lo soporta Firefox, 
+    hace que no se queden palabras sueltas al final de un párrafo */
+    text-wrap: pretty;
+  }
+}
+
+/*Si solo usamos reset */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+textarea {
+  /* hacemos que no se pueda redimensionar */
+  resize: none;
+}
+
+/* Quitamos estilos por defecto de las listas */
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+/* Quitamos estilos por defecto de los enlaces */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Indicamos que ciertos elementos son interactivos */
+button,
+label,
+select,
+summary,
+[role='button'] {
+  cursor: pointer;
+}

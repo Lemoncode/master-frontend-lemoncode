@@ -1,0 +1,108 @@
+@import 'variables.css';
+@import 'mixins.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  min-width: 360px;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  color: var(--text-base);
+  background: var(--surface-color);
+}
+
+main {
+  flex-grow: 1;
+  padding: 80px 0;
+  display: flex;
+  align-items: center;
+}
+
+@custom-media --bp-md (min-width: $md);
+
+.header {
+  padding: 20px 0;
+
+  &__title {
+    text-align: center;
+    font-size: 3rem;
+    color: var(--text-primary);
+    user-select: none;
+    @media (--bp-md) {
+      font-size: 7rem;
+    }
+  }
+}
+
+.section {
+  --pseudo-size: 60px;
+  --section-padding: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--section-padding);
+  padding-left: calc(var(--section-padding) - 10px + var(--pseudo-size));
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  position: relative;
+
+  &::before {
+    @mixin pseudo var(--pseudo-size), 100% {
+      z-index: -1;
+      top: 0;
+      left: 0px;
+      border-radius: 8px 0 0 8px;
+      background: radial-gradient(
+          circle at 40% 50%,
+          transparent 7px,
+          var(--border-color) 8px,
+          var(--border-color) 9px,
+          transparent 10px
+        ),
+        var(--border-page-color);
+      background-size: 100% 25%;
+      background-repeat: repeat-y;
+    }
+  }
+
+  &__image-container {
+    max-width: 400px;
+    border: 2px solid var(--border-color);
+    padding: 24px 16px 56px 16px;
+    border-radius: 12px;
+  }
+  &__image {
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    @mixin hover {
+      transform: scale(1.5);
+    }
+  }
+}
+
+.footer {
+  background-color: var(--footer-background);
+  padding: 10px 0;
+  text-align: center;
+  color: var(--text-contrast);
+}

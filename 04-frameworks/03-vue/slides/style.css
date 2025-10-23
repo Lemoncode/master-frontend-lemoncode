@@ -18,3 +18,7 @@
 table {
   font-size: 0.8em;
 }
+
+.text-end {
+  text-align: end;
+}

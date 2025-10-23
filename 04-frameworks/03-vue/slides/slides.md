@@ -3,7 +3,7 @@ theme: seriph
 lineNumbers: true
 drawings:
   persist: false
-transition: slide-left
+transition: fade
 title: Módulo Vue.js con Paul Melero
 mdc: true
 themeConfig:
@@ -33,8 +33,19 @@ class: grid
 - 📩&nbsp;&nbsp;paulmelero@gmail.com
 - 🌐&nbsp;&nbsp;https://graficos.net
 
-</div>
 
+- <logos-netlify-icon />&nbsp;&nbsp;[Slides](https://slides-vue-lemoncode.netlify.app/)
+- <logos-github-icon class="github-icon" />&nbsp;&nbsp;[GitHub](https://github.com/paulmelero/slides-vue-lemoncode)
+
+<style>
+.github-icon * {
+  fill: rgb(255 255 255 / 1) !important;
+}
+</style>
+
+
+
+</div>
 
 ---
 title: Qué es Vue.js
@@ -222,7 +233,7 @@ title: Listas de Similitudes
 
 ::right::
 
-# Vue.js <carbon-arrows-horizontal /> Angular
+<h1 v-click>Vue.js <carbon-arrows-horizontal /> Angular</h1>
 
 <v-clicks>
 
@@ -261,9 +272,9 @@ layout: center
 
 <v-clicks>
 
-- 📚 Mi consejo es que aprendáis a usar todos los frameworks del Máster. (Al menos, 2.)
+- 📚 Mi consejo es que aprendáis a usar todos los frameworks del Máster. (Si puede ser, al menos, 2.)
 - 🚀 Para la empleabilidad, muchas veces se valora el esfuerzo y las ganas de aprender.
-- 😉 Pero, si os gusta uno en concreto, especializaos en él.
+- 😉 Y si os gusta uno en concreto, especializaos en él.
 
 </v-clicks>
 
@@ -282,6 +293,9 @@ image: /eco.jpeg
 title: Diagrama Ecosistema
 ---
 
+---
+layout: center
+---
 <!-- Por cierto, estos slides están hechos con Vue!  -->
 
 
@@ -317,13 +331,12 @@ const msg = ref('World! 🔥🔥')
 layout: statement
 ---
 
-# ¿List@s para Empezar?
+# Empecemos con la Teoría
 
 <!-- image centered -->
 <div class="text-center">
-  <img src="/cortar.gif" class="m-auto object-contain max-h-sm" />
+  <img src="/squeeze.gif" class="m-auto object-contain max-h-sm" />
 </div>
-
 
 ---
 layout: section
@@ -348,7 +361,7 @@ layout: section
 layout: center
 ---
 
-# Objetos
+# Objetos (<logos-javascript />)
 
 ```ts{all|1|3|1-5|all}
 const obj = { count: 0 }
@@ -364,7 +377,7 @@ console.log(obj.count) // 1
 layout: center
 ---
 
-# Getters y Setters
+# Getters y Setters (<logos-javascript />)
 
 ```ts{all|1-9|3,6|3,11|6,13|all}
 const obj = {
@@ -390,6 +403,12 @@ layout: center
 
 # Getters y Setters (+ transfomación)
 
+## <logos-javascript />
+
+<style>
+  h2 {text-align: end;}
+</style>
+
 ```ts{all|4|2,3-5,11|2,3-5,13,15|all}
 const obj = {
   _count: 0,
@@ -414,6 +433,12 @@ layout: center
 
 # JS Proxies
 
+## <logos-javascript />
+
+<style>
+  h2 {text-align: end;}
+</style>
+
 ```ts{all}
 const obj = { count: 0 }
 
@@ -430,7 +455,14 @@ const proxiedObj = new Proxy(obj, {
 layout: center
 ---
 
-# JS Proxies (+ transfomación o _side effects_)
+# JS Proxies (+ _side effects_)
+
+
+## <logos-javascript />
+
+<style>
+  h2 {text-align: end;}
+</style>
 
 ```ts{all|1-3|4,8|5,9|9,14|15|all}
 const obj = { count: 0 }
@@ -455,6 +487,13 @@ layout: center
 ---
 
 # Cómo funciona la **Reactividad** en Vue?
+
+
+## <logos-javascript />
+
+<style>
+  h2 {text-align: end;}
+</style>
 
 ```ts{all|5,9|9,14-15|5,17-19|all}
 const obj = { count: 0 }
@@ -484,17 +523,26 @@ layout: statement
 
 # Sintaxis
 
+<div class="text-center">
+  <img src="/bongo_lemon.webp" class="m-auto object-contain max-h-sm" />
+</div>
+
 ---
 layout: section
 ---
 
-# `MyComponent.vue`
+<h1>
+  <code>MyComponent<span v-mark="{ at: 1, type: 'underline', color: '#008f53' }">.vue</span></code></h1>
 
 ---
 layout: two-cols
 ---
 
-# Single File Components
+# <logos-vue /> Single File Components
+
+<style>
+  h1 {font-size: 1.75rem}
+</style>
 
 ```vue {all|1,4|6,14|16,20|all}
 <template>
@@ -528,8 +576,12 @@ h1 {
   - `template`, `script`, `style`
     - No es necesario que estén todos.
   - Otras opciones: `lang="ts"`, `lang="scss"`
-- En `template` no es necesario que haya 1 sólo elemento raíz.
-- <span v-mark="{ type:'circle', color: '#008f53' }">`script setup`</span> (recomendado)
+- `template`
+  - En `template` no es necesario que haya 1 sólo elemento raíz.
+- `script`
+  - <span v-mark="{ type:'circle', color: '#008f53' }">`script setup`</span> (recomendado)
+- `style`
+  - <span v-mark="{ type:'circle', color: '#008f53' }">`style scoped`</span> (recomendado)
 
 </v-clicks>
 
@@ -539,7 +591,7 @@ h1 {
 layout: two-cols
 ---
 
-# Con TypeScript
+# <logos-typescript-icon /> Con TypeScript
 
 ```vue {all|1|all}
 <script setup lang="ts">
@@ -583,8 +635,76 @@ const MyComponent = {
 
 
 ---
-src: ./options-api.md
+layout: default
+title: ❌ Sintaxis de "Options API"
 ---
+<v-switch>
+
+<template #0-7>
+  <h1>❌ Sintaxis de "Options API" 🧑🏽‍🦳</h1>
+</template>
+<template #7>
+  <h1>✅ Sintaxis de "Composition API" 🧑🏽</h1>
+</template>
+
+</v-switch>
+
+````md magic-move{at:1}
+```vue {all|2,22|4|9|14|19|all}
+<script>
+export default {
+  name: 'MyComponent',
+  data() {
+    return {
+      msg: 'Hello Vue!'
+    }
+  },
+  computed: {
+    reversedMsg() {
+      return this.msg.split('').reverse().join('')
+    }
+  },
+  methods: {
+    reverseMsg() {
+      this.msg = this.reversedMsg
+    }
+  },
+  created() {
+    console.log('Component created')
+  },
+}
+</script>
+```
+```vue
+<script setup>
+import { ref, computed } from 'vue'
+
+defineOptions({
+  name: 'MyComponent'
+})
+
+const msg = ref('Hello Vue!')
+
+const reversedMsg = computed(() => msg.value.split('').reverse().join(''))
+
+const reverseMsg = () => msg.value = reversedMsg.value
+
+console.log('Component created')
+</script>
+```
+````
+
+
+<!-- **No es la forma recomendada** de escribir componentes de Vue desde la "Composition API" (`script setup` o `setup` _function_). -->
+
+---
+layout: statement
+---
+
+# Sintaxis de las plantillas
+
+## `<template>`
+
 
 ---
 layout: quote
@@ -608,7 +728,7 @@ layout: two-cols
 
 <v-clicks>
 
-- `{{ msg }}` es una expresión de Vue.
+- `{{ msg }}` es una expresión de Vue (que tiene que estar definida en el componente).
 - Se evalúa y se muestra en el DOM.
 - Se actualiza automáticamente si `msg` cambia.
 
@@ -683,7 +803,7 @@ const todos = [
 layout: quote
 ---
 
-# Manejando Eventos
+# 💬 Manejando Eventos
 
 ---
 layout: two-cols
@@ -768,7 +888,7 @@ const emit = defineEmits(['my-event'])
 
 <ul>
   <li>Definimos eventos custom con <span v-mark="{ at: 3, type:'circle', color: '#008f53' }">`defineEmits`</span>.</li>
-  <li>Después, los escuchamos con `@&lt;nombre-del-evento&gt;`.</li>
+  <li>Después, los escuchamos con `<span v-mark="{ at: 5, type: 'underline', color: '#008f53' }">@</span>&lt;nombre-del-evento&gt;`.</li>
 </ul>
 
 </v-clicks>
@@ -891,10 +1011,59 @@ layout: quote
 # Slots
 
 ---
-layout: two-cols
+layout: default
 ---
 
 # Slots
+
+````md magic-move
+```vue{all|4|3-5|all}
+<!-- components/MyButton.vue -->
+<template>
+  <button>
+    <slot />
+  </button>
+</template>
+```
+```vue
+<!-- pages/MyParent.vue -->
+<template>
+  <MyButton>
+    Pulsar aquí
+  </MyButton>
+</template>
+```
+```vue
+<!-- pages/MyParent.vue -->
+<template>
+  <MyButton>
+    Pulsar aquí <!-- 👈🏽 texto / Etiquetas HTML / Componentes de Vue -->
+  </MyButton>
+</template>
+```
+```vue
+<!-- components/MyButton.vue -->
+<template>
+  <button>
+    <slot />
+  </button>
+</template>
+```
+```vue{all|4|all}
+<!-- components/MyButton.vue -->
+<template>
+  <button>
+    <slot name="default" />
+  </button>
+</template>
+```
+````
+
+---
+layout: two-cols
+---
+
+# Named Slots (I)
 
 Defniniendo slots (hijo):
 
@@ -951,7 +1120,7 @@ defineOptions({
 layout: two-cols
 ---
 
-# Slots (II)
+# Named Slots (II)
 
 Consumiendo componentes con slots (padre):
 
@@ -989,6 +1158,7 @@ layout: image
 title: Slots
 image: /slots.png
 backgroundSize: contain
+transition: fade
 ---
 
 ---
@@ -999,12 +1169,125 @@ backgroundSize: contain
 ---
 
 ---
+layout: statement
+---
+
+# Sintaxis de los scripts
+
+## `<script setup>`
+
+---
+layout: two-cols
+title: `<script setup>`
+---
+
+# Ejemplos
+
+```vue
+<script setup>
+console.log('Hello from setup')
+</script>
+```
+
+::right::
+
+<v-clicks>
+
+````md magic-move
+```vue
+<script setup>
+// variables
+const unaVariable = 'Hola!'
+
+// funciones
+function unaFuncion() {
+  console.log(unaVariable)
+}
+</script>
+
+<template>
+  <button @click="unaFuncion">
+    {{ unaVariable }}
+  </button>
+</template>
+```
+```vue
+<template>
+  <button @click="unaFuncion">
+    {{ unaVariable }}
+  </button>
+</template>
+
+<script setup>
+// variables
+const unaVariable = 'Hola!'
+
+// funciones
+function unaFuncion() {
+  console.log(unaVariable)
+}
+</script>
+```
+````
+
+</v-clicks>
+
+---
+layout: two-cols
+---
+
+# `attrs` y `props`
+
+```vue
+<!-- MyParent.vue -->
+<template>
+  <MyComponent
+    :msg="myValue"
+    class="text-red"
+    data-test-id="button"
+    @click="handleClick"
+  />
+</template>
+
+<script setup>
+import MyComponent from './MyComponent.vue'
+const myValue = 'Hello!'
+function handleClick() { /* ... */ }
+</script>
+```
+<v-click>
+
+```vue
+<!-- MyComponent.vue -->
+<template>
+  <button>{{ msg }}</button>
+</template>
+
+<script setup lang="ts">
+defineProps<{ msg: string }>()
+</script>
+```
+
+</v-click>
+
+::right::
+
+<v-clicks>
+
+- `attrs` son los atributos de HTML que se pasan al componente hijo.
+- `props` son los datos que se pasan al componente hijo.
+
+</v-clicks>
+
+---
 layout: section
 ---
 
-## Composition API
+# Composition API
 
-## `defineProps`, `defineEmits`, `defineOptions`, `defineSlots`
+## `define-` helpers
+
+### `defineProps`, `defineEmits`, `defineSlots`, `defineModel`, etc.
 
 ---
 layout: two-cols-header
@@ -1022,39 +1305,50 @@ const props = defineProps<{
 
 // Shortcut (sin tipado)
 const emits = defineEmits(['my-event'])
-// o (_runtime object_ + tipado)
+// o (runtime object + tipado)
 const emits = defineEmits({
   'my-event': (arg: string) => true
 })
 // o ("tuple syntax" + tipado)
 const emit = defineEmits<{
-  'my-event': [id: number]
-  update: [value: string]
+  'my-event': [arg: string]
+  'my-event-2': [arg2: number]
 }>()
 
 defineSlots<{
   default: () => any
 }>()
 
-defineOptions({
-  name: 'MyComponent'
-})
+// Alias de emit + props para two-way data binding (v-model)
+const model = defineModel()
 </script>
 ```
 
 ::right::
 
-### `define-` helpers
-
-`defineProps`, `defineEmits`, `defineOptions`, `defineSlots`
-
-<v-clicks>
+<v-click at="1">
 
 - Props: `defineProps` (tipado)
+
+</v-click>
+
+<v-click at="2">
+
 - Emits: `defineEmits` (tipado)
+
+</v-click>
+
+<v-click at="5">
+
 - Slots: `defineSlots` (tipado)
-- Options: `defineOptions` (no tipado, meta-información)
-</v-clicks>
+
+</v-click>
+
+<v-click at="6">
+
+- Model: `defineModel` (tipado)
+
+</v-click>
 
 ---
 layout: two-cols
@@ -1064,7 +1358,7 @@ layout: two-cols
 
 
 ````md magic-move
-```vue
+```vue{all|5-8|all}
 <script setup lang="ts">
 import { defineProps } from 'vue'
 
@@ -1075,7 +1369,7 @@ const props = defineProps<{
 
 </script>
 ```
-```vue
+```vue{all|5-8|all}
 <script setup lang="ts">
 import { defineProps } from 'vue'
 
@@ -1132,6 +1426,24 @@ const props = defineProps({
 </script>
 ```
 ````
+
+::right::
+
+<v-clicks>
+
+```vue
+<template>
+  <MyComponent msg="'Hello!'" />
+</template>
+
+<script setup>
+import MyComponent from './MyComponent.vue'
+</script>
+```
+
+[Vue Playground](https://play.vuejs.org/#eNp9UstOwzAQ/JXFl4JUNQc4RWklHpUACahoxSmXKNkEl8S2bKe0RPl31k7Tpgi42TO74/HONuxaqcmmRhayyGKlysTiLBYA0dPuVlZKChQWwsoU05hVu7ekrDFmEFBNFAwa6GpSzZUFg7ZWhHBq1haGMrmWFYwmwQBzb49ceyqFsbB/AaYwuseylGfERUGnPGNjZg3V5byYrI0U5LlxVmOWkhwvUb8oy0knZiF4xnEJyXw+eszqGsc9nr5j+vELvjZbh8VsodGg3tB3D5xNdIG2o+fLZ9zS+UBWMqtLqv6HfEUjy9p57MpuapGR7UGdd/vgR8dFsTLzrUVh+k85o66y9fUxo+G5Sf719aPdy8mV74tFS1P8MX+X/TA8KBPh4rakdgyygQxzLnChpTLQ7sPs4wsCuHM0zxIDlBHUIgEuLOo8+aJOWO0ULv0jfdbKC02HspG3TssWgrGaBkB+Z+cXfr36LfCX01XN+MYfAJqGmlv6JqFBB5+sKWu/ARg6AVw=)
+
+</v-clicks>
 
 ---
 layout: quote
@@ -1272,13 +1584,13 @@ layout: section
 layout: quote
 ---
 
-# Clases dinámicas
+# Clases de CSS dinámicas
 
 ---
 layout: two-cols
 ---
 
-# Clases dinámicas (condicionales)
+# Clases de CSS dinámicas (condicionales)
 
 ```vue{all|2|2,6|all}
 <template>
@@ -1292,11 +1604,11 @@ const isActive = ref(true)
 
 ::right::
 
-### `:class` (Object syntax)
+### `:class` (Objetos)
 
 <v-clicks>
 
-- (alias de`v-bind:class`)
+- _(alias de`v-bind:class`)_
 - Se le pasa un objecto `:class="{ className: condition }"`
 - En este caso: La clase `'active'` se añade si `isActive` es `true`.
 
@@ -1307,7 +1619,7 @@ const isActive = ref(true)
 layout: two-cols
 ---
 
-# Clases dinámicas (composición)
+# Clases de CSS dinámicas (composición)
 
 ```vue{all|2|2,6-7|all}
 <template>
@@ -1322,7 +1634,7 @@ const class2 = ref('text-red bg-blue')
 
 ::right::
 
-### `:class` (Array syntax)
+### `:class` (Arrays)
 
 <v-clicks>
 
@@ -1336,7 +1648,7 @@ const class2 = ref('text-red bg-blue')
 layout: two-cols
 ---
 
-# Clases dinámicas (mezcla)
+# Clases de CSS dinámicas (composición + condicionales)
 
 ```vue{all|2-5|2-5,9-10|all}
 <template>
@@ -1354,7 +1666,7 @@ const isActive = ref(true)
 
 ::right::
 
-### `:class` (Combining syntaxes)
+### `:class` (Combininando arrays, objetos, strings...)
 
 <v-clicks>
 
@@ -1376,6 +1688,7 @@ layout: two-cols
 
 # Estilos en línea
 
+````md magic-move {at: 7}
 ```vue{all|2|2,6|all}
 <template>
   <div :style="{ backgroundColor: bgColor }"></div>
@@ -1385,6 +1698,19 @@ layout: two-cols
 const bgColor = ref('red')
 </script>
 ```
+```vue{all|3|3-4|all}
+<template>
+  <MyComponent
+    :style="{ '--bg-color': bgColor }"
+    class="text-[var(--bg-color)]"
+  />
+</template>
+
+<script setup>
+const bgColor = ref('red')
+</script>
+```
+````
 
 ::right::
 
@@ -1396,8 +1722,15 @@ const bgColor = ref('red')
 - Se le pasa un objecto `:style="{ styleName: value }"`
   - Los nombres de las propiedades son "camelCase", como en <logos-javascript /> JS.
 - En este caso: El fondo del elemento será rojo.
-
 </v-clicks>
+
+<v-click at="12">
+
+- Bastante util con variables CSS
+  - (incluso con <logos-tailwindcss-icon /> TailwindCSS)
+
+</v-click>
+
 
 ---
 layout: quote
@@ -1507,7 +1840,12 @@ layout: two-cols
 layout: statement
 ---
 
-# Parte práctica
+# Vamos a la práctica
+
+<!-- image centered -->
+<div class="text-center">
+  <img src="/cortar.gif" class="m-auto object-contain max-h-sm" />
+</div>
 
 ---
 layout: two-cols-header
@@ -1521,12 +1859,12 @@ layout: two-cols-header
 <v-clicks depth="2">
 
 - Editor
-  - (**VSCode**)
-  - Extensiones: `Prettier`, `ESLint`
-  - Extensión `Vue - Official` (para VSCode)
-- Gestor de paquetes (npm/**pnpm**/yarn)
-  - `pnpm`
-- Vue DevTools
+  - <logos-visual-studio-code /> VSCode, Cursor, Windsurf, Lovable, etc.
+  - Extensiones: <logos-prettier /> `Prettier`, <logos-eslint /> `ESLint`
+  - Extensión <logos-vue /> `Vue (Official)` (antes llamada "Volar")
+- Gestor de paquetes (<logos-npm />/**<logos-pnpm />**/<logos-yarn />)
+  - <logos-pnpm /> `pnpm`
+- ⚙️ <logos-vue /> Vue DevTools
 </v-clicks>
 
 ::right::
@@ -1559,7 +1897,6 @@ layout: two-cols-header
   </div>
 </div>
 
-
 ---
 layout: hero-image
 image: /teclado.gif
@@ -1567,7 +1904,6 @@ class: text-center
 ---
 
 # A los teclados!
-
 
 <!-- Fin de la sesión I -->
 
@@ -1584,187 +1920,18 @@ background: vue-sticker.jpg
 layout: quote
 ---
 
-# Agenda – Día II
+# Agenda
 
-<v-clicks depth="3">
-
-- Repaso de la teoría del día anterior
-  - **Teoría**
-    - 🧩 _Componentes_ (_SFC_): `template`, `script`, `style`
-    - 🔠 _Interpolación_: `{{ }}`
-    - 📝 _Directivas_: `v-if`, `v-for`, `v-model`
-    - ⚡️ _Composition API_: `defineProps`, `defineEmits`
-    - 🎯 _Props_: `:propName="propValue"`
-    - 🎬 _Eventos_: `@click`, `@input`, `@my-event`
-    - 🎰 _Slots_: `<slot>` y `<template #slotName>`
-    - 🔄 _Lifecycle Hooks_: `onMounted`, `onBeforeUnmount`, etc
-    - 🎨 _Estilos_: `:class`, `:style`, `scoped`
-- **Práctica**: Crear una ToDo App con Vue 3 y Vite
-
-</v-clicks>
-
----
-layout: quote
----
-
-```bash
-pnpm create vue@latest
-# yarn dlx create-vue@latest # Yarn ^v4.11
-# npm create vue@latest
-```
-
-<hr />
-
-<v-clicks>
-
-```bash
-✔ Project name: ToDoApp
-✔ Add TypeScript? Yes
-✔ Add JSX Support? No
-✔ Add Vue Router for Single Page Application development? Yes
-✔ Add Pinia for state management? Yes
-✔ Add Vitest for Unit testing? Yes
-✔ Add an End-to-End Testing Solution? No
-✔ Add ESLint for code quality? Yes
-✔ Add Prettier for code formatting? Yes
-✔ Add Vue DevTools 7 extension for debugging? Yes
-
-Scaffolding project in ./todoapp...
-Done.
-```
-
-</v-clicks>
+- Composition API
 
 
 ---
 layout: hero-image
 image: /teclado.gif
 class: text-center
-title: 🚀 A los teclados!
 ---
 
 # Vuelta a los teclados!
----
-layout: section
----
-
-# Gestión de Estado con <logos-pinia /> Pinia
-
----
-layout: quote
----
-
-# ¿Qué es un gestor de estado? 🤔
-
----
-layout: two-cols
-title: Gestor de Estado
----
-
-
-<v-clicks depth="2">
-
-- 🏪 Almacén centralizado de datos
-- 🔄 Flujo unidireccional de datos
-  - `actions` modifican el `state`
-  - El `state` actualiza las vistas
-  - Las vistas disparan `actions`
-- 🎯 Beneficios:
-  - Mantenimiento más sencillo
-  - Debugging más fácil
-- 🆕 Sucesor oficial de **Vuex**
-  - ⚡️ Más ligero y rápido
-  - 🦾 Mejor soporte TypeScript
-  - 🔧 API más simple
-  - 🧩 Modular por diseño
-  - 🛠️ DevTools integradas
-
-</v-clicks>
-
-::right::
-
-<v-clicks>
-
-<div class="grid items-center h-full">
-  <img src="/pinia.png" class="object-contain max-h-sm" />
-</div>
-
-</v-clicks>
----
-layout: default
----
-
-# <logos-pinia /> Pinia
-````md magic-move
-```ts
-// stores/counter.ts
-import { defineStore } from 'pinia'
-
-export const useCounterStore = defineStore('counter', {
-  // Estado (reactive)
-  state: () => ({
-    count: 0
-  }),
-  // Getters (computed)
-  getters: {
-    doubleCount: (state) => state.count * 2
-  },
-  // Actions (methods)
-  actions: {
-    increment() {
-      this.count++
-    }
-  }
-})
-```
-
-```ts
-// stores/counter.ts
-import { defineStore } from 'pinia'
-
-export const useCounterStore = defineStore('counter', () => {
-  // Estado (reactive)
-  const count = ref(0)
-
-  // Getters (computed)
-  const doubleCount = computed(() => count.value * 2)
-
-  // Actions (methods)
-  const increment = () => count.value++
-
-  return {
-    count,
-    doubleCount,
-    increment
-  }
-})
-```
-````
-
----
-layout: custom-cover
-background: vue-sticker.jpg
----
-
-# <logos-vue /> Vue - III
-
-## 🌈 Vuenas tardes!!! 🌈
-
----
-layout: quote
----
-
-# Agenda – Día III
-
-- Composition API / Composables
-- Práctica
-- Testing
-
----
-layout: section
----
-
-# Composition API
 
 ---
 layout: hero-image
@@ -1772,6 +1939,7 @@ image: /composition-docs.png
 ---
 
 ## Composition API
+
 
 
 ---
@@ -1785,27 +1953,7 @@ layout: quote
 https://vuejs.org/guide/introduction.html
 
 ---
-layout: image
-image: /setup-diagram.png
-title: Setup()
-backgroundSize: contain
----
-
----
-layout: image
-image: /side-by-side.jpeg
-title: Code Side by Side
-backgroundSize: contain
----
-
----
-src: ./options-api.md
----
-
-
----
 layout: two-cols
-title: Composition API
 ---
 
 # Composition API
@@ -1833,64 +1981,18 @@ title: Composition API
 
 ---
 layout: image
-image: /lego.jpeg
-title: Composables (Lego)
+image: /side-by-side.jpeg
+title: Code Side by Side
 backgroundSize: contain
 ---
 
----
-layout: hero-image
-image: /composables-docs.png
----
-
-## Qué son los "Composables"?
 
 ---
-layout: two-cols
-title: Ejemplo Composable
+layout: image
+image: /setup-diagram.png
+title: Setup()
+backgroundSize: contain
 ---
-
-```ts{2,5-9|all}
-// composables/useCounter.ts
-import { ref, computed } from 'vue'
-
-export function useCounter(initial = 0) {
-  const counter = ref(initial)
-  const doubled = computed(() => counter.value * 2)
-
-  const increment = () => counter.value++
-  const decrement = () => counter.value--
-
-  return {
-    counter,
-    doubled,
-    increment,
-    decrement
-  }
-}
-```
-
----
-layout: two-cols
-title: Ejemplo Composable 2
----
-
-```vue{all|2,4|all}
-<script setup>
-import { useCounter } from './composables/useCounter'
-
-const { counter, doubled, increment, decrement } = useCounter(10)
-</script>
-
-<template>
-  <div>
-    <p>Counter: {{ counter }}</p>
-    <p>Doubled: {{ doubled }}</p>
-    <button @click="increment">+</button>
-    <button @click="decrement">-</button>
-  </div>
-</template>
-```
 
 ---
 layout: full
@@ -1921,7 +2023,12 @@ layout: full
   </section>
 </div>
 
-<!-- Ariane Jurado de Bilbao (Ari Reinventada) -->
+---
+layout: image
+image: /lego.jpeg
+title: Composables (Lego)
+backgroundSize: contain
+---
 
 ---
 layout: hero-image
@@ -1931,136 +2038,23 @@ class: text-center
 
 # <logos-vue /> Vamos a seguir!! 🚀
 
-
 ---
-layout: section
----
-
-# Testing
-
----
-layout: quote
+layout: custom-cover
+background: vue-sticker.jpg
 ---
 
-<h2><logos-vitest /> Vitest <span v-click="2">
-(con <logos-vue /> <em>Vue</em> y <logos-vue /> <em>Vue Test Utils</em>)
-</span></h2>
+# <logos-vue /> Vue - III
 
-<br />
-
-<v-clicks>
-
-#### (<logos-jest /> ~Jest)
-
-</v-clicks>
-
-
----
-layout: two-cols
----
-
-# Instalación Vitest
-
-```bash
-pnpm add -D vitest
-# yarn add -D vitest
-# npm install -D vitest
-```
-
-<br />
-
-<v-clicks>
-
-```json
-{
-  "scripts": {
-    "test": "vitest"
-  }
-}
-```
-
-</v-clicks>
-
+## 🌈 Vuenas tardes!!! 🌈
 
 ---
 layout: quote
 ---
 
-# Vitest Config
+# Agenda
 
-```ts
-// vitest.config.ts
-import { defineConfig } from 'vitest/config';
-
-export default defineConfig({
-  test: {
-    environment: 'jsdom', // Simulates a browser environment
-  },
-});
-```
-
----
-layout: quote
----
-
-## @vue/test-utils
-
-```bash
-pnpm add -D @vue/test-utils
-# yarn add -D @vue/test-utils
-# npm install -D @vue/test-utils
-```
-
-https://test-utils.vuejs.org/
-
----
-layout: two-cols
----
-
-```ts{all|5|all}
-import { mount } from '@vue/test-utils'
-import MyComponent from './MyComponent.vue'
-
-const comp = mount(MyComponent)
-//           ^^^^^
-```
-
-::right::
-
-### `mount`
-
-
----
-layout: two-cols
-title: Ejemplo Test
----
-
-# Ejemplo Test Unitario
-
-```ts
-// MyComponent.spec.ts
-
-import { mount } from '@vue/test-utils'
-import { describe, it, expect } from 'vitest'
-
-import MyComponent from './MyComponent.vue'
-
-describe('MyComponent', () => {
-  it('renders a message', () => {
-    const wrapper = mount(MyComponent)
-    expect(wrapper.text()).toContain('Hello world')
-  })
-})
-
-```
-
----
-layout: hero-image
-image: /teclado.gif
-class: text-center
----
-
-# <logos-vitest /> A los teclados!
+- onMounted, watchers, etc.
+- Testing
 
 
 ---

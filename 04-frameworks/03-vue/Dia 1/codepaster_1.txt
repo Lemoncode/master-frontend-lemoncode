@@ -1,0 +1,55 @@
+
+https://vuejs.org/
+
+*********************************
+
+Select features to include in your project: (↑/↓ to navigate, space to select, a to toggle all, enter
+to confirm)
+│  ◼ TypeScript
+│  ◻ JSX Support
+│  ◼ Router (SPA development)
+│  ◼ Pinia (state management)
+│  ◼ Vitest (unit testing)
+│  ◻ End-to-End Testing
+│  ◼ ESLint (error prevention)
+│  ◼ Prettier (code formatting)
+└
+
+
+*********************************
+
+Select features to include in your project: (↑/↓ to navigate, space to select, a to toggle all, enter
+to confirm)
+│  TypeScript, Router (SPA development), Pinia (state management), Vitest (unit testing), ESLint (error
+prevention), Prettier (code formatting)
+│
+◇  Select experimental features to include in your project: (↑/↓ to navigate, space to select, a to
+toggle all, enter to confirm)
+│  Oxlint, rolldown-vite (experimental)
+│
+◇  Skip all example code and start with a blank Vue project?
+│  Yes
+
+Scaffolding project in /Users/paul.melero/htdocs/LEMONCODE/todolist-live...
+│
+└  Done. Now run:
+
+   cd todolist-live
+   pnpm install
+   pnpm format
+   pnpm dev
+
+| Optional: Initialize Git in your project directory with:
+
+   git init && git add -A && git commit -m "initial commit"
+
+*********************************
+
+<template>
+  <header>
+    <h1>Todo List</h1>
+  </header>
+</template>
+
+
+*********************************

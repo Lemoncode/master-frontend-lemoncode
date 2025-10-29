@@ -1,6 +1,6 @@
 # PostCSS - Introducción
 
-## ¿Qué es PostCSS?
+## 1. ¿Qué es PostCSS?
 
 > **PostCSS es una herramienta para transformar CSS con JavaScript**
 
@@ -15,7 +15,9 @@ Analogía:
 Preprocesadores (Sass/Less) → CSS → PostCSS → CSS optimizado
 ```
 
-## ¿Para qué sirve PostCSS?
+<br />
+
+## 2. ¿Para qué sirve PostCSS?
 
 ### Casos de uso principales:
 
@@ -44,9 +46,11 @@ Preprocesadores (Sass/Less) → CSS → PostCSS → CSS optimizado
    - Detección de errores
    - Formateo consistente
 
-## Arquitectura y diferencias
+<br />
 
-### PostCSS vs Preprocesadores:
+## 3. Arquitectura y diferencias
+
+### 3.1 PostCSS vs Preprocesadores:
 
 | Característica     | Sass/Less            | PostCSS                          |
 | ------------------ | -------------------- | -------------------------------- |
@@ -54,11 +58,11 @@ Preprocesadores (Sass/Less) → CSS → PostCSS → CSS optimizado
 | **Extensibilidad** | Limitada             | Infinita (plugins)               |
 | **Performance**    | Compilación completa | Solo transforma lo necesario     |
 | **Adopción**       | Todo o nada          | Gradual                          |
-| **Futuro**         | Sintaxis propietaria | Estándares CSS                   |
+| **Futuro**         | Sintaxis propietaria | Estándares CSS (más o menos)     |
 | **Dependencias**   | Pocas (1-2 paquetes) | Muchas (múltiples plugins)       |
 | **Mantenimiento**  | Más estable          | Riesgo de dependencias obsoletas |
 
-### Consideraciones de PostCSS:
+### 3.2 Consideraciones de PostCSS:
 
 **Ventajas:**
 
@@ -80,3 +84,10 @@ Preprocesadores (Sass/Less) → CSS → PostCSS → CSS optimizado
 - **Proyectos grandes/empresariales**: Considerar Sass + PostCSS solo para autoprefixing
 
 Esto es muy relativo al contexto del proyecto y equipo.
+
+<br />
+
+## 4. Documentación
+
+- PostCSS: [https://postcss.org/](https://postcss.org/)
+- PostCSS GitHub: [https://github.com/postcss/postcss](https://github.com/postcss/postcss)

@@ -4,7 +4,7 @@ Este es un ejemplo práctico para demostrar el uso de **Normalize.css**.
 
 Este ejemplo muestra:
 
-- Cómo incluir Normalize.css en un proyecto
+- Cómo incluir normalize.css en un proyecto
 - La diferencia visual entre usar y no usar normalize
 - Los beneficios de normalizar los estilos por defecto del navegador
 

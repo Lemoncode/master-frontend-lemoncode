@@ -2,17 +2,17 @@
 
 Vamos a ver cómo usar PostCSS para escribir CSS con características similares a las de Sass, como nesting, variables, mixins e imports.
 
-## PostCSS Import
+## 1. PostCSS Import
 
 Este plugin permite importar archivos CSS dentro de otros archivos CSS, similar a `@import` en Sass.
 
-### Instalación
+### 1.1 Instalación
 
 ```bash
 npm install postcss-import --save-dev
 ```
 
-### Configuración
+### 1.2 Configuración
 
 _postcss.config.cjs_
 
@@ -29,7 +29,7 @@ module.exports = {
 };
 ```
 
-### Uso
+### 1.3 Uso
 
 Creamos un archivo `variables.css` en `src/`:
 
@@ -86,20 +86,23 @@ Podemos ver como en el CSS generado, las variables están disponibles en el arch
 ...
 ```
 
-Documentación:
-https://github.com/postcss/postcss-import
+### 1.4 Documentación
 
-## PostCSS Nested
+Documentación: [https://github.com/postcss/postcss-import](https://github.com/postcss/postcss-import)
+
+<br />
+
+## 2. PostCSS Nested
 
 Este plugin permite usar nesting en CSS, similar a Sass. Podemos usar parte del nombre de una clase con `&`. Al usar BEM, podemos aprovechar esto para anidar los elementos hijos.
 
-### Instalación
+### 2.1 Instalación
 
 ```bash
 npm install postcss-nested --save-dev
 ```
 
-### Configuración
+### 2.2 Configuración
 
 _postcss.config.cjs_
 
@@ -118,7 +121,7 @@ module.exports = {
 };
 ```
 
-### Uso
+### 2.3 Uso
 
 _variables.css_
 
@@ -283,7 +286,7 @@ main {
 }
 ```
 
-### Diferencia con el nesting nativo de CSS
+### 2.4 Diferencia con el nesting nativo de CSS
 
 Una diferencia importante entre el nesting nativo de CSS y PostCSS Nested es el impacto en la especificidad. Cuando usamos `&` con metodología BEM, PostCSS Nested genera CSS con menor especificidad, ya que no repite el selector padre en cada regla hija.
 
@@ -296,20 +299,23 @@ Aunque la diferencia es mínima en este caso, se vuelve más significativa cuand
 
 > **Nota sobre extensiones de VS Code:** La extensión "PostCSS Language Support" puede interferir con la visualización de especificidad al pasar el cursor sobre las clases. Como alternativa, se recomienda usar "PostCSS Intellisense and Highlighting", que mantiene la funcionalidad de especificidad y es compatible con PostCSS.
 
-Documentación:
-https://github.com/postcss/postcss-nested
+### 2.5 Documentación
 
-## PostCSS Simple Vars
+Documentación: [https://github.com/postcss/postcss-nested](https://github.com/postcss/postcss-nested)
+
+<br />
+
+## 3. PostCSS Simple Vars
 
 Este plugin permite usar variables en CSS, similar a Sass. A diferencia de las variables CSS nativas, estas variables se reemplazan en tiempo de compilación, por lo que son compatibles con todos los navegadores.
 
-### Instalación
+### 3.1 Instalación
 
 ```bash
 npm install postcss-simple-vars --save-dev
 ```
 
-### Configuración
+### 3.2 Configuración
 
 _postcss.config.cjs_
 
@@ -328,7 +334,7 @@ module.exports = {
 };
 ```
 
-### Uso
+### 3.3 Uso
 
 _variables.css_
 
@@ -369,20 +375,23 @@ Podemos ver como en el CSS generado, la variable `$md` se ha reemplazado por `76
 
 Este es un ejemplo que no se puede hacer con las variables nativas de CSS, ya que no se pueden usar dentro de `@custom-media`.
 
-Documentación:
-https://github.com/postcss/postcss-simple-vars
+### 3.4 Documentación
 
-## PostCSS Mixins
+Documentación: [https://github.com/postcss/postcss-simple-vars](https://github.com/postcss/postcss-simple-vars)
+
+<br />
+
+## 4. PostCSS Mixins
 
 Este plugin permite usar mixins en CSS, similar a Sass.
 
-### Instalación
+### 4.1 Instalación
 
 ```bash
 npm install postcss-mixins --save-dev
 ```
 
-### Configuración
+### 4.2 Configuración
 
 _postcss.config.cjs_
 
@@ -401,7 +410,7 @@ module.exports = {
 };
 ```
 
-### Ejemplos
+### 4.3 Ejemplos
 
 Creamos un nuevo archivo `mixins.css` en `src/`:
 
@@ -541,7 +550,12 @@ Podemos ver como en el CSS generado, el mixin `pseudo` se ha expandido correctam
 }
 ```
 
-Documentación:
-https://github.com/postcss/postcss-mixins
+### 4.4 Documentación
+
+Documentación: [https://github.com/postcss/postcss-mixins](https://github.com/postcss/postcss-mixins)
+
+<br />
+
+## 5. Conclusión
 
 Existen muchos más plugins de PostCSS, los podéis explorar en el [sitio oficial de plugins de PostCSS](https://www.postcss.parts/). Pero recomiendo usar los creados por el equipo de PostCSS, ya que suelen estar mejor mantenidos y actualizados.

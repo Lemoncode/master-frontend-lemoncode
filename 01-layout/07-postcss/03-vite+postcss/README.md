@@ -1,6 +1,6 @@
-# PostCSS with Vite
+# PostCSS y Vite
 
-## Introducción
+## 1. Introducción
 
 PostCSS está integrado en Vite de forma predeterminada. Usando por defecto postcss-import y autoprefixer. Puedes personalizar la configuración de PostCSS creando un archivo `postcss.config.cjs` en la raíz de tu proyecto. E instalar los plugins que necesites.
 
@@ -18,7 +18,9 @@ npm install -D postcss-preset-env postcss-simple-vars postcss-mixins postcss-nes
 npm install -D @types/postcss-preset-env
 ```
 
-## Ejemplo de configuración
+<br />
+
+## 2. Ejemplo de configuración
 
 Creamos el archivo `postcss.config.cjs` en la raíz del proyecto con el siguiente contenido:
 
@@ -54,3 +56,9 @@ import './css/style.css';
 ```
 
 Ahora vamos a traernos a este proyecto el contenido `index.html` y todos los archivos CSS que teníamos en el proyecto anterior de PostCSS puro.
+
+<br />
+
+## 3. Documentación
+
+- Vite PostCSS Integration: [https://vitejs.dev/guide/features.html#postcss](https://vitejs.dev/guide/features.html#postcss)

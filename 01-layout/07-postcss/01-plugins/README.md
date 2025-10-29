@@ -1,10 +1,14 @@
-# Plugins de PostCSS
+# PostCSS - Plugins
+
+## 0. Introducción a Plugins de PostCSS
 
 PostCSS es una herramienta basada en plugins. Cada plugin añade funcionalidad específica.
 Hay cientos de plugins disponibles, cada uno con su propia configuración y propósito.
 Vamos a ver algunos de los plugins más comunes y útiles.
 
-## Postcss Preset Env
+<br />
+
+## 1. Postcss Preset Env
 
 Este plugin permite usar características CSS modernas que aún no son compatibles con todos los navegadores.
 
@@ -14,13 +18,13 @@ Este plugin permite usar características CSS modernas que aún no son compatibl
 - Soporta características como variables CSS, nesting, custom media queries, etc.
 - Muy útil para escribir CSS con sintaxis "futura" hoy.
 
-### Instalación
+### 1.1. Instalación
 
 ```bash
 npm install postcss-preset-env --save-dev
 ```
 
-### Configuración
+### 1.2. Configuración
 
 Necesitamos añadir un archivo `postcss.config.cjs` en la raíz del proyecto y configurar los plugins que vamos a usar.
 
@@ -49,10 +53,7 @@ module.exports = {
 El nivel uno nos permite usar custom media queries.
 Nesting y variables CSS ya están soportadas en la mayoría de navegadores, y están soportadas en el stage 2, que es el valor por defecto.
 
-Más info: https://github.com/csstools/postcss-plugins/tree/main/plugin-packs/postcss-preset-env
-O en: https://preset-env.cssdb.org/
-
-### Ejemplos
+### 1.3. Uso
 
 En nuestro CSS, vamos a probar algunas características.
 
@@ -275,17 +276,26 @@ main {
 }
 ```
 
-## CSS Nano
+### 1.4. Documentación
+
+Para más información, consulta la documentación oficial de PostCSS Preset Env:
+
+- [PostCSS Preset Env en GitHub](https://github.com/csstools/postcss-plugins/tree/main/plugin-packs/postcss-preset-env)
+- [PostCSS Preset Env en CSSDB](https://preset-env.cssdb.org/)
+
+<br />
+
+## 2. CSS Nano
 
 Este plugin se usa para optimizar y minificar el CSS para producción.
 
-### Instalación
+### 2.1 Instalación
 
 ```bash
 npm install cssnano --save-dev
 ```
 
-### Configuración
+### 2.2 Configuración
 
 Añadimos cssnano a nuestro archivo `postcss.config.cjs`:
 
@@ -310,7 +320,7 @@ module.exports = {
 };
 ```
 
-### Uso
+### 2.3 Uso
 
 Ahora, cuando ejecutemos `npm run watch:css` o `npm run build:css`, el CSS generado en `dist/styles.css` estará minificado y optimizado para producción.
 
@@ -352,4 +362,6 @@ module.exports = {
 };
 ```
 
-Documentación oficial: https://cssnano.github.io/cssnano/
+### 2.4 Documentación
+
+Documentación oficial: [https://cssnano.github.io/cssnano/](https://cssnano.github.io/cssnano/)

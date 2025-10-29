@@ -63,6 +63,15 @@
           height: auto;
         }
       }
+
+      .image {
+        width: 500px;
+        padding: 10px;
+      }
+      .image__container {
+        border: 2px solid purple;
+        background-color: lightseagreen;
+      }
     </style>
   </head>
   <body>
@@ -78,7 +87,18 @@
       <h3>Título de la tarjeta</h3>
       <p>Contenido de la tarjeta.</p>
     </div>
-
+    <div class="image">
+      <div class="image__container">
+        <img src="./lemon.jpg" alt="" />
+      </div>
+    </div>
+    <p>
+      Comportamiento de una imagen dentro de un texto.
+      <img src="./lemon.jpg" alt="" width="200px" />
+      Proin pellentesque nunc eu nunc vehicula efficitur. Sed vel neque ligula.
+      Curabitur mattis posuere erat, a placerat metus pulvinar vitae. Nulla non
+      fermentum leo, sed pulvinar magna magna.
+    </p>
     <details name="accordion" class="accordion">
       <summary>Sección 1</summary>
       <div>Este es el contenido del primer acordeón.</div>

@@ -1,0 +1,92 @@
+:root {
+  /*https://utopia.fyi/type/calculator?c=360,18,1.2,1440,21,1.25,6,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12*/
+  /* Espacios fluidos */
+  --space-3xs: clamp(0.3125rem, 0.3125rem + 0vw, 0.3125rem);
+  --space-2xs: clamp(0.5625rem, 0.5208rem + 0.1852vw, 0.6875rem);
+  --space-xs: clamp(0.875rem, 0.8333rem + 0.1852vw, 1rem);
+  --space-sm: clamp(1.125rem, 1.0625rem + 0.2778vw, 1.3125rem);
+  --space-md: clamp(1.6875rem, 1.5833rem + 0.463vw, 2rem);
+  --space-lg: clamp(2.25rem, 2.125rem + 0.5556vw, 2.625rem);
+  --space-xl: clamp(3.375rem, 3.1875rem + 0.8333vw, 3.9375rem);
+  --space-2xl: clamp(4.5rem, 4.25rem + 1.1111vw, 5.25rem);
+  --space-3xl: clamp(6.75rem, 6.375rem + 1.6667vw, 7.875rem);
+
+  /* Generado desde Utopia.fyi */
+  --fs--2: clamp(0.7813rem, 0.7617rem + 0.087vw, 0.84rem);
+  --fs--1: clamp(0.9375rem, 0.9rem + 0.1667vw, 1.05rem);
+  --fs-0: clamp(1.125rem, 1.0625rem + 0.2778vw, 1.3125rem);
+  --fs-1: clamp(1.35rem, 1.2531rem + 0.4306vw, 1.6406rem);
+  --fs-2: clamp(1.62rem, 1.4764rem + 0.6382vw, 2.0508rem);
+  --fs-3: clamp(1.944rem, 1.7375rem + 0.9177vw, 2.5635rem);
+  --fs-4: clamp(2.3328rem, 2.0423rem + 1.2912vw, 3.2043rem);
+  --fs-5: clamp(2.7994rem, 2.3973rem + 1.7868vw, 4.0054rem);
+}
+
+h1 {
+  font-size: var(--fs-5);
+}
+h2 {
+  font-size: var(--fs-4);
+}
+h3 {
+  font-size: var(--fs-3);
+}
+h4 {
+  font-size: var(--fs-2);
+}
+h5 {
+  font-size: var(--fs-1);
+}
+h6 {
+  font-size: var(--fs-0);
+}
+p {
+  font-size: var(--fs-0);
+}
+.small {
+  font-size: var(--fs--1);
+}
+
+.hero {
+  & * {
+    box-sizing: border-box;
+    margin: 0;
+  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  text-align: center;
+}
+
+.hero__content {
+  color: white;
+  padding: var(--space-xl);
+}
+
+.hero__title {
+  line-height: 1.1;
+  margin-bottom: var(--space-2xs);
+}
+
+.hero__subtitle {
+  font-size: var(--fs-1);
+  opacity: 0.9;
+  margin-bottom: var(--space-lg);
+}
+
+.hero__description {
+  max-width: 60ch;
+  margin-bottom: var(--space-md);
+  line-height: 1.45;
+}
+
+.hero__cta {
+  padding: var(--space-2xs) var(--space-sm);
+  font-size: var(--fs-0);
+  border-radius: 8px;
+  border: none;
+  background: white;
+  color: #4b66dd;
+  cursor: pointer;
+}

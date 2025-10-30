@@ -1,0 +1,60 @@
+/*********** FOCUS AREA ***********/
+
+#sq1 {
+  /* transform: translate(100%, -50%); */
+  /* transform: translateX(100%) translateY(-50%); */
+  translate: 100% -50%;
+}
+
+#sq2 {
+  /* transform: rotate(30deg); */
+  /* transform: rotateZ(30deg); */
+  rotate: 30deg;
+  /* rotate: z 30deg; */
+
+  transform-origin: top left;
+}
+
+#sq3 {
+  /* transform: scale(1.5); */
+  /* transform: scaleX(150%) scaleY(50%); */
+  scale: 0.7;
+  /* scale: 1.5 0.5; */
+
+  transform-origin: bottom left;
+}
+
+#sq4 {
+  /* transform: skew(15deg, 5deg); */
+  transform: skewY(10deg) rotateX(30deg);
+}
+
+/**********************************/
+
+body {
+  --square-size: 4em;
+  --knob-size: 2em;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: auto 1em auto;
+  align-items: center;
+  gap: 2em;
+}
+
+.square {
+  width: var(--square-size);
+  height: var(--square-size);
+  color: #000;
+  background-color: #fff;
+  border-radius: 0.5em;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.transformed {
+  background-color: var(--highlight);
+}

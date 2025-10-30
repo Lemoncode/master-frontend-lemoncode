@@ -1,0 +1,29 @@
+{
+  "name": "playground-animations",
+  "version": "1.0.0",
+  "description": "Master frontend Lemoncode, playground to experiment with native CSS animations",
+  "keywords": [
+    "lemoncode",
+    "master",
+    "css",
+    "animations"
+  ],
+  "homepage": "https://github.com/Lemoncode/master-frontend-lemoncode/tree/master/01-layout",
+  "license": "MIT",
+  "author": "Lemoncode",
+  "contributors": [
+    "Javier Calzado <javi.calzado@lemoncode.net>",
+    "Miguel Chimali <miguel@lemoncode.net>"
+  ],
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lemoncode/master-frontend-lemoncode.git"
+  },
+  "scripts": {
+    "start": "browser-sync start -c bs-config.json"
+  },
+  "dependencies": {
+    "browser-sync": "^3.0.4"
+  }
+}

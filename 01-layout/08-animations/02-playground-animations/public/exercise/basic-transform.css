@@ -1,0 +1,43 @@
+/*********** FOCUS AREA ***********/
+
+#sq1 {
+}
+
+#sq2 {
+}
+
+#sq3 {
+}
+
+#sq4 {
+}
+
+/**********************************/
+
+body {
+  --square-size: 4em;
+  --knob-size: 2em;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: auto 1em auto;
+  align-items: center;
+  gap: 2em;
+}
+
+.square {
+  width: var(--square-size);
+  height: var(--square-size);
+  color: #000;
+  background-color: #fff;
+  border-radius: 0.5em;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.transformed {
+  background-color: var(--highlight);
+}

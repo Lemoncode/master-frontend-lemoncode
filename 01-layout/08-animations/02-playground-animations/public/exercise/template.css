@@ -1,0 +1,37 @@
+/*********** FOCUS AREA ***********/
+
+/* ... your code here ... */
+
+.square {
+  width: var(--square-size);
+  height: var(--square-size);
+  background-color: #fff;
+  border-radius: 0.5rem;
+}
+
+.knob {
+  width: var(--knob-size);
+  height: var(--knob-size);
+  border-radius: 50%;
+  background-color: #ffffff77;
+  cursor: pointer;
+
+  & input {
+    appearance: none;
+  }
+
+  &:hover {
+    background-color: var(--highlight);
+  }
+  &:has(input:checked) {
+    background-color: var(--highlight);
+    opacity: 0.75;
+  }
+}
+
+/**********************************/
+
+body {
+  --square-size: 10em;
+  --knob-size: 2em;
+}

@@ -1,0 +1,45 @@
+html {
+  /* Default font, fluid size */
+  font-family: "Work Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem);
+}
+
+body {
+  --highlight: #dd0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100vh;
+  box-sizing: border-box;
+  color: #fff;
+  background: #111;
+  overflow: hidden auto;
+
+  & > * {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+}
+
+a.back-link {
+  position: fixed;
+  top: 1em;
+  left: 1em;
+  color: inherit;
+  cursor: pointer;
+  font-size: 0.75em;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--highlight);
+  }
+}

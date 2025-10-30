@@ -1,0 +1,35 @@
+/*********** FOCUS AREA ***********/
+
+/* Cambio de color */
+#sq1 {
+}
+
+/* Cambio de forma */
+#sq2 {
+}
+
+/* Cambio de tamaño */
+#sq3 {
+}
+
+/* Cambio de opacidad */
+#sq4 {
+}
+
+/* Multiples propiedades individuales */
+#sq5 {
+}
+
+/**********************************/
+
+body {
+  --square-size: 4em;
+  --knob-size: 2em;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 2em;
+}

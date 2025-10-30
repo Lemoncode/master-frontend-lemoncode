@@ -1,0 +1,28 @@
+#sq1 {
+  /* transform: translate(100%, -50%); */
+  /* transform: translateX(100%) translateY(-50%); */
+  translate: 100% -50%;
+}
+
+#sq2 {
+  /* transform: rotate(30deg); */
+  /* transform: rotateZ(30deg); */
+  rotate: 30deg;
+  /* rotate: z 30deg; */
+
+  transform-origin: top left;
+}
+
+#sq3 {
+  /* transform: scale(1.5); */
+  /* transform: scaleX(150%) scaleY(50%); */
+  scale: 0.7;
+  /* scale: 1.5 0.5; */
+
+  transform-origin: bottom left;
+}
+
+#sq4 {
+  /* transform: skew(15deg, 5deg); */
+  transform: skewY(10deg) rotateX(30deg);
+}

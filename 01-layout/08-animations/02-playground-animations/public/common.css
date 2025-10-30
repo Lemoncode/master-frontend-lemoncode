@@ -14,7 +14,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
   margin: 0;
   width: 100vw;
   height: 100vh;
@@ -42,4 +42,15 @@ a.back-link {
   &:hover {
     color: var(--highlight);
   }
+}
+
+.square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--square-size);
+  height: var(--square-size);
+  background-color: #fff;
+  color: #000;
+  border-radius: 0.5rem;
 }

@@ -40,7 +40,8 @@ section {
     font-weight: 300;
   }
 
-  & .container {
+  & .container,
+  &.container {
     display: flex;
     align-items: center;
     flex-wrap: wrap;

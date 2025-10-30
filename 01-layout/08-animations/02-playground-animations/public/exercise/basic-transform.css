@@ -26,18 +26,6 @@ body {
   gap: 2em;
 }
 
-.square {
-  width: var(--square-size);
-  height: var(--square-size);
-  color: #000;
-  background-color: #fff;
-  border-radius: 0.5em;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .transformed {
   background-color: var(--highlight);
 }

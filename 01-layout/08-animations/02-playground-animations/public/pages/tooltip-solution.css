@@ -1,0 +1,60 @@
+/*********** FOCUS AREA ***********/
+
+.tooltip {
+  translate: calc(-50% + var(--knob-size) / 2) calc(-100% - 1em);
+
+  transform: rotateX(90deg);
+  transform-origin: bottom;
+  transform-style: preserve-3d;
+
+  transition: transform, opacity;
+  transition-duration: 400ms;
+  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  opacity: 0;
+}
+
+.knob {
+  /* Perspective should be at parent element for 3D transform */
+  perspective: 600px;
+  perspective-origin: center top;
+
+  &:hover .tooltip {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+/**********************************/
+
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  background-color: #fff;
+  width: clamp(5em, 50vw, 20em);
+  height: auto;
+  padding: 0.5em;
+  font-family: "Fira Code", monospace;
+
+  /* :after {
+    content: "◣";
+  } */
+}
+
+.knob {
+  position: relative;
+  width: var(--knob-size);
+  height: var(--knob-size);
+  border-radius: 50%;
+  background-color: #ffffff77;
+  cursor: help;
+  margin-top: 8em;
+
+  &:hover {
+    background-color: var(--highlight);
+  }
+}
+
+body {
+  --item-size: 10em;
+  --knob-size: 2em;
+}

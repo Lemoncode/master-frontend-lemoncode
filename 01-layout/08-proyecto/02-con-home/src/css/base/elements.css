@@ -1,0 +1,40 @@
+body {
+  font-family: var(--font-body);
+  color: var(--text-85);
+  animation-name: page;
+  animation-duration: 1s;
+  line-height: 1.5;
+  font-size: var(--fs-sm);
+  display: flex;
+  flex-direction: column;
+
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    height: 100vh;
+    background-color: var(--bg-app);
+    background-image: radial-gradient(
+      circle,
+      var(--bg-dots) 1.5px,
+      transparent 1.5px
+    );
+    background-size: 30px 30px;
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+main {
+  flex-grow: 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-title);
+  color: var(--text-90);
+}

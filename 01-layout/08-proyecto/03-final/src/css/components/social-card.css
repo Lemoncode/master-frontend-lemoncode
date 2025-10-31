@@ -1,0 +1,53 @@
+@import '../utilities/mixins.css';
+@import '../base/media.css';
+
+.social-card {
+  height: 100%;
+  padding: var(--space-md);
+  background-color: var(--card-accent);
+  transition: all 0.3s ease;
+  color: var(--text-contrast);
+
+  @media (--small-viewport) {
+    padding: var(--space-xl);
+  }
+
+  @mixin hover {
+    border-color: var(--accent-color);
+    transform: translateY(5px);
+    box-shadow: var(--shadow-card);
+    .social-card__icon {
+      transform: scale(1.1);
+    }
+  }
+
+  &__header {
+    margin-bottom: var(--space-lg);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__icon {
+    font-size: var(--fs-lg);
+    color: var(--card-accent);
+    transition: all 0.3s ease;
+    background-color: var(--text-contrast);
+    padding: var(--space-sm);
+  }
+
+  &__title {
+    color: inherit;
+    font-size: var(--fs-lg);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  &__handle {
+    font-weight: 600;
+    font-size: var(--fs-md);
+  }
+}

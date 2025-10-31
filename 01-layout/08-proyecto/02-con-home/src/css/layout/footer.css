@@ -1,0 +1,37 @@
+@import '../base/media.css';
+
+.footer {
+  background-color: var(--accent-color-one);
+  border-top: 3px solid var(--border-color);
+  &__content {
+    font-weight: 600;
+    font-size: var(--fs-xs);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-contrast);
+    padding-top: var(--space-md);
+    padding-bottom: var(--space-md);
+    gap: var(--space-sm);
+    @media (--small-viewport) {
+      flex-direction: row;
+    }
+  }
+
+  &__social-links {
+    @media (--small-viewport) {
+      display: flex;
+      gap: var(--space-lg);
+    }
+  }
+  &__social-link {
+    @mixin hover {
+      color: var(--footer-link-hover);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1.5px;
+    }
+  }
+}

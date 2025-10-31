@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DEV NEWS - Noticias de Desarrollo Web</title>
+    <meta
+      name="description"
+      content="Mantente al día con las últimas noticias sobre desarrollo web. Frameworks modernos, herramientas, tutoriales y tendencias del ecosistema web."
+    />
+  </head>
+  <body>
+    <header class="header">
+      <nav class="nav container">
+        <ul class="nav__list">
+          <li>
+            <a
+              href="index.html"
+              class="nav__link nav__link--logo nav__link--active"
+              >DEV NEWS</a
+            >
+          </li>
+          <li>
+            <a href="contact.html" class="nav__link">Contacto</a>
+          </li>
+        </ul>
+        <label class="theme-toggle">
+          Dark mode:
+          <input
+            type="checkbox"
+            id="theme-toggle"
+            class="theme-toggle__input"
+          />
+        </label>
+      </nav>
+    </header>
+    <main class="main container">
+      <section class="hero">
+        <div class="hero__content">
+          <span class="hero__subtitle hero__subtitle--accent"
+            >Siempre al día</span
+          >
+          <span class="hero__subtitle">en las últimas noticias sobre </span>
+          <h1 class="hero__title">
+            <span class="hero__highlight hero__highlight--primary"
+              >desarrollo</span
+            >
+            <span class="hero__highlight hero__highlight--secondary">Web</span>
+          </h1>
+        </div>
+      </section>
+      <section class="articles">
+        <header class="articles__header">
+          <h2 class="articles__title">Últimas noticias</h2>
+          <p class="articles__description">
+            Contenido seleccionado de las mejores fuentes del ecosistema web.
+            Frameworks modernos, herramientas, tutoriales y las tendencias que
+            están definiendo el futuro del desarrollo.
+          </p>
+        </header>
+        <ul class="articles__list">
+          <li class="articles__item">
+            <a href="" class="articles__link">
+              <article class="card">
+                <img
+                  src="src/assets/p-1.webp"
+                  alt="Vite 5 lanzado: Novedades y mejoras clave"
+                  loading="lazy"
+                  width="350"
+                  class="card__image"
+                />
+                <div class="card__content">
+                  <h3 class="card__title">
+                    Vite 5 lanzado: Novedades y mejoras clave
+                  </h3>
+                  <p class="card__description">
+                    Vite 5 ya está aquí con mejoras significativas en el
+                    rendimiento, nuevas funcionalidades y soporte ampliado para
+                    frameworks populares. Descubre todo lo que trae esta nueva
+                    versión.
+                  </p>
+                </div>
+              </article>
+            </a>
+          </li>
+          <li class="articles__item">
+            <a href="" class="articles__link">
+              <article class="card card--text-only">
+                <div class="card__content">
+                  <h3 class="card__title">
+                    Guía completa de Tailwind CSS para principiantes
+                  </h3>
+                  <p class="card__description">
+                    Aprende a utilizar Tailwind CSS de manera efectiva con esta
+                    guía completa. Desde la instalación hasta la creación de
+                    componentes personalizados, cubrimos todo lo que necesitas
+                    saber.
+                  </p>
+                </div>
+              </article>
+            </a>
+          </li>
+
+          <!-- comentar este bloque para ver bien que hace auto-flow:dense -->
+          <li class="articles__item">
+            <a href="" class="articles__link">
+              <article class="card card--text-only">
+                <div class="card__content">
+                  <h3 class="card__title">
+                    Entrevista con los creadores de Vite: El futuro del
+                    desarrollo web
+                  </h3>
+                  <p class="card__description">
+                    En esta entrevista exclusiva, hablamos con los creadores de
+                    Vite sobre su visión para el futuro del desarrollo web y
+                    cómo planean abordar los desafíos emergentes en la
+                    industria.
+                  </p>
+                </div>
+              </article>
+            </a>
+          </li>
+
+          <li class="articles__item">
+            <a href="" class="articles__link">
+              <article class="card card--text-only">
+                <div class="card__content">
+                  <h3 class="card__title">
+                    Introducción a WebAssembly: Qué es y por qué importa
+                  </h3>
+                  <p class="card__description">
+                    Descubre qué es WebAssembly, cómo funciona y por qué está
+                    revolucionando el desarrollo web. Aprende cómo puedes
+                    aprovechar esta tecnología en tus propios proyectos.
+                  </p>
+                </div>
+              </article>
+            </a>
+          </li>
+
+          <li class="articles__item">
+            <a href="" class="articles__link">
+              <article class="card">
+                <img
+                  src="src/assets/p-2.webp"
+                  alt="Cómo optimizar el rendimiento de tu sitio web"
+                  loading="lazy"
+                  width="350"
+                  class="card__image"
+                />
+                <div class="card__content">
+                  <h3 class="card__title">
+                    Cómo optimizar el rendimiento de tu sitio web
+                  </h3>
+                  <p class="card__description">
+                    Descubre las mejores prácticas y técnicas para mejorar la
+                    velocidad y el rendimiento de tu sitio web. Desde la
+                    optimización de imágenes hasta la reducción de solicitudes
+                    HTTP, cubrimos todo lo que necesitas saber.
+                  </p>
+                </div>
+              </article>
+            </a>
+          </li>
+          <li class="articles__item">
+            <a href="" class="articles__link">
+              <article class="card">
+                <img
+                  src="src/assets/p-3.webp"
+                  alt="Desarrollo web accesible: Mejores prácticas y herramientas"
+                  loading="lazy"
+                  width="350"
+                  class="card__image"
+                />
+                <div class="card__content">
+                  <h3 class="card__title">
+                    Desarrollo web accesible: Mejores prácticas y herramientas
+                  </h3>
+                  <p class="card__description">
+                    Aprende cómo crear sitios web accesibles para todos los
+                    usuarios. Cubrimos las mejores prácticas, herramientas y
+                    recursos para garantizar que tu sitio cumpla con los
+                    estándares de accesibilidad.
+                  </p>
+                </div>
+              </article>
+            </a>
+          </li>
+
+          <li class="articles__item">
+            <a href="" class="articles__link">
+              <article class="card card--text-only">
+                <div class="card__content">
+                  <h3 class="card__title">
+                    Las mejores extensiones de VS Code para desarrolladores web
+                  </h3>
+                  <p class="card__description">
+                    Mejora tu flujo de trabajo con estas extensiones
+                    imprescindibles de VS Code para desarrolladores web. Desde
+                    herramientas de depuración hasta snippets de código, estas
+                    extensiones te ayudarán a ser más productivo.
+                  </p>
+                </div>
+              </article>
+            </a>
+          </li>
+          <li class="articles__item">
+            <a href="" class="articles__link">
+              <article class="card">
+                <img
+                  src="src/assets/p-4.webp"
+                  alt="10 librerías JavaScript imprescindibles en 2025"
+                  loading="lazy"
+                  width="350"
+                  class="card__image"
+                />
+                <div class="card__content">
+                  <h3 class="card__title">
+                    10 librerías JavaScript imprescindibles en 2025
+                  </h3>
+                  <p class="card__description">
+                    Explora las 10 librerías JavaScript que están marcando
+                    tendencia en 2025. Desde herramientas de visualización de
+                    datos hasta frameworks de desarrollo, estas librerías te
+                    ayudarán a llevar tus proyectos al siguiente nivel.
+                  </p>
+                </div>
+              </article>
+            </a>
+          </li>
+          <li class="articles__item">
+            <a href="" class="articles__link">
+              <article class="card">
+                <img
+                  src="src/assets/p-5.webp"
+                  alt="Tendencias de diseño web para 2025"
+                  loading="lazy"
+                  width="350"
+                  class="card__image"
+                />
+                <div class="card__content">
+                  <h3 class="card__title">
+                    Tendencias de diseño web para 2025
+                  </h3>
+                  <p class="card__description">
+                    Mantente al día con las últimas tendencias en diseño web
+                    para 2025. Desde el uso de colores vibrantes hasta la
+                    tipografía audaz, descubre qué estilos están dominando el
+                    panorama del diseño web.
+                  </p>
+                </div>
+              </article>
+            </a>
+          </li>
+          <li class="articles__item">
+            <a href="" class="articles__link">
+              <article class="card card--text-only">
+                <div class="card__content">
+                  <h3 class="card__title">
+                    Construyendo aplicaciones web progresivas (PWA)
+                  </h3>
+                  <p class="card__description">
+                    Aprende cómo crear aplicaciones web progresivas (PWA) que
+                    ofrecen una experiencia similar a la de las aplicaciones
+                    nativas. Cubrimos los conceptos básicos, las mejores
+                    prácticas y las herramientas necesarias para empezar.
+                  </p>
+                </div>
+              </article>
+            </a>
+          </li>
+
+          <li class="articles__item">
+            <a href="" class="articles__link">
+              <article class="card card--text-only">
+                <div class="card__content">
+                  <h3 class="card__title">
+                    Automatización del flujo de trabajo con GitHub Actions
+                  </h3>
+                  <p class="card__description">
+                    Aprende a utilizar GitHub Actions para automatizar tu flujo
+                    de trabajo de desarrollo. Desde la integración continua
+                    hasta el despliegue automático, cubrimos todo lo que
+                    necesitas saber para empezar.
+                  </p>
+                </div>
+              </article>
+            </a>
+          </li>
+          <li class="articles__item">
+            <a href="" class="articles__link">
+              <article class="card">
+                <img
+                  src="src/assets/p-6.webp"
+                  alt="Introducción a GraphQL: Ventajas y casos de uso"
+                  loading="lazy"
+                  width="350"
+                  class="card__image"
+                />
+                <div class="card__content">
+                  <h3 class="card__title">
+                    Introducción a GraphQL: Ventajas y casos de uso
+                  </h3>
+                  <p class="card__description">
+                    Descubre qué es GraphQL, sus ventajas sobre las API REST y
+                    cómo puedes utilizarlo en tus proyectos. Exploramos casos de
+                    uso comunes y mejores prácticas para implementar GraphQL de
+                    manera efectiva.
+                  </p>
+                </div>
+              </article>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </main>
+    <footer class="footer">
+      <div class="container footer__content">
+        <span class="footer__copyright"
+          >&copy; 2025 DEV NEWS - Web Development News</span
+        >
+        <nav class="footer__nav" aria-labelledby="footer-social-title">
+          <p class="footer__social-title" id="footer-social-title">
+            Síguenos en nuestras redes sociales:
+          </p>
+          <ul class="footer__social-links">
+            <li class="footer__social-item">
+              <a
+                href="https://twitter.com"
+                class="footer__social-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Twitter</a
+              >
+            </li>
+            <li class="footer__social-item">
+              <a
+                href="https://www.instagram.com"
+                class="footer__social-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Instagram</a
+              >
+            </li>
+            <li class="footer__social-item">
+              <a
+                href="https://www.linkedin.com"
+                class="footer__social-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                >LinkedIn</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+    <script type="module" src="/src/ts/main.ts"></script>
+  </body>
+</html>

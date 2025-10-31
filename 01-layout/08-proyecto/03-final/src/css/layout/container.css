@@ -1,0 +1,18 @@
+@import '../base/media.css';
+
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+
+  @media (--small-viewport) {
+    padding-left: var(--space-xl);
+    padding-right: var(--space-xl);
+  }
+  @media (--large-viewport) {
+    padding-left: var(--space-big-2);
+    padding-right: var(--space-big-2);
+  }
+}

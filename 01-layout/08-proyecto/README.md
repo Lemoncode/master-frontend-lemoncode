@@ -103,3 +103,15 @@ La estructura CSS sigue una metodología modular y escalable:
 ## Clases:
 
 Estamos utilizando clases CSS para mantener la especificidad baja y facilitar la reutilización de estilos. Para dar nombres a las clases estamos usando una convención basada en BEM (Block Element Modifier), intentando mantener los nombres simples y descriptivos.
+
+## Puedes ver cómo quedaría el proyecto final:
+
+Ir a la carpeta de imágenes:
+[imagenes del proyecto](./imagenes)
+
+- `home-desktop.webp` - Vista de escritorio de la página principal
+- `home-tablet.webp` - Vista tablet de la página principal
+- `home-mobile.webp` - Vista móvil de la página principal
+- `contact-desktop.webp` - Vista de escritorio de la página de contacto
+- `contact-tablet.webp` - Vista tablet de la página de contacto
+- `contact-mobile.webp` - Vista móvil de la página de contacto

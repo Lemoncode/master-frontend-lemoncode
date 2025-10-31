@@ -72,7 +72,20 @@
   align-items: center;
   list-style: none;
   row-gap: 1em;
-  & > first {
-    margin-top: 50vh;
+  padding: 0;
+  margin: 0;
+
+  /* Add artificial padding with pseudo-elements that count for scroll */
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    height: 50vh;
+    width: 1px;
   }
+}
+
+body {
+  /* Required for the artificial padding pseudo elements to work */
+  display: block;
 }

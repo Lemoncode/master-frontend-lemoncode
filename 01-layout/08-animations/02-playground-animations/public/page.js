@@ -14,44 +14,68 @@ const pageFileName = pathname.split("/").pop().replace(".html", "");
 
 // Check if "solution" query param exists
 const hasSolutionParam = searchParams.has("solution");
-
 console.log("Current page:", pageFileName);
 console.log("CSS Mode:", hasSolutionParam ? "solution" : "practice");
 
 // Determine which CSS file to load
-const cssFileName = hasSolutionParam ? `${pageFileName}-solution.css` : `${pageFileName}.css`;
+const targetCssFileName = hasSolutionParam ? `${pageFileName}-solution.css` : `${pageFileName}.css`;
 
-// Function to dynamically load CSS
+// Proceed to target CSS loading
+
+// Function to dynamically load CSS with Promise
 const loadCSS = cssPath => {
-  // Check if a link with this CSS already exists
-  const existingLink = document.querySelector(`link[href="${cssPath}"]`);
-  if (existingLink) {
-    console.log("CSS already loaded:", cssPath);
-    return;
-  }
+  return new Promise((resolve, reject) => {
+    // Check if a link with this CSS already exists
+    const existingLink = document.querySelector(`link[href="${cssPath}"]`);
+    if (existingLink) {
+      console.log("CSS already loaded:", cssPath);
+      resolve();
+      return;
+    }
 
-  // Create new link element
-  const link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.type = "text/css";
-  link.href = cssPath;
+    // Create new link element
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.type = "text/css";
+    link.href = cssPath;
 
-  // Add to head
-  document.head.appendChild(link);
+    // Handle load events
+    link.onload = () => {
+      console.log("CSS successfully loaded:", cssPath);
+      resolve();
+    };
 
-  console.log("CSS loaded:", cssPath);
+    link.onerror = () => {
+      console.error("Failed to load CSS:", cssPath);
+      reject(new Error(`Failed to load CSS: ${cssPath}`));
+    };
 
-  // Optional: Handle load events
-  link.onload = () => console.log("CSS successfully loaded:", cssPath);
-  link.onerror = () => console.error("Failed to load CSS:", cssPath);
+    // Add to head
+    document.head.appendChild(link);
+    console.log("CSS loading:", cssPath);
+  });
 };
 
-// Load the corresponding CSS
-loadCSS(cssFileName);
+// Load CSS and wait before continuing
+(async () => {
+  try {
+    // Add loading class to html element (always available)
+    document.documentElement.classList.add("loading");
+    // Proceed with loading
+    await loadCSS(targetCssFileName);
+    console.log("CSS loaded successfully, page ready to render");
+  } catch (error) {
+    console.error("CSS loading failed:", error);
+    // Fallback behavior if CSS fails to load
+  } finally {
+    // Remove loading class from html element to enable page content
+    document.documentElement.classList.remove("loading");
+  }
+})();
 
 // Usage examples:
 // URL: /pages/basic-transform.html → Loads: basic-transform.css
-// URL: /pages/basic-transform.html?solution=true → Loads: basic-transform-solution.css
+// URL: /pages/basic-transform.html?solution → Loads: basic-transform-solution.css
 
 /**
  * AFTER-Render phase

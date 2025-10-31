@@ -1,0 +1,40 @@
+/*********** FOCUS AREA ***********/
+
+/* Typefont morphing  */
+
+.placeholder {
+  & .text {
+    transition: all 125ms ease-in-out;
+    transform-origin: 0 50%;
+  }
+
+  &:hover .text {
+    font-weight: 700;
+    scale: 3;
+
+    /* Wrong idea to change font size, even with placeholders, CSS Jitter */
+    /* font-size: 2em; */
+  }
+}
+
+/**********************************/
+
+.text {
+  font-family: "Fira Code", monospace;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin-left: 2em;
+  padding: 0;
+  /* ⚠️ WARNING HERE */
+  row-gap: 1em;
+}
+
+body {
+  align-items: start;
+}

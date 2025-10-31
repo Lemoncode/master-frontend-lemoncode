@@ -1,0 +1,19 @@
+/*********** FOCUS AREA ***********/
+
+/* ... your code here ... */
+
+/**********************************/
+
+.list-item {
+  font-family: "Fira Code", monospace;
+  font-weight: 300;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  row-gap: 1em;
+}

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
 html {
   /* Default font, fluid size */
   font-family: "Work Sans", sans-serif;
@@ -5,6 +7,13 @@ html {
   font-weight: 400;
   font-style: normal;
   font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem);
+
+  /* Hide content if html.loading class is present. This class is set
+  by page script whenever we load programmatic CSS */
+  &.loading {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 
 body {

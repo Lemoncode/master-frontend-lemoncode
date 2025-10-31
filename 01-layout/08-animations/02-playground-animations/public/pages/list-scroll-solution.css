@@ -1,0 +1,78 @@
+/*********** FOCUS AREA ***********/
+
+/* CSS Scroll-driven animation - New spec, check compatibility */
+
+/* scroll() is based on the SCROLL POSITION of the container:
+    
+    animation: my-animation linear;
+    animation-timeline: scroll(nearest);
+*/
+
+/* view() is based on WHEN the element enters/exits the viewport 
+
+    animation: my-animation linear;
+    animation-timeline: view();
+*/
+
+@supports (animation-timeline: scroll()) {
+  .list-item {
+    animation: scroll-highlight cubic-bezier(0.5, 0, 0.5, 1) both;
+    animation-timeline: view();
+    /* Check difference */
+    /* animation-timeline: scroll(nearest);  */
+
+    /* Fine grain control to adjust entry and exit of each element in the
+    scroll viewport. Meaning: 
+     - entry 0% => start animation when element first starts to enter scroll viewport (0% progress).
+     - exit 100% => stort animation when element has completely exited scroll port (100% out) */
+    animation-range: entry 0% exit 100%;
+    /* You can narrow the area where the animation happens with something like */
+    /* animation-range: cover 30% cover 70%; */
+  }
+
+  @keyframes scroll-highlight {
+    0% {
+      transform: scale(0.5);
+      opacity: 0.2;
+      font-weight: 300;
+    }
+
+    40% {
+      font-weight: 300;
+    }
+
+    50% {
+      /* Máximo en el centro */
+      transform: scale(1.8);
+      opacity: 1;
+      font-weight: 700;
+    }
+
+    60% {
+      font-weight: 300;
+    }
+
+    100% {
+      transform: scale(0.5);
+      opacity: 0.2;
+    }
+  }
+}
+
+/**********************************/
+
+.list-item {
+  font-family: "Fira Code", monospace;
+  font-weight: 300;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+  row-gap: 1em;
+  & > first {
+    margin-top: 50vh;
+  }
+}

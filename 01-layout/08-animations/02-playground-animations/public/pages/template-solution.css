@@ -1,6 +1,10 @@
+/*********** FOCUS AREA ***********/
+
 .item {
   background-color: var(--highlight);
 }
+
+/**********************************/
 
 .knob {
   width: var(--knob-size);

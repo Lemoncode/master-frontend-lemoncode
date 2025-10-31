@@ -1,24 +1,28 @@
 console.log("Page script loading...");
 
+/**
+ * PRE-Render phase
+ */
+
 // Parse current URL
 const currentUrl = new URL(window.location.href);
 const pathname = currentUrl.pathname;
 const searchParams = currentUrl.searchParams;
 
 // Extract HTML file name (without extension)
-const fileName = pathname.split("/").pop().replace(".html", "");
+const pageFileName = pathname.split("/").pop().replace(".html", "");
 
 // Check if "solution" query param exists
-const loadSolution = searchParams.has("solution");
+const hasSolutionParam = searchParams.has("solution");
 
-console.log("Current file:", fileName);
-console.log("Load solution:", loadSolution ? "Yes" : "No");
+console.log("Current page:", pageFileName);
+console.log("CSS Mode:", hasSolutionParam ? "solution" : "practice");
 
 // Determine which CSS file to load
-const cssFileName = loadSolution ? `${fileName}-solution.css` : `${fileName}.css`;
+const cssFileName = hasSolutionParam ? `${pageFileName}-solution.css` : `${pageFileName}.css`;
 
 // Function to dynamically load CSS
-function loadCSS(cssPath) {
+const loadCSS = cssPath => {
   // Check if a link with this CSS already exists
   const existingLink = document.querySelector(`link[href="${cssPath}"]`);
   if (existingLink) {
@@ -40,7 +44,7 @@ function loadCSS(cssPath) {
   // Optional: Handle load events
   link.onload = () => console.log("CSS successfully loaded:", cssPath);
   link.onerror = () => console.error("Failed to load CSS:", cssPath);
-}
+};
 
 // Load the corresponding CSS
 loadCSS(cssFileName);
@@ -48,3 +52,17 @@ loadCSS(cssFileName);
 // Usage examples:
 // URL: /pages/basic-transform.html → Loads: basic-transform.css
 // URL: /pages/basic-transform.html?solution=true → Loads: basic-transform-solution.css
+
+/**
+ * AFTER-Render phase
+ */
+
+// Finally, once rendered, grab solution link and populate it according
+// to current page.
+document.addEventListener("DOMContentLoaded", () => {
+  const solutionLink = document.getElementById("solution");
+  if (!solutionLink) return;
+  solutionLink.innerText = hasSolutionParam ? "Exercise" : "Solution";
+  solutionLink.href = pathname + (hasSolutionParam ? "" : "?solution");
+  console.log(`Toggle for ${solutionLink.innerText} ready`);
+});

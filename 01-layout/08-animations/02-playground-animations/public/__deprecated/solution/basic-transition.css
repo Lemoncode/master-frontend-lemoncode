@@ -34,7 +34,7 @@
 
 /* Multiples propiedades individuales */
 #sq5 {
-  --square-size: 6em;
+  --item-size: 6em;
   transition: transform 300ms ease, background-color 300ms ease-out, box-shadow 300ms ease-in-out;
 
   &:hover {
@@ -47,7 +47,7 @@
 /**********************************/
 
 body {
-  --square-size: 4em;
+  --item-size: 4em;
   --knob-size: 2em;
 }
 

@@ -9,7 +9,7 @@ console.log("This is your playground, experiment with native CSS animations!");
 
 const sectionDefinition = [
   { title: "Transform", cardNames: ["Basic transform", "3D transform"] },
-  { title: "Transition", cardNames: ["Basic transition"] },
+  { title: "Transition", cardNames: ["Basic transition", "CSS Jitter"] },
 ];
 
 /**

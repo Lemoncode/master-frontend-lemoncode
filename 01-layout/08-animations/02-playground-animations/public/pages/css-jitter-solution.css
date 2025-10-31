@@ -1,0 +1,32 @@
+/*********** FOCUS AREA ***********/
+
+/* Simple solution with placeholder and positioning*/
+.placeholder {
+  /* Adjust placeholder shape to match item shape */
+  border-radius: 0.5em;
+  /* Visual hint for placeholder */
+  background-color: #ffffff11;
+
+  & .item {
+    transition: all 125ms ease-in-out;
+  }
+
+  &:hover .item {
+    scale: 0.1 0.1;
+    translate: 0 -125%;
+    border-radius: 50%;
+  }
+}
+
+/**********************************/
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  gap: 1em;
+}
+
+body {
+  --item-size: 3em;
+  --knob-size: 2em;
+}

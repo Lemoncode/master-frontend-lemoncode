@@ -62,13 +62,7 @@ section {
     }
 
     & a {
-      color: inherit;
-      cursor: pointer;
       font-size: 0.75em;
-
-      &:hover {
-        color: var(--highlight);
-      }
     }
   }
 }

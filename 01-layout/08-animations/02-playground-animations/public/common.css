@@ -30,26 +30,35 @@ body {
   }
 }
 
-a.back-link {
-  position: fixed;
-  top: 1em;
-  left: 1em;
+a {
   color: inherit;
   cursor: pointer;
   font-size: 0.75em;
-  text-decoration: none;
 
   &:hover {
     color: var(--highlight);
   }
+
+  &.back-link {
+    position: fixed;
+    top: 1em;
+    left: 1em;
+    text-decoration: none;
+  }
+  &.solution-link {
+    position: fixed;
+    top: 1em;
+    right: 1em;
+    text-decoration: none;
+  }
 }
 
-.square {
+.item {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--square-size);
-  height: var(--square-size);
+  width: var(--item-size);
+  height: var(--item-size);
   background-color: #fff;
   color: #000;
   border-radius: 0.5rem;

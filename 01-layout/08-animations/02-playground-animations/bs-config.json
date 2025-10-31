@@ -1,5 +1,6 @@
 {
   "port": 3000,
   "files": ["./public/**/*.{html,htm,css,js,svg}"],
-  "server": { "baseDir": "./public" }
+  "server": { "baseDir": "./public" },
+  "notify": false
 }

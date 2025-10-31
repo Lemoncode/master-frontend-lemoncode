@@ -3,3 +3,8 @@
 /* ... your code here ... */
 
 /**********************************/
+
+body {
+  --item-size: 10em;
+  --knob-size: 2em;
+}

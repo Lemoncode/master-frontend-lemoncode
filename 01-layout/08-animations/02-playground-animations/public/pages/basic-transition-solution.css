@@ -1,4 +1,6 @@
-/* Cambio de color */
+/*********** FOCUS AREA ***********/
+
+/* Change color */
 #sq1 {
   transition: background-color 500ms ease;
   &:hover {
@@ -6,7 +8,7 @@
   }
 }
 
-/* Cambio de forma */
+/* Change shape */
 #sq2 {
   transition: border-radius 400ms ease-in-out;
   &:hover {
@@ -14,7 +16,7 @@
   }
 }
 
-/* Cambio de tamaño */
+/* Change size */
 #sq3 {
   transition: transform 250ms ease-out;
   &:hover {
@@ -22,7 +24,7 @@
   }
 }
 
-/* Cambio de opacidad */
+/* Change opacity */
 #sq4 {
   transition: opacity 200ms ease;
   &:hover {
@@ -30,14 +32,29 @@
   }
 }
 
-/* Multiples propiedades individuales */
+/* Multiple changes / all changes*/
 #sq5 {
-  --square-size: 6em;
+  --item-size: 6em;
   transition: transform 300ms ease, background-color 300ms ease-out, box-shadow 300ms ease-in-out;
+  /* transition: all 300ms ease-in-out; */
 
   &:hover {
     transform: scale(1.3);
     background-color: var(--highlight);
     box-shadow: 0 0 20px 0px rgba(255, 255, 255, 0.35);
   }
+}
+
+/**********************************/
+
+body {
+  --item-size: 4em;
+  --knob-size: 2em;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 2em;
 }

@@ -15,7 +15,7 @@
 /**********************************/
 
 body {
-  --square-size: 4em;
+  --item-size: 4em;
   --knob-size: 2em;
 }
 

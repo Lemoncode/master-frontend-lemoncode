@@ -1,29 +1,30 @@
 /*********** FOCUS AREA ***********/
 
-/* Cambio de color */
+/* Change color */
 #sq1 {
 }
 
-/* Cambio de forma */
+/* Change shape */
 #sq2 {
 }
 
-/* Cambio de tamaño */
+/* Change size */
 #sq3 {
 }
 
-/* Cambio de opacidad */
+/* Change opacity */
 #sq4 {
 }
 
-/* Multiples propiedades individuales */
+/* Multiple changes */
 #sq5 {
+  --item-size: 6em;
 }
 
 /**********************************/
 
 body {
-  --square-size: 4em;
+  --item-size: 4em;
   --knob-size: 2em;
 }
 

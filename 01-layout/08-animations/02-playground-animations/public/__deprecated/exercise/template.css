@@ -29,6 +29,6 @@
 }
 
 body {
-  --square-size: 10em;
+  --item-size: 10em;
   --knob-size: 2em;
 }

@@ -1,0 +1,43 @@
+@import '../utilities/mixins.css';
+
+.card {
+  height: 100%;
+  border: 3px solid var(--border-color);
+  transition: all 0.3s ease;
+  overflow: hidden; /* Prevent image overflow on hover */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  font-size: var(--fs-xs);
+
+  &__content {
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  &__title {
+    font-size: var(--fs-md);
+    line-height: 1.25;
+    transition: all 0.3s ease;
+  }
+
+  &__image {
+    flex-grow: 1;
+    width: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+  }
+
+  @mixin hover {
+    border: 3px solid var(--card-accent);
+    box-shadow: var(--shadow-card);
+    .card__title {
+      color: var(--card-accent);
+    }
+    .card__image {
+      transform: scale(1.05);
+    }
+  }
+}

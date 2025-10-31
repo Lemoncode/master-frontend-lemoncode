@@ -1,0 +1,113 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+
+  /* Todavia no sé si quedarmelo o no, probar a ver la web en windows y comparar en mac*/
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Allow percentage-based heights in the application, small support */
+/* https://caniuse.com/mdn-css_properties_interpolate-size_allow-keywords */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  font-family: system-ui, sans-serif;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  /* evitamos margenes raros en las imagenes, que es debido a que estas se alinean con la linea base del texto
+y por eso tienen un espacio abajo */
+  display: block;
+  max-width: 100%;
+}
+
+h1 {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+p {
+  /* This can */
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+}
+
+/*Si sólo usamos reset */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* OPCIONAL: */
+
+body {
+  min-height: 100svh; /* personalmente me gusta usar svh en vez de vh o dvh */
+  min-width: 360px; /* para evitar que la web se vea mal en pantallas muy pequeñas */
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button,
+label,
+select,
+summary,
+[role='button'] {
+  cursor: pointer;
+}
+
+textarea {
+  resize: vertical; /* o resize: none; si no queremos que se pueda redimensionar */
+}

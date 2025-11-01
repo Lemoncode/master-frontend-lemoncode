@@ -11,7 +11,15 @@ const sectionDefinition = [
   { title: "Transform", cardNames: ["Basic transform", "3D transform"] },
   {
     title: "Transition",
-    cardNames: ["Basic transition", "Entrance", "Cool icons", "CSS Jitter", "Tooltip", "List pick"],
+    cardNames: [
+      "Basic transition",
+      "Entrance",
+      "Cool icons",
+      "CSS Jitter",
+      "List pick",
+      "Tooltip",
+      "Anagram",
+    ],
   },
   { title: "Animation", cardNames: ["List scroll", "Gallery flip"] },
 ];

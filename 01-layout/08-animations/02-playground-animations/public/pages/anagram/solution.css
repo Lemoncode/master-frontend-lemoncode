@@ -1,0 +1,125 @@
+/*********** FOCUS AREA ***********/
+
+body {
+  perspective: 350px;
+}
+
+.anagram {
+  perspective: 300px;
+
+  /* Full anagram transition */
+  transition: transform 0.5s ease-in-out, color 0.8s ease-in 1.2s;
+
+  span {
+    /* Letter transition */
+    transition: transform 2s var(--linear-spring);
+  }
+  #e {
+    transition-delay: 0.5s;
+  }
+  #v {
+    transition-delay: 1s;
+  }
+  #i {
+    transition-delay: 1.5s;
+  }
+  #l {
+    transition-delay: 2s;
+  }
+  #horns {
+    transition: opacity 0.8s ease-in 1.2s;
+  }
+}
+
+.knob:has(input:checked) ~ .anagram {
+  /* Full anagram modifications */
+  transform: rotateY(180deg);
+  color: red;
+
+  span {
+    /* Letter modifications */
+    transform: rotateY(-180deg);
+  }
+  #horns {
+    opacity: 1;
+  }
+}
+
+@keyframes flip {
+  from: {
+    transform: rotateY(180deg);
+  }
+}
+
+/**********************************/
+
+body {
+  flex-direction: column-reverse;
+}
+
+.anagram {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  font-family: "Fira Code", monospace;
+  font-size: 5rem;
+  font-weight: 700;
+  line-height: 1;
+
+  & > span {
+    padding: 1rem 0.25rem;
+    border-radius: 0.25rem;
+  }
+  #horns {
+    position: absolute;
+    transform: scale(0.35) translate(-48%, -402%) rotate(-45deg);
+    opacity: 0;
+  }
+}
+
+.knob {
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  background-color: #ffffff77;
+  cursor: pointer;
+
+  & input {
+    display: none;
+  }
+
+  &:hover {
+    background-color: var(--highlight);
+  }
+}
+
+:root {
+  /* Use to simulate more complex functions https://easingwizard.com/ */
+  --linear-spring: linear(
+    0 0%,
+    0.01 0.5%,
+    0.102 1.7%,
+    0.347 3.4%,
+    1 7.3%,
+    1.189 9%,
+    1.284 10.6%,
+    1.303 11.5%,
+    1.304 12.1%,
+    1.283 13.3%,
+    1.203 15.2%,
+    0.999 19.2%,
+    0.942 20.9%,
+    0.913 22.5%,
+    0.907 23.9%,
+    0.92 25.8%,
+    0.988 30.2%,
+    1.023 33.5%,
+    1.028 36.2%,
+    0.999 43.3%,
+    0.991 46.9%,
+    1 55.2%,
+    0.999 70.3%,
+    1 100%
+  );
+}

@@ -14,9 +14,17 @@ header {
   text-align: center;
 
   & .kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
     font-size: 1em;
     font-weight: 200;
     opacity: 0.75;
+    text-align: center;
+
+    .lemon {
+      width: 1.5em;
+    }
   }
 
   & .headline {

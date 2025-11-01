@@ -9,7 +9,39 @@
   }
 }
 
+.hamburger .line {
+  transition-property: rotate, translate, opacity;
+  transition-duration: 400ms;
+  transition-timing-function: cubic-bezier(0.4, 0.2, 0.12, 1.6);
+
+  input:checked ~ &#l1 {
+    rotate: -45deg;
+    translate: 0 0.24em;
+  }
+  input:checked ~ &#l2 {
+    opacity: 0;
+  }
+  input:checked ~ &#l3 {
+    rotate: 225deg;
+    translate: 0 -0.24em;
+  }
+}
+
 /**********************************/
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.12em;
+
+  .line {
+    width: 1em;
+    height: 0.12em;
+    background-color: #111;
+  }
+}
 
 .icon {
   position: relative;

@@ -1,0 +1,36 @@
+/*********** FOCUS AREA ***********/
+
+.chevron {
+  rotate: 90deg;
+  transition: rotate 400ms cubic-bezier(0.4, 0.2, 0.12, 1.6);
+
+  input:checked ~ & {
+    rotate: -90deg;
+  }
+}
+
+/**********************************/
+
+.icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  background-color: #ffffffdd;
+  color: #111;
+  cursor: pointer;
+  font-size: 4em;
+  line-height: 1;
+
+  & input {
+    /* appearance: none; */
+    display: none;
+  }
+
+  &:hover {
+    background-color: var(--highlight);
+  }
+}

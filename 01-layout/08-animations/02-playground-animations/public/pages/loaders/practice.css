@@ -1,0 +1,14 @@
+/*********** FOCUS AREA ***********/
+
+.loader-comet {
+  width: 4em;
+  height: 4em;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 0.2em solid #fff;
+  border-right: 0.2em solid transparent;
+  border-top-right-radius: 1px;
+  box-sizing: border-box;
+}
+
+/**********************************/

@@ -21,7 +21,7 @@ const sectionDefinition = [
       "Anagram",
     ],
   },
-  { title: "Animation", cardNames: ["List scroll", "Gallery flip"] },
+  { title: "Animation", cardNames: ["Loaders", "List scroll", "Gallery flip"] },
 ];
 
 /**

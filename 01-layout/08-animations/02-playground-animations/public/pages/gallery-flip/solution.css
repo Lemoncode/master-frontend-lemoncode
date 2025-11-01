@@ -1,12 +1,12 @@
 /*********** FOCUS AREA ***********/
 
 .item {
-  transition-property: scale, background-color;
+  transition-property: background-color, scale;
   transition-duration: 125ms;
   transition-timing-function: ease-in-out;
 
   &:hover {
-    scale: 1.1;
+    scale: 1.15;
   }
 
   &:has(input:checked) {
@@ -17,9 +17,9 @@
   &:has(input:not(:checked)) {
     /* Animation when unchecking */
     /* Option 1: animation composition works if no ⚠️ conflicting properties ⚠️*/
-    animation: puff-out-card 200ms ease-in 0ms forwards, spawn-card 200ms ease-out 200ms forwards;
+    animation: puff-out-card 200ms ease-in 0ms, spawn-card 200ms ease-out 200ms;
     /* Option 2: compose keyframes into a single animation with conflicting properties */
-    /* animation: reset-card 400ms ease-in-out forwards; */
+    /* animation: reset-card 400ms ease-in-out; */
   }
 }
 
@@ -114,9 +114,9 @@
     appearance: none;
   }
 
-  &:hover {
+  /* &:hover {
     background-color: #e0e0aa;
-  }
+  } */
 
   &:has(input:checked) {
     background-color: var(--highlight);

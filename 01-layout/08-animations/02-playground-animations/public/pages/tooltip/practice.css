@@ -1,0 +1,44 @@
+/*********** FOCUS AREA ***********/
+
+.tooltip {
+  translate: calc(-50% + var(--knob-size) / 2) calc(-100% - 1em);
+  /* Uncomment this to behave as a tooltip */
+  /* visibility: hidden; */
+}
+
+.knob {
+  &:hover .tooltip {
+    visibility: visible;
+  }
+}
+
+/**********************************/
+
+.tooltip {
+  /* position: absolute; */
+  pointer-events: none;
+  background-color: #fff;
+  width: clamp(5em, 50vw, 20em);
+  height: auto;
+  padding: 0.5em;
+  font-family: "Fira Code", monospace;
+}
+
+.knob {
+  /* position: relative; */
+  width: var(--knob-size);
+  height: var(--knob-size);
+  border-radius: 50%;
+  background-color: #ffffff77;
+  cursor: help;
+  margin-top: 8em;
+
+  &:hover {
+    background-color: var(--highlight);
+  }
+}
+
+body {
+  --item-size: 10em;
+  --knob-size: 2em;
+}

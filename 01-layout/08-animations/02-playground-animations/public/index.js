@@ -31,8 +31,8 @@ const createCardSection = (title, cardNames) => {
         return `
           <div class="card">
             <p>${name}</p>
-            <a href="/pages/${route}.html">Exercise</a>
-            <a href="/pages/${route}.html?solution">Solution</a>
+            <a href="/pages/${route}/practice.html">Practice</a>
+            <a href="/pages/${route}/solution.html">Solution</a>
           </div>
         `;
       })

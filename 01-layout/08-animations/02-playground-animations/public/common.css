@@ -10,10 +10,10 @@ html {
 
   /* Hide content if html.loading class is present. This class is set
   by page script whenever we load programmatic CSS */
-  &.loading {
+  /* &.loading {
     opacity: 0;
     pointer-events: none;
-  }
+  } */
 }
 
 body {
@@ -54,7 +54,7 @@ a {
     left: 1em;
     text-decoration: none;
   }
-  &.solution-link {
+  &.mode-link {
     position: fixed;
     top: 1em;
     right: 1em;

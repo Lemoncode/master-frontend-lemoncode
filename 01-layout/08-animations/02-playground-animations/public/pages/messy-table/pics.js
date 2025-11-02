@@ -78,8 +78,3 @@ for (let i = 0; i < imgCount; i++) {
 
   gallery?.appendChild(img);
 }
-
-// Clickin gallery removes
-gallery?.addEventListener("click", function () {
-  console.log("click gallery");
-});

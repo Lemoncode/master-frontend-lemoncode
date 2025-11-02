@@ -1,14 +1,65 @@
 /*********** FOCUS AREA ***********/
 
-.loader-comet {
-  width: 4em;
-  height: 4em;
-  border-radius: 50%;
-  display: inline-block;
-  border-top: 0.2em solid #fff;
+.spinner {
+  /* border-radius: 50%; */
+  border-top: 0.2em solid var(--theme-color);
   border-right: 0.2em solid transparent;
-  border-top-right-radius: 1px;
-  box-sizing: border-box;
+}
+
+.dots {
+  /*  */
+}
+
+.radar {
+  .beam {
+    /* border-radius: 50%; */
+    /* background: conic-gradient(transparent, 340deg, var(--theme-color)); */
+    /* We won't be able to get a radar beam with radial gradient */
+    background: radial-gradient(var(--theme-color), transparent);
+  }
+  .target {
+    /*  */
+  }
 }
 
 /**********************************/
+
+body {
+  --theme-color: #fff;
+  row-gap: 20vh;
+}
+
+.spinner {
+  width: 4em;
+  height: 4em;
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  span {
+    width: 1em;
+    height: 1em;
+    background-color: var(--theme-color);
+    border-radius: 50%;
+  }
+}
+
+.radar {
+  position: relative;
+
+  .beam {
+    width: 5em;
+    height: 5em;
+  }
+
+  .target {
+    position: absolute;
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 50%;
+    background-color: var(--theme-color);
+    translate: 2.25em -4.25em;
+  }
+}

@@ -29,33 +29,33 @@
     /* You can narrow the area where the animation happens with something like */
     /* animation-range: cover 30% cover 70%; */
   }
+}
 
-  @keyframes scroll-highlight {
-    0% {
-      transform: scale(0.5);
-      opacity: 0.2;
-      font-weight: 300;
-    }
+@keyframes scroll-highlight {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.2;
+    font-weight: 300;
+  }
 
-    40% {
-      font-weight: 300;
-    }
+  40% {
+    font-weight: 300;
+  }
 
-    50% {
-      /* Máximo en el centro */
-      transform: scale(1.8);
-      opacity: 1;
-      font-weight: 700;
-    }
+  50% {
+    /* Máximo en el centro */
+    transform: scale(1.8);
+    opacity: 1;
+    font-weight: 700;
+  }
 
-    60% {
-      font-weight: 300;
-    }
+  60% {
+    font-weight: 300;
+  }
 
-    100% {
-      transform: scale(0.5);
-      opacity: 0.2;
-    }
+  100% {
+    transform: scale(0.5);
+    opacity: 0.2;
   }
 }
 

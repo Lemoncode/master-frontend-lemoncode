@@ -10,24 +10,15 @@ body {
   /* Full anagram transition */
   transition: transform 0.5s ease-in-out, color 0.8s ease-in 1.2s;
 
+  /* prettier-ignore */
   span {
     /* Letter transition */
     transition: transform 2s var(--linear-spring);
-  }
-  #e {
-    transition-delay: 0.5s;
-  }
-  #v {
-    transition-delay: 1s;
-  }
-  #i {
-    transition-delay: 1.5s;
-  }
-  #l {
-    transition-delay: 2s;
-  }
-  #horns {
-    transition: opacity 0.8s ease-in 1.2s;
+    &:nth-child(4) { transition-delay: 0.5s; }
+    &:nth-child(3) { transition-delay: 1s; }
+    &:nth-child(2) { transition-delay: 1.5s; }
+    &:nth-child(1) { transition-delay: 2s; }
+    #horns { transition: opacity 0.8s ease-in 1.5s; }
   }
 }
 
@@ -42,12 +33,6 @@ body {
   }
   #horns {
     opacity: 1;
-  }
-}
-
-@keyframes flip {
-  from: {
-    transform: rotateY(180deg);
   }
 }
 
@@ -67,10 +52,6 @@ body {
   font-weight: 700;
   line-height: 1;
 
-  & > span {
-    padding: 1rem 0.25rem;
-    border-radius: 0.25rem;
-  }
   #horns {
     position: absolute;
     transform: scale(0.35) translate(-48%, -402%) rotate(-45deg);

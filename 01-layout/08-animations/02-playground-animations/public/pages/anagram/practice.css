@@ -18,10 +18,6 @@ body {
   font-weight: 700;
   line-height: 1;
 
-  & > span {
-    padding: 1rem 0.25rem;
-    border-radius: 0.25rem;
-  }
   #horns {
     position: absolute;
     transform: scale(0.35) translate(-48%, -402%) rotate(-45deg);

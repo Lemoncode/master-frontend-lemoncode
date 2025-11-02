@@ -1,23 +1,87 @@
 /*********** FOCUS AREA ***********/
 
-.loader-comet {
-  width: 4em;
-  height: 4em;
-  border-radius: 50%;
-  display: inline-block;
-  border-top: 0.2em solid #fff;
-  border-right: 0.2em solid transparent;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
+/* prettier-ignore */
+@keyframes rotate { 
+  from { rotate: 0turn; } to { rotate: 1turn; }
 }
 
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
+.spinner {
+  border-radius: 50%;
+  border-top: 0.2em solid var(--theme-color);
+  border-right: 0.2em solid transparent;
+  animation: rotate 1s linear infinite;
+}
+
+/* prettier-ignore */
+@keyframes pulse { 
+  from { scale: 0.2; opacity: 0 } to { scale: 1.4; opacity: 1; } 
+}
+
+.dots {
+  /* prettier-ignore */
+  span {
+    animation: pulse 600ms ease infinite alternate;
+    /* Progressive delays using nth-child */
+    &:nth-child(1) { animation-delay: 200ms; }
+    &:nth-child(2) { animation-delay: 400ms; }
+    &:nth-child(3) { animation-delay: 600ms; }
   }
-  100% {
-    transform: rotate(360deg);
+}
+
+/* prettier-ignore */
+@keyframes alert { 
+  0% { scale: 0.5; opacity: 1 } 10% { opacity: 1; } 20% { opacity: 0; scale: 3; } 100% { opacity: 0; scale: 3; } 
+}
+
+.radar {
+  .beam {
+    background: conic-gradient(transparent, 340deg, var(--theme-color));
+    animation: rotate 1.5s linear infinite;
+  }
+  .target {
+    animation: alert 1.5s ease-in infinite;
   }
 }
 
 /**********************************/
+
+body {
+  --theme-color: #fff;
+  row-gap: 20vh;
+}
+
+.spinner {
+  width: 4em;
+  height: 4em;
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  span {
+    width: 1em;
+    height: 1em;
+    background-color: var(--theme-color);
+    border-radius: 50%;
+  }
+}
+
+.radar {
+  position: relative;
+
+  .beam {
+    width: 5em;
+    height: 5em;
+    border-radius: 50%;
+  }
+
+  .target {
+    position: absolute;
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 50%;
+    background-color: var(--theme-color);
+    translate: 2.25em -4.25em;
+  }
+}

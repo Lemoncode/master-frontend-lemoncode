@@ -1,5 +1,7 @@
 /*********** FOCUS AREA ***********/
 
+/* Takeaway: Continuous animations */
+
 /* prettier-ignore */
 @keyframes rotate { 
   from { rotate: 0turn; } to { rotate: 1turn; }

@@ -1,5 +1,7 @@
 /*********** FOCUS AREA ***********/
 
+/* Takeaway: Animation composition, animations for physics-like motions */
+
 .item {
   transition-property: background-color, scale;
   transition-duration: 125ms;

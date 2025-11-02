@@ -1,0 +1,57 @@
+/*********** FOCUS AREA ***********/
+
+.gallery:has(img.selected)::after {
+  content: "";
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.75;
+}
+
+img {
+  transform: translate(var(--tx), var(--ty)) rotate(var(--rotation));
+  transition: transform 125ms ease-out, box-shadow 125ms ease-out;
+
+  &:hover:not(.selected) {
+    transform: translate(var(--tx), var(--ty)) rotate(var(--rotation)) scale(1.1);
+    box-shadow: 0px 0px 16px black;
+    z-index: 1;
+  }
+
+  &.selected {
+    transition-duration: 250ms;
+    transform: translate(0, 0) scale(2);
+    box-shadow: none;
+    z-index: 3;
+  }
+}
+
+/**********************************/
+
+body {
+  padding: 0;
+  a {
+    z-index: 9999;
+    text-shadow: 2px 2px 2px black;
+  }
+}
+
+img {
+  position: absolute;
+  border: 10px solid #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+  & input {
+    display: none;
+  }
+}
+
+.gallery {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}

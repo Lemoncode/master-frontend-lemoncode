@@ -1,6 +1,6 @@
-/*********** FOCUS AREA ***********/
+/* CONCEPTO CLAVE: Animaciones continuas */
 
-/* Takeaway: Continuous animations */
+/*********** FOCUS AREA ***********/
 
 /* prettier-ignore */
 @keyframes rotate { 
@@ -16,23 +16,25 @@
 
 /* prettier-ignore */
 @keyframes pulse { 
-  from { scale: 0.2; opacity: 0 } to { scale: 1.4; opacity: 1; } 
+  from { scale: 0.2; opacity: 0 } 
+  to { scale: 1.4; opacity: 1; } 
 }
 
-.dots {
-  /* prettier-ignore */
-  span {
+/* prettier-ignore */
+.dots span {
     animation: pulse 600ms ease infinite alternate;
     /* Progressive delays using nth-child */
     &:nth-child(1) { animation-delay: 200ms; }
     &:nth-child(2) { animation-delay: 400ms; }
     &:nth-child(3) { animation-delay: 600ms; }
-  }
 }
 
 /* prettier-ignore */
 @keyframes alert { 
-  0% { scale: 0.5; opacity: 1 } 10% { opacity: 1; } 20% { opacity: 0; scale: 3; } 100% { opacity: 0; scale: 3; } 
+  0% { scale: 0.5; opacity: 1 } 
+  10% { opacity: 1; } 
+  20% { opacity: 0; scale: 3; } 
+  100% { opacity: 0; scale: 3; } 
 }
 
 .radar {

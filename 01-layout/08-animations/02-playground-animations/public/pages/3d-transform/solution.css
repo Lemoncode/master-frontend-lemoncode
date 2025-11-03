@@ -1,54 +1,57 @@
 /*********** FOCUS AREA ***********/
+
+/* prettier-ignore */
 .container {
+  --half-size: calc(var(--item-size) / 2);
+
   position: relative;
   width: var(--item-size);
   height: var(--item-size);
+
   transform-style: preserve-3d;
+  /* Step 1: hover to reveal all sides, vanishing point aligned with cube center */
+  /* perspective: 15rem; */
+
+  /* Step 2: Move vanishing point with perspective-origin */
+  /* perspective-origin: 10em 8em; */
+  
+  /* Step 3: Transform container (all faces at once) for more real 3D */
   transform: perspective(15rem) rotateX(-30deg) rotateY(45deg);
 }
 
 #front {
-  transform: translateZ(calc(var(--item-size) / 2));
+  transform: translateZ(var(--half-size));
 }
-
 #right {
-  transform: rotateY(90deg) translateZ(calc(var(--item-size) / 2));
+  transform: rotateY(90deg) translateZ(var(--half-size));
 }
-
 #left {
-  transform: rotateY(-90deg) translateZ(calc(var(--item-size) / 2));
+  transform: rotateY(-90deg) translateZ(var(--half-size));
 }
-
-#back {
-  transform: rotateY(180deg) translateZ(calc(var(--item-size) / 2));
-}
-
 #top {
-  transform: rotateX(90deg) translateZ(calc(var(--item-size) / 2));
+  transform: rotateX(90deg) translateZ(var(--half-size));
+}
+#bottom {
+  transform: rotateX(-90deg) translateZ(var(--half-size));
 }
 
-#bottom {
-  transform: rotateX(-90deg) translateZ(calc(var(--item-size) / 2));
+.item {
+  &:hover {
+    opacity: 50%;
+    background-color: var(--highlight);
+  }
 }
 
 /**********************************/
 
 body {
-  --item-size: 5em;
-  --knob-size: 2em;
+  --item-size: 6em;
 }
 
 .item {
-  width: var(--item-size);
-  height: var(--item-size);
   position: absolute;
   border-radius: 0px;
   border: 1px dotted var(--highlight);
   box-sizing: border-box;
-  text-align: center;
-  line-height: var(--item-size);
-  &:hover {
-    opacity: 50%;
-    background-color: var(--highlight);
-  }
+  cursor: default;
 }

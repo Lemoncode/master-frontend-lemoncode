@@ -4,43 +4,36 @@
   position: relative;
   width: var(--item-size);
   height: var(--item-size);
+  left: calc(-1 * var(--item-size) / 2);
 }
 
 /* Initial 2D net layout*/
 #right {
   left: var(--item-size);
 }
-
-#back {
-  left: calc(var(--item-size) * 2);
-}
-
 #left {
   right: var(--item-size);
 }
-
+#top {
+  bottom: var(--item-size);
+}
 #bottom {
   top: var(--item-size);
 }
-
-#top {
-  bottom: var(--item-size);
+#back {
+  left: calc(var(--item-size) * 2);
 }
 
 /**********************************/
 
 body {
-  --item-size: 5em;
-  --knob-size: 2em;
+  --item-size: 6em;
 }
 
 .item {
-  width: var(--item-size);
-  height: var(--item-size);
   position: absolute;
   border-radius: 0px;
   border: 1px dotted var(--highlight);
   box-sizing: border-box;
-  text-align: center;
-  line-height: var(--item-size);
+  cursor: default;
 }

@@ -9,17 +9,16 @@
 /* prettier-ignore */
 @keyframes drop {
   from { translate: 0 -200%; }
-}
+} /* to: implícito = 0 */
 
 #clock {
   animation: wobble 1s var(--timing-wiggle) infinite;
-  transform: rotate(5deg);
 }
 
 /* prettier-ignore */
 @keyframes wobble {
-  from { transform-origin: 50% 200%; rotate: -5deg; }
-  to { transform-origin: 50% 200%; rotate: 5deg; }
+  from { transform-origin: 50% 200%; rotate: 0deg; }
+  to { transform-origin: 50% 200%; rotate: 10deg; }
 }
 
 #heart {

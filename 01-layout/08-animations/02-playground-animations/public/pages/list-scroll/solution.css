@@ -8,7 +8,7 @@
     animation-timeline: scroll(nearest);
 */
 
-/* view() is based on WHEN the element enters/exits the viewport 
+/* view() is based on the element entering/exiting the viewport 
 
     animation: my-animation linear;
     animation-timeline: view();
@@ -16,7 +16,7 @@
 
 @supports (animation-timeline: scroll()) {
   .list-item {
-    animation: scroll-highlight cubic-bezier(0.5, 0, 0.5, 1) both;
+    animation: scroll-highlight cubic-bezier(0.5, 0, 0.5, 1);
     animation-timeline: view();
     /* Check difference */
     /* animation-timeline: scroll(nearest);  */
@@ -37,22 +37,18 @@
     opacity: 0.2;
     font-weight: 300;
   }
-
   40% {
     font-weight: 300;
   }
-
   50% {
     /* Máximo en el centro */
     transform: scale(1.8);
     opacity: 1;
     font-weight: 700;
   }
-
   60% {
     font-weight: 300;
   }
-
   100% {
     transform: scale(0.5);
     opacity: 0.2;

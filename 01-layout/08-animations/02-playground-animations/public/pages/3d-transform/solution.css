@@ -1,10 +1,54 @@
 /*********** FOCUS AREA ***********/
+.container {
+  position: relative;
+  width: var(--item-size);
+  height: var(--item-size);
+  transform-style: preserve-3d;
+  transform: perspective(15rem) rotateX(-30deg) rotateY(45deg);
+}
 
-/* ... your code here ... */
+#front {
+  transform: translateZ(calc(var(--item-size) / 2));
+}
+
+#right {
+  transform: rotateY(90deg) translateZ(calc(var(--item-size) / 2));
+}
+
+#left {
+  transform: rotateY(-90deg) translateZ(calc(var(--item-size) / 2));
+}
+
+#back {
+  transform: rotateY(180deg) translateZ(calc(var(--item-size) / 2));
+}
+
+#top {
+  transform: rotateX(90deg) translateZ(calc(var(--item-size) / 2));
+}
+
+#bottom {
+  transform: rotateX(-90deg) translateZ(calc(var(--item-size) / 2));
+}
 
 /**********************************/
 
 body {
-  --item-size: 10em;
+  --item-size: 5em;
   --knob-size: 2em;
+}
+
+.item {
+  width: var(--item-size);
+  height: var(--item-size);
+  position: absolute;
+  border-radius: 0px;
+  border: 1px dotted var(--highlight);
+  box-sizing: border-box;
+  text-align: center;
+  line-height: var(--item-size);
+  &:hover {
+    opacity: 50%;
+    background-color: var(--highlight);
+  }
 }

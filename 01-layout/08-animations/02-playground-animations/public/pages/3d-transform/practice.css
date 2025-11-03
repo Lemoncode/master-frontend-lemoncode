@@ -1,10 +1,46 @@
 /*********** FOCUS AREA ***********/
 
-/* ... your code here ... */
+.container {
+  position: relative;
+  width: var(--item-size);
+  height: var(--item-size);
+}
+
+/* Initial 2D net layout*/
+#right {
+  left: var(--item-size);
+}
+
+#back {
+  left: calc(var(--item-size) * 2);
+}
+
+#left {
+  right: var(--item-size);
+}
+
+#bottom {
+  top: var(--item-size);
+}
+
+#top {
+  bottom: var(--item-size);
+}
 
 /**********************************/
 
 body {
-  --item-size: 10em;
+  --item-size: 5em;
   --knob-size: 2em;
+}
+
+.item {
+  width: var(--item-size);
+  height: var(--item-size);
+  position: absolute;
+  border-radius: 0px;
+  border: 1px dotted var(--highlight);
+  box-sizing: border-box;
+  text-align: center;
+  line-height: var(--item-size);
 }

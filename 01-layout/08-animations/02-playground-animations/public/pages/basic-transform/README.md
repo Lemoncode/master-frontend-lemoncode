@@ -29,18 +29,13 @@ translate: x y z; /* Los 3 ejes */
 ### Píxeles absolutos
 
 ```css
+/* Píxeles absolutos */
 transform: translate(50px, -100px); /* 50px derecha, 100px arriba */
-```
 
-### Porcentajes (relativo al propio elemento)
-
-```css
+/* Porcentajes (relativo al propio elemento) */
 transform: translate(50%, -50%); /* 50% de su ancho a la derecha, 50% de su alto hacia arriba */
-```
 
-### Otras unidades
-
-```css
+/* Otras unidades */
 transform: translate(2em, 1rem); /* Con unidades relativas */
 transform: translate(10vw, 5vh); /* Relativo al viewport */
 ```
@@ -50,27 +45,21 @@ transform: translate(10vw, 5vh); /* Relativo al viewport */
 ### Múltiples `transform` o `translate` (❌ Solo aplica el último)
 
 ```css
+/* Múltiples `transform` o `translate` (❌ Solo aplica el último) */
+
 transform: translate(20%, -30%); /* ❌ Se sobrescribe */
 transform: translateX(20%) translateY(-50%); /* ❌ Se sobrescribe */
 transform: translate(10%); /* ✅ Esta es la que aplica */
-```
 
-```css
 translate: 0 -100%; /* ❌ Se sobrescribe */
 translate: 100px 50rem; /* ❌ Se sobrescribe */
 translate: 10%; /* ✅ Esta es la que aplica */
-```
 
-### Múltiples funciones en `transform` (✅ Son acumulativas)
-
-```css
+/* Múltiples funciones en `transform` (✅ Son acumulativas) */
 transform: translate(100%, -50%) translateX(-100%); /* ⚠️ El segundo movimiento X deshace al primero */
 /* Resultado, 0%, -50% */
-```
 
-### Combinación `transform` con propiedad explícita (✅ También se acumulan)
-
-```css
+/* Combinación `transform` con propiedad explícita (✅ También se acumulan) */
 transform: translate(-100%, -50%); /* ✅ Se aplica */
 translate: 100%; /* ✅ Esta es la que se acumula junto a la anterior */
 /* Resultado, 0%, -50% */
@@ -134,41 +123,30 @@ rotate: x y z angle; /* Vector 3D */
 
 ## Unidades de medida
 
-### Grados (más común):
-
 ```css
+/* Grados (más común) */
 transform: rotate(45deg); /* 45 grados en sentido horario */
 transform: rotate(-90deg); /* 90 grados en sentido antihorario */
-```
 
-### Radianes:
-
-```css
+/* Radianes */
 transform: rotate(1.57rad); /* π/2 radianes = 90 grados */
 transform: rotate(-3.14rad); /* -π radianes = -180 grados */
-```
 
-### Turns (vueltas completas):
-
-```css
+/* Turns (vueltas completas) */
 transform: rotate(0.25turn); /* 1/4 de vuelta = 90 grados */
 transform: rotate(1turn); /* Vuelta completa = 360 grados */
 ```
 
 ## Punto de rotación con `transform-origin`
 
-### Valores predefinidos:
-
 ```css
+/* Valores predefinidos */
 transform-origin: center; /* Por defecto - centro del elemento */
 transform-origin: top left; /* Esquina superior izquierda */
 transform-origin: bottom right; /* Esquina inferior derecha */
 transform-origin: top; /* Centro superior */
-```
 
-### Valores personalizados:
-
-```css
+/* Valores personalizados */
 transform-origin: 50% 50%; /* Centro (igual que center) */
 transform-origin: 0 0; /* Esquina superior izquierda */
 transform-origin: 20px 30px; /* Punto específico en píxeles */
@@ -176,22 +154,15 @@ transform-origin: 20px 30px; /* Punto específico en píxeles */
 
 ## Particularidades
 
-### Múltiples `transform` (❌ Solo aplica el último):
-
 ```css
+/* Múltiples `transform` (❌ Solo aplica el último) */
 transform: rotate(30deg); /* ❌ Se sobrescribe */
 transform: rotateZ(45deg); /* ✅ Esta es la que aplica */
-```
 
-### Múltiples funciones en `transform` (✅ Son acumulativas):
-
-```css
+/* Múltiples funciones en `transform` (✅ Son acumulativas) */
 transform: rotate(30deg) rotateX(45deg); /* ✅ Rota 30° en Z y 45° en X */
-```
 
-### Combinación `transform` con propiedad explícita (✅ También se acumulan):
-
-```css
+/* Combinación `transform` con propiedad explícita (✅ También se acumulan) */
 transform: rotate(30deg); /* ✅ Se aplica */
 rotate: 45deg; /* ✅ Se acumula (75° total) */
 ```
@@ -278,25 +249,18 @@ scale: x y z; /* Los 3 ejes */
 
 ## Valores de escala
 
-### Números decimales:
-
 ```css
+/* Números decimales */
 transform: scale(1); /* Tamaño original (sin cambio) */
 transform: scale(1.5); /* 150% del tamaño original */
 transform: scale(0.5); /* 50% del tamaño original */
 transform: scale(2, 0.5); /* Doble ancho, mitad alto */
-```
 
-### Porcentajes:
-
-```css
+/* Porcentajes */
 scale: 70%; /* 70% del tamaño original */
 scale: 150% 80%; /* 150% ancho, 80% alto */
-```
 
-### Valores negativos (flip + escala):
-
-```css
+/* Valores negativos (flip + escala) */
 transform: scale(-1, 1); /* Flip horizontal */
 transform: scale(1, -1); /* Flip vertical */
 transform: scale(-1, -1); /* Flip horizontal y vertical */
@@ -304,39 +268,28 @@ transform: scale(-1, -1); /* Flip horizontal y vertical */
 
 ## Punto de escala con `transform-origin`
 
-### Valores predefinidos:
-
 ```css
+/* Valores predefinidos */
 transform-origin: center; /* Por defecto - centro del elemento */
 transform-origin: top left; /* Desde esquina superior izquierda */
 transform-origin: bottom right; /* Desde esquina inferior derecha */
-```
 
-### Valores personalizados:
-
-```css
+/* Valores personalizados */
 transform-origin: 0 0; /* Desde esquina superior izquierda */
 transform-origin: 100% 100%; /* Desde esquina inferior derecha */
 ```
 
 ## Particularidades
 
-### Múltiples `transform` (❌ Solo aplica el último):
-
 ```css
+/* Múltiples `transform` (❌ Solo aplica el último) */
 transform: scale(1.5); /* ❌ Se sobrescribe */
 transform: scaleX(2); /* ✅ Esta es la que aplica */
-```
 
-### Múltiples funciones en `transform` (✅ Son acumulativas):
-
-```css
+/* Múltiples funciones en `transform` (✅ Son acumulativas) */
 transform: scale(1.5) scaleX(2); /* ✅ Escala 1.5 general + 2x en X = 3x en X, 1.5x en Y */
-```
 
-### Combinación `transform` con propiedad explícita (✅ También se acumulan):
-
-```css
+/* Combinación `transform` con propiedad explícita (✅ También se acumulan) */
 transform: scale(1.5); /* ✅ Se aplica */
 scale: 2; /* ✅ Se acumula (3x total) */
 ```
@@ -415,48 +368,27 @@ A diferencia de `translate`, `rotate` y `scale`, **no existe** una propiedad `sk
 
 ## Unidades de medida
 
-### Grados (más común):
-
 ```css
+/* Grados (más común) */
 transform: skew(15deg, 0deg); /* 15° en X, sin inclinación en Y */
 transform: skewX(10deg); /* 10° de inclinación horizontal */
 transform: skewY(-5deg); /* -5° de inclinación vertical */
-```
 
-### Radianes:
-
-```css
+/* Radianes */
 transform: skewX(0.26rad); /* ~15 grados en radianes */
-```
-
-## Punto de deformación con `transform-origin`
-
-### Valores predefinidos:
-
-```css
-transform-origin: center; /* Por defecto - centro del elemento */
-transform-origin: top left; /* Desde esquina superior izquierda */
-transform-origin: bottom; /* Desde centro inferior */
 ```
 
 ## Particularidades
 
-### Múltiples `transform` (❌ Solo aplica el último):
-
 ```css
+/* Múltiples `transform` (❌ Solo aplica el último) */
 transform: skewX(10deg); /* ❌ Se sobrescribe */
 transform: skewY(5deg); /* ✅ Esta es la que aplica */
-```
 
-### Múltiples funciones en `transform` (✅ Son acumulativas):
-
-```css
+/* Múltiples funciones en `transform` (✅ Son acumulativas) */
 transform: skewX(10deg) skewY(5deg); /* ✅ Inclina 10° en X y 5° en Y */
-```
 
-### ⚠️ No se puede combinar con propiedad independiente:
-
-```css
+/* ⚠️ No se puede combinar con propiedad independiente */
 transform: skewX(10deg); /* ✅ Se aplica */
 /* skew: 5deg; */ /* ❌ Esta propiedad NO existe */
 ```

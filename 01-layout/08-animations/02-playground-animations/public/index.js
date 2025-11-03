@@ -19,9 +19,10 @@ const sectionDefinition = [
       "List pick",
       "Tooltip",
       "Anagram",
+      "Messy table A",
     ],
   },
-  { title: "Animation", cardNames: ["Loaders", "List scroll", "Gallery flip", "Messy table"] },
+  { title: "Animation", cardNames: ["Loaders", "List scroll", "Gallery flip", "Messy table B"] },
 ];
 
 /**

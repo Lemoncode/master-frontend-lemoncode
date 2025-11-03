@@ -22,7 +22,10 @@ const sectionDefinition = [
       "Messy table A",
     ],
   },
-  { title: "Animation", cardNames: ["Loaders", "List scroll", "Gallery flip", "Messy table B"] },
+  {
+    title: "Animation",
+    cardNames: ["Loaders", "Attention", "List scroll", "Gallery flip", "Messy table B"],
+  },
 ];
 
 /**

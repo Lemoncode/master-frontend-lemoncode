@@ -1,3 +1,5 @@
+/* CONCEPTO CLAVE: Transformaciones en 3D */
+
 /*********** FOCUS AREA ***********/
 
 .container {
@@ -7,7 +9,7 @@
   left: calc(-1 * var(--item-size) / 2);
 }
 
-/* Initial 2D net layout*/
+/* Disposición en plano 2D (opcional, solo para visualizar la "net") */
 #right {
   left: var(--item-size);
 }
@@ -30,6 +32,7 @@ body {
   --item-size: 6em;
 }
 
+/* Estilo general de las caras */
 .item {
   position: absolute;
   border-radius: 0px;

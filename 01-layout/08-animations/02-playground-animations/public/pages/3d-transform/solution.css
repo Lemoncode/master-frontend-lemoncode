@@ -1,3 +1,5 @@
+/* CONCEPTO CLAVE: Transformaciones en 3D */
+
 /*********** FOCUS AREA ***********/
 
 /* prettier-ignore */
@@ -9,13 +11,14 @@
   height: var(--item-size);
 
   transform-style: preserve-3d;
-  /* Step 1: hover to reveal all sides, vanishing point aligned with cube center */
+  /* Paso 1: hover para revelar todas las caras */
+  /* Punto de fuga alineado con el centro del cubo */
   /* perspective: 15rem; */
 
-  /* Step 2: Move vanishing point with perspective-origin */
+  /* Paso 2: Mover el punto de fuga con perspective-origin */
   /* perspective-origin: 10em 8em; */
   
-  /* Step 3: Transform container (all faces at once) for more real 3D */
+  /* Paso 3: Transformar el contenedor (todas las caras a la vez) para un 3D más realista */
   transform: perspective(15rem) rotateX(-30deg) rotateY(45deg);
 }
 

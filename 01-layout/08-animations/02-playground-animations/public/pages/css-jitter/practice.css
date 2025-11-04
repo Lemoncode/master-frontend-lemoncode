@@ -1,10 +1,11 @@
-/*********** FOCUS AREA ***********/
-
-/* CSS Jitter on hovering  */
+/* CONCEPTO CLAVE: CSS Jitter  */
 /* https://css-tricks.com/avoid-css-jitter/ */
+
+/*********** FOCUS AREA ***********/
 
 .item {
   transition: all 125ms ease-in-out;
+
   &:hover {
     scale: 0.1 0.1;
     translate: 0 -125%;

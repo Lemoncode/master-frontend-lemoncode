@@ -1,10 +1,13 @@
+/* CONCEPTO CLAVE: CSS Jitter  */
+/* https://css-tricks.com/avoid-css-jitter/ */
+
 /*********** FOCUS AREA ***********/
 
-/* Simple solution with placeholder and positioning*/
+/* Solución sencilla con placeholder/container wrapper */
 .placeholder {
-  /* Adjust placeholder shape to match item shape */
+  /* Importante ajustar la forma del placeholder idéntica a la del item */
   border-radius: 0.5em;
-  /* Visual hint for placeholder */
+  /* Ayuda visual para reconocer el placeholder */
   background-color: #ffffff11;
 
   & .item {
@@ -28,5 +31,4 @@
 
 body {
   --item-size: 3em;
-  --knob-size: 2em;
 }

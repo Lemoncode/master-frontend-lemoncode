@@ -1,0 +1,36 @@
+/*********** FOCUS AREA ***********/
+
+.item {
+  background-color: var(--highlight);
+}
+
+/**********************************/
+
+.knob {
+  width: var(--knob-size);
+  height: var(--knob-size);
+  border-radius: 50%;
+  background-color: #ffffff77;
+
+  & input {
+    appearance: none;
+  }
+
+  &:hover {
+    background-color: var(--highlight);
+  }
+
+  &:has(input) {
+    cursor: pointer;
+  }
+
+  &:has(input:checked) {
+    background-color: var(--highlight);
+    opacity: 0.75;
+  }
+}
+
+body {
+  --item-size: 10em;
+  --knob-size: 2em;
+}

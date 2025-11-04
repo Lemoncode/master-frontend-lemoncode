@@ -1,0 +1,31 @@
+/*********** FOCUS AREA ***********/
+
+/* ... code ... */
+
+/**********************************/
+
+.item {
+  cursor: pointer;
+
+  & input {
+    appearance: none;
+  }
+
+  &:hover {
+    background-color: #e0e0aa;
+  }
+
+  &:has(input:checked) {
+    background-color: var(--highlight);
+  }
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: 1em;
+}
+
+body {
+  --item-size: 3em;
+}

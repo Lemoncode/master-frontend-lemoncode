@@ -1,0 +1,63 @@
+/* CONCEPTO CLAVE: Transformaciones en 3D */
+
+/*********** FOCUS AREA ***********/
+
+/* prettier-ignore */
+.container {
+  --half-size: calc(var(--item-size) / 2);
+
+  position: relative;
+  width: var(--item-size);
+  height: var(--item-size);
+
+  transform-style: preserve-3d;
+  /* Paso 1: hover para revelar todas las caras */
+  /* Punto de fuga alineado con el centro del cubo */
+  /* perspective: 15rem; */
+
+  /* Paso 2: Mover el punto de fuga con perspective-origin */
+  /* perspective-origin: 10em 8em; */
+  
+  /* Paso 3: Transformar el contenedor (todas las caras a la vez) para un 3D más realista */
+  transform: perspective(15rem) rotateX(-30deg) rotateY(45deg);
+}
+
+#front {
+  transform: translateZ(var(--half-size));
+}
+#right {
+  transform: rotateY(90deg) translateZ(var(--half-size));
+}
+#left {
+  transform: rotateY(-90deg) translateZ(var(--half-size));
+}
+#top {
+  transform: rotateX(90deg) translateZ(var(--half-size));
+}
+#bottom {
+  transform: rotateX(-90deg) translateZ(var(--half-size));
+}
+#back {
+  transform: rotateY(-180deg) translateZ(var(--half-size));
+}
+
+.item {
+  &:hover {
+    opacity: 50%;
+    background-color: var(--highlight);
+  }
+}
+
+/**********************************/
+
+body {
+  --item-size: 6em;
+}
+
+.item {
+  position: absolute;
+  border-radius: 0px;
+  border: 1px dotted var(--highlight);
+  box-sizing: border-box;
+  cursor: default;
+}

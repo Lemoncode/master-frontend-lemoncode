@@ -1,0 +1,38 @@
+/* CONCEPTO CLAVE: Fundamentos de transition */
+
+/*********** FOCUS AREA ***********/
+
+/* Change color */
+#sq1 {
+}
+
+/* Change shape */
+#sq2 {
+}
+
+/* Change size */
+#sq3 {
+}
+
+/* Change opacity */
+#sq4 {
+}
+
+/* Multiple changes */
+#sq5 {
+  --item-size: 6em;
+}
+
+/**********************************/
+
+body {
+  --item-size: 4em;
+  --knob-size: 2em;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 2em;
+}

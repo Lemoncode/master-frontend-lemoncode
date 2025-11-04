@@ -1,0 +1,35 @@
+/* CONCEPTO CLAVE: Aproximación simple con transitions y estado 'selected' */
+
+/*********** FOCUS AREA ***********/
+
+/* ... code ... */
+
+/**********************************/
+
+body {
+  padding: 0;
+  a {
+    z-index: 9999;
+    text-shadow: 2px 2px 2px black;
+  }
+}
+
+img {
+  position: absolute;
+  border: 10px solid #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+  & input {
+    display: none;
+  }
+}
+
+.gallery {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}

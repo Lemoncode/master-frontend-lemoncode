@@ -1,0 +1,26 @@
+/* CONCEPTO CLAVE: CSS Jitter  */
+/* https://css-tricks.com/avoid-css-jitter/ */
+
+/*********** FOCUS AREA ***********/
+
+.item {
+  transition: all 125ms ease-in-out;
+
+  &:hover {
+    scale: 0.1 0.1;
+    translate: 0 -125%;
+  }
+}
+
+/**********************************/
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  gap: 1em;
+}
+
+body {
+  --item-size: 3em;
+  --knob-size: 2em;
+}

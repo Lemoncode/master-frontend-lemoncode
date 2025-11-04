@@ -14,7 +14,7 @@
 }
 
 .knob {
-  /* Perspective should be at parent element for 3D transform */
+  /* Perspectiva en el elemento padre para transformaciones 3D */
   perspective: 600px;
   perspective-origin: center top;
 

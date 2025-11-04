@@ -1,7 +1,13 @@
+/* CONCEPTO CLAVE: Microinteracciones + cubic-bezier */
+
 /*********** FOCUS AREA ***********/
 
 .chevron {
   rotate: 90deg;
+
+  input:checked ~ & {
+    rotate: -90deg;
+  }
 }
 
 .hamburger .line {

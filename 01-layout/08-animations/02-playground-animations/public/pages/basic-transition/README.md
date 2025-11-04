@@ -90,3 +90,18 @@ Parámetros:
 > Es decir, mientras el cursor está sobre el elemento, se aplica la transición definida dentro de `:hover` y cuando el cursor sale, el navegador aplica la transición definida en el estado base (fuera del `:hover`).
 >
 > Este comportamiento se debe a **cómo funciona el modelo de cascada y herencia en CSS**.
+
+## Patrón accesibilidad
+
+Este patrón utiliza la media query prefers-reduced-motion, una característica de CSS que permite detectar si el usuario ha indicado en su sistema operativo o navegador que prefiere reducir el movimiento o las animaciones.
+
+Cuando esta preferencia está activa (reduce), el código ajusta la duración de todas las transiciones (transition-duration) a un valor casi nulo (0.01ms), lo que elimina de forma efectiva cualquier animación o transición.
+El uso de !important garantiza que esta regla sobrescriba cualquier transición definida en otras partes del CSS.
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
+```

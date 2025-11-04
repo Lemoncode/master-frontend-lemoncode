@@ -1,6 +1,6 @@
-/*********** FOCUS AREA ***********/
+/* CONCEPTO CLAVE: Typefont weight morphing SIN jitter */
 
-/* Typefont weight morphing  */
+/*********** FOCUS AREA ***********/
 
 .placeholder {
   & .text {
@@ -12,7 +12,7 @@
     font-weight: 700;
     scale: 3;
 
-    /* Wrong idea to change font size, even with placeholders, CSS Jitter */
+    /* Es mala idea cambiar font size, incluso con placholders, modifica layout */
     /* font-size: 2em; */
   }
 }

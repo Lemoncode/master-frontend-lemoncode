@@ -1,4 +1,4 @@
-# Transiciones de css básicas
+# Transiciones de CSS básicas
 
 ## 🧩 ¿Qué es `transition`?
 
@@ -10,31 +10,49 @@ Con `transition`, esos cambios ocurren **de forma suave y progresiva** durante u
 ## ⚙️ Sintaxis general
 
 ```css
+/* Shorthand simple */
 #selector {
-  transition: <propiedad css> <duración> <función-de-tiempo> <retardo>;
+  transition: <property> <duration> <timing-function> <delay>;
+}
+
+/* Shorthand compuesto */
+#selector {
+  transition: <transition shorthand 1>, <transition shorthand 2>, ..., <transition shorthand n>;
+}
+
+/* Propiedades independientes */
+#selector {
+  transition-property: background-color;
+  transition-duration: 4s;
+  transition-timing-function: ease;
+  transition-delay: 2s;
 }
 ```
 
-Parámetros:
+### Parámetros
 
-1. Propiedad de css: La propiedad CSS que se va a animar (por ejemplo: background-color, transform, opacity, etc.). También se puede usar `all` para animar todos los cambios posibles.
+- `property`: la propiedad CSS que se va a animar (por ejemplo: _background-color_, _transform_, _opacity_, etc.). También se puede usar `all` para animar todos los cambios posibles, siempre que sean transicionables.
+- `duration`: tiempo que dura la transición (por ejemplo: 200ms, 1s).
+- `timing-function`: función que representa el progreso de la animación a lo largo del tiempo (por ejemplo: constante, con aceleracion, etc). [easings.net](https://easings.net/)
+- `delay` (opcional): tiempo de espera antes de que empiece la transición (por ejemplo: 200ms).
 
-2. Duración: Tiempo que dura la transición (por ejemplo: 200ms, 1s).
+## 🧠 Reglas clave
 
-3. Función-de-tiempo (timing function): Controla cómo cambia la velocidad de la animación. [easings.net](https://easings.net/)
+- Las transiciones solo se disparan cuando el valor de la propiedad css usada en el `transition` cambia (por ejemplo, en un `:hover`, `:focus`, o a través de clases aplicadas).
+- Se pueden animar múltiples propiedades separándolas con comas o usando `all` como _property_ del `transition` (en lugar de una propiedad específica de css).
+- No todas las propiedades son transicionables (por ejemplo, display no lo es).
 
-4. Retardo (opcional): Tiempo de espera antes de que empiece la transición (por ejemplo: 200ms).
+### Propiedades transicionables
 
-> 🧠 Reglas clave
->
-> - Las transiciones solo se aplican cuando el valor de la propiedad css usada en el `transition` cambia (por ejemplo, en un `:hover`, `:focus`).
-> - No todas las propiedades son animables (por ejemplo, display no lo es).
-> - Se pueden animar múltiples propiedades separándolas con comas o usando `all` como primer parámetro del `transition` (en lugar de una propiedad específica de css).
+> ⚡ En general, solo las propiedades que tienen **valores interpolables** (es decir, pueden variar de forma continua entre un punto inicial y uno final) podrán ser transicionadas.
 
-## Ejemplos
+- ✅ Transicionables: propiedades con valores como números, colores, longitudes, transformaciones, sombras, transparencias, etc.
+- ❌ No transicionables: propiedades con valores discretos o no numéricos, como `display`, `visibility`, `overflow`, `cursor`, `font-family`, etc.
+
+## 📦 Ejercicio: transiciones básicas
 
 ```css
-/* Change color */
+/* Cambia color */
 #sq1 {
   transition: background-color 500ms ease;
   &:hover {
@@ -42,7 +60,7 @@ Parámetros:
   }
 }
 
-/* Change shape */
+/* Cambia forma */
 #sq2 {
   transition: border-radius 400ms ease-in-out;
   &:hover {
@@ -50,7 +68,7 @@ Parámetros:
   }
 }
 
-/* Change size */
+/* Cambia escala */
 #sq3 {
   transition: transform 250ms ease-out;
   &:hover {
@@ -58,7 +76,7 @@ Parámetros:
   }
 }
 
-/* Change opacity */
+/* Cambia opacidad */
 #sq4 {
   transition: opacity 200ms ease;
   &:hover {
@@ -66,11 +84,10 @@ Parámetros:
   }
 }
 
-/* Multiple changes / all changes*/
+/* Múltiples cambios / "all" */
 #sq5 {
   --item-size: 6em;
-  transition: transform 300ms ease, background-color 300ms ease-out,
-    box-shadow 300ms ease-in-out;
+  transition: transform 300ms ease, background-color 300ms ease-out, box-shadow 300ms ease-in-out;
   /* transition: all 300ms ease-in-out; */
 
   &:hover {
@@ -81,27 +98,42 @@ Parámetros:
 }
 ```
 
-> 🔍 **Curiosidad: controlar la transición al volver al estado normal**
->
-> Por defecto, una transición definida fuera del `:hover` solo controla **la animación de entrada** (de estado normal a `hover`).  
-> Si queremos controlar **también la transición de salida** (de `hover` a estado normal), debemos definir otra transición **dentro del propio `:hover`**.
->
-> Lo curioso es que, cuando se hace esto, **la transición activa es siempre la que existe en el estado por defecto del elemento**.  
-> Es decir, mientras el cursor está sobre el elemento, se aplica la transición definida dentro de `:hover` y cuando el cursor sale, el navegador aplica la transición definida en el estado base (fuera del `:hover`).
->
-> Este comportamiento se debe a **cómo funciona el modelo de cascada y herencia en CSS**.
+### 🔍 Curiosidad: transición en ambas direcciones vs entrada/salida
 
-## Patrón accesibilidad
+Supongamos que una propiedad cambia al hacer `:hover`.
 
-Este patrón utiliza la media query prefers-reduced-motion, una característica de CSS que permite detectar si el usuario ha indicado en su sistema operativo o navegador que prefiere reducir el movimiento o las animaciones.
+Por defecto, una transición definida en el estado base, **controla ambas direcciones**:
 
-Cuando esta preferencia está activa (reduce), el código ajusta la duración de todas las transiciones (transition-duration) a un valor casi nulo (0.01ms), lo que elimina de forma efectiva cualquier animación o transición.
-El uso de !important garantiza que esta regla sobrescriba cualquier transición definida en otras partes del CSS.
+- Al entrar al `:hover`. Se aplicará en sentido directo.
+- Al salir del `:hover`. Se aplicará en sentido inverso.
+
+Sin embargo, podemos redefinir la transición dentro del `:hover`, en cuyo caso tendremos 2 transiciones diferenciadas:
+
+- La de **entrada** que usa la transición del `:hover`.
+- La de **salida** que usa la transición definida en el estado base.
+
+En otras palabras, cuando se hace esto, **la transición activa es la que existe en el estado actual del elemento**.
+
+> ℹ️ Este comportamiento es inherente **al modelo de cascada y herencia en CSS**.
+
+## ⚠️ Patrón accesibilidad
+
+La media query `prefers-reduced-motion` permite detectar si el usuario ha indicado en su sistema operativo o navegador que prefiere reducir el movimiento o las animaciones por motivos de accesibilidad (mareos, vértigo, atención, etc.).
+
+> 👍 "Es buena práctica utilizar esta media query para ajustar nuestras animaciones a la preferencia del usuario".
+
+Cuando esta preferencia está activa (`reduce`), lo habitual es desactivar animaciones y transiciones para todos los elementos, y ofrecer estilos alternativos sin ellas.
+
+> "El uso de `!important` garantiza que esta regla sobrescriba cualquier transición definida en otras partes del CSS."
 
 ```css
 @media (prefers-reduced-motion: reduce) {
+  /* Estilos alternativos con menos movimiento */
   * {
-    transition-duration: 0.01ms !important;
+    animation: none !important;
+    transition: none !important;
   }
 }
 ```
+
+> "En resumen, `prefers-reduced-motion` es una media query de accesibilidad que adapta la experiencia para usuarios que no desean animaciones intensas o continuas."

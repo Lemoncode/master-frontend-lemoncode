@@ -2,7 +2,7 @@
 
 /*********** FOCUS AREA ***********/
 
-/* Change color */
+/* Cambia color */
 #sq1 {
   transition: background-color 500ms ease;
   &:hover {
@@ -10,7 +10,7 @@
   }
 }
 
-/* Change shape */
+/* Cambia forma */
 #sq2 {
   transition: border-radius 400ms ease-in-out;
   &:hover {
@@ -18,7 +18,7 @@
   }
 }
 
-/* Change size */
+/* Cambia escala */
 #sq3 {
   transition: transform 250ms ease-out;
   &:hover {
@@ -26,7 +26,7 @@
   }
 }
 
-/* Change opacity */
+/* Cambia opacidad */
 #sq4 {
   transition: opacity 200ms ease;
   &:hover {
@@ -34,7 +34,7 @@
   }
 }
 
-/* Multiple changes / all changes*/
+/* Múltiples cambios / "all" */
 #sq5 {
   --item-size: 6em;
   transition: transform 300ms ease, background-color 300ms ease-out, box-shadow 300ms ease-in-out;

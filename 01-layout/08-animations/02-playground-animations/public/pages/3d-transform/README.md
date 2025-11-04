@@ -125,7 +125,7 @@ Vemos que las caras han rotado con respecto al centro del contenedor. Para que c
 }
 ```
 
-Aplicamos un efecto de transparencia al `hover` de cada cara para:
+Aplicamos un efecto de transparencia al `hover` de cada cara:
 
 ```css
 .item {

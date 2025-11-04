@@ -126,15 +126,15 @@ Y acabamos configurando la animación, envuelta en nuestra guarda de seguridad:
   .list-item {
     animation: scroll-highlight cubic-bezier(0.5, 0, 0.5, 1);
     animation-timeline: view();
-    /* Check difference */
+    /* Comprobar diferencia */
     /* animation-timeline: scroll(nearest);  */
 
-    /* Fine grain control to adjust entry and exit of each element in the
-    scroll viewport. Meaning:
-     - entry 0% => start animation when element first starts to enter scroll viewport (0% progress).
-     - exit 100% => stort animation when element has completely exited scroll port (100% out) */
+    /* Control detallado para ajustar la entrada y salida de cada elemento en el
+    viewport de scroll. Significado: 
+     - entry 0% => iniciar animación cuando el elemento comienza a entrar en el viewport de scroll (0% de progreso).
+     - exit 100% => iniciar animación cuando el elemento ha salido completamente del puerto de scroll (100% fuera) */
     animation-range: entry 0% exit 100%;
-    /* You can narrow the area where the animation happens with something like */
+    /* Puedes reducir el área donde ocurre la animación con algo como */
     /* animation-range: cover 30% cover 70%; */
   }
 }

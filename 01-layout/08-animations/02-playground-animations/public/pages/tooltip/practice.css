@@ -2,7 +2,7 @@
 
 .tooltip {
   translate: calc(-50% + var(--knob-size) / 2) calc(-100% - 1em);
-  /* Uncomment this to behave as a tooltip */
+  /* Descomentar para que se comporte como tooltip */
   /* visibility: hidden; */
 }
 

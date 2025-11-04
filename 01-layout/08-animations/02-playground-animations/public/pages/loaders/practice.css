@@ -1,3 +1,5 @@
+/* CONCEPTO CLAVE: Animaciones continuas */
+
 /*********** FOCUS AREA ***********/
 
 .spinner {
@@ -14,7 +16,7 @@
   .beam {
     /* border-radius: 50%; */
     /* background: conic-gradient(transparent, 340deg, var(--theme-color)); */
-    /* We won't be able to get a radar beam with radial gradient */
+    /* No conseguiremos el efecto barrido con un gradiente radial */
     background: radial-gradient(var(--theme-color), transparent);
   }
   .target {

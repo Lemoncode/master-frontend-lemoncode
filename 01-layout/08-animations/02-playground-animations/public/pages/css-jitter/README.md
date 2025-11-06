@@ -19,7 +19,9 @@
 
   &:hover {
     /* ❌ Empuja a sus vecinos al hacer hover, layout recalc */
-    width: 150%;
+    width: 300px;
+    /* ❌ Incluso peor, entramos en histéresis por el hover */
+    width: 0;
   }
 }
 ```

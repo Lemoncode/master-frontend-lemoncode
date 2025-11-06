@@ -47,7 +47,7 @@ Probemos primero una implementación básica con funcion `linear` para la transi
 ```css
 .chevron {
   rotate: 90deg;
-  transition: rotate 400ms linears;
+  transition: rotate 400ms linear;
 
   input:checked ~ & {
     rotate: -90deg;

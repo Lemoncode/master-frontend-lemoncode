@@ -1,10 +1,28 @@
 # Hola Tailwind
 
-Si te fijas aunque ponemos un H1 en el HTML, este no se ve con el tamaño y estilo por defecto de los navegadores, Tailwind lo resetea ¡ TODO !
+## Vamos a instalar plugins
 
-Así que si queremos que ese H1 tenga un tamaño y estilo concreto, tenemos que decírselo nosotros, usando utility classes.
+Los que recomienda Tailwind:
 
-En el main haríamos algo así como:
+https://tailwindcss.com/docs/editor-setup
+
+vscode-tailwindcss
+
+Hay otro para ordenar las clases según le gusta a Tailwind :-@ TOC?
+
+## El ejemplo
+
+Tailwind v4 **resetea todos los estilos por defecto**, incluyendo los
+tamaños por defecto de los `h1`, `h2`, etc.
+
+Por eso este HTML:
+
+```html
+<h1>POR EL PODER DE TAILWIND !!!</h1>
+```
+
+No se verá grande. Si queremos un tamaño y estilo concreto, **hay que
+definirlo usando utility classes**:
 
 ```diff
 -  <h1>
@@ -13,19 +31,20 @@ En el main haríamos algo así como:
   </h1>
 ```
 
-¿Qué estamos haciendo aquí?
+### ¿Qué hace cada clase?
 
-1. `text-4xl`: Le estamos diciendo que el tamaño del texto sea 4 veces extra grande.
-
-2. `font-bold`: Le estamos diciendo que el peso de la fuente sea negrita (bold).
-
-3. `text-blue-600`: Le estamos diciendo que el color del texto sea azul, en su tonalidad 600 (Tailwind tiene una escala de colores del 100 al 900).
+1.  `text-4xl` → Tamaño grande.
+2.  `font-bold` → Texto en negrita.
+3.  `text-blue-600` → Color azul tono 600.
 
 Si guardas los cambios y recargas el navegador, verás que el H1 ahora tiene el tamaño, peso y color que le hemos indicado con las utility classes de Tailwind.
 
-¿Y esas combinaciones de utility classes de dónde salen? Pues en versiones antiguas de tailwind se genereban TODAS ! y después se hacía un tree-shaking para quedarnos solo con las que usábamos en nuestro proyecto, como lo oyes te tocaba limpiar par ano acabar con un archivo de CSS de varios megas.
+¿Y esas combinaciones de utility classes de dónde salen? Pues en versiones antiguas de tailwind se genereban TODAS ! y después se hacía un tree-shaking para quedarnos solo con las que usábamos en nuestro proyecto, como lo oyes te tocaba limpiar par ano acabar con un archivo de CSS de varios megas, es decir a partir de Tailwind v4:
 
-En la versiones más modernas se da la vuelta a la tortilla: El plugin de Tailwind se pone a analizar nuestro código fuente (HTML, JS, etc) y va generando SOLO las clases que usamos en nuestro proyecto.
+- Tailwind **YA NO genera todas las clases por defecto**.
+- Genera **solo las clases que detecta en el código fuente**.
+- El escaneo se hace a través de `@source` en tu CSS (no en
+  `tailwind.config.js`).
 
 ¿Lo vemos en acción? Vamos a hacer un `npm run build`
 
@@ -33,7 +52,24 @@ En la versiones más modernas se da la vuelta a la tortilla: El plugin de Tailwi
 npm run build
 ```
 
-Y abrimos el archivo `dist/assets/index-XXXXX.css` (abrimos y le damos a save para que prettier lo formatee), y debajo de `@layer utilities` verás que solo contiene las clases que hemos usado en nuestro proyecto.
+Y en `dist/assets/index-xxxxx.css` verás algo así:
+
+```css
+@layer utilities {
+  .text-4xl {
+    ...;
+  }
+  .font-bold {
+    ...;
+  }
+  .text-blue-500 {
+    ...;
+  }
+  .underline {
+    ...;
+  }
+}
+```
 
 > HOSTIS !!! PUES NO, HAY UN MONTON MAS DE CLASES !!! ¿Qué está pasando aquí? Pues mira que "mojonazo" que el plugin está pillando las del Readme.md jajajajaj. Si borramos el contenido del Readme.md y volvemos a hacer un build, veremos que solo quedan las clases que hemos usado en el index.html
 
@@ -65,13 +101,111 @@ Vamos a hacer una prueba rápida, modificamos el estilo inline del H1 y volvemos
 
 Si no está el Readme verás que en el CSS generado solo aparecen las clases `text-3xl` y `underline`.
 
-Vamos a crearmos un fichero _tailwind.config.js_ para indicarle al plugin que no mire en el Readme.
+Bueno vamos a decirl a Tailwind que ignore el Readme.md para no tener estos problemas.
 
-_tailwind.config.js_
+_./src/styles.css_
 
-```js
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: ["./index.html", "./src/**/*.{ts,js,tsx,jsx,astro,html}"],
-};
+```diff
+@import "tailwindcss";
++ @source not "../Readme.md";
 ```
+
+Aquí le estamos diciendo que ignore el Readme.md a la hora de buscar clases usadas en el proyecto.
+
+Por defecto Tailwind ignora los archivos que esténen el .gitignore, y algunos otros, más info:
+
+https://tailwindcss.com/docs/detecting-classes-in-source-files
+
+## Configurar estilos por defecto para `<h1>`
+
+Si no quieres escribir siempre `class="text-3xl underline"`, puedes
+añadir estilos globales usando `@apply`.
+
+_./src/styles.css_
+
+```diff
+@import "tailwindcss";
+@source not "../Readme.md";
+
++ h1 {
++  @apply text-3xl underline;
++ }
+```
+
+Aquí le estamos diciendo que aplique las clases `text-3xl` y `underline` a todos los H1.
+
+Vamos a eliminarlo ahora del markup:
+
+_./index.html_
+
+```diff
+- <h1 class="text-3xl underline">
++ <h1>
+    POR EL PODER DE TAILWIND !!!
+  </h1>
+```
+
+### ¿Esto es bueno o malo?
+
+**Sí y no.**
+
+- ✔ Sí: HTML más limpio y semántico.\
+
+- ✔ No repites clases una y otra vez.
+
+- ❌ No: si copias un snippet de otro proyecto Tailwind, el resultado
+  visual será distinto.\
+
+- ❌ Se rompe un poco la filosofía "utility-first pura".
+
+> 🎯 No hay bala de plata.\
+> Depende de si quieres prioridad en legibilidad o en portabilidad.
+
+Otra opcíon sería definir un _theme_ con los estilos que quieres, un pequeño adelanto (más adelante veremos esto con más detalle).
+
+_./src/styles.css_
+
+```diff
+@import "tailwindcss";
+@source not "../Readme.md";
+
++ @theme {
++  --h1-size: 2rem;
++  --h1-line: 1.2;
++  --h1-decoration: underline;
++ }
+
+- h1 {
+-  @apply text-3xl underline-offset-1;
+- }
+```
+
+Y en el HTML:
+
+_./index.html_
+
+```diff
+- <h1>
++ <h1 class="text-[var(--h1-size)] leading-[var(--h1-line)] underline-[var(--h1-decoration)]">
+    POR EL PODER DE TAILWIND !!!
+  </h1>
+```
+
+## Aproximaciones
+
+¿Qué enfoques tenemos?
+
+### Minimalista (100% utility-first, recomendado)
+
+No uses `h1 { @apply ... }`.\
+Pon siempre clases en el HTML.
+
+### Intermedia (la práctica de muchos equipos)
+
+Define estilos globales para: - `body` - headings - textos base
+
+Y el resto, con utilities.
+
+### Más avanzada
+
+Define tokens con `@theme` para colores, tipografía, espaciado, etc.

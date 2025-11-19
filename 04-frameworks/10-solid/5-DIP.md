@@ -4,7 +4,7 @@ No dependas de los detalles, depende de abstracciones.
 
 La mejor manera de conseguir esto es utilizando interfaces, clases abstractas, etc, en lugar de utilizar clases. Está muy ligado (aunque no es lo mismo) con los conceptos de inyección de dependencias o inyección de servicios.
 
-El objetivo del Dependency Inversion Principle (DIP) consiste en reducir las dependencias entre los módulos del código, es decir, alcanzar un **bajo acoplamiento** de las clases.
+El objetivo del Dependency Inversion Principle (DIP) consiste es reducir el acoplamineto entre módulos del código, es decir, alcanzar un **bajo acoplamiento** de las clases.
 
 ## Ejemplo
 

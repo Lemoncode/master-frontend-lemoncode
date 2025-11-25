@@ -169,6 +169,7 @@ export class RandomDice extends LitElement {
 +
 + @state()
 + _diceMaxNumber = 6;
++
   rollDice() {
 -   this.diceValue = Math.floor(Math.random() * 6) + 1;
 +   this.diceValue = Math.floor(Math.random() * (this._diceMaxNumber)) + 1;

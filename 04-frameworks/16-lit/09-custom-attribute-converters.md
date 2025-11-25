@@ -65,7 +65,7 @@ Update `dev/index.html`
   </head>
   <body>
 -   <mirror-text></mirror-text>
-+   <date-display date="06/06/1987"></date-display>
++   <date-display date="06/07/1985"></date-display>
   </body>
 ....
 ```
@@ -97,11 +97,11 @@ Update `dev/index.html`
 ```diff
 ....
   <body>
--   <date-display date="06/06/1987"></date-display>
+-   <date-display date="06/07/1985"></date-display>
 +   <date-display></date-display>
 +   <script>
 +     const dateDisplay = document.querySelector("date-display");
-+     dateDisplay.date = new Date("06/06/1987")
++     dateDisplay.date = new Date("06/07/1985")
 +   </script>
   </body>
 ....
@@ -157,10 +157,10 @@ Update `dev/index.html`
 ```diff
 ....
 -   <date-display></date-display>
-+   <date-display date-str="06/06/1987"></date-display>
++   <date-display date-str="06/07/1985"></date-display>
 -   <script>
 -     const dateDisplay = document.querySelector("date-display");
--     dateDisplay.date = new Date("06/06/1987")
+-     dateDisplay.date = new Date("06/07/1985")
 -   </script>
 ....
 ```

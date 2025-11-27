@@ -45,6 +45,8 @@ _./src/style.css_
 + @plugin "daisyui";
 ```
 
+> @plugin te permite extender Tailwind directamente desde el CSS, sin necesidad de
+
 > Si usas un framework como React, Angular o Astro, hay instrucciones específicas en la web de Daisy UI.
 
 ## Ejemplo formulario
@@ -213,14 +215,27 @@ _./src/style.css_
 +}
 ```
 
-Y en el html
+Probamos...
+
+Y vamos a añadir otro:
+
+```diff
+@import "tailwindcss";
+@source not "../Readme.md";
+ @plugin "daisyui" {
+-   themes: cupcake --default;
++   themes: cupcake --default, dark ;
+}
+```
+
+Y en el html lo elegimos
 
 _./index.html_
 
 ```diff
 <!DOCTYPE html>
 - <html lang="en">
-+ <html lang="en" data-theme="cupcake">
++ <html lang="en" data-theme="darkforest">
 ```
 
 Vamos a probarlo.
@@ -237,6 +252,8 @@ Dejamos sólo esto en el css
 ```
 
 Y metemos lo siguiente en el css:
+
+Abajo del todo
 
 ```css
 @plugin "daisyui/theme" {
@@ -286,11 +303,10 @@ Y metemos lo siguiente en el css:
 
 Y en el HTML
 
-```html
+```diff
 <!DOCTYPE html> -
-<html lang="en" data-theme="cupcake">
-  +
-  <html lang="en" data-theme="mytheme"></html>
+- <html lang="en" data-theme="cupcake">
++  <html lang="en" data-theme="mytheme"></html>
 </html>
 ```
 
@@ -309,10 +325,12 @@ _./src/style.css_
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: blue;
+  --color-primary: green;
   --color-secondary: teal;
 }
 ```
+
+> Recordar cambiar btn-error a primary en el html.
 
 En el HTML elegimos el tema "light"
 

@@ -179,13 +179,17 @@ _./index.html_
 ```diff
 - <h1>
 + <h1>Soy un h1 de toda la vida</h1>
-- <h1 class="text-red-600">
+- <h1>
++ <h1 class="text-red-600">
+
     POR EL PODER DE TAILWIND !!!
   </h1>
 
 ```
 
 Pues que no lo sobreescribe le da más importancia al estilo global.
+
+**ABRIR F12 INSPECCIONAR Y CLASES**
 
 Otra opción que podemos hacer:
 
@@ -205,6 +209,10 @@ _./src/styles.css_
 +  }
 + }
 ```
+
+Más adelante cubriremos los theme, sigamos por aprender como funciona esto....
+
+**FIN**
 
 ### ¿Esto es bueno o malo?
 

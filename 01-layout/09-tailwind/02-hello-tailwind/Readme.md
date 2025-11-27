@@ -155,7 +155,7 @@ _./src/styles.css_
 @source not "../Readme.md";
 
 + h1 {
-+  @apply text-3xl underline;
++  @apply text-3xl underline text-blue-600;
 + }
 ```
 
@@ -170,6 +170,40 @@ _./index.html_
 + <h1>
     POR EL PODER DE TAILWIND !!!
   </h1>
+```
+
+Pero que pasa si queremos poner el h1 en rojo en vez de azul en una página concreta?
+
+_./index.html_
+
+```diff
+- <h1>
++ <h1>Soy un h1 de toda la vida</h1>
+- <h1 class="text-red-600">
+    POR EL PODER DE TAILWIND !!!
+  </h1>
+
+```
+
+Pues que no lo sobreescribe le da más importancia al estilo global.
+
+Otra opción que podemos hacer:
+
+_./src/styles.css_
+
+```diff
+@import "tailwindcss";
+@source not "../Readme.md";
+
+- h1 {
+-  @apply text-3xl underline;
+- }
++ @layer base {
++  h1 {
++    @apply text-3xl underline;
++    color: var(--color-blue-600); /* color por defecto */
++  }
++ }
 ```
 
 ### ¿Esto es bueno o malo?
@@ -188,35 +222,7 @@ _./index.html_
 > 🎯 No hay bala de plata.\
 > Depende de si quieres prioridad en legibilidad o en portabilidad.
 
-Otra opcíon sería definir un _theme_ con los estilos que quieres, un pequeño adelanto (más adelante veremos esto con más detalle).
-
-_./src/styles.css_
-
-```diff
-@import "tailwindcss";
-@source not "../Readme.md";
-
-+ @theme {
-+  --h1-size: 2rem;
-+  --h1-line: 1.2;
-+  --h1-decoration: underline;
-+ }
-
-- h1 {
--  @apply text-3xl underline-offset-1;
-- }
-```
-
-Y en el HTML:
-
-_./index.html_
-
-```diff
-- <h1>
-+ <h1 class="text-[var(--h1-size)] leading-[var(--h1-line)] underline-[var(--h1-decoration)]">
-    POR EL PODER DE TAILWIND !!!
-  </h1>
-```
+Otra opcíon sería definir un _theme_ con los estilos que quieres, esto lo veremos más adelante.
 
 ## Aproximaciones
 

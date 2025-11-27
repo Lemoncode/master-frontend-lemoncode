@@ -1,5 +1,15 @@
 # Hola Tailwind
 
+## Boilerplate
+
+Para ahorrar tiempo.
+
+El boiler si funciona de primeras:
+
+Si no en online:
+
+https://stackblitz.com/github/Lemoncode/boiler-tailwind
+
 ## Vamos a instalar plugins
 
 Los que recomienda Tailwind:
@@ -115,6 +125,23 @@ Aquí le estamos diciendo que ignore el Readme.md a la hora de buscar clases usa
 Por defecto Tailwind ignora los archivos que esténen el .gitignore, y algunos otros, más info:
 
 https://tailwindcss.com/docs/detecting-classes-in-source-files
+
+Ojo fijate que sale en amarillo, vamos a añadir unos settings locales en nuestro proyecto:
+
+_./.vscode/settings.json_
+
+```json
+{
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  }
+}
+```
+
+Aquí le decimos a Visual Studio Code que trate los archivos CSS como Tailwind CSS, y que nos sugiera clases dentro de strings (entre comillas).
 
 ## Configurar estilos por defecto para `<h1>`
 

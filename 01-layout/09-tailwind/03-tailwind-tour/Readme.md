@@ -6,9 +6,11 @@ Para ello recorremos el post de cheatseet:
 
 https://www.almabetter.com/bytes/cheat-sheet/tailwind
 
+Vamos a borrar la parte de base y apply del css.
+
 # Responsive design
 
-Talwindw nos ofrece prefijos como `sm:`, `md:`, `lg:`, `xl:` y `2xl:` para aplicar estilos específicos según el tamaño de la pantalla.
+Talwind nos ofrece prefijos como `sm:`, `md:`, `lg:`, `xl:` y `2xl:` para aplicar estilos específicos según el tamaño de la pantalla.
 
 Los cortes por defecto son:
 
@@ -22,11 +24,19 @@ Un ejemplo de como funciona:
 
 ```html
 <div
-  class="bg-blue-500 sm:bg-red-500 md:bg-green-500 lg:bg-yellow-500 xl:bg-purple-500 2xl:bg-pink-500"
+  class="text-3xl bg-blue-500 sm:bg-red-500 md:bg-green-500 lg:bg-yellow-500 xl:bg-purple-500 2xl:bg-pink-500"
 >
   Este div cambia de color según el tamaño de la pantalla.
 </div>
 ```
+
+Fijate que para los tamaños usamas ":" en vez de "-":
+
+- El guión forma parte del nombre de la utility class.
+- Los dos puntos se usan para activar una condición:
+  - reponsive (sm:, md:...).
+  - Estados: (hover:, focus:...)
+  - Soportes: (dark:, print:)
 
 Algo menos hortera:
 
@@ -50,7 +60,7 @@ Un ejemplo:
 
 ¿Qué estamos diciendo aquí?
 
-- w-full: Que tome todo el alto del contenedor padre: w -> width, full -> 100%
+- w-full: Que tome todo el ancho del contenedor padre: w -> width, full -> 100%
 - h-48: Que tenga una altura fija de 12rem (48 \* 0.25rem) = 192 px
 - bg-gray-200: Que tenga un fondo gris claro
 
@@ -69,6 +79,8 @@ Sin embargo si hacemos:
   <div class="h-full bg-gray-200">Full-height container</div>
 </body>
 ```
+
+También podemos jugar con w-full, y w-80
 
 Vamos a ver un flexbox:
 
@@ -100,7 +112,7 @@ Aquí tenemos las variantes:
 - Color: text-gray-500, text-red-600
 
 ```html
-<p class="text-xl font-semibold text-center text-gray-700">
+<p class="text-3xl font-semibold text-center text-gray-700">
   Texto de ejemplo con Tailwind CSS
 </p>
 ```
@@ -115,6 +127,8 @@ Tailwind tiene una paleta de colores predefinida que podemos usar fácilmente, c
 </div>
 ```
 
+> Te toca: ¿Cómo le añadiríamos margen?
+
 ## Bordes y sombras
 
 Lo mismo, aquí tenemos:
@@ -127,6 +141,8 @@ Lo mismo, aquí tenemos:
 ```html
 <div class="border-2 border-gray-800 shadow-lg rounded-lg">Border y sombra</div>
 ```
+
+> Te toca: Si da tiempo a probar: quiero que tenga ancho 40, alto 30, margen de 5 y que centre el texto
 
 ### Espaciado y tamaño
 
@@ -142,6 +158,19 @@ Lo mismo para margin y padding:
 ```
 
 > Ojo que aquí a margin top le ponemos un valor negativo: -mt-2 (el signo menos delante de la m)
+
+Mapoe de clases a valores:
+
+https://tailwindcss.com/docs/width
+
+| Clase | REM      | PX  |
+| ----- | -------- | --- |
+| 0     | 0rem     | 0px |
+| 0.5   | 0.125rem | 2px |
+| 1     | 0.25rem  | 4px |
+| 1.5   | 0.375rem | 6px |
+| 2     | 0.5rem   | 8px |
+| ...   | ...      | ... |
 
 ### Transiciones y animaciones
 
@@ -174,7 +203,6 @@ Muy bien pero yo quiero hacerlo en el hover...
 ```html
 <div class="hover:animate-bounce">Elemento animado</div>
 ```
-
 
 ## Cheat
 

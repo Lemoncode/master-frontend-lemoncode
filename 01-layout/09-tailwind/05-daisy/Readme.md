@@ -248,6 +248,7 @@ Dejamos sólo esto en el css
 
 ```css
 @import "tailwindcss";
+@plugin "daisyui";
 @source not "../Readme.md";
 ```
 

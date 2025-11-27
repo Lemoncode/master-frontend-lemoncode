@@ -88,12 +88,6 @@ style.css_
 @import "tailwindcss";
 @source not "../Readme.md";
 
-@theme {
-  --h1-size: 2rem;
-  --h1-line: 1.2;
-  --h1-decoration: underline;
-}
-
 + @layer components {
 +  .form-container {
 +    @apply w-full max-w-md bg-white p-6 rounded-xl shadow-md space-y-4;
@@ -118,3 +112,102 @@ style.css_
 +}
 ```
 
+Vamos ahora a simplificar:
+
+```html
+<form class="form-container">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-2">
+    Formulario de contacto
+  </h2>
+
+  <!-- Nombre -->
+  <div>
+    <label for="nombre" class="form-label"> Nombre </label>
+    <input
+      type="text"
+      id="nombre"
+      name="nombre"
+      class="form-input"
+      placeholder="Tu nombre"
+    />
+  </div>
+  <!-- Email -->
+  <div>
+    <label for="email" class="form-label"> Email </label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      class="form-input"
+      placeholder="tucorreo@ejemplo.com"
+    />
+  </div>
+
+  <!-- Mensaje -->
+  <div>
+    <label for="mensaje" class="form-label"> Mensaje </label>
+    <textarea
+      id="mensaje"
+      name="mensaje"
+      rows="4"
+      class="form-input"
+      placeholder="Tu mensaje..."
+    ></textarea>
+  </div>
+
+  <!-- Botón primary -->
+  <button type="submit" class="btn-primary">Enviar</button>
+</form>
+```
+
+Queda mejor, y ahora estarás medio mosquead con lo de @layer base, components...
+
+@layer es una directiva de Tailwind para organizar en qué parte del CSS final deben colocarse tus reglas personalizadas.
+
+Tailwind compila en este orden:
+
+1. base
+
+2. components
+
+3. utilities (las clases que usas en HTML)
+
+4. variants (como responsive, hover, dark...)
+
+Este orden es crítico porque determina qué sobrescribe a qué.
+
+### 1. Layer base
+
+@layer base se usa para definir estilos globales.
+
+Especificidad baja (selectores tipo h1, p, body).
+
+Se aplica primero.
+
+Ideal para resets o estilos predeterminados.
+
+### 2. Layer components
+
+@layer components es para definir "componentes" reutilizables.
+
+Especificidad media (clases como .btn, .card).
+
+Se aplica después de base, antes de utilities.
+
+Ideal para botones, formularios, tarjetas, etc.
+
+### 3. Layer utilities
+
+@layer utilities es para definir utilidades personalizadas.
+
+Especificidad alta (clases como .text-center, .bg-blue-500).
+
+Se aplica después de components.
+
+Ideal para pequeñas utilidades que usas en HTML.
+
+### 4. Layer variants
+
+@layer variants es para definir variantes como responsive, hover, dark mode.
+
+Se aplica al final para asegurar que las variantes tengan la máxima prioridad.

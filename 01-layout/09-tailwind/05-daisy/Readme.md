@@ -235,7 +235,7 @@ _./index.html_
 ```diff
 <!DOCTYPE html>
 - <html lang="en">
-+ <html lang="en" data-theme="darkforest">
++ <html lang="en" data-theme="dark">
 ```
 
 Vamos a probarlo.

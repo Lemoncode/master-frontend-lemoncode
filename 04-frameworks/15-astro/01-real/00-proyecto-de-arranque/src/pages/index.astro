@@ -1,0 +1,33 @@
+---
+import Layout from '#layouts/layout.astro';
+import Hero from '#components/hero.astro';
+import MiniBioPod from '#pods/mini-bio/mini-bio.pod.astro';
+import NewsletterPod from '#pods/newsletter/newsletter.pod.astro';
+import PopularPosts from '#pods/popular-posts/popular-posts.astro';
+
+const homeContent = {
+  hero: {
+    title: "John's Web Dev Blog",
+    description: 'Here you can find various articles on web application development.',
+  },
+};
+---
+
+<Layout title="John's Web Dev Blog">
+  <Hero ariaLabelledby="hero-title" slot="hero">
+    <div class="flex flex-col gap-2 text-center">
+      <h1 class="text-primary-700 text-5xl font-bold" id="hero-title">{homeContent.hero.title}</h1>
+      <p class="m-auto max-w-[30ch] text-lg leading-[1.2] tracking-normal">
+        {homeContent.hero.description}
+      </p>
+    </div>
+  </Hero>
+
+  <div>Place holder for post preview collection</div>
+
+  <Fragment slot="aside">
+    <MiniBioPod type="card" />
+    <NewsletterPod type="mini" />
+    <PopularPosts />
+  </Fragment>
+</Layout>

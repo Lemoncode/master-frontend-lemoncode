@@ -1,0 +1,36 @@
+---
+import type { ToolSectionContent } from './tool-collection.model';
+
+const toolCollectionContent: ToolSectionContent = {
+  heading: 'Tech Stack',
+  description: 'Some of the technologies I work with daily:',
+  tools: [
+    { name: 'Git', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original-wordmark.svg' },
+    { name: 'HTML5', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-plain-wordmark.svg' },
+    { name: 'CSS3', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-plain-wordmark.svg' },
+    { name: 'JavaScript', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-plain.svg' },
+    { name: 'TypeScript', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-plain.svg' },
+    { name: '.NET', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-plain-wordmark.svg' },
+    { name: 'SQL', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original-wordmark.svg' },
+    { name: 'React', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original-wordmark.svg' },
+  ],
+};
+---
+
+<section
+  class="bg-secondary-50 dark:bg-secondary-100 flex flex-col items-center gap-4 rounded-2xl p-6 text-center md:items-start md:text-start"
+  aria-labelledby="tech-aside-heading"
+>
+  <h2 class="font-geist font-bold" id="tech-aside-heading">{toolCollectionContent.heading}</h2>
+  <p class="text-sm">{toolCollectionContent.description}</p>
+
+  <ul class="flex flex-wrap justify-center gap-4" aria-labelledby="tech-aside-heading">
+    {
+      toolCollectionContent.tools.map(tool => (
+        <li class="flex h-14 w-14 items-center justify-center rounded-lg bg-white dark:bg-neutral-100">
+          <img src={tool.logo} alt={tool.name} title={tool.name} class="h-8 w-8 object-contain" />
+        </li>
+      ))
+    }
+  </ul>
+</section>

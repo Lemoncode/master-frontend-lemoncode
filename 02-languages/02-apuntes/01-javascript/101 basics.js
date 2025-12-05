@@ -122,7 +122,7 @@ NaN       // NotANumber** (de hecho es de tipo número)
 // legibilidad.
 
 /*
- Indeterminados (0 * Infinity), indefinidos (1 / 0), fuera del conjunto de los
+ Indeterminados (0 * Infinity), indefinidos (0 / 0), fuera del conjunto de los
  reales (sqrt(-1)), o errores al parsear (parseInt("abc"))
 */
 

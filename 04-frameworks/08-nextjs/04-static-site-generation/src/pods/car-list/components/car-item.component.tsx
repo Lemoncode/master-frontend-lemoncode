@@ -1,6 +1,6 @@
-import React from 'react';
-import Link from 'next/link';
 import { routeConstants } from '#core/constants';
+import Link from 'next/link';
+import React from 'react';
 import { Car } from '../car-list.vm';
 import classes from './car-item.module.css';
 
@@ -25,7 +25,7 @@ export const CarItem: React.FC<Props> = (props) => {
         )}
         <span>{car.name}</span>
       </h2>
-      <img src={car.imageUrl} alt={car.name} />
+      <img className={classes.image} src={car.imageUrl} alt={car.name} />
     </Link>
   );
 };

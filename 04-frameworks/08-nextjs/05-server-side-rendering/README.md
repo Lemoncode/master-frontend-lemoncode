@@ -141,9 +141,9 @@ export default CarPage;
 
 > `cache: 'force-cache'`: will fetch data only once.
 
->`cache: 'no-store'`: will fetch data on each refresh (F5).
+> `cache: 'no-store'`: will fetch data on each refresh (F5).
 
->`next: { revalidate: 10 },`: will fetch data on each refresh (F5) after revalidate seconds.
+> `next: { revalidate: 10 },`: will fetch data on each refresh (F5) after revalidate seconds.
 
 # About Basefactor + Lemoncode
 

@@ -30,7 +30,7 @@ _./src/pods/car/api/car.api.ts_
 
 export const bookCar = async (car: Car): Promise<boolean> => {
   await fetch(`${url}/${car.id}`, {
-    method: 'PUT',
+    method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(car),
   });
@@ -88,7 +88,7 @@ IMAGES_DOMAIN=localhost
 _./src/core/constants/env.constants.ts_
 
 ```diff
-export const envConstants = {
+export const ENV = {
 - BASE_API_URL: process.env.BASE_API_URL,
 + BASE_API_URL: process.env.NEXT_PUBLIC_BASE_API_URL,
   BASE_PICTURES_URL: process.env.BASE_PICTURES_URL,
@@ -132,7 +132,7 @@ import { Inter } from 'next/font/google';
 +       theme.primary === lightTheme.primary ? darkTheme : lightTheme;
 +     setTheme(newTheme);
 +   };
-+ 
++
 +   return (
 +     <ThemeContext.Provider value={{ theme, onToggleThemeMode }}>
 +       {children}
@@ -154,8 +154,9 @@ const RootLayout = (props: Props) => {
   return (
     <html lang="en" className={inter.className}>
       <body>
--       {children}
-+       <ThemeProvider>{children}</ThemeProvider>
++       <ThemeProvider>
+          <main>{children}</main>
++       </ThemeProvider>
       </body>
     </html>
   );
@@ -169,7 +170,7 @@ It throws the error: `TypeError: createContext only works in Client Components. 
 
 _./src/core/theme.context.tsx_
 
-```jsx
+```tsx
 'use client';
 import React from 'react';
 
@@ -206,10 +207,9 @@ export const ThemeProvider = ({ children }) => {
     </ThemeContext.Provider>
   );
 };
-
 ```
 
-> You cannot use a ServerComponent inside Client Component but [you can pass a Server Component as prop](https://nextjs.org/docs/getting-started/react-essentials#nesting-server-components-inside-client-components).
+You cannot use a ServerComponent inside Client Component but you can pass a Server Component as prop:
 
 _./src/app/layout.tsx_
 
@@ -238,7 +238,7 @@ import { Inter } from 'next/font/google';
 -       theme.primary === lightTheme.primary ? darkTheme : lightTheme;
 -     setTheme(newTheme);
 -   };
-- 
+-
 -   return (
 -     <ThemeContext.Provider value={{ theme, onToggleThemeMode }}>
 -       {children}
@@ -261,7 +261,7 @@ Using theme:
 
 _./src/pods/car-list/components/nav.component.tsx_
 
-```jsx
+```tsx
 'use client';
 import { ThemeContext } from '#core/theme.context';
 import React from 'react';
@@ -286,13 +286,12 @@ export const Nav: React.FC<Props> = (props) => {
     </nav>
   );
 };
-
 ```
 
 _./src/pods/car-list/components/index.ts_
 
 ```diff
-export * from './car-list.component';
+export * from './car-item.component';
 + export * from './nav.component';
 
 ```

@@ -1,29 +1,30 @@
 # 03 Boilerplate
 
-Next.js is unopinionated about how you [organize your project](https://nextjs.org/docs/app/building-your-application/routing/colocation) but it gives you some features to avoid create unnecessary routes like:
+Next.js is unopinionated about how you [organize your project](https://nextjs.org/docs/app/getting-started/project-structure) but it gives you some features to avoid create unnecessary routes like:
 
-- [src directory](https://nextjs.org/docs/app/building-your-application/routing/colocation#src-directory)
+- [src directory](https://nextjs.org/docs/app/getting-started/project-structure#src-folder)
 
-- [Store project files outside of app](https://nextjs.org/docs/app/building-your-application/routing/colocation#store-project-files-outside-of-app)
+- [Store project files outside of app](https://nextjs.org/docs/app/getting-started/project-structure#store-project-files-outside-of-app)
 
-- [Private folders](https://nextjs.org/docs/app/building-your-application/routing/colocation#private-folders) using underscore as prefix: `_folderName`.
+- [Private folders](https://nextjs.org/docs/app/getting-started/project-structure#private-folders) using underscore as prefix: `_folderName`.
 
-- [Route groups](https://nextjs.org/docs/app/building-your-application/routing/colocation#route-groups): `(folderName)` to groups several routes under the same folder without create a new group route.
+- [Route groups](https://nextjs.org/docs/app/getting-started/project-structure#route-groups): `(folderName)` to groups several routes under the same folder without create a new group route.
 
 - [Image component](https://nextjs.org/docs/app/api-reference/components/image) in `./src/app/cars/layout.tsx`, differences with `<img style={{ width: 32, height: 'auto' }} src="/home-logo.png" />`.
+
   - If we use `img` it downloads the full image and resizes it in the browser: ~214kB.
   - If we use `Image` component it downloads the image with the size we need: ~3.2kB.
   - Try `Image` component with `blurDataURL="/home-logo-low-resolution.png"` and `placeholder="blur"`.
 
 - [Using fonts](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)
+
   - [Font display values](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display#values)
 
-- [Working on support emotion and MUI](https://nextjs.org/docs/app/building-your-application/styling/css-in-js)
+- [CSS-in-JS support](https://nextjs.org/docs/app/building-your-application/styling/css-in-js)
 
 - [Material Icons discussion](https://github.com/vercel/next.js/discussions/42881)
 
-- [Module aliases](https://nextjs.org/docs/app/building-your-application/configuring/absolute-imports-and-module-aliases#module-aliases)
-
+- [Module aliases](https://nextjs.org/docs/app/getting-started/installation#set-up-absolute-imports-and-module-path-aliases)
 
 # About Basefactor + Lemoncode
 

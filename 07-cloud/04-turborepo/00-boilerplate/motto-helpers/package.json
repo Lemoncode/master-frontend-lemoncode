@@ -20,7 +20,7 @@
     }
   },
   "scripts": {
-    "build": "tsdown",
+    "build": "npm run type-check && tsdown",
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {

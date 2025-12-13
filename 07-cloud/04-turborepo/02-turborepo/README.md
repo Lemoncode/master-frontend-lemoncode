@@ -185,7 +185,7 @@ _./helpers/house-helpers/package.json_
 +   }
   },
 + "scripts": {
-+   "build": "vite build",
++   "build": "tsdown",
 +   "type-check": "tsc --noEmit",
 + },
 ...

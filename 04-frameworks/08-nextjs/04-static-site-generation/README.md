@@ -29,7 +29,7 @@ Pages are generated at build time, it means that it will fetch all necessary dat
 - Recommended whenever possible because it's much faster than having server render the page on every request.
 - The build time will be larger than SSR mode.
 - Only available on `Server Components`.
-- [More about static data fetching](https://nextjs.org/docs/app/building-your-application/rendering/static-and-dynamic-rendering#static-data-fetching-default)
+- [More about SSG](https://nextjs.org/docs/app/api-reference/file-conventions/route#static-generation-with-generatestaticparams)
 
 We will fetch data from an API (`api-server`), so let's start this server on `start` command:
 
@@ -134,43 +134,6 @@ import classes from './layout.module.css';
 - };
 
 ...
-
-```
-
-Fix the `car details` page:
-
-_./src/app/cars/\[carId\]/page.tsx_
-
-```diff
-import React from 'react';
-import { Metadata } from 'next';
-
-interface Props {
-- params: { carId: string };
-+ params: Promise<{ carId: string }>;
-}
-
-export const generateMetadata = async (props: Props): Promise<Metadata> => {
-- const { params } = props;
-+ const params = await props.params;
-  return {
-    title: `Rent a car - Car ${params.carId} details`,
-  };
-};
-
-- const CarPage = (props: Props) => {
-+ const CarPage = async (props: Props) => {
--   const { params } = props;
-+   const params = await props.params;
-    return (
-      <>
-        <h2>Car detail page</h2>
-        <p>{params.carId}</p>
-      </>
-    );
-  };
-
-export default CarPage;
 
 ```
 
@@ -362,7 +325,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 
 > It will fetch the car details data only once.
 >
-> [Automatic fetch request deduping](https://nextjs.org/docs/app/building-your-application/data-fetching/fetching#reusing-data-across-multiple-functions)
+> [Automatic fetch request deduping](https://nextjs.org/docs/app/getting-started/fetching-data#deduplicate-requests-and-cache-data)
 
 Run again:
 
@@ -372,7 +335,7 @@ npm run build
 npm run start:prod
 ```
 
-What's if `api-server` has new data, let's use [Incremental Static Regeneration or Revalidating Data](https://nextjs.org/docs/app/building-your-application/data-fetching/revalidating):
+What's if `api-server` has new data, let's use [Incremental Static Regeneration or Revalidating Data](https://nextjs.org/docs/app/guides/incremental-static-regeneration):
 
 _./src/pods/car-list/api/car-list.api.ts_
 
@@ -414,7 +377,7 @@ export default CarListPage;
 
 ```
 
-> It also have other  [on-demand revalidation](https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration#time-based-revalidation) options
+> It also have other [on-demand revalidation](https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration#time-based-revalidation) options
 
 Run again:
 
@@ -471,11 +434,14 @@ BASE_PICTURES_URL=http://localhost:3001
 
 ```
 
-_./next.config.js_
+_./next.config.ts_
 
 ```javascript
-module.exports = {
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
   images: {
+    dangerouslyAllowLocalIP: true, // only for local development
     remotePatterns: [
       {
         hostname: process.env.IMAGES_DOMAIN,
@@ -484,6 +450,7 @@ module.exports = {
   },
 };
 
+export default nextConfig;
 ```
 
 > [Remote Images](https://nextjs.org/docs/app/building-your-application/optimizing/images#remote-images)

@@ -61,9 +61,10 @@ const RootPage = () => {
 export default RootPage;
 
 ```
+
 > [Next link](https://nextjs.org/docs/app/api-reference/components/link)
 >
-> [Routing](https://nextjs.org/docs/app/building-your-application/routing)
+> [Routing](https://nextjs.org/docs/app/getting-started/linking-and-navigating)
 
 Or programmatically:
 
@@ -96,7 +97,7 @@ export default CarListPage;
 
 ```
 
-> [useRouter](https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#userouter-hook): It will do a `client-side` navigation between routes. 
+> [useRouter](https://nextjs.org/docs/app/api-reference/functions/use-router): It will do a `client-side` navigation between routes.
 >
 > Also, since we are using a button with `onClick` event, we must add `'use client'` directive to mark it as a client component.
 
@@ -108,11 +109,11 @@ _./app/cars/\[carId\]/page.tsx_
 import React from 'react';
 
 interface Props {
-  params: { carId: string };
+  params: Promise<{ carId: string }>;
 }
 
-const CarPage = (props: Props) => {
-  const { params } = props;
+const CarPage = async (props: Props) => {
+  const params = await props.params;
   return (
     <>
       <h2>Car detail page</h2>
@@ -122,14 +123,11 @@ const CarPage = (props: Props) => {
 };
 
 export default CarPage;
-
 ```
 
 > [Dynamic routes](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes)
 >
 > [i18n-routing](https://nextjs.org/docs/app/building-your-application/routing/internationalization)
->
-> [Warning `params` should be awaited before using its properties](https://nextjs.org/docs/messages/sync-dynamic-apis)
 
 Open `http://localhost:3000/cars/audi`;
 
@@ -174,7 +172,6 @@ const CarsLayout = (props: Props) => {
 };
 
 export default CarsLayout;
-
 ```
 
 > We only can use `Metadata` on `server components`.
@@ -192,17 +189,17 @@ import React from 'react';
 + import { Metadata } from 'next';
 
 interface Props {
-  params: { carId: string };
+  params: Promise<{ carId: string }>;
 }
 
 + export const generateMetadata = async (props: Props): Promise<Metadata> => {
-+   const { params } = props;
++   const params = await props.params;
 +   return {
 +     title: `Rent a car - Car ${params.carId} details`,
 +   };
 + };
 
-const CarPage = (props: Props) => {
+const CarPage = async (props: Props) => {
 ...
 
 ```

@@ -1,5 +1,5 @@
 import { mapToCollection } from '#common/mappers';
-import { envConstants } from '#core/constants';
+import { ENV } from '#core/constants';
 import * as apiModel from './api';
 import * as viewModel from './car-list.vm';
 
@@ -10,6 +10,6 @@ export const mapCarListFromApiToVm = (
 const mapCarFromApiToVm = (car: apiModel.Car): viewModel.Car => ({
   id: car.id,
   name: car.name,
-  imageUrl: `${envConstants.BASE_PICTURES_URL}${car.imageUrl}`,
+  imageUrl: `${ENV.BASE_PICTURES_URL}${car.imageUrl}`,
   isBooked: car.isBooked,
 });

@@ -1,6 +1,5 @@
-import React from 'react';
-import { Metadata } from 'next';
 import { CarList, api, mapCarListFromApiToVm } from '#pods/car-list';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Rent a car - Car list',

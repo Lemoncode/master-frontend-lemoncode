@@ -15,10 +15,13 @@
   "author": "Lemoncode",
   "license": "MIT",
   "dependencies": {
+    "@tanstack/react-router": "^1.141.2",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },
   "devDependencies": {
+    "@tanstack/react-router-devtools": "^1.141.2",
+    "@tanstack/router-plugin": "^1.141.2",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",

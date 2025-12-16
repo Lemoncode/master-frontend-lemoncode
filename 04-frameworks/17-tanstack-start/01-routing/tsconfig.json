@@ -11,6 +11,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "strictNullChecks": true,
     "baseUrl": "./src/",
     "paths": {
       "#*": ["*"]

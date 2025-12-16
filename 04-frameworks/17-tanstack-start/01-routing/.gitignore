@@ -10,3 +10,5 @@ junit.xml
 .env
 .next
 .swc
+!.vscode
+.tanstack

@@ -12,3 +12,5 @@ junit.xml
 .swc
 !.vscode
 .tanstack
+.nitro
+.output

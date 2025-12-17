@@ -1,8 +1,7 @@
 .root {
   display: grid;
   grid-template-columns: 1fr;
-  column-gap: 2rem;
-  row-gap: 2rem;
+  gap: 2rem;
   list-style: none;
   margin: 0;
   padding: 0;

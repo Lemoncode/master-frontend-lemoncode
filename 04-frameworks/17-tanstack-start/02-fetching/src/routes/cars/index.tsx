@@ -6,7 +6,6 @@ const getCarList = async () =>
 export const Route = createFileRoute('/cars/')({
   loader: () => getCarList(),
   component: RouteComponent,
-  pendingComponent: () => <div>Loading cars...</div>,
 });
 
 function RouteComponent() {

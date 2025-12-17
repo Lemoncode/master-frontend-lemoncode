@@ -16,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "@tanstack/react-router": "^1.141.2",
+    "normalize.css": "^8.0.1",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },

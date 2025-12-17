@@ -1,9 +1,9 @@
-import React from 'react';
 import { useNavigate } from '@tanstack/react-router';
+import React from 'react';
 import * as api from './api';
-import * as viewModel from './car.vm';
 import { mapCarFromVmToApi } from './car.mappers';
 import classes from './car.module.css';
+import * as viewModel from './car.vm';
 
 interface Props {
   car: viewModel.Car;
@@ -16,7 +16,7 @@ export const Car: React.FC<Props> = (props) => {
   const handleBook = async () => {
     try {
       const apiCar = mapCarFromVmToApi({ ...car, isBooked: !car.isBooked });
-      await api.bookCar(apiCar);
+      await api.bookCar({ data: apiCar });
       navigate({ to: '/cars' });
     } catch (error) {
       console.error({ error });

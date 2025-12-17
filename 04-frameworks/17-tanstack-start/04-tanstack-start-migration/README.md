@@ -75,6 +75,10 @@ export function getRouter() {
 ```
 
 > `scrollRestoration` is optional, it enables automatic scroll position restoration when navigating simulating browser behavior.
+>
+> [Server entrypoint](https://tanstack.com/start/latest/docs/framework/react/guide/server-entry-point)
+>
+> [Client entrypoint](https://tanstack.com/start/latest/docs/framework/react/guide/client-entry-point)
 
 If we run the app now, we should see it partially working:
 
@@ -235,8 +239,51 @@ export const ENV = {
 ```
 
 > [Vite Env Variables](https://vite.dev/guide/env-and-mode)
->
-> [Use server functions if we want execute code only on the server](https://tanstack.com/start/latest/docs/framework/react/guide/server-functions)
+
+But if we want to execute it only in the server we can [use server functions](https://tanstack.com/start/latest/docs/framework/react/guide/server-functions):
+
+_./src/pods/car-list/car-list.api.ts_
+
+```diff
+import { ENV } from '#core/constants';
+import { Car } from './car-list.api-model';
++ import { createServerFn } from '@tanstack/react-start';
+
+const url = `${ENV.BASE_API_URL}/cars`;
+
+- export const getCarList =
++ export const getCarList = createServerFn().handler(
+  async (): Promise<Car[]> =>
+    await fetch(url).then((response) => response.json())
++ );
+
+```
+
+Remove the environment variable prefixing:
+
+_./.env.local_
+
+```diff
+- PUBLIC_BASE_API_URL=http://localhost:3001/api
++ BASE_API_URL=http://localhost:3001/api
+PUBLIC_BASE_PICTURES_URL=http://localhost:3001
+
+```
+
+_./src/core/env.constants.ts_
+
+```diff
+export const ENV = {
+- BASE_API_URL:
+-   process.env.PUBLIC_BASE_API_URL ||
++   process.env.BASE_API_URL ||
+-   import.meta.env.PUBLIC_BASE_API_URL ||
+    '',
+...
+
+```
+
+> Check the Network tab in the browser dev tools, we should see that an special request is made to fetch the car list data from the server function endpoint.
 
 Let's change the routes to apply styles and components that we already have in pods:
 
@@ -271,6 +318,8 @@ function RouteComponent() {
 ```
 
 > [Migrating from Nextjs Guide](https://tanstack.com/start/latest/docs/framework/react/migrate-from-next-js)
+>
+> [CSS Modules FOUC (flash of unstyled content) issue still open](https://github.com/TanStack/router/issues/3023#issuecomment-2689163745)
 
 Update the car list page:
 
@@ -324,7 +373,7 @@ _./src/routes/cars/$id.tsx_
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/cars/$id')({
-+ loader: ({ params }) => api.getCar(params.id),
++ loader: ({ params }) => api.getCar({ data: { id: params.id } }),
 + head: ({ loaderData }) => ({
 +   meta: [{ title: `Rent a car - Car ${loaderData?.name} details` }],
 + }),

@@ -1,6 +1,6 @@
 import { ENV } from '#core/constants';
-import { Car } from './car-list.api-model';
 import { createServerFn } from '@tanstack/react-start';
+import { Car } from './car-list.api-model';
 
 const url = `${ENV.BASE_API_URL}/cars`;
 

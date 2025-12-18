@@ -7,10 +7,7 @@
     "#*": "./src/*"
   },
   "scripts": {
-    "start": "run-p -l start:dev start:api-server",
-    "start:dev": "vite",
-    "start:api-server": "cd api-server && npm run mock-server",
-    "postinstall": "cd ./api-server && npm install"
+    "start": "vite"
   },
   "author": "Lemoncode",
   "license": "MIT",

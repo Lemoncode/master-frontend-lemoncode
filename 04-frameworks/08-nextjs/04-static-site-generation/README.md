@@ -457,7 +457,7 @@ export default nextConfig;
 >
 > [Next config file](https://nextjs.org/docs/app/api-reference/next-config-js)
 
-Run app dev mode:
+Run app prod mode:
 
 ```bash
 npm run start:api-server

@@ -1,4 +1,4 @@
-# 01 Simple Microfrontend
+# 02 Different bundlers
 
 In this example we are going to add a second microfrontend using a different bundler.
 

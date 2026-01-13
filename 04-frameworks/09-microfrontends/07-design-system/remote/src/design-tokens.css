@@ -1,0 +1,4 @@
+/* Variables CSS globales - pueden ser sobrescritas por el host */
+:root {
+  --primary-color: #3498db;
+}

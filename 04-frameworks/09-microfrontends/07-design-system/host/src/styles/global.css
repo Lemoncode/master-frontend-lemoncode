@@ -1,0 +1,8 @@
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+:root:root {
+  --primary-color: #e74c3c; /* Rojo en lugar de azul */
+}

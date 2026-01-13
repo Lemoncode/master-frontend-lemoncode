@@ -1,0 +1,12 @@
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+@layer remote, host;
+
+@layer host {
+  :root {
+    --primary-color: #e74c3c;
+  }
+}

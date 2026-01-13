@@ -107,3 +107,28 @@ body {
 ```
 
 Si ahora ejecutamos podemos ver como queda.
+
+Una opción altenativa sería usar `layers`, pero esto puede que no este en todos los navegadores:
+
+En _./host/src/styles/global.css_
+
+```css
+@layer remote, host;
+
+@layer host {
+  :root {
+    --primary-color: #e74c3c;
+  }
+}
+```
+
+Y en _./remote/src/design-tokens.css_
+
+```css
+@layer remote;
+@layer remote {
+  :root {
+    --primary-color: #3498db;
+  }
+}
+```

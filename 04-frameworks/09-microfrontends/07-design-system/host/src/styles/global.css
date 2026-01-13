@@ -3,6 +3,10 @@ body {
     Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
-:root:root {
-  --primary-color: #e74c3c; /* Rojo en lugar de azul */
+@layer remote, host;
+
+@layer host {
+  :root {
+    --primary-color: #e74c3c;
+  }
 }

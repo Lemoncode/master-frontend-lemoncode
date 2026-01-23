@@ -55,7 +55,7 @@ const getDataAsync = callback => {
 
 // Una posible mejora para poder randomizar el tiempo del timer y el dato devuelto
 // sería la siguiente:
-const randomData = () => Math.ceil(Math.random() * 100); // random [1-100] número
+const randomData = () => Math.ceil(Math.random() * 100); // random [0-100] número
 const randomDelay = () => Math.random() * 2000 + 1000; // random [1000, 3000) ms
 
 const getDataAsync = callback => {

@@ -137,7 +137,6 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
   🔎 First of all, check your `react` application is up and running!
 
   🔎 Then, look at the dev-tools `network` tab (refresh if needed) and, apart from the source code ES modules we already know, you will see a couple of `vite` pre-bundled dependencies: `react-dom_client` and `react_jsx-dev-runtime`. Take a look at both requests, they share a few things in common:
-
   - Look at the request url: these files are coming from `/node_modules/.vite/deps` which is the default storage for your project pre-bundled dependencies.
   - Take a look at the response header `Cache-Control` as well. Dev-server is telling the browser to keep them in its internal cache for as long as possible (1 year, which use to be the convention for the maximum allowed time).
   - They all use a cache busting pattern consisting in passing a hash through a query string param. With this technique, browser cache is defeated in case any of an update in any of the pre-bundled dependencies.
@@ -148,10 +147,9 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
 
   ⚡ With this approach, development gets amazingly light and fast. All of your heavy dependencies are consumed from your browser cache (except an occasional update) and your source code ES modules are ready in record time, just available for your browser to request them when needed.
 
-
 ## Optional - HMR
 
-- ℹ️ `@vitejs/plugin-react` package also gives support for Fast Refresh, which is the specific HMR system for React. It properly communicates with React internal API (it is not public) to integrate HMR with Vite in an effective and efficient way, allowing to change code live while dev server is running without hard reloads 
+- ℹ️ `@vitejs/plugin-react` package also gives support for Fast Refresh, which is the specific HMR system for React. It properly communicates with React internal API (it is not public) to integrate HMR with Vite in an effective and efficient way, allowing to change code live while dev server is running without hard reloads
 
 - ℹ️ It means we can change our app source code live, with the dev server running, and changes will be propagated to our browser without having to reload the page nor loosing the state.
 

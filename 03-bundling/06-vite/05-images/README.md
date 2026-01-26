@@ -98,7 +98,6 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
   🔎 Check the result, we have a second image now.
 
   🔎 Also, check dev tools `Network` tab and see how both `png` assets are downloaded as modules and HTTP cache is applied as well. There is a subtle difference between both approaches in the development flow:
-
   - The image embedded in HTML is directly requested once the HTML is parsed. Then, the initiator is the HTML itself.
   - The image embedded in runtime via DOM manipulation is imported via `import` statement. `Vite` creates a barrel ES Module called `logo_1.png?import` which is the one that really target the `png` resource.
 

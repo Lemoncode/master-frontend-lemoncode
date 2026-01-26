@@ -70,7 +70,6 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
   ⚡ In the development flow, `vite` only perform transpilation on TS files. It relies on `esbuild` for such a task (20-30x faster than `tsc`) and once transpiled, it expose them as ES modules. **It does not perform type checking**, it is up to you to take care of that in the build process or rely on you IDE.
 
   ⚡ `esbuild` transformer requires a couple of specific [compiler options](https://vitejs.dev/guide/features.html#typescript-compiler-options) to be turned on:
-
   - **isolatedModules**: `esbuild` performs transpilation in isolated mode, this is, on a single file at a time. Therefore, it cannot transform code that depend on understanding the full type system. This flag turned on ensures we are warned against certain code that can't be correctly interpreted by a single-file transpilation process.
   - **useDefineForClassFields**: ensures EMCA compliant class fields.
 

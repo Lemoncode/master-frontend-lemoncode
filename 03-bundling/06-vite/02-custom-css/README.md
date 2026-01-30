@@ -55,13 +55,12 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
     </body>
   ```
 
-
 - Let's start checking the result for production. Run the build script like this:
 
   ```bash
   npm run build
   ```
-  
+
   👍🏼 `vite` supports css out of the box! No need for plugins or configuration.
 
   🔍 Open file `dist/index.html` and notice how there is a new `<link>` tag created for us to reference the CSS file:
@@ -99,8 +98,7 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
 
   🔍 Click the resource and check its content:
   - It contains a runtime made out by utilities imported from `@vite/client` like `updateStyle` and `removeStyle`.
-  - This runtime enables hot-injection of new CSS in the application without having to refresh the whole page. 
+  - This runtime enables hot-injection of new CSS in the application without having to refresh the whole page.
   - It uses HMR APIs to replace styles in the browser, removing the old ones and adding the new ones.
-
 
   🔍 You can also check `Elements` tab to see how your new styles are injected in the `<head>` tag.

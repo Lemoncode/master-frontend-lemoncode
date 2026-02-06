@@ -162,6 +162,26 @@ Y después grabamos esa info en base de datos en la ficha del usuario.
 
 Y también devolvemos el secreto y el QR en la respuesta para que el frontend pueda mostrarlo.
 
+## Habilitarlo
+
+Una vez que le hemos enviado esa info al usuario, él escaneará el código y a partir de ahí su app de autenticación (Google Authenticator, Authy, etc) empezará a generar códigos TOTP cada 30 segundos.
+
+Para asegurar que lo tiene bien configurado, le pedimos que meta un código TOTP generado por su app, y lo validamos con el backend, ahí es donde llamamos al endpoint (./backend/src/controllers/twoFactor.controller.ts):
+
+```ts
+export const enable2FA = async (req: Request, res: Response) => {
+```
+
+Ahí leemos de la sesión el Id de usario, y el código TOTP que nos ha enviado el frontend, y validamos que ese código es correcto para el secreto que tenemos guardado en base de datos.
+
+Ahí generamos los recovery codes, que el usuario puede usar en caso de perder acceso a su app de autenticación (perder el móvil, etc), y los guardamos también en base de datos.
+
+Y habilitamos para ese usuario el flag de `twoFactorEnabled` a `true`, para que a partir de ahí, cada vez que se loguee, tenga que pasar por el proceso de validación del código TOTP.
+
+## Front End
+
+---
+
 ## Estructura del proyecto
 
 ```

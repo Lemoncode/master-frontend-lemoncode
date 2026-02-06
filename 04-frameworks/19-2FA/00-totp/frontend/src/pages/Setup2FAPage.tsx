@@ -16,30 +16,13 @@ export const Setup2FAPage = () => {
   useEffect(() => {
     const generateQRCode = async () => {
       try {
-        // Obtener userId del usuario autenticado
-        const userResponse = await fetch("/api/user/me", {
-          method: "GET",
-          credentials: "include",
-        });
-
-        if (!userResponse.ok) {
-          setError("No se encontró información del usuario");
-          setLoading(false);
-          return;
-        }
-
-        const userData = await userResponse.json();
-        const userId = userData.data.user.id;
-
         const response = await fetch("/api/2fa/setup", {
           method: "POST",
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            userId: userId,
-          }),
+          body: JSON.stringify({}),
         });
 
         const data = await response.json();
@@ -67,20 +50,6 @@ export const Setup2FAPage = () => {
     setVerifying(true);
 
     try {
-      const userResponse = await fetch("/api/user/me", {
-        method: "GET",
-        credentials: "include",
-      });
-
-      if (!userResponse.ok) {
-        setError("No se encontró información del usuario");
-        setVerifying(false);
-        return;
-      }
-
-      const userData = await userResponse.json();
-      const userId = userData.data.user.id;
-
       const response = await fetch("/api/2fa/enable", {
         method: "POST",
         credentials: "include",
@@ -88,7 +57,6 @@ export const Setup2FAPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: userId,
           code: verificationCode,
         }),
       });

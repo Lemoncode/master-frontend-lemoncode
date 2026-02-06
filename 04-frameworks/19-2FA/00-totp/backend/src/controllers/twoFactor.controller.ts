@@ -10,12 +10,12 @@ import { generateRecoveryCodes } from "../utils/recoveryCodes";
 
 export const setup2FA = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.body;
+    const userId = req.userId;
 
     if (!userId) {
-      return res.status(400).json({
+      return res.status(401).json({
         success: false,
-        message: "userId es requerido",
+        message: "Usuario no autenticado",
       });
     }
 
@@ -229,12 +229,20 @@ export const verify2FA = async (req: Request, res: Response) => {
 
 export const enable2FA = async (req: Request, res: Response) => {
   try {
-    const { userId, code } = req.body;
+    const userId = req.userId;
+    const { code } = req.body;
 
-    if (!userId || !code) {
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Usuario no autenticado",
+      });
+    }
+
+    if (!code) {
       return res.status(400).json({
         success: false,
-        message: "userId y código son requeridos",
+        message: "Código es requerido",
       });
     }
 

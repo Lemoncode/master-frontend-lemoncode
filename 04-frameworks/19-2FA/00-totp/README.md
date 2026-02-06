@@ -85,9 +85,9 @@ Si lo abrimos con Mongo Compass, podemos ver que tenemos nuestra base de datos `
 
 ## Backend
 
-El backend es un proyecto de Node.js con Express y TypeScript. 
+El backend es un proyecto de Node.js con Express y TypeScript.
 
-Si nos fijamos en las rutas 
+Si nos fijamos en las rutas
 
 _./backend/src/routes_
 
@@ -118,12 +118,12 @@ export const verify2FA = async (req: Request, res: Response) => {
 ```
 
 Aquí lo que hacemos es que:
-  - Por un lado verificamos el token temporal que creamos al hacer el primer login (la clave estándar), es válido y no ha expirado.
 
-  - Una vez comprobado que todo ok, ahora toca validar el TOTP:
-    - IMPORTANTE: en este ejemplo el secreto TOTP lo tenemos en base de datos ¡¡ sin encriptar !! lo ideal sería tenerlo encriptado, y desencriptarlo aquí para generar el código temporal y compararlo con el que nos ha enviado el usuario.
-  
-  - Una vez que está todo Ok, creamos la cookie de sesión.
+- Por un lado verificamos el token temporal que creamos al hacer el primer login (la clave estándar), es válido y no ha expirado.
+
+- Una vez comprobado que todo ok, ahora toca validar el TOTP:
+
+- Una vez que está todo Ok, creamos la cookie de sesión.
 
 ## Crear 2FA
 
@@ -139,7 +139,28 @@ _backend/src/controllers/twoFactor.controller.ts_
 export const setup2FA = async (req: Request, res: Response) => {
 ```
 
+- Este endpoint ha tenido que pasar primero por el middleware de autenticación, para asegurarnos que el usuario está logado (aquí regemos el userId del token de sesión): `backend/src/middleware/auth.ts``
 
+- De ahí cargamos los datos del usuario, de ahí sacamos el email del usario (se usara para crear el QR con el secreto TOTP).
+
+```diff
+    const totp = new OTPAuth.TOTP({
+      issuer: "MiApp",
++      label: user.email,
+      algorithm: "SHA1",
+      digits: 6,
+      period: 30,
+      secret: secret,
+    });
+```
+
+> Aquí hay un tema curioso con el algoritmo `SHA1`, sería mejor usar `SHA256` o `SHA512`, pero la mayoría de las apps de autenticación (Google Authenticator, Authy, etc) solo soportan `SHA1` (sobre todo si metemos el código manual), así que nos quedamos con ese para asegurar compatibilidad.
+
+Usando la librería `otpauth` generamos el string con el secreto y con `qrcode` el QR para poder escanearlo.
+
+Y después grabamos esa info en base de datos en la ficha del usuario.
+
+Y también devolvemos el secreto y el QR en la respuesta para que el frontend pueda mostrarlo.
 
 ## Estructura del proyecto
 

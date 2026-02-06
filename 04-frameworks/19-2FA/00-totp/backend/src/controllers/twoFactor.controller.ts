@@ -7,6 +7,7 @@ import QRCode from "qrcode";
 import bcrypt from "bcryptjs";
 import { generateSessionToken, verifyTempToken } from "../middleware/auth";
 import { generateRecoveryCodes } from "../utils/recoveryCodes";
+import { encrypt, decrypt } from "../utils/encryption";
 
 export const setup2FA = async (req: Request, res: Response) => {
   try {
@@ -53,12 +54,12 @@ export const setup2FA = async (req: Request, res: Response) => {
     // Generar QR code
     const qrCodeDataUrl = await QRCode.toDataURL(otpauthUrl);
 
-    // Guardar el secret en la base de datos (aún no habilitado)
+    // Guardar el secret encriptado en la base de datos (aún no habilitado)
     await usersCollection.updateOne(
       { _id: user._id },
       {
         $set: {
-          twoFactorSecret: secret.base32,
+          twoFactorSecret: encrypt(secret.base32),
           updatedAt: new Date(),
         },
       }
@@ -130,7 +131,7 @@ export const verify2FA = async (req: Request, res: Response) => {
       algorithm: "SHA1",
       digits: 6,
       period: 30,
-      secret: OTPAuth.Secret.fromBase32(user.twoFactorSecret),
+      secret: OTPAuth.Secret.fromBase32(decrypt(user.twoFactorSecret)),
     });
 
     const delta = totp.validate({ token: code, window: 1 });
@@ -268,14 +269,14 @@ export const enable2FA = async (req: Request, res: Response) => {
       });
     }
 
-    // Crear TOTP con el secret del usuario
+    // Crear TOTP con el secret del usuario (desencriptado)
     const totp = new OTPAuth.TOTP({
       issuer: "MiApp",
       label: user.email,
       algorithm: "SHA1",
       digits: 6,
       period: 30,
-      secret: OTPAuth.Secret.fromBase32(user.twoFactorSecret),
+      secret: OTPAuth.Secret.fromBase32(decrypt(user.twoFactorSecret)),
     });
 
     // Validar el código

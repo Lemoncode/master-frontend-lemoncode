@@ -1,4 +1,3 @@
-
 # Doble Factor Passkey - Ejemplo
 
 Aplicación de ejemplo con autenticación mediante Passkeys (WebAuthn).
@@ -21,13 +20,15 @@ Backend: `http://localhost:3000` | Frontend: `http://localhost:5173`
 
 Esta aplicación te permite logarte usando una passkey, que es una credencial de autenticación sin contraseña (aquí no implementamos doble factor), veamolos en acción:
 
-El registro: 
+El registro:
+
 1. El usuario introduce su email y pulsa "Registrarse" (ojo aqui poner un email que no esté registrado).
-2. Aquí nos pide autenticación biómetrica o PIN, dependiendo de lo que tenga el dispositivo. 
+2. Aquí nos pide autenticación biómetrica o PIN, dependiendo de lo que tenga el dispositivo.
 3. Se guarda clave privada en el dispositivo y clave pública en el backend.
 4. Ya estoy listo para logarme con la passkey.
 
 El login
+
 1. El usuario introduce su email y pulsa "Login con Passkey".
 2. El navegador muestra el prompt de autenticación (Touch ID, Windows Hello...).
 3. El usuario confirma con su método biométrico o PIN.
@@ -53,7 +54,8 @@ _backend/src/routes/login.ts_
 En start lo que hacemos es:
 
 Start
-*****
+
+---
 
 1. Buscar el usuario por email en MongoDB.
 2. Si no existe o no tiene credenciales, devolvemos un 404.
@@ -61,7 +63,8 @@ Start
 4. Guardamos el challenge en MongoDB y lo devolvemos al frontend.
 
 Finish
-******
+
+---
 
 Una vez que el usuario recibe las options, el navegador muestra el prompt de autenticación. Cuando el usuario confirma, el navegador firma el challenge con la clave privada y devuelve la respuesta al frontend, en este caso:
 
@@ -75,7 +78,8 @@ Una vez que el usuario recibe las options, el navegador muestra el prompt de aut
 _backend/src/routes/register.ts_
 
 Start
-*****
+
+---
 
 - Primero comprobamos que el email no tenga ya credenciales registradas. Si las tiene, devolvemos un 409.
 - Ahora llamamos al método `generateRegistrationOptions()` de `@simplewebauthn/server`, que genera un challenge aleatorio y los parámetros necesarios para crear la passkey.
@@ -84,7 +88,8 @@ Start
 IMPORTANTE, aquí todavía no guardamos ninguna credencial (clave publica), solo el challenge. La clave pública se guarda en el siguiente paso, una vez que el navegador crea la passkey.
 
 Finish
-******
+
+---
 
 - Buscamos el usuario.
 - Ahora tenemos clave pública y challenge encriptado con la privada del cliente.
@@ -93,7 +98,25 @@ Finish
 
 ## Front End
 
+### Register
 
+_frontend/src/components/RegisterForm.tsx_
+
+El registro se orquesta en tres pasos:
+
+1. El usuario introduce su email y pulsa "Registrarse". Esto llama a `registerStart(email)`, que hace un POST al backend para iniciar el registro.
+2. El backend devuelve las options, que se pasan a `startRegistration()`. Esto muestra el prompt de WebAuthn (Touch ID, Windows Hello...) y el usuario confirma con su método biométrico o PIN. El navegador genera la passkey y devuelve la credencial al frontend.
+3. Finalmente, `registerFinish(email, credential)` envía la credencial al backend para verificarla y completar el registro.
+
+### Login
+
+_frontend/src/components/LoginForm.tsx_
+
+El inicio de sesión con Passkey también se orquesta en tres pasos:
+
+1. El usuario introduce su email y pulsa "Iniciar sesión". Esto llama a `loginStart(email)`, que hace un POST al backend para iniciar el proceso de autenticación.
+2. El backend devuelve las options de autenticación, que se pasan a `startAuthentication()`. El navegador muestra el prompt de WebAuthn (huella, PIN o uso de otro dispositivo). El autenticador firma el challenge con la passkey correspondiente y devuelve una assertion (credencial) al frontend.
+3. Finalmente, `loginFinish(email, credential)` envía la assertion al backend, donde se verifica criptográficamente usando la clave pública almacenada. Si la verificación es correcta, se actualiza el contador de la credencial, se limpia el challenge temporal y se establece la sesión del usuario.
 
 ---
 
@@ -126,14 +149,14 @@ Esto levanta MongoDB en Docker y arranca el servidor en `http://localhost:3000`.
 
 Scripts disponibles:
 
-| Script | Descripción |
-|---|---|
-| `npm run dev` | Levanta MongoDB + arranca el backend |
-| `npm run dev:no-docker` | Arranca solo el backend |
-| `npm run docker:up` | Levanta solo MongoDB |
-| `npm run docker:down` | Para MongoDB |
-| `npm run build` | Compila TypeScript |
-| `npm start` | Ejecuta la build compilada |
+| Script                  | Descripción                          |
+| ----------------------- | ------------------------------------ |
+| `npm run dev`           | Levanta MongoDB + arranca el backend |
+| `npm run dev:no-docker` | Arranca solo el backend              |
+| `npm run docker:up`     | Levanta solo MongoDB                 |
+| `npm run docker:down`   | Para MongoDB                         |
+| `npm run build`         | Compila TypeScript                   |
+| `npm start`             | Ejecuta la build compilada           |
 
 ### 2. Frontend
 
@@ -258,9 +281,9 @@ que orquesta las tres llamadas secuenciales:
 
 ```typescript
 // frontend/src/components/RegisterForm.tsx
-const options    = await registerStart(email);                    // Fase 1
+const options = await registerStart(email); // Fase 1
 const credential = await startRegistration({ optionsJSON: options }); // Fase 2
-await registerFinish(email, credential);                          // Fase 3
+await registerFinish(email, credential); // Fase 3
 ```
 
 #### 2. Fase START — El backend genera el reto (`POST /api/register/start`)
@@ -276,12 +299,12 @@ En el backend (`backend/src/routes/register.ts`):
 
 ```typescript
 const options = await generateRegistrationOptions({
-  rpName,            // "Passkey Demo" — nombre que ve el usuario
-  rpID,              // "localhost" — dominio vinculado a la passkey
-  userName: email,   // identificador del usuario
+  rpName, // "Passkey Demo" — nombre que ve el usuario
+  rpID, // "localhost" — dominio vinculado a la passkey
+  userName: email, // identificador del usuario
   attestationType: "none",
   authenticatorSelection: {
-    residentKey: "preferred",      // passkey descubrible si es posible
+    residentKey: "preferred", // passkey descubrible si es posible
     userVerification: "preferred", // biometría si está disponible
   },
 });
@@ -298,6 +321,7 @@ las options al navegador. Este muestra el prompt nativo de WebAuthn (Touch ID,
 Windows Hello, llave de seguridad...).
 
 Cuando el usuario confirma, el navegador genera un **par de claves asimétricas**:
+
 - **Clave privada**: queda almacenada en el dispositivo (nunca sale de ahí).
 - **Clave pública + attestation**: se devuelve como `credential` al frontend.
 
@@ -444,9 +468,9 @@ que orquesta las tres llamadas secuenciales:
 
 ```typescript
 // frontend/src/components/LoginForm.tsx
-const options    = await loginStart(email);                          // Fase 1
+const options = await loginStart(email); // Fase 1
 const credential = await startAuthentication({ optionsJSON: options }); // Fase 2
-await loginFinish(email, credential);                                // Fase 3
+await loginFinish(email, credential); // Fase 3
 ```
 
 #### 2. Fase START — El backend genera el reto (`POST /api/login/start`)
@@ -462,13 +486,12 @@ En el backend (`backend/src/routes/login.ts`):
 
 ```typescript
 const options = await generateAuthenticationOptions({
-  rpID,                              // "localhost"
+  rpID, // "localhost"
   allowCredentials: user.credentials.map((cred: any) => ({
-    id: cred.credentialID,           // ID de la credencial registrada
-    ...(cred.transports?.length > 0  // transports solo si hay datos,
-      && { transports: cred.transports }), // si no, el navegador prueba todos
+    id: cred.credentialID, // ID de la credencial registrada
+    ...(cred.transports?.length > 0 && { transports: cred.transports }), // transports solo si hay datos, // si no, el navegador prueba todos
   })),
-  userVerification: "preferred",     // biometría si está disponible
+  userVerification: "preferred", // biometría si está disponible
 });
 ```
 
@@ -483,6 +506,7 @@ muestra el prompt nativo (Touch ID, Windows Hello...).
 
 A diferencia del registro, aquí **no se crea** un par de claves nuevo. El navegador
 usa la **clave privada existente** para firmar el `challenge`. La respuesta incluye:
+
 - **`authenticatorData`**: datos del autenticador con el nuevo `counter`.
 - **`signature`**: la firma del challenge con la clave privada.
 - **`clientDataJSON`**: contexto de la petición (origin, challenge, tipo).
@@ -498,7 +522,7 @@ En el backend (`backend/src/routes/login.ts`):
 
 ```typescript
 const storedCred = user.credentials.find(
-  (c: any) => c.credentialID === credential.id
+  (c: any) => c.credentialID === credential.id,
 );
 ```
 
@@ -509,8 +533,8 @@ const storedCred = user.credentials.find(
 const verification = await verifyAuthenticationResponse({
   response: credential,
   expectedChallenge: user.currentChallenge,
-  expectedOrigin: origin,       // "http://localhost:5173"
-  expectedRPID: rpID,           // "localhost"
+  expectedOrigin: origin, // "http://localhost:5173"
+  expectedRPID: rpID, // "localhost"
   credential: {
     id: storedCred.credentialID,
     publicKey: Buffer.from(storedCred.publicKey, "base64url"),
@@ -528,9 +552,11 @@ const verification = await verifyAuthenticationResponse({
 await users.updateOne(
   { email, "credentials.credentialID": storedCred.credentialID },
   {
-    $set: { "credentials.$.counter": verification.authenticationInfo.newCounter },
+    $set: {
+      "credentials.$.counter": verification.authenticationInfo.newCounter,
+    },
     $unset: { currentChallenge: "" },
-  }
+  },
 );
 ```
 
@@ -538,13 +564,13 @@ await users.updateOne(
 
 ### Registro vs Login — Diferencias clave
 
-| | Registro | Login |
-|---|---|---|
-| **Qué hace el navegador** | Crea un par de claves nuevo | Firma un reto con la clave privada existente |
-| **Qué viaja al servidor** | Clave pública + attestation | Firma + authenticatorData |
-| **Qué guarda el servidor** | La clave pública en `credentials[]` | Actualiza solo el `counter` |
-| **Función server** | `generateRegistrationOptions()` / `verifyRegistrationResponse()` | `generateAuthenticationOptions()` / `verifyAuthenticationResponse()` |
-| **Función browser** | `startRegistration()` | `startAuthentication()` |
+|                            | Registro                                                         | Login                                                                |
+| -------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------- |
+| **Qué hace el navegador**  | Crea un par de claves nuevo                                      | Firma un reto con la clave privada existente                         |
+| **Qué viaja al servidor**  | Clave pública + attestation                                      | Firma + authenticatorData                                            |
+| **Qué guarda el servidor** | La clave pública en `credentials[]`                              | Actualiza solo el `counter`                                          |
+| **Función server**         | `generateRegistrationOptions()` / `verifyRegistrationResponse()` | `generateAuthenticationOptions()` / `verifyAuthenticationResponse()` |
+| **Función browser**        | `startRegistration()`                                            | `startAuthentication()`                                              |
 
 > **Nota:** En ambos flujos, el `challenge` es de un solo uso. Se genera en el
 > `start`, se verifica en el `finish` y se borra inmediatamente después. Esto

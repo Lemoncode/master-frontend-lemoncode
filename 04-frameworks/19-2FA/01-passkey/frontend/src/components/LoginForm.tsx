@@ -17,8 +17,25 @@ export function LoginForm() {
     setError(null);
 
     try {
+      // 1) Pedimos al backend que inicie el proceso de login:
+      //    - Busca al usuario por email
+      //    - Genera un challenge nuevo
+      //    - Construye las opciones de autenticación WebAuthn (rpID, allowCredentials, etc.)
+      //    - Guarda temporalmente el challenge en el servidor
       const options = await loginStart(email);
+
+      // 2) Llamamos a la WebAuthn API del navegador para autenticar:
+      //    - El navegador muestra el prompt (huella, PIN, o móvil por QR)
+      //    - El autenticador elige una de las credenciales permitidas
+      //    - Firma el challenge con la clave privada
+      //    - Devuelve una assertion (credential) con el credentialID usado y la firma
       const credential = await startAuthentication({ optionsJSON: options });
+
+      // 3) Enviamos la assertion al backend para finalizar el login:
+      //    - Verifica criptográficamente la firma usando la publicKey guardada
+      //    - Comprueba que el challenge y el origin coinciden
+      //    - Actualiza el counter de la credencial si aplica
+      //    - Crea la sesión del usuario y limpia el challenge temporal
       await loginFinish(email, credential);
 
       setSuccess(`Login exitoso. Bienvenido/a, ${email}`);
@@ -26,7 +43,7 @@ export function LoginForm() {
       setEmail("");
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Error desconocido en el login"
+        err instanceof Error ? err.message : "Error desconocido en el login",
       );
     } finally {
       setLoading(false);

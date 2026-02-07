@@ -17,8 +17,40 @@ export function RegisterForm() {
     setError(null);
 
     try {
+      // Llama a tu backend (/start) para que:
+      // compruebe/cree el usuario
+      //  genere el challenge
+      // construya las Registration Options (rpID, rpName, user, residentKey, etc.)
+      //guarde temporalmente el challenge (por ejemplo en DB en currentChallenge)
       const options = await registerStart(email);
+
+      // Esto es la llamada “mágica” a WebAuthn desde el navegador, usando SimpleWebAuthn:
+      // // Abre el prompt del sistema (TouchID/FaceID/Android/Windows Hello, etc.)
+      // El autenticador genera:
+      //   - El par de claves
+      //   - El credentialID
+      // Devuelve al JS un objeto credential (attestation) con:
+      // id (credentialID)
+      // response (attestationObject, clientDataJSON, etc.)
+      // otros metadatos
+      // Importante: aquí no hay red (más allá de lo que haga el navegador/OS); es interacción local con el autenticador.
       const credential = await startRegistration({ optionsJSON: options });
+
+      // Envías ese credential al backend (/finish) para que el servidor:
+      // verifique criptográficamente la respuesta:
+      // - que el challenge coincide con el guardado
+      // - que el origin y rpID son correctos
+      // - que la firma/attestation es válida
+      //
+      // extraiga y guarde en tu DB:
+      //
+      // - credentialID
+      // - publicKey
+      // - counter
+      // - transports, deviceType, backedUp, etc.
+      //
+      // elimine currentChallenge
+      // Si la verificación pasa, ya puedes decir “registro exitoso”.
       await registerFinish(email, credential);
 
       setSuccess("Registro exitoso. Ya puedes iniciar sesión con tu Passkey.");
@@ -26,7 +58,7 @@ export function RegisterForm() {
       setEmail("");
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Error desconocido en el registro"
+        err instanceof Error ? err.message : "Error desconocido en el registro",
       );
     } finally {
       setLoading(false);

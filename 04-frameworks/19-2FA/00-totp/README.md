@@ -180,6 +180,30 @@ Y habilitamos para ese usuario el flag de `twoFactorEnabled` a `true`, para que 
 
 ## Front End
 
+Y el front end tenemos el siguiente flujo.
+
+_frontend/src/App.tsx_
+
+Primero el usuario se registra (modo estándar esto nos lo saltamos):
+
+Login Page >> Signup Page >> Login Page
+
+De ahí va a habilitar el two factor:
+
+Login Page >> Welcome Page >> Setup 2FA Page 
+
+De aquí cuando el usuario ya tiene el 2FA habilitado, cada vez que intente loguearse, después de meter su email y contraseña, le aparecerá la pantalla para meter el código TOTP:
+
+Login Page >> Verify 2FA Page >> Welcome Page
+
+Veamos los pasos fundamentales:
+
+1. Setup2FAPage
+
+_frontend/src/pages/Setup2FAPage.tsx_
+
+Aquí en el `useEffect` hacemos la llamada al backend para generar el secreto TOTP y el QR, y lo mostramos al usuario para que lo escanee.
+
 ---
 
 ## Estructura del proyecto

@@ -190,7 +190,7 @@ Login Page >> Signup Page >> Login Page
 
 De ahí va a habilitar el two factor:
 
-Login Page >> Welcome Page >> Setup 2FA Page 
+Login Page >> Welcome Page >> Setup 2FA Page
 
 De aquí cuando el usuario ya tiene el 2FA habilitado, cada vez que intente loguearse, después de meter su email y contraseña, le aparecerá la pantalla para meter el código TOTP:
 
@@ -198,11 +198,64 @@ Login Page >> Verify 2FA Page >> Welcome Page
 
 Veamos los pasos fundamentales:
 
+## Sign up
+
 1. Setup2FAPage
 
 _frontend/src/pages/Setup2FAPage.tsx_
 
 Aquí en el `useEffect` hacemos la llamada al backend para generar el secreto TOTP y el QR, y lo mostramos al usuario para que lo escanee.
+
+Si nos vamos al markup podemos ver el flujo completo (está un poco guarreras), a destacar:
+
+- `QRCodeDisplay`: aquí mostramos como una imagen el QR.
+- `VerificationFrom`: aquí mostramos el input para verificar que ha ido bien el setup del QR, el callback ejecuta `handleVerify2FA` que hace la llamada al backend para validar el código TOTP que el usuario ha metido y habalitarlo.
+
+## Login
+
+_frontend/src/pages/LoginPage.tsx_
+
+Si nos vamos a la página de login, en el `handleSubmit`, cuando el usuario ha introducido la clave "normal", preguntamos tiene habilitado el doble factor, en ese caso vamos al página de verificar doble autenticacíon.
+
+_frontend/src/pages/Verify2FAPage.tsx_
+
+Aquí si nos vamos al markup podemos ver el iput para meter el código TOTP, es form tiene una acción por defecto que llama callback `handleSubmit`, si todo va bien navega a la página welcome.
+
+¡¡ Ojo !! todo este flujo de navegación es seguridad por usabilidad, donde realmente se aplica la seguridad es en el servidor inyectando las headers o cookies correspondientes (tokens JWT).
+
+## En la página welcome
+
+_./frontend/src/pages/WelcomePage.tsx_
+
+Aquí lo más interesantes de _handleFetchProtectedData_ al pinchar en el botón para acceder al recurso protegido, hacemos una llamada al backend a un endpoint que solo se puede acceder si el usuario tiene la cookie de sesión (que se le asigna al validar el código TOTP), y ahí el backend valida esa cookie y devuelve la info del recurso protegido.
+
+# Depurando...
+
+Vamos a depurar esto y ver que tal va.
+
+Para ello podemos poner side by side el navegador y Code.
+
+En code ponemos breakpoints en los endpoints:
+
+_./backend/src/controllers/twoFactor.controller.ts_
+
+_setup2FA_
+
+_verify2FA_
+
+_enable2FA_
+
+Y en _protected.controller.ts_
+
+_./backend/src/controllers/protected.controller.ts_
+
+_getProtectedData_
+
+Arrancamos en back javascript debug.
+
+Y en Front End
+
+**_ FIN DEMO _** :)
 
 ---
 

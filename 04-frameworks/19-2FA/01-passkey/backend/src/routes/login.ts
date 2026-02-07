@@ -28,8 +28,14 @@ router.post("/start", async (req, res) => {
     return;
   }
 
+  // Genera las opciones de autenticación WebAuthn para el usuario,
+  // limitando el login a sus credenciales registradas y solicitando
+  // verificación del usuario si está disponible.
   const options = await generateAuthenticationOptions({
     rpID,
+    // Mandamos todas las opciones de credenciales que tiene el usuario
+    // imaginate que no la tiene en el portatil personal pero si tiene el móvil a mano
+    // o yubikey
     allowCredentials: user.credentials.map((cred: any) => ({
       id: cred.credentialID,
       ...(cred.transports?.length > 0 && { transports: cred.transports }),
@@ -39,7 +45,7 @@ router.post("/start", async (req, res) => {
 
   await users.updateOne(
     { email },
-    { $set: { currentChallenge: options.challenge } }
+    { $set: { currentChallenge: options.challenge } },
   );
 
   res.json(options);
@@ -63,8 +69,9 @@ router.post("/finish", async (req, res) => {
     return;
   }
 
+  // Buscamos la credencial que se está intentando usar para autenticar, debe ser una de las que el usuario tiene registradas
   const storedCred = user.credentials.find(
-    (c: any) => c.credentialID === credential.id
+    (c: any) => c.credentialID === credential.id,
   );
 
   if (!storedCred) {
@@ -73,6 +80,8 @@ router.post("/finish", async (req, res) => {
   }
 
   try {
+    // Verificamos challenge, origen, rpID y la firma criptográfica
+    // usando la clave pública almacenada para esa credencial
     const verification = await verifyAuthenticationResponse({
       response: credential,
       expectedChallenge: user.currentChallenge,
@@ -91,16 +100,17 @@ router.post("/finish", async (req, res) => {
       return;
     }
 
-    // Update counter to prevent replay attacks
+    // Actualizamos el contador de la credencial para prevenir ataques de reproducción
+    // pero esto no es muy fiable (multidispositivo, uso de la misma credencial en varios navegadores, etc)
+    // así que no es obligatorio
     await users.updateOne(
       { email, "credentials.credentialID": storedCred.credentialID },
       {
         $set: {
-          "credentials.$.counter":
-            verification.authenticationInfo.newCounter,
+          "credentials.$.counter": verification.authenticationInfo.newCounter,
         },
         $unset: { currentChallenge: "" },
-      }
+      },
     );
 
     res.json({ verified: true, email });

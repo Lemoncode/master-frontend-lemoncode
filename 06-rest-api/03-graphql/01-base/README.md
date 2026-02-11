@@ -21,7 +21,6 @@ npm install
 3. Give it a descriptive name (e.g., "GraphQL Learning")
 4. Select the following permissions:
    - ✅ `repo` (repository access)
-   - ✅ `read:user` (read user information)
 5. Click **Generate token**
 6. **IMPORTANT!** Copy the token immediately (you won't be able to see it again)
 
@@ -40,6 +39,12 @@ GITHUB_TOKEN=ghp_your_real_token_here
 ```
 
 > ⚠️ **Important**: The `.env` file is in `.gitignore` so it won't be uploaded to Git for security.
+
+### 4. Start the server
+
+```bash
+npm start
+```
 
 ### 5. Open GraphiQL
 

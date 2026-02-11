@@ -1,0 +1,26 @@
+{
+  "name": "hotel-api",
+  "version": "1.0.0",
+  "description": "Hotel API",
+  "type": "module",
+  "scripts": {
+    "start": "run-p -l start:dev type-check:watch",
+    "start:dev": "tsx watch src/index.ts",
+    "type-check": "tsc --noEmit --preserveWatchOutput",
+    "type-check:watch": "npm run type-check -- --watch"
+  },
+  "author": "Lemoncode",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^17.2.4",
+    "express": "^4.21.2",
+    "graphql": "^16.12.0",
+    "graphql-http": "^1.22.4"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "npm-run-all": "^4.1.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

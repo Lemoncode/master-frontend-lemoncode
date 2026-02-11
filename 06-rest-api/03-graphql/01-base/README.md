@@ -6,11 +6,48 @@ In this example we are going to learn GraphQL base concepts.
 
 - This is the [official documentation page](https://graphql.org/learn/), but now we are going to use an editor tool called **GraphiQL**
 
-- We can play with online tool at [Github GraphQL Server](https://developer.github.com/v4/explorer/)
-
 # Base concepts
 
-## 1. Playing with tool:
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Get your GitHub token
+
+1. Go to [GitHub Settings > Developer settings > Personal access tokens > Tokens (classic)](https://github.com/settings/tokens)
+2. Click **Generate new token (classic)**
+3. Give it a descriptive name (e.g., "GraphQL Learning")
+4. Select the following permissions:
+   - ✅ `repo` (repository access)
+   - ✅ `read:user` (read user information)
+5. Click **Generate token**
+6. **IMPORTANT!** Copy the token immediately (you won't be able to see it again)
+
+### 3. Configure the token
+
+Create a `.env` file in the project root (you can copy `.env.example`):
+
+```bash
+cp .env.example .env
+```
+
+Edit the `.env` file and add your GitHub token:
+
+```env
+GITHUB_TOKEN=ghp_your_real_token_here
+```
+
+> ⚠️ **Important**: The `.env` file is in `.gitignore` so it won't be uploaded to Git for security.
+
+### 5. Open GraphiQL
+
+Open your browser at: **http://localhost:3000**
+
+You can now run GraphQL queries against GitHub's API 🎉
+
+## 📚 Example queries
 
 - Click on `Docs` to open right panel.
 
@@ -56,7 +93,7 @@ query {
 > Notice that we are using only one query to retrieve two different resources.
 >
 > If you want split them in two queries:
-> 
+>
 > ```
 > query QueryA {
 >   viewer {
@@ -65,14 +102,14 @@ query {
 >     avatarUrl
 >   }
 > }
-> 
+>
 > query QueryB {
 >   repository(name:"react", owner: "facebook") {
 >     name
 >     description
 >   }
 > }
-> 
+>
 > ```
 
 - As we known, `name` and `owner` are required fields. We can check `Docs` section on right side to provide necessary input fields, returned types, etc.
@@ -86,7 +123,7 @@ query {
     company
     avatarUrl
   }
-  
+
   repository(name:"react", owner: "facebook") {
     name
     description
@@ -143,7 +180,6 @@ query {
 }
 ```
 
-
 - And use it:
 
 ```diff
@@ -155,7 +191,7 @@ query {
     company
     avatarUrl
   }
-  
+
 - repository(name:"react", owner: "facebook") {
 + repository(name: $repositoryName, owner: $repositoryOwner) {
     name
@@ -255,7 +291,6 @@ type Query {
 }
 ```
 
-
 # Advance Concepts
 
 ## 1. Aliases.
@@ -344,7 +379,6 @@ The best way to do this in GraphQL is with a _directive_. Directives can be used
 
 ```
 
-
 ```json
 {
   "includeRepo": true
@@ -359,17 +393,16 @@ In the next example, we repeated the _repository_ information fields:
 
 ```graphql
 query {
-  repoA:repository(name: "react", owner: "facebook")  {
+  repoA: repository(name: "react", owner: "facebook") {
     name
     description
   }
-  
-  repoB:repository(name: "fonk", owner: "lemoncode")  {
+
+  repoB: repository(name: "fonk", owner: "lemoncode") {
     name
     description
   }
 }
-
 ```
 
 If we later decide to ask for an extra field on every _repository_ object, we'll have to change two places in our query, which is not ideal. We can use _GraphQL fragments_:
@@ -381,7 +414,7 @@ query {
 -   description
 +   ...RepositoryInfo
   }
-  
+
   repoB:repository(name: "fonk", owner: "lemoncode")  {
 -   name
 -   description

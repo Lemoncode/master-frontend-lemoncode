@@ -15,64 +15,43 @@ un código justo después de cada renderizado.
 npm install
 ```
 
-- Vamos abrir el fichero _demo.tsx_ y crear el ejemplo de un componente
-  padre y un hijo que se muestra dependiendo de una condición booleana.
+- Vamos abrir el fichero _demo.tsx_ y creamos un componente simple con un input y un estado.
 
 ```tsx
 import React from "react";
 
-export const MyComponent = () => {
-  const [visible, setVisible] = React.useState(false);
+export const Demo: React.FC = () => {
+  const [value, setValue] = React.useState("John");
 
   return (
     <>
-      <button onClick={() => setVisible(!visible)}>
-        Toggle Child component visibility
-      </button>
-      {visible && <MyChildComponent />}
+      <div>
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
+        />
+      </div>
     </>
-  );
-};
-
-const MyChildComponent = () => {
-  const [userInfo, setUserInfo] = React.useState({
-    name: "John",
-    lastname: "Doe",
-  });
-
-  return (
-    <div>
-      <h3>
-        {userInfo.name} {userInfo.lastname}
-      </h3>
-      <input
-        value={userInfo.name}
-        onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
-      />
-      <input
-        value={userInfo.lastname}
-        onChange={(e) => setUserInfo({ ...userInfo, lastname: e.target.value })}
-      />
-    </div>
   );
 };
 ```
 
 - Ahora viene la parte interesante, vamos a llamar a _React.useEffect_ sólo
-  informando el primer parámetro.
+  informando el primer parámetro (sin dependencias).
+
+_./src/demo.tsx_
 
 ```diff
 const MyChildComponent = () => {
-  const [userInfo, setUserInfo] = React.useState({
-    name: "John",
-    lastname: "Doe"
-  });
+  const [value, setValue] = React.useState("John");
 
 + React.useEffect(() => {
 +    console.log("A. Called right after every render");
-+
 +  });
-
++
   return (
 ```
 
@@ -82,27 +61,20 @@ const MyChildComponent = () => {
 
 ```diff
 React.useEffect(() => {
-    console.log("A. Called when the component is mounted and after every render");
-
-+    return () =>
-+      console.log(
-+        "B. Cleanup function called after every render"
-+      );
+     console.log("A. Called right after every render");
++    return () => console.log("B. Cleanup function called after every render");
 +  });
 ```
 
-- Si ejecutamos podemos ver como se invocan las dos funciones.
+- Si introducimos un cambio en el input podemos ver como se invocan las dos funciones.
 
 Como hemos visto, si no pasamos un segundo argumento a _useEffect_, el effect o callback que pasamos por primer parámetro se ejecutará en cada re-ejecución. Sin embargo, si queremos controlar cuándo se ejecuta el efecto y su función de limpieza, debemos indicar explícitamente las dependencias en el segundo parámetro.
 
-Para comprobar este comportamiento, eliminamos el useEffect del ejemplo anterior y creamos uno nuevo que se dispare cada vez que cambie cualquier valor dentro de _userInfo_:
+Para comprobar este comportamiento, eliminamos el useEffect del ejemplo anterior y creamos uno nuevo que se dispare cada vez que cambie _value_:
 
 ```diff
 const MyChildComponent = () => {
-  const [userInfo, setUserInfo] = React.useState({
-    name: "John",
-    lastname: "Doe"
-  });
+  const [value, setValue] = React.useState("John");
 
 -   React.useEffect(() => {
 -     console.log("A. Called right after every render");
@@ -110,37 +82,12 @@ const MyChildComponent = () => {
 -   });
 
 +   React.useEffect(() => {
-+     console.log("Effect ran: component rendered with userInfo:", userInfo);
-+     return () =>
-+       console.log("Cleanup before running new effect, userInfo was", userInfo);
-+   }, [userInfo]);
++     console.log("EFFECT", value);
++     return () => console.log("CLEAN-UP", value);
++   }, [value]);
 ```
 
-Independientemente de qué propiedad modifiquemos, el efecto y su función de limpieza se ejecutarán. Esto ocurre porque hemos definido como dependencia al estado completo _userInfo_.
-
-Si queremos diferenciar la ejecución del efecto en función de propiedades concretas, basta con especificar directamente la propiedad dentro del array de dependencias:
-
-```diff
-const MyChildComponent = () => {
-  const [userInfo, setUserInfo] = React.useState({
-    name: "John",
-    lastname: "Doe"
-  });
-
-   React.useEffect(() => {
--     console.log("Effect ran: component rendered with userInfo:", userInfo);
-+     console.log(`Effect ran: component rendered with name: ${userInfo.name}`);
-+     return () =>
--       console.log("Cleanup before running new effect, userInfo was", userInfo);
-+       console.log(`Cleanup before running new effect, name: ${userInfo.name}`);
-+   }, [userInfo.name]);
-
-+   React.useEffect(() => {
-+     console.log(`Effect ran: component rendered with lastname: ${userInfo.lastname}`);
-+     return () =>
-+       console.log(`Cleanup before running new effect, lastname: ${userInfo.lastname}`);
-+   }, [userInfo.lastname]);
-```
+Cuando modificamos el input, React primero ejecuta la función de limpieza del efecto anterior con el valor antiguo y, a continuación, ejecuta el efecto con el nuevo valor.
 
 # ¿Te apuntas a nuestro máster?
 

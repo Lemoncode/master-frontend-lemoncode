@@ -17,7 +17,7 @@ export const resolvers = {
     const hotels = await getHotelList();
     return hotels;
   },
-  hotel: async (args): Promise<Hotel> => {
+  hotel: async (args: { id: string }): Promise<Hotel> => {
     const hotel = await getHotel(args.id);
     return hotel;
   },
@@ -33,7 +33,7 @@ export const resolvers = {
     const cities = await getCities();
     return cities;
   },
-  deleteHotel: async (args): Promise<boolean> => {
+  deleteHotel: async (args: { id: string }): Promise<boolean> => {
     return await deleteHotel(args.id);
   },
 };

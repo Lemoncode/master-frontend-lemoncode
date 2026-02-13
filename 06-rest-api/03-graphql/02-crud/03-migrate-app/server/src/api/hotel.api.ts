@@ -30,6 +30,11 @@ hotelApi
     const id = await insertHotel(hotelEdit);
     res.send(id);
   })
+  .put('/:id', async (req, res) => {
+    const hotelEdit: HotelEdit = req.body;
+    await updateHotel(hotelEdit);
+    res.sendStatus(200);
+  })
   .patch('/:id', async (req, res) => {
     const hotelEdit: HotelEdit = req.body;
     await updateHotel(hotelEdit);

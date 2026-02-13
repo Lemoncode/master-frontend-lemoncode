@@ -50,7 +50,6 @@ const MyChildComponent = () => {
 
 + React.useEffect(() => {
 +    console.log("A. Called right after every render");
-+
 +  });
 +
   return (
@@ -62,12 +61,8 @@ const MyChildComponent = () => {
 
 ```diff
 React.useEffect(() => {
-    console.log("A. Called when the component is mounted and after every render");
-
-+    return () =>
-+      console.log(
-+        "B. Cleanup function called after every render"
-+      );
+     console.log("A. Called right after every render");
++    return () => console.log("B. Cleanup function called after every render");
 +  });
 ```
 
@@ -75,7 +70,7 @@ React.useEffect(() => {
 
 Como hemos visto, si no pasamos un segundo argumento a _useEffect_, el effect o callback que pasamos por primer parámetro se ejecutará en cada re-ejecución. Sin embargo, si queremos controlar cuándo se ejecuta el efecto y su función de limpieza, debemos indicar explícitamente las dependencias en el segundo parámetro.
 
-Para comprobar este comportamiento, eliminamos el useEffect del ejemplo anterior y creamos uno nuevo que se dispare cada vez que cambie cualquier valor dentro de _value_:
+Para comprobar este comportamiento, eliminamos el useEffect del ejemplo anterior y creamos uno nuevo que se dispare cada vez que cambie _value_:
 
 ```diff
 const MyChildComponent = () => {

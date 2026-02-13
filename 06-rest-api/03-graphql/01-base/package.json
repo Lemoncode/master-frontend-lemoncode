@@ -1,7 +1,7 @@
 {
-  "name": "hotel-api",
+  "name": "playground-graphql",
   "version": "1.0.0",
-  "description": "Hotel API",
+  "description": "Playground for GraphQL",
   "type": "module",
   "scripts": {
     "start": "run-p -l start:dev type-check:watch",

@@ -67,9 +67,11 @@ Clicks on _Generate token_ button and update values in Azure configuration secti
 
 ![12-update-azure-values](./readme-resources/12-update-azure-values.png)
 
-> DOCKER_REGISTRY_SERVER_URL: `https://ghcr.io`
+> Registry server URL: `https://ghcr.io`
 >
-> DOCKER_REGISTRY_SERVER_USERNAME: use your Github username or organization name instead of `lemoncode`.
+> Registry user name: use your Github username or organization name instead of `lemoncode`.
+>
+> Registry password: `YOUR_PERSONAL_ACCESS_TOKEN` (the token you just created)
 
 Now we can create a Github Action workflow to deploy our app to Azure:
 
@@ -87,10 +89,12 @@ env:
   IMAGE_NAME: ghcr.io/${{github.repository}}:${{github.run_number}}-${{github.run_attempt}}
 
 permissions:
-  contents: "read"
-  packages: "write"
+  contents: 'read'
+  packages: 'write'
 ```
 
+> IMPORTANT: Now we can update the `Image and Tag` field in Azure configuration section with the value of `IMAGE_NAME` (`${{github.repository}}:${{github.run_number}}-${{github.run_attempt}}`) to use the same image that we are going to upload in the workflow.
+>
 > `github.repository`: The repository name with the owner. For example, `octocat/hello-world`. You only can use this variable if it's lower case due to a Docker tag restriction: `--tag" flag: invalid reference format: repository name must be lowercase`
 >
 > For example, you can use `github.run_number` and `github.run_attempt` to create a unique image tag. But you can use any other tag.
@@ -112,7 +116,7 @@ permissions:
 +     runs-on: ubuntu-latest
 +     steps:
 +       - name: Checkout repository
-+         uses: actions/checkout@v4
++         uses: actions/checkout@v6
 
 +       - name: Log in to GitHub container registry
 +         uses: docker/login-action@v3

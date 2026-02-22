@@ -1,0 +1,11 @@
+node_modules
+dist
+coverage
+.awcache
+test-report.*
+junit.xml
+*.log
+*.orig
+.awcache
+.env
+server/public

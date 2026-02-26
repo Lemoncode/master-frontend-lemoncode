@@ -9,13 +9,13 @@
     "dist"
   ],
   "type": "module",
-  "module": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "main": "./dist/index.umd.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.mts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
       "require": "./dist/index.umd.js"
     }
   },
@@ -24,8 +24,8 @@
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "tsdown": "^0.12.7",
-    "typescript": "^5.8.3"
+    "tsdown": "^0.20.3",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@my-org/house-helpers": "^1.0.0"

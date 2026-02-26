@@ -20,7 +20,7 @@
     }
   },
   "scripts": {
-    "build": "tsdown",
+    "build": "tsdown --no-clean",
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {

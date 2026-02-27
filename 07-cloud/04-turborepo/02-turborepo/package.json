@@ -5,12 +5,12 @@
     "helpers/*",
     "apps/*"
   ],
-  "packageManager": "npm@10.0.0",
+  "packageManager": "npm@11.0.0",
   "scripts": {
     "start": "turbo watch start",
     "build": "turbo build"
   },
   "devDependencies": {
-    "turbo": "^2.5.4"
+    "turbo": "^2.8.10"
   }
 }

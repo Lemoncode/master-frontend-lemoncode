@@ -1,10 +1,9 @@
 {
-  "$schema": "https://turbo.build/schema.json",
+  "$schema": "https://turborepo.dev/schema.json",
   "tasks": {
     "start": {
       "cache": false,
       "persistent": true,
-      "interruptible": true,
       "dependsOn": ["^build"]
     },
     "build": {

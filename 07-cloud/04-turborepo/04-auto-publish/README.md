@@ -12,7 +12,7 @@ Run `npm install` to install project dependencies.
 npm install
 ```
 
-This time, we will publish all packages in a private npm registry, so we need to create a Github repository that includes a free tier of 500MB of storage using [Github Packages](https://github.com/features/packages).
+This time, we will publish all packages in a private npm registry, so we need to create a Github repository that includes a free tier of 500MB of storage using [Github Packages](https://github.com/pricing).
 
 Create new repository and upload files:
 
@@ -49,7 +49,7 @@ _./.changeset/config.js_
 
 ```json
 {
-  "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
+  "$schema": "https://unpkg.com/@changesets/config@3.1.2/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
@@ -59,7 +59,6 @@ _./.changeset/config.js_
   "updateInternalDependencies": "patch",
   "ignore": []
 }
-
 ```
 
 > Notice that we will publish the packages as private packages, so we need to set the `access` field to `restricted` (it will publish the packages as private packages in the npm registry).
@@ -125,12 +124,12 @@ permissions:
 +    runs-on: ubuntu-latest
 +    steps:
 +      - name: Checkout repository
-+        uses: actions/checkout@v4
++        uses: actions/checkout@v6
 
 +      - name: Setup Node.js
-+        uses: actions/setup-node@v4
++        uses: actions/setup-node@v6
 +        with:
-+          node-version: "22.x"
++          node-version: "24.x"
 +          registry-url: "https://npm.pkg.github.com"
 +          scope: "@${{ github.repository_owner }}"
 
@@ -214,9 +213,9 @@ _./apps/baratheon/package.json_
   ...
   "dependencies": {
 -   "@my-org/house-helpers": "^1.0.0",
-+   "@<user-name>/house-helpers": "*",
++   "@<user-name>/house-helpers": "^0.0.0",
 -   "@my-org/motto-helpers": "^1.0.0",
-+   "@<user-name>/motto-helpers": "*",
++   "@<user-name>/motto-helpers": "^0.0.0",
   ...
 }
 
@@ -242,9 +241,9 @@ _./apps/lannister/package.json_
   ...
   "dependencies": {
 -   "@my-org/house-helpers": "^1.0.0",
-+   "@<user-name>/house-helpers": "*",
++   "@<user-name>/house-helpers": "^0.0.0",
 -   "@my-org/motto-helpers": "^1.0.0",
-+   "@<user-name>/motto-helpers": "*",
++   "@<user-name>/motto-helpers": "^0.0.0",
   ...
 }
 
@@ -270,9 +269,9 @@ _./apps/stark/package.json_
   ...
   "dependencies": {
 -   "@my-org/house-helpers": "^1.0.0",
-+   "@<user-name>/house-helpers": "*",
++   "@<user-name>/house-helpers": "^0.0.0",
 -   "@my-org/motto-helpers": "^1.0.0",
-+   "@<user-name>/motto-helpers": "*",
++   "@<user-name>/motto-helpers": "^0.0.0",
   ...
 }
 
@@ -298,9 +297,9 @@ _./apps/targaryen/package.json_
   ...
   "dependencies": {
 -   "@my-org/house-helpers": "^1.0.0",
-+   "@<user-name>/house-helpers": "*",
++   "@<user-name>/house-helpers": "^0.0.0",
 -   "@my-org/motto-helpers": "^1.0.0",
-+   "@<user-name>/motto-helpers": "*",
++   "@<user-name>/motto-helpers": "^0.0.0",
   ...
 }
 
@@ -375,6 +374,7 @@ const MOTTOS: Record<House, string> = {
 And we will create a new changeset only for `house-helpers` (`minor` version):
 
 ```bash
+npm run build
 npm run changeset
 
 ```
@@ -387,7 +387,7 @@ npm run changeset
 >
 > `minor`: Select package with `space` and press `enter` to continue.
 >
-> `summary`: Write something, eg: `add tyrell house` (it will be used in the changelog file). If you don't write anything, it will open an external editor to write multiline text. 
+> `summary`: Write something, eg: `add tyrell house` (it will be used in the changelog file). If you don't write anything, it will open an external editor to write multiline text.
 >
 > `confirm`: Press `enter` to continue (selecting `y` by default).
 
@@ -432,7 +432,7 @@ npm run changeset
 >
 > `major`: Press `enter` without select any package to continue.
 >
-> `summary`: Write something, eg: `fix tyrell motto` (it will be used in the changelog file). If you don't write anything, it will open an external editor to write multiline text. 
+> `summary`: Write something, eg: `fix tyrell motto` (it will be used in the changelog file). If you don't write anything, it will open an external editor to write multiline text.
 >
 > `confirm`: Press `enter` to continue (selecting `y` by default).
 

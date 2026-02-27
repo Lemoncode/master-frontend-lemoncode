@@ -124,7 +124,7 @@ _./helpers/motto-helpers/package.json_
     }
   },
   "scripts": {
-    "build": "npm run type-check && tsdown",
+    "build": "npm run type-check && tsdown --no-clean",
     "type-check": "tsc --noEmit"
   },
 

@@ -1,0 +1,87 @@
+/* CONCEPTO CLAVE: CSS Scroll-driven animation - Nueva especificación */
+
+/* scroll() se basa en la POSICIÓN DE SCROLL del contenedor:
+    
+    animation: my-animation linear;
+    animation-timeline: scroll(nearest);
+*/
+
+/* view() se basa en que el elemento entre/salga del viewport 
+
+    animation: my-animation linear;
+    animation-timeline: view();
+*/
+
+/*********** FOCUS AREA ***********/
+
+@supports (animation-timeline: scroll()) {
+  .list-item {
+    animation: scroll-highlight cubic-bezier(0.5, 0, 0.5, 1);
+    animation-timeline: view();
+    /* Comprobar diferencia */
+    /* animation-timeline: scroll(nearest);  */
+
+    /* Control detallado para ajustar la entrada y salida de cada elemento en el
+    viewport de scroll. Significado: 
+     - entry 0% => iniciar animación cuando el elemento comienza a entrar en el viewport de scroll (0% de progreso).
+     - exit 100% => iniciar animación cuando el elemento ha salido completamente del puerto de scroll (100% fuera) */
+    animation-range: entry 0% exit 100%;
+    /* Puedes reducir el área donde ocurre la animación con algo como */
+    /* animation-range: cover 30% cover 70%; */
+  }
+}
+
+@keyframes scroll-highlight {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.2;
+    font-weight: 300;
+  }
+  40% {
+    font-weight: 300;
+  }
+  50% {
+    /* Máximo en el centro */
+    transform: scale(1.8);
+    opacity: 1;
+    font-weight: 700;
+  }
+  60% {
+    font-weight: 300;
+  }
+  100% {
+    transform: scale(0.5);
+    opacity: 0.2;
+  }
+}
+
+/**********************************/
+
+.list-item {
+  font-family: "Fira Code", monospace;
+  font-weight: 300;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+  row-gap: 1em;
+  padding: 0;
+  margin: 0;
+
+  /* Añadimos padding artificial (top,bottom) simulado con pseudo-elements al scroll */
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    height: 50vh;
+    width: 1px;
+  }
+}
+
+body {
+  /* Necesario para que los paddings artificiales anteriores funcionen */
+  display: block;
+}

@@ -28,7 +28,7 @@ npm install
 
 Primero creamos el armazon
 
-_./src/demo.js_
+_./src/demo.tsx_
 
 ```tsx
 import React from "react";
@@ -65,7 +65,7 @@ export const MyChildComponent = () => {
 
 - Ahora queremos lanzar una petición ajax cada vez que el usuario escriba en el campo de texto del filtro (añadiremos algo de latencia).
 
-_./src/demo.js_
+_./src/demo.tsx_
 
 ```diff
 export const MyChildComponent = () => {

@@ -1,11 +1,7 @@
 import React from "react";
 import { ProfileContext } from "@/core/profile";
 
-interface Props {
-  children: React.ReactNode;
-}
-
-export const AppLayout: React.FC<Props> = ({ children }) => {
+export const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { userName } = React.useContext(ProfileContext);
 
   return (

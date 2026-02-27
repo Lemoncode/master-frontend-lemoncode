@@ -138,12 +138,14 @@ export default CarPage;
 ```
 
 > All options will re-render the component on each refresh (F5)
-
+>
 > `cache: 'force-cache'`: will fetch data only once.
-
->`cache: 'no-store'`: will fetch data on each refresh (F5).
-
->`next: { revalidate: 10 },`: will fetch data on each refresh (F5) after revalidate seconds.
+>
+> `cache: 'no-store'`: will fetch data on each refresh (F5).
+>
+> `next: { revalidate: 10 },`: will fetch data on each refresh (F5) after revalidate seconds.
+>
+> An advanced option is to use [Cache Components or also named Partial Prerendering](https://nextjs.org/docs/app/getting-started/cache-components)
 
 # About Basefactor + Lemoncode
 

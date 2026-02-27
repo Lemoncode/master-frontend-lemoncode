@@ -6,7 +6,7 @@ Let's start with a very basic sample, just add an html plus a simple console log
 
 ## Prerequisites
 
-Install [Node.js and npm](https://nodejs.org/en/) (18 / 20+) if they are not already installed on your computer.
+Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they are not already installed on your computer.
 
 > ⚠ Verify that you are running at least latest Node LTS version and npm. You can check your current version by running `node -v` and `npm -v` in a terminal/console window. Older versions may not work.
 
@@ -15,10 +15,14 @@ Install [Node.js and npm](https://nodejs.org/en/) (18 / 20+) if they are not alr
 Vite provides a powerful templating feature to quickly scaffold your project instead of starting from scratch. It publishes templates than can be used with npm command `npm create` to ramp up your project immediately. For example, for a `react` project with `typescript` we could type:
 
 ```bash
-npm create vite@latest my-app -- --template react-ts
+npm create vite@latest my-app
 ```
 
 > This will instantiate `create-vite` package under the hood.
+> Just follow the questions provided by the CLI and select:
+>
+> - `React` as framework and
+> - `Typescript` as variant.
 
 In a real world, we could start as easy as that. However, if we do it now our class will end way too soon 😅. But also, and more important, 'automagic' creations are nice once you are familiar with Vite. Otherwise, whenever you need to tweak settings, you'll be lost.
 
@@ -99,7 +103,6 @@ Our goal with these series of exercises is to show, step by step, how to configu
   ```
 
   If we inspect `assets/index-<hash>.js` we can notice the file is production ready because:
-
   - It's already hashed (cache-busting strategy to bypass the browser cache completely).
   - File is minified.
   - It also adds a polyfill (via runtime IIFE) to add support for browsers that don't support natively `modulepreload`. It basically adds support to eagerly-download `<link>` assets in parallel mode meanwhile the app is being loaded and thus, reducing loading and processing time of scripts.
@@ -126,6 +129,13 @@ Our goal with these series of exercises is to show, step by step, how to configu
   ```
 
   or alternatively, to customize server port:
+
+  ```diff
+    "build": "vite build",
+  + "preview": "vite preview --port 1234"
+  ```
+
+  or
 
   ```bash
   npm run preview -- --port 1234
@@ -193,11 +203,11 @@ Our goal with these series of exercises is to show, step by step, how to configu
   > ⚡ `vite` dev-server automatically reloads the app on every saved change
 
 - 🔍 Finally, pay attention to the browser `dev tools` to verify the concepts about `vite` we learned in the theory introduction:
-
   - Go to `Network` tab and refresh (F5) the app to populate the requests panel (if necessary).
   - Check how your browser is dowloading:
     - Module `index.js`, this is your app only module that containes the code.
-    - Module `client` which is a `vite` runtime to add an overlay on top of your app to give you error feedback. This module imports another one called `env.mjs` for environment variables.
+    - Module `client` which is a `vite` runtime injected by vite dev server to establish websockets communication in order to manage and orchestrate HMT. It also adds an overlay on top of your app to give you error feedback. This module imports another one called `env.mjs` for environment variables.
+    - `env.mjs` is a special module to inject environment variables dynamically in development. However, in production, these variable values are resolved during build time, so, their values are directly injected/replaced in the resulting code after compilation (no dynamic injection is used then).
   - Reload the app again several times (F5). Now check that modules requests are returning `304 Not modified` so `vite` dev server is telling your browser to grab those modules from its cache. No data is transfered over the network apart from the request response. Cache is working for source code!
   - Now make a new modification in `index.js` to trigger a code update and reload:
     _src/index.js_

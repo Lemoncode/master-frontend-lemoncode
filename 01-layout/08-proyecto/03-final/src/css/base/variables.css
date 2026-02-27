@@ -1,0 +1,106 @@
+@import './media.css';
+
+:root {
+  /*Variables comunes en "todos" los proyectos, variando colores y tipografias*/
+
+  /* Colors, estos colores no se deben usar directamente */
+  --color-yellow-500: #ffd700;
+  --color-yellow-700: #d8b806;
+  --color-cyan-500: #00ffff;
+  --color-cyan-700: #00a4a4;
+  --color-magenta-500: #ff00ff;
+  --color-magenta-700: #d168d1;
+  --color-green-500: #00ff00;
+  --color-green-700: #46be46;
+  --color-pure-black: #000000;
+  --color-pure-white: #ffffff;
+
+  --color-neutral-50: #fcfcfc;
+  --color-neutral-100: #eeeeee;
+  --color-neutral-200: #cfcfcf;
+  --color-neutral-300: #b3b3b3;
+  --color-neutral-400: #989898;
+  --color-neutral-500: #7c7c7c;
+  --color-neutral-600: #636363;
+  --color-neutral-700: #494949;
+  --color-neutral-800: #323232;
+  --color-neutral-900: #1b1b1b;
+  --color-neutral-950: #0c0c0c;
+
+  /* Fuentes */
+  --font-title: 'Space Grotesk Variable', sans-serif;
+  --font-body: 'Geist Variable', sans-serif;
+
+  /* Tamaños de fuente */
+  --fs-2xs: clamp(0.7813rem, 0.7617rem + 0.087vw, 0.84rem);
+  --fs-xs: clamp(0.9375rem, 0.9rem + 0.1667vw, 1.05rem);
+  --fs-sm: clamp(1.125rem, 1.0625rem + 0.2778vw, 1.3125rem);
+  --fs-md: clamp(1.35rem, 1.2531rem + 0.4306vw, 1.6406rem);
+  --fs-lg: clamp(1.62rem, 1.4764rem + 0.6382vw, 2.0508rem);
+  --fs-xl: clamp(1.944rem, 1.7375rem + 0.9177vw, 2.5635rem);
+  --fs-2xl: clamp(2.3328rem, 2.0423rem + 1.2912vw, 3.2043rem);
+  --fs-3xl: clamp(3rem, 1.7083rem + 5.7407vw, 6.875rem);
+
+  /* Textos */
+  --text-color: var(--color-pure-black);
+  --text-60: hsl(from var(--text-color) h s l / 0.6);
+  --text-70: hsl(from var(--text-color) h s l / 0.7);
+  --text-85: hsl(from var(--text-color) h s l / 0.85);
+  --text-90: hsl(from var(--text-color) h s l / 0.9);
+  --text-95: hsl(from var(--text-color) h s l / 0.95);
+  --text-contrast: var(--color-pure-black);
+
+  /* Spacing */
+  --space-base: 8px;
+  --space-xs: calc(var(--space-base) / 2);
+  --space-sm: var(--space-base);
+  --space-md: calc(var(--space-base) * 2);
+  --space-lg: calc(var(--space-base) * 3);
+  --space-xl: calc(var(--space-base) * 4);
+  --space-2xl: calc(var(--space-base) * 5);
+  --space-big-1: calc(var(--space-base) * 6);
+  --space-big-2: calc(var(--space-base) * 7);
+  --space-big-3: calc(var(--space-base) * 8);
+  --space-big-4: calc(var(--space-base) * 10);
+
+  /*---- Aquí terminan las variables comunes ----*/
+
+  /* Background */
+  --bg-app: var(--color-neutral-50);
+  --bg-dots: hsl(from var(--text-color) h s l / 0.06);
+
+  /* Accent colors */
+  --accent-color-one: var(--color-cyan-700);
+  --accent-color-two: var(--color-magenta-700);
+  --accent-color-three: var(--color-yellow-700);
+  --accent-color-four: var(--color-green-700);
+
+  /* Other variables */
+  --card-accent: var(--accent-color-one);
+  --shadow-card: 0 4px 12px hsl(from var(--card-accent) h s l / 1);
+  --border-color: var(--color-neutral-700);
+  --padding-section: var(--space-2xl);
+  --footer-link-hover: var(--color-neutral-600);
+
+  @media (--small-viewport) {
+    --padding-section: var(--space-big-2);
+  }
+  @media (--large-viewport) {
+    --padding-section: var(--space-big-4);
+  }
+
+  color-scheme: light;
+}
+
+html:has(#theme-toggle:checked) {
+  color-scheme: dark;
+
+  --bg-app: var(--color-neutral-950);
+  --text-color: var(--color-pure-white);
+
+  --accent-color-one: var(--color-cyan-500);
+  --accent-color-two: var(--color-magenta-500);
+  --accent-color-three: var(--color-yellow-500);
+  --accent-color-four: var(--color-green-500);
+  --border-color: var(--color-neutral-100);
+}

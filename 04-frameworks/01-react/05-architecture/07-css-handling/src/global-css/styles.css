@@ -1,4 +1,5 @@
 .layout-center {
+  background-color: red;
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;

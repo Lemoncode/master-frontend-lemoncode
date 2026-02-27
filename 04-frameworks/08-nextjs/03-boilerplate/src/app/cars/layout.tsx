@@ -22,7 +22,7 @@ const CarsLayout = (props: Props) => {
         </Link>
         <h1 className={classes.title}>Rent a car</h1>
       </nav>
-      <main className={classes.content}>{children}</main>
+      <div className={classes.content}>{children}</div>
     </>
   );
 };

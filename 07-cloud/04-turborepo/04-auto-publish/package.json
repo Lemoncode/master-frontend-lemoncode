@@ -5,7 +5,7 @@
     "helpers/*",
     "apps/*"
   ],
-  "packageManager": "npm@10.0.0",
+  "packageManager": "npm@11.0.0",
   "scripts": {
     "start": "turbo watch start",
     "build": "turbo build",
@@ -13,7 +13,7 @@
     "publish-packages": "changeset publish"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.28.1",
-    "turbo": "^2.4.4"
+    "@changesets/cli": "^2.29.8",
+    "turbo": "^2.8.10"
   }
 }

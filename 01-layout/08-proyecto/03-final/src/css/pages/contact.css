@@ -1,0 +1,73 @@
+@import '../components/social-card.css';
+@import '../base/media.css';
+
+.contact {
+  padding-top: var(--padding-section);
+  padding-bottom: var(--padding-section);
+
+  &__header {
+    max-width: 52ch;
+    margin-bottom: var(--space-big-1);
+
+    @media (--small-viewport) {
+      margin-bottom: var(--space-big-4);
+    }
+  }
+  &__title {
+    font-size: var(--fs-3xl);
+    margin-bottom: var(--space-md);
+    text-transform: uppercase;
+    color: var(--text-90);
+  }
+  &__description {
+    color: var(--text-90);
+    font-size: var(--fs-md);
+    line-height: 1.6;
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-big-2);
+    @media (--large-viewport) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__link--twitter {
+    --card-accent: var(--accent-color-one);
+    --shadow-card: 0 4px 12px hsl(from var(--card-accent) h s l / 0.5);
+  }
+
+  &__link--instagram {
+    --card-accent: var(--accent-color-two);
+    --shadow-card: 0 4px 12px hsl(from var(--card-accent) h s l / 0.5);
+  }
+
+  &__link--linkedin {
+    --card-accent: var(--accent-color-four);
+    --shadow-card: 0 4px 12px hsl(from var(--card-accent) h s l / 0.5);
+  }
+
+  &__link--email {
+    --card-accent: var(--accent-color-three);
+    --shadow-card: 0 4px 12px hsl(from var(--card-accent) h s l / 0.5);
+  }
+
+  &__cta {
+    width: 100%;
+    display: inline-block;
+    padding: var(--space-md);
+    border: 3px solid var(--border-color);
+    margin-bottom: var(--space-lg);
+    @media (--small-viewport) {
+      padding: var(--space-xl);
+    }
+
+    &-title {
+      font-size: var(--fs-lg);
+      margin-bottom: var(--space-md);
+    }
+  }
+}

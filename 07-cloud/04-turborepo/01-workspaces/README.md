@@ -113,18 +113,18 @@ _./helpers/motto-helpers/package.json_
 {
   ...
   "type": "module",
-  "module": "./dist/index.js",
-  "main": "./dist/index.umd.cjs",
-  "types": "./dist/index.d.ts",
+  "module": "./dist/index.mjs",
+  "main": "./dist/index.umd.js",
+  "types": "./dist/index.d.mts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs"
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.umd.js"
     }
   },
   "scripts": {
-    "build": "npm run type-check && vite build",
+    "build": "npm run type-check && tsdown --no-clean",
     "type-check": "tsc --noEmit"
   },
 
@@ -164,7 +164,7 @@ npm run build -w @my-org/motto-helpers
 
 ```
 
-> Check the build in the `dist/motto-helpers.js` file.
+> Check the build in the `dist/index.mjs` file.
 
 If we add a new house in the `house-helpers` project:
 

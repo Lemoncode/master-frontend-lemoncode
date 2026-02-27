@@ -175,6 +175,12 @@ Lets refactor this code to associate an icon too each job position when it rende
 ```ts
 // ....
   private employeeItemRender = (employee: Employee) => {
+    const jobPosIcons = new Map([
+      ["SE", "💾"],
+      ["PM", "🤫"],
+      ["DA", "📉"],
+    ]);
+    
     const employeePos = employee.position
       .split(" ")
       .map((i) => i[0])

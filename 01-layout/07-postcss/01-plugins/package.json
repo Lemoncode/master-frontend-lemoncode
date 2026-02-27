@@ -1,0 +1,20 @@
+{
+  "name": "post-css-alone",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch:css": "postcss src/styles.css -o dist/styles.css --watch",
+    "build:css": "postcss src/styles.css -o dist/styles.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/postcss-preset-env": "^7.7.0",
+    "cssnano": "^7.1.1",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "postcss-preset-env": "^10.4.0"
+  }
+}

@@ -1,0 +1,34 @@
+/* CONCEPTO CLAVE: CSS Jitter  */
+/* https://css-tricks.com/avoid-css-jitter/ */
+
+/*********** FOCUS AREA ***********/
+
+/* Solución sencilla con placeholder/container wrapper */
+.placeholder {
+  /* Importante ajustar la forma del placeholder idéntica a la del item */
+  border-radius: 0.5em;
+  /* Ayuda visual para reconocer el placeholder */
+  background-color: #ffffff11;
+
+  & .item {
+    transition: all 125ms ease-in-out;
+  }
+
+  &:hover .item {
+    scale: 0.1 0.1;
+    translate: 0 -125%;
+    border-radius: 50%;
+  }
+}
+
+/**********************************/
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  gap: 1em;
+}
+
+body {
+  --item-size: 3em;
+}

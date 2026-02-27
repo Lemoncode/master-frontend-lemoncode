@@ -1,11 +1,11 @@
-import { defineConfig } from 'vite';
+import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react';
-import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   envPrefix: 'PUBLIC_',
   plugins: [
-    TanStackRouterVite({
+    tanstackRouter({
       routesDirectory: 'src/scenes',
       generatedRouteTree: 'src/core/router/route-tree.ts',
       autoCodeSplitting: true,

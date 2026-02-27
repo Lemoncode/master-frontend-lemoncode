@@ -1,0 +1,76 @@
+body {
+  justify-content: stretch;
+  align-items: stretch;
+  row-gap: 2em;
+  padding: 2em;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  color: #fff;
+  text-align: center;
+
+  & .kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 1em;
+    font-weight: 200;
+    opacity: 0.75;
+    text-align: center;
+
+    .lemon {
+      width: 1.5em;
+    }
+  }
+
+  & .headline {
+    font-size: 2em;
+    font-family: "Fira Code", monospace;
+    font-weight: 700;
+    opacity: 0.9;
+    margin-top: 0.25em;
+    padding-bottom: 1.75rem;
+    border-bottom: 0.25px #333 solid;
+  }
+}
+
+main {
+  flex: 1 1 auto;
+  padding-bottom: 2em;
+}
+
+section {
+  & .category {
+    font-size: 1em;
+    font-weight: 300;
+  }
+
+  & .container,
+  &.container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1em;
+  }
+
+  & .card {
+    padding: 0.5em;
+    background-color: #ffffff16;
+    border-radius: 0.5em;
+
+    & p {
+      margin: 0;
+      font-family: "Fira Code", monospace;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    & a {
+      font-size: 0.75em;
+    }
+  }
+}

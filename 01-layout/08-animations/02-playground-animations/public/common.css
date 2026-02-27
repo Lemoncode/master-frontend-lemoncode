@@ -1,0 +1,74 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
+html {
+  /* Default font, fluid size */
+  font-family: "Work Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem);
+
+  /* Hide content if html.loading class is present. This class is set
+  by page script whenever we load programmatic CSS */
+  /* &.loading {
+    opacity: 0;
+    pointer-events: none;
+  } */
+}
+
+body {
+  --highlight: #dd0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100vh;
+  box-sizing: border-box;
+  color: #fff;
+  background: #111;
+  overflow: hidden auto;
+
+  & > * {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+}
+
+a {
+  color: inherit;
+  cursor: pointer;
+  font-size: 0.75em;
+
+  &:hover {
+    color: var(--highlight);
+  }
+
+  &.back-link {
+    position: fixed;
+    top: 1em;
+    left: 1em;
+    text-decoration: none;
+  }
+  &.mode-link {
+    position: fixed;
+    top: 1em;
+    right: 1em;
+    text-decoration: none;
+  }
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--item-size);
+  height: var(--item-size);
+  background-color: #fff;
+  color: #000;
+  border-radius: 0.5rem;
+}

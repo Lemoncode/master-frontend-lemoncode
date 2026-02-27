@@ -67,6 +67,8 @@ Clicks on _Generate token_ button and update values in Azure configuration secti
 
 ![12-update-azure-values](./readme-resources/12-update-azure-values.png)
 
+> DOCKER_REGISTRY_SERVER_PASSWORD: use the generated token value.
+>
 > DOCKER_REGISTRY_SERVER_URL: `https://ghcr.io`
 >
 > DOCKER_REGISTRY_SERVER_USERNAME: use your Github username or organization name instead of `lemoncode`.
@@ -87,8 +89,8 @@ env:
   IMAGE_NAME: ghcr.io/${{github.repository}}:${{github.run_number}}-${{github.run_attempt}}
 
 permissions:
-  contents: "read"
-  packages: "write"
+  contents: 'read'
+  packages: 'write'
 ```
 
 > `github.repository`: The repository name with the owner. For example, `octocat/hello-world`. You only can use this variable if it's lower case due to a Docker tag restriction: `--tag" flag: invalid reference format: repository name must be lowercase`
@@ -112,7 +114,7 @@ permissions:
 +     runs-on: ubuntu-latest
 +     steps:
 +       - name: Checkout repository
-+         uses: actions/checkout@v4
++         uses: actions/checkout@v6
 
 +       - name: Log in to GitHub container registry
 +         uses: docker/login-action@v3

@@ -1,0 +1,16 @@
+@define-mixin hover {
+  @media (hover: hover) {
+    &:hover {
+      @mixin-content;
+    }
+  }
+}
+
+@define-mixin pseudo $width, $height {
+  display: block;
+  content: '';
+  position: absolute;
+  width: $(width);
+  height: $(height);
+  @mixin-content;
+}

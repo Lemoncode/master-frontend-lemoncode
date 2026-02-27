@@ -1,0 +1,14 @@
+:root {
+  --main-color: rgba(86, 32, 18, 1);
+  --pure-white: rgb(255, 255, 255);
+  --light-color: hsl(from var(--main-color) h s calc(l + 70));
+  --surface-color: var(--light-color);
+  --footer-background: var(--main-color);
+  --text-primary: var(--main-color);
+  --text-base: hsl(from var(--main-color) h s calc(l - 15) / 0.87);
+  --text-contrast: hsl(from var(--pure-white) h s l / 0.7);
+  --border-color: hsl(from var(--main-color) h s calc(l + 10));
+  --border-page-color: hsl(from var(--main-color) h s calc(l + 60));
+}
+
+$md: 768px;

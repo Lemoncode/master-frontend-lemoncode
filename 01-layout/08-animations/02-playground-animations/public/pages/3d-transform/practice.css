@@ -1,0 +1,42 @@
+/* CONCEPTO CLAVE: Transformaciones en 3D */
+
+/*********** FOCUS AREA ***********/
+
+.container {
+  position: relative;
+  width: var(--item-size);
+  height: var(--item-size);
+  left: calc(-1 * var(--item-size) / 2);
+}
+
+/* Disposición en plano 2D (opcional, solo para visualizar la "net") */
+#right {
+  left: var(--item-size);
+}
+#left {
+  right: var(--item-size);
+}
+#top {
+  bottom: var(--item-size);
+}
+#bottom {
+  top: var(--item-size);
+}
+#back {
+  left: calc(var(--item-size) * 2);
+}
+
+/**********************************/
+
+body {
+  --item-size: 6em;
+}
+
+/* Estilo general de las caras */
+.item {
+  position: absolute;
+  border-radius: 0px;
+  border: 1px dotted var(--highlight);
+  box-sizing: border-box;
+  cursor: default;
+}

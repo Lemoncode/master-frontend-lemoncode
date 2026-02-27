@@ -1,0 +1,130 @@
+/* Esta es una variante donde aplicamos animaciones en lugar de transiciones.  */
+
+/* Cambia ligeramente el funcionamiento, ya no son 2 estados "selected/not-selected"
+que encajaba bien con las transiciones, sino que vamos a establecer un comportamiento
+distinto, con 3 animaciones: 
+- Una para disponer las fotos en la mesa.
+- Otra para seleccionar una foto y visualizarla.
+- Y otra final para darla por vista y descartarla. 
+
+Nuestro script ahora marca como "selected" cuando hacemos click en una foto
+y de "selected" a "discarded" si volvemos a hacer click.
+*/
+
+/* CONCEPTO CLAVE: animation-fill */
+
+/*********** FOCUS AREA ***********/
+
+.gallery::after {
+  content: "";
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  opacity: 0;
+  z-index: 2;
+  visibility: hidden;
+  transition: all 200ms ease;
+}
+
+.gallery:has(img.selected)::after {
+  opacity: 0.85;
+  visibility: visible;
+}
+
+img {
+  /* Delay a propósito para que cargen las fotos de la API */
+  /* backwards = la animación aplica su estado inicial inicial durante el periodo de delay */
+  /* forwards = el elemento retiene estado final de la animación una vez termina */
+  /* both = backwards + forwards */
+  animation: entry-mess 1s ease 1.25s both;
+  transition: all 125ms ease-out;
+  z-index: 1;
+
+  &:hover:not(.selected) {
+    scale: 1.1;
+    box-shadow: 0px 0px 16px black;
+    z-index: 2;
+  }
+
+  &.selected {
+    animation: bring-front 250ms ease forwards;
+    z-index: 3;
+  }
+
+  &.discarded {
+    animation: sort-it-back 250ms ease-in forwards;
+    z-index: calc(-1 * var(--discardedCount));
+  }
+}
+
+@keyframes entry-mess {
+  0% {
+    translate: 0 0;
+    rotate: 0deg;
+    pointer-events: none;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  99% {
+    pointer-events: none;
+  }
+  100% {
+    translate: var(--tx) var(--ty);
+    rotate: var(--rotation);
+    pointer-events: all;
+  }
+}
+
+@keyframes bring-front {
+  0% {
+    translate: var(--tx) var(--ty);
+    rotate: var(--rotation);
+  }
+  100% {
+    translate: 0 0;
+    rotate: 0deg;
+    scale: 2;
+  }
+}
+
+@keyframes sort-it-back {
+  0% {
+    scale: 2;
+  }
+  100% {
+    scale: 1;
+    pointer-events: none;
+  }
+}
+
+/**********************************/
+
+body {
+  padding: 0;
+  a {
+    z-index: 9999;
+    text-shadow: 2px 2px 2px black;
+  }
+}
+
+img {
+  position: absolute;
+  border: 10px solid #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+  & input {
+    display: none;
+  }
+}
+
+.gallery {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}

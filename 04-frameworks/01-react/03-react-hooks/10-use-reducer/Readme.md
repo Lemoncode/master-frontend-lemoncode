@@ -1,6 +1,6 @@
 # 10 useReducer
 
-## Resume
+## Summary
 
 This example takes as a starting point _09-pure-component-callback_.
 

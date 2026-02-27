@@ -12,19 +12,6 @@ We are going to implement a customer satisfaction widget, based on smily faces, 
 npm install
 ```
 
-- We have to make a slight change in this example in our _webpack.config.js_
-
-```diff
-...
-    {
-        test: /\.(png|jpg)$/,
-        exclude: /node_modules/,
--        loader: "url-loader",
-+        type: "asset/resource",
-      },
-...
-```
-
 - Let's copy the five smiley faces (you can copy them from the sample implementation in github) into the route _src/assets_.
 
 - Let's add the following content into the _src/styles.css_ css file to add the smileys styles:

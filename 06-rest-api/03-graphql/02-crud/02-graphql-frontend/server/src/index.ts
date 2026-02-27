@@ -11,6 +11,8 @@ app.use(express.json());
 
 app.use('/', express.static(path.resolve(import.meta.dirname, '../public')));
 
+console.log(path.join(import.meta.dirname));
+
 app.use('/graphql', createHandler({ schema, rootValue: resolvers }));
 app.use('/playground', async (req, res) => {
   res.sendFile(path.join(import.meta.dirname, './graphql/playground.html'));

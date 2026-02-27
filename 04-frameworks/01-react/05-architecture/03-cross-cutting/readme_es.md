@@ -62,11 +62,9 @@ export const ProfileContext = React.createContext<Context>({
     ),
 });
 
-interface Props {
-  children: React.ReactNode;
-}
-
-export const ProfileProvider: React.FC<Props> = ({ children }) => {
+export const ProfileProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const [userProfile, setUserProfile] = React.useState<UserProfile>(
     createEmptyUserProfile()
   );

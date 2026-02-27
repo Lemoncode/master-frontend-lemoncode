@@ -92,6 +92,7 @@ We can notice that is not taking any effect since is used **OUTSIDE** the Shadow
       background-color: #ddd;
     }
 
+    /* deplrecated */
     :host-context_(.dark-theme) input {
       /* afecta a los input de dentro si fuera existe algo con .dark-theme */
       color: #fff;

@@ -1,0 +1,136 @@
+/*********** FOCUS AREA ***********/
+
+/* Takeaway: Animation composition, animations for physics-like motions */
+
+.item {
+  transition-property: background-color, scale;
+  transition-duration: 125ms;
+  transition-timing-function: ease-in-out;
+
+  &:hover {
+    scale: 1.15;
+  }
+
+  &:has(input:checked) {
+    /* Animation when checking */
+    animation: flip-card 400ms ease-in-out forwards;
+  }
+
+  &:has(input:not(:checked)) {
+    /* Animation when unchecking */
+    /* Option 1: animation composition works if no ⚠️ conflicting properties ⚠️*/
+    animation: puff-out-card 200ms ease-in 0ms, spawn-card 200ms ease-out 200ms;
+    /* Option 2: compose keyframes into a single animation with conflicting properties */
+    /* animation: reset-card 400ms ease-in-out; */
+  }
+}
+
+/* FLIP animation */
+
+@keyframes flip-card {
+  0% {
+    transform: scale(1) rotateX(0);
+  }
+  50% {
+    transform: scale(2.5) rotateX(-90deg);
+  }
+  100% {
+    transform: scale(1) rotateX(-180deg);
+  }
+}
+
+/* EXIT & ENTRANCE animations */
+
+/* Option 1: independent animations, beware with ⚠️ overlapping properties ⚠️*/
+@keyframes puff-out-card {
+  0% {
+    scale: 1;
+    filter: blur(0px);
+  }
+  100% {
+    scale: 3;
+    opacity: 0;
+    filter: blur(4px);
+  }
+}
+
+@keyframes spawn-card {
+  0% {
+    translate: 0 -100vh;
+    rotate: -720deg;
+    /* Start with puff-out final state to avoid conflict*/
+    scale: 3;
+    opacity: 0;
+    filter: blur(4px);
+  }
+  100% {
+    translate: 0 0;
+    rotate: 0deg;
+    /* Reset to normal */
+    scale: 1;
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+/* Option 2: composed keyframes */
+@keyframes reset-card {
+  /* Puff-out sub-animation */
+  0% {
+    scale: 1;
+    opacity: 1;
+    filter: blur(0px);
+    translate: 0;
+    rotate: 0deg;
+  }
+  45% {
+    scale: 3;
+    opacity: 0;
+    filter: blur(4px);
+    translate: 0;
+    rotate: 0deg;
+  }
+  /* Spawn sub-animation */
+  50% {
+    scale: 3;
+    opacity: 0;
+    filter: blur(4px);
+    translate: 0 -100vh;
+    rotate: -720deg;
+  }
+  100% {
+    scale: 1;
+    opacity: 1;
+    filter: blur(0);
+    translate: 0 0;
+    rotate: 0deg;
+  }
+}
+
+/**********************************/
+
+.item {
+  cursor: pointer;
+
+  & input {
+    appearance: none;
+  }
+
+  /* &:hover {
+    background-color: #e0e0aa;
+  } */
+
+  &:has(input:checked) {
+    background-color: var(--highlight);
+  }
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: 1em;
+}
+
+body {
+  --item-size: 3em;
+}

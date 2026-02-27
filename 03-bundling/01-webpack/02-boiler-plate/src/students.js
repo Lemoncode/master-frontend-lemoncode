@@ -1,5 +1,7 @@
 // Usemos algunas características de ES6
-const averageScore = "90";
-const messageToDisplay = `average score ${averageScore}`;
+const randomNumber = Math.random() * 100;
+const messageToDisplay = `random number is ${randomNumber}`;
 
-document.write(messageToDisplay);
+const messageElement = document.createElement("p");
+messageElement.textContent = messageToDisplay;
+document.body.appendChild(messageElement);

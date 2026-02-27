@@ -1,0 +1,6 @@
+@layer remote;
+@layer remote {
+  :root {
+    --primary-color: #3498db;
+  }
+}

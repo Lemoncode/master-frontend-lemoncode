@@ -1,0 +1,48 @@
+/* CONCEPTO CLAVE: CSS Scroll-driven animation - Nueva especificación */
+
+/* scroll() se basa en la POSICIÓN DE SCROLL del contenedor:
+    
+    animation: my-animation linear;
+    animation-timeline: scroll(nearest);
+*/
+
+/* view() se basa en que el elemento entre/salga del viewport 
+
+    animation: my-animation linear;
+    animation-timeline: view();
+*/
+
+/*********** FOCUS AREA ***********/
+
+/* ... code ... */
+
+/**********************************/
+
+.list-item {
+  font-family: "Fira Code", monospace;
+  font-weight: 300;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+  row-gap: 1em;
+  padding: 0;
+  margin: 0;
+
+  /* Añadimos padding artificial (top,bottom) simulado con pseudo-elements al scroll */
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    height: 50vh;
+    width: 1px;
+  }
+}
+
+body {
+  /* Necesario para que los paddings artificiales anteriores funcionen */
+  display: block;
+}

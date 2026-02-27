@@ -1,0 +1,2582 @@
+
+<template>
+  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M6 18L18 6M6 6l12 12"
+    />
+  </svg>
+</template>
+
+
+*********************************
+
+IconClose.vue
+
+*********************************
+
+<script setup lang="ts">
+import { useListStore } from '@/stores/lists'
+import { List } from '@/types'
+import { computed, nextTick, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import IconClose from './Icons/IconClose.vue'
+
+const route = useRoute()
+const router = useRouter()
+
+// List / Store
+const listStore = useListStore()
+const list = computed(() => listStore.getList(listId.value))
+const listId = computed(() => route.params.id as string)
+
+// Title
+const isEditingTitle = ref(false)
+const title = ref('')
+const titleInput = ref<HTMLInputElement | null>(null)
+
+const startEditingTitle = async () => {
+  isEditingTitle.value = true
+  await nextTick()
+  titleInput.value?.focus()
+  titleInput.value?.select()
+}
+
+const saveTitle = async () => {
+  const newTitle = title.value.trim()
+
+  await listStore.updateList(listId.value, { title: newTitle })
+
+  isEditingTitle.value = false
+}
+
+const handleTitleKeydown = () => {
+  saveTitle()
+}
+
+const closeModal = () => {
+  // progressive enhancement
+  if ('startViewTransition' in document) {
+    document.startViewTransition(() => router.push('/'))
+  } else {
+    router.push('/')
+  }
+}
+
+const handleBackdropClick = () => {
+  closeModal()
+}
+
+// onMount -> fetchListItems(listId) -> title
+onMounted(async () => {
+  if (listId.value) {
+    await listStore.fetchListItems(listId.value)
+
+    title.value = list.value.title
+  }
+})
+</script>
+
+<template>
+  <div
+    v-if="listId"
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+    @click="handleBackdropClick"
+  >
+    <div
+      class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+      :style="{ viewTransitionName: `card-${listId}` }"
+      @click.stop
+    >
+      <div class="flex items-center justify-between p-4 border-b border-dark-border">
+        <div v-if="!isEditingTitle" class="flex-1 mr-4">
+          <button
+            type="button"
+            @click="startEditingTitle"
+            class="block text-2xl font-semibold text-white cursor-pointer hover:text-gray-300 transition-colors empty:bg-dark-bg border-none text-left p-0 m-0 w-full empty:rounded-lg empty:h-[44px]"
+          >
+            {{ title }}
+          </button>
+        </div>
+        <input
+          v-else
+          :id="`title-input-${listId}`"
+          ref="titleInput"
+          v-model="title"
+          @blur="saveTitle"
+          @keydown.enter="handleTitleKeydown"
+          class="block flex-1 mr-4 text-2xl font-semibold bg-dark-hover text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+        />
+
+        <div>
+          <!-- <button>Delete</button> -->
+          <button
+            @click="closeModal"
+            class="p-2 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors"
+          >
+            <IconClose />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+
+*********************************
+
+<template>
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+    />
+  </svg>
+</template>
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListStore } from '@/stores/lists'
+import { List } from '@/types'
+import { computed, nextTick, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import IconClose from './Icons/IconClose.vue'
+import IconTrash from './Icons/IconTrash.vue'
+
+const route = useRoute()
+const router = useRouter()
+
+// List / Store
+const listStore = useListStore()
+const list = computed(() => listStore.getList(listId.value))
+const listId = computed(() => route.params.id as string)
+
+// Title
+const isEditingTitle = ref(false)
+const title = ref('')
+const titleInput = ref<HTMLInputElement | null>(null)
+
+const startEditingTitle = async () => {
+  isEditingTitle.value = true
+  await nextTick()
+  titleInput.value?.focus()
+  titleInput.value?.select()
+}
+
+const saveTitle = async () => {
+  const newTitle = title.value.trim()
+
+  await listStore.updateList(listId.value, { title: newTitle })
+
+  isEditingTitle.value = false
+}
+
+const handleTitleKeydown = () => {
+  saveTitle()
+}
+
+const closeModal = () => {
+  // progressive enhancement
+  if ('startViewTransition' in document) {
+    document.startViewTransition(() => router.push('/'))
+  } else {
+    router.push('/')
+  }
+}
+
+const handleBackdropClick = () => {
+  closeModal()
+}
+
+const handleDeleteList = async () => {
+  if (window.confirm('Are you sure you want to delete this list?')) {
+    await listStore.deleteList(listId.value)
+    closeModal()
+  }
+}
+
+// onMount -> fetchListItems(listId) -> title
+onMounted(async () => {
+  if (listId.value) {
+    await listStore.fetchListItems(listId.value)
+
+    title.value = list.value.title
+  }
+})
+</script>
+
+<template>
+  <div
+    v-if="listId"
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+    @click="handleBackdropClick"
+  >
+    <div
+      class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+      :style="{ viewTransitionName: `card-${listId}` }"
+      @click.stop
+    >
+      <div class="flex items-center justify-between p-4 border-b border-dark-border">
+        <div v-if="!isEditingTitle" class="flex-1 mr-4">
+          <button
+            type="button"
+            @click="startEditingTitle"
+            class="block text-2xl font-semibold text-white cursor-pointer hover:text-gray-300 transition-colors empty:bg-dark-bg border-none text-left p-0 m-0 w-full empty:rounded-lg empty:h-[44px]"
+          >
+            {{ title }}
+          </button>
+        </div>
+        <input
+          v-else
+          :id="`title-input-${listId}`"
+          ref="titleInput"
+          v-model="title"
+          @blur="saveTitle"
+          @keydown.enter="handleTitleKeydown"
+          class="block flex-1 mr-4 text-2xl font-semibold bg-dark-hover text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+        />
+
+        <div>
+          <button
+            @click="handleDeleteList"
+            class="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+            type="button"
+          >
+            <span class="sr-only">Delete</span>
+            <IconTrash />
+          </button>
+          <button
+            @click="closeModal"
+            class="p-2 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors"
+          >
+            <span class="sr-only">Close</span>
+            <IconClose />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+
+*********************************
+
+<template>
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+  </svg>
+</template>
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListStore } from '@/stores/lists'
+import { List } from '@/types'
+import { computed, nextTick, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import IconClose from './Icons/IconClose.vue'
+import IconTrash from './Icons/IconTrash.vue'
+import IconPlus from './Icons/IconPlus.vue'
+
+const route = useRoute()
+const router = useRouter()
+
+// List / Store
+const listStore = useListStore()
+const list = computed(() => listStore.getList(listId.value))
+const listId = computed(() => route.params.id as string)
+
+// Title
+const isEditingTitle = ref(false)
+const title = ref('')
+const titleInput = ref<HTMLInputElement | null>(null)
+
+const startEditingTitle = async () => {
+  isEditingTitle.value = true
+  await nextTick()
+  titleInput.value?.focus()
+  titleInput.value?.select()
+}
+
+const saveTitle = async () => {
+  const newTitle = title.value.trim()
+
+  await listStore.updateList(listId.value, { title: newTitle })
+
+  isEditingTitle.value = false
+}
+
+const handleTitleKeydown = () => {
+  saveTitle()
+}
+
+const closeModal = () => {
+  // progressive enhancement
+  if ('startViewTransition' in document) {
+    document.startViewTransition(() => router.push('/'))
+  } else {
+    router.push('/')
+  }
+}
+
+const handleBackdropClick = () => {
+  closeModal()
+}
+
+const handleDeleteList = async () => {
+  if (window.confirm('Are you sure you want to delete this list?')) {
+    await listStore.deleteList(listId.value)
+    closeModal()
+  }
+}
+
+const handleAddItem = async () => {
+  await listStore.createListItem(listId.value, '')
+}
+
+onMounted(async () => {
+  if (listId.value) {
+    await listStore.fetchListItems(listId.value)
+
+    title.value = list.value?.title || ''
+  }
+})
+</script>
+
+<template>
+  <div
+    v-if="listId"
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+    @click="handleBackdropClick"
+  >
+    <div
+      class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+      :style="{ viewTransitionName: `card-${listId}` }"
+      @click.stop
+    >
+      <div class="flex items-center justify-between p-4 border-b border-dark-border">
+        <div v-if="!isEditingTitle" class="flex-1 mr-4">
+          <button
+            type="button"
+            @click="startEditingTitle"
+            class="block text-2xl font-semibold text-white cursor-pointer hover:text-gray-300 transition-colors empty:bg-dark-bg border-none text-left p-0 m-0 w-full empty:rounded-lg empty:h-[44px]"
+          >
+            {{ title }}
+          </button>
+        </div>
+        <input
+          v-else
+          :id="`title-input-${listId}`"
+          ref="titleInput"
+          v-model="title"
+          @blur="saveTitle"
+          @keydown.enter="handleTitleKeydown"
+          class="block flex-1 mr-4 text-2xl font-semibold bg-dark-hover text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+        />
+
+        <div>
+          <button
+            @click="handleDeleteList"
+            class="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+            type="button"
+          >
+            <span class="sr-only">Delete</span>
+            <IconTrash />
+          </button>
+          <button
+            @click="closeModal"
+            class="p-2 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors"
+          >
+            <span class="sr-only">Close</span>
+            <IconClose />
+          </button>
+        </div>
+      </div>
+
+      <button
+        @click="handleAddItem"
+        class="mt-4 w-full py-3 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors flex items-center justify-center gap-2 border border-dashed border-gray-600 hover:border-gray-400"
+      >
+        <IconPlus />
+        Add Item
+      </button>
+    </div>
+  </div>
+</template>
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListStore } from '@/stores/lists'
+import { List } from '@/types'
+import { computed, nextTick, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import IconClose from './Icons/IconClose.vue'
+import IconTrash from './Icons/IconTrash.vue'
+import IconPlus from './Icons/IconPlus.vue'
+
+const route = useRoute()
+const router = useRouter()
+
+// List / Store
+const listStore = useListStore()
+const list = computed(() => listStore.getList(listId.value))
+const listId = computed(() => route.params.id as string)
+const items = computed(() => listStore.getListItems(listId.value))
+
+// Title
+const isEditingTitle = ref(false)
+const title = ref('')
+const titleInput = ref<HTMLInputElement | null>(null)
+
+const startEditingTitle = async () => {
+  isEditingTitle.value = true
+  await nextTick()
+  titleInput.value?.focus()
+  titleInput.value?.select()
+}
+
+const saveTitle = async () => {
+  const newTitle = title.value.trim()
+
+  await listStore.updateList(listId.value, { title: newTitle })
+
+  isEditingTitle.value = false
+}
+
+const handleTitleKeydown = () => {
+  saveTitle()
+}
+
+const closeModal = () => {
+  // progressive enhancement
+  if ('startViewTransition' in document) {
+    document.startViewTransition(() => router.push('/'))
+  } else {
+    router.push('/')
+  }
+}
+
+const handleBackdropClick = () => {
+  closeModal()
+}
+
+const handleDeleteList = async () => {
+  if (window.confirm('Are you sure you want to delete this list?')) {
+    await listStore.deleteList(listId.value)
+    closeModal()
+  }
+}
+
+const handleAddItem = async () => {
+  await listStore.createListItem(listId.value, '')
+}
+
+onMounted(async () => {
+  if (listId.value) {
+    await listStore.fetchListItems(listId.value)
+
+    title.value = list.value?.title || ''
+  }
+})
+</script>
+
+<template>
+  <div
+    v-if="listId"
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+    @click="handleBackdropClick"
+  >
+    <div
+      class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+      :style="{ viewTransitionName: `card-${listId}` }"
+      @click.stop
+    >
+      <div class="flex items-center justify-between p-4 border-b border-dark-border">
+        <div v-if="!isEditingTitle" class="flex-1 mr-4">
+          <button
+            type="button"
+            @click="startEditingTitle"
+            class="block text-2xl font-semibold text-white cursor-pointer hover:text-gray-300 transition-colors empty:bg-dark-bg border-none text-left p-0 m-0 w-full empty:rounded-lg empty:h-[44px]"
+          >
+            {{ title }}
+          </button>
+        </div>
+        <input
+          v-else
+          :id="`title-input-${listId}`"
+          ref="titleInput"
+          v-model="title"
+          @blur="saveTitle"
+          @keydown.enter="handleTitleKeydown"
+          class="block flex-1 mr-4 text-2xl font-semibold bg-dark-hover text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+        />
+
+        <div>
+          <button
+            @click="handleDeleteList"
+            class="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+            type="button"
+          >
+            <span class="sr-only">Delete</span>
+            <IconTrash />
+          </button>
+          <button
+            @click="closeModal"
+            class="p-2 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors"
+          >
+            <span class="sr-only">Close</span>
+            <IconClose />
+          </button>
+        </div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-4 flex flex-col justify-between">
+            <div class="space-y-2">
+              <ListItem
+                v-for="item in items"
+                :key="item.id"
+                :item="item"
+              />
+            </div>
+      </div>
+
+      <button
+        @click="handleAddItem"
+        class="mt-4 w-full py-3 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors flex items-center justify-center gap-2 border border-dashed border-gray-600 hover:border-gray-400"
+      >
+        <IconPlus />
+        Add Item
+      </button>
+    </div>
+  </div>
+</template>
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListStore } from '@/stores/lists'
+import type { ListItem } from '@/types'
+import { ref } from 'vue'
+
+const props = defineProps<{
+  item: ListItem
+  listId: string
+}>()
+
+const isEditing = ref(false)
+const content = ref(props.item.content)
+
+const startEditing = () => {
+  isEditing.value = true
+}
+
+const listStore = useListStore()
+
+const saveContent = async () => {
+  if (content.value !== props.item.content) {
+    await listStore.updateListItem(props.item.id, props.listId, { content: content.value })
+  }
+}
+
+const handleKeydown = async (event: KeyboardEvent) => {
+  if (event.key === 'Enter') {
+    event.preventDefault()
+    await saveContent()
+    // TODo create next item in the list
+    isEditing.value = false
+  } else if (event.key === 'Escape') {
+    content.value = props.item.content
+    isEditing.value = false
+  }
+}
+</script>
+
+<template>
+  <div>
+    <!-- <button
+    @click="toggleChecked"
+    >
+    <svg
+        v-if="item.isChecked"
+        class="w-3 h-3 text-white"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+      </svg>
+    </button> -->
+
+    <button @click="startEditing" v-if="!isEditing">
+      {{ item.content || 'Click to edit' }}
+    </button>
+
+    <input
+      v-else
+      type="text"
+      v-model="content"
+      @blur="saveContent"
+      @keydown="handleKeydown"
+      class="flex-1 bg-dark-bg text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      placeholder="Enter item text"
+    />
+  </div>
+</template>
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListStore } from '@/stores/lists'
+import { List } from '@/types'
+import { computed, nextTick, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import IconClose from './Icons/IconClose.vue'
+import IconTrash from './Icons/IconTrash.vue'
+import IconPlus from './Icons/IconPlus.vue'
+import ListItem from './ListItem.vue'
+
+const route = useRoute()
+const router = useRouter()
+
+// List / Store
+const listStore = useListStore()
+const list = computed(() => listStore.getList(listId.value))
+const listId = computed(() => route.params.id as string)
+const items = computed(() => listStore.getListItems(listId.value))
+
+// Title
+const isEditingTitle = ref(false)
+const title = ref('')
+const titleInput = ref<HTMLInputElement | null>(null)
+
+const startEditingTitle = async () => {
+  isEditingTitle.value = true
+  await nextTick()
+  titleInput.value?.focus()
+  titleInput.value?.select()
+}
+
+const saveTitle = async () => {
+  const newTitle = title.value.trim()
+
+  await listStore.updateList(listId.value, { title: newTitle })
+
+  isEditingTitle.value = false
+}
+
+const handleTitleKeydown = () => {
+  saveTitle()
+}
+
+const closeModal = () => {
+  // progressive enhancement
+  if ('startViewTransition' in document) {
+    document.startViewTransition(() => router.push('/'))
+  } else {
+    router.push('/')
+  }
+}
+
+const handleBackdropClick = () => {
+  closeModal()
+}
+
+const handleDeleteList = async () => {
+  if (window.confirm('Are you sure you want to delete this list?')) {
+    await listStore.deleteList(listId.value)
+    closeModal()
+  }
+}
+
+const handleAddItem = async () => {
+  await listStore.createListItem(listId.value, '')
+}
+
+onMounted(async () => {
+  if (listId.value) {
+    await listStore.fetchListItems(listId.value)
+
+    title.value = list.value?.title || ''
+  }
+})
+</script>
+
+<template>
+  <div
+    v-if="listId"
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+    @click="handleBackdropClick"
+  >
+    <div
+      class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+      :style="{ viewTransitionName: `card-${listId}` }"
+      @click.stop
+    >
+      <div class="flex items-center justify-between p-4 border-b border-dark-border">
+        <div v-if="!isEditingTitle" class="flex-1 mr-4">
+          <button
+            type="button"
+            @click="startEditingTitle"
+            class="block text-2xl font-semibold text-white cursor-pointer hover:text-gray-300 transition-colors empty:bg-dark-bg border-none text-left p-0 m-0 w-full empty:rounded-lg empty:h-[44px]"
+          >
+            {{ title }}
+          </button>
+        </div>
+        <input
+          v-else
+          :id="`title-input-${listId}`"
+          ref="titleInput"
+          v-model="title"
+          @blur="saveTitle"
+          @keydown.enter="handleTitleKeydown"
+          class="block flex-1 mr-4 text-2xl font-semibold bg-dark-hover text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+        />
+
+        <div>
+          <button
+            @click="handleDeleteList"
+            class="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+            type="button"
+          >
+            <span class="sr-only">Delete</span>
+            <IconTrash />
+          </button>
+          <button
+            @click="closeModal"
+            class="p-2 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors"
+          >
+            <span class="sr-only">Close</span>
+            <IconClose />
+          </button>
+        </div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-4 flex flex-col justify-between">
+        <div class="space-y-2">
+          <ListItem v-for="item in items" :key="item.id" :list-id="listId" :item="item" />
+        </div>
+      </div>
+
+      <button
+        @click="handleAddItem"
+        class="mt-4 w-full py-3 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors flex items-center justify-center gap-2 border border-dashed border-gray-600 hover:border-gray-400"
+      >
+        <IconPlus />
+        Add Item
+      </button>
+    </div>
+  </div>
+</template>
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListStore } from '@/stores/lists'
+import type { ListItem } from '@/types'
+import { ref } from 'vue'
+
+const props = defineProps<{
+  item: ListItem
+  listId: string
+}>()
+
+const isEditing = ref(false)
+const content = ref(props.item.content)
+
+const startEditing = () => {
+  isEditing.value = true
+}
+
+const listStore = useListStore()
+
+const saveContent = async () => {
+  if (content.value !== props.item.content) {
+    await listStore.updateListItem(props.item.id, props.listId, { content: content.value })
+  }
+}
+
+const handleKeydown = async (event: KeyboardEvent) => {
+  if (event.key === 'Enter') {
+    event.preventDefault()
+    await saveContent()
+    // TODo create next item in the list
+    isEditing.value = false
+  } else if (event.key === 'Escape') {
+    content.value = props.item.content
+    isEditing.value = false
+  }
+}
+
+const toggleChecked = async () => {
+  await listStore.updateListItem(props.item.id, props.listId, { isChecked: !props.item.isChecked })
+}
+</script>
+
+<template>
+  <div
+    :class="[
+      'flex items-center gap-3 p-3 bg-dark-hover rounded-lg border border-transparent hover:border-dark-border transition-all cursor-move group',
+    ]"
+  >
+    <button
+      @click="toggleChecked"
+      :class="[
+        'flex-shrink-0 w-5 h-5 rounded border-2 transition-colors flex items-center justify-center',
+        {
+          'bg-blue-600 border-blue-600': item.isChecked,
+          'border-gray-500 hover:border-gray-400': !item.isChecked,
+        },
+      ]"
+    >
+      <svg
+        v-if="item.isChecked"
+        class="w-3 h-3 text-white"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+      </svg>
+    </button>
+
+    <button
+      @click="startEditing"
+      v-if="!isEditing"
+      class="flex-1 cursor-text bg-transparent border-none text-left p-0 m-0"
+    >
+      <span
+        :class="['text-white transition-all', { 'line-through text-gray-500': item.isChecked }]"
+      >
+        {{ item.content || 'Click to edit' }}
+      </span>
+    </button>
+
+    <input
+      v-else
+      type="text"
+      v-model="content"
+      @blur="saveContent"
+      @keydown="handleKeydown"
+      class="flex-1 bg-dark-bg text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      placeholder="Enter item text"
+    />
+  </div>
+</template>
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListStore } from '@/stores/lists'
+import type { ListItem } from '@/types'
+import { ref } from 'vue'
+
+const props = defineProps<{
+  item: ListItem
+  listId: string
+}>()
+
+const isEditing = ref(false)
+const content = ref(props.item.content)
+
+const startEditing = () => {
+  isEditing.value = true
+}
+
+const listStore = useListStore()
+
+const saveContent = async () => {
+  if (content.value !== props.item.content) {
+    await listStore.updateListItem(props.item.id, props.listId, { content: content.value })
+  }
+}
+
+const handleKeydown = async (event: KeyboardEvent) => {
+  if (event.key === 'Enter') {
+    event.preventDefault()
+    await saveContent()
+    // TODo create next item in the list
+    isEditing.value = false
+  } else if (event.key === 'Escape') {
+    content.value = props.item.content
+    isEditing.value = false
+  }
+}
+
+const toggleChecked = async () => {
+  await listStore.updateListItem(props.item.id, props.listId, { isChecked: !props.item.isChecked })
+}
+
+const deleteItem = async () => {
+  await listStore.deleteListItem(props.item.id, props.listId)
+}
+</script>
+
+<template>
+  <div
+    :class="[
+      'flex items-center gap-3 p-3 bg-dark-hover rounded-lg border border-transparent hover:border-dark-border transition-all cursor-move group',
+    ]"
+  >
+    <button
+      @click="toggleChecked"
+      :class="[
+        'flex-shrink-0 w-5 h-5 rounded border-2 transition-colors flex items-center justify-center',
+        {
+          'bg-blue-600 border-blue-600': item.isChecked,
+          'border-gray-500 hover:border-gray-400': !item.isChecked,
+        },
+      ]"
+    >
+      <svg
+        v-if="item.isChecked"
+        class="w-3 h-3 text-white"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+      </svg>
+    </button>
+
+    <button
+      @click="startEditing"
+      v-if="!isEditing"
+      class="flex-1 cursor-text bg-transparent border-none text-left p-0 m-0"
+    >
+      <span
+        :class="['text-white transition-all', { 'line-through text-gray-500': item.isChecked }]"
+      >
+        {{ item.content || 'Click to edit' }}
+      </span>
+    </button>
+
+    <input
+      v-else
+      type="text"
+      v-model="content"
+      @blur="saveContent"
+      @keydown="handleKeydown"
+      class="flex-1 bg-dark-bg text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      placeholder="Enter item text"
+    />
+
+    <button
+      @click="deleteItem"
+      class="flex-shrink-0 p-1 text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  </div>
+</template>
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListStore } from '@/stores/lists'
+import { List } from '@/types'
+import { computed, nextTick, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import IconClose from './Icons/IconClose.vue'
+import IconTrash from './Icons/IconTrash.vue'
+import IconPlus from './Icons/IconPlus.vue'
+import ListItem from './ListItem.vue'
+
+const route = useRoute()
+const router = useRouter()
+
+// List / Store
+const listStore = useListStore()
+const list = computed(() => listStore.getList(listId.value))
+const listId = computed(() => route.params.id as string)
+const items = computed(() => listStore.getListItems(listId.value))
+
+// Title
+const isEditingTitle = ref(false)
+const title = ref('')
+const titleInput = ref<HTMLInputElement | null>(null)
+
+const startEditingTitle = async () => {
+  isEditingTitle.value = true
+  await nextTick()
+  titleInput.value?.focus()
+  titleInput.value?.select()
+}
+
+const saveTitle = async () => {
+  const newTitle = title.value.trim()
+
+  await listStore.updateList(listId.value, { title: newTitle })
+
+  isEditingTitle.value = false
+}
+
+const handleTitleKeydown = () => {
+  saveTitle()
+}
+
+const closeModal = () => {
+  // progressive enhancement
+  if ('startViewTransition' in document) {
+    document.startViewTransition(() => router.push('/'))
+  } else {
+    router.push('/')
+  }
+}
+
+const handleBackdropClick = () => {
+  closeModal()
+}
+
+const handleDeleteList = async () => {
+  if (window.confirm('Are you sure you want to delete this list?')) {
+    await listStore.deleteList(listId.value)
+    closeModal()
+  }
+}
+
+const handleAddItem = async () => {
+  await listStore.createListItem(listId.value, '')
+}
+
+onMounted(async () => {
+  if (listId.value) {
+    await listStore.fetchListItems(listId.value)
+
+    title.value = list.value?.title || ''
+  }
+})
+</script>
+
+<template>
+  <div
+    v-if="listId"
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+    @click="handleBackdropClick"
+  >
+    <div
+      class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+      :style="{ viewTransitionName: `card-${listId}` }"
+      @click.stop
+    >
+      <div class="flex items-center justify-between p-4 border-b border-dark-border">
+        <div v-if="!isEditingTitle" class="flex-1 mr-4">
+          <button
+            type="button"
+            @click="startEditingTitle"
+            class="block text-2xl font-semibold text-white cursor-pointer hover:text-gray-300 transition-colors empty:bg-dark-bg border-none text-left p-0 m-0 w-full empty:rounded-lg empty:h-[44px]"
+          >
+            {{ title }}
+          </button>
+        </div>
+        <input
+          v-else
+          :id="`title-input-${listId}`"
+          ref="titleInput"
+          v-model="title"
+          @blur="saveTitle"
+          @keydown.enter="handleTitleKeydown"
+          class="block flex-1 mr-4 text-2xl font-semibold bg-dark-hover text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+        />
+
+        <div>
+          <button
+            @click="handleDeleteList"
+            class="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+            type="button"
+          >
+            <span class="sr-only">Delete</span>
+            <IconTrash />
+          </button>
+          <button
+            @click="closeModal"
+            class="p-2 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors"
+          >
+            <span class="sr-only">Close</span>
+            <IconClose />
+          </button>
+        </div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-4 flex flex-col justify-between">
+        <div class="space-y-2">
+          <TransitionGroup name="list">
+            <ListItem v-for="item in items" :key="item.id" :list-id="listId" :item="item" />
+          </TransitionGroup>
+        </div>
+      </div>
+
+      <button
+        @click="handleAddItem"
+        class="mt-4 w-full py-3 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors flex items-center justify-center gap-2 border border-dashed border-gray-600 hover:border-gray-400"
+      >
+        <IconPlus />
+        Add Item
+      </button>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s ease;
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+</style>
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListStore } from '@/stores/lists'
+import { List } from '@/types'
+import { computed, nextTick, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import IconClose from './Icons/IconClose.vue'
+import IconTrash from './Icons/IconTrash.vue'
+import IconPlus from './Icons/IconPlus.vue'
+import ListItem from './ListItem.vue'
+
+const route = useRoute()
+const router = useRouter()
+
+// List / Store
+const listStore = useListStore()
+const list = computed(() => listStore.getList(listId.value))
+const listId = computed(() => route.params.id as string)
+const items = computed(() => listStore.getListItems(listId.value))
+
+// Title
+const isEditingTitle = ref(false)
+const title = ref('')
+const titleInput = ref<HTMLInputElement | null>(null)
+
+const startEditingTitle = async () => {
+  isEditingTitle.value = true
+  await nextTick()
+  titleInput.value?.focus()
+  titleInput.value?.select()
+}
+
+const saveTitle = async () => {
+  const newTitle = title.value.trim()
+
+  await listStore.updateList(listId.value, { title: newTitle })
+
+  isEditingTitle.value = false
+}
+
+const handleTitleKeydown = () => {
+  saveTitle()
+}
+
+const closeModal = () => {
+  // progressive enhancement
+  if ('startViewTransition' in document) {
+    document.startViewTransition(() => router.push('/'))
+  } else {
+    router.push('/')
+  }
+}
+
+const handleBackdropClick = () => {
+  closeModal()
+}
+
+const handleDeleteList = async () => {
+  if (window.confirm('Are you sure you want to delete this list?')) {
+    await listStore.deleteList(listId.value)
+    closeModal()
+  }
+}
+
+const handleAddItem = async () => {
+  await listStore.createListItem(listId.value, '')
+}
+
+onMounted(async () => {
+  if (listId.value) {
+    await listStore.fetchListItems(listId.value)
+
+    title.value = list.value?.title || ''
+  }
+})
+</script>
+
+<template>
+  <div
+    v-if="listId"
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+    @click="handleBackdropClick"
+  >
+    <div
+      class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+      :style="{ viewTransitionName: `card-${listId}` }"
+      @click.stop
+    >
+      <div class="flex items-center justify-between p-4 border-b border-dark-border">
+        <div v-if="!isEditingTitle" class="flex-1 mr-4">
+          <button
+            type="button"
+            @click="startEditingTitle"
+            class="block text-2xl font-semibold text-white cursor-pointer hover:text-gray-300 transition-colors empty:bg-dark-bg border-none text-left p-0 m-0 w-full empty:rounded-lg empty:h-[44px]"
+          >
+            {{ title }}
+          </button>
+        </div>
+        <input
+          v-else
+          :id="`title-input-${listId}`"
+          ref="titleInput"
+          v-model="title"
+          @blur="saveTitle"
+          @keydown.enter="handleTitleKeydown"
+          class="block flex-1 mr-4 text-2xl font-semibold bg-dark-hover text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+        />
+
+        <div>
+          <button
+            @click="handleDeleteList"
+            class="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+            type="button"
+          >
+            <span class="sr-only">Delete</span>
+            <IconTrash />
+          </button>
+          <button
+            @click="closeModal"
+            class="p-2 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors"
+          >
+            <span class="sr-only">Close</span>
+            <IconClose />
+          </button>
+        </div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-4 flex flex-col justify-between">
+        <div class="space-y-2 overflow-hidden">
+          <TransitionGroup name="list">
+            <ListItem v-for="item in items" :key="item.id" :list-id="listId" :item="item" />
+          </TransitionGroup>
+        </div>
+      </div>
+
+      <button
+        @click="handleAddItem"
+        class="mt-4 w-full py-3 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors flex items-center justify-center gap-2 border border-dashed border-gray-600 hover:border-gray-400"
+      >
+        <IconPlus />
+        Add Item
+      </button>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s ease;
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+</style>
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListStore } from '@/stores/lists'
+import type { ListItem } from '@/types'
+import { ref } from 'vue'
+
+const props = defineProps<{
+  item: ListItem
+  listId: string
+}>()
+
+const emit = defineEmits<{
+  dragStart: []
+  dragEnter: []
+  dragEnd: []
+  dragOver: [e: DragEvent]
+  // newItem: [newItemId: string];
+}>()
+
+const isEditing = ref(false)
+const content = ref(props.item.content)
+
+const startEditing = () => {
+  isEditing.value = true
+}
+
+const listStore = useListStore()
+
+const saveContent = async () => {
+  if (content.value !== props.item.content) {
+    await listStore.updateListItem(props.item.id, props.listId, { content: content.value })
+  }
+}
+
+const handleKeydown = async (event: KeyboardEvent) => {
+  if (event.key === 'Enter') {
+    event.preventDefault()
+    await saveContent()
+    // TODo create next item in the list
+    isEditing.value = false
+  } else if (event.key === 'Escape') {
+    content.value = props.item.content
+    isEditing.value = false
+  }
+}
+
+const toggleChecked = async () => {
+  await listStore.updateListItem(props.item.id, props.listId, { isChecked: !props.item.isChecked })
+}
+
+const deleteItem = async () => {
+  await listStore.deleteListItem(props.item.id, props.listId)
+}
+</script>
+
+<template>
+  <div
+    :class="[
+      'flex items-center gap-3 p-3 bg-dark-hover rounded-lg border border-transparent hover:border-dark-border transition-all cursor-move group',
+    ]"
+    :draggable="true"
+    @dragstart="emit('dragStart')"
+    @dragenter="emit('dragEnter')"
+    @dragover="emit('dragOver', $event)"
+    @dragend="emit('dragEnd')"
+  >
+    <button
+      @click="toggleChecked"
+      :class="[
+        'flex-shrink-0 w-5 h-5 rounded border-2 transition-colors flex items-center justify-center',
+        {
+          'bg-blue-600 border-blue-600': item.isChecked,
+          'border-gray-500 hover:border-gray-400': !item.isChecked,
+        },
+      ]"
+    >
+      <svg
+        v-if="item.isChecked"
+        class="w-3 h-3 text-white"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+      </svg>
+    </button>
+
+    <button
+      @click="startEditing"
+      v-if="!isEditing"
+      class="flex-1 cursor-text bg-transparent border-none text-left p-0 m-0"
+    >
+      <span
+        :class="['text-white transition-all', { 'line-through text-gray-500': item.isChecked }]"
+      >
+        {{ item.content || 'Click to edit' }}
+      </span>
+    </button>
+
+    <input
+      v-else
+      type="text"
+      v-model="content"
+      @blur="saveContent"
+      @keydown="handleKeydown"
+      class="flex-1 bg-dark-bg text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      placeholder="Enter item text"
+    />
+
+    <button
+      @click="deleteItem"
+      class="flex-shrink-0 p-1 text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+
+    <div class="flex-shrink-0 text-gray-600 cursor-move">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+      </svg>
+    </div>
+  </div>
+</template>
+
+
+*********************************
+
+composables/useDragAndDrop.ts
+
+*********************************
+
+import { ref, type Ref } from 'vue'
+
+export function useDragAndDrop<T extends { id: string }>(
+  itemsRef: Ref<T[]>,
+  onReorder: (reorderedItems: T[]) => void,
+) {
+  const draggedItem = ref<T | null>(null)
+  const draggedOverItem = ref<T | null>(null)
+  const hasReordered = ref(false)
+
+  const reorderBetween = (sourceId: string, targetId: string) => {
+    const items = itemsRef.value
+    const draggedIndex = items.findIndex((i) => i.id === sourceId)
+    const targetIndexRaw = items.findIndex((i) => i.id === targetId)
+    if (draggedIndex === -1 || targetIndexRaw === -1) return
+    if (draggedIndex === targetIndexRaw) return
+
+    const reorderedItems = [...items]
+    const [removed] = reorderedItems.splice(draggedIndex, 1)
+    reorderedItems.splice(targetIndexRaw, 0, removed!)
+    onReorder(reorderedItems)
+  }
+
+  const resetDragState = () => {
+    draggedItem.value = null
+    draggedOverItem.value = null
+    hasReordered.value = false
+  }
+
+  const handleDragStart = (item: T) => {
+    draggedItem.value = item
+    hasReordered.value = false
+  }
+
+  const handleDragEnter = (item: T) => {
+    if (!draggedItem.value || draggedItem.value.id === item.id) return
+    draggedOverItem.value = item
+  }
+
+  const handleDrop = (item?: T) => {
+    if (!draggedItem.value) return
+    const target = item ?? draggedOverItem.value
+    if (!target) return
+    reorderBetween(draggedItem.value.id, target.id)
+    hasReordered.value = true
+  }
+
+  const handleDragEnd = () => {
+    if (draggedItem.value && draggedOverItem.value && !hasReordered.value) {
+      reorderBetween(draggedItem.value.id, draggedOverItem.value.id)
+    }
+    resetDragState()
+  }
+
+  const handleDragOver = (e: DragEvent) => {
+    e.preventDefault()
+  }
+
+  return {
+    draggedItem,
+    draggedOverItem,
+    handleDragStart,
+    handleDragEnter,
+    handleDrop,
+    handleDragEnd,
+    handleDragOver,
+  }
+}
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListStore } from '@/stores/lists'
+import type { ListItem } from '@/types'
+import { ref } from 'vue'
+
+const props = defineProps<{
+  item: ListItem
+  listId: string
+  isDragging?: boolean
+}>()
+
+const emit = defineEmits<{
+  dragStart: []
+  dragEnter: []
+  dragEnd: []
+  dragOver: [e: DragEvent]
+  // newItem: [newItemId: string];
+}>()
+
+const isEditing = ref(false)
+const content = ref(props.item.content)
+
+const startEditing = () => {
+  isEditing.value = true
+}
+
+const listStore = useListStore()
+
+const saveContent = async () => {
+  if (content.value !== props.item.content) {
+    await listStore.updateListItem(props.item.id, props.listId, { content: content.value })
+  }
+}
+
+const handleKeydown = async (event: KeyboardEvent) => {
+  if (event.key === 'Enter') {
+    event.preventDefault()
+    await saveContent()
+    // TODo create next item in the list
+    isEditing.value = false
+  } else if (event.key === 'Escape') {
+    content.value = props.item.content
+    isEditing.value = false
+  }
+}
+
+const toggleChecked = async () => {
+  await listStore.updateListItem(props.item.id, props.listId, { isChecked: !props.item.isChecked })
+}
+
+const deleteItem = async () => {
+  await listStore.deleteListItem(props.item.id, props.listId)
+}
+</script>
+
+<template>
+  <div
+    :class="[
+      'flex items-center gap-3 p-3 bg-dark-hover rounded-lg border border-transparent hover:border-dark-border transition-all cursor-move group',
+      { 'opacity-50': isDragging },
+    ]"
+    :draggable="true"
+    @dragstart="emit('dragStart')"
+    @dragenter="emit('dragEnter')"
+    @dragover="emit('dragOver', $event)"
+    @dragend="emit('dragEnd')"
+  >
+    <button
+      @click="toggleChecked"
+      :class="[
+        'flex-shrink-0 w-5 h-5 rounded border-2 transition-colors flex items-center justify-center',
+        {
+          'bg-blue-600 border-blue-600': item.isChecked,
+          'border-gray-500 hover:border-gray-400': !item.isChecked,
+        },
+      ]"
+    >
+      <svg
+        v-if="item.isChecked"
+        class="w-3 h-3 text-white"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+      </svg>
+    </button>
+
+    <button
+      @click="startEditing"
+      v-if="!isEditing"
+      class="flex-1 cursor-text bg-transparent border-none text-left p-0 m-0"
+    >
+      <span
+        :class="['text-white transition-all', { 'line-through text-gray-500': item.isChecked }]"
+      >
+        {{ item.content || 'Click to edit' }}
+      </span>
+    </button>
+
+    <input
+      v-else
+      type="text"
+      v-model="content"
+      @blur="saveContent"
+      @keydown="handleKeydown"
+      class="flex-1 bg-dark-bg text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      placeholder="Enter item text"
+    />
+
+    <button
+      @click="deleteItem"
+      class="flex-shrink-0 p-1 text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+
+    <div class="flex-shrink-0 text-gray-600 cursor-move">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+      </svg>
+    </div>
+  </div>
+</template>
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListStore } from '@/stores/lists'
+import type { List } from '@/types'
+import { computed, nextTick, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import IconClose from './Icons/IconClose.vue'
+import IconTrash from './Icons/IconTrash.vue'
+import IconPlus from './Icons/IconPlus.vue'
+import ListItem from './ListItem.vue'
+import { useDragAndDrop } from '@/composables/useDragAndDrop'
+
+const route = useRoute()
+const router = useRouter()
+
+// List / Store
+const listStore = useListStore()
+const list = computed(() => listStore.getList(listId.value))
+const listId = computed(() => route.params.id as string)
+const items = computed(() => listStore.getListItems(listId.value))
+
+// Title
+const isEditingTitle = ref(false)
+const title = ref('')
+const titleInput = ref<HTMLInputElement | null>(null)
+
+const startEditingTitle = async () => {
+  isEditingTitle.value = true
+  await nextTick()
+  titleInput.value?.focus()
+  titleInput.value?.select()
+}
+
+const saveTitle = async () => {
+  const newTitle = title.value.trim()
+
+  await listStore.updateList(listId.value, { title: newTitle })
+
+  isEditingTitle.value = false
+}
+
+const handleTitleKeydown = () => {
+  saveTitle()
+}
+
+const closeModal = () => {
+  // progressive enhancement
+  if ('startViewTransition' in document) {
+    document.startViewTransition(() => router.push('/'))
+  } else {
+    router.push('/')
+  }
+}
+
+const handleBackdropClick = () => {
+  closeModal()
+}
+
+const handleDeleteList = async () => {
+  if (window.confirm('Are you sure you want to delete this list?')) {
+    await listStore.deleteList(listId.value)
+    closeModal()
+  }
+}
+
+const handleAddItem = async () => {
+  await listStore.createListItem(listId.value, '')
+}
+
+const { handleDragStart, handleDragEnter, handleDragEnd, handleDragOver, draggedItem } =
+  useDragAndDrop(items, async (reorderedItems) => {
+    await listStore.reorderListItems(listId.value, reorderedItems)
+  })
+
+onMounted(async () => {
+  if (listId.value) {
+    await listStore.fetchListItems(listId.value)
+
+    title.value = list.value?.title || ''
+  }
+})
+</script>
+
+<template>
+  <div
+    v-if="listId"
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+    @click="handleBackdropClick"
+  >
+    <div
+      class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+      :style="{ viewTransitionName: `card-${listId}` }"
+      @click.stop
+    >
+      <div class="flex items-center justify-between p-4 border-b border-dark-border">
+        <div v-if="!isEditingTitle" class="flex-1 mr-4">
+          <button
+            type="button"
+            @click="startEditingTitle"
+            class="block text-2xl font-semibold text-white cursor-pointer hover:text-gray-300 transition-colors empty:bg-dark-bg border-none text-left p-0 m-0 w-full empty:rounded-lg empty:h-[44px]"
+          >
+            {{ title }}
+          </button>
+        </div>
+        <input
+          v-else
+          :id="`title-input-${listId}`"
+          ref="titleInput"
+          v-model="title"
+          @blur="saveTitle"
+          @keydown.enter="handleTitleKeydown"
+          class="block flex-1 mr-4 text-2xl font-semibold bg-dark-hover text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+        />
+
+        <div>
+          <button
+            @click="handleDeleteList"
+            class="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+            type="button"
+          >
+            <span class="sr-only">Delete</span>
+            <IconTrash />
+          </button>
+          <button
+            @click="closeModal"
+            class="p-2 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors"
+          >
+            <span class="sr-only">Close</span>
+            <IconClose />
+          </button>
+        </div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-4 flex flex-col justify-between">
+        <div class="space-y-2 overflow-hidden">
+          <TransitionGroup name="list">
+            <ListItem
+              v-for="item in items"
+              :key="item.id"
+              :list-id="listId"
+              :item="item"
+              :is-dragging="draggedItem?.id === item.id"
+              @drag-start="handleDragStart(item)"
+              @drag-enter="handleDragEnter(item)"
+              @drag-end="handleDragEnd"
+              @drag-over="handleDragOver"
+            />
+          </TransitionGroup>
+        </div>
+      </div>
+
+      <button
+        @click="handleAddItem"
+        class="mt-4 w-full py-3 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors flex items-center justify-center gap-2 border border-dashed border-gray-600 hover:border-gray-400"
+      >
+        <IconPlus />
+        Add Item
+      </button>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s ease;
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+</style>
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListStore } from '@/stores/lists'
+import type { List } from '@/types'
+import { computed, nextTick, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import IconClose from './Icons/IconClose.vue'
+import IconTrash from './Icons/IconTrash.vue'
+import IconPlus from './Icons/IconPlus.vue'
+import ListItem from './ListItem.vue'
+import { useDragAndDrop } from '@/composables/useDragAndDrop'
+
+const route = useRoute()
+const router = useRouter()
+
+// List / Store
+const listStore = useListStore()
+const list = computed(() => listStore.getList(listId.value))
+const listId = computed(() => route.params.id as string)
+const items = computed(() => listStore.getListItems(listId.value))
+
+// Title
+const isEditingTitle = ref(false)
+const title = ref('')
+const titleInput = ref<HTMLInputElement | null>(null)
+
+const startEditingTitle = async () => {
+  isEditingTitle.value = true
+  await nextTick()
+  titleInput.value?.focus()
+  titleInput.value?.select()
+}
+
+const saveTitle = async () => {
+  const newTitle = title.value.trim()
+
+  await listStore.updateList(listId.value, { title: newTitle })
+
+  isEditingTitle.value = false
+}
+
+const handleTitleKeydown = () => {
+  saveTitle()
+}
+
+const closeModal = () => {
+  // progressive enhancement
+  if ('startViewTransition' in document) {
+    document.startViewTransition(() => router.push('/'))
+  } else {
+    router.push('/')
+  }
+}
+
+const handleBackdropClick = () => {
+  closeModal()
+}
+
+const handleDeleteList = async () => {
+  if (window.confirm('Are you sure you want to delete this list?')) {
+    await listStore.deleteList(listId.value)
+    closeModal()
+  }
+}
+
+const handleAddItem = async () => {
+  await listStore.createListItem(listId.value, '')
+}
+
+const { handleDragStart, handleDragEnter, handleDragEnd, handleDragOver, draggedItem } =
+  useDragAndDrop(items, async (reorderedItems) => {
+    await listStore.reorderListItems(listId.value, reorderedItems)
+  })
+
+onMounted(async () => {
+  if (listId.value) {
+    await listStore.fetchListItems(listId.value)
+
+    title.value = list.value?.title || ''
+  }
+})
+</script>
+
+<template>
+  <div
+    v-if="listId"
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+    @click="handleBackdropClick"
+  >
+    <div
+      class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+      :style="{ viewTransitionName: `card-${listId}` }"
+      @click.stop
+    >
+      <div class="flex items-center justify-between p-4 border-b border-dark-border">
+        <div v-if="!isEditingTitle" class="flex-1 mr-4">
+          <button
+            type="button"
+            @click="startEditingTitle"
+            class="block text-2xl font-semibold text-white cursor-pointer hover:text-gray-300 transition-colors empty:bg-dark-bg border-none text-left p-0 m-0 w-full empty:rounded-lg empty:h-[44px]"
+          >
+            {{ title }}
+          </button>
+        </div>
+        <input
+          v-else
+          :id="`title-input-${listId}`"
+          ref="titleInput"
+          v-model="title"
+          @blur="saveTitle"
+          @keydown.enter="handleTitleKeydown"
+          class="block flex-1 mr-4 text-2xl font-semibold bg-dark-hover text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+        />
+
+        <div>
+          <button
+            @click="handleDeleteList"
+            class="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+            type="button"
+          >
+            <span class="sr-only">Delete</span>
+            <IconTrash />
+          </button>
+          <button
+            @click="closeModal"
+            class="p-2 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors"
+          >
+            <span class="sr-only">Close</span>
+            <IconClose />
+          </button>
+        </div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-4 flex flex-col justify-between">
+        <div class="space-y-2 overflow-hidden">
+          <TransitionGroup name="list">
+            <ListItem
+              v-for="item in items"
+              :key="item.id"
+              :list-id="listId"
+              :item="item"
+              :is-dragging="draggedItem?.id === item.id"
+              @drag-start="handleDragStart(item)"
+              @drag-enter="handleDragEnter(item)"
+              @drag-end="handleDragEnd"
+              @drag-over="handleDragOver"
+            />
+          </TransitionGroup>
+        </div>
+      </div>
+
+      <button
+        @click="handleAddItem"
+        class="mt-4 w-full py-3 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors flex items-center justify-center gap-2 border border-dashed border-gray-600 hover:border-gray-400"
+      >
+        <IconPlus />
+        Add Item
+      </button>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s ease;
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+</style>
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListStore } from '@/stores/lists'
+import type { List } from '@/types'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const props = defineProps<{
+  list: List
+}>()
+
+const route = useRoute()
+const isActive = computed(() => route.name === 'list' && route.params.id === props.list.id)
+
+const listStore = useListStore()
+const items = computed(() => listStore.getListItems(props.list.id))
+
+const previewText = computed(() => {
+  const totalCount = items.value.length
+
+  if (totalCount === 0) {
+    return 'Empty List'
+  }
+
+  const firstItems = items.value.slice(0, 3)
+  const preview = firstItems
+    .map((item) => {
+      const icon = item.isChecked ? '✓' : '○'
+      const text = item.content || 'Untitled'
+
+      return `${icon} ${text}`
+    })
+    .join('\n')
+
+  return preview + (items.value.length > 3 ? '\n...' : '')
+})
+
+const statusText = computed(() => {
+  const checkedCount = items.value.filter((item) => item.isChecked).length
+  const totalCount = items.value.length
+
+  if (totalCount === 0) return ''
+  if (checkedCount === totalCount) return 'All done'
+  if (checkedCount === 0) return `${totalCount} items`
+
+  return `${checkedCount}/${totalCount} done`
+})
+</script>
+
+<template>
+  <div
+    class="bg-dark-card border border-dark-border rounded-lg p-4 hover:bg-dark-hover cursor-pointer transition-all duration-200 hover:shadow-lg hover:shadow-black/20"
+    :style="{ viewTransitionName: !isActive ? `card-${list.id}` : undefined }"
+  >
+    <h3 class="text-lg font-semibold text-white mb-2 truncate">
+      {{ list.title }}
+    </h3>
+
+    <div class="text-sm text-gray-400 whitespace-pre-line line-clamp-4 mb-3 font-mono">
+      {{ previewText }}
+    </div>
+
+    <div v-if="statusText" class="text-xs text-gray-500 font-medium">
+      {{ statusText }}
+    </div>
+  </div>
+</template>
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListStore } from '@/stores/lists'
+import { RouterLink, useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const listStore = useListStore()
+const handleCreateList = async () => {
+  const newList = await listStore.createList()
+
+  if (newList) {
+    router.push(`/list/${newList.id}`)
+  }
+}
+</script>
+
+<template>
+  <header class="border-b border-dark-border bg-dark-card">
+    <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between">
+        <RouterLink to="/" class="text-2xl font-bold">My Tasks Keeper</RouterLink>
+        <button
+          @click="handleCreateList"
+          class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium"
+        >
+          New List
+        </button>
+      </div>
+    </div>
+  </header>
+</template>
+
+
+*********************************
+
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import { useListStore } from '@/stores/lists'
+import { useRouter, RouterView } from 'vue-router'
+
+import ListCard from '../components/ListCard.vue'
+
+const router = useRouter()
+
+const listStore = useListStore()
+
+onMounted(() => {
+  listStore.fetchLists()
+})
+
+const handleCreateList = async () => {
+  const newList = await listStore.createList()
+
+  if (newList) {
+    document.startViewTransition(() => router.push(`/list/${newList.id}`))
+  }
+}
+
+const handleCardClick = (listId: string) => {
+  document.startViewTransition(() => router.push(`/list/${listId}`))
+}
+</script>
+
+<template>
+  <div class="min-h-screen bg-dark-bg">
+    <main>
+      <div
+        v-if="listStore.lists.length"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+      >
+        <ListCard
+          v-for="list in listStore.lists"
+          :key="list.id"
+          :list="list"
+          @click="handleCardClick(list.id)"
+        />
+      </div>
+      <div v-if="!listStore.lists.length" class="text-center py-12">
+        <p class="text-gray-400 text-lg mb-4">No lists yet</p>
+        <button
+          @click="handleCreateList"
+          class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium"
+        >
+          Create Your First List
+        </button>
+      </div>
+    </main>
+
+    <RouterView />
+  </div>
+</template>
+
+
+*********************************
+
+import { ref, onMounted, onUnmounted } from 'vue'
+
+export interface UndoAction {
+  undo: () => void | Promise<void>
+  redo: () => void | Promise<void>
+}
+
+export function useUndo() {
+  const undoStack = ref<UndoAction[]>([])
+  const redoStack = ref<UndoAction[]>([])
+  const maxStackSize = 50
+
+  const addAction = (action: UndoAction) => {
+    undoStack.value.push(action)
+    if (undoStack.value.length > maxStackSize) {
+      undoStack.value.shift()
+    }
+    redoStack.value = []
+  }
+
+  const undo = async () => {
+    const action = undoStack.value.pop()
+    if (action) {
+      await action.undo()
+      redoStack.value.push(action)
+    }
+  }
+
+  const redo = async () => {
+    const action = redoStack.value.pop()
+    if (action) {
+      await action.redo()
+      undoStack.value.push(action)
+    }
+  }
+
+  const canUndo = () => undoStack.value.length > 0
+  const canRedo = () => redoStack.value.length > 0
+
+  const handleKeydown = async (e: KeyboardEvent) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+      e.preventDefault()
+      if (canUndo()) {
+        await undo()
+      }
+    } else if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) {
+      e.preventDefault()
+      if (canRedo()) {
+        await redo()
+      }
+    }
+  }
+
+  onMounted(() => {
+    window.addEventListener('keydown', handleKeydown)
+  })
+
+  onUnmounted(() => {
+    window.removeEventListener('keydown', handleKeydown)
+  })
+
+  return {
+    addAction,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+  }
+}
+
+
+*********************************
+
+<script setup lang="ts">
+import { useUndo } from '@/composables/useUndo'
+import { useListStore } from '@/stores/lists'
+import type { ListItem } from '@/types'
+import { ref } from 'vue'
+
+const props = defineProps<{
+  item: ListItem
+  listId: string
+  isDragging?: boolean
+}>()
+
+const emit = defineEmits<{
+  dragStart: []
+  dragEnter: []
+  dragEnd: []
+  dragOver: [e: DragEvent]
+  // newItem: [newItemId: string];
+}>()
+
+const isEditing = ref(false)
+const content = ref(props.item.content)
+
+const startEditing = () => {
+  isEditing.value = true
+}
+
+const listStore = useListStore()
+const { addAction } = useUndo()
+
+const saveContent = async () => {
+  if (content.value !== props.item.content) {
+    const oldContent = props.item.content
+    const newContent = content.value
+
+    await listStore.updateListItem(props.item.id, props.listId, { content: content.value })
+
+    addAction({
+      undo: async () => {
+        content.value = oldContent
+        await listStore.updateListItem(props.item.id, props.listId, { content: oldContent })
+      },
+      redo: async () => {
+        content.value = newContent
+        await listStore.updateListItem(props.item.id, props.listId, { content: newContent })
+      },
+    })
+  }
+}
+
+const handleKeydown = async (event: KeyboardEvent) => {
+  if (event.key === 'Enter') {
+    event.preventDefault()
+    await saveContent()
+    // TODo create next item in the list
+    isEditing.value = false
+  } else if (event.key === 'Escape') {
+    content.value = props.item.content
+    isEditing.value = false
+  }
+}
+
+const toggleChecked = async () => {
+  await listStore.updateListItem(props.item.id, props.listId, { isChecked: !props.item.isChecked })
+}
+
+const deleteItem = async () => {
+  const deletedItem = { ...props.item }
+
+  await listStore.deleteListItem(props.item.id, props.listId)
+
+  addAction({
+    undo: async () => {
+      const newItem = await listStore.createListItem(props.listId, deletedItem.content)
+      if (newItem) {
+        await listStore.updateListItem(newItem.id, props.listId, {
+          isChecked: deletedItem.isChecked,
+          position: deletedItem.position,
+        })
+      }
+    },
+    redo: async () => {
+      await listStore.deleteListItem(deletedItem.id, props.listId)
+    },
+  })
+}
+</script>
+
+<template>
+  <div
+    :class="[
+      'flex items-center gap-3 p-3 bg-dark-hover rounded-lg border border-transparent hover:border-dark-border transition-all cursor-move group',
+      { 'opacity-50': isDragging },
+    ]"
+    :draggable="true"
+    @dragstart="emit('dragStart')"
+    @dragenter="emit('dragEnter')"
+    @dragover="emit('dragOver', $event)"
+    @dragend="emit('dragEnd')"
+  >
+    <button
+      @click="toggleChecked"
+      :class="[
+        'flex-shrink-0 w-5 h-5 rounded border-2 transition-colors flex items-center justify-center',
+        {
+          'bg-blue-600 border-blue-600': item.isChecked,
+          'border-gray-500 hover:border-gray-400': !item.isChecked,
+        },
+      ]"
+    >
+      <svg
+        v-if="item.isChecked"
+        class="w-3 h-3 text-white"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+      </svg>
+    </button>
+
+    <button
+      @click="startEditing"
+      v-if="!isEditing"
+      class="flex-1 cursor-text bg-transparent border-none text-left p-0 m-0"
+    >
+      <span
+        :class="['text-white transition-all', { 'line-through text-gray-500': item.isChecked }]"
+      >
+        {{ item.content || 'Click to edit' }}
+      </span>
+    </button>
+
+    <input
+      v-else
+      type="text"
+      v-model="content"
+      @blur="saveContent"
+      @keydown="handleKeydown"
+      class="flex-1 bg-dark-bg text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      placeholder="Enter item text"
+    />
+
+    <button
+      @click="deleteItem"
+      class="flex-shrink-0 p-1 text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+
+    <div class="flex-shrink-0 text-gray-600 cursor-move">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+      </svg>
+    </div>
+  </div>
+</template>
+
+
+*********************************
+
+import { describe, it, expect, beforeEach } from 'vitest'
+import { setActivePinia, createPinia } from 'pinia'
+
+import { mount } from '@vue/test-utils'
+import App from './App.vue'
+import router from './router'
+
+describe('App', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia())
+  })
+
+  it('mounts App properly', async () => {
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router],
+      },
+    })
+    await router.isReady()
+
+    expect(wrapper.text()).toContain('My Tasks Keeper')
+  })
+})
+
+
+*********************************
+
+pnpm test:unit
+npm run test:unit
+
+*********************************
+
+import { mount } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import MyHeader from './MyHeader.vue'
+import router from '@/router'
+import { useListStore } from '@/stores/lists'
+
+describe('MyHeader', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia())
+  })
+
+  it('renders the title', async () => {
+    const wrapper = mount(MyHeader, {
+      global: {
+        plugins: [router],
+      },
+    })
+
+    await router.isReady()
+
+    expect(wrapper.text()).toContain('My Tasks Keeper')
+  })
+
+  it('creates a new list when the New List button is clicked', async () => {
+    const listStore = useListStore()
+
+    const createListSpy = vi.spyOn(listStore, 'createList')
+
+    const wrapper = mount(MyHeader, {
+      global: {
+        plugins: [router],
+      },
+    })
+
+    await router.isReady()
+
+    const button = wrapper.find('button')
+    await button.trigger('click')
+
+    expect(createListSpy).toHaveBeenCalled()
+  })
+})
+
+
+*********************************
+
+import { flushPromises, mount } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import MyHeader from './MyHeader.vue'
+import router from '@/router'
+import { useListStore } from '@/stores/lists'
+
+describe('MyHeader', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia())
+  })
+
+  it('renders the title', async () => {
+    const wrapper = mount(MyHeader, {
+      global: {
+        plugins: [router],
+      },
+    })
+
+    await router.isReady()
+
+    expect(wrapper.text()).toContain('My Tasks Keeper')
+  })
+
+  it('creates a new list when the New List button is clicked', async () => {
+    const listStore = useListStore()
+
+    const createListSpy = vi.spyOn(listStore, 'createList').mockResolvedValue({
+      id: 'newListId',
+      createdAt: Date.now(),
+      title: '',
+      position: 0,
+    })
+    const pushSpy = vi.spyOn(router, 'push')
+
+    const wrapper = mount(MyHeader, {
+      global: {
+        plugins: [router],
+      },
+    })
+
+    await router.isReady()
+
+    const button = wrapper.find('button')
+    await button.trigger('click')
+
+    expect(createListSpy).toHaveBeenCalled()
+    await flushPromises()
+    expect(pushSpy).toHaveBeenCalled()
+  })
+})
+
+
+*********************************

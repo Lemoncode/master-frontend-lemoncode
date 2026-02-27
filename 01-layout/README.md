@@ -34,3 +34,6 @@
   - Usando imports
   - Usando mixins
   - Directivas de control y funciones
+- Normalize y Reset
+  - Normalize.css
+  - Reset CSS

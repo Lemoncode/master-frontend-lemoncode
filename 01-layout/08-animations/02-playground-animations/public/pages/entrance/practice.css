@@ -1,0 +1,30 @@
+/* CONCEPTO CLAVE: @starting-styles */
+
+/*********** FOCUS AREA ***********/
+
+/* ... code ...*/
+
+/**********************************/
+
+p {
+  font-family: "Fira Code", monospace;
+  font-weight: 300;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  width: 100%;
+}
+
+body {
+  --item-size: 4em;
+  justify-content: start;
+  align-items: start;
+  padding: 4em;
+}

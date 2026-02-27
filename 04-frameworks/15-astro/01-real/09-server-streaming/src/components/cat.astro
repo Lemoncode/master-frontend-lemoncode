@@ -1,0 +1,10 @@
+---
+import { getRandomCatImage} from '../api/animal.api';
+const catImage = await getRandomCatImage();
+---
+
+<h1>🐱 Random Cat Image</h1>
+<img
+  src={catImage}
+  style="max-width: 400px"
+/>

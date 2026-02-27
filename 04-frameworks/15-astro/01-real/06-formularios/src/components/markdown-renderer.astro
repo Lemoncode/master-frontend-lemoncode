@@ -1,0 +1,94 @@
+---
+import { marked } from 'marked';
+import hljs from 'highlight.js';
+
+const { content } = Astro.props;
+
+marked.use({
+  renderer: {
+    link(token) {
+      return `<a href="${token.href}" target="_blank" rel="noopener noreferrer">${token.text}</a>`;
+    },
+    code(token) {
+      const lang = token.lang || '';
+
+      // Map unsupported languages to similar ones
+      const languageMap: Record<string, string> = {
+        astro: 'jsx',
+        svelte: 'html',
+        vue: 'html',
+      };
+
+      const getHighlightedCode = () => {
+        if (!lang) return hljs.highlightAuto(token.text).value;
+
+        try {
+          const effectiveLang = hljs.getLanguage(lang) ? lang : languageMap[lang];
+          return effectiveLang && hljs.getLanguage(effectiveLang)
+            ? hljs.highlight(token.text, { language: effectiveLang }).value
+            : hljs.highlightAuto(token.text).value;
+        } catch {
+          return hljs.highlightAuto(token.text).value;
+        }
+      };
+
+      const highlightedCode = getHighlightedCode();
+
+      const langClass = lang ? `language-${lang}` : '';
+
+      return `<div class="mb-6 mt-6 rounded-xl overflow-clip">
+        <div class="flex justify-between items-center bg-gray-800 dark:bg-gray-700 text-gray-300 px-4 py-2 text-sm ">
+          <span class="font-mono text-xs uppercase tracking-wide">${lang || 'code'}</span>
+          <button 
+            class="copy-btn cursor-pointer hover:text-white"
+            data-code="${token.text.replace(/"/g, '&quot;').replace(/'/g, '&#39;')}">
+            Copy
+          </button>
+        </div>
+        <pre><code class="hljs ${langClass}">${highlightedCode}</code></pre>
+      </div>`;
+    },
+  },
+});
+
+marked.setOptions({
+  gfm: true,
+});
+
+const htmlContent = await marked(content);
+---
+
+<div set:html={htmlContent} class="marked" />
+
+<script>
+  function copyToClipboard(button: HTMLButtonElement) {
+    const code = button.getAttribute('data-code');
+    if (!code) return;
+
+    navigator.clipboard
+      .writeText(code)
+      .then(() => {
+        const originalText = button.textContent;
+        button.textContent = 'Copied!';
+        button.style.color = '#10b981';
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.style.color = '';
+        }, 2000);
+      })
+      .catch(() => {
+        button.textContent = 'Failed';
+        button.style.color = '#ef4444';
+        setTimeout(() => {
+          button.textContent = 'Copy';
+          button.style.color = '';
+        }, 2000);
+      });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => copyToClipboard(btn as HTMLButtonElement));
+    });
+  });
+</script>

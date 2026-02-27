@@ -9,7 +9,7 @@ su id y clave y al pulsar el botón de login se valida, si introduce
 la combinación "admin" "test" puede pasar a la ventana de listado.
 
 El objetivo de este ejemplo es cubrir un escenario muy básico que te
-permita ver cómo funciona react manejando informacíon como esta.
+permita ver cómo funciona react manejando información como esta.
 
 ## Paso a Paso
 

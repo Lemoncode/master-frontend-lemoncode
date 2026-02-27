@@ -8,7 +8,7 @@ In this example, we are going to support the use of environment variables for ou
 
 ## Prerequisites
 
-Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not already installed on your computer.
+Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they are not already installed on your computer.
 
 > ⚠ Verify that you are running at least latest Node LTS version and npm. You can check your current version by running `node -v` and `npm -v` in a terminal/console window. Older versions may produce errors.
 
@@ -80,6 +80,8 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
   +   readonly VITE_API_BASE: string;
   + }
   ```
+
+  > ℹ️ This extension to already existing types is usually called "augmentation".
 
   ⚡ One important thing to note here is that all variables are **strings**. If you need some variables as `boolean` or `number` you may prefer to create your own `environment.ts` or `config.ts` to pre-process and parse them.
 

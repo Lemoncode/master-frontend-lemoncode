@@ -94,7 +94,7 @@ const getStyles = () => `
 
 Update `style.css`
 
-> Commnet out the code our simply remove it.
+> Comment out the code our simply remove it.
 
 Ok, lets open on browser. If we open the developer tools we will find embeded the `style` tag, that is feeding the styles for the custom element.
 

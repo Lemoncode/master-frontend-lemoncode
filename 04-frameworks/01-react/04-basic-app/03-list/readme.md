@@ -125,11 +125,11 @@ _./src/list.tsx_
 +        <span className="list-header">Id</span>
 +        <span className="list-header">Name</span>
 +        {members.map((member) => (
-+          <>
++          <React.Fragment key={member.id}>
 +            <img src={member.avatar_url} />
 +            <span>{member.id}</span>
 +            <span>{member.login}</span>
-+          </>
++          </React.Fragment>
 +        ))}
 +      </div>
     </>

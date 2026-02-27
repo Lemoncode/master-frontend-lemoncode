@@ -1,0 +1,29 @@
+/* CONCEPTO CLAVE: Typefont weight morphing SIN jitter */
+
+/*********** FOCUS AREA ***********/
+
+.placeholder {
+  /* ... code ... */
+}
+
+/**********************************/
+
+.text {
+  font-family: "Fira Code", monospace;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin-left: 2em;
+  padding: 0;
+  /* ⚠️ WARNING HERE */
+  row-gap: 0.25em;
+}
+
+body {
+  align-items: start;
+}

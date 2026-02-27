@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@source not "../Readme.md";
+
+@theme {
+  --h1-size: 2rem;
+  --h1-line: 1.2;
+  --h1-decoration: underline;
+}

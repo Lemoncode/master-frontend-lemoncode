@@ -29,13 +29,9 @@ _./src/layouts/center.layout.tsx_
 ```tsx
 import React from "react";
 
-interface Props {
-  children: React.ReactNode;
-}
-
-export const CenterLayout: React.FC<Props> = ({ children }) => (
-  <div className="layout-center">{children}</div>
-);
+export const CenterLayout: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => <div className="layout-center">{children}</div>;
 ```
 
 - Vamos a crear el _barrel_ para la subcarpeta de _layouts_:
@@ -143,12 +139,7 @@ _./src/layouts/app.layout.tsx_
 ```tsx
 import React from "react";
 
-// New on React 18
-interface Props {
-  children: React.ReactNode;
-}
-
-export const AppLayout: React.FC<Props> = ({ children }) => (
+export const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
   <div className="layout-app-container">
     <div className="layout-app-header">User Logged in</div>
     {children}
@@ -182,11 +173,11 @@ _./src/scenes/list.tsx_
         <span className="list-header">Id</span>
         <span className="list-header">Name</span>
         {members.map((member) => (
-          <>
+          <React.Fragment key={member.id}>
             <img src={member.avatar_url} />
             <span>{member.id}</span>
             <Link to={routes.details(member.login)}>{member.login}</Link>
-          </>
+          </React.Fragment>
         ))}
       </div>
       <Link to="/detail">Navigate to detail page</Link>

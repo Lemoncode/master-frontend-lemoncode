@@ -17,11 +17,11 @@ export const ListComponent: React.FC<Props> = (props) => {
         <span className="list-header">Id</span>
         <span className="list-header">Name</span>
         {members.map((member) => (
-          <>
+          <React.Fragment key={member.id}>
             <img src={member.avatar_url} />
             <span>{member.id}</span>
             <Link to={routes.details(member.login)}>{member.login}</Link>
-          </>
+          </React.Fragment>
         ))}
       </div>
     </>

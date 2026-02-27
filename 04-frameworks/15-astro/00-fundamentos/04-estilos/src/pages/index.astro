@@ -1,0 +1,34 @@
+---
+	import "../styles.css";
+	import DogPics from '../components/DogPics.astro';
+	const title = "Hello world !!";
+	const imageError = "https://www.publicdomainpictures.net/pictures/190000/nahled/sad-dog-1468499671wYW.jpg";
+	const res = await fetch("https://dog.ceo/api/breeds/image/random/5");
+	const response = await res.json();
+	const dogImageUrls = response?.message ?? [imageError];
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro</title>
+	</head>
+	<body>
+		<h1>{title}</h1>
+		<DogPics urls={dogImageUrls} />
+		<div>
+			<button id="cat-image-button">Get Cat Image</button>
+		</div>
+		<div>
+			<img id="cat-image" style="max-width: 400px; height: auto;"/>
+		</div>
+	</body>
+</html>
+
+<script>
+	import { setupCatFactButton } from "./cat";
+	setupCatFactButton();
+</script>

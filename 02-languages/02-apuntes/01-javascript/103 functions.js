@@ -63,33 +63,31 @@ function sum() {
 }
 console.log(sum(1, 2, 3)); // 6;
 
-
 ///-- ARROW FUNCTIONS *****************************************************************************
 
 // SINTAXIS
 
 // Funciones flecha o también llamadas "lambda". Siempre son anónimas.
-const toUpper = (text) => {
-  return text.toUpperCase();
+const double = (num) => {
+  return num * 2;
 };
 
 // Si solo tenemos la sentencia "return" podemos acortar la función y ahorrarnos
 // la palabra clave "return" y las llaves:
-const toUpper = (text) => text.toUpperCase();
+const double = (num) => num * 2;
 
 // También podemos omitir los paréntesis cuando el argumento es único:
-const toUpper = text => text.toUpperCase();
+const double = num => num * 2;
 // Sólo cuando es único, porque sino la coma de separación de argumentos se
 // podría confundir con el operador coma.
 
 // En caso de que lo que devuelva sea un objeto literal hay que tener cuidado:
 const toObject = (name, surname, age) => {
-  return { name, surname, age }
-}
+  return { name, surname, age };
+};
 // y utilizar paréntesis para devolver en la forma corta, ya que las llaves de
 // objeto literal se confundirían con las llaves de ámbito de función.
-const toObject = (name, surname, age) => ({ name, surname, age })
-
+const toObject = (name, surname, age) => ({ name, surname, age });
 
 ///-- SIMILITUDES: classic vs arrow  *************************************************************
 
@@ -114,11 +112,11 @@ saySomething("hello  world", str => str.replace(/[aeiou]/gi, "")); // hll wrld
 const createCounter = () => {
   let i = 0;
   return () => console.log(++i);
-}
-const count = createCounter();
-count(); // 1
-count(); // 2
-count(); // 3
+};
+const countFn = createCounter();
+countFn(); // 1
+countFn(); // 2
+countFn(); // 3
 
 // ⚠ En este último ejemplo hemos empleado un CLOSURE! Este concepto avanzado se verá con más
 // detenimiento en la parte avanzada.
@@ -143,7 +141,7 @@ en tiempo de desarrollo. Están más pensadas para ser usadas como 'function exp
  */
 
 function f() {
-  console.log(this.age);  // Aqui el contexto es el "caller" de la función. this -> caller.
+  console.log(this.age); // Aqui el contexto es el "caller" de la función. this -> caller.
 }
 
 // Al hacer la siguiente llamada debéis preguntaros ... ¿quién está invocando a la función f?
@@ -181,7 +179,6 @@ g.call({ surname: "calzado" }); // camargo
 // No importa que intente invocar la arrow function con un objeto distinto de "window", no tiene
 // efecto!
 
-
 // *** Otras diferencias
 
 // - Las arrow functions no pueden ser 'variadic' y no presentan por tanto la keyword 'arguments'
@@ -191,7 +188,7 @@ const sum = () => {
 };
 console.log(sum(1, 2, 3)); // Uncaught ReferenceError: arguments is not defined
 
-// Sin embargo, existe una forma de obtener todos los argumentos con forma de array *similar* a 
+// Sin embargo, existe una forma de obtener todos los argumentos con forma de array *similar* a
 //arguments. Esto lo veremos más adelante.
 
 // - Las arrow functions no pueden ser funciones constructoras ni presentan la propiedad

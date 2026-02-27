@@ -1,0 +1,67 @@
+/* =========================
+   Basic global styles
+   ========================= */
+
+/* Light reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global font */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 0.5em;
+}
+
+/* Paragraphs */
+p {
+  margin-bottom: 1em;
+}
+
+/* Links */
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Buttons */
+button {
+  cursor: pointer;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 6px;
+  background-color: #007bff;
+  color: white;
+  font-size: 1em;
+  transition: background-color 0.3s;
+}
+button:hover {
+  background-color: #0056b3;
+}
+
+/* General container */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}

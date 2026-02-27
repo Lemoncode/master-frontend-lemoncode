@@ -1,8 +1,8 @@
-import 'normalize.css';
-import './material-icons.css';
-import React from 'react';
-import { Inter } from 'next/font/google';
 import { ThemeProvider } from '#core/theme.context';
+import { Inter } from 'next/font/google';
+import 'normalize.css';
+import React from 'react';
+import './material-icons.css';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -18,7 +18,9 @@ const RootLayout = (props: Props) => {
   return (
     <html lang="en" className={inter.className}>
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <main>{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   );

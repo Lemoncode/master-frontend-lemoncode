@@ -1,6 +1,5 @@
-import React from 'react';
-import { Metadata } from 'next';
 import { Car, api, mapCarFromApiToVm } from '#pods/car';
+import { Metadata } from 'next';
 
 interface Props {
   params: Promise<{ carId: string }>;

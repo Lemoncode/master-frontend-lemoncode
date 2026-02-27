@@ -1,7 +1,7 @@
-import { envConstants } from '#core/constants';
+import { ENV } from '#core/constants';
 import { Car } from './car.api-model';
 
-const url = `${envConstants.BASE_API_URL}/cars`;
+const url = `${ENV.BASE_API_URL}/cars`;
 
 export const getCar = async (
   id: string,

@@ -1,0 +1,53 @@
+---
+import ShapeOval from '#assets/shapes/oval.svg';
+import ShapeRectangle from '#assets/shapes/rectangle.svg';
+import type { NewsletterContent } from '../newsletter.model';
+
+export interface Props {
+  content: NewsletterContent;
+}
+
+const { content } = Astro.props;
+---
+
+<section
+  class="bg-primary-50 dark:bg-primary-100 relative overflow-clip rounded-4xl p-6 py-8 sm:p-16"
+  aria-labelledby="newsletter-heading"
+>
+  <div class="relative z-10 flex flex-col items-center justify-center gap-6 text-center">
+    <h2 class="text-tbase-500/90 text-2xl font-semibold" id="newsletter-heading">
+      {content.title}
+    </h2>
+    <p class="text-lg">{content.description}</p>
+    <form
+      class="sm:border-text relative flex w-full max-w-[450px] flex-col items-center gap-4 sm:flex-row sm:gap-2 sm:rounded-2xl sm:border sm:py-2 sm:pr-2 sm:pl-4"
+    >
+      <label for="newsletter-email-2" class="sr-only">{content.inputLabel}</label>
+      <input
+        name="email"
+        type="email"
+        placeholder={content.inputPlaceholder}
+        id="newsletter-email-2"
+        class="text-tbase border-text w-full rounded-xl border py-2 pr-2 pl-4 outline-none sm:rounded-none sm:border-none sm:p-0"
+      />
+      <button
+        class="bg-primary-500 hover:bg-primary-700 dark:hover:bg-primary-400 transition-color cursor-pointer rounded-xl px-4 py-2 font-medium tracking-wider text-white"
+      >
+        {content.buttonText}
+      </button>
+    </form>
+  </div>
+  <!-- Decorative shapes -->
+  <div
+    class="text-primary-500/25 absolute top-[-48%] left-[-30%] h-[243px] w-[420px] md:top-[-40%] md:left-[-16%]"
+    aria-hidden="true"
+  >
+    <ShapeRectangle />
+  </div>
+  <div
+    class="text-primary-500/25 absolute top-[70%] right-[-40%] h-[243px] w-[420px] overflow-clip md:top-[50%] md:right-[-22%]"
+    aria-hidden="true"
+  >
+    <ShapeOval />
+  </div>
+</section>

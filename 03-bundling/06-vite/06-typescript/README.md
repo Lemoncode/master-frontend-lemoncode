@@ -8,7 +8,7 @@ It's time to test how `vite` behaves when using Typescript. This is an interesti
 
 ## Prerequisites
 
-Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not already installed on your computer.
+Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they are not already installed on your computer.
 
 > ⚠ Verify that you are running at least latest Node LTS version and npm. You can check your current version by running `node -v` and `npm -v` in a terminal/console window. Older versions may produce errors.
 
@@ -70,13 +70,12 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
   ⚡ In the development flow, `vite` only perform transpilation on TS files. It relies on `esbuild` for such a task (20-30x faster than `tsc`) and once transpiled, it expose them as ES modules. **It does not perform type checking**, it is up to you to take care of that in the build process or rely on you IDE.
 
   ⚡ `esbuild` transformer requires a couple of specific [compiler options](https://vitejs.dev/guide/features.html#typescript-compiler-options) to be turned on:
-
   - **isolatedModules**: `esbuild` performs transpilation in isolated mode, this is, on a single file at a time. Therefore, it cannot transform code that depend on understanding the full type system. This flag turned on ensures we are warned against certain code that can't be correctly interpreted by a single-file transpilation process.
   - **useDefineForClassFields**: ensures EMCA compliant class fields.
 
   The rest is just a starting boilerplate configuration you can tweak based on your needs.
 
-- Let's simplify our `index.html` file just to focus on TS:
+- ⚠️ It's time to do a bit of cleanup. Let's simplify our `index.html` file just to focus on TS:
 
   _index.html_
 
@@ -144,6 +143,19 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
   ```
 
   🔎 Notice we didn't need to add module syntax like `export {}` because TS already understands it's a module since we added `"type": "module"` in `package.json` file.
+
+- ⚠️ Finally, now that we removed the usage of `SASS`, `bootstrap` and `images` let's delete related files to keep project tidy:
+
+  ```bash
+  DELETE src/content/
+  DELETE src/mystyles.scss
+  ```
+
+  and also uninstall dependencies:
+
+  ```bash
+  npm uninstall bootstrap sass-embedded
+  ```
 
 - Time to start the project!
 
@@ -226,32 +238,18 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
 
   🔎 Check how we also get error feedback in the console.
 
-- Unfortunately, it doesn't prevent us from generating the production bundle, eventhough the `build` script apparently failed. Actually you can run it with:
+- We can see thank to `vite-plugin-checker` it is preventing us from generating the production bundle, with errors.
 
-  ```bash
-  npm run preview
-  ```
+  ```text
+  vite v7.0.4 building for production...
+  ✓ 2 modules transformed.
+  src/index.ts:2:7 - error TS2322: Type 'number' is not assignable to type 'string'.
 
-- But there are a couple of alternatives we can do:
+  2 const numberB: string = 3;
+          ~~~~~~~
 
-### Alternative 1
 
-- Let's update the `package.json` to run `tsc` before production build:
-
-  ```diff
-    "scripts": {
-      "start": "vite",
-  +   "type-check": "tsc --noEmit",
-  +   "prebuild": "npm run type-check",
-      "build": "vite build",
-      "preview": "vite preview"
-    },
-  ```
-
-  🔎 Let's check we cannot build for production until all compilation errors are cleared:
-
-  ```bash
-  npm run build
+  Found 1 error in src/index.ts:2
   ```
 
 - So, we can only fix the issue to continue:
@@ -265,32 +263,3 @@ Install [Node.js and npm](https://nodejs.org/en/) (14.18+ / 16+) if they are not
   ```
 
   🔎 Run now a production build and check how it goes smoothly.
-
-### Alternative 2
-
-- Let's tweak `rollup`, which is run under the hood for bundling in production, and let's configure its typescript plugin to prevent emitting any artifact if transpilation fails. First, install the plugin and a required `tslib` dependency:
-
-  ```bash
-  npm install @rollup/plugin-typescript tslib --save-dev
-  ```
-
-- Then, add the following to `vite` config file:
-
-  _vite.config.ts_
-
-  ```diff
-    import { defineConfig } from "vite";
-    import checker from "vite-plugin-checker";
-  + import typescript from "@rollup/plugin-typescript";
-
-    export default defineConfig({
-      plugins: [checker({ typescript: true })],
-  +   build: {
-  +     rollupOptions: {
-  +       plugins: [typescript()],
-  +     },
-  +   },
-    });
-  ```
-
-  > By default it takes our `tsconfig.json` as reference.

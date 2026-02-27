@@ -16,8 +16,8 @@ We can create our custom images. In this case, we will use [the node image](http
 
 _./Dockerfile_
 
-```Docker
-FROM node:22-alpine
+```Dockerfile
+FROM node:24-alpine
 ```
 
 > You can use [Docker VSCode extension](https://code.visualstudio.com/docs/containers/overview)
@@ -27,7 +27,7 @@ Let's create the path where we are going to copy our app:
 _./Dockerfile_
 
 ```diff
-FROM node:22-alpine
+FROM node:24-alpine
 + RUN mkdir -p /usr/app
 + WORKDIR /usr/app
 
@@ -36,7 +36,6 @@ FROM node:22-alpine
 > RUN: run commands inside container
 >
 > WORKDIR: all commands after that will be executed in this path
-
 
 Let's add the `.dockerignore` to avoid unnecessary files:
 
@@ -50,6 +49,7 @@ dist
 .gitignore
 .prettierrc
 .env.development
+.env.production
 
 ```
 
@@ -58,7 +58,7 @@ Copy all files:
 _./Dockerfile_
 
 ```diff
-FROM node:22-alpine
+FROM node:24-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -71,7 +71,7 @@ Execute install and build:
 _./Dockerfile_
 
 ```diff
-FROM node:22-alpine
+FROM node:24-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -100,7 +100,7 @@ docker run --name my-app-container -it my-app:1 sh
 > ls dist
 > exit
 
-docker container rm my-app-container
+docker rm my-app-container
 ```
 
 We can create some docker steps to install server and execute it:
@@ -108,7 +108,7 @@ We can create some docker steps to install server and execute it:
 _./Dockerfile_
 
 ```diff
-FROM node:22-alpine
+FROM node:24-alpine
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -134,6 +134,7 @@ docker build -t my-app:1 .
 docker images
 
 ```
+
 > In earlier versions of Docker when you re-use the same tag, it will create a new image with the same tag, but with a different ID. This is called a dangling image and you can remove it with `docker image prune`
 >
 > But in the latest versions of Docker, it will delete the old image for you.
@@ -152,7 +153,6 @@ docker exec -it my-app-container sh
 ```
 
 Try to access `http://localhost:8081`
-
 
 Why can't we access to `http://localhost:8081`? Because this process is executing itself inside container, we need to expose to our machine:
 
@@ -189,7 +189,6 @@ docker run --name my-app-container --rm -d -p 8080:8083 my-app:1
 >
 > `-d`: To start a container in detached mode
 
-
 Open `http://localhost:8080`
 
 Check `docker images`:
@@ -223,8 +222,8 @@ We can see our image `my-app:1` with the size of `~582MB`, too much size isn't i
 _./Dockerfile_
 
 ```diff
-- FROM node:22-alpine
-+ FROM node:22-alpine AS base
+- FROM node:24-alpine
++ FROM node:24-alpine AS base
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 

@@ -49,7 +49,6 @@ dist
 .gitignore
 .prettierrc
 .env.development
-.env.production
 
 ```
 
@@ -204,7 +203,6 @@ We can see our image `my-app:1` with the size of `~582MB`, too much size isn't i
 
 ```
 |-- /usr/app
-|------ config/
 |------ server/
 |----------- node_modules/
 |----------- public/

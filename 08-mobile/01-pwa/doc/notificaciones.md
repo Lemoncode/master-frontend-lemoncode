@@ -8,7 +8,7 @@ Las notificaciones pueden proporcionar grandes beneficios a los usuarios si se u
 - No están asociadas a un Service Worker.
 - No se pueden definir acciones.
 
-Los navegadores que soportan notificaciones disponen de una clase Notification. Basta con hacer “new Notification” parar crear y mostrar una notificación.
+Los navegadores que soportan notificaciones disponen de una clase `Notification`. Basta con hacer “new Notification” parar crear y mostrar una notificación.
 
 ```javascript
 var n = new Notification('Título de la notificación', {
@@ -25,7 +25,7 @@ https://developer.mozilla.org/es/docs/Web/API/notification
 
 Estas notificaciones se gestionan desde un Service Worker, por lo que el contexto será el del worker.
 
-Para crear y mostrar una notificación hay que llamar al método .showNotification del .registration del worker.
+Para crear y mostrar una notificación hay que llamar al método `.showNotification` del `.registration` del worker.
 
 ```javascript
 self.registration.showNotification('Título de la notificación’, {
@@ -92,11 +92,3 @@ actions: [{
  icon: 'path/icono'
 }],
 ```
-
-
-
-
-
-
-
-

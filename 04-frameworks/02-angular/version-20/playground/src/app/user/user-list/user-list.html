@@ -1,0 +1,97 @@
+<h2>Alta</h2>
+<div>
+  <form #addForm="ngForm">
+    <div>
+      <label>Id </label>
+      <input name="id" [(ngModel)]="newMember.id" required #id="ngModel" />
+      @if (id.invalid && id.touched) {
+        <div>El id es obligatorio</div>
+      }
+    </div>
+    <div>
+      <label>Name </label>
+      <input name="name" [(ngModel)]="newMember.login" required minlength="6" #name="ngModel" />
+      @if (name.invalid && name.touched) {
+        @if (name.errors!['required']) {
+          <div>El nombre es obligatorio</div>
+        }
+        @if (name.errors!['minlength']) {
+          <div>
+            El nombre debe tener {{ name.errors!['minlength'].requiredLength }} caracteres mínimo.
+            Tiene solamente {{ name.errors!['minlength'].actualLength }}
+          </div>
+        }
+      }
+    </div>
+    <div>
+      <label>Avatar </label>
+      <input name="avatar" (change)="handleFileInput($event)" type="file" accept="image/*" />
+      <div><img [src]="newMember.avatar_url" width="50" alt="" /></div>
+    </div>
+    <button [disabled]="addForm.invalid" (click)="add()">Añadir</button>
+  </form>
+</div>
+
+<h2>Listado</h2>
+
+<div>
+  <label>Buscar por nombre:</label>
+  <input #search (keyup)="(0)" />
+  <table>
+    <thead>
+      <tr>
+        <th appHighlight color="red">Avatar</th>
+        <th>Id</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (member of members | searchByLogin: search.value; track member) {
+        <tr (click)="select(member)">
+          <td>
+            <img [src]="member.avatar_url" />
+          </td>
+          <td>
+            <span>{{ member.id }}</span>
+          </td>
+          <td>
+            <span>{{ member.login }}</span>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<div>
+  <h2>Datos de XXXXXXX</h2>
+  <form [formGroup]="editForm">
+    <div>
+      <label>Id </label>
+    </div>
+    <div>
+      <label>Name </label>
+      <input name="name" formControlName="login" />
+      <!-- <div>
+        <div>El nombre es obligatorio</div>
+        <div>El nombre debe tener X caracteres mínimo. Tiene sólamente X caracteres.</div>
+      </div> -->
+      @if (loginControl.invalid) {
+        <div>
+          @if (loginControl.errors?.['required']) {
+            <div>El nombre es obligatorio</div>
+          }
+          @if (loginControl.errors?.['minlength']) {
+            <div>El nombre debe tener X caracteres mínimo. Tiene sólamente X caracteres.</div>
+          }
+        </div>
+      }
+    </div>
+    <div>
+      <label>Avatar </label>
+      <input name="avatar" type="file" (change)="handleEditFileInput($event)" accept="image/*" />
+      <div><img [src]="avatarControl.value" width="50" /></div>
+    </div>
+    <button [disabled]="editForm.invalid" (click)="save()">Añadir</button>
+  </form>
+</div>

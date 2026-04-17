@@ -1,0 +1,364 @@
+https://vuejs.org/
+
+*********************************
+ 
+pnpm create vue@latest
+
+
+*********************************
+ 
+pnpm create vue@latest keep-clone-2026
+
+*********************************
+ 
+◻ JSX Support
+│  ◼ Router (SPA development)
+│  ◼ Pinia (state management)
+│  ◼ Vitest (unit testing)
+│  ◻ End-to-End Testing
+│  ◼ Linter (error prevention)
+│  ◼ Prettier (code formatting)
+└
+
+
+*********************************
+ 
+┌  Vue.js - The Progressive JavaScript Framework
+│
+◇  Use TypeScript?
+│  Yes
+│
+◇  Select features to include in your project: (↑/↓ to navigate, space to select, a to toggle all, enter to confirm)
+│  Router (SPA development), Pinia (state management), Vitest (unit testing), Linter (error prevention), Prettier (code formatting)
+│
+◇  Select experimental features to include in your project: (↑/↓ to navigate, space to select, a to toggle all, enter to confirm)
+│  Replace Prettier with Oxfmt
+│
+◇  Skip all example code and start with a blank Vue project?
+│  Yes
+
+
+*********************************
+ 
+https://open-vsx.org/extension/oxc/oxc-vscode
+
+*********************************
+ 
+<template>
+  <header>
+    <h1>My Tasks Keeper</h1>
+    <button>New List</button>
+  </header>
+</template>
+
+
+*********************************
+ 
+https://v3.tailwindcss.com/
+
+*********************************
+ 
+npm install -D tailwindcss@3
+
+
+*********************************
+ 
+npx tailwindcss init
+
+
+*********************************
+ 
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        dark: {
+          bg: "#1a1a1a",
+          card: "#252525",
+          hover: "#2f2f2f",
+          border: "#3a3a3a",
+        },
+      },
+    },
+  },
+  plugins: [],
+};
+
+
+*********************************
+ 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+*********************************
+ 
+pnpm i -D autoprefixer
+
+*********************************
+ 
+postcss.config.js
+
+*********************************
+ 
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+
+
+*********************************
+ 
+<template>
+  <header class="border-b border-dark-border bg-dark-card">
+    <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-semibold text-white">My Tasks Keeper</h1>
+        <button
+          class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium"
+        >
+          New List
+        </button>
+      </div>
+    </div>
+  </header>
+</template>
+
+
+*********************************
+ 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #1a1a1a;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+#app {
+  min-height: 100vh;
+}
+
+@media (prefers-reduced-motion) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+
+*********************************
+ 
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        dark: {
+          bg: "#1a1a1a",
+          card: "#252525",
+          hover: "#2f2f2f",
+          border: "#3a3a3a",
+        },
+      },
+    },
+  },
+  plugins: [],
+};
+
+
+*********************************
+ 
+<template>
+  <header class="border-b border-dark-border bg-dark-card">
+    <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-semibold text-white">My Tasks Keeper</h1>
+        <button
+          class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium"
+        >
+          New List
+        </button>
+      </div>
+    </div>
+  </header>
+</template>
+
+
+*********************************
+ 
+<template>
+  <MainHeader />
+</template>
+
+<script setup lang="ts">
+import MainHeader from "@/components/MainHeader.vue";
+</script>
+
+
+*********************************
+ 
+export interface List {
+  id: string;
+  title: string;
+  position: number;
+  createdAt: Date;
+}
+
+
+*********************************
+ 
+<template>
+  <header class="border-b border-dark-border bg-dark-card">
+    <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-semibold text-white">My Tasks Keeper</h1>
+        <button
+          @click="handleNewList"
+          class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium"
+        >
+          New List
+        </button>
+      </div>
+    </div>
+  </header>
+</template>
+
+<script setup lang="ts">
+import { useListsStore } from "@/stores/lists";
+
+const listsStore = useListsStore();
+
+const DEFAULT_LIST_TITLE = "New List";
+
+const handleNewList = async () => {
+  const newList = await listsStore.createList(DEFAULT_LIST_TITLE);
+  // router.push(`/lists/${newList.id}`);
+};
+</script>
+
+
+*********************************
+ 
+https://router.vuejs.org/installation.html
+
+*********************************
+ 
+pnpm add vue-router@4
+
+
+*********************************
+ 
+<template>
+  <RouterView />
+</template>
+
+<script setup lang="ts">
+import { RouterView } from "vue-router";
+</script>
+
+
+*********************************
+ 
+<template>
+  <div>
+    <MainHeader />
+  </div>
+</template>
+
+<script setup lang="ts">
+import MainHeader from "@/components/MainHeader.vue";
+</script>
+
+
+*********************************
+ 
+import HomePage from "@/views/HomePage.vue";
+import { createRouter, createWebHistory } from "vue-router";
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: "/",
+      name: "home",
+      component: HomePage,
+      children: [],
+    },
+  ],
+});
+
+export default router;
+
+
+*********************************
+ 
+import HomePage from "@/views/HomePage.vue";
+import { createRouter, createWebHistory } from "vue-router";
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: "/",
+      name: "home",
+      component: HomePage,
+      children: [
+        {
+          path: "lists/:id",
+          name: "list",
+          component: () => import("@/components/ListModal.vue"),
+          props: true,
+        },
+      ],
+    },
+  ],
+});
+
+export default router;
+
+
+*********************************
+ 
+<script setup lang="ts">
+// defineProps<{
+//   id: string;
+// }>();
+
+import { computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
+
+// const router = useRouter();
+const route = useRoute();
+
+const listId = computed(() => route.params.id as string);
+</script>
+
+
+*********************************
+ 

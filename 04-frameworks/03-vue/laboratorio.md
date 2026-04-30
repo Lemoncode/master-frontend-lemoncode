@@ -13,7 +13,7 @@ El laboratorio del módulo de Vue lo hemos dividido en dos secciones:
 
 ## 🍽️ Ejercicio: Meal Planner App
 
-En este ejercicio, deberás crear una aplicación web utilizando [Vue 3](https://vuejs.org/) (con la plantilla de [`create-vue`](https://github.com/vuejs/create-vue)) que permita planificar las comidas de una semana.
+En este ejercicio, deberás crear una aplicación web utilizando [Vue 3](https://vuejs.org/) (siguiendo la guía: https://vuejs.org/guide/quick-start.html) que permita planificar las comidas de una semana.
 
 La interfaz de usuario debe tener los siguientes elementos:
 

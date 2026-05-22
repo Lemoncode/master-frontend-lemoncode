@@ -1,10 +1,10 @@
-# Layout (Diseño)
+# Layout
 
-Hasta ahora hemos estado trabajando todo el tiempo en la página _index.astro_, pero la mayoría de los sitios web tienen múltiples páginas, y comparten algunos elementos comunes, como el **header** y el **footer**.
+> Node.js 24.15 LTS + pnpm required. See [SETUP-PNPM.md](../../SETUP-PNPM.md).
 
-Así que si necesitamos añadir otra página, podemos simplemente crear un nuevo archivo en la carpeta `src/pages`, y le podemos dar un nombre tal que `about.astro`:
+## 1. Add a second page
 
-_./src/pages/about.astro_
+`./src/pages/about.astro`
 
 ```astro
 ---
@@ -26,9 +26,7 @@ import "../styles.css";
 </html>
 ```
 
-Y hasta podríamos añadir un enlace de navegación en la página principal:
-
-_./src/pages/index.astro_
+`./src/pages/index.astro`
 
 ```diff
   <body>
@@ -45,27 +43,13 @@ _./src/pages/index.astro_
   </body>
 ```
 
-Podemos probarlo:
-
 ```bash
-npm run dev
+pnpm dev
 ```
 
-Esto funciona, pero estamos repitiendo un montón de código.
+## 2. Create a `BaseLayout`
 
-Las etiquetas `<head>`, `<html>` y `<body>` son las mismas en ambas páginas, y además podríamos incluso tener un header o footer común.
-
-Si empezamos a copiar y pegar, vamos a acabar con un proyecto complicado de mantener.
-
-¿Qué podemos hacer al respecto?
-
-Vamos a crear un **componente de layout** que envuelva nuestras páginas e incluya los elementos comunes.
-
-Creamos una nueva carpeta en `src` llamada `layouts`, y dentro un nuevo archivo que nombraremos `BaseLayout.astro`.
-
-> Usaremos _slots_ para definir donde irá el contenido de cada página, esto es similar a `props.children` en React.
-
-_./src/layouts/BaseLayout.astro_
+`./src/layouts/BaseLayout.astro`
 
 ```astro
 ---
@@ -86,9 +70,9 @@ import "../styles.css";
 </html>
 ```
 
-Y en la página principal, simplemente usamos el layout:
+## 3. Use it in `index.astro`
 
-_./src/pages/index.astro_
+`./src/pages/index.astro`
 
 ```diff
 ---
@@ -132,9 +116,7 @@ const dogImageUrls = response?.message ?? [imageError];
 </script>
 ```
 
-Y en la página “about” hacemos lo mismo:
-
-_./src/pages/about.astro_
+## 4. Same for `about.astro`
 
 ```diff
 ---
@@ -159,11 +141,9 @@ _./src/pages/about.astro_
 - </html>
 ```
 
-Solo hay un problema:
+## 5. Pass a `title` prop
 
-El título de la página siempre es **“Astro”**. Podemos solucionarlo pasando una prop `title` al componente de layout.
-
-_./src/layouts/BaseLayout.astro_
+`./src/layouts/BaseLayout.astro`
 
 ```diff
 ---
@@ -186,9 +166,7 @@ import "../styles.css";
   </head>
 ```
 
-Ahora volvemos a cada página y actualizamos esa propiedad:
-
-_./src/pages/index.astro_
+`./src/pages/index.astro`
 
 ```diff
 - <BaseLayout>
@@ -196,18 +174,97 @@ _./src/pages/index.astro_
     <h1>Dog Facts</h1>
 ```
 
-_./src/pages/about.astro_
+`./src/pages/about.astro`
 
 ```diff
 -  <BaseLayout>
 +  <BaseLayout title="About">
-    <h1>Página About</h1>
+    <h1>About Page</h1>
 ```
-
-Y así podemos ver que ambos títulos son correctos.
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
-En el siguiente video vamos a ver como manejar colecciones de ficheros markdown en nuestro proyecto.
+---
+
+## 6. Web fonts in the layout — classic vs Astro 6
+
+### Classic: `<link>` to Google Fonts
+
+`./src/layouts/BaseLayout.astro`
+
+```astro
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+</head>
+```
+
+```css
+body { font-family: "Roboto", sans-serif; }
+```
+
+### Modern: Astro 6 Fonts API
+
+**1. Declare the font in `astro.config.mjs`:**
+
+```js
+import { defineConfig, fontProviders } from "astro/config";
+
+export default defineConfig({
+  fonts: [
+    {
+      provider: fontProviders.google(),
+      name: "Roboto",
+      cssVariable: "--font-roboto",
+    },
+  ],
+});
+```
+
+**2. Use `<Font>` and the CSS variable:**
+
+`./src/layouts/BaseLayout.astro`
+
+```astro
+---
+import { Font } from "astro:assets";
+---
+
+<html lang="en">
+  <head>
+    <Font cssVariable="--font-roboto" preload />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style>
+  body { font-family: var(--font-roboto); }
+</style>
+```
+
+### Why the Fonts API is better
+
+|                          | Classic `<link>`               | Astro 6 Fonts API                |
+| ------------------------ | ------------------------------ | -------------------------------- |
+| Font served from         | Google CDN (external)          | Your own domain                  |
+| Privacy                  | Google sees user IP            | No external requests             |
+| Extra DNS lookup         | Yes                            | No                               |
+| Automatic preload        | Manual                         | With `preload` attribute         |
+| Typing / autocomplete    | No                             | Yes (TypeScript)                 |
+| Build-time optimization  | No                             | Yes (only used weights)          |
+
+---
+
+## Resources
+
+- [Astro: Layouts](https://docs.astro.build/en/basics/layouts/)
+- [Astro: Slots](https://docs.astro.build/en/basics/astro-components/#slots)
+- [Astro Fonts API](https://docs.astro.build/en/guides/fonts/)

@@ -1,10 +1,10 @@
-# Colecciones
+# Collections
 
-¿Qué pasa si queremos mostrar una colección de elementos?
+> Node.js 24.15 LTS + pnpm required. See [SETUP-PNPM.md](../../SETUP-PNPM.md).
 
-Pues es muy parecido a como lo hacemos con React: Podemos usar la función `map` de JavaScript para transformar la lista de urls de imágenes en una lista de elementos `img`.
+## 1. Fetch a list (5 dog images instead of 1)
 
-Vamos a modificar la solicitud a la API para que devuelva varias fotos de perritos, en concreto pediremos 5.
+`./src/pages/index.astro`
 
 ```diff
 ---
@@ -19,7 +19,7 @@ const imageError =
 ---
 ```
 
-Y en el HTML vamos a reemplazar la imagen por un mapeo de las URLs a elementos img:
+## 2. Map URLs to `<img>` elements
 
 ```diff
   <body>
@@ -47,12 +47,20 @@ Y en el HTML vamos a reemplazar la imagen por un mapeo de las URLs a elementos i
   </body>
 ```
 
-Vamos a ver como ha quedado esto...
-
 ```bash
-npm run dev
+pnpm dev
 ```
 
-¡ Perfecto ! Ya lo tenemos listo.
+## 3. Verify build output
 
-En el siguiente video veremos como crear componentes.
+```bash
+pnpm build
+```
+
+The five images are baked into the generated HTML.
+
+---
+
+## Resources
+
+- [Astro: Templates and JSX-like expressions](https://docs.astro.build/en/basics/astro-syntax/#jsx-like-expressions)

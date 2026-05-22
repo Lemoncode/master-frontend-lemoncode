@@ -1,25 +1,14 @@
-# Estilos
+# Styles
 
-Hasta ahora todo lo que hemos generado tenía una pinta muy fea, vamos a ver como Astro gestiona los estilos.
+> Node.js 24.15 LTS + pnpm required. See [SETUP-PNPM.md](../../SETUP-PNPM.md).
 
-Si usamos CSS estándar:
+Astro supports global CSS, component-scoped CSS, and Tailwind via a plugin.
 
-- Podemos tener un archivo de CSS global.
-- Podemos tener archivos CSS a nivel de componente (que tienen alcance limitado al componente).
+## 1. Global stylesheet
 
-Astro también admite Tailwind y hay un plugin para ello.
-
-## CSS Global
-
-Vamos a añadir un archivo CSS global en la carpeta `src`, en el que hacemos un reset ligero y definimos algunos estilos básicos globales.
-
-_./src/styles.css_
+`./src/styles.css`
 
 ```css
-/* =========================
-   Basic global styles
-   ========================= */
-
 /* Light reset */
 * {
   margin: 0;
@@ -27,42 +16,26 @@ _./src/styles.css_
   box-sizing: border-box;
 }
 
-/* Global font */
 body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   line-height: 1.5;
   color: #333;
   background-color: #f9f9f9;
+  padding: 16px 32px;
 }
 
-/* Headings */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
   color: #222;
   margin-bottom: 0.5em;
 }
 
-/* Paragraphs */
-p {
-  margin-bottom: 1em;
-}
+p { margin-bottom: 1em; }
 
-/* Links */
-a {
-  color: #007bff;
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
+a { color: #007bff; text-decoration: none; }
+a:hover { text-decoration: underline; }
 
-/* Buttons */
 button {
   cursor: pointer;
   padding: 0.5em 1em;
@@ -73,11 +46,8 @@ button {
   font-size: 1em;
   transition: background-color 0.3s;
 }
-button:hover {
-  background-color: #0056b3;
-}
+button:hover { background-color: #0056b3; }
 
-/* General container */
 .container {
   width: 90%;
   max-width: 1200px;
@@ -85,9 +55,9 @@ button:hover {
 }
 ```
 
-Y lo usamos en la página principal:
+## 2. Import the global CSS
 
-_./src/pages/index.astro_
+`./src/pages/index.astro`
 
 ```diff
 ---
@@ -102,17 +72,9 @@ const dogImageUrls = response?.message ?? [imageError];
 ---
 ```
 
-Ahora vamos a darle estilo al componente de imagenes de perros:
+## 3. Scoped styles inside `DogPics`
 
-- Vamos a crear un estilo para un `section` que haga de contenedor de imágenes de perros.
-
-- Vamos a crear una clase `card` para cada imagen de perro, que le de un borde, un padding y un margen, así como el comportamiento `hover`.
-
-- En la imagen vamos a definir un estilo para que las imágenes se muestren lo más homogéneas posibles.
-
-Añadimos al final del fichero:
-
-_./src/components/DogPics.astro_
+`./src/components/DogPics.astro` — append:
 
 ```css
 <style>
@@ -145,9 +107,9 @@ _./src/components/DogPics.astro_
 </style>
 ```
 
-Y en el markup:
+## 4. Update the markup
 
-_./src/components/DogPics.astro_
+`./src/components/DogPics.astro`
 
 ```diff
 ---
@@ -172,4 +134,15 @@ const { urls } = Astro.props;
 - </div>
 ```
 
-Si abrimos las herramientas de desarrollo, verás que estos estilos sólo afectan al componente.
+```bash
+pnpm dev
+```
+
+Open DevTools — these styles only affect this component.
+
+---
+
+## Resources
+
+- [Astro: Styles and CSS](https://docs.astro.build/en/guides/styling/)
+- [Astro + Tailwind](https://docs.astro.build/en/guides/styling/#tailwind)

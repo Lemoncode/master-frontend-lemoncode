@@ -1,3 +1,5 @@
+// This is just an in-memory store for demonstration purposes.
+// Ideally we could connect to a database or an external API.
 const likeStore: Map<string, number> = new Map();
 
 export const getLikes = async (slug: string): Promise<number> => {

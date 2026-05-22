@@ -12,15 +12,19 @@
     "#*": "./src/*"
   },
   "dependencies": {
-    "@astrojs/node": "^9.5.0",
-    "@astrojs/react": "^4.4.2",
-    "@content-island/api-client": "^0.14.0",
+    "@astrojs/node": "^10.1.1",
+    "@astrojs/react": "^5.0.5",
+    "@content-island/api-client": "^0.19.0",
     "@tailwindcss/vite": "^4.1.13",
     "@types/marked": "^5.0.2",
-    "astro": "^5.14.0",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
+    "astro": "^6.3.6",
     "highlight.js": "^11.11.1",
     "marked": "^16.2.1",
-    "resend": "^6.4.1",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "resend": "^6.12.3",
     "tailwindcss": "^4.1.13"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import client from '#lib/client.ts';
+import client from '#lib/client';
 import type { MiniBio } from './mini-bio.model';
 
 export const getMiniBio = async () =>

@@ -5,7 +5,6 @@ import type { Post } from '../post-collection.model';
 interface Props {
   post: Post;
 }
-
 const { post } = Astro.props;
 const readTimeLabel = 'min read';
 ---
@@ -41,6 +40,7 @@ const readTimeLabel = 'min read';
         </h3>
         <p class="text-sm">{post.summary}</p>
       </div>
+
       <div class="flex items-center gap-4">
         <span class="text-xs">{post.readTime} {readTimeLabel}</span>
         <div class="flex items-center gap-1">

@@ -6,7 +6,6 @@ interface Props {
   publishedText: string;
   date: string;
 }
-
 const { gobackText, publishedText, date } = Astro.props;
 ---
 
@@ -15,6 +14,7 @@ const { gobackText, publishedText, date } = Astro.props;
     <ArrowLeftIcon />
     {gobackText}
   </a>
+
   <p class="text-sm">
     {publishedText}{' '}
     <time datetime={date}>

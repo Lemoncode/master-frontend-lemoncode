@@ -1,9 +1,8 @@
 ---
-import postcssPluginWarning from 'tailwindcss';
-import { getAllPost } from './post-collection.api';
+import { getAllPosts } from './post-collection.api.ts';
 import PostCard from './components/post-card.astro';
 
-const posts = await getAllPost();
+const posts = await getAllPosts();
 ---
 
 <section class="flex flex-1 flex-col gap-9">

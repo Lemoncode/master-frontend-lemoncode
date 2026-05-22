@@ -1,6 +1,8 @@
 import { actions } from 'astro:actions';
 import { useState, useEffect } from 'react';
 
+type GetLikesResponse = Awaited<ReturnType<typeof actions.getLikes>>;
+
 interface Props {
   slug: string;
 }
@@ -9,15 +11,15 @@ export const LikeButton: React.FC<Props> = ({ slug }) => {
   const [likes, setLikes] = useState<number>(0);
 
   useEffect(() => {
-    actions.getLikes(slug).then(response => {
+    actions.getLikes(slug).then((response: GetLikesResponse) => {
       setLikes(response?.data?.likes || 0);
     });
-  }, []);
+  }, [slug]);
 
   const handleLike = () => {
-    const newLikes = likes + 1;
-    setLikes(newLikes);
-    actions.addLike(slug);
+    actions.addLike(slug).then((response: GetLikesResponse) => {
+      setLikes(response?.data?.likes ?? 0);
+    });
   };
 
   return (

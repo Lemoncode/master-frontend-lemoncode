@@ -1,22 +1,22 @@
 ---
 import Layout from '#layouts/layout.astro';
 import Hero from '#components/hero.astro';
-import { getAllPost } from '#pods/post-collection/post-collection.api';
-import type { Post } from '#pods/post-collection/post-collection.model';
 import MiniBioPod from '#pods/mini-bio/mini-bio.pod.astro';
 import NewsletterPod from '#pods/newsletter/newsletter.pod.astro';
 import PopularPostsPod from '#pods/popular-posts/popular-posts.astro';
+import { getAllPosts } from '#pods/post-collection/post-collection.api';
 import PostPod from '#pods/post/post.pod.astro';
 
+// Generate all possible paths
 export async function getStaticPaths() {
-  const postEntries = await getAllPost();
-
+  const postEntries = await getAllPosts();
   return postEntries.map(entry => ({
     params: { slug: entry.slug },
     props: { entry },
   }));
 }
 
+// Per path let's generate the page
 const { entry } = Astro.props;
 ---
 

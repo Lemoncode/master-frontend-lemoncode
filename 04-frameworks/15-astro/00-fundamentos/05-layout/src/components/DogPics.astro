@@ -6,10 +6,13 @@ const { urls } = Astro.props;
 ---
 
 <section aria-label="Dog gallery">
-  {urls.map((url) =>
-    <div class="card">
-      <img src={url} alt="Random Dog" />
-    </div>)}
+  {
+    urls.map((url: string) => (
+      <div class="card">
+        <img src={url} alt="Random Dog" />
+      </div>
+    ))
+  }
 </section>
 
 <style>
@@ -25,7 +28,9 @@ const { urls } = Astro.props;
     border-radius: 1rem;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   .card:hover {

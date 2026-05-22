@@ -16,6 +16,7 @@ const { entry, likeCount, minReadText } = Astro.props;
   <h1 class="text-tbase-500/90 text-5xl leading-[1.1] font-bold" id="article-section-heading">
     {entry.title}
   </h1>
+
   <div class="border-tbase-500/40 mb-2 flex items-center justify-between gap-4 border-y py-2">
     <p class="text-xs">{entry.readTime} {minReadText}</p>
     <div class="flex items-center">

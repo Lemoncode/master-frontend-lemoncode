@@ -4,9 +4,8 @@
   "exclude": ["dist"],
   "sourceMap": true,
   "compilerOptions": {
-    "baseUrl": "./src/",
     "paths": {
-      "#*": ["*"]
+      "#*": ["./src/*"]
     }
   }
 }

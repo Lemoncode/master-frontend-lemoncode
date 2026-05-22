@@ -2,15 +2,14 @@
 interface Props {
   urls: string[];
 }
-
 const { urls } = Astro.props;
 ---
 
 <section aria-label="Dog gallery">
   {
-    urls.map((dogImageUrl: string) => (
+    urls.map((url: string) => (
       <div class="card">
-        <img src={dogImageUrl} alt="Random Dog" />
+        <img src={url} alt="Random Dog" />
       </div>
     ))
   }
@@ -23,6 +22,7 @@ const { urls } = Astro.props;
     gap: 1rem;
     padding: 1rem;
   }
+
   .card {
     background: #fff;
     border-radius: 1rem;

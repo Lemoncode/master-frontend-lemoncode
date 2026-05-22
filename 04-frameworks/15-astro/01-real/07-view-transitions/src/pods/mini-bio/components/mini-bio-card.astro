@@ -7,7 +7,6 @@ import ContactButtons from '#components/contact-buttons.astro';
 interface Props {
   content: MiniBio;
 }
-
 const { content } = Astro.props;
 ---
 
@@ -15,8 +14,12 @@ const { content } = Astro.props;
   class="bg-primary-50 dark:bg-primary-100 relative hidden overflow-clip rounded-2xl p-6 lg:block"
   aria-labelledby="about-me-aside-heading"
 >
-  <div class="relative z-10 flex flex-col items-center justify-center gap-6">
-    <h2 class="font-geist w-full font-bold" id="about-me-aside-heading">{content.title}</h2>
+  <!-- Decorative shapes -->
+  <div class="text-primary-500/25 absolute top-[-48%] left-[-30%] h-[243px] w-[420px]" aria-hidden="true">
+    <ShapeRectangle />
+  </div>
+  <div class="text-primary-500/25 absolute top-[91.5%] left-[-8%] h-[243px] w-[420px] overflow-clip" aria-hidden="true">
+    <ShapeOval />
   </div>
 
   <div class="flex flex-col items-center justify-center gap-2 text-center">
@@ -35,14 +38,7 @@ const { content } = Astro.props;
     <p class="text-sm">
       {content.description}
     </p>
-    <ContactButtons />
   </div>
 
-  <!-- Decorative shapes -->
-  <div class="text-primary-500/25 absolute top-[-48%] left-[-30%] h-[243px] w-[420px]" aria-hidden="true">
-    <ShapeRectangle />
-  </div>
-  <div class="text-primary-500/25 absolute top-[91.5%] left-[-8%] h-[243px] w-[420px] overflow-clip" aria-hidden="true">
-    <ShapeOval />
-  </div>
+  <ContactButtons />
 </section>

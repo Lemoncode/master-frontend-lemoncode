@@ -1,8 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import "../styles.css";
 import DogPics from "../components/DogPics.astro";
-const title = "Hello World !";
+const title = "Hello world!!";
 const imageError =
   "https://www.publicdomainpictures.net/pictures/190000/nahled/sad-dog-1468499671wYW.jpg";
 const res = await fetch("https://dog.ceo/api/breeds/image/random/5");
@@ -12,7 +11,9 @@ const dogImageUrls = response?.message ?? [imageError];
 
 <BaseLayout title="Home">
   <h1>{title}</h1>
-  <DogPics urls={dogImageUrls} />
+  <div>
+    <DogPics urls={dogImageUrls} />
+  </div>
   <div>
     <button id="cat-image-button">Get Cat Image</button>
   </div>
@@ -22,6 +23,7 @@ const dogImageUrls = response?.message ?? [imageError];
   <a href="/about">Go to about page</a>
   <a href="/blog">Go to blog page</a>
 </BaseLayout>
+
 <script>
   import { setupCatFactButton } from "./cat";
   setupCatFactButton();

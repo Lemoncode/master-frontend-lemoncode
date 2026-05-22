@@ -4,12 +4,12 @@ import type { LikesResponse } from './model';
 
 export const server = {
   addLike: defineAction<LikesResponse>({
-    async handler(slug) {
+    async handler(slug: string) {
       return { likes: await addLike(slug) };
     },
   }),
   getLikes: defineAction<LikesResponse>({
-    async handler(slug) {
+    async handler(slug: string) {
       return { likes: await getLikes(slug) };
     },
   }),

@@ -2,17 +2,13 @@
 
 /*********** FOCUS AREA ***********/
 
-#ball {
-  animation: drop 2.5s var(--timing-bounce) infinite;
-}
-
 /* prettier-ignore */
 @keyframes drop {
   from { translate: 0 -200%; }
 } /* to: implícito = 0 */
 
-#clock {
-  animation: wobble 1s var(--timing-wiggle) infinite;
+#ball {
+  animation: drop 2.5s var(--timing-bounce) infinite;
 }
 
 /* prettier-ignore */
@@ -21,14 +17,18 @@
   to { transform-origin: 50% 200%; rotate: 10deg; }
 }
 
-#heart {
-  animation: glow-flash 1s var(--timing-spring) infinite;
+#clock {
+  animation: wobble 1s var(--timing-wiggle) infinite;
 }
 
 /* prettier-ignore */
 @keyframes glow-flash {
   0% { text-shadow: 0 0 5px #ff4b4b4d; }
   100% { text-shadow: 0 0 25px #c7294e; }
+}
+
+#heart {
+  animation: glow-flash 1s var(--timing-spring) infinite;
 }
 
 /**********************************/

@@ -2,25 +2,25 @@
 
 /*********** FOCUS AREA ***********/
 
-#ball {
-}
-
 /* prettier-ignore */
 @keyframes drop {
 }
 
-#clock {
+#ball {
 }
 
 /* prettier-ignore */
 @keyframes wobble {
 }
 
-#heart {
+#clock {
 }
 
 /* prettier-ignore */
 @keyframes glow-flash {
+}
+
+#heart {
 }
 
 /**********************************/

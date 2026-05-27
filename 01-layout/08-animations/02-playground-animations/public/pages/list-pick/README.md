@@ -31,3 +31,31 @@ Con esto y el patrón _placeholder_ podemos animar de forma segura sin interferi
   }
 }
 ```
+
+## 🎛️ Solución alternativa sin recurrir a gaps
+
+Otra posibilidad es jugar con el posicionamiento relativo de los elementos `.text`.
+
+> Cuando un `.text` es transformado (debido al `:hover` de su `.placeholder`) podemos colocarlo en una capa `z-index` por debajo del resto de elementos `.text`:
+
+```css
+.placeholder {
+  position: relative;
+
+  & .text {
+    position: relative;
+    z-index: 0;
+    transition: all 125ms ease-in-out;
+    transform-origin: 0 50%;
+  }
+
+  &:hover .text {
+    z-index: 1;
+    font-weight: 700;
+    scale: 3;
+
+    /* Es mala idea cambiar font size, incluso con placholders, modifica layout */
+    /* font-size: 2em; */
+  }
+}
+```

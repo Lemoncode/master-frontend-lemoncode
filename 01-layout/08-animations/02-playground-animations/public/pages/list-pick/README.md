@@ -50,7 +50,7 @@ Otra posibilidad es jugar con el posicionamiento relativo de los elementos `.tex
   }
 
   &:hover .text {
-    z-index: 1;
+    z-index: -1;
     font-weight: 700;
     scale: 3;
 

@@ -7,4 +7,4 @@
 
 ## App de ejemplo: "ecommerce"
 
-- [local](./01-ecommerce/)
+- [local](./ecommerce/)

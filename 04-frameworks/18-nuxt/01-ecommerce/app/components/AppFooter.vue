@@ -6,6 +6,11 @@
         + middleware)</span
       >
       <span>⋅ 🍋 Lemoncode Shop 2026</span>
+      <span
+        >⋅ Hecho por Paul Melero (<NuxtLink to="https://www.graficos.net"
+          >Graficos.net</NuxtLink
+        >)</span
+      >
     </div>
   </footer>
 </template>

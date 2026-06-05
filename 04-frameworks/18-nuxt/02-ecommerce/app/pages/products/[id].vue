@@ -1,33 +1,17 @@
 <script setup lang="ts">
-import { products } from '~/data/products';
-
 const route = useRoute();
 const config = useRuntimeConfig();
 const { addToCart } = useCart();
 
-const rawId = route.params.id;
-const id = Number(rawId);
+const id = Number(route.params.id);
 
-if (!rawId || Number.isNaN(id) || !Number.isInteger(id) || id <= 0) {
-  throw createError({
-    statusCode: 400,
-    statusMessage: '❌ Invalid product id!!',
-  });
-}
-
-const product = products.find((p) => p.id === id);
-
-if (!product) {
-  throw createError({
-    statusCode: 404,
-    statusMessage: 'Product not found',
-    fatal: true,
-  });
-}
+// useFetch llama al endpoint Nitro. Si responde 400/404,
+// el error se propaga y Nuxt muestra la página de error.
+const { data: product } = await useFetch(`/api/products/${id}`);
 
 useSeoMeta({
-  title: `${product.name} · ${config.public.siteName}`,
-  description: product.description,
+  title: `${product.value?.name ?? 'Producto'} · ${config.public.siteName}`,
+  description: product.value?.description ?? 'Detalles del producto',
 });
 </script>
 

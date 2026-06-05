@@ -1,21 +1,36 @@
-import type { Product } from '~/types/product';
+import type { Product, ProductId } from '~/types/product';
+
+type CartItem = {
+  product: Product;
+  quantity: number;
+};
 
 export const useCart = () => {
-  const items = useState<Product[]>('cart-items', () => []);
+  const items = useState<CartItem[]>('cart-items', () => []);
 
-  const addToCart = (product: Product) => {
-    items.value.push(product);
-  };
-
-  const remove = (id: number) => {
-    const idx = items.value.findIndex((p) => p.id === id);
-    if (idx !== -1) items.value.splice(idx, 1);
-  };
-
-  const totalItems = computed(() => items.value.length);
-  const totalPrice = computed(() =>
-    items.value.reduce((sum, p) => sum + p.price, 0),
+  const totalItems = computed(() =>
+    items.value.reduce((sum, item) => sum + item.quantity, 0),
   );
 
-  return { items, addToCart, remove, totalItems, totalPrice };
+  const totalPrice = computed(() =>
+    items.value.reduce(
+      (sum, item) => sum + item.product.price * item.quantity,
+      0,
+    ),
+  );
+
+  function addToCart(product: Product, quantity = 1) {
+    const existing = items.value.find((i) => i.product.id === product.id);
+    if (existing) {
+      existing.quantity += quantity;
+      return;
+    }
+    items.value.push({ product, quantity });
+  }
+
+  function removeFromCart(productId: ProductId) {
+    items.value = items.value.filter((i) => i.product.id !== productId);
+  }
+
+  return { items, totalItems, totalPrice, addToCart, removeFromCart };
 };

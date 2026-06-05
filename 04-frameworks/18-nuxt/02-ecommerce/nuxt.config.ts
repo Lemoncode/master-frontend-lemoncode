@@ -2,9 +2,8 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  runtimeConfig: {
-    public: {
-      siteName: '🍋 Lemoncode Shop 2026',
-    },
+  css: ['~/assets/main.css'],
+  features: {
+    inlineStyles: true,
   },
-})
+});

@@ -1,9 +1,27 @@
 <script setup lang="ts">
-const auth = useState<boolean>('auth', () => false);
+const route = useRoute();
+const config = useRuntimeConfig();
+
+useSeoMeta({
+  title: `Login · ${config.public.siteName}`,
+  description:
+    'Página de login fake usada para demostrar el middleware de Nuxt.',
+});
+
+const auth = useState<boolean>('auth', () => true);
+
+const redirectTo = computed(() => {
+  const q = route.query.redirect;
+  return typeof q === 'string' && q.length > 0 ? q : '/admin';
+});
 
 function login() {
   auth.value = true;
-  navigateTo('/admin');
+  navigateTo(redirectTo.value);
+}
+
+function logout() {
+  auth.value = false;
 }
 </script>
 
@@ -12,6 +30,7 @@ function login() {
     <h1>Login</h1>
     <p>Demo: pulsa el botón para iniciar sesión.</p>
     <button type="button" class="btn" @click="login">Entrar</button>
+    <button type="button" class="btn" @click="logout">Cerrar sesión</button>
   </section>
 </template>
 

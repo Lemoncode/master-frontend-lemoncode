@@ -1,41 +1,36 @@
-<template>
-  <header class="header">
-    <nav class="nav">
-      <div class="brand main-title">
-        {{ siteName }}
-      </div>
-
-      <div class="links">
-        <NuxtLink to="/">Home</NuxtLink>
-
-        <NuxtLink to="/login">Login</NuxtLink>
-        <NuxtLink to="/admin">Admin</NuxtLink>
-        <button v-if="auth" class="linkLike" type="button" @click="logout">
-          Cerrar sesión
-        </button>
-      </div>
-
-      <span class="cart">
-        🛒 Carrito: <strong class="tabular-nums">{{ totalItems }}</strong> ·
-        <strong class="tabular-nums">{{ totalPrice }} €</strong>
-      </span>
-    </nav>
-  </header>
-</template>
-
 <script setup lang="ts">
-const auth = useState('auth', () => false);
+const { totalItems, totalPrice } = useCart();
+const auth = useState<boolean>('auth', () => false);
 
 const config = useRuntimeConfig();
-const siteName = config.public.siteName;
-
-const { totalItems, totalPrice } = useCart();
+const siteName = computed(() => config.public.siteName);
 
 function logout() {
   auth.value = false;
   navigateTo('/');
 }
 </script>
+
+<template>
+  <header class="header">
+    <nav class="nav">
+      <NuxtLink class="brand main-title" to="/">{{ siteName }}</NuxtLink>
+
+      <div class="links">
+        <NuxtLink to="/">Productos</NuxtLink>
+        <NuxtLink to="/admin">Panel de control</NuxtLink>
+        <NuxtLink to="/login">Login</NuxtLink>
+        <button v-if="auth" class="linkLike" type="button" @click="logout">
+          Cerrar sesión
+        </button>
+        <span class="cart">
+          🛒 Carrito: <strong class="tabular-nums">{{ totalItems }}</strong> ·
+          <strong class="tabular-nums">{{ totalPrice }} €</strong>
+        </span>
+      </div>
+    </nav>
+  </header>
+</template>
 
 <style scoped>
 .header {

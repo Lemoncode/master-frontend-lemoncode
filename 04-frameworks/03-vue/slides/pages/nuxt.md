@@ -155,8 +155,8 @@ title: File-based routes
 ```md
 -| pages/
 ---| index.vue                    # Página Home (URL: /)
----| [category]/                  # Nombre de parámetro dinámico (ejemplo: "/venta-de-coches")
------| [slug].vue                 # Página para ruta dinámica (ejemplo: "/venta-de-coches/ford-mustang-cabriolet")
+---| products/                    # Carpeta de la sección de productos
+-----| [id].vue                   # Ruta dinámica (ejemplo: "/products/1")
 ```
 <br/>
 
@@ -168,11 +168,10 @@ title: File-based routes
 </template>
 
 <script setup lang="ts">
-const { slug, category } = useRoute().params
+const { id } = useRoute().params
 
-const { data: product } = useAsyncData(`product-${slug}`, () => $fetch(`/api/products/${slug}`))
-
-const { data: links } = useAsyncData(`links-${category}`, () => $fetch(`/api/categories/${category}/links`))
+const { data: product } = await useFetch(`/api/products/${id}`)
+</script>
 ```
 
 <v-clicks depth="2">
@@ -251,7 +250,7 @@ const { data } = await useFetch('/api/item')
 layout: quote
 ---
 
-# Nuxt en práctica (mini‑app + recetas)
+# Nuxt en práctica (mini‑app e‑commerce 🍋)
 
 ---
 layout: full
@@ -274,15 +273,15 @@ title: Estructura mínima (para trabajar cómodo)
 ---| useCart.ts
 ```
 
-### Otras carpetas
-
 ```md
 -| middleware/
 ----| auth.ts
 -| server/
 ----| api/
-------| products.get.ts
+------| products.ts
 ------| products/[id].get.ts
+----| data/
+------| products.ts
 ```
 
 <v-clicks depth="2">
@@ -346,11 +345,13 @@ title: Layouts (sin duplicar UI)
 ```vue
 <!-- layouts/admin.vue -->
 <template>
-  <div class="grid grid-cols-[220px_1fr] min-h-screen">
-    <aside class="p-4 border-r">Admin</aside>
-    <main class="p-6"><slot /></main>
+  <div class="page">
+    <AppHeader />
+    <div class="body">
+      <AdminSidebar />
+      <main class="main"><slot /></main>
+    </div>
   </div>
-
 </template>
 ```
 
@@ -426,14 +427,21 @@ title: Estado global sin librerías
 
 ```ts
 // composables/useCart.ts
-export const useCart = () => {
-  const items = useState<number[]>('cart-items', () => [])
+type CartItem = { product: Product; quantity: number }
 
-  const add = (id: number) => items.value.push(id)
-  const remove = (id: number) =>
-    (items.value = items.value.filter(x => x !== id))
+export function useCart() {
+  const items = useState<CartItem[]>('cart-items', () => [])
 
-  return { items, add, remove }
+  const totalItems = computed(() =>
+    items.value.reduce((sum, i) => sum + i.quantity, 0))
+
+  function addToCart(product: Product, quantity = 1) {
+    const existing = items.value.find(i => i.product.id === product.id)
+    if (existing) existing.quantity += quantity
+    else items.value.push({ product, quantity })
+  }
+
+  return { items, totalItems, addToCart }
 }
 ```
 
@@ -450,8 +458,47 @@ export const useCart = () => {
 
 <h2 v-mark="{ type:'highlight', color: '#008f53' }">🚀 Mini-reto</h2>
 
-- En `AppHeader`, muestra `items.value.length`.
+- En `AppHeader`, muestra `totalItems`.
 - En `pages/products/[id].vue`, añade un botón "Añadir al carrito".
+
+</v-clicks>
+
+---
+layout: custom-cover
+background: vue-sticker.jpg
+---
+
+# <logos-nuxt-icon /> Nuxt - II
+
+## 🌈 Día 2 🌈
+
+<v-clicks>
+
+- **Ayer** 🛠️ montamos la base de la tienda 🍋: rutas _file-based_, `app.vue` + **layouts**, `definePageMeta`, navegación y **estado global** con `useState` (el carrito).
+- **Hoy** 🚀 la convertimos en una app "de verdad": **middleware** (proteger rutas), **backend** con **Nitro**, **runtime config**, **SEO** por página y **plugins**.
+
+</v-clicks>
+
+---
+layout: full
+title: ¿Qué tenemos hasta ahora?
+---
+
+# Estado actual del proyecto (lo que montamos ayer)
+
+<v-clicks depth="2">
+
+- **Objetivo de ayer**: dejar lista la base de una tienda e-commerce con Nuxt.
+- **Piezas que ya tenemos**:
+  - `app.vue` → `NuxtLayout` + `NuxtPage`
+  - `layouts/default.vue` → wrapper público (header/footer)
+  - `components/AppHeader.vue` + `AppFooter.vue` → cabecera y pie
+  - `pages/index.vue` → listado de productos
+  - `pages/products/[id].vue` → detalle por ruta dinámica
+  - `composables/useCart.ts` + `AppHeader` → carrito global con `useState('cart-items')`
+  - `types/product.ts` → el tipo `Product`
+  - `data/products.ts` → los productos **a fuego** en el front (todavía sin backend)
+- **Hoy** lo llevamos al siguiente nivel 👇 (middleware, Nitro, SEO, plugins...)
 
 </v-clicks>
 
@@ -464,12 +511,13 @@ title: Middleware (protección de rutas)
 
 ```ts
 // middleware/auth.ts
-export default defineNuxtRouteMiddleware(() => {
-  const isLoggedIn = useState<boolean>('auth', () => false)
+export default defineNuxtRouteMiddleware((to) => {
+  const auth = useState<boolean>('auth', () => false)
 
-  if (!isLoggedIn.value) {
-    return navigateTo('/login')
-  }
+  if (auth.value) return
+
+  // Guardamos a dónde quería ir para volver tras el login
+  return navigateTo({ path: '/login', query: { redirect: to.fullPath } })
 })
 ```
 
@@ -488,11 +536,12 @@ title: Backend integrado (Nitro)
 ## API en `server/api/*`
 
 ```ts
-// server/api/products.get.ts
+// server/api/products.ts
 export default defineEventHandler(() => {
   return [
-    { id: 1, name: 'Limonada clásica' },
-    { id: 2, name: 'Limonada con menta' },
+    { id: 1, name: '👕 Camiseta Lemoncode', price: 20 },
+    { id: 2, name: '☕ Taza de Vue', price: 10 },
+    { id: 3, name: '🖼️ Nitro Sticker Pack', price: 5 },
   ]
 })
 ```
@@ -514,17 +563,21 @@ title: "Tip: API dinámica + 404"
 
 ```ts
 // server/api/products/[id].get.ts
+import { products } from '../../data/products'
+
 export default defineEventHandler((event) => {
   const id = Number(getRouterParam(event, 'id'))
-  const product = { id, name: `Producto ${id}` }
 
-  if (!Number.isFinite(id) || id <= 0) {
-    throw createError({ statusCode: 400, statusMessage: 'ID inválido' })
+  // 400 si el id no es válido (vacío, NaN, negativo...)
+  if (!Number.isInteger(id) || id <= 0) {
+    throw createError({ statusCode: 400, statusMessage: 'Invalid product id' })
   }
 
-  // Ejemplo: si no existe...
-  if (id > 99) {
-    throw createError({ statusCode: 404, statusMessage: 'No encontrado' })
+  const product = products.find((p) => p.id === id)
+
+  // 404 si no existe
+  if (!product) {
+    throw createError({ statusCode: 404, statusMessage: 'Product not found' })
   }
 
   return product
@@ -543,7 +596,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     apiSecret: '', // solo server
     public: {
-      apiBase: '/api',
+      // expuesto al cliente
+      siteName: process.env.NUXT_PUBLIC_SITE_NAME ?? '🍋 Lemoncode Shop',
     },
   },
 })
@@ -555,7 +609,7 @@ export default defineNuxtConfig({
 
 ```ts
 const config = useRuntimeConfig()
-const base = config.public.apiBase
+const siteName = config.public.siteName
 ```
 
 ---
@@ -566,11 +620,11 @@ title: SEO por página (sin magia)
 # SEO práctico: `useSeoMeta()`
 
 ```ts
+const config = useRuntimeConfig()
+
 useSeoMeta({
-  title: 'Producto | Nuxt Shop',
-  description: 'Detalle del producto',
-  ogTitle: 'Producto | Nuxt Shop',
-  ogDescription: 'Detalle del producto',
+  title: `${product.name} · ${config.public.siteName}`,
+  description: product.description,
 })
 ```
 
@@ -585,11 +639,12 @@ layout: two-cols
 title: Plugins (una "capa" para tu app)
 ---
 
-## Plugin: expón un cliente `$api`
+## Plugin: expón un cliente `$api` (opcional)
 
 ```ts
 // plugins/api.ts
 export default defineNuxtPlugin(() => {
+  // baseURL/headers/interceptores en un único sitio
   const api = $fetch.create({ baseURL: '/api' })
   return { provide: { api } }
 })
@@ -601,12 +656,17 @@ export default defineNuxtPlugin(() => {
 
 ```ts
 const { $api } = useNuxtApp()
-const product = await $api(`/products/1`)
+// $api es $fetch → envuélvelo en useAsyncData (SSR)
+const { data: products } = await useAsyncData(
+  'products',
+  () => $api('/products'),
+)
 ```
 
 <v-clicks depth="2">
 
 - `useNuxtApp()` para obtener el contexto de la aplicación (plugins, vue app, ssr context, etc.).
+- 💡 **Opcional**: centraliza las llamadas a la API. El proyecto final usa `useFetch` directo y no lo necesita.
 
 </v-clicks>
 

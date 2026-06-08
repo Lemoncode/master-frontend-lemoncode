@@ -12,9 +12,8 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "strictNullChecks": true,
-    "baseUrl": "./src/",
     "paths": {
-      "#*": ["*"]
+      "#*": ["./src/*"]
     }
   },
   "include": ["./src/**/*", "config/test/config.d.ts"]

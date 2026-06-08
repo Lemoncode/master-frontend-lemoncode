@@ -10,6 +10,9 @@ We will start from `01-routing`.
 
 ```bash
 npm install
+cd api-server
+npm install
+cd ..
 ```
 
 Similar to `getServerSideProps` in Nextjs or `loaders` in Remix/React Router, TanStack Router provides a way to fetch data before rendering the route using `loader` functions and also provides a built-in SWR Caching mechanism.

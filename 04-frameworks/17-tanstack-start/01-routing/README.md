@@ -10,14 +10,17 @@ We will start from `00-boilerplate`.
 
 ```bash
 npm install
+cd api-server
+npm install
+cd ..
 ```
 
 Install necessary libraries.
 
 ```bash
-npm install @tanstack/react-router --save
+npm install @tanstack/react-router @tanstack/react-router-devtools --save
 
-npm install @tanstack/router-plugin @tanstack/react-router-devtools --save-dev
+npm install @tanstack/router-plugin --save-dev
 ```
 
 > [More info about TanStack Router Quick Start](https://tanstack.com/router/latest/docs/framework/react/quick-start)
@@ -50,7 +53,7 @@ export default defineConfig({
 
 ```
 
-> target: 'react' or 'solid' depending on the framework used.
+> target: 'react', 'vue' or 'solid' depending on the framework used.
 >
 > autoCodeSplitting: true to enable automatic code splitting based on routes.
 
@@ -103,8 +106,8 @@ _./src/index.tsx_
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 + import { RouterProvider, createRouter } from '@tanstack/react-router';
-
 + import { routeTree } from './routeTree.gen';
+
 + const router = createRouter({
 +   routeTree,
 + });

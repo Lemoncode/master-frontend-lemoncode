@@ -53,7 +53,7 @@ export interface FileRoutesByFullPath {
   '/cars/$id': typeof CarsIdRoute
   '/cars/': typeof CarsIndexRoute
   '/api/cars/$id': typeof ApiCarsIdRoute
-  '/api/cars': typeof ApiCarsIndexRoute
+  '/api/cars/': typeof ApiCarsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -79,7 +79,7 @@ export interface FileRouteTypes {
     | '/cars/$id'
     | '/cars/'
     | '/api/cars/$id'
-    | '/api/cars'
+    | '/api/cars/'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/cars/$id' | '/cars' | '/api/cars/$id' | '/api/cars'
   id:
@@ -132,7 +132,7 @@ declare module '@tanstack/react-router' {
     '/api/cars/': {
       id: '/api/cars/'
       path: '/api/cars'
-      fullPath: '/api/cars'
+      fullPath: '/api/cars/'
       preLoaderRoute: typeof ApiCarsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }

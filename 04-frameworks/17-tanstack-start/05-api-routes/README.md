@@ -8,6 +8,9 @@ In this example, we will migrate our previous API server to use TanStack Start A
 
 ```bash
 npm install
+cd api-server
+npm install
+cd ..
 ```
 
 TanStack Start provides a way to create [API routes](https://tanstack.com/start/latest/docs/framework/react/guide/server-routes) that can be used in your application without needing a separate backend server. This is particularly useful for small to medium-sized applications or when you want to keep everything within a single codebase.

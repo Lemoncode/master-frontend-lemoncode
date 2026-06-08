@@ -15,12 +15,12 @@
   "license": "MIT",
   "dependencies": {
     "@tanstack/react-router": "1.170.15",
+    "@tanstack/react-router-devtools": "1.167.0",
     "normalize.css": "8.0.1",
     "react": "19.2.7",
     "react-dom": "19.2.7"
   },
   "devDependencies": {
-    "@tanstack/react-router-devtools": "1.167.0",
     "@tanstack/router-plugin": "1.168.18",
     "@types/node": "25.9.2",
     "@types/react": "19.2.17",

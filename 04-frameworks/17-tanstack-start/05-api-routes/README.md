@@ -32,8 +32,7 @@ _./package.json_
 -   "start": "run-p -l start:dev start:api-server",
 +   "start": "vite",
 -   "start:dev": "vite",
--   "start:api-server": "cd api-server && npm run mock-server",
--   "postinstall": "cd ./api-server && npm install"
+-   "start:api-server": "cd api-server && npm run mock-server"
   },
 ...
 ```
@@ -63,13 +62,12 @@ _./src/routes/api/cars/index.ts_
 ```ts
 import { cars } from '#db';
 import { createFileRoute } from '@tanstack/react-router';
-import { json } from '@tanstack/react-start';
 
-export const Route = createFileRoute('/api/cars')({
+export const Route = createFileRoute('/api/cars/')({
   server: {
     handlers: {
       GET: async () => {
-        return json(cars);
+        return Response.json(cars);
       },
     },
   },
@@ -83,13 +81,12 @@ _./src/routes/api/cars/$id.ts_
 ```ts
 import { cars } from '#db';
 import { createFileRoute } from '@tanstack/react-router';
-import { json } from '@tanstack/react-start';
 
 export const Route = createFileRoute('/api/cars/$id')({
   server: {
     handlers: {
       GET: async ({ params }) => {
-        return json(cars.find((c) => c.id === params.id));
+        return Response.json(cars.find((c) => c.id === params.id));
       },
     },
   },

@@ -12,9 +12,9 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "strictNullChecks": true,
-    "baseUrl": "./src/",
+    "types": ["node", "vite/client"],
     "paths": {
-      "#*": ["*"]
+      "#*": ["./src/*"]
     }
   },
   "include": ["./src/**/*", "config/test/config.d.ts"]

@@ -186,6 +186,8 @@ export const Route = createFileRoute('/cars/')({
 
 ```
 
+> It looks like it's working when we refresh the page, but if we navigate from the home page to the car list page, it fails to fetch the data because the environment variables are not available in the browser by default. We will fix this in the next step.
+
 It looks similar to the SPA version, but now we have SSR capabilities, check it by opening the browser dev tools and see the Network tab, the initial HTML response should contain the car list data.
 
 We can navigate to car details and see that working in SPA mode after the initial load. So, if we come back to the car list, it fails to fetch the data again because the env variables are not available in the browser by default. We need to expose them by prefixing them with `VITE_` or with a custom prefix configured in `vite.config.ts`:
@@ -258,6 +260,7 @@ const url = `${ENV.BASE_API_URL}/cars`;
 + export const getCarList = createServerFn().handler(
   async (): Promise<Car[]> =>
     await fetch(url).then((response) => response.json())
+- ;
 + );
 
 ```
@@ -321,8 +324,6 @@ function RouteComponent() {
 ```
 
 > [Migrating from Nextjs Guide](https://tanstack.com/start/latest/docs/framework/react/migrate-from-next-js)
->
-> [CSS Modules FOUC (flash of unstyled content) issue still open](https://github.com/TanStack/router/issues/3023#issuecomment-2689163745)
 
 Update the car list page:
 

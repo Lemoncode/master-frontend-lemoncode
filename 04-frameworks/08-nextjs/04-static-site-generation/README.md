@@ -10,6 +10,9 @@ We will start from `03-boilerplate`.
 
 ```bash
 npm install
+cd api-server
+npm install
+cd ..
 ```
 
 ## Rendering modes

@@ -10,6 +10,9 @@ We will start from `00-boilerplate`.
 
 ```bash
 npm install
+cd api-server
+npm install
+cd ..
 ```
 
 Install necessary libraries.
@@ -27,8 +30,7 @@ _./package.json_
 ```diff
   "scripts": {
 +   "start": "next dev",
-    "start:api-server": "cd api-server && npm run mock-server",
-    "postinstall": "cd ./api-server && npm install"
+    "start:api-server": "cd api-server && npm run mock-server"
   },
 ```
 

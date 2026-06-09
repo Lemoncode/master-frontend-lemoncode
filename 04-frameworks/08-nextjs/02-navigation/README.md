@@ -10,6 +10,9 @@ We will start from `01-config`.
 
 ```bash
 npm install
+cd api-server
+npm install
+cd ..
 ```
 
 Since router will automatically add routes from app structure, let's add a second page:
@@ -144,7 +147,7 @@ import Link from 'next/link';
 +   title: 'Rent a car - Home',
 + };
 
-const HomePage = () => {
+const RootPage = () => {
   return (
     <>
       <h2>Hello from Nextjs</h2>
@@ -155,8 +158,8 @@ const HomePage = () => {
 _./app/cars/layout.tsx_
 
 ```jsx
-import React from 'react';
 import { Metadata } from 'next';
+import React from 'react';
 
 export const metadata: Metadata = {
   title: 'Rent a car - Car list',
@@ -168,10 +171,23 @@ interface Props {
 
 const CarsLayout = (props: Props) => {
   const { children } = props;
-  return children;
+  return (
+    <>
+      <div
+        style={{
+          backgroundColor: 'teal',
+          color: 'white',
+        }}
+      >
+        Common layout
+      </div>
+      {children}
+    </>
+  );
 };
 
 export default CarsLayout;
+
 ```
 
 > We only can use `Metadata` on `server components`.

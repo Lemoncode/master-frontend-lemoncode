@@ -10,6 +10,9 @@ We will start from `05-server-side-rendering`.
 
 ```bash
 npm install
+cd api-server
+npm install
+cd ..
 ```
 
 # Client Side Rendering

@@ -10,6 +10,9 @@ We will start from `04-static-site-generation`.
 
 ```bash
 npm install
+cd api-server
+npm install
+cd ..
 ```
 
 # Server Side Rendering

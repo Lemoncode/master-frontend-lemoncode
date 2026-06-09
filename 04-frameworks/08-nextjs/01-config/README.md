@@ -30,8 +30,7 @@ _./package.json_
 ```diff
   "scripts": {
 +   "start": "next dev",
-    "start:api-server": "cd api-server && npm run mock-server",
-    "postinstall": "cd ./api-server && npm install"
+    "start:api-server": "cd api-server && npm run mock-server"
   },
 ```
 

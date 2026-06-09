@@ -10,24 +10,23 @@
     "start": "next dev",
     "build": "rimraf .next && next build",
     "start:prod": "next start -p 8080",
-    "start:api-server": "cd api-server && npm run mock-server",
-    "postinstall": "cd ./api-server && npm install"
+    "start:api-server": "cd api-server && npm run mock-server"
   },
   "author": "Lemoncode",
   "license": "MIT",
   "dependencies": {
-    "next": "^16.0.10",
-    "normalize.css": "^8.0.1",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "sharp": "^0.34.5"
+    "next": "16.2.7",
+    "normalize.css": "8.0.1",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "sharp": "0.34.5"
   },
   "devDependencies": {
-    "@types/node": "25.0.1",
-    "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.2.3",
-    "npm-run-all": "^4.1.5",
-    "rimraf": "^6.1.2",
-    "typescript": "^5.9.3"
+    "@types/node": "25.9.2",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "npm-run-all": "4.1.5",
+    "rimraf": "6.1.3",
+    "typescript": "6.0.3"
   }
 }

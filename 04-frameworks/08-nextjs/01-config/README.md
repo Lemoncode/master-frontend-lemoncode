@@ -10,6 +10,9 @@ We will start from `00-boilerplate`.
 
 ```bash
 npm install
+cd api-server
+npm install
+cd ..
 ```
 
 Install necessary libraries.

@@ -10,6 +10,9 @@ We will start from `01-config`.
 
 ```bash
 npm install
+cd api-server
+npm install
+cd ..
 ```
 
 Since router will automatically add routes from app structure, let's add a second page:

@@ -11,7 +11,19 @@ interface Props {
 
 const CarsLayout = (props: Props) => {
   const { children } = props;
-  return children;
+  return (
+    <>
+      <div
+        style={{
+          backgroundColor: 'teal',
+          color: 'white',
+        }}
+      >
+        Common layout
+      </div>
+      {children}
+    </>
+  );
 };
 
 export default CarsLayout;

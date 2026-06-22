@@ -13,13 +13,14 @@ We will start from scratch creating two different projects:
 
 The first version was created for Webpack, but now in [Module Federation 2.0](https://module-federation.io/guide/start/index.html) there is support for other bundlers like Vite.
 
-We will create the three projects, first the mfe1 using [Rsbuild](https://module-federation.io/guide/basic/rsbuild.html):
+We will create the three projects, first the mfe1 using [Rsbuild](https://module-federation.io/integrations/build-tool/rsbuild.html):
 
 > [Glossary of Terms](https://module-federation.io/guide/start/glossary.html)
 
 _./mfe1/_
 
 ```bash
+cd mfe1
 npm init -y
 ```
 
@@ -45,7 +46,7 @@ if (rootEl) {
   root.render(
     <React.StrictMode>
       <App />
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 }
 ```
@@ -125,15 +126,15 @@ _./mfe1/package.json_
 - "license": "ISC",
 - "type": "commonjs",
   "dependencies": {
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   },
   "devDependencies": {
-    "@rsbuild/core": "^1.7.2",
-    "@rsbuild/plugin-react": "^1.4.2",
-    "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.2.3",
-    "typescript": "^5.9.3"
+    "@rsbuild/core": "^2.0.15",
+    "@rsbuild/plugin-react": "^2.1.0",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.7",
+    "typescript": "^6.0.3"
   }
 }
 
@@ -196,6 +197,7 @@ export default defineConfig({
 Install and run the host application:
 
 ```bash
+cd host
 npm install
 npm start
 ```
@@ -208,7 +210,7 @@ _./mfe1_
 npm install @module-federation/rsbuild-plugin --save-dev
 ```
 
-> [Rsbuild plugin](https://module-federation.io/guide/basic/rsbuild.html)
+> [Rsbuild plugin](https://module-federation.io/integrations/build-tool/rsbuild.html)
 
 Update the rsbuild configuration to add the Module Federation plugin:
 
@@ -248,9 +250,7 @@ Add the `expose` file:
 _./mfe1/src/app.expose.ts_
 
 ```ts
-import { App } from "./app";
-
-export default App;
+export { App as default } from "./app";
 ```
 
 > An expose is a module that is made available to other federated modules and it should be an export default.
@@ -300,9 +300,9 @@ Update the rsbuild configuration to add the Module Federation plugin:
 _./host/rsbuild.config.ts_
 
 ```diff
-+ import { pluginModuleFederation } from "@module-federation/rsbuild-plugin";
 import { defineConfig } from "@rsbuild/core";
 import { pluginReact } from "@rsbuild/plugin-react";
++ import { pluginModuleFederation } from "@module-federation/rsbuild-plugin";
 
 export default defineConfig({
   plugins: [
@@ -354,6 +354,30 @@ export const App: React.FC = () => {
 
 > Check the browser console `__FEDERATION__` object to see the Module Federation information.
 
+Update `tscofing.json` to include types:
+
+```diff
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noImplicitAny": false,
+    "jsx": "react-jsx",
+    "noLib": false,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strictNullChecks": true,
++   "paths": {
++     "*": ["./@mf-types/*"]
++   }
+  },
+  "include": ["src"]
+}
+
+```
+
 It fails because we are not sharing the React dependencies, so let's update both configurations to share them.
 
 _./mfe1/rsbuild.config.ts_
@@ -373,9 +397,9 @@ export default defineConfig({
       },
 +     shared: {
 +       react: {
-+         version: "19.2.3",
++         version: "19.2.7",
 +         singleton: true,
-+         requiredVersion: "^19.2.3",
++         requiredVersion: "^19.2.7",
 +       },
 +     },
     }),
@@ -406,9 +430,9 @@ export default defineConfig({
       },
 +     shared: {
 +       react: {
-+         version: "19.2.3",
++         version: "19.2.7",
 +         singleton: true,
-+         requiredVersion: "^19.2.3",
++         requiredVersion: "^19.2.7",
 +       },
       },
     }),
@@ -451,7 +475,13 @@ export default defineConfig({
 +       "./app": "./src/app.expose.ts",
 +       "./helpers": "./src/helpers.ts",
       },
-      shared: ["react", "react-dom"],
+      shared: {
+        react: {
+          version: "19.2.7",
+          singleton: true,
+          requiredVersion: "^19.2.7",
+        },
+      },
     }),
   ],
   server: {

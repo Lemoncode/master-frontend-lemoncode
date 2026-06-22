@@ -9,7 +9,10 @@
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "paths": {
+      "*": ["./@mf-types/*"]
+    }
   },
   "include": ["src"]
 }

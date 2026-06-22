@@ -12,9 +12,9 @@ export default defineConfig({
       },
       shared: {
         react: {
-          version: "19.2.3",
+          version: "19.2.7",
           singleton: true,
-          requiredVersion: "^19.2.3",
+          requiredVersion: "^19.2.7",
         },
       },
     }),

@@ -2,7 +2,7 @@ import { createInstance } from "@module-federation/enhanced/runtime";
 import React from "react";
 
 const microfrontends = await fetch("/api/microfrontends").then((res) =>
-  res.json()
+  res.json(),
 );
 
 const moduleFederation = createInstance({
@@ -13,12 +13,11 @@ const moduleFederation = createInstance({
   })),
   shared: {
     react: {
-      version: "19.2.3",
+      version: "19.2.7",
       lib: () => React,
       shareConfig: {
         singleton: true,
-        eager: true,
-        requiredVersion: "^19.2.3",
+        requiredVersion: "^19.2.7",
       },
     },
   },
@@ -26,18 +25,41 @@ const moduleFederation = createInstance({
 
 const MFE1 = React.lazy(() =>
   moduleFederation
-    .loadRemote("mfe1/app")
-    .then(({ default: App }) => ({ default: App }))
+    .loadRemote<{ default: React.ComponentType }>("mfe1/app")
+    .then((module) => {
+      if (!module) {
+        throw new Error("Failed to load remote mfe1/app");
+      }
+      return module;
+    }),
 );
 
 const helpers = await moduleFederation
-  .loadRemote("mfe1/helpers")
-  .then(({ default: helpers }) => helpers);
+  .loadRemote<{
+    default: { sum: (a: number, b: number) => number };
+  }>("mfe1/helpers")
+  .then((module) => {
+    if (!module) {
+      throw new Error("Failed to load remote mfe1/helpers");
+    }
+    return module.default;
+  });
 
 const MFE2 = React.lazy(() =>
   moduleFederation
-    .loadRemote("mfe2/app")
-    .then(({ default: App }) => ({ default: App }))
+    .loadRemote<{
+      default: React.ComponentType<{
+        count: number;
+        setCount: React.Dispatch<React.SetStateAction<number>>;
+        style: React.CSSProperties;
+      }>;
+    }>("mfe2/app")
+    .then((module) => {
+      if (!module) {
+        throw new Error("Failed to load remote mfe2/app");
+      }
+      return module;
+    }),
 );
 
 export const App: React.FC = () => {

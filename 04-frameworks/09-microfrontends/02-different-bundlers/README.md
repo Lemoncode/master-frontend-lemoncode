@@ -72,7 +72,7 @@ npm uninstall @rsbuild/core @rsbuild/plugin-react @module-federation/rsbuild-plu
 npm install vite @vitejs/plugin-react @module-federation/vite --save-dev
 ```
 
-> [Module Federation for Vite](https://module-federation.io/guide/basic/vite.html)
+> [Module Federation for Vite](https://module-federation.io/integrations/build-tool/vite.html)
 
 Update the `package.json`:
 
@@ -91,16 +91,16 @@ _./mfe2/package.json_
 +   "build": "vite build"
   },
   "dependencies": {
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   },
   "devDependencies": {
-    "@module-federation/vite": "^1.9.4",
-    "@types/react": "^19.2.7",
+    "@module-federation/vite": "^1.16.10",
+    "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.2",
-    "typescript": "^5.9.3",
-    "vite": "^7.3.1"
+    "@vitejs/plugin-react": "^6.0.2",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.16"
   }
 }
 
@@ -123,9 +123,10 @@ export default defineConfig({
     pluginReact(),
 -   pluginModuleFederation({
 +   federation({
-.     name: "mfe1",
+-     name: "mfe1",
 +     name: "mfe2",
 +     manifest: true,
++     filename: 'mfe2.js',
       exposes: {
         "./app": "./src/app.expose.ts",
 -       "./helpers": "./src/helpers.ts",
@@ -148,6 +149,8 @@ export default defineConfig({
 ```
 
 > `manifest: true` is needed to generate the `mf-manifest.json` file required by the host application.
+>
+> `filename`: Also required to generate the main module-federation entrypoint. [Reference](https://github.com/module-federation/vite)
 
 Let's add the `index.html` file needed by Vite:
 
@@ -227,80 +230,6 @@ export const App: React.FC = () => {
 };
 
 ```
-
-We can see the error `Uncaught (in promise) TypeError: Failed to fetch dynamically imported module: http://localhost:8080/remoteEntry-[hash]` because the host is trying to load the `remoteEntry` file that is only available in the `localhost:8082` server:
-
-_./mfe2/vite.config.ts_
-
-```diff
-import { federation } from "@module-federation/vite";
-import pluginReact from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
-
-export default defineConfig({
-  plugins: [
-    pluginReact(),
-    federation({
-      name: "mfe2",
-      manifest: true,
-      exposes: {
-        "./app": "./src/app.expose.ts",
-      },
-      shared: {
-        react: {
-          version: "19.2.3",
-          singleton: true,
-          requiredVersion: "^19.2.3",
-        },
-      },
-    }),
-  ],
-  server: {
-    port: 8082,
-+   origin: "http://localhost:8082",
-  },
-});
-
-```
-
-> If you need the production build, you will need to configure the `base` property in Vite config too.
-
-But it's still not working because we need to share the React instance between host and mfe2 but we have the configuration, where is the problem?
-
-_./host/rsbuild.config.ts_
-
-```diff
-import { pluginModuleFederation } from "@module-federation/rsbuild-plugin";
-import { defineConfig } from "@rsbuild/core";
-import { pluginReact } from "@rsbuild/plugin-react";
-
-export default defineConfig({
-  plugins: [
-    pluginReact(),
-    pluginModuleFederation({
-      name: "host",
-      remotes: {
-        mfe1: "mfe1@http://localhost:8081/mf-manifest.json",
-        mfe2: "mfe2@http://localhost:8082/mf-manifest.json",
-      },
-      shared: {
-        react: {
-          version: "19.2.3",
-          singleton: true,
-+         eager: true,
-          requiredVersion: "^19.2.3",
-        },
-      },
-    }),
-  ],
-  server: {
-    port: 8080,
-  },
-});
-
-```
-
-> [eager](https://module-federation.io/configure/shared.html#eager)
 
 Update the host application to pass props to mfe2:
 

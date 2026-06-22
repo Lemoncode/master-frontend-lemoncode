@@ -6,16 +6,16 @@
     "start": "rsbuild dev"
   },
   "dependencies": {
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "vue": "^3.5.26"
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "vue": "^3.5.38"
   },
   "devDependencies": {
-    "@module-federation/rsbuild-plugin": "^0.22.1",
-    "@rsbuild/core": "^1.7.2",
-    "@rsbuild/plugin-react": "^1.4.2",
-    "@types/react": "^19.2.8",
+    "@module-federation/rsbuild-plugin": "^2.5.1",
+    "@rsbuild/core": "^2.0.15",
+    "@rsbuild/plugin-react": "^2.1.0",
+    "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   }
 }

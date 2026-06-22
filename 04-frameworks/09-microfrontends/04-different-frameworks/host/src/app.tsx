@@ -6,6 +6,7 @@ createCustomElement("mfe1-app", MFE1);
 
 export const App: React.FC = () => {
   const [value, setValue] = React.useState("John Doe");
+
   return (
     <main>
       <h1>Host App</h1>

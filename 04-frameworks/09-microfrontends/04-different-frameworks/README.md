@@ -9,24 +9,26 @@ We will start from `01-simple-mfe`.
 `npm install` to install previous sample packages:
 
 ```bash
+cd host
 npm install
 ```
 
 Refactor the `mfe1` app to use Vue instead of React:
 
-_./mfe2_
+_./mfe1_
 
 ```bash
+cd mfe1
 npm uninstall react react-dom @rsbuild/plugin-react @types/react @types/react-dom
 npm install vue --save
 npm install @rsbuild/plugin-vue --save-dev
 ```
 
-Remove the `mfe2/src/helpers.ts` and `mfe2/src/app.expose.ts` files.
+Remove the `mfe1/src/helpers.ts` and `mfe1/src/app.expose.ts` files.
 
 Rename the `bootstrap.tsx` to `bootstrap.ts` and update its content:
 
-_./mfe2/src/bootstrap.ts_
+_./mfe1/src/bootstrap.ts_
 
 ```ts
 import { createApp } from "vue";
@@ -37,7 +39,7 @@ createApp(App).mount("#root");
 
 Rename the `app.tsx` to `app.vue` and update its content:
 
-_./mfe2/src/app.vue_
+_./mfe1/src/app.vue_
 
 ```vue
 <script setup lang="ts">
@@ -56,7 +58,7 @@ const count = ref(0);
 
 Update the `rsbuild.config.ts` to use the Vue plugin:
 
-_./mfe2/rsbuild.config.ts_
+_./mfe1/rsbuild.config.ts_
 
 ```diff
 import { pluginModuleFederation } from "@module-federation/rsbuild-plugin";
@@ -77,14 +79,14 @@ export default defineConfig({
       },
       shared: {
 -       react: {
--         version: "19.2.3",
+-         version: "19.2.7",
 -         singleton: true,
--         requiredVersion: "^19.2.3",
+-         requiredVersion: "^19.2.7",
 -       },
 +       vue: {
-+         version: "3.5.26",
++         version: "3.5.38",
 +         singleton: true,
-+         requiredVersion: "^3.5.26",
++         requiredVersion: "^3.5.38",
 +       },
       },
     }),
@@ -151,7 +153,7 @@ import { type App, createApp, type VueElement } from "vue";
 
 export const createCustomElement = (
   tagName: string,
-  vueElement: VueElement
+  vueElement: VueElement,
 ) => {
   class VueCustomElement extends HTMLElement {
     private app: App<Element> | null = null;
@@ -184,6 +186,7 @@ _./host/src/app.tsx_
 ```diff
 import MFE1 from "mfe1/app";
 import React from "react";
++ import { createCustomElement } from "./vue-wrapper";
 
 + createCustomElement("mfe1-app", MFE1);
 
@@ -213,14 +216,14 @@ _/host/rsbuild.config.ts_
 ...
       shared: {
         react: {
-          version: "19.2.3",
+          version: "19.2.7",
           singleton: true,
-          requiredVersion: "^19.2.3",
+          requiredVersion: "^19.2.7",
         },
 +       vue: {
-+         version: "3.5.26",
++         version: "3.5.38",
 +         singleton: true,
-+         requiredVersion: "^3.5.26",
++         requiredVersion: "^3.5.38",
 +       },
       },
     }),
@@ -230,7 +233,7 @@ _/host/rsbuild.config.ts_
 
 You can use this approach to mix different frameworks in your microfrontends, but some considerations must be taken into account:
 
-- Custom elements does not support server-side rendering.
+- Custom elements only supports SSR using [Declarative Shadow DOM](https://web.dev/articles/declarative-shadow-dom).
 - We need an advanced configuration in the custom element wrapper to support props and events because by default custom elements only support attributes as strings.
 - If we need to pass `children` (slots for custom elements) we have to enable `shadow DOM`.
 - If we have enabled the `shadow DOM` in the custom element, we need to handle styles consumption too.
@@ -240,7 +243,7 @@ You can use this approach to mix different frameworks in your microfrontends, bu
 
 To use slots in our custom elements, we need to update the Vue microfrontend to define the slots:
 
-_./mfe2/src/app.vue_
+_./mfe1/src/app.vue_
 
 ```diff
 <script setup lang="ts">
@@ -346,7 +349,7 @@ If we have styles defined in the Vue microfrontend, they will not be applied bec
 
 Let's how to replicate this issue:
 
-_./mfe2/src/app.vue_
+_./mfe1/src/app.vue_
 
 ```diff
 ...

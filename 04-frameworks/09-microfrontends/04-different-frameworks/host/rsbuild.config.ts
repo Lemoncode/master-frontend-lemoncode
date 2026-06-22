@@ -12,14 +12,14 @@ export default defineConfig({
       },
       shared: {
         react: {
-          version: "19.2.3",
+          version: "19.2.7",
           singleton: true,
-          requiredVersion: "^19.2.3",
+          requiredVersion: "^19.2.7",
         },
         vue: {
-          version: "3.5.26",
+          version: "3.5.38",
           singleton: true,
-          requiredVersion: "^3.5.26",
+          requiredVersion: "^3.5.38",
         },
       },
     }),

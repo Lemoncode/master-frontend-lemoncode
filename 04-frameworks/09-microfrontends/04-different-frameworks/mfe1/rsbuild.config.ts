@@ -12,9 +12,9 @@ export default defineConfig({
       },
       shared: {
         vue: {
-          version: "3.5.26",
+          version: "3.5.38",
           singleton: true,
-          requiredVersion: "^3.5.26",
+          requiredVersion: "^3.5.38",
         },
       },
     }),

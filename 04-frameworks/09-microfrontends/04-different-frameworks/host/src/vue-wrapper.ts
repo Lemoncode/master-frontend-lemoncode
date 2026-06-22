@@ -2,7 +2,7 @@ import { type App, createApp, type VueElement } from "vue";
 
 export const createCustomElement = (
   tagName: string,
-  vueElement: VueElement
+  vueElement: VueElement,
 ) => {
   class VueCustomElement extends HTMLElement {
     private app: App<Element> | null = null;

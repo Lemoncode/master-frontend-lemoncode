@@ -1,6 +1,6 @@
 import MFE1 from "mfe1/app";
-import helpers from "mfe1/helpers";
 import React from "react";
+import helpers from "mfe1/helpers";
 
 export const App: React.FC = () => {
   const result = helpers.sum(2, 3);

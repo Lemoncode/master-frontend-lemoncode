@@ -7,12 +7,12 @@
     "build": "rsbuild build"
   },
   "devDependencies": {
-    "@module-federation/rsbuild-plugin": "^0.22.1",
-    "@rsbuild/core": "^1.7.2",
-    "@rsbuild/plugin-vue": "^1.2.2",
-    "typescript": "^5.9.3"
+    "@module-federation/rsbuild-plugin": "^2.5.1",
+    "@rsbuild/core": "^2.0.15",
+    "@rsbuild/plugin-vue": "^2.0.0",
+    "typescript": "^6.0.3"
   },
   "dependencies": {
-    "vue": "^3.5.26"
+    "vue": "^3.5.38"
   }
 }

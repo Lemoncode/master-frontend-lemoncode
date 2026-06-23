@@ -6,7 +6,7 @@ const mf = await getMF();
 const CounterComponent = React.lazy(() =>
   mf.loadRemote("react_remote/CounterApp").then((module) => ({
     default: (module as { default: React.ComponentType }).default,
-  }))
+  })),
 );
 
 export const RemoteCounterComponent: React.FC = () => {

@@ -1,3 +1,4 @@
+/* Variables CSS globales - pueden ser sobrescritas por el host */
 @layer remote;
 @layer remote {
   :root {

@@ -22,7 +22,7 @@ export function getMF(): Promise<MFInstance> {
   // Seguridad extra: si esto corre en SSR, fallamos rápido
   if (typeof window === "undefined") {
     throw new Error(
-      "Module Federation runtime solo debe ejecutarse en cliente"
+      "Module Federation runtime solo debe ejecutarse en cliente",
     );
   }
 
@@ -57,7 +57,7 @@ export function getMF(): Promise<MFInstance> {
             shareConfig: { singleton: true, requiredVersion: false },
           },
         },
-      })
+      }),
     );
   }
 

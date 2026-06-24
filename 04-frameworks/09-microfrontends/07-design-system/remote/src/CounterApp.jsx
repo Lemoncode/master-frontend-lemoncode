@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import "./design-tokens.css";
 import styles from "./CounterApp.module.css";
 

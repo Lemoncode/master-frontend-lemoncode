@@ -1,0 +1,51 @@
+/* ==========================================================================
+   TOOLS · Mixins (postcss-mixins)
+   Helpers reutilizables. No emiten CSS hasta que se les hace @include.
+   ========================================================================== */
+
+/* Centra el contenido de una sección y le aplica el padding-inline fluido
+   coherente con el diseño (16px en mobile → 64px en desktop). */
+@define-mixin container {
+  width: 100%;
+  max-width: var(--raw-content-max);
+  margin-inline: auto;
+  padding-inline: var(--raw-size-md);
+
+  @media (--from-lg) {
+    padding-inline: var(--raw-size-big-3);
+  }
+}
+
+/* Anillo de foco accesible y consistente para elementos interactivos. */
+@define-mixin focus-ring {
+  &:focus-visible {
+    outline: 2px solid transparent;
+    box-shadow: var(--focus-ring);
+  }
+}
+
+/* Base compartida por todos los botones. */
+@define-mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--raw-size-sm);
+  padding: 0.5625rem var(--raw-size-md); /* 9px 16px */
+  border: 1px solid transparent;
+  border-radius: var(--raw-radius-sm);
+  font-family: var(--font-body);
+  line-height: var(--raw-lh-body);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.25s ease,
+    background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+
+  @mixin focus-ring;
+
+  /* Pulsación: vuelve al plano (las variantes elevan en :hover). */
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+}

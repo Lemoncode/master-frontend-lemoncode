@@ -1,0 +1,86 @@
+/* ==========================================================================
+   COMPONENT · Card (servicio)
+   Mobile: imagen arriba + contenido debajo.
+   Desktop: imagen y contenido en dos columnas. El modificador --reverse
+   coloca la imagen a la derecha (card central del diseño).
+   ========================================================================== */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--raw-size-md); /* 16px — separación imagen/contenido (mobile) */
+  overflow: hidden;
+  background-color: var(--bg-page);
+  border-radius: var(--raw-radius-md);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  /* Desktop: dos columnas EXACTAMENTE iguales (1fr | 1fr) con gap. */
+  @media (--from-lg) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    gap: var(--raw-size-xl); /* 32px (desktop) */
+    height: 22.5rem; /* 360px */
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 36px -18px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.card__media {
+  height: 16rem; /* 256px (mobile) */
+  background-image: var(--media-img);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: transform 0.4s ease;
+
+  @media (--from-lg) {
+    min-width: 0; /* permite que la columna 1fr no se desborde */
+    height: auto; /* el grid la estira a la altura de la card */
+  }
+}
+
+/* Leve zoom al elevar la card (la card lo recorta con overflow: hidden). */
+.card:hover .card__media {
+  transform: scale(1.04);
+}
+
+.card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--raw-size-lg);
+  padding: var(--raw-size-lg); /* 24px (mobile) */
+
+  @media (--from-lg) {
+    justify-content: center;
+    min-width: 0; /* permite que el texto no ensanche su columna 1fr */
+    padding: var(--raw-size-xl); /* 32px */
+  }
+}
+
+.card__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--raw-size-md);
+}
+
+.card__action {
+  align-self: flex-start;
+}
+
+/* Card con imagen a la derecha en desktop (intercambia el orden de columnas). */
+.card--reverse {
+  @media (--from-lg) {
+    & .card__media {
+      order: 2;
+    }
+
+    & .card__body {
+      order: 1;
+    }
+  }
+}

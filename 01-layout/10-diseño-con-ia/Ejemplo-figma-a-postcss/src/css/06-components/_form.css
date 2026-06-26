@@ -1,0 +1,68 @@
+/* ==========================================================================
+   COMPONENT · Form / Field
+   ========================================================================== */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--raw-size-lg);
+  width: 100%;
+  padding: var(--raw-size-lg) var(--raw-size-md); /* 24px 16px (mobile) */
+  background-color: var(--bg-surface);
+  border-radius: var(--raw-radius-md);
+
+  @media (--from-lg) {
+    gap: var(--raw-size-xl);
+    max-width: 39.75rem; /* 636px */
+    padding: var(--raw-size-xl); /* 32px */
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--raw-size-xs);
+}
+
+.field__label {
+  font-size: var(--raw-fs-xs);
+  line-height: var(--raw-lh-flush);
+  color: var(--text-body);
+}
+
+.field__control {
+  width: 100%;
+  padding: var(--raw-size-sm) 0.75rem; /* 8px 12px */
+  background-color: var(--bg-input);
+  border: 1px solid transparent;
+  border-radius: var(--raw-radius-sm);
+  font-size: var(--raw-fs-sm);
+  color: var(--text-strong);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field__control::placeholder {
+  color: var(--text-muted);
+}
+
+.field__control:focus-visible {
+  outline: 2px solid transparent;
+  border-color: var(--button-fill-bg);
+  box-shadow: var(--focus-ring);
+}
+
+.field__control--textarea {
+  min-height: 6.625rem; /* ~106px */
+  resize: vertical;
+}
+
+/* Acción del formulario: full width en mobile, ancho auto alineado a la
+   derecha en desktop (fiel al frame Figma). */
+.form__action {
+  width: 100%;
+
+  @media (--from-lg) {
+    width: auto;
+    align-self: flex-end;
+  }
+}

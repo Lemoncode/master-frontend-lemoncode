@@ -1,0 +1,25 @@
+# Dependencias
+node_modules/
+
+# Builds
+dist/
+dist-ssr/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Config local Claude Code
+.claude/settings.local.json
+
+# Editores / SO
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.local
+*.suo
+*.sw?

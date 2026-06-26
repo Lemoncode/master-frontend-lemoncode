@@ -1,0 +1,36 @@
+/* ==========================================================================
+   NEXUS — Hoja de estilos principal
+   Arquitectura ITCSS (de menor a mayor especificidad). El orden de @import
+   es significativo: postcss-import los inlinea respetando esta secuencia.
+   ========================================================================== */
+
+/* 01 · Settings — tokens y configuración (no emiten CSS de selectores propios) */
+@import '01-settings/_custom-media.css';
+@import '01-settings/_tokens-raw.css';
+@import '01-settings/_tokens-semantic.css';
+
+/* 02 · Tools — mixins (no emiten CSS hasta @include) */
+@import '02-tools/_mixins.css';
+
+/* 03 · Generic — reset */
+@import '03-generic/_reset.css';
+
+/* 04 · Elements — estilos base de etiquetas */
+@import '04-elements/_base.css';
+
+/* 05 · Layout — estructuras de página */
+@import '05-layout/_layout.css';
+
+/* 06 · Components — bloques BEM */
+@import '06-components/_nav.css';
+@import '06-components/_theme-toggle.css';
+@import '06-components/_button.css';
+@import '06-components/_hero.css';
+@import '06-components/_services.css';
+@import '06-components/_card.css';
+@import '06-components/_contact.css';
+@import '06-components/_form.css';
+@import '06-components/_footer.css';
+
+/* 07 · Utilities — helpers de propósito único */
+@import '07-utilities/_utilities.css';

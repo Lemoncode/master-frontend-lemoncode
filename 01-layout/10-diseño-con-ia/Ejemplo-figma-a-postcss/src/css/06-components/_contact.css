@@ -1,0 +1,35 @@
+/* ==========================================================================
+   COMPONENT · Contact
+   ========================================================================== */
+
+.contact__inner {
+  @mixin container;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--raw-size-big-1); /* 48px */
+  padding-block: var(--raw-size-big-1);
+
+  @media (--from-lg) {
+    padding-block: var(--raw-size-big-4); /* 80px */
+  }
+}
+
+.contact__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--raw-size-lg);
+  text-align: center;
+
+  @media (--from-lg) {
+    align-items: flex-start;
+    max-width: 32.1875rem; /* 515px */
+    text-align: left;
+  }
+}
+
+/* Formulario centrado dentro de la sección en desktop. */
+.contact__form-wrap {
+  display: flex;
+  justify-content: center;
+}

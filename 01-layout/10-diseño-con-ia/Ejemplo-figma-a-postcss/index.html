@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="NEXUS — Build your digital future with confidence. Web development, UI/UX design and consulting."
+    />
+    <title>NEXUS — Build Your Digital Future With Confidence</title>
+  </head>
+  <body>
+    <div class="l-page">
+      <!-- ============================ NAV ============================ -->
+      <header class="nav" data-nav>
+        <div class="nav__bar">
+          <a class="nav__logo" href="#home">NEXUS</a>
+
+          <div class="nav__end">
+            <nav class="nav__menu" id="nav-menu" data-nav-menu aria-label="Primary">
+              <ul class="nav__links">
+                <li>
+                  <a class="nav__link nav__link--active" href="#home" data-nav-link aria-current="true">Home</a>
+                </li>
+                <li>
+                  <a class="nav__link" href="#services" data-nav-link>Services</a>
+                </li>
+                <li>
+                  <a class="nav__link" href="#contact" data-nav-link>Contact</a>
+                </li>
+              </ul>
+              <a class="button button--fill nav__cta" href="#contact">Get started</a>
+            </nav>
+
+            <div class="nav__actions">
+              <!-- Toggle de tema (claro/oscuro) -->
+              <div class="theme-toggle">
+                <input
+                  type="checkbox"
+                  id="theme-toggle"
+                  class="theme-toggle__input"
+                />
+                <label class="theme-toggle__label" for="theme-toggle">
+                  <span class="u-visually-hidden">Toggle dark mode</span>
+                  <svg
+                    class="theme-toggle__icon theme-toggle__icon--sun"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="4" />
+                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+                  </svg>
+                  <svg
+                    class="theme-toggle__icon theme-toggle__icon--moon"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                  </svg>
+                </label>
+              </div>
+
+              <button
+                class="nav__toggle"
+                type="button"
+                aria-label="Open menu"
+                aria-expanded="false"
+                aria-controls="nav-menu"
+                data-nav-toggle
+              >
+                <span class="nav__toggle-box" aria-hidden="true">
+                  <span class="nav__toggle-bar"></span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <!-- ============================ HERO ============================ -->
+        <section class="l-section hero" id="home" aria-labelledby="hero-title">
+          <div class="hero__inner">
+            <div class="hero__text">
+              <h1 class="hero__title" id="hero-title">
+                Build Your Digital Future With Confidence
+              </h1>
+              <div class="hero__copy">
+                <p class="hero__lead">
+                  Transform your ideas into reality with our innovative
+                  solutions. We help businesses grow and succeed in the digital
+                  age through cutting-edge technology and creative strategies.
+                </p>
+                <a class="button button--fill button--cta hero__cta" href="#contact">
+                  Get started
+                </a>
+              </div>
+            </div>
+
+            <div class="hero__gallery" aria-hidden="true">
+              <div
+                class="hero__media hero__media--wide"
+                style="--media-img: url('/images/hero-1.jpg')"
+              ></div>
+              <div
+                class="hero__media hero__media--mid"
+                style="--media-img: url('/images/hero-2.jpg')"
+              ></div>
+              <div
+                class="hero__media hero__media--tall"
+                style="--media-img: url('/images/hero-3.jpg')"
+              ></div>
+              <div
+                class="hero__media hero__media--small"
+                style="--media-img: url('/images/hero-4.jpg')"
+              ></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================== SERVICES ========================== -->
+        <section class="l-section services" id="services" aria-labelledby="services-title">
+          <div class="services__inner">
+            <header class="services__header">
+              <h2 id="services-title">Our Services</h2>
+              <p class="services__lead">
+                Transform your ideas into reality with our innovative solutions.
+                We help businesses grow and succeed in the digital age through
+                cutting-edge technology and creative strategies.
+              </p>
+            </header>
+
+            <div class="services__list">
+              <!-- Card 1 — imagen izquierda -->
+              <article class="card">
+                <div
+                  class="card__media"
+                  style="--media-img: url('/images/card-web.jpg')"
+                ></div>
+                <div class="card__body">
+                  <div class="card__text">
+                    <h3>Web Development</h3>
+                    <p>
+                      Custom web applications built with modern technologies for
+                      optimal performance and user experience.
+                    </p>
+                  </div>
+                  <a class="button button--outline card__action" href="#">Learn more</a>
+                </div>
+              </article>
+
+              <!-- Card 2 — imagen derecha -->
+              <article class="card card--reverse">
+                <div
+                  class="card__media"
+                  style="--media-img: url('/images/card-design.jpg')"
+                ></div>
+                <div class="card__body">
+                  <div class="card__text">
+                    <h3>UI/UX Design</h3>
+                    <p>
+                      Beautiful, intuitive designs that engage users and drive
+                      conversions across all platforms.
+                    </p>
+                  </div>
+                  <a class="button button--outline card__action" href="#">Learn more</a>
+                </div>
+              </article>
+
+              <!-- Card 3 — imagen izquierda -->
+              <article class="card">
+                <div
+                  class="card__media"
+                  style="--media-img: url('/images/card-consulting.jpg')"
+                ></div>
+                <div class="card__body">
+                  <div class="card__text">
+                    <h3>Consulting</h3>
+                    <p>
+                      Expert guidance and support to help you make the right
+                      technology decisions.
+                    </p>
+                  </div>
+                  <a class="button button--outline card__action" href="#">Learn more</a>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================== CONTACT ========================== -->
+        <section class="l-section contact" id="contact" aria-labelledby="contact-title">
+          <div class="contact__inner">
+            <header class="contact__header">
+              <h2 id="contact-title">Get In Touch</h2>
+              <p>
+                Have a project in mind? We'd love to hear from you. Send us a
+                message and we'll respond as soon as possible.
+              </p>
+            </header>
+
+            <div class="contact__form-wrap">
+              <form class="form" action="#" method="post" novalidate>
+                <div class="field">
+                  <label class="field__label" for="name">Name</label>
+                  <input
+                    class="field__control"
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Your name"
+                    autocomplete="name"
+                  />
+                </div>
+
+                <div class="field">
+                  <label class="field__label" for="email">Email</label>
+                  <input
+                    class="field__control"
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Your email"
+                    autocomplete="email"
+                  />
+                </div>
+
+                <div class="field">
+                  <label class="field__label" for="message">Message</label>
+                  <textarea
+                    class="field__control field__control--textarea"
+                    id="message"
+                    name="message"
+                    placeholder="Your message"
+                    rows="4"
+                  ></textarea>
+                </div>
+
+                <button class="button button--fill form__action" type="submit">
+                  Send message
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- =========================== FOOTER =========================== -->
+      <footer class="footer">
+        <p class="footer__text">© 2025 Nexus. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

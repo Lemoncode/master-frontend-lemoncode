@@ -12,7 +12,7 @@ const person = { name: "John" }; // {} => inicializador de objetos
 const name = "John";
 const person = { name: name };
 
-// Si los nombres de la propiedad y la variable coinciden, se puede 
+// Si los nombres de la propiedad y la variable coinciden, se puede
 // expresar de forma corta:
 const person = { name };
 
@@ -99,6 +99,8 @@ const collectionObject = {
   length: 3,
 };
 console.log(collection, collectionObject); // Inspeccionar ambas estructuras
+
+console.log(typeof collection); // object => Para que veais que no miento
 //************************************************************************************************
 
 // Añadiendo elementos al array:

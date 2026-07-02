@@ -2,7 +2,7 @@ import React from 'react';
 import { getNameCollection } from './name-api';
 
 export const NameCollection: React.FC = () => {
-  const [nameCollection, setNameCollection] = React.useState([]);
+  const [nameCollection, setNameCollection] = React.useState<string[]>([]);
 
   React.useEffect(() => {
     getNameCollection().then((names) => {

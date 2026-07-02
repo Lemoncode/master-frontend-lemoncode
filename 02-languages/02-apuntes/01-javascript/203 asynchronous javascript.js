@@ -3,8 +3,9 @@
 /*
 Para dominar JavaScript es imprescindible tener unas buenas nociones de asincronía y conocer el
 "Event Loop" que implementa el lenguaje como solución para gestionar eventos y llamadas
-asíncronas. Recomendamos encarecidamente la lectura de la siguiente guía para profundizar en estos
-conceptos: https://lemoncode.net/lemoncode-blog/2018/1/29/javascript-asincrono
+asíncronas. Recomendamos encarecidamente la lectura de la guía que se incluye en la sección de
+teoría para profundizar en estos conceptos: 
+https://github.com/Lemoncode/master-frontend-lemoncode/blob/master/02-languages/01-teoria/04%20Javascript%20As%C3%ADncrono.md
 
 Una llamada asíncrona es aquella donde la tarea asociada se ejecuta fuera del contexto de nuestra
 aplicación,y por tanto nuestra aplicación no consume recursos (CPU). A esto se le conoce como 
@@ -62,7 +63,6 @@ const getDataAsync = callback => {
   setTimeout(() => callback(randomData()), randomDelay());
 };
 
-
 getDataAsync(console.log); // Ejemplo de uso.
 
 // *** PROMESAS ---------------------------------------------------------------------------------
@@ -108,7 +108,6 @@ fetch("https://api.github.com/users/lemoncode")
   .then(data => console.log(data)) // Muestra el resultado de la promesa `response.json()`
   .catch(error => console.error(error));
 
-
 // *** CREANDO PROMESAS
 
 /*
@@ -125,8 +124,7 @@ que la promesa ha sido completada con éxito o con fallo.
 // al patrón de promesas (promise flavor):
 const getDataWithPromise = () => {
   return new Promise((resolve, _reject) => {
-      getDataAsync(resolve);
-      
+    getDataAsync(resolve);
   });
 };
 
@@ -152,8 +150,7 @@ getDataWithPromise()
   .then(data => console.log(data))
   .catch(error => console.log(`ERROR CAPTURADO: ${error}`));
 
-
-// *** MANEJANDO MÚLTIPLES PROMESAS 
+// *** MANEJANDO MÚLTIPLES PROMESAS
 
 // Modifiquemos la función anterior ligeramente para, antes de resolver la promesa, loguear el dato
 // por la consola.
@@ -165,7 +162,7 @@ const getDataWithPromise = (autolog = true) =>
     });
   });
 
-// Promise Race: devuelve una nueva promesa que se resuelve con el resultado o rechazo de la 
+// Promise Race: devuelve una nueva promesa que se resuelve con el resultado o rechazo de la
 // primera promesa que termine:
 Promise.race([
   getDataWithPromise(),
@@ -178,7 +175,7 @@ Promise.race([
 // Promise All: devuelve una nueva promesa que se resuelve con el array de resultados de todas las
 // promesas de entrada. Por tanto se resolverá cuando todas las promesas se completen. Si alguna
 // promesa es rechazada, entonces Promise.all también se rechaza.
-// Por tanto espera a que todas se cumplan o al primer rechazo. El array de resultados preserva 
+// Por tanto espera a que todas se cumplan o al primer rechazo. El array de resultados preserva
 // el mismo orden que el array de promesas de entrada.
 Promise.all([
   getDataWithPromise(),
@@ -187,7 +184,6 @@ Promise.all([
   getDataWithPromise(),
   getDataWithPromise(),
 ]).then(result => console.log("And the result is ...", result));
-
 
 // *** ASYNC / AWAIT -----------------------------------------------------------------------------
 

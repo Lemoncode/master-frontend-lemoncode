@@ -7,7 +7,7 @@ export const useLogin = () => {
     name: '',
     password: '',
   });
-  const [user, setUser] = React.useState<User>(null);
+  const [user, setUser] = React.useState<User>(null!);
 
   const onLogin = () => {
     api.login(credential).then((newUser) => {

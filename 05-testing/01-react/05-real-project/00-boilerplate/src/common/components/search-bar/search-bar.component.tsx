@@ -24,7 +24,7 @@ export const SearchBarComponent: React.FunctionComponent<Props> = (props) => {
       placeholder={labels.placeholder}
       slotProps={{
         input: {
-          startAdornment: <SearchIcon />,
+          startAdornment: <SearchIcon aria-label="Search icon" />,
         },
       }}
     />

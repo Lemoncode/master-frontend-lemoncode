@@ -44,8 +44,10 @@ export const DataComponent: React.FunctionComponent<Props> = ({
             label="Id"
             name="id"
             className={classes.id}
-            InputProps={{
-              readOnly: true,
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
             }}
           />
           {!isEditMode && (

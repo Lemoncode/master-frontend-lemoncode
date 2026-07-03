@@ -1,7 +1,7 @@
 import React from 'react';
 import { usePromiseTracker } from 'react-promise-tracker';
 import { Modal } from '@mui/material';
-import Loader from 'react-spinners/ScaleLoader';
+import { ScaleLoader as Loader } from 'react-spinners';
 import * as classes from './spinner.styles';
 
 export const SpinnerComponent: React.FunctionComponent = () => {

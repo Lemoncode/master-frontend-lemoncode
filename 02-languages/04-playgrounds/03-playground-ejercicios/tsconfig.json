@@ -5,6 +5,7 @@
     "module": "NodeNext",
     "moduleResolution": "nodenext",
     "allowJs": true,
+    "rootDir": "src",
     "outDir": "transpiled"
   },
   "compileOnSave": true,

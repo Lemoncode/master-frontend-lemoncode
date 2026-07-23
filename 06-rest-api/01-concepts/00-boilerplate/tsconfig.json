@@ -2,8 +2,9 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "declaration": false,
+    "strict": false,
     "noImplicitAny": false,
     "sourceMap": true,
     "jsx": "react",
@@ -11,9 +12,8 @@
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "baseUrl": "./src/",
     "paths": {
-      "#*": ["*"]
+      "#*": ["./src/*"]
     }
   },
   "include": ["./src/**/*"]

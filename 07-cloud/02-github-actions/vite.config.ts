@@ -11,10 +11,6 @@ export default defineConfig({
       generatedRouteTree: 'src/core/router/route-tree.ts',
       autoCodeSplitting: true,
     }),
-    react({
-      babel: {
-        plugins: ['@emotion'],
-      },
-    }),
+    react(),
   ],
 });

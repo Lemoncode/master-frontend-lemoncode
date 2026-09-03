@@ -37,6 +37,8 @@ Configure pricing plans:
 
 ![04-configure-pricing](./readme-resources/04-configure-pricing.png)
 
+![04.1-disable-sidecar-config](./readme-resources/04.1-disable-sidecar-config.webp)
+
 ![05-review-and-create](./readme-resources/05-review-and-create.png)
 
 As we can see, this app will deploy an example of Microsoft Docker Image. We can provide our custom Docker image in the configuration section using environment variables:
@@ -114,10 +116,10 @@ permissions:
 +     runs-on: ubuntu-latest
 +     steps:
 +       - name: Checkout repository
-+         uses: actions/checkout@v6
++         uses: actions/checkout@v7
 
 +       - name: Log in to GitHub container registry
-+         uses: docker/login-action@v3
++         uses: docker/login-action@v4
 +         with:
 +           registry: ghcr.io
 +           username: ${{ github.actor }}

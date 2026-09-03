@@ -100,7 +100,7 @@ docker images
 docker run --name my-app-container --rm -d -p 8080:8080 nasdan/my-app:3
 ```
 
-> NOTE: Depending of your machine's architecture, maybe you need to use the `--platform` option to specify the architecture, for example: `--platform linux/amd64`.
+> NOTE: Depending of your machine's architecture, maybe you need to use the `--platform` option to specify your architecture, for example: `--platform linux/amd64`.
 >
 > `docker run --name my-app-container --platform linux/amd64 --rm -d -p 8080:8080 <user-name>/my-app:3`
 

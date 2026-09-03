@@ -155,11 +155,6 @@ Try to access `http://localhost:8081`
 
 Why can't we access to `http://localhost:8081`? Because this process is executing itself inside container, we need to expose to our machine:
 
-```
-docker stop my-app-container
-docker rm my-app-container
-```
-
 _./Dockerfile_
 
 ```diff
@@ -173,6 +168,10 @@ CMD ["node", "server/index.js"]
 Run it:
 
 ```bash
+
+docker stop my-app-container
+docker rm my-app-container
+
 docker build -t my-app:1 .
 
 docker run --name my-app-container -p 8080:8083 my-app:1

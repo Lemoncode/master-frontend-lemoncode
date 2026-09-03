@@ -97,12 +97,18 @@ docker rmi my-app:1 my-app:2 <user-name>/my-app:latest <user-name>/my-app:2 <use
 
 docker images
 
-docker run --name my-app-container --rm -d -p 8080:8080 nasdan/my-app:3
+docker run --name my-app-container --rm -d -p 8080:8080 <user-name>/<app-name>:3
 ```
 
-> NOTE: Depending of your machine's architecture, maybe you need to use the `--platform` option to specify the architecture, for example: `--platform linux/amd64`.
+> NOTE: Depending of your machine's architecture, maybe you need to use the `--platform` option to specify your architecture, for example: `--platform linux/amd64`.
 >
 > `docker run --name my-app-container --platform linux/amd64 --rm -d -p 8080:8080 <user-name>/my-app:3`
+
+You can build to both architectures and push to DockerHub:
+
+```bash
+docker buildx build --platform linux/amd64,linux/arm64 -t <user-name>/<app-name>:3 --push .
+```
 
 Open `http://localhost:8080`
 

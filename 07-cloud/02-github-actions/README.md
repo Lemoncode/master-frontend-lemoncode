@@ -75,7 +75,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Install
         run: npm ci
@@ -148,7 +148,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
 +     - name: Use SSH key
 +       run: |
@@ -242,14 +242,14 @@ jobs:
         run: npm run build
 
 +     - name: Upload artifact
-+       uses: actions/upload-pages-artifact@v4
++       uses: actions/upload-pages-artifact@v5
 +       with:
 +         path: dist
 
       - name: Deploy
 +       id: deployment
 -       run: npm run deploy -- -r git@github.com:nasdan/to-rm-gh-auto.git
-+       uses: actions/deploy-pages@v4
++       uses: actions/deploy-pages@v5
 ```
 
 Upload changes:

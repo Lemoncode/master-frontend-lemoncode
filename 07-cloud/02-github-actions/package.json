@@ -5,10 +5,8 @@
   "scripts": {
     "start": "run-p -l type-check:watch start:dev",
     "start:dev": "vite --port 8080",
-    "prebuild": "npm run type-check",
-    "build": "vite build",
-    "prebuild:dev": "npm run prebuild",
-    "build:dev": "vite build --mode development",
+    "build": "npm run type-check && vite build",
+    "build:dev": "npm run type-check && vite build --mode development",
     "deploy": "gh-pages -d dist",
     "type-check": "tsc --noEmit --preserveWatchOutput",
     "type-check:watch": "npm run type-check -- --watch"

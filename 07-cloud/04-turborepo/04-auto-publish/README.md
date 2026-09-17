@@ -41,6 +41,15 @@ npx changeset init
 
 ```
 
+> ◇ Should the GitHub integration be used for changelogs?
+> No
+> ◇ Should changeset files and version bumps be automatically committed?
+> No
+> ◇ Should packages be published publicly or privately by default?
+> Private
+> ◇ Which base branch should be used?
+> main
+>
 > We can delete the `.changeset/README.md` file.
 
 The command above will create a `.changeset` folder with a `config.js` file:
@@ -49,15 +58,16 @@ _./.changeset/config.js_
 
 ```json
 {
-  "$schema": "https://unpkg.com/@changesets/config@3.1.2/schema.json",
+  "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
+  "baseBranch": "main",
+  "access": "restricted",
+  "format": "auto",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
+  "ignore": [],
   "fixed": [],
   "linked": [],
-  "access": "restricted",
-  "baseBranch": "main",
-  "updateInternalDependencies": "patch",
-  "ignore": []
+  "updateInternalDependencies": "patch"
 }
 ```
 
@@ -98,11 +108,6 @@ on:
   push:
     branches:
       - main
-
-permissions:
-  packages: write
-  contents: write
-  pull-requests: write
 ```
 
 > We will the [automatic token authentication](https://docs.github.com/en/actions/security-guides/automatic-token-authentication) (GITHUB_TOKEN) and we will add some permissions to it.
@@ -114,38 +119,36 @@ _./.github/workflows/publish-packages.yml_
 ```diff
 ...
 
-permissions:
-  packages: write
-  contents: write
-  pull-requests: write
-
 +jobs:
 +  publish-packages:
 +    runs-on: ubuntu-latest
++    permissions:
++      contents: write
++      pull-requests: write
++      packages: write
 +    steps:
 +      - name: Checkout repository
-+        uses: actions/checkout@v6
-
++        uses: actions/checkout@v7
++
 +      - name: Setup Node.js
-+        uses: actions/setup-node@v6
++        uses: actions/setup-node@v7
 +        with:
-+          node-version: "24.x"
++          node-version: 24
 +          registry-url: "https://npm.pkg.github.com"
 +          scope: "@${{ github.repository_owner }}"
-
++          package-manager-cache: false
++
 +      - name: Install
 +        run: npm ci
-
++
 +      - name: Build
 +        run: npm run build
-
-+      - name: Publish Release
-+        uses: changesets/action@v1
++
++      - name: Version or publish packages
++        uses: changesets/action@v2
 +        with:
-+          publish: npm run publish-packages
++          publish-script: npm run publish-packages
 +        env:
-+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 +          # See https://github.com/changesets/action/issues/132
 +          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

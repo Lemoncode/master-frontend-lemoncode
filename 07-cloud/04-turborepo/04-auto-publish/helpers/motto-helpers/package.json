@@ -24,8 +24,8 @@
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "tsdown": "^0.20.3",
-    "typescript": "^5.9.3"
+    "tsdown": "^0.23.0",
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "@<user-name>/house-helpers": "^0.0.0"

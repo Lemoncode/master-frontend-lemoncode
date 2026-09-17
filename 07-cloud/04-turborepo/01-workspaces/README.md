@@ -296,7 +296,7 @@ _./package.json_
     "apps/*"
   ],
 + "scripts": {
-+   "start": "run-p \"start:*\""
++   "start": "run-p \"start:*\"",
 +   "start:stark": "npm start -w @my-org/house-stark",
 +   "start:targaryen": "npm start -w @my-org/house-targaryen",
 +   "start:lannister": "npm start -w @my-org/house-lannister",

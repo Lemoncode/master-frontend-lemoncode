@@ -48,8 +48,7 @@ _./package.json_
   "scripts": {
     "start": "run-p -l type-check:watch start:dev",
     "start:dev": "vite --port 8080",
-+   "prebuild": "npm run type-check",
-+   "build": "vite build",
++   "build": "npm run type-check && vite build",
     "type-check": "tsc --noEmit --preserveWatchOutput",
     ...
   },

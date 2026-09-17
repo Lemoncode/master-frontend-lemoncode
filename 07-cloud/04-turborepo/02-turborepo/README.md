@@ -51,7 +51,12 @@ _./package.json_
 
 ```diff
 ...
-+ "packageManager": "npm@11.0.0",
++ "devEngines": {
++   "packageManager": {
++     "name": "npm",
++     "version": "^11.12.1"
++   }
++ },
   "scripts": {
 -   "start": "run-p start:*",
 +   "start": "turbo start"

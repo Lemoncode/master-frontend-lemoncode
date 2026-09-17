@@ -5,7 +5,12 @@
     "helpers/*",
     "apps/*"
   ],
-  "packageManager": "npm@11.0.0",
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "version": "^11.12.1"
+    }
+  },
   "scripts": {
     "start": "turbo watch start",
     "build": "turbo build",
@@ -13,7 +18,7 @@
     "publish-packages": "changeset publish"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.8",
-    "turbo": "^2.8.10"
+    "@changesets/cli": "^3.0.3",
+    "turbo": "^2.10.13"
   }
 }

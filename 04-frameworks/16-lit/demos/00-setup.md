@@ -40,13 +40,13 @@ Create `tsconfig.json`
 {
   "compilerOptions": {
     "target": "es2021",
-    "module": "es2020",
+    "module": "esnext",
     "lib": ["es2021", "DOM", "DOM.Iterable"],
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
     "inlineSources": true,
-    "outDir": "./",
+    "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
     "noUnusedLocals": true,
@@ -55,7 +55,7 @@ Create `tsconfig.json`
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "moduleResolution": "node",
+    // "moduleResolution": "classic",
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
@@ -66,7 +66,7 @@ Create `tsconfig.json`
         "strict": true
       }
     ],
-    "types": ["mocha"]
+    "types": [""]
   },
   "include": ["src/**/*.ts"],
   "exclude": []

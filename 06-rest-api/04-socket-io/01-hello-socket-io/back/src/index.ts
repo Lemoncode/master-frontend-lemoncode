@@ -51,17 +51,17 @@ app.listen(envConstants.PORT, () => {
   console.log(`Server ready at http://localhost:${envConstants.PORT}/api`);
 });
 
-const server = socketapp.listen(3000, function () {
-  console.log('listening on *:3000');
+const server = socketapp.listen(3000, () => {
+  console.log("listening on *:3000");
 });
 
 // whenever a user connects on port 3000 via
 // a websocket, log that a user has connected
-io.on('connection', function (socket: Socket) {
+io.on('connection', (socket: Socket) => {
   console.log('** connection recieved');
   socket.emit('message', { type: 'CONNECTION_SUCCEEDED' });
 
-  socket.on('message', function (body: any) {
+  socket.on('message', (body: any) => {
     console.log(body);
     socket.broadcast.emit('message', body);
   });

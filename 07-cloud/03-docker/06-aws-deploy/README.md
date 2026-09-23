@@ -22,7 +22,6 @@ Configure security group:
 
 ![04-configure-security-group](./readme-resources/04-configure-security-group.png)
 
-
 Clicks on `Launch instance` button and then `Proceed without a key pair`:
 
 ![05-proceed-without-key-pair](./readme-resources/05-proceed-without-key-pair.png)
@@ -31,7 +30,7 @@ Connect to instance:
 
 ![06-connect-to-instance](./readme-resources/06-connect-to-instance.png)
 
-![07-connect-by-browser](./readme-resources/07-connect-by-browser.png)
+![07-connect-by-browser](./readme-resources/07-connect-by-browser.webp)
 
 Install docker in AWS EC2 instance:
 
@@ -48,7 +47,7 @@ sudo usermod -a -G docker ec2-user
 Execute Docker image uploaded to Docker Hub in example `03-upload-docker-image`:
 
 ```bash
-sudo docker run --name my-app-container --rm -d -p 80:8080 <user-name>/<app-name>:3
+sudo docker run --name my-app-container --rm -d --platform=linux/amd64 -p 80:8080 <user-name>/<app-name>:3
 ```
 
 Open `http://<ec2-instance>.<region>.compute.amazonaws.com` remember with `HTTP` instead of `HTTPS`

@@ -1,3 +1,4 @@
-import { House } from './house.models';
+import { House } from "./house.models";
 
-export const getHouseTitle = (house: House) => `House ${house.charAt(0).toUpperCase()}${house.slice(1)}`;
+export const getHouseTitle = (house: House) =>
+  `House ${house.charAt(0).toUpperCase()}${house.slice(1)}`;

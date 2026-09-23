@@ -79,7 +79,7 @@ jobs:
     name: Build and Deploy Job
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install
         run: npm ci
@@ -93,13 +93,12 @@ jobs:
           # Replace <YOUR_AUTO_GENERATED_TOKEN> with the name of your secret token
           azure_static_web_apps_api_token: ${{ secrets.<YOUR_AUTO_GENERATED_TOKEN> }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          action: "upload"
-          app_location: "/dist"
+          action: 'upload'
+          app_location: '/dist'
           skip_app_build: true
           skip_api_build: true
         env:
-          NODE_VERSION: 22.16.0
-
+          NODE_VERSION: 24.13.0
 ```
 
 > Visit official documentation to get more info about [Azure Static Web Apps Config Props](https://aka.ms/swaworkflowconfig)

@@ -1,0 +1,48 @@
+/* ==========================================================================
+   COMPONENT · Button
+   --fill ......... botón primario sólido (Get started / Send message)
+   --outline ...... botón secundario con borde (Learn more)
+   --block ........ ocupa el ancho completo (formulario en mobile)
+   --cta .......... tamaño tipográfico mayor del CTA del hero
+   ========================================================================== */
+
+.button {
+  @mixin button-base;
+
+  font-size: var(--raw-fs-sm);
+  font-weight: var(--raw-weight-medium);
+  letter-spacing: var(--raw-ls-wide);
+}
+
+.button--fill {
+  background-color: var(--button-fill-bg);
+  border-color: var(--button-fill-border);
+  color: var(--button-fill-text);
+  font-weight: var(--raw-weight-semibold);
+}
+
+.button--fill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -8px color-mix(in srgb, var(--button-fill-bg) 65%, transparent);
+}
+
+.button--outline {
+  background-color: transparent;
+  border-color: var(--button-outline-border);
+  color: var(--button-outline-text);
+}
+
+.button--outline:hover {
+  transform: translateY(-2px);
+  background-color: var(--button-outline-border);
+  color: var(--bg-page);
+}
+
+.button--cta {
+  font-size: var(--raw-fs-cta);
+  font-weight: var(--raw-weight-semibold);
+}
+
+.button--block {
+  width: 100%;
+}

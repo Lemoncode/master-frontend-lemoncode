@@ -1,0 +1,16 @@
+node_modules
+dist
+coverage
+.awcache
+test-report.*
+junit.xml
+*.log
+*.orig
+.cache
+.env
+.next
+.swc
+!.vscode
+.tanstack
+.nitro
+.output

@@ -1,0 +1,23 @@
+{
+  "name": "react-remote",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "webpack serve --mode development",
+    "build": "webpack --mode production"
+  },
+  "dependencies": {
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^8.0.1",
+    "@babel/preset-react": "^8.0.1",
+    "babel-loader": "^10.1.1",
+    "css-loader": "^7.1.4",
+    "html-webpack-plugin": "^5.6.7",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.107.2",
+    "webpack-cli": "^7.0.3",
+    "webpack-dev-server": "^5.2.5"
+  }
+}

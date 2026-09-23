@@ -38,10 +38,8 @@ _./package.json_
   "scripts": {
     "start": "run-p -l type-check:watch start:dev",
     "start:dev": "vite --port 8080",
-    "prebuild": "npm run type-check && npm run clean",
-    "build": "vite build",
-+   "prebuild:dev": "npm run prebuild",
-+   "build:dev": "vite build --mode development",
+    "build": "npm run type-check && vite build",
++   "build:dev": "npm run type-check && vite build --mode development",
 +   "deploy": "gh-pages -d dist",
     ...
   },
@@ -75,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install
         run: npm ci
@@ -98,7 +96,7 @@ git push
 As we saw, the workflow failed. Why? Because each time a Github job is executed, it's a new and clean machine outside repository. That is, we need to allow job's git push. The best approach is creating a new ssh key on local:
 
 ```bash
-ssh-keygen -m PEM -t rsa -C "cd-user@my-app.com"
+ssh-keygen -t ed25519 -C "cd-user@my-app.com"
 ```
 
 ```bash
@@ -109,9 +107,7 @@ ssh-keygen -m PEM -t rsa -C "cd-user@my-app.com"
 
 > NOTES:
 >
-> -m PEM: Format to apply. PEM is a common public/private key certificate format.
->
-> rsa: RSA is the crypto algorithm.
+> -t ed25519: Ed25519 algorithm is a modern and secure choice for SSH keys, providing better security and performance compared to older algorithms like RSA.
 >
 > Enter `./id_rsa` to save files in currect directory
 >
@@ -150,7 +146,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
 +     - name: Use SSH key
 +       run: |
@@ -224,7 +220,7 @@ jobs:
 +     url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
 -     - name: Use SSH key
 -       run: |
@@ -244,14 +240,14 @@ jobs:
         run: npm run build
 
 +     - name: Upload artifact
-+       uses: actions/upload-pages-artifact@v3
++       uses: actions/upload-pages-artifact@v5
 +       with:
 +         path: dist
 
       - name: Deploy
 +       id: deployment
 -       run: npm run deploy -- -r git@github.com:nasdan/to-rm-gh-auto.git
-+       uses: actions/deploy-pages@v4
++       uses: actions/deploy-pages@v5
 ```
 
 Upload changes:

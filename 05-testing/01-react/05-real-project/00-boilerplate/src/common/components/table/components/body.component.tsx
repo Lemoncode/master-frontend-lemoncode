@@ -12,12 +12,14 @@ export const BodyComponent = <T,>(props: Props<T>) => {
   const { rows, rowRenderer } = props;
   return (
     <TableBody>
-      {rows.map((row) => {
-        return rowRenderer({
-          ...row,
-          row: row.original,
-        });
-      })}
+      {rows.map((row) => (
+        <React.Fragment key={row.id}>
+          {rowRenderer({
+            ...row,
+            row: row.original,
+          })}
+        </React.Fragment>
+      ))}
     </TableBody>
   );
 };

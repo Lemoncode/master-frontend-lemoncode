@@ -1,0 +1,13 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: auth-mongodb-totp
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
+    driver: local

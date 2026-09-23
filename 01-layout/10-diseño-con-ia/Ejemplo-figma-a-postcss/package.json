@@ -1,0 +1,25 @@
+{
+  "name": "nexus-landing",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Landing NEXUS — HTML + CSS + PostCSS + Vite con arquitectura Lemoncode (ITCSS + BEM)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "postcss-custom-media": "^11.0.5",
+    "postcss-import": "^16.1.0",
+    "postcss-mixins": "^11.0.3",
+    "postcss-nesting": "^13.0.1",
+    "vite": "^6.0.7"
+  },
+  "dependencies": {
+    "@fontsource/geologica": "^5.1.0",
+    "@fontsource/inter": "^5.1.0"
+  }
+}

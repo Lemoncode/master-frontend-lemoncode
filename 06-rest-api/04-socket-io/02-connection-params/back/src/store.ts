@@ -7,13 +7,23 @@ export interface ConnectionConfig {
   nickname: string;
 }
 
-let userSession = [];
+let userSession: UserSession[] = [];
+
+const isNicknameUsed = (newUserNickname: string): boolean =>
+  userSession.some(session => session.nickname.toLowerCase() === newUserNickname.toLowerCase());
 
 export const addUserSession = (
   connectionId: string,
   config: ConnectionConfig
-) => {
-  userSession = [...userSession, { connectionId, config }];
+): boolean => {
+  if (isNicknameUsed(config.nickname)) {
+    console.log(`Nickname '${config.nickname}' is already in use`);
+    return false;
+  } else {
+    userSession = [...userSession, { connectionId, nickname: config.nickname }];
+    console.log(`New user joined: ${config.nickname}`);
+    return true;
+  }
 };
 
 export const getNickname = (connectionId: string) => {
@@ -21,5 +31,5 @@ export const getNickname = (connectionId: string) => {
     (session) => session.connectionId === connectionId
   );
 
-  return session ? session.config.nickname : 'ANONYMOUS :-@';
+  return session ? session.nickname : "ANONYMOUS :-@";
 };

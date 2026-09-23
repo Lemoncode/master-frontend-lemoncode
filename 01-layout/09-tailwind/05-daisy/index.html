@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>00-boiler-css</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1 class="text-[--h1-size] leading-[--h1-line] underline">
+        POR EL PODER DE TAILWIND !!!
+      </h1>
+      <div class="hero min-h-screen bg-base-200">
+        <div class="hero-content container max-w-md">
+          <div class="card w-full bg-base-100 shadow-xl p-8 space-y-6">
+            <h2 class="text-3xl font-bold text-center">
+              Formulario de contacto
+            </h2>
+
+            <!-- Nombre -->
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">Nombre</span>
+              </div>
+              <input
+                type="text"
+                placeholder="Tu nombre"
+                class="input input-bordered w-full"
+              />
+            </label>
+
+            <!-- Email -->
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">Email</span>
+              </div>
+              <input
+                type="email"
+                placeholder="tucorreo@ejemplo.com"
+                class="input input-bordered w-full"
+              />
+            </label>
+
+            <!-- Mensaje -->
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">Mensaje</span>
+              </div>
+              <textarea
+                class="textarea textarea-bordered w-full"
+                rows="4"
+                placeholder="Escribe tu mensaje..."
+              ></textarea>
+            </label>
+
+            <!-- Botón -->
+            <button class="btn btn-error w-full">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

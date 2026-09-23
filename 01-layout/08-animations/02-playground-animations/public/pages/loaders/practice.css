@@ -5,10 +5,10 @@
 .spinner {
   /* border-radius: 50%; */
   border-top: 0.2em solid var(--theme-color);
-  border-right: 0.2em solid transparent;
+  /* border-right: 0.2em solid transparent; */
 }
 
-.dots {
+.dots span {
   /*  */
 }
 

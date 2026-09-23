@@ -1,0 +1,231 @@
+/* ==========================================================================
+   COMPONENT · Nav
+   Header sticky translúcido. Mobile: hamburguesa que despliega un panel con
+   los enlaces. Desktop: enlaces inline + CTA. El enlace de la sección visible
+   se marca con .nav__link--active (lo gestiona src/js/nav.js).
+   ========================================================================== */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background-color: color-mix(in srgb, var(--bg-page) 82%, transparent);
+  border-bottom: 1px solid var(--border-subtle);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+/* Sombra sutil al separarse del top (la añade el JS al hacer scroll). */
+.nav.is-scrolled {
+  box-shadow: 0 8px 24px -16px rgba(0, 0, 0, 0.45);
+}
+
+.nav__bar {
+  @mixin container;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--raw-size-md);
+  padding-block: var(--raw-size-sm);
+
+  @media (--from-lg) {
+    padding-block: var(--raw-size-md);
+  }
+}
+
+.nav__logo {
+  font-family: var(--font-title);
+  font-weight: var(--raw-weight-semibold);
+  font-size: var(--raw-fs-logo);
+  line-height: var(--raw-lh-flush);
+  color: var(--text-strong);
+  letter-spacing: 0.02em;
+}
+
+.nav__end {
+  display: flex;
+  align-items: center;
+  gap: var(--raw-size-sm);
+
+  @media (--from-lg) {
+    gap: var(--raw-size-xl);
+  }
+}
+
+/* --- Menú: panel desplegable en mobile, fila inline en desktop ---------- */
+.nav__menu {
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--raw-size-lg);
+  padding: var(--raw-size-lg) var(--raw-size-md) var(--raw-size-xl);
+  background-color: var(--bg-page);
+  border-bottom: 1px solid var(--border-subtle);
+  box-shadow: 0 16px 28px -18px rgba(0, 0, 0, 0.4);
+
+  /* Estado cerrado */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.5rem);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s;
+
+  @media (--from-lg) {
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--raw-size-xl);
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    pointer-events: auto;
+    transition: none;
+  }
+}
+
+.nav.is-open .nav__menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s;
+}
+
+.nav__links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--raw-size-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (--from-lg) {
+    flex-direction: row;
+    gap: var(--raw-size-lg);
+  }
+}
+
+.nav__link {
+  position: relative;
+  display: inline-block;
+  padding-block: var(--raw-size-xs);
+  font-size: var(--raw-fs-sm);
+  font-weight: var(--raw-weight-medium);
+  color: var(--text-body);
+  transition: color 0.2s ease;
+
+  @mixin focus-ring;
+
+  /* Indicador de subrayado animado */
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-strong);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  &:hover {
+    color: var(--text-strong);
+  }
+
+  &:hover::after,
+  &.nav__link--active::after {
+    transform: scaleX(1);
+  }
+}
+
+.nav__link--active {
+  color: var(--text-strong);
+}
+
+/* CTA dentro del menú: full width en el panel mobile, auto en desktop. */
+.nav__cta {
+  align-self: stretch;
+
+  @media (--from-lg) {
+    align-self: auto;
+  }
+}
+
+/* --- Hamburguesa (solo mobile) ----------------------------------------- */
+.nav__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border-radius: var(--raw-radius-sm);
+  color: var(--text-strong);
+  cursor: pointer;
+
+  @mixin focus-ring;
+
+  @media (--from-lg) {
+    display: none;
+  }
+}
+
+.nav__toggle-box {
+  position: relative;
+  display: block;
+  width: 1.5rem;  /* 24px */
+  height: 1rem;   /* 16px */
+}
+
+.nav__toggle-bar,
+.nav__toggle-bar::before,
+.nav__toggle-bar::after {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: currentColor;
+  border-radius: 2px;
+  transition: transform 0.25s ease, background-color 0.2s ease, top 0.25s ease;
+}
+
+.nav__toggle-bar {
+  top: 50%;
+  transform: translateY(-50%);
+
+  &::before {
+    content: '';
+    top: -7px;
+  }
+
+  &::after {
+    content: '';
+    top: 7px;
+  }
+}
+
+/* Abierto → se transforma en «X» */
+.nav.is-open .nav__toggle-bar {
+  background-color: transparent;
+}
+
+.nav.is-open .nav__toggle-bar::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.nav.is-open .nav__toggle-bar::after {
+  top: 0;
+  transform: rotate(-45deg);
+}

@@ -1,0 +1,1201 @@
+
+<template>
+  <div :style="{ viewTransitionName: !isActive ? `card-${list.id}` : undefined }">
+    <h2>{{ list?.title }}</h2>
+
+    <!-- Todo List-->
+    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit, nostrum, fugiat accusamus
+    voluptate qui quo dolor, modi sed sunt explicabo quod ducimus vitae adipisci necessitatibus
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { List } from "@/types";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
+const props = defineProps<{
+  list: List;
+}>();
+
+const isActive = computed(() => route.name === "list" && route.params.id === props.list.id);
+</script>
+
+
+*********************************
+
+<script setup lang="ts">
+import { computed, onMounted, ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+
+import { useViewTransition } from "@/composables/useViewTransition";
+import { useListsStore } from "@/stores/lists";
+
+const listsStore = useListsStore();
+
+// defineProps<{
+//   id: string;
+// }>();
+
+const router = useRouter();
+const route = useRoute();
+
+const listId = computed(() => route.params.id as string);
+
+const list = computed(() => listsStore.lists.find((list) => list.id === listId.value));
+
+const closeModal = () => {
+  useViewTransition(() => {
+    router.push("/");
+  });
+};
+
+const isEditingTitle = ref(false);
+const listTitleInternal = ref(list.value?.title || "");
+
+const saveTitle = () => {
+  listsStore.updateList(listId.value, { title: listTitleInternal.value });
+};
+
+const handleInput = (event: Event) => {
+  listTitleInternal.value = (event.target as HTMLInputElement).value;
+  saveTitle();
+};
+
+const handleDeleteList = () => {
+  // listsStore.deleteList(listId.value);
+  closeModal();
+};
+
+onMounted(() => {
+  if (!list.value) {
+    router.push("/");
+  }
+});
+</script>
+
+<template>
+  <Teleport to="body">
+    <Transition name="modal" @after-leave="() => {}">
+      <div
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        v-if="list"
+        @click.stop="closeModal"
+      >
+        <section
+          class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+          :style="{ viewTransitionName: `card-${listId}` }"
+          @click.stop
+        >
+          <header>
+            <div class="flex items-center justify-between p-4 border-b border-dark-border">
+              <div v-if="!isEditingTitle" class="flex-1 mr-4">
+                <button
+                  type="button"
+                  @click="isEditingTitle = true"
+                  class="block text-2xl font-semibold text-white cursor-pointer hover:text-gray-300 transition-colors empty:bg-dark-bg border-none text-left p-0 m-0 w-full empty:rounded-lg empty:h-[44px]"
+                >
+                  {{ listTitleInternal }}
+                </button>
+              </div>
+              <input
+                v-else
+                :value="listTitleInternal"
+                class="block flex-1 mr-4 text-2xl font-semibold bg-dark-hover text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                @input="handleInput"
+                @blur="
+                  isEditingTitle = false;
+                  saveTitle();
+                "
+                @keydown.enter="
+                  isEditingTitle = false;
+                  saveTitle();
+                "
+              />
+              <div class="flex items-center gap-2">
+                <button
+                  @click="handleDeleteList"
+                  class="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                  type="button"
+                >
+                  <span class="sr-only">Delete List</span>
+                </button>
+                <button
+                  @click="closeModal"
+                  class="p-2 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors"
+                  type="button"
+                >
+                  <span class="sr-only">Close</span>
+                </button>
+              </div>
+            </div>
+          </header>
+        </section>
+      </div>
+    </Transition>
+  </Teleport>
+</template>
+
+<style scoped>
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-active > div,
+.modal-leave-active > div {
+  transition: transform 0.2s ease;
+}
+
+.modal-enter-from > div,
+.modal-leave-to > div {
+  transform: scale(0.95);
+}
+</style>
+
+
+*********************************
+
+<template>
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+    />
+  </svg>
+</template>
+
+
+*********************************
+
+<template>
+  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M6 18L18 6M6 6l12 12"
+    />
+  </svg>
+</template>
+
+
+*********************************
+
+<script setup lang="ts">
+import { computed, onMounted, ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+
+import { useViewTransition } from "@/composables/useViewTransition";
+import { useListsStore } from "@/stores/lists";
+import IconTrash from "./Icons/IconTrash.vue";
+import IconClose from "./Icons/IconClose.vue";
+
+const listsStore = useListsStore();
+
+// defineProps<{
+//   id: string;
+// }>();
+
+const router = useRouter();
+const route = useRoute();
+
+const listId = computed(() => route.params.id as string);
+
+const list = computed(() => listsStore.lists.find((list) => list.id === listId.value));
+
+const closeModal = () => {
+  useViewTransition(() => {
+    router.push("/");
+  });
+};
+
+const isEditingTitle = ref(false);
+const listTitleInternal = ref(list.value?.title || "");
+
+const saveTitle = () => {
+  listsStore.updateList(listId.value, { title: listTitleInternal.value });
+};
+
+const handleInput = (event: Event) => {
+  listTitleInternal.value = (event.target as HTMLInputElement).value;
+  saveTitle();
+};
+
+const handleDeleteList = () => {
+  // listsStore.deleteList(listId.value);
+  closeModal();
+};
+
+onMounted(() => {
+  if (!list.value) {
+    router.push("/");
+  }
+});
+</script>
+
+<template>
+  <Teleport to="body">
+    <Transition name="modal" @after-leave="() => {}">
+      <div
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        v-if="list"
+        @click.stop="closeModal"
+      >
+        <section
+          class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+          :style="{ viewTransitionName: `card-${listId}` }"
+          @click.stop
+        >
+          <header>
+            <div class="flex items-center justify-between p-4 border-b border-dark-border">
+              <div v-if="!isEditingTitle" class="flex-1 mr-4">
+                <button
+                  type="button"
+                  @click="isEditingTitle = true"
+                  class="block text-2xl font-semibold text-white cursor-pointer hover:text-gray-300 transition-colors empty:bg-dark-bg border-none text-left p-0 m-0 w-full empty:rounded-lg empty:h-[44px]"
+                >
+                  {{ listTitleInternal }}
+                </button>
+              </div>
+              <input
+                v-else
+                :value="listTitleInternal"
+                class="block flex-1 mr-4 text-2xl font-semibold bg-dark-hover text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                @input="handleInput"
+                @blur="
+                  isEditingTitle = false;
+                  saveTitle();
+                "
+                @keydown.enter="
+                  isEditingTitle = false;
+                  saveTitle();
+                "
+              />
+              <div class="flex items-center gap-2">
+                <button
+                  @click="handleDeleteList"
+                  class="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                  type="button"
+                >
+                  <span class="sr-only">Delete List</span>
+                  <IconTrash />
+                </button>
+                <button
+                  @click="closeModal"
+                  class="p-2 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors"
+                  type="button"
+                >
+                  <span class="sr-only">Close</span>
+                  <IconClose />
+                </button>
+              </div>
+            </div>
+          </header>
+        </section>
+      </div>
+    </Transition>
+  </Teleport>
+</template>
+
+<style scoped>
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-active > div,
+.modal-leave-active > div {
+  transition: transform 0.2s ease;
+}
+
+.modal-enter-from > div,
+.modal-leave-to > div {
+  transform: scale(0.95);
+}
+</style>
+
+
+*********************************
+
+import type { List } from "@/types";
+import { defineStore } from "pinia";
+import { ref } from "vue";
+
+export const useListsStore = defineStore("lists", () => {
+  const lists = ref<List[]>([]);
+
+  const createList = async (title: string) => {
+    const newList = {
+      id: crypto.randomUUID(),
+      title,
+      position: lists.value.length + 1,
+      createdAt: new Date(),
+    };
+
+    lists.value.push(newList);
+
+    return newList;
+  };
+
+  const updateList = async (listId: string, updatedList: Partial<List>) => {
+    const list = lists.value.find((list) => list.id === listId);
+    if (list) {
+      Object.assign(list, updatedList);
+    }
+  };
+
+  const deleteList = async (listId: string) => {
+    lists.value = lists.value.filter((list) => list.id !== listId);
+  };
+
+  return { lists, createList, updateList, deleteList };
+});
+
+
+*********************************
+
+<script setup lang="ts">
+import { computed, onMounted, ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+
+import { useViewTransition } from "@/composables/useViewTransition";
+import { useListsStore } from "@/stores/lists";
+import IconTrash from "./Icons/IconTrash.vue";
+import IconClose from "./Icons/IconClose.vue";
+
+const listsStore = useListsStore();
+
+// defineProps<{
+//   id: string;
+// }>();
+
+const router = useRouter();
+const route = useRoute();
+
+const listId = computed(() => route.params.id as string);
+
+const list = computed(() => listsStore.lists.find((list) => list.id === listId.value));
+
+const closeModal = () => {
+  useViewTransition(() => {
+    router.push("/");
+  });
+};
+
+const isEditingTitle = ref(false);
+const listTitleInternal = ref(list.value?.title || "");
+
+const saveTitle = () => {
+  listsStore.updateList(listId.value, { title: listTitleInternal.value });
+};
+
+const handleInput = (event: Event) => {
+  listTitleInternal.value = (event.target as HTMLInputElement).value;
+  saveTitle();
+};
+
+const handleDeleteList = () => {
+  if (confirm("Are you sure you want to delete this list?")) {
+    listsStore.deleteList(listId.value);
+    closeModal();
+  }
+};
+
+onMounted(() => {
+  if (!list.value) {
+    router.push("/");
+  }
+});
+</script>
+
+<template>
+  <Teleport to="body">
+    <Transition name="modal" @after-leave="() => {}">
+      <div
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        v-if="list"
+        @click.stop="closeModal"
+      >
+        <section
+          class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+          :style="{ viewTransitionName: `card-${listId}` }"
+          @click.stop
+        >
+          <header>
+            <div class="flex items-center justify-between p-4 border-b border-dark-border">
+              <div v-if="!isEditingTitle" class="flex-1 mr-4">
+                <button
+                  type="button"
+                  @click="isEditingTitle = true"
+                  class="block text-2xl font-semibold text-white cursor-pointer hover:text-gray-300 transition-colors empty:bg-dark-bg border-none text-left p-0 m-0 w-full empty:rounded-lg empty:h-[44px]"
+                >
+                  {{ listTitleInternal }}
+                </button>
+              </div>
+              <input
+                v-else
+                :value="listTitleInternal"
+                class="block flex-1 mr-4 text-2xl font-semibold bg-dark-hover text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                @input="handleInput"
+                @blur="
+                  isEditingTitle = false;
+                  saveTitle();
+                "
+                @keydown.enter="
+                  isEditingTitle = false;
+                  saveTitle();
+                "
+              />
+              <div class="flex items-center gap-2">
+                <button
+                  @click="handleDeleteList"
+                  class="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                  type="button"
+                >
+                  <span class="sr-only">Delete List</span>
+                  <IconTrash />
+                </button>
+                <button
+                  @click="closeModal"
+                  class="p-2 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors"
+                  type="button"
+                >
+                  <span class="sr-only">Close</span>
+                  <IconClose />
+                </button>
+              </div>
+            </div>
+          </header>
+        </section>
+      </div>
+    </Transition>
+  </Teleport>
+</template>
+
+<style scoped>
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-active > div,
+.modal-leave-active > div {
+  transition: transform 0.2s ease;
+}
+
+.modal-enter-from > div,
+.modal-leave-to > div {
+  transform: scale(0.95);
+}
+</style>
+
+
+*********************************
+
+<template>
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+  </svg>
+</template>
+
+
+*********************************
+
+export interface List {
+  id: string;
+  title: string;
+  position: number;
+  createdAt: Date;
+}
+
+export interface ListItem {
+  id: string;
+  listId: string;
+  content: string;
+  isChecked: boolean;
+  position: number;
+  createdAt: number;
+}
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListsStore } from "@/stores/lists";
+import type { ListItem } from "@/types";
+import { ref, useTemplateRef } from "vue";
+
+const props = defineProps<{
+  item: ListItem;
+}>();
+
+const isEditing = ref(false);
+const contentInternal = ref(props.item.content);
+const input = useTemplateRef("inputRef");
+
+const startEditing = () => {
+  isEditing.value = true;
+};
+
+const listStore = useListsStore();
+
+const toggleChecked = () => {
+  listStore.updateListItem(props.item.id, props.item.listId, { isChecked: !props.item.isChecked });
+};
+const saveContent = () => {
+  listStore.updateListItem(props.item.id, props.item.listId, { content: contentInternal.value });
+};
+const handleKeydown = (event: KeyboardEvent) => {
+  if (event.key === "Enter") {
+    saveContent();
+    // Todo: create new item
+  }
+  if (event.key === "Escape") {
+    isEditing.value = false;
+    contentInternal.value = props.item.content;
+  }
+};
+</script>
+
+<template>
+  <div>
+    <button
+      @click="toggleChecked"
+      type="button"
+      :class="[
+        'flex-shrink-0 w-5 h-5 rounded border-2 transition-colors flex items-center justify-center',
+        item.isChecked ? 'bg-blue-600 border-blue-600' : 'border-gray-500 hover:border-gray-400',
+      ]"
+    >
+      <svg
+        v-if="item.isChecked"
+        class="w-3 h-3 text-white"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+      </svg>
+    </button>
+
+    <button
+      v-if="!isEditing"
+      @click="startEditing"
+      class="flex-1 cursor-text bg-transparent border-none text-left p-0 m-0"
+    >
+      <span
+        :class="['text-white transition-all', { 'line-through text-gray-500': item.isChecked }]"
+      >
+        {{ item.content || "Click to edit" }}
+      </span>
+    </button>
+
+    <input
+      v-else
+      ref="inputRef"
+      v-model="contentInternal"
+      @blur="saveContent"
+      @keydown="handleKeydown"
+      class="flex-1 bg-dark-bg text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      type="text"
+      placeholder="Enter item text"
+    />
+  </div>
+</template>
+
+
+*********************************
+ 
+import type { List, ListItem } from "@/types";
+import { defineStore } from "pinia";
+import { ref } from "vue";
+
+export const useListsStore = defineStore("lists", () => {
+  const lists = ref<List[]>([]);
+  const listItems = ref<Map<List["id"], ListItem[]>>(new Map());
+
+  const createList = async (title: string) => {
+    const newList = {
+      id: crypto.randomUUID(),
+      title,
+      position: lists.value.length + 1,
+      createdAt: new Date(),
+    };
+
+    lists.value.push(newList);
+
+    return newList;
+  };
+
+  const updateList = async (listId: string, updatedList: Partial<List>) => {
+    const list = lists.value.find((list) => list.id === listId);
+    if (list) {
+      Object.assign(list, updatedList);
+    }
+  };
+
+  const deleteList = async (listId: string) => {
+    lists.value = lists.value.filter((list) => list.id !== listId);
+  };
+
+  const getListItems = async (listId: string) => {
+    return listItems.value.get(listId) || [];
+  };
+
+  const updateListItem = async (itemId: string, listId: string, updatedItem: Partial<ListItem>) => {
+    const listItemsIternal = await getListItems(listId);
+    const item = listItemsIternal.find((item) => item.id === itemId);
+    if (item) {
+      Object.assign(item, updatedItem);
+    }
+    listItems.value.set(listId, listItemsIternal);
+  };
+
+  return { lists, createList, updateList, deleteList, getListItems, updateListItem };
+});
+
+
+*********************************
+ 
+import type { List, ListItem } from "@/types";
+import { defineStore } from "pinia";
+import { ref } from "vue";
+
+export const useListsStore = defineStore("lists", () => {
+  const lists = ref<List[]>([]);
+  const listItems = ref<Map<List["id"], ListItem[]>>(new Map());
+
+  const createList = async (title: string) => {
+    const newList = {
+      id: crypto.randomUUID(),
+      title,
+      position: lists.value.length + 1,
+      createdAt: new Date(),
+    };
+
+    lists.value.push(newList);
+
+    return newList;
+  };
+
+  const updateList = async (listId: string, updatedList: Partial<List>) => {
+    const list = lists.value.find((list) => list.id === listId);
+    if (list) {
+      Object.assign(list, updatedList);
+    }
+  };
+
+  const deleteList = async (listId: string) => {
+    lists.value = lists.value.filter((list) => list.id !== listId);
+  };
+
+  const createListItem = async (listId: string, content = "") => {
+    const isListCreated = listItems.value.has(listId);
+
+    let position = 0;
+    if (isListCreated) {
+      position = listItems.value.get(listId)?.length || 0;
+    }
+    const newListItem: ListItem = {
+      id: crypto.randomUUID(),
+      listId,
+      content,
+      isChecked: false,
+      position,
+      createdAt: Date.now(),
+    };
+
+    if (isListCreated) {
+      listItems.value.get(listId)?.push(newListItem);
+    } else {
+      listItems.value.set(listId, [newListItem]);
+    }
+
+    return newListItem;
+  };
+
+  const getListItems = async (listId: string) => {
+    return listItems.value.get(listId) || [];
+  };
+
+  const updateListItem = async (itemId: string, listId: string, updatedItem: Partial<ListItem>) => {
+    const listItemsIternal = await getListItems(listId);
+    const item = listItemsIternal.find((item) => item.id === itemId);
+    if (item) {
+      Object.assign(item, updatedItem);
+    }
+    listItems.value.set(listId, listItemsIternal);
+  };
+
+  return {
+    lists,
+    listItems,
+    createList,
+    updateList,
+    deleteList,
+    getListItems,
+    updateListItem,
+    createListItem,
+  };
+});
+
+
+*********************************
+ 
+<script setup lang="ts">
+import { computed, onMounted, ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+
+import { useViewTransition } from "@/composables/useViewTransition";
+import { useListsStore } from "@/stores/lists";
+import IconTrash from "./Icons/IconTrash.vue";
+import IconClose from "./Icons/IconClose.vue";
+import IconPlus from "./Icons/IconPlus.vue";
+import ListItem from "./ListItem.vue";
+import type { ListItem as ListItemType } from "@/types";
+
+const listsStore = useListsStore();
+
+// defineProps<{
+//   id: string;
+// }>();
+
+const router = useRouter();
+const route = useRoute();
+
+const listId = computed(() => route.params.id as string);
+
+const list = computed(() => listsStore.lists.find((list) => list.id === listId.value));
+
+const closeModal = () => {
+  useViewTransition(() => {
+    router.push("/");
+  });
+};
+
+const isEditingTitle = ref(false);
+const listTitleInternal = ref(list.value?.title || "");
+
+const saveTitle = () => {
+  listsStore.updateList(listId.value, { title: listTitleInternal.value });
+};
+
+const handleInput = (event: Event) => {
+  listTitleInternal.value = (event.target as HTMLInputElement).value;
+  saveTitle();
+};
+
+const handleDeleteList = () => {
+  if (confirm("Are you sure you want to delete this list?")) {
+    listsStore.deleteList(listId.value);
+    closeModal();
+  }
+};
+
+const items = computed(() => listsStore.listItems.get(listId.value) || []);
+const handleAddItem = async () => {
+  listsStore.createListItem(listId.value);
+};
+
+onMounted(async () => {
+  // Check if list exists
+  if (!list.value) {
+    router.push("/");
+  }
+});
+</script>
+
+<template>
+  <Teleport to="body">
+    <Transition name="modal" @after-leave="() => {}">
+      <div
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        v-if="list"
+        @click.stop="closeModal"
+      >
+        <section
+          class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+          :style="{ viewTransitionName: `card-${listId}` }"
+          @click.stop
+        >
+          <header>
+            <div class="flex items-center justify-between p-4 border-b border-dark-border">
+              <div v-if="!isEditingTitle" class="flex-1 mr-4">
+                <button
+                  type="button"
+                  @click="isEditingTitle = true"
+                  class="block text-2xl font-semibold text-white cursor-pointer hover:text-gray-300 transition-colors empty:bg-dark-bg border-none text-left p-0 m-0 w-full empty:rounded-lg empty:h-[44px]"
+                >
+                  {{ listTitleInternal }}
+                </button>
+              </div>
+              <input
+                v-else
+                :value="listTitleInternal"
+                class="block flex-1 mr-4 text-2xl font-semibold bg-dark-hover text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                @input="handleInput"
+                @blur="
+                  isEditingTitle = false;
+                  saveTitle();
+                "
+                @keydown.enter="
+                  isEditingTitle = false;
+                  saveTitle();
+                "
+              />
+              <div class="flex items-center gap-2">
+                <button
+                  @click="handleDeleteList"
+                  class="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                  type="button"
+                >
+                  <span class="sr-only">Delete List</span>
+                  <IconTrash />
+                </button>
+                <button
+                  @click="closeModal"
+                  class="p-2 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors"
+                  type="button"
+                >
+                  <span class="sr-only">Close</span>
+                  <IconClose />
+                </button>
+              </div>
+            </div>
+          </header>
+          <!-- List Content -->
+          <div class="flex-1 overflow-y-auto p-4 flex flex-col justify-between">
+            <ListItem v-for="item in items" :key="item.id" :item="item" />
+          </div>
+          <!-- button to add a new todo -->
+          <button
+            type="button"
+            @click="handleAddItem"
+            class="mt-4 w-full py-3 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors flex items-center justify-center gap-2 border border-dashed border-gray-600 hover:border-gray-400"
+          >
+            <IconPlus />
+            Add item
+          </button>
+        </section>
+      </div>
+    </Transition>
+  </Teleport>
+</template>
+
+<style scoped>
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-active > div,
+.modal-leave-active > div {
+  transition: transform 0.2s ease;
+}
+
+.modal-enter-from > div,
+.modal-leave-to > div {
+  transform: scale(0.95);
+}
+</style>
+
+
+*********************************
+ 
+<script setup lang="ts">
+import { useListsStore } from "@/stores/lists";
+import type { ListItem } from "@/types";
+import { ref, useTemplateRef } from "vue";
+
+const props = defineProps<{
+  item: ListItem;
+}>();
+
+const isEditing = ref(false);
+const contentInternal = ref(props.item.content);
+const input = useTemplateRef("inputRef");
+
+const startEditing = () => {
+  isEditing.value = true;
+};
+
+const listStore = useListsStore();
+
+const toggleChecked = () => {
+  listStore.updateListItem(props.item.id, props.item.listId, { isChecked: !props.item.isChecked });
+};
+const saveContent = () => {
+  listStore.updateListItem(props.item.id, props.item.listId, { content: contentInternal.value });
+};
+const handleKeydown = (event: KeyboardEvent) => {
+  if (event.key === "Enter") {
+    saveContent();
+    // Todo: create new item
+  }
+  if (event.key === "Escape") {
+    isEditing.value = false;
+    contentInternal.value = props.item.content;
+  }
+};
+</script>
+
+<template>
+  <div>
+    <button
+      @click="toggleChecked"
+      type="button"
+      :class="[
+        'flex-shrink-0 w-5 h-5 rounded border-2 transition-colors flex items-center justify-center',
+        item.isChecked ? 'bg-blue-600 border-blue-600' : 'border-gray-500 hover:border-gray-400',
+      ]"
+    >
+      <svg
+        v-if="item.isChecked"
+        class="w-3 h-3 text-white"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+      </svg>
+    </button>
+
+    <button
+      v-if="!isEditing"
+      @click="startEditing"
+      class="flex-1 cursor-text bg-transparent border-none text-left p-0 m-0"
+    >
+      <span
+        :class="['text-white transition-all', { 'line-through text-gray-500': item.isChecked }]"
+      >
+        {{ item.content || "Click to edit" }}
+      </span>
+    </button>
+
+    <input
+      v-else
+      ref="inputRef"
+      v-model="contentInternal"
+      @blur="saveContent"
+      @keydown="handleKeydown"
+      class="flex-1 bg-dark-bg text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      type="text"
+      placeholder="Enter item text"
+    />
+  </div>
+</template>
+
+
+*********************************
+ 
+https://github.com/Lemoncode/master-frontend-lemoncode/tree/master/04-frameworks/03-vue/2025-Octubre/Dia%203
+
+*********************************
+ 
+<script setup lang="ts">
+import { computed, onMounted, ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+
+import { useViewTransition } from "@/composables/useViewTransition";
+import { useListsStore } from "@/stores/lists";
+import IconTrash from "./Icons/IconTrash.vue";
+import IconClose from "./Icons/IconClose.vue";
+import IconPlus from "./Icons/IconPlus.vue";
+import ListItem from "./ListItem.vue";
+import type { ListItem as ListItemType } from "@/types";
+
+const listsStore = useListsStore();
+
+// defineProps<{
+//   id: string;
+// }>();
+
+const router = useRouter();
+const route = useRoute();
+
+const listId = computed(() => route.params.id as string);
+
+const list = computed(() => listsStore.lists.find((list) => list.id === listId.value));
+
+const closeModal = () => {
+  useViewTransition(() => {
+    router.push("/");
+  });
+};
+
+const isEditingTitle = ref(false);
+const listTitleInternal = ref(list.value?.title || "");
+
+const saveTitle = () => {
+  listsStore.updateList(listId.value, { title: listTitleInternal.value });
+};
+
+const handleInput = (event: Event) => {
+  listTitleInternal.value = (event.target as HTMLInputElement).value;
+  saveTitle();
+};
+
+const handleDeleteList = () => {
+  if (confirm("Are you sure you want to delete this list?")) {
+    listsStore.deleteList(listId.value);
+    closeModal();
+  }
+};
+
+const items = computed(() => listsStore.listItems.get(listId.value) || []);
+const handleAddItem = async () => {
+  listsStore.createListItem(listId.value);
+};
+
+onMounted(async () => {
+  // Check if list exists
+  if (!list.value) {
+    router.push("/");
+  }
+});
+</script>
+
+<template>
+  <Teleport to="body">
+    <Transition name="modal" @after-leave="() => {}">
+      <div
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        v-if="list"
+        @click.stop="closeModal"
+      >
+        <section
+          class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+          :style="{ viewTransitionName: `card-${listId}` }"
+          @click.stop
+        >
+          <header>
+            <div class="flex items-center justify-between p-4 border-b border-dark-border">
+              <div v-if="!isEditingTitle" class="flex-1 mr-4">
+                <button
+                  type="button"
+                  @click="isEditingTitle = true"
+                  class="block text-2xl font-semibold text-white cursor-pointer hover:text-gray-300 transition-colors empty:bg-dark-bg border-none text-left p-0 m-0 w-full empty:rounded-lg empty:h-[44px]"
+                >
+                  {{ listTitleInternal }}
+                </button>
+              </div>
+              <input
+                v-else
+                :value="listTitleInternal"
+                class="block flex-1 mr-4 text-2xl font-semibold bg-dark-hover text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                @input="handleInput"
+                @blur="
+                  isEditingTitle = false;
+                  saveTitle();
+                "
+                @keydown.enter="
+                  isEditingTitle = false;
+                  saveTitle();
+                "
+              />
+              <div class="flex items-center gap-2">
+                <button
+                  @click="handleDeleteList"
+                  class="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                  type="button"
+                >
+                  <span class="sr-only">Delete List</span>
+                  <IconTrash />
+                </button>
+                <button
+                  @click="closeModal"
+                  class="p-2 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors"
+                  type="button"
+                >
+                  <span class="sr-only">Close</span>
+                  <IconClose />
+                </button>
+              </div>
+            </div>
+          </header>
+          <!-- List Content -->
+          <div class="flex-1 overflow-y-auto p-4 flex flex-col gap-2">
+            <TransitionGroup name="list">
+              <ListItem v-for="item in items" :key="item.id" :item="item" />
+            </TransitionGroup>
+          </div>
+          <!-- button to add a new todo -->
+          <button
+            type="button"
+            @click="handleAddItem"
+            class="mt-4 w-full py-3 text-gray-400 hover:text-white hover:bg-dark-hover rounded-lg transition-colors flex items-center justify-center gap-2 border border-dashed border-gray-600 hover:border-gray-400"
+          >
+            <IconPlus />
+            Add item
+          </button>
+        </section>
+      </div>
+    </Transition>
+  </Teleport>
+</template>
+
+<style scoped>
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-active > div,
+.modal-leave-active > div {
+  transition: transform 0.2s ease;
+}
+
+.modal-enter-from > div,
+.modal-leave-to > div {
+  transform: scale(0.95);
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s ease;
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+</style>
+
+
+*********************************
+ 

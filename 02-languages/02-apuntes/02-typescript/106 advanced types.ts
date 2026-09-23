@@ -110,9 +110,12 @@ myUser.log();
 type Merged = { a: string } & { b: string };
 const ab: Merged = { a: "A", b: "B" };
 
-// Podría haber colisión, en tal caso, el tipado será never:
+// Podría haber colisión, en tal caso, el tipado será 'never':
 type MergedCollision = { a: string } & { a: number }; // a: never
 const abc: MergedCollision = { a: 1 }; // Ni number ni string
+// ⚠ A diferencia de la extensión de interfaces con "extend", donde la colisión
+// resultaba en un error de tipado (ya que los tipos que colisionan deben ser idénticos),
+// aqui la colisión provoca un tipo 'never'.
 
 // -- Caso Práctico --
 const merge = <A, B>(a: A, b: B): A & B => ({ ...a, ...b });

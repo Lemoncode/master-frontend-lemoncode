@@ -1,0 +1,31 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "docker compose -f ../docker-compose.yml up -d && ts-node-dev --respawn --transpile-only src/index.ts",
+    "dev:no-docker": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "docker:up": "docker compose -f ../docker-compose.yml up -d",
+    "docker:down": "docker compose -f ../docker-compose.yml down",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@simplewebauthn/server": "^13.2.2",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mongodb": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.10",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
+}

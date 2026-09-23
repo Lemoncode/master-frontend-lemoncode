@@ -1,0 +1,26 @@
+---
+import Hero from '#components/hero.astro';
+import type { MiniBio } from '../mini-bio.model';
+
+interface Props {
+  content: MiniBio;
+}
+const { content } = Astro.props;
+---
+
+<Hero ariaLabelledby="about-hero-heading">
+  <div class="flex flex-col justify-center gap-6 md:flex-row md:gap-10">
+    <div class="h-[120px] w-[120px] md:h-[240px] md:w-[240px]">
+      <img src={content.image.url} alt={content.imageAlt} class="h-full w-full rounded-full object-cover" />
+    </div>
+    <div class="flex max-w-[55ch] flex-1 flex-col justify-center gap-4">
+      <div>
+        <h1 class="text-primary-700 text-5xl font-bold" id="about-hero-heading">{content.name}</h1>
+        <p class="text-primary-500 font-semibold">{content.role}</p>
+      </div>
+      <p>
+        {content.description}
+      </p>
+    </div>
+  </div>
+</Hero>

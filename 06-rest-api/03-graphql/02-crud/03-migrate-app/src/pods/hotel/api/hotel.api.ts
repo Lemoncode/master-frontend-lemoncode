@@ -1,10 +1,6 @@
-import axios from 'axios';
 import { graphql } from '#core/api';
 import { Hotel } from './hotel.api-model';
 import { Lookup } from '#common/models';
-
-const hotelListUrl = '/api/hotels';
-const cityListUrl = '/api/cities';
 
 interface GetHotelResponse {
   hotel: Hotel;

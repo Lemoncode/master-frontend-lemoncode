@@ -10,7 +10,7 @@ interface Context {
 }
 
 export const ThemeContext = React.createContext<Context>({
-  theme: null,
+  theme: null!,
   setTheme: () => {
     console.warn('Provider is not initialized');
   },

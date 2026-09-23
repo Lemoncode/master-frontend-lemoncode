@@ -1,0 +1,30 @@
+---
+import ArrowLeftIcon from '#assets/icons/arrow-left.svg';
+
+interface Props {
+  gobackText: string;
+  publishedText: string;
+  date: string;
+}
+const { gobackText, publishedText, date } = Astro.props;
+---
+
+<header class="flex items-start justify-between">
+  <a href="/" class="hover:text-primary-600 flex items-center gap-2 font-semibold transition-colors">
+    <ArrowLeftIcon />
+    {gobackText}
+  </a>
+
+  <p class="text-sm">
+    {publishedText}{' '}
+    <time datetime={date}>
+      {
+        new Date(date).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })
+      }
+    </time>
+  </p>
+</header>

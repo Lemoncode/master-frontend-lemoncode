@@ -41,7 +41,7 @@ npm install graphql-http graphql  --save
 _./server/src/graphql/playground.html_
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <title>GraphiQL</title>
@@ -83,18 +83,32 @@ _./server/src/graphql/playground.html_
 
   <body>
     <div id="graphiql">Loading...</div>
+
+    <script
+      crossorigin
+      src="https://unpkg.com/react@17/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/graphiql@2.4.7/graphiql.min.css"
+    />
+    <script src="https://unpkg.com/graphiql@2.4.7/graphiql.min.js"></script>
+
     <script>
-      const root = ReactDOM.createRoot(document.getElementById('graphiql'));
       const fetcher = GraphiQL.createFetcher({
         url: '/graphql',
       });
-      const explorerPlugin = GraphiQLPluginExplorer.explorerPlugin();
-      root.render(
+
+      ReactDOM.render(
         React.createElement(GraphiQL, {
-          fetcher,
-          defaultEditorToolsVisibility: true,
-          plugins: [explorerPlugin],
-        })
+          fetcher: fetcher,
+        }),
+        document.getElementById('graphiql')
       );
     </script>
   </body>
@@ -138,7 +152,7 @@ app.use('/', express.static(path.resolve(import.meta.dirname, '../public')));
 + app.use('/graphql', createHandler({ schema, rootValue: resolvers }));
 + app.use('/playground', async (req, res) => {
 +   res.sendFile(
-+     path.join(import.meta.dirname, './core/graphql/playground.html')
++     path.join(import.meta.dirname, './graphql/playground.html')
 +   );
 + });
 

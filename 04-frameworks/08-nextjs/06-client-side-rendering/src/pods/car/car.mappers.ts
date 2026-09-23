@@ -1,4 +1,4 @@
-import { envConstants } from '#core/constants';
+import { ENV } from '#core/constants';
 import * as apiModel from './api';
 import * as viewModel from './car.vm';
 
@@ -7,7 +7,7 @@ export const mapCarFromApiToVm = (car: apiModel.Car): viewModel.Car =>
     ? {
         id: car.id,
         name: car.name,
-        imageUrl: `${envConstants.BASE_PICTURES_URL}${car.imageUrl}`,
+        imageUrl: `${ENV.BASE_PICTURES_URL}${car.imageUrl}`,
         features: car.features,
         isBooked: car.isBooked,
       }
@@ -16,7 +16,7 @@ export const mapCarFromApiToVm = (car: apiModel.Car): viewModel.Car =>
 export const mapCarFromVmToApi = (car: viewModel.Car): apiModel.Car => ({
   id: car.id,
   name: car.name,
-  imageUrl: car.imageUrl.split(envConstants.BASE_PICTURES_URL)[1],
+  imageUrl: car.imageUrl.split(ENV.BASE_PICTURES_URL)[1],
   features: car.features,
   isBooked: car.isBooked,
 });

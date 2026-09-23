@@ -271,11 +271,14 @@ console.log(onlyC);
 type MyPick<T, K extends keyof T> = {
   [P in K]: T[P];
 };
-type MyOmit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
+
+type MyOmit<T, K extends keyof T> = {
+  [P in Exclude<keyof T, K>]: T[P];
+};
+
 // Alternative
-// type MyOmit<T extends object, K extends keyof T> = { 
-//   [P in Exclude<keyof T, K>]: T[P]
-// }
+type MyPick2<T, K extends keyof T> = Omit<T, Exclude<keyof T, K>>;
+type MyOmit2<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 // *** RECORD ***************
 
@@ -311,19 +314,19 @@ interface Product extends Inventoriable {
   stock?: boolean;
 }
 
-const productsByName = {
+const productsByName: InventoryByName<Product> = {
   arroz: { id: 7, stock: false },
   papas: { id: 6, stock: true },
   jamon: { id: 3, stock: true },
 };
 
-const productsById = pivotInventory<Product>(productsByName);
+const productsById = pivotInventory(productsByName);
 
 console.log(productsById);
 // productsById[7]. //Check intellisense!
 
 // -- Definición --
-type MyRecord<K extends keyof any, T> = {
+type MyRecord<K extends PropertyKey, T> = {
   [P in K]: T;
 };
 
@@ -359,15 +362,39 @@ type Booking = NonNullableKeys<BookingDraft, "id">;
 
 // Ejemplo de API,
 const bookings: Booking[] = [
-  { id: 31, prepaid: false, price: 80, room: "standard" },
-  { id: 16, prepaid: true, price: 115, room: "standard" },
-  { id: 25, prepaid: true, price: 250, room: "superior" },
+  { id: 1, prepaid: false, price: 80, room: "standard" },
+  { id: 2, prepaid: true, price: 115, room: "standard" },
+  { id: 3, prepaid: true, price: 250, room: "superior" },
 ];
 const bookingAPI = {
   async getBooking(id: number): Promise<Booking | null> {
-    return bookings.find((b) => b.id === id) || null;
+    return bookings.find((b) => b.id === id) ?? null;
+  },
+  async insertBooking(draft: BookingDraft): Promise<Booking> {
+    const newBooking: Booking = {
+      ...draft,
+      id: bookings.at(-1)!.id + 1,
+    };
+    bookings.push(newBooking);
+    return newBooking;
   },
 };
+
+// Encontrado
+bookingAPI.getBooking(2).then(console.log);
+
+// No encontrado
+bookingAPI.getBooking(20).then(console.log);
+
+bookingAPI
+  .insertBooking({
+    id: null,
+    prepaid: false,
+    price: 50,
+    room: "standard",
+  })
+  .then(console.log) // { id: 4, prepaid: false, price: 50, room: "standard" },
+  .then(() => bookingAPI.getBooking(4)); // { id: 4, prepaid: false, price: 50, room: "standard" },
 
 // Ejemplo intellisense
 const foo: Booking = {

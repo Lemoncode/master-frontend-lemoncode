@@ -1178,7 +1178,7 @@ layout: statement
 
 ---
 layout: two-cols
-title: `<script setup>`
+title: script setup
 ---
 
 # Ejemplos
@@ -2058,8 +2058,19 @@ layout: quote
 
 
 ---
+src: pages/nuxt.md
+---
+
+
+---
 layout: end
 ---
+
+<style>
+.github-icon path {
+  fill: rgb(255 255 255 / 1) !important;
+}
+</style>
 
 # ¡Muchas Gracias! 🖖🏽 ❤️
 
@@ -2073,8 +2084,7 @@ layout: end
 </div>
 
 <div class="flex justify-between mt-10">
-  <a href="https://twitter.com/lemoncoders"><logos-twitter /> @lemoncoders</a>
-  <a href="https://github.com/lemoncode
-"><logos-github-octocat /> https://github.com/lemoncode</a>
-  <a href="https://twitter.com/basefactorteam"><logos-twitter /> @basefactorteam</a>
+  <a href="https://x.com/lemoncoders"><logos-x fill="currentColor" /> @lemoncoders</a>
+  <a href="https://github.com/lemoncode"><logos-github-icon class="github-icon" /> https://github.com/lemoncode</a>
+  <a href="https://x.com/basefactorteam"><logos-x fill="currentColor" /> @basefactorteam</a>
 </div>

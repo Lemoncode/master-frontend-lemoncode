@@ -1,0 +1,34 @@
+Design skills bundle — NOTICE
+=============================
+
+Estas Skills se incluyen ("vendored") en .claude/skills/ para que quien clone
+el repo las tenga sin instalar nada. Provienen de DOS orígenes con DOS LICENCIAS
+distintas. Al redistribuir (por ejemplo, compartir con alumnos) hay que
+conservar ambas licencias y este aviso.
+
+1) Skills de Anthropic — Apache License 2.0 (ver LICENSE.txt)
+   - frontend-design          repo anthropics/skills
+   - figma-autolayout-system  viene en el paquete de skills de la app de Cowork/Claude
+                              (Anthropic); no localizada en el marketplace público ni
+                              con archivo de licencia propio a la vista: licencia
+                              asumida Apache 2.0 como el resto de skills de Anthropic
+   - user-research          plugin "design" (anthropics/knowledge-work-plugins)
+   - research-synthesis     plugin "design"
+   - ux-copy                plugin "design"
+   - design-critique        plugin "design"
+   - accessibility-review   plugin "design"
+   - design-system          plugin "design"
+   - design-handoff         plugin "design"
+
+   Fuentes:
+     https://github.com/anthropics/skills
+     https://github.com/anthropics/knowledge-work-plugins/tree/main/design
+
+2) Skill de la comunidad — MIT License (ver LICENSE-grill-me.txt)
+   - grill-me               Copyright (c) 2026 Matt Pocock
+                            https://github.com/mattpocock/skills
+
+Skills de Figma NO incluidas aquí (vienen con el plugin "figma" + su MCP):
+   figma-use, figma-generate-design, figma-generate-library, figma-code-connect.
+   Estas son de Figma y se instalan con el plugin; no se redistribuyen aquí.
+   Ver SETUP.md.

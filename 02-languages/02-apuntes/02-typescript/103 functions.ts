@@ -32,6 +32,11 @@ const shout = (text: string, upperCase?: boolean): string =>
 // ya vistos en JavaScript, undefined:
 console.log(shout("hi")); // "hi!!!" ---> upperCase = undefined.
 
+// ⚠ IMPORTANTE: En TS una vez declarado un parámetro opcional, todos los que le suceden deben 
+// serlo también. Esto es porque en TS (y JS también) los argumentos se asignan posicionalmente de 
+// izquierda a derecha, por lo que tener un parámetro requerido despues de uno opcional crearía
+// ambiguedad.
+
 // Suele ser muy habitual en caso de argumentos opcionales establecer su valor por defecto, como ya 
 // vimos en JavaScript. Cuando esto sucede hay 2 cosas a tener en cuenta:
 //   - Primero, suele ser más legible no declarar el tipo del argumento y dejar que lo infiera del 
@@ -74,14 +79,20 @@ console.log(shout("hello world", true)); // HELLO WORLD!!!
 console.log(hyphenize("hello world")); // hello-world
 console.log(hyphenize("hello world", true)); // hello_world
 
+// ¡Fijate en el parámetro 'flag' y el nombre usado en cada implementación!
+// ⚠ IMPORTANTE: El nombre de los parámetros de una función que escribimos en
+// un alias son mera documentación y no forman parte del contrato del tipo.
+// Añaden semántica y sugieren el uso del parámetro, pero no es obligatorio
+// llamarlo así, y puede diferir en cada implementación.
+
 
 // *** Funciones como argumentos ******************************************************************
 
 // En el caso de pasar funciones como argumentos de otras, podemos tipar en línea dichos argumentos 
 // del siguiente modo:
 
-const shout = (text: string, exclamationCallback: () => string) =>
-  text.toUpperCase() + exclamationCallback();
+const shout = (text: string, suffixCallback: () => string) =>
+  text.toUpperCase() + suffixCallback();
 
 const exclamationGenerator = () => "!".repeat(Math.ceil(Math.random() * 10)); // Callback
 

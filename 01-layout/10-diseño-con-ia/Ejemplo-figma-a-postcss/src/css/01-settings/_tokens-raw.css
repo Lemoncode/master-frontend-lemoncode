@@ -1,0 +1,84 @@
+/* ==========================================================================
+   SETTINGS · Tokens crudos (primitivos)
+   Valores literales extraídos de Figma. No se usan directamente en componentes:
+   solo los consume la capa de tokens semánticos.
+   ========================================================================== */
+
+:root {
+  /* --- Paleta neutra ---------------------------------------------------- */
+  --raw-white: #ffffff;
+  --raw-neutral-50: #fafafa;   /* bg-primary            */
+  --raw-neutral-100: #f5f5f5;  /* bg-secondary          */
+  --raw-neutral-200: #e5e5e5;  /* input-background      */
+  --raw-neutral-500: #737373;  /* border-default        */
+  --raw-neutral-800: #262626;  /* (dark surfaces)       */
+  --raw-neutral-900: #171717;  /* footer-bg             */
+  --raw-near-black: #0a0a0a;   /* button-primary fill   */
+  --raw-black: #000000;
+
+  /* --- Texto sobre claro (alfa de negro) -------------------------------- */
+  --raw-ink-90: rgba(0, 0, 0, 0.9);
+  --raw-ink-85: rgba(0, 0, 0, 0.85);
+  --raw-ink-60: rgba(0, 0, 0, 0.6);
+
+  /* --- Texto sobre oscuro (alfa de blanco) ------------------------------ */
+  --raw-paper-95: rgba(255, 255, 255, 0.95);
+  --raw-paper-85: rgba(255, 255, 255, 0.85);
+  --raw-paper-60: rgba(255, 255, 255, 0.6);
+
+  /* --- Familias tipográficas -------------------------------------------- */
+  --raw-font-title: 'Geologica', system-ui, sans-serif;
+  --raw-font-body: 'Inter', system-ui, sans-serif;
+
+  /* --- Pesos ------------------------------------------------------------ */
+  --raw-weight-regular: 400;
+  --raw-weight-medium: 500;
+  --raw-weight-semibold: 600;
+  --raw-weight-bold: 700;
+
+  /* --- Escala de espaciado (tokens de Figma) ---------------------------- */
+  --raw-size-xs: 0.25rem;   /* 4  */
+  --raw-size-sm: 0.5rem;    /* 8  */
+  --raw-size-md: 1rem;      /* 16 */
+  --raw-size-lg: 1.5rem;    /* 24 */
+  --raw-size-xl: 2rem;      /* 32 */
+  --raw-size-2xl: 2.5rem;   /* 40 */
+  --raw-size-big-1: 3rem;   /* 48 */
+  --raw-size-big-2: 3.5rem; /* 56 */
+  --raw-size-big-3: 4rem;   /* 64 */
+  --raw-size-big-4: 5rem;   /* 80 */
+
+  /* --- Escala tipográfica fluida (clamp 393px → 1440px, root 16px) ------ */
+  --raw-fs-3xl: clamp(2.8125rem, 2.4371rem + 1.5282vw, 3.8125rem);  /* 45→61 Hero H1      */
+  --raw-fs-2xl: clamp(1.9375rem, 1.5387rem + 1.6237vw, 3rem);       /* 31→48 H2 sección   */
+  --raw-fs-xl: clamp(1.625rem, 1.4843rem + 0.5731vw, 2rem);         /* 26→32 H3 card      */
+  --raw-fs-logo: 1.625rem;                                          /* 26 logo (fijo)     */
+  --raw-fs-lg: clamp(1.375rem, 1.3046rem + 0.2865vw, 1.5625rem);    /* 22→25 subtítulo    */
+  --raw-fs-md: clamp(1.125rem, 1.0781rem + 0.191vw, 1.25rem);       /* 18→20 cuerpo base  */
+  --raw-fs-cta: clamp(0.9375rem, 0.7733rem + 0.6685vw, 1.375rem);   /* 15→22 CTA hero     */
+  --raw-fs-sm: clamp(0.9375rem, 0.9141rem + 0.0955vw, 1rem);        /* 15→16 botón/placeh.*/
+  --raw-fs-xs: clamp(0.8125rem, 0.7891rem + 0.0955vw, 0.875rem);    /* 13→14 label        */
+  --raw-fs-2xs: 0.75rem;                                            /* 12 footer (fijo)   */
+
+  /* --- Line-heights ----------------------------------------------------- */
+  --raw-lh-tight: 1.15;
+  --raw-lh-snug: 1.2;
+  --raw-lh-heading: 1.1;
+  --raw-lh-body: 1.4;
+  --raw-lh-flush: 1;
+
+  /* --- Letter-spacing --------------------------------------------------- */
+  --raw-ls-wide: 0.031rem; /* 0.5px */
+
+  /* --- Radios ----------------------------------------------------------- */
+  --raw-radius-sm: 0.5rem;     /* 8  — botones / inputs       */
+  --raw-radius-img: 0.625rem;  /* 10 — imágenes del hero      */
+  --raw-radius-md: 1rem;       /* 16 — cards / caja formulario*/
+
+  /* --- Sombras ---------------------------------------------------------- */
+  --raw-shadow-1: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
+  --raw-shadow-1-dark: 0 4px 10px 0 rgba(0, 0, 0, 0.5);
+
+  /* --- Anchos de layout ------------------------------------------------- */
+  --raw-content-max: 90rem; /* 1440px — ancho del frame desktop */
+}

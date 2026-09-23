@@ -26,6 +26,10 @@ export const App = () => {
                 `${chatlog}\n[${body.payload.nickname}]${body.payload.content}`
             );
             break;
+          case "NICKNAME_USED":
+            alert(`Nickname '${nickname}' is already in use`);
+            socketConnection.disconnect();
+            break;
         }
       }
     });

@@ -43,7 +43,7 @@ greet(null); // ⚠ Uncaught TypeError.
 const greet = user => {
   const { name = "Unknown" } = user ?? {};
   console.log(`Hello, ${name}!`);
-}
+};
 greet({}); // "Hello, Unknown!"
 greet(); // "Hello, Unknown!"
 greet(null); // "Hello, Unknown!"
@@ -60,16 +60,16 @@ greet({ name: null }); // Hello, Unknown!
 // // DESTRUCTURING ASSIGNMENT en ARRAYS
 
 // Ejemplo con arrays:
-const sumDice = ([d1 = 0, d2 = 0] = []) => d1 + d2;
-console.log(sumDice()); // 0
-console.log(sumDice([])); // 0
-console.log(sumDice([3])); // 3
+const sumItems = ([item1 = 0, item2 = 0] = []) => item1 + item2;
+console.log(sumItems()); // 0
+console.log(sumItems([])); // 0
+console.log(sumItems([3])); // 3
 
 // CURIOSIDAD
 
 // Los inicializadores por defecto de los parámetros de una función pueden ser expresiones.
 // Además estas expresiones viven en un ámbito propio, superior al ámbito de función. Esto
-// permite algo curioso: 
+// permite algo curioso:
 // Los parámetros a la izquierda están disponibles para las expresiones de inicialización
 // por defecto de los parámetros a la derecha.
 

@@ -103,7 +103,6 @@ Our goal with these series of exercises is to show, step by step, how to configu
   ```
 
   If we inspect `assets/index-<hash>.js` we can notice the file is production ready because:
-
   - It's already hashed (cache-busting strategy to bypass the browser cache completely).
   - File is minified.
   - It also adds a polyfill (via runtime IIFE) to add support for browsers that don't support natively `modulepreload`. It basically adds support to eagerly-download `<link>` assets in parallel mode meanwhile the app is being loaded and thus, reducing loading and processing time of scripts.
@@ -136,7 +135,7 @@ Our goal with these series of exercises is to show, step by step, how to configu
   + "preview": "vite preview --port 1234"
   ```
 
-  or 
+  or
 
   ```bash
   npm run preview -- --port 1234
@@ -204,12 +203,11 @@ Our goal with these series of exercises is to show, step by step, how to configu
   > ⚡ `vite` dev-server automatically reloads the app on every saved change
 
 - 🔍 Finally, pay attention to the browser `dev tools` to verify the concepts about `vite` we learned in the theory introduction:
-
   - Go to `Network` tab and refresh (F5) the app to populate the requests panel (if necessary).
   - Check how your browser is dowloading:
     - Module `index.js`, this is your app only module that containes the code.
     - Module `client` which is a `vite` runtime injected by vite dev server to establish websockets communication in order to manage and orchestrate HMT. It also adds an overlay on top of your app to give you error feedback. This module imports another one called `env.mjs` for environment variables.
-    - `env.mjs` is a special module to inject environment variables dynamically in development. However, in production, these variable values are resolved during build time, so, their values are directly injected/replaced in the resulting code after compilation (no dynamic injection is used then).  
+    - `env.mjs` is a special module to inject environment variables dynamically in development. However, in production, these variable values are resolved during build time, so, their values are directly injected/replaced in the resulting code after compilation (no dynamic injection is used then).
   - Reload the app again several times (F5). Now check that modules requests are returning `304 Not modified` so `vite` dev server is telling your browser to grab those modules from its cache. No data is transfered over the network apart from the request response. Cache is working for source code!
   - Now make a new modification in `index.js` to trigger a code update and reload:
     _src/index.js_

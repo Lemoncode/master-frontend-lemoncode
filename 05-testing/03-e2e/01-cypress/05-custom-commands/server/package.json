@@ -9,10 +9,10 @@
   "author": "Lemoncode",
   "license": "MIT",
   "dependencies": {
-    "@hono/node-server": "^1.14.1",
-    "hono": "^4.7.9"
+    "@hono/node-server": "^2.0.8",
+    "hono": "^4.12.28"
   },
   "devDependencies": {
-    "tsx": "^4.19.4"
+    "tsx": "^4.23.0"
   }
 }

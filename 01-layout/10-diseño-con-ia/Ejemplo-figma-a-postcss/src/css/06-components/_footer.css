@@ -1,0 +1,22 @@
+/* ==========================================================================
+   COMPONENT · Footer
+   ========================================================================== */
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: var(--raw-size-lg) var(--raw-size-md); /* 24px 16px (mobile) */
+  background-color: var(--footer-bg);
+
+  @media (--from-lg) {
+    padding: var(--raw-size-xl); /* 32px */
+  }
+}
+
+.footer__text {
+  color: var(--footer-text);
+  font-size: var(--raw-fs-2xs);
+  text-align: center;
+}

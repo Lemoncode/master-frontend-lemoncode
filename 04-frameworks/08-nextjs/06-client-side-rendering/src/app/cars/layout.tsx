@@ -1,7 +1,7 @@
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
 import { Nav } from '#pods/car-list';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 import classes from './layout.module.css';
 
 interface Props {
@@ -18,7 +18,7 @@ const CarsLayout = (props: Props) => {
         </Link>
         <h1 className={classes.title}>Rent a car</h1>
       </Nav>
-      <main className={classes.content}>{children}</main>
+      <div className={classes.content}>{children}</div>
     </>
   );
 };

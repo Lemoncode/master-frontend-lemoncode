@@ -1,0 +1,465 @@
+
+import type { List } from "@/types";
+import { defineStore } from "pinia";
+import { ref } from "vue";
+
+export const useListsStore = defineStore("lists", () => {
+  const lists = ref<List[]>([]);
+
+  const createList = async (title: string) => {
+    const newList = {
+      id: crypto.randomUUID(),
+      title,
+      position: lists.value.length + 1,
+      createdAt: new Date(),
+    };
+
+    lists.value.push(newList);
+
+    return newList;
+  };
+
+  return { lists, createList };
+});
+
+
+*********************************
+
+<template>
+  <div class="min-h-screen bg-dark-bg">
+    <MainHeader />
+
+    <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+      <!-- <div v-if="listStore.loading" class="text-center py-12">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+      </div> -->
+
+      <div v-if="!hasLists" class="text-center py-12">
+        <p class="text-gray-400 text-lg mb-4">No lists yet</p>
+        <button
+          @click="handleCreateList"
+          class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium"
+        >
+          Create Your First List
+        </button>
+      </div>
+    </main>
+
+    <RouterView />
+  </div>
+</template>
+
+<script setup lang="ts">
+import MainHeader from "@/components/MainHeader.vue";
+
+import { useListsStore } from "@/stores/lists";
+import { computed } from "vue";
+import { RouterView, useRouter } from "vue-router";
+
+const router = useRouter();
+
+const listsStore = useListsStore();
+
+const hasLists = computed(() => listsStore.lists.length > 0);
+
+const handleCreateList = async () => {
+  const newList = await listsStore.createList("New List");
+  if (newList) {
+    router.push(`/lists/${newList.id}`);
+  }
+};
+</script>
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListsStore } from "@/stores/lists";
+
+const listsStore = useListsStore();
+
+// defineProps<{
+//   id: string;
+// }>();
+
+import { computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
+
+// const router = useRouter();
+const route = useRoute();
+
+const listId = computed(() => route.params.id as string);
+
+const list = computed(() => listsStore.lists.find((list) => list.id === listId.value));
+</script>
+
+<template>
+  <div>
+    <h1>{{ list?.title }}</h1>
+  </div>
+</template>
+
+
+*********************************
+
+<script setup lang="ts">
+import { useListsStore } from "@/stores/lists";
+
+const listsStore = useListsStore();
+
+// defineProps<{
+//   id: string;
+// }>();
+
+import { computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
+
+const router = useRouter();
+const route = useRoute();
+
+const listId = computed(() => route.params.id as string);
+
+const list = computed(() => listsStore.lists.find((list) => list.id === listId.value));
+
+const closeModal = () => {
+  document.startViewTransition(() => {
+    router.push("/");
+  });
+};
+</script>
+
+<template>
+  <Teleport to="body">
+    <Transition name="modal">
+      <div
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        v-if="list"
+        @click.stop="closeModal"
+      >
+        <div
+          class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+          :style="{ viewTransitionName: `card-${listId}` }"
+          @click.stop
+        >
+          <button>{{ list?.title }}</button>
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
+</template>
+
+
+*********************************
+
+<template>
+  <div :style="{ viewTransitionName: `card-${list.id}` }">
+    <h2>{{ list?.title }}</h2>
+
+    <!-- Todo List-->
+    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit, nostrum, fugiat accusamus
+    voluptate qui quo dolor, modi sed sunt explicabo quod ducimus vitae adipisci necessitatibus
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { List } from "@/types";
+
+const props = defineProps<{
+  list: List;
+}>();
+</script>
+
+
+
+*********************************
+
+<template>
+  <div class="min-h-screen bg-dark-bg">
+    <MainHeader />
+
+    <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+      <!-- <div v-if="listStore.loading" class="text-center py-12">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+      </div> -->
+
+      <div v-if="!hasLists" class="text-center py-12">
+        <p class="text-gray-400 text-lg mb-4">No lists yet</p>
+        <button
+          @click="handleCreateList"
+          class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium"
+        >
+          Create Your First List
+        </button>
+      </div>
+
+      <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <RouterLink :to="`/lists/${list.id}`" v-for="list in listsStore.lists" :key="list.id">
+          <ListCard :list="list" />
+        </RouterLink>
+      </div>
+    </main>
+
+    <RouterView />
+  </div>
+</template>
+
+<script setup lang="ts">
+import ListCard from "@/components/ListCard.vue";
+import MainHeader from "@/components/MainHeader.vue";
+
+import { useListsStore } from "@/stores/lists";
+import { computed } from "vue";
+import { RouterView, useRouter } from "vue-router";
+
+const router = useRouter();
+
+const listsStore = useListsStore();
+
+const hasLists = computed(() => listsStore.lists.length > 0);
+
+const handleCreateList = async () => {
+  const newList = await listsStore.createList("New List");
+  if (newList) {
+    router.push(`/lists/${newList.id}`);
+  }
+};
+</script>
+
+
+*********************************
+ 
+<script setup lang="ts">
+import { useListsStore } from "@/stores/lists";
+
+const listsStore = useListsStore();
+
+// defineProps<{
+//   id: string;
+// }>();
+
+import { computed, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
+
+const router = useRouter();
+const route = useRoute();
+
+const listId = computed(() => route.params.id as string);
+
+const list = computed(() => listsStore.lists.find((list) => list.id === listId.value));
+
+const closeModal = () => {
+  document.startViewTransition(() => {
+    router.push("/");
+  });
+};
+
+onMounted(() => {
+  if (!list.value) {
+    router.push("/");
+  }
+});
+</script>
+
+<template>
+  <Teleport to="body">
+    <Transition name="modal">
+      <div
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        v-if="list"
+        @click.stop="closeModal"
+      >
+        <div
+          class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+          :style="{ viewTransitionName: `card-${listId}` }"
+          @click.stop
+        >
+          <button>{{ list?.title }}</button>
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
+</template>
+
+
+*********************************
+ 
+<script setup lang="ts">
+import { useViewTransition } from "@/composables/useViewTransition";
+import { useListsStore } from "@/stores/lists";
+
+const listsStore = useListsStore();
+
+// defineProps<{
+//   id: string;
+// }>();
+
+import { computed, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
+
+const router = useRouter();
+const route = useRoute();
+
+const listId = computed(() => route.params.id as string);
+
+const list = computed(() => listsStore.lists.find((list) => list.id === listId.value));
+
+const closeModal = () => {
+  useViewTransition(() => {
+    router.push("/");
+  });
+};
+
+onMounted(() => {
+  if (!list.value) {
+    router.push("/");
+  }
+});
+</script>
+
+<template>
+  <Teleport to="body">
+    <Transition name="modal">
+      <div
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        v-if="list"
+        @click.stop="closeModal"
+      >
+        <div
+          class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+          :style="{ viewTransitionName: `card-${listId}` }"
+          @click.stop
+        >
+          <button>{{ list?.title }}</button>
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
+</template>
+
+
+*********************************
+ 
+export function useViewTransition(callback: () => void) {
+  // Progessive Enhancement
+  if (typeof document.startViewTransition === "function") {
+    document.startViewTransition(() => {
+      callback();
+    });
+  } else {
+    callback();
+  }
+}
+
+*********************************
+ 
+<script setup lang="ts">
+import { useViewTransition } from "@/composables/useViewTransition";
+import { useListsStore } from "@/stores/lists";
+
+const listsStore = useListsStore();
+
+// defineProps<{
+//   id: string;
+// }>();
+
+import { computed, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
+
+const router = useRouter();
+const route = useRoute();
+
+const listId = computed(() => route.params.id as string);
+
+const list = computed(() => listsStore.lists.find((list) => list.id === listId.value));
+
+const closeModal = () => {
+  useViewTransition(() => {
+    router.push("/");
+  });
+};
+
+onMounted(() => {
+  if (!list.value) {
+    router.push("/");
+  }
+});
+</script>
+
+<template>
+  <Teleport to="body">
+    <Transition name="modal" @after-leave="() => {}">
+      <div
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        v-if="list"
+        @click.stop="closeModal"
+      >
+        <div
+          class="bg-dark-card border border-dark-border rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] min-h-[500px] flex flex-col"
+          :style="{ viewTransitionName: `card-${listId}` }"
+          @click.stop
+        >
+          <button>{{ list?.title }}</button>
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
+</template>
+
+<style scoped>
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-active > div,
+.modal-leave-active > div {
+  transition: transform 0.2s ease;
+}
+
+.modal-enter-from > div,
+.modal-leave-to > div {
+  transform: scale(0.95);
+}
+</style>
+
+
+*********************************
+ 
+import type { List } from "@/types";
+import { defineStore } from "pinia";
+import { ref } from "vue";
+
+export const useListsStore = defineStore("lists", () => {
+  const lists = ref<List[]>([]);
+
+  const createList = async (title: string) => {
+    const newList = {
+      id: crypto.randomUUID(),
+      title,
+      position: lists.value.length + 1,
+      createdAt: new Date(),
+    };
+
+    lists.value.push(newList);
+
+    return newList;
+  };
+
+  const updateList = async (listId: string, updatedList: Partial<List>) => {
+    const list = lists.value.find((list) => list.id === listId);
+    if (list) {
+      Object.assign(list, updatedList);
+    }
+  };
+
+  return { lists, createList, updateList };
+});
+
+
+*********************************
+ 

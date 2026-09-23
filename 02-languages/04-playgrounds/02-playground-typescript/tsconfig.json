@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "target": "ES5",
+    "target": "ESNext",
     "module": "NodeNext",
     "moduleResolution": "nodenext",
     "allowJs": true,
+    "rootDir": "src",
     "outDir": "transpiled"
   },
   "compileOnSave": true,

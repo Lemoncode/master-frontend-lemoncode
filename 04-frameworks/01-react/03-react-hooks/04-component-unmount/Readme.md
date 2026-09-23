@@ -106,7 +106,7 @@ _./src/demo.tsx_
 export const MyChildComponent = () => {
   React.useEffect(() => {
     console.log("Component just mounted on the DOM");
-+   return () => console.log("Componente Just unmounted from DOM");
++   return () => console.log("Componente just unmounted from DOM");
   }, []);
 ```
 

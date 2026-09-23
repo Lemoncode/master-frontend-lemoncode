@@ -7,12 +7,12 @@
   "author": "Lemoncode",
   "license": "MIT",
   "dependencies": {
-    "@hono/node-server": "^1.14.3",
-    "hono": "^4.7.11"
+    "@hono/node-server": "^2.0.12",
+    "hono": "^4.12.32"
   },
   "devDependencies": {
-    "@types/node": "^22.15.30",
-    "tsx": "^4.19.4",
-    "typescript": "^5.8.3"
+    "@types/node": "^26.1.2",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2"
   }
 }

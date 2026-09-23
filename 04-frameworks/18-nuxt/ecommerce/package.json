@@ -1,0 +1,21 @@
+{
+  "name": "ecommerce",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "nuxt": "^4.2.2",
+    "vue": "^3.5.26",
+    "vue-router": "^4.6.4"
+  },
+  "packageManager": "pnpm@9.12.0+sha512.4abf725084d7bcbafbd728bfc7bee61f2f791f977fd87542b3579dcb23504d170d46337945e4c66485cd12d588a0c0e570ed9c477e7ccdd8507cf05f3f92eaca",
+  "devDependencies": {
+    "@types/node": "^25.0.3"
+  }
+}

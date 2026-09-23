@@ -29,7 +29,7 @@ _./turbo.json_
 
 ```json
 {
-  "$schema": "https://turbo.build/schema.json",
+  "$schema": "https://turborepo.dev/schema.json",
   "tasks": {
     "start": {
       "cache": false,
@@ -51,7 +51,12 @@ _./package.json_
 
 ```diff
 ...
-+ "packageManager": "npm@10.0.0",
++ "devEngines": {
++   "packageManager": {
++     "name": "npm",
++     "version": "^11.12.1"
++   }
++ },
   "scripts": {
 -   "start": "run-p start:*",
 +   "start": "turbo start"
@@ -79,7 +84,7 @@ _./turbo.json_
 
 ```diff
 {
-  "$schema": "https://turbo.build/schema.json",
+  "$schema": "https://turborepo.dev/schema.json",
   "tasks": {
     "start": {
       "cache": false,
@@ -116,8 +121,8 @@ _./helpers/motto-helpers/package.json_
 ```diff
 ...
   "scripts": {
--   "build": "npm run type-check && tsdown",
-+   "build": "tsdown",
+-   "build": "npm run type-check && tsdown --no-clean",
++   "build": "tsdown --no-clean",
     "type-check": "tsc --noEmit"
   },
 ...
@@ -173,19 +178,19 @@ _./helpers/house-helpers/package.json_
 +   "dist"
 + ],
   "type": "module",
-+ "module": "dist/index.js",
++ "module": "dist/index.mjs",
 + "main": "dist/index.umd.js",
-+ "types": "dist/index.d.ts",
++ "types": "dist/index.d.mts",
   "exports": {
 -   ".": "./src/index.ts"
 +   ".": {
-+     "types": "./dist/index.d.ts",
-+     "import": "./dist/index.js",
++     "types": "./dist/index.d.mts",
++     "import": "./dist/index.mjs",
 +     "require": "./dist/index.umd.js"
 +   }
   },
 + "scripts": {
-+   "build": "vite build",
++   "build": "tsdown --no-clean",
 +   "type-check": "tsc --noEmit",
 + },
 ...
@@ -207,7 +212,6 @@ export default defineConfig({
   },
   minify: true,
 });
-
 ```
 
 Run it:
@@ -227,7 +231,7 @@ _./turbo.json_
 
 ```diff
 {
-  "$schema": "https://turbo.build/schema.json",
+  "$schema": "https://turborepo.dev/schema.json",
   "tasks": {
     "start": {
       "cache": false,
@@ -252,7 +256,7 @@ _./turbo.json_
 
 ```diff
 {
-  "$schema": "https://turbo.build/schema.json",
+  "$schema": "https://turborepo.dev/schema.json",
   "tasks": {
     "start": {
       "cache": false,
@@ -291,12 +295,11 @@ _./turbo.json_
 
 ```diff
 {
-  "$schema": "https://turbo.build/schema.json",
+  "$schema": "https://turborepo.dev/schema.json",
   "tasks": {
     "start": {
       "cache": false,
       "persistent": true,
-+     "interruptible": true,
 +     "dependsOn": ["^build"]
     },
     "build": {

@@ -1,0 +1,80 @@
+/* ==========================================================================
+   SETTINGS · Tokens semánticos
+   Única capa que consumen los componentes. Mapea los tokens crudos a roles.
+   El tema claro es el fiel al diseño de Figma; el tema oscuro se deriva de
+   forma coherente y se activa con :has() sobre el checkbox del toggle.
+   ========================================================================== */
+
+:root {
+  /* --- Superficies ------------------------------------------------------ */
+  --bg-page: var(--raw-neutral-50);
+  --bg-surface: var(--raw-neutral-100);
+  --bg-input: var(--raw-neutral-200);
+
+  /* --- Texto ------------------------------------------------------------ */
+  --text-strong: var(--raw-ink-90);
+  --text-body: var(--raw-ink-85);
+  --text-muted: var(--raw-ink-60);
+
+  /* --- Bordes ----------------------------------------------------------- */
+  --border-subtle: var(--raw-neutral-500);
+
+  /* --- Botón primario (sólido) ------------------------------------------ */
+  --button-fill-bg: var(--raw-near-black);
+  --button-fill-border: var(--raw-near-black);
+  --button-fill-text: var(--raw-neutral-50);
+
+  /* --- Botón secundario (outline) --------------------------------------- */
+  --button-outline-border: var(--raw-near-black);
+  --button-outline-text: var(--raw-near-black);
+
+  /* --- Footer ----------------------------------------------------------- */
+  --footer-bg: var(--raw-neutral-900);
+  --footer-text: var(--raw-neutral-50);
+
+  /* --- Efectos ---------------------------------------------------------- */
+  --shadow-card: var(--raw-shadow-1);
+
+  /* --- Tipografía semántica --------------------------------------------- */
+  --font-title: var(--raw-font-title);
+  --font-body: var(--raw-font-body);
+
+  /* --- Foco ------------------------------------------------------------- */
+  --focus-ring: 0 0 0 3px rgba(10, 10, 10, 0.45);
+
+  /* --- Layout dinámico -------------------------------------------------- */
+  --nav-height: 3.5rem; /* alto aprox. del header sticky (mobile) */
+
+  @media (--from-lg) {
+    --nav-height: 4.5rem; /* desktop */
+  }
+}
+
+/* ==========================================================================
+   Tema oscuro — activado por el checkbox del toggle (:has)
+   ========================================================================== */
+:root:has(.theme-toggle__input:checked) {
+  --bg-page: var(--raw-near-black);
+  --bg-surface: var(--raw-neutral-900);
+  --bg-input: var(--raw-neutral-800);
+
+  --text-strong: var(--raw-paper-95);
+  --text-body: var(--raw-paper-85);
+  --text-muted: var(--raw-paper-60);
+
+  --border-subtle: #404040;
+
+  --button-fill-bg: var(--raw-neutral-50);
+  --button-fill-border: var(--raw-neutral-50);
+  --button-fill-text: var(--raw-near-black);
+
+  --button-outline-border: var(--raw-paper-85);
+  --button-outline-text: var(--raw-paper-95);
+
+  --footer-bg: var(--raw-black);
+  --footer-text: var(--raw-paper-85);
+
+  --shadow-card: var(--raw-shadow-1-dark);
+
+  --focus-ring: 0 0 0 3px rgba(250, 250, 250, 0.55);
+}

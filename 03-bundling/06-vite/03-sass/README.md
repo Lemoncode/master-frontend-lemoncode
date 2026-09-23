@@ -87,7 +87,9 @@ Install [Node.js and npm](https://nodejs.org/en/) (20.19.0 || >=22.12.0) if they
   🔍 Notice in `dist/assets/index-<hash>.css` the file has been transpiled correctly.
 
   ```css
-  .red-background{background-color:teal}
+  .red-background {
+    background-color: teal;
+  }
   ```
 
   👍🏼 `vite` supports `sass` with not as much hassle.

@@ -1,0 +1,50 @@
+/* ==========================================================================
+   ELEMENTS · Estilos base de etiquetas (sin clases)
+   ========================================================================== */
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  font-size: var(--raw-fs-md);
+  font-weight: var(--raw-weight-regular);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text-strong);
+  font-family: var(--font-title);
+  font-weight: var(--raw-weight-bold);
+  line-height: var(--raw-lh-heading);
+}
+
+h1 {
+  font-size: var(--raw-fs-3xl);
+  line-height: var(--raw-lh-tight);
+}
+
+h2 {
+  font-size: var(--raw-fs-2xl);
+}
+
+h3 {
+  font-size: var(--raw-fs-xl);
+}
+
+p {
+  color: var(--text-body);
+  font-size: var(--raw-fs-md);
+  line-height: var(--raw-lh-body);
+}
+
+a {
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--raw-radius-sm);
+}

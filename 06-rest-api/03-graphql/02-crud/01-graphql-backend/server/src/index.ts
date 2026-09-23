@@ -2,14 +2,16 @@ import express from 'express';
 import path from 'node:path';
 import { hotelApi, cityApi } from './api/index.js';
 import { createHandler } from 'graphql-http/lib/use/express';
-import { schema } from '#graphql/schema.js';
-import { resolvers } from '#graphql/resolvers.js';
+import { schema } from './graphql/schema.js';
+import { resolvers } from './graphql/resolvers.js';
 
 const PORT = 3000;
 const app = express();
 app.use(express.json());
 
 app.use('/', express.static(path.resolve(import.meta.dirname, '../public')));
+
+console.log(path.join(import.meta.dirname));
 
 app.use('/graphql', createHandler({ schema, rootValue: resolvers }));
 app.use('/playground', async (req, res) => {

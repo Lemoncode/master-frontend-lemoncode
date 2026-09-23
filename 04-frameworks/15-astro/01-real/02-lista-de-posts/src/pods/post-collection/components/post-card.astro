@@ -1,0 +1,53 @@
+---
+import HeartIcon from '#assets/icons/heart.svg';
+import type { Post } from '../post-collection.model';
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const readTimeLabel = 'min read';
+---
+
+<a
+  href={`/posts/${post.slug}`}
+  class="group @container cursor-pointer rounded-4xl transition-shadow duration-300 hover:shadow-lg"
+>
+  <article class="flex h-full flex-col @lg:flex-row">
+    <div class="aspect-[16/9] overflow-hidden rounded-4xl bg-gray-300 @lg:flex-1">
+      <img
+        src={post.image.url}
+        alt={post.title}
+        class="h-full w-full rounded-4xl object-cover transition-transform duration-300 group-hover:scale-[1.06]"
+        aria-hidden="true"
+      />
+    </div>
+    <div class="flex flex-1 flex-col justify-between gap-6 p-4 @lg:flex-2">
+      <div>
+        <time datetime={post.date} class="mb-1 block text-xs">
+          {
+            new Date(post.date).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })
+          }
+        </time>
+        <h3
+          class="group-hover:text-primary-700 text-tbase-500/90 mb-2 text-xl font-bold transition-colors duration-300"
+        >
+          {post.title}
+        </h3>
+        <p class="text-sm">{post.summary}</p>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <span class="text-xs">{post.readTime} {readTimeLabel}</span>
+        <div class="flex items-center gap-1">
+          <HeartIcon class="h-5 w-5" />
+          <span class="text-xs">{6}</span>
+        </div>
+      </div>
+    </div>
+  </article>
+</a>

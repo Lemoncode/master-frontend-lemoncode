@@ -129,7 +129,7 @@ animation: name duration timing-function delay iteration-count direction fill-mo
 - `delay` → cuándo empieza tras aplicarse (ej. 1s).
 - `iteration-count` → cuántas veces se repite (1, 3, infinite).
 - `direction` → dirección del ciclo (normal, reverse, alternate, etc.).
-- `fill`-mode → qué estilo mantiene fuera del tiempo activo (none, forwards, backwards, both).
+- `fill-mode` → qué estilo mantiene fuera del tiempo activo (none, forwards, backwards, both).
 - `play-state` → si está corriendo o pausada (running, paused).
 
 ### Tips - Optimización de performance

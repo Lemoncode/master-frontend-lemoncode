@@ -1,0 +1,33 @@
+---
+import Layout from '#layouts/layout.astro';
+import ContactButtons from '#components/contact-buttons.astro';
+import ExperienceCollectionPod from '#pods/experience-collection/experience-collection.pod.astro';
+import MiniBioPod from '#pods/mini-bio/mini-bio.pod.astro';
+import ToolCollectionPod from '#pods/tool-collection/tool-collection.pod.astro';
+
+const contactContent = {
+  heading: 'Contact',
+  description:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet imperdiet dui. Curabitur vitae efficitur nisi. Ut in tincidunt elit. Suspendisse potenti. Vestibulum nec libero lacinia, consectetur nunc vel, imperdiet justo.',
+};
+---
+
+<Layout title="About - John's Web Dev Blog">
+  <MiniBioPod type="hero" slot="hero" />
+
+  <ExperienceCollectionPod />
+
+  <Fragment slot="aside">
+    <ToolCollectionPod />
+
+    <!-- Contact -->
+    <section
+      aria-labelledby="contact-aside-heading"
+      class="bg-primary-50 dark:bg-primary-100 flex flex-col items-center gap-4 rounded-2xl p-6 text-center md:items-start md:text-start"
+    >
+      <h2 class="font-geist font-bold" id="contact-aside-heading">{contactContent.heading}</h2>
+      <p class="text-sm">{contactContent.description}</p>
+      <ContactButtons />
+    </section>
+  </Fragment>
+</Layout>

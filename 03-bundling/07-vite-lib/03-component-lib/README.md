@@ -170,6 +170,7 @@ _./common-library/vite.config.ts_
 +         globals: {
 +           react: "React",
 +           "react-dom": "ReactDOM",
++           "react/jsx-runtime": "ReactJSXRuntime",
 +         },
 +       },
 +     },
@@ -307,7 +308,7 @@ If we want to work with aliases we need to add some configuration:
 
 ```bash
 cd common-library
-npm install @types/node@22 --save-dev
+npm install @types/node@^24 --save-dev
 ```
 
 _./common-library/vite.config.ts_
@@ -367,6 +368,8 @@ Run the build:
 ```bash
 npm run build
 ```
+
+We can also install [`vite-tsconfig-paths`](https://github.com/aleclarson/vite-tsconfig-paths) to handle TypeScript aliases without adding Rollup extra config.
 
 This time the generated `d.ts` files are not correct because by `tsc` is not able to resolve the aliases we have defined. We will to install a vite plugin to fix this:
 

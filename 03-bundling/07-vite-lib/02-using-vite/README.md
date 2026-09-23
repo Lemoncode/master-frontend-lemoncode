@@ -24,11 +24,7 @@ _./common-library/package.json_
   "description": "Lemoncode common library",
   "author": "Lemoncode",
   "license": "MIT",
-  "keywords": [
-    "lemoncode",
-    "common",
-    "library"
-  ],
+  "keywords": ["lemoncode", "common", "library"],
   "type": "module"
 }
 ```
@@ -66,7 +62,6 @@ export default defineConfig({
 > Default values:
 >
 > - fileName: takes the name of the package.json `name` field.
->
 > - formats: `es` and `umd`.
 >
 > Auto remove the `dist` folder on each build.
@@ -102,7 +97,7 @@ _./common-library/src/helpers/array.helpers.ts_
 ```typescript
 export const mapCollection = <Item, MappedItem>(
   collection: Item[],
-  mapFn: (item: Item) => MappedItem
+  mapFn: (item: Item) => MappedItem,
 ): MappedItem[] => (Array.isArray(collection) ? collection.map(mapFn) : []);
 ```
 

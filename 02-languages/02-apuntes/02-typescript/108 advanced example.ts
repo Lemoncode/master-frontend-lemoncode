@@ -11,18 +11,18 @@ type Head<U> = U extends [infer R, ...any[]]
 
 type Tail<U> = U extends [any, ...(infer R)]
   ? R
-  : never;
+  : [];
 
 // Declaración final
 type DeepGet<O, T extends any[]> = Head<T> extends keyof O
-  ? Tail<T> extends (never | [])
+  ? Tail<T> extends []
     ? O[Head<T>]
     : DeepGet<O[Head<T>], Tail<T>>
   : never;
 
 // Ejemplo uso
 // Se omite los detalles de la implementación de get
-declare function get<O extends object, T extends (keyof any)[]>(obj: O, ...keys: T): DeepGet<O, T>;
+declare function get<O extends object, T extends PropertyKey[]>(obj: O, ...keys: T): DeepGet<O, T>;
 
 const state = {
   left: 8,
@@ -39,10 +39,9 @@ const state = {
 };
 
 // Prueba
-const over = get(state, 'over'); // boolean
-const hint = get(state, 'hint'); // {"color": string, "shape": string}
-const selected = get(state, 'cards', 0, 'selected'); // boolean | undefined
-const never1 = get(state, 'hint', 'id'); // never
+const over = get(state, "over"); // boolean
+const hint = get(state, "hint"); // {"color": string, "shape": string}
+const selected = get(state, "cards", 0, "selected"); // boolean | undefined
+const never1 = get(state, "hint", "id"); // never
 const never2 = get(state); // never
-const never3 = get(state, 'hint', ''); // never
-
+const never3 = get(state, "hint", ""); // never

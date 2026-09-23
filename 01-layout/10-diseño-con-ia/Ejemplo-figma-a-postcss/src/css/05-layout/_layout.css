@@ -1,0 +1,22 @@
+/* ==========================================================================
+   LAYOUT · Estructuras de página reutilizables (prefijo l-)
+   ========================================================================== */
+
+/* Contenedor centrado con padding-inline fluido. */
+.l-container {
+  @mixin container;
+}
+
+/* Sección de página: ocupa el ancho completo y aporta el ritmo vertical.
+   El padding vertical por defecto sigue el frame mobile; los modificadores
+   de cada componente lo ajustan en desktop. */
+.l-section {
+  width: 100%;
+}
+
+/* Bloque de página principal. */
+.l-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}

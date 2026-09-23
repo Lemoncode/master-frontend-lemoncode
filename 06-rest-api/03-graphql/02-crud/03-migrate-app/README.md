@@ -334,6 +334,19 @@ export const resolvers = {
 
 ```
 
+If we want to check our query with `graphiql development tool` at [http://localhost:3000/playground](http://localhost:3000/playground) we can use the following query:
+
+```graphql
+query GetCities {
+  cities {
+    id
+    name
+  }
+}
+```
+
+Let's update `getCities` api in frontend:
+
 ### ./src/pods/hotel/api/hotel.api.ts
 
 ```diff
@@ -404,6 +417,14 @@ import {
 
 ...
 
+```
+
+If we want to check our query with `graphiql development tool` at [http://localhost:3000/playground](http://localhost:3000/playground) we can use the following query:
+
+```graphql
+mutation DeleteHotel {
+  deleteHotel(id: "<replace-by-id>")
+}
 ```
 
 ### ./src/pods/hotel-collection/api/hotel-collection.api.ts

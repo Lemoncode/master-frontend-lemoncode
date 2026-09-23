@@ -1,0 +1,46 @@
+/* ==========================================================================
+   COMPONENT · Services
+   ========================================================================== */
+
+.services {
+  background-color: var(--bg-surface);
+}
+
+.services__inner {
+  @mixin container;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--raw-size-big-2); /* 56px */
+  padding-block: var(--raw-size-big-1); /* 48px */
+
+  @media (--from-lg) {
+    padding-block: var(--raw-size-big-4); /* 80px */
+  }
+}
+
+.services__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--raw-size-lg);
+  text-align: center;
+}
+
+.services__lead {
+  max-width: 37.5rem; /* 600px */
+}
+
+.services__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--raw-size-2xl); /* 40px */
+  width: 100%;
+  max-width: 20.8125rem; /* 333px (frame mobile) */
+
+  @media (--from-lg) {
+    gap: var(--raw-size-big-1); /* 48px */
+    max-width: 58.25rem; /* 932px (frame desktop) */
+  }
+}

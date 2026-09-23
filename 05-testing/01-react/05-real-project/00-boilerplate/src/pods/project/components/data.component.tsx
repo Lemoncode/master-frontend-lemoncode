@@ -24,8 +24,10 @@ export const DataComponent: React.FunctionComponent<Props> = ({
           <TextFieldComponent
             label="Id"
             name="id"
-            InputProps={{
-              readOnly: true,
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
             }}
           />
           <TextFieldComponent label="Nombre" name="name" />

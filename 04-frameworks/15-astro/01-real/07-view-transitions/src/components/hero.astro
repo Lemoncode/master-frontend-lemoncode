@@ -1,0 +1,20 @@
+---
+import DecorativeShapes from './decorative-shapes.astro';
+
+interface Props {
+  url?: string;
+  ariaLabelledby?: string;
+}
+const { url, ariaLabelledby } = Astro.props;
+---
+
+<section
+  class="bg-primary-50 dark:bg-primary-100 relative flex min-h-[300px] items-center justify-center overflow-clip rounded-4xl p-12"
+  style={url && `background-image: url('${url}')`}
+  aria-labelledby={ariaLabelledby}
+>
+  <div class="relative z-10">
+    <slot />
+  </div>
+  <DecorativeShapes />
+</section>

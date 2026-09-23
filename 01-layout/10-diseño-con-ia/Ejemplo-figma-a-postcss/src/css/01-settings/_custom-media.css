@@ -1,0 +1,10 @@
+/* ==========================================================================
+   SETTINGS · Breakpoints (@custom-media)
+   Mobile-first. El diseño se construye sobre el frame mobile (393px) y escala
+   hacia el frame desktop (1440px). El salto principal de layout es ~1024px.
+   ========================================================================== */
+
+@custom-media --from-sm (min-width: 40rem);   /* 640px  — tablet pequeña      */
+@custom-media --from-md (min-width: 48rem);   /* 768px  — tablet              */
+@custom-media --from-lg (min-width: 64rem);   /* 1024px — desktop (principal) */
+@custom-media --from-xl (min-width: 90rem);   /* 1440px — frame desktop Figma */

@@ -86,7 +86,7 @@ _./src/demo.tsx_
 ```diff
 export const MyChildComponent = () => {
 + React.useEffect(() => {
-+  console.log('El componente se acaba de montar en el DOM')
++  console.log("Component just mounted on the DOM")
 + }, [])
 +
   return <h4>Hello form child component</h4>;
@@ -102,8 +102,8 @@ export const MyChildComponent = () => {
 ```diff
 export const MyChildComponent = () => {
   React.useEffect(() => {
-    console.log("El componente se acaba de montar en el DOM");
-+   return () => console.log("El componente se acaba de desmontar del DOM");
+    console.log("Component just mounted on the DOM");
++   return () => console.log("Componente just unmounted from DOM");
   }, []);
 ```
 

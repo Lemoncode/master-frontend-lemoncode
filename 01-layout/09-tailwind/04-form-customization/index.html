@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>00-boiler-css</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1 class="text-[--h1-size] leading-[--h1-line] underline">
+        POR EL PODER DE TAILWIND !!!
+      </h1>
+      <div class="min-h-screen bg-gray-100 flex items-center justify-center">
+        <form class="form-container">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-2">
+            Formulario de contacto
+          </h2>
+
+          <!-- Nombre -->
+          <div>
+            <label for="nombre" class="form-label">Nombre</label>
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              class="form-input"
+              placeholder="Tu nombre"
+            />
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-input"
+              placeholder="tucorreo@ejemplo.com"
+            />
+          </div>
+
+          <!-- Mensaje -->
+          <div>
+            <label for="mensaje" class="form-label">Mensaje</label>
+            <textarea
+              id="mensaje"
+              name="mensaje"
+              rows="4"
+              class="form-input"
+              placeholder="Tu mensaje..."
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary">Enviar</button>
+        </form>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -12,9 +12,9 @@ export const HeaderComponent: React.FunctionComponent<Props> = (props) => {
   return (
     <TableHead>
       {headerGroups.map((headerGroup) => (
-        <TableRow>
+        <TableRow key={headerGroup.id}>
           {headerGroup.headers.map((header) => (
-            <CellComponent>
+            <CellComponent key={header.id}>
               {flexRender(header.column.columnDef.header, header.getContext())}
             </CellComponent>
           ))}

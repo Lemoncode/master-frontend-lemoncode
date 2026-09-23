@@ -1,4 +1,4 @@
-import { createRouter, createHashHistory } from '@tanstack/react-router';
+import { createHashHistory, createRouter } from '@tanstack/react-router';
 // The route-tree file is generated automatically. Do not modify this file manually.
 import { routeTree } from './route-tree';
 

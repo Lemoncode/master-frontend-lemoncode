@@ -1,0 +1,101 @@
+/* ==========================================================================
+   COMPONENT · Hero
+   Mobile: una columna (texto encima, rejilla de imágenes debajo).
+   Desktop: dos columnas (texto | rejilla).
+   ========================================================================== */
+
+.hero__inner {
+  @mixin container;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--raw-size-big-2); /* 56px */
+  padding-block: var(--raw-size-big-3); /* 64px */
+
+  @media (--from-lg) {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--raw-size-md);
+    padding-block: var(--raw-size-big-4); /* 80px */
+  }
+}
+
+/* --- Columna de texto -------------------------------------------------- */
+.hero__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--raw-size-md);
+
+  @media (--from-lg) {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-right: var(--raw-size-lg);
+  }
+}
+
+.hero__title {
+  width: 100%;
+}
+
+.hero__copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--raw-size-lg);
+}
+
+.hero__lead {
+  font-size: var(--raw-fs-lg);
+  color: var(--text-body);
+}
+
+.hero__cta {
+  align-self: flex-start;
+}
+
+/* --- Rejilla de imágenes ----------------------------------------------- */
+.hero__gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: var(--raw-size-md);
+  height: 32.5625rem; /* 521px (frame mobile) */
+
+  @media (--from-lg) {
+    flex: 1 1 0;
+    min-width: 0;
+    gap: var(--raw-size-lg);
+    height: 42.5625rem; /* 681px (frame desktop) */
+  }
+}
+
+.hero__media {
+  overflow: hidden;
+  border-radius: var(--raw-radius-img);
+  background-image: var(--media-img);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Colocación en la rejilla (idéntica a Figma).
+   En mobile la imagen alta (--tall) ocupa solo la fila 2 de la col. 2;
+   en desktop se extiende a las filas 2–3. */
+.hero__media--wide {
+  grid-column: 1 / span 2;
+  grid-row: 1;
+}
+
+.hero__media--mid {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.hero__media--small {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.hero__media--tall {
+  grid-column: 2;
+  grid-row: 2;
+}

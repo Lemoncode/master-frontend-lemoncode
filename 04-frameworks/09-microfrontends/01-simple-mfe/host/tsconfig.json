@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noImplicitAny": false,
+    "jsx": "react-jsx",
+    "noLib": false,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strictNullChecks": true,
+    "paths": {
+      "*": ["./@mf-types/*"]
+    }
+  },
+  "include": ["src"]
+}

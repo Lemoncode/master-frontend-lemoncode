@@ -1,0 +1,24 @@
+{
+  "id": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "name": "Amazing App",
+  "description": "Esta app hace cosas asombrosas",
+  "short_name": "Amazing",
+  "icons": [{
+    "src": "icon/icon370.gif",
+    "sizes": "370x370",
+    "type": "image/gif"
+  },{
+    "src": "icon/lowres.png",
+    "sizes": "280x280"
+  }, {
+    "src": "icon/icon512.jpg",
+    "sizes": "512x512"
+  }],
+  "start_url": "/",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "theme_color": "aliceblue",
+  "background_color": "red"
+}

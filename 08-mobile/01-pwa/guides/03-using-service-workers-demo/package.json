@@ -1,0 +1,17 @@
+{
+  "name": "02-using-service-workers-demo",
+  "version": "1.0.0",
+  "description": "A step by step guide to start using service workers",
+  "main": "index.js",
+  "scripts": {
+    "serve": "serve solution -p 8080",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "serve": "^14.2.6"
+  }
+}

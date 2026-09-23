@@ -1,0 +1,30 @@
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer Rind -->
+  <circle cx="50" cy="50" r="48" fill="#F4D03F" stroke="#F1C40F" stroke-width="2"/>
+  
+  <!-- Inner Flesh -->
+  <circle cx="50" cy="50" r="40" fill="#FDF2E9"/>
+  
+  <!-- Segments -->
+  <g fill="#F7DC6F">
+    <path d="M50 10 A40 40 0 0 1 78.3 21.7 L50 50 Z"/>
+    <path d="M78.3 21.7 A40 40 0 0 1 90 50 L50 50 Z"/>
+    <path d="M90 50 A40 40 0 0 1 78.3 78.3 L50 50 Z"/>
+    <path d="M78.3 78.3 A40 40 0 0 1 50 90 L50 50 Z"/>
+    <path d="M50 90 A40 40 0 0 1 21.7 78.3 L50 50 Z"/>
+    <path d="M21.7 78.3 A40 40 0 0 1 10 50 L50 50 Z"/>
+    <path d="M10 50 A40 40 0 0 1 21.7 21.7 L50 50 Z"/>
+    <path d="M21.7 21.7 A40 40 0 0 1 50 10 L50 50 Z"/>
+  </g>
+  
+  <!-- Segment Borders -->
+  <g stroke="#FDF2E9" stroke-width="1.5">
+    <line x1="50" y1="10" x2="50" y2="90"/>
+    <line x1="10" y1="50" x2="90" y2="50"/>
+    <line x1="21.7" y1="21.7" x2="78.3" y2="78.3"/>
+    <line x1="21.7" y1="78.3" x2="78.3" y2="21.7"/>
+  </g>
+  
+  <!-- Center -->
+  <circle cx="50" cy="50" r="3" fill="#FDF2E9"/>
+</svg>

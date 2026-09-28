@@ -1,0 +1,18 @@
+{
+  "name": "solution",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "serve": "serve ./ -p 8085",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@mcp-b/webmcp-polyfill": "^5.1.0",
+    "serve": "^14.2.6"
+  }
+}

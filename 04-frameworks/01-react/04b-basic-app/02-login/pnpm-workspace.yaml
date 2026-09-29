@@ -1,0 +1,3 @@
+# esbuild necesita ejecutar su script de instalación para colocar su binario.
+allowBuilds:
+  esbuild: true

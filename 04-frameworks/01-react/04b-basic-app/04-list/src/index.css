@@ -1,0 +1,40 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+/* Un tema propio: azul espacio de fondo y el verde del portal como color
+   principal. daisyUI se encarga del resto de tonos (bordes, textos, estados). */
+@plugin "daisyui/theme" {
+  name: "portal";
+  default: true;
+  color-scheme: dark;
+
+  --color-base-100: oklch(22% 0.03 265); /* tarjetas */
+  --color-base-200: oklch(17% 0.03 265); /* fondo */
+  --color-base-300: oklch(30% 0.03 265); /* bordes */
+  --color-base-content: oklch(93% 0.01 265);
+
+  --color-primary: oklch(70% 0.14 145); /* verde portal, sin deslumbrar */
+  --color-primary-content: oklch(16% 0.04 145);
+
+  /* Rojo aclarado para que el texto y la alerta pasen AAA sobre fondo oscuro */
+  --color-error: oklch(75% 0.15 25);
+  --color-error-content: oklch(18% 0.05 25);
+  --color-success: oklch(75% 0.18 150);
+
+  --radius-box: 1rem;
+  --radius-field: 0.5rem;
+}
+
+/* Las fuentes se cargan en index.html (Google Fonts). */
+@theme {
+  --font-sans: "Roboto", system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Roboto", sans-serif;
+}
+
+h1,
+h2,
+h3,
+.card-title {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}

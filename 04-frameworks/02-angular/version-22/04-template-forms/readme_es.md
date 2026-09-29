@@ -344,17 +344,23 @@ _src/app/user/user-list/user-list.component.html_
 <div>
   <form #addForm="ngForm">
     <div>
-        <label>Id </label>
-        <input name="id" [(ngModel)]="newMember.id" required #id="ngModel"/>
-        <div *ngIf="id.invalid && id.touched">El id es obligatorio</div>
+      <label>Id </label>
+      <input name="id" [(ngModel)]="newMember.id" required #id="ngModel"/>
+      @if(id.invalid && id.touched) {
+        <div>El id es obligatorio</div>
+      }
     </div>
     <div>
-        <label>Name </label>
-        <input name="name" [(ngModel)]="newMember.login" required minlength="6" #name="ngModel"/>
-        <div *ngIf="name.invalid && name.touched">
-          <div *ngIf="name.errors.required">El nombre es obligatorio</div>
-          <div *ngIf="name.errors.minlength">El nombre debe tener {{ name.errors.minlength.requiredLength }} caracteres mínimo. Tiene sólamente {{ name.errors.minlength.actualLength }}</div>
-        </div>
+      <label>Name </label>
+      <input name="name" [(ngModel)]="newMember.login" required minlength="5" #name="ngModel"/>
+      @if(name.invalid && name.touched) {
+        @if(name.errors!['required']) {
+          <div>El nombre es obligatorio</div>
+        }
+        @if(name.errors!['minlength']) {
+          <div>El nombre debe tener {{ name.errors!['minlength'].requiredLength }} caracteres mínimo. Tiene solamente {{ name.errors!['minlength'].actualLength }}</div>
+        }
+      }
     </div>
     <div>
         <label>Avatar </label>
@@ -368,15 +374,15 @@ _src/app/user/user-list/user-list.component.html_
 ```
 
 
-_src/app/user/user-list/user-list.component.ts_
+_src/app/user/user-list/user-list.ts_
 
 ```diff
 export class UserListComponent implements OnInit {
-  members: MemberEntity[] = [];
+  members = signal<MemberEntity[]>([]);
   newMember!: MemberEntity;
 
   add(): void {
-    this.members.push(this.newMember);
+    this.members.update((members) => [...members, this.newMember]);
     this.newMember = {
       id: '',
       login: '',
@@ -384,8 +390,8 @@ export class UserListComponent implements OnInit {
     };
   }
 +
-+ handleFileInput($event: any) {
-+   const files = $event.target.files as FileList;
++ handleFileInput($event: Event) {
++   const files = ($event.target as HTMLInputElement).files as FileList;
 +   const reader = new FileReader();
 +   reader.readAsDataURL(files[0]);
 +   reader.onload = () => {

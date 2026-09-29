@@ -10,7 +10,6 @@ Qué vamos a aprender en este ejemplo:
 
 - Creación de pipes personalizadas
 - Utilización de pipes
-- Utilización de variables de plantilla
 
 Pasos:
 
@@ -32,165 +31,123 @@ ng serve
 
 - Creamos una caja para buscar por nombre
 
-_src/app/user/user-list/user-list.component.html_
+_src/app/user/user-list/user-list.html_
 
 ```diff
 <h2>Listado</h2>
-<div>
-+  <label>Buscar por nombre: </label>
-+  <input />
-  <table>
-    <thead>
++
++<div>
++ <label>Buscar por nombre:</label>
++ <input />
++</div>
++
+<table>
+  <thead>
+    <tr>
+      <th appHighlight>Avatar</th>
+      <th>Id</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (member of members(); track member.id) {
       <tr>
-        <th appHighlight>Avatar</th>
-        <th>Id</th>
-        <th>Name</th>
+        <td>
+          <img [src]="member.avatar_url" />
+        </td>
+        <td>
+          <span>{{ member.id }}</span>
+        </td>
+        <td>
+          <span>{{ member.login }}</span>
+        </td>
       </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let member of members">
-          <td>
-            <img [src]="member.avatar_url" width="30" />
-          </td>
-          <td>
-            <span>{{ member.id }}</span>
-          </td>
-          <td>
-            <span>{{ member.login }}</span>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-</div>
+    }
+  </tbody>
+</table>
+
 ```
 
 - Creamos una pipe utilizando el CLI
 
 ```bash
-ng generate pipe pipes/search-by-login
+ng g pipe pipes/search-by-login --skip-tests
 ```
 
 - Programamos la pipe
 
-La función `transform` de la pipe recibirá la lista de miembros sobre la que realizar la búsqueda y el valor por el que buscar. Devolverá una lista con los miembros cuyo campo contenga el valor buscado.
+La función `transform` de la pipe recibirá el valor de un campo, y en función de su longitud imprimirá un icono. La longitud deseada se pasa como parametro de configuración a la pipeline.
 
-_src/app/pipes/search-by-login.pipe.ts_
+_src/app/pipes/awesome-pipe.ts_
 
-```diff
+```ts
 import { Pipe, PipeTransform } from '@angular/core';
-+import { MemberEntity } from '../model/MemberEntity';
 
 @Pipe({
-  name: 'searchByLogin',
-  standalone: true,
+  name: 'awesome',
 })
-export class SearchByLoginPipe implements PipeTransform {
-
--  transform(value: unknown, ...args: unknown[]): unknown {
--    return null;
--  }
-+  transform(members: MemberEntity[], value: string): MemberEntity[] {
-+    return members.filter(
-+      member => member.login.toLowerCase().includes(value.toLowerCase())
-+    );
-+  }
-
+export class AwesomePipe implements PipeTransform {
+  transform(value: unknown, ...args: unknown[]): unknown {
+    return null;
+  }
 }
+
 ```
 
-- Aplicamos la pipe sobre la lista de miembros.
-
-El valor buscado lo obtenemos con una variable de plantilla declarada en el input de búsqueda.
-
-_src/app/user/user-list/user-list.component.ts_
+Actualizamos _src/app/pipes/awesome-pipe.ts_
 
 ```diff
-import { Component, OnInit } from '@angular/core';
-import { MemberEntity } from '../../model';
-import { NgFor, NgIf } from '@angular/common';
-import { HighlightDirective } from '../../directives/highlight.directive';
-import { FormsModule } from '@angular/forms';
-+import { SearchByLoginPipe } from '../../pipes/search-by-login.pipe';
+# ...
+export class AwesomePipe implements PipeTransform {
+- transform(value: unknown, ...args: unknown[]): unknown {
++ transform(value: string, lenght: number): string {
+-   return null;
++   return value && value.length > lenght ? `${value} 🏄` : `${value} 🩳`;
+  }
+}
+# ....
+```
+
+Importamos la pipe para poderla consumir en el template. Actualizamos _src/app/user/user-list/user-list.ts_
+
+```diff
+# ...
++import { AwesomePipe } from '../../pipes/awesome-pipe';
 
 @Component({
+- imports: [Highlight, FormsModule],
++ imports: [Highlight, FormsModule, AwesomePipe],
   selector: 'app-user-list',
-  standalone: true,
-- imports: [NgFor, HighlightDirective, FormsModule, NgIf],
-+ imports: [NgFor, HighlightDirective, FormsModule, NgIf, SearchByLoginPipe],
-  templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.css',
+  styleUrl: './user-list.css',
+  templateUrl: './user-list.html',
 })
 ```
 
-_src/app/user/user-list/user-list.component.html_
+Para consumirlo vamos a editar _src/app/user/user-list/user-list.html_
 
 ```diff
-<h2>Listado</h2>
-<div>
-  <label>Buscar por nombre: </label>
--  <input />
-+  <input #search/>
-  <table>
-    <thead>
+# ....
+  <tbody>
+    @for (member of members(); track member.id) {
       <tr>
-        <th appHighlight>Avatar</th>
-        <th>Id</th>
-        <th>Name</th>
+        <td>
+          <img [src]="member.avatar_url" />
+        </td>
+        <td>
+          <span>{{ member.id }}</span>
+        </td>
+        <td>
+-         <span>{{ member.login }}</span>
++         <span>{{ member.login | awesome:5 }}</span>
+        </td>
       </tr>
-    </thead>
-    <tbody>
--        <tr *ngFor="let member of members">
-+        <tr *ngFor="let member of members | searchByLogin:search.value ">
-          <td>
-            <img [src]="member.avatar_url" width="30" />
-          </td>
-          <td>
-            <span>{{ member.id }}</span>
-          </td>
-          <td>
-            <span>{{ member.login }}</span>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-</div>
+    }
+  </tbody>
+# ....
 ```
 
-Pero no ocurre nada, no está filtrando. Angular no encuentra motivo para revisar el html (que es cuando ejecutaría la pipe). 
+Ahora podemos probar en el navegador
 
-- Nos enlazamos al evento que nos interese de la caja de búsqueda, para que cuando ocurra el evento Angular revise el html y se ejecute la pipe.
-
-_src/app/user/user-list/user-list.component.html_
-
-```diff
-<h2>Listado</h2>
-<div>
-  <label>Buscar por nombre: </label>
--  <input #search/>
-+  <input #search (keyup)="0"/>
-  <table>
-    <thead>
-      <tr>
-        <th appHighlight>Avatar</th>
-        <th>Id</th>
-        <th>Name</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let member of members | searchByLogin:search.value">
-          <td>
-            <img [src]="member.avatar_url" width="30" />
-          </td>
-          <td>
-            <span>{{ member.id }}</span>
-          </td>
-          <td>
-            <span>{{ member.login }}</span>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-</div>
+```bash
+npm start
 ```
-
-Y ahora sí, con cada pulsación de tecla, se realiza la búsqueda.

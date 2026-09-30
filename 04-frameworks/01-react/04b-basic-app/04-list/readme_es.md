@@ -62,7 +62,7 @@ _./src/character-list.tsx_
 
 Solo los campos que vamos a pintar. Se exporta porque la tarjeta también lo necesita.
 
-⚠️ **Tipar no es validar.** Esta `interface` le dice a TypeScript cómo *creemos* que llega el dato, pero en ejecución nadie lo comprueba: si el servidor cambia un campo, la aplicación se entera tarde. Validar la respuesta con zod se hace en `05-architecture/04-api`.
+⚠️ **Tipar no es validar.** Esta `interface` le dice a TypeScript cómo *creemos* que llega el dato, pero en ejecución nadie lo comprueba: si el servidor cambia un campo, la aplicación se entera tarde. Validar la respuesta con zod se hace en `05b-architecture/04-api`.
 
 ## 2. Tres estados y un efecto
 
@@ -175,12 +175,12 @@ export const CharacterCard = (props: Props) => {
 };
 ```
 
-- **La tarjeta no pide nada ni sabe de dónde salen los datos**: recibe un personaje por props y lo pinta. El listado consigue, la tarjeta pinta. Esta división es la idea central de `../05-architecture`.
+- **La tarjeta no pide nada ni sabe de dónde salen los datos**: recibe un personaje por props y lo pinta. El listado consigue, la tarjeta pinta. Esta división es la idea central de `../../05b-architecture`.
 - **Toda la tarjeta es un `Link`**: se pincha en cualquier sitio y lleva al detalle.
 - **`statusColor`** traduce el estado a una clase de daisyUI con un objeto, en vez de una cadena de `if`.
 - **`alt={character.name}`**: la imagen necesita texto alternativo para lectores de pantalla.
 
-⚠️ **`status` es `string` en nuestra `interface`**, así que `Record<Character["status"], string>` acaba siendo `Record<string, string>` y TypeScript no avisa si falta un color. Cuando el tipo salga de un esquema de zod con `z.enum` (en `05-architecture/04-api`), sí lo hará.
+⚠️ **`status` es `string` en nuestra `interface`**, así que `Record<Character["status"], string>` acaba siendo `Record<string, string>` y TypeScript no avisa si falta un color. Cuando el tipo salga de un esquema de zod con `z.enum` (en `05b-architecture/04-api`), sí lo hará.
 
 ## Cómo queda
 

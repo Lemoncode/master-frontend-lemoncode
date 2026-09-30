@@ -4,7 +4,7 @@
 
 We already know how to fetch **a list**. Now we fetch **one item**: the detail screen, which so far only showed the `id`, now shows the character card and its first episodes. And the missing piece of effects shows up: **the dependency array**. This time we also **validate the response with zod**.
 
-This step is the code as we left it in class, and the starting point of `../05-architecture`.
+This step is the code as we left it in class, and the starting point of `../../05b-architecture`.
 
 ## What this step touches
 
@@ -82,7 +82,7 @@ export type CharacterDetail = z.infer<typeof characterDetailSchema>;
 - **`z.array(episodeSchema)`**: a schema inside another one. zod validates the whole list, item by item.
 - Types come out of the schema with `z.infer`, just like in the login.
 
-⚠️ **`characterSchema` isn't exported** and the list still uses its own `interface Character`: in class we only validated the detail. Validating the list too is done in `05-architecture/04-api`.
+⚠️ **`characterSchema` isn't exported** and the list still uses its own `interface Character`: in class we only validated the detail. Validating the list too is done in `05b-architecture/04-api`.
 
 ## 2. The episodes table
 
@@ -329,7 +329,7 @@ src/
   session.tsx
 ```
 
-Thirteen loose files in `src/`. It works, but "where do I put the next thing?" no longer has an easy answer: that's `../05-architecture`.
+Thirteen loose files in `src/`. It works, but "where do I put the next thing?" no longer has an easy answer: that's `../../05b-architecture`.
 
 ## Try it
 
@@ -344,5 +344,5 @@ pnpm start
 
 **Next:**
 
-- What we didn't have time for in class is covered in `05-architecture`: zod in the list in `04-api`, and actions, live validation and Suspense in its final annexes.
-- `../05-architecture` starts from this code as is.
+- What we didn't have time for in class is covered in `05b-architecture`: zod in the list in `04-api`, and actions, live validation and Suspense in its final annexes.
+- `../../05b-architecture` starts from this code as is.

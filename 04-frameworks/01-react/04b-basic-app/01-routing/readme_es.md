@@ -12,7 +12,7 @@ Una aplicación de React vive en **una sola página** (`index.html`). Para tener
 
 ## Qué toca este paso
 
-Todos los ficheros sueltos en `src/`, sin carpetas (ordenarlos es justo de lo que va `../05-architecture`):
+Todos los ficheros sueltos en `src/`, sin carpetas (ordenarlos es justo de lo que va `../../05b-architecture`):
 
 ```
 src/

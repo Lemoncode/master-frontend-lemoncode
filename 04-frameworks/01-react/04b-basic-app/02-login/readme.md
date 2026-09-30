@@ -178,7 +178,7 @@ With valid credentials the server returns `{ username, name }`. That's why `onLo
 
 `hero` centres on screen, `card` draws the box with its shadow and `card-body` lays out the content. All daisyUI, no custom CSS.
 
-➡️ Note the login declares **its own `interface User`**, the same one `session.tsx` will export. It's a small duplication fixed in `../05-architecture/01-scenes`.
+➡️ Note the login declares **its own `interface User`**, the same one `session.tsx` will export. It's a small duplication fixed in `../../05b-architecture/01-scenes`.
 
 That's **four state variables** now (two fields, the error and the pending flag), and none of them is about the app's business: it's the plumbing of any form.
 

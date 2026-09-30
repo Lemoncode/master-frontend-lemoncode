@@ -12,7 +12,7 @@ A React app lives in **a single page** (`index.html`). To have several screens w
 
 ## What this step touches
 
-All files loose in `src/`, no folders (organising them is exactly what `../05-architecture` is about):
+All files loose in `src/`, no folders (organising them is exactly what `../../05b-architecture` is about):
 
 ```
 src/

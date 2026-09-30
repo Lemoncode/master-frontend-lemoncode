@@ -344,5 +344,5 @@ pnpm start
 
 **Siguiente:**
 
-- Lo que no dio tiempo en clase se ve en `05b-architecture`: zod en el listado en `04-api`, y actions, validación en vivo y Suspense en sus anexos del final.
+- Lo que no dio tiempo en clase, zod en el listado, se ve en `05b-architecture/04-api`.
 - `../../05b-architecture` parte de este código tal cual.

@@ -11,9 +11,9 @@ An app with login against our own server, a list and a detail page. Each step st
 | `04-list` | List: `useEffect`, loading and error states, cards |
 | `05-detail` | Detail: `useParams`, effect dependencies, zod `.extend`, episodes table |
 
-## Annexes
+## Next
 
-What we didn't have time for in class is covered in `../05b-architecture`: zod in the list in `04-api`, and actions, live validation and Suspense in its final annexes.
+What we didn't have time for in class, zod in the list, is covered in `../05b-architecture/04-api`, where the app also gets organised into layers and pods.
 
 Each folder has its own `readme.md` / `readme_es.md` summarising the step.
 

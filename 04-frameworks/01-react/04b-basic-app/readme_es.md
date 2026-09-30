@@ -11,9 +11,9 @@ Aplicación con login contra servidor propio, listado y detalle. Cada paso parte
 | `04-list` | Listado: `useEffect`, estados de carga y error, tarjetas |
 | `05-detail` | Detalle: `useParams`, dependencias del efecto, zod con `.extend`, tabla de episodios |
 
-## Anexos
+## Después
 
-Lo que no dio tiempo en clase se ve en `../05b-architecture`: zod en el listado en `04-api`, y actions, validación en vivo y Suspense en sus anexos del final.
+Lo que no dio tiempo en clase, zod en el listado, se ve en `../05b-architecture/04-api`, donde además se organiza la aplicación por capas y pods.
 
 Cada carpeta tiene su `readme_es.md` / `readme.md` con el resumen del paso.
 

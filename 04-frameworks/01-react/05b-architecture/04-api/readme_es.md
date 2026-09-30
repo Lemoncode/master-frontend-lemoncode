@@ -522,7 +522,7 @@ _./src/pods/character-list/api/character-list.api.ts_
 ```
 
 - **¿Por qué `common` y no `core`?** `core` es fontanería de _esta_ aplicación (sus rutas, su sesión). `validateResponse` no sabe nada de personajes: se podría llevar a cualquier proyecto. Eso es `common`.
-- **¿Por qué `helpers` y no `api`?** No habla con ningún servidor: recibe un esquema y un dato, y valida. La api vive en cada pod (su carpeta `api/`), y la configuración de la api de la aplicación iría en `core`. Un helper sin dominio es lo que la teoría pone en `common`.
+- **¿Por qué `helpers` y no `api`?** No habla con ningún servidor: recibe un esquema y un dato, y valida. La api vive en cada pod (su carpeta `api/`), y la configuración de la api de la aplicación iría en `core`. Un helper sin dominio es justo lo que va en `common`.
 - **El genérico `<T>`:** le pasas un esquema y devuelve su tipo. Así las funciones de api devuelven el tipo correcto sin ningún `as`.
 
 ## 5. Login: y aquí, **sin** mapper
@@ -726,5 +726,3 @@ pnpm start
   Ese modo devuelve `characterId` en vez de `id`. Recarga el listado: en pantalla sale "La respuesta del servidor no tiene el formato esperado" y en la consola, `La API ha cambiado:` con el árbol que dice **qué campo** falla. La aplicación no ha pintado basura, y lo que habría que tocar para adaptarse está claro: el api model y el mapper del listado.
 
 - Vuelve al servidor normal: para el roto y lanza `pnpm start:server` (o para los dos y vuelve a `pnpm start`).
-
-**Siguiente (opcional, si sobra tiempo):** los anexos, que tocan un solo pod cada uno: `anexo-a-login-actions`, `anexo-b-login-live-validation` y `anexo-c-list-suspense`. A y C parten de este código; B parte de A.

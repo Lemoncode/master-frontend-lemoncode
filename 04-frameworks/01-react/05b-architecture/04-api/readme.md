@@ -513,7 +513,7 @@ _./src/pods/character-list/api/character-list.api.ts_
 ```
 
 - **Why `common` and not `core`?** `core` is plumbing for *this* app (its routes, its session). `validateResponse` knows nothing about characters: you could take it to any project. That's `common`.
-- **Why `helpers` and not `api`?** It doesn't talk to any server: it takes a schema and some data, and validates. The api lives in each pod (its `api/` folder), and the app's api configuration would go in `core`. A domain-free helper is what the theory puts in `common`.
+- **Why `helpers` and not `api`?** It doesn't talk to any server: it takes a schema and some data, and validates. The api lives in each pod (its `api/` folder), and the app's api configuration would go in `core`. A domain-free helper is exactly what goes in `common`.
 - **The `<T>` generic:** you pass a schema and it returns its type. That way api functions return the right type without any `as`.
 
 ## 5. Login: and here, **no** mapper
@@ -717,5 +717,3 @@ pnpm start
   That mode returns `characterId` instead of `id`. Reload the list: the screen shows "La respuesta del servidor no tiene el formato esperado" and the console shows `La API ha cambiado:` with a tree telling you **which field** fails. The app didn't render garbage, and what you'd need to touch to adapt is clear: the list's api model and mapper.
 
 - Go back to the normal server: stop the broken one and run `pnpm start:server` (or stop both and run `pnpm start` again).
-
-**Next (optional, if there's time left):** the annexes, which touch a single pod each: `anexo-a-login-actions`, `anexo-b-login-live-validation` and `anexo-c-list-suspense`. A and C start from this code; B starts from A.

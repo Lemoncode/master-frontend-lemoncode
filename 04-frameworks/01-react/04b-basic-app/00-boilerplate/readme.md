@@ -10,7 +10,7 @@ An app with the Rick & Morty character catalogue:
 - A **character list** with cards.
 - A **detail screen** with its episodes.
 
-Along the way: routing, **zod** validation, requests and loading states. Then, in `../05-architecture`, we organise it all with an architecture that can grow.
+Along the way: routing, **zod** validation, requests and loading states. Then, in `../../05b-architecture`, we organise it all with an architecture that can grow.
 
 ## The two pieces of the project
 

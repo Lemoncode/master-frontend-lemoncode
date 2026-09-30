@@ -178,7 +178,7 @@ Con credenciales buenas, el servidor devuelve `{ username, name }`. Por eso `onL
 
 `hero` centra en la pantalla, `card` pone la caja con su sombra y `card-body` reparte el contenido. Todo daisyUI, sin CSS propio.
 
-➡️ Fíjate en que el login declara **su propia `interface User`**, igual que la que exportará `session.tsx`. Es una pequeña duplicación que se corrige en `../05-architecture/01-scenes`.
+➡️ Fíjate en que el login declara **su propia `interface User`**, igual que la que exportará `session.tsx`. Es una pequeña duplicación que se corrige en `../../05b-architecture/01-scenes`.
 
 Ya van **cuatro estados** (dos campos, el error y el pendiente), y ninguno tiene que ver con el negocio de la aplicación: es la fontanería de cualquier formulario.
 

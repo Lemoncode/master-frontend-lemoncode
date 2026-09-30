@@ -4,7 +4,7 @@
 
 Ya sabemos pedir **una lista**. Ahora pedimos **un elemento**: la pantalla de detalle, que hasta ahora solo enseñaba el `id`, pasa a mostrar la ficha del personaje y sus primeros episodios. Y aparece la pieza de los efectos que faltaba: **el array de dependencias**. Esta vez, además, **validamos la respuesta con zod**.
 
-Este paso es el código tal y como quedó en clase, y el punto de partida de `../05-architecture`.
+Este paso es el código tal y como quedó en clase, y el punto de partida de `../../05b-architecture`.
 
 ## Qué toca este paso
 
@@ -82,7 +82,7 @@ export type CharacterDetail = z.infer<typeof characterDetailSchema>;
 - **`z.array(episodeSchema)`**: un esquema dentro de otro. zod valida la lista entera, elemento a elemento.
 - Los tipos salen del esquema con `z.infer`, igual que en el login.
 
-⚠️ **`characterSchema` no se exporta** y el listado sigue usando su propia `interface Character`: en clase solo validamos el detalle. Validar también el listado se hace en `05-architecture/04-api`.
+⚠️ **`characterSchema` no se exporta** y el listado sigue usando su propia `interface Character`: en clase solo validamos el detalle. Validar también el listado se hace en `05b-architecture/04-api`.
 
 ## 2. La tabla de episodios
 
@@ -329,7 +329,7 @@ src/
   session.tsx
 ```
 
-Trece ficheros sueltos en `src/`. Funciona, pero "¿dónde meto lo siguiente?" ya no tiene respuesta fácil: eso es `../05-architecture`.
+Trece ficheros sueltos en `src/`. Funciona, pero "¿dónde meto lo siguiente?" ya no tiene respuesta fácil: eso es `../../05b-architecture`.
 
 ## Pruébalo
 
@@ -344,5 +344,5 @@ pnpm start
 
 **Siguiente:**
 
-- Lo que no dio tiempo en clase se ve en `05-architecture`: zod en el listado en `04-api`, y actions, validación en vivo y Suspense en sus anexos del final.
-- `../05-architecture` parte de este código tal cual.
+- Lo que no dio tiempo en clase se ve en `05b-architecture`: zod en el listado en `04-api`, y actions, validación en vivo y Suspense en sus anexos del final.
+- `../../05b-architecture` parte de este código tal cual.

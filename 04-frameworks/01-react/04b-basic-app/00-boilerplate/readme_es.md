@@ -10,7 +10,7 @@ Una aplicación con el catálogo de personajes de Rick & Morty:
 - Un **listado de personajes** en tarjetas.
 - Una **pantalla de detalle** con sus episodios.
 
-Por el camino: enrutado, validación con **zod**, peticiones y estados de carga. Después, en `../05-architecture`, lo colocamos todo con una arquitectura que aguante crecer.
+Por el camino: enrutado, validación con **zod**, peticiones y estados de carga. Después, en `../../05b-architecture`, lo colocamos todo con una arquitectura que aguante crecer.
 
 ## Las dos piezas del proyecto
 

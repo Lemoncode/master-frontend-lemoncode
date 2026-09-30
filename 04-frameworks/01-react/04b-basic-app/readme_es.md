@@ -1,6 +1,6 @@
 # 04 Basic app — Rick & Morty
 
-Aplicación con login contra servidor propio, listado y detalle. Cada paso parte del anterior; el último (`05-detail`) es el código tal y como quedó en clase y es el punto de partida de `../05-architecture`.
+Aplicación con login contra servidor propio, listado y detalle. Cada paso parte del anterior; el último (`05-detail`) es el código tal y como quedó en clase y es el punto de partida de `../05b-architecture`.
 
 | Paso | Qué se ve |
 | --- | --- |
@@ -13,7 +13,7 @@ Aplicación con login contra servidor propio, listado y detalle. Cada paso parte
 
 ## Anexos
 
-Lo que no dio tiempo en clase se ve en `../05-architecture`: zod en el listado en `04-api`, y actions, validación en vivo y Suspense en sus anexos del final.
+Lo que no dio tiempo en clase se ve en `../05b-architecture`: zod en el listado en `04-api`, y actions, validación en vivo y Suspense en sus anexos del final.
 
 Cada carpeta tiene su `readme_es.md` / `readme.md` con el resumen del paso.
 

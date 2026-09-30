@@ -62,7 +62,7 @@ _./src/character-list.tsx_
 
 Only the fields we'll render. It's exported because the card needs it too.
 
-⚠️ **Typing is not validating.** This `interface` tells TypeScript what we *believe* the data looks like, but nobody checks it at runtime: if the server changes a field, the app finds out too late. Validating the response with zod is done in `05-architecture/04-api`.
+⚠️ **Typing is not validating.** This `interface` tells TypeScript what we *believe* the data looks like, but nobody checks it at runtime: if the server changes a field, the app finds out too late. Validating the response with zod is done in `05b-architecture/04-api`.
 
 ## 2. Three states and an effect
 
@@ -175,12 +175,12 @@ export const CharacterCard = (props: Props) => {
 };
 ```
 
-- **The card fetches nothing and doesn't know where the data comes from**: it gets a character via props and renders it. The list gets, the card renders. This split is the core idea of `../05-architecture`.
+- **The card fetches nothing and doesn't know where the data comes from**: it gets a character via props and renders it. The list gets, the card renders. This split is the core idea of `../../05b-architecture`.
 - **The whole card is a `Link`**: click anywhere and it goes to the detail.
 - **`statusColor`** maps the status to a daisyUI class with an object instead of a chain of `if`s.
 - **`alt={character.name}`**: the image needs alternative text for screen readers.
 
-⚠️ **`status` is `string` in our `interface`**, so `Record<Character["status"], string>` ends up as `Record<string, string>` and TypeScript won't warn you if a color is missing. When the type comes from a zod schema with `z.enum` (in `05-architecture/04-api`), it will.
+⚠️ **`status` is `string` in our `interface`**, so `Record<Character["status"], string>` ends up as `Record<string, string>` and TypeScript won't warn you if a color is missing. When the type comes from a zod schema with `z.enum` (in `05b-architecture/04-api`), it will.
 
 ## Result
 

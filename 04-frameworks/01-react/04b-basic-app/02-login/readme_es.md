@@ -225,10 +225,10 @@ Es un **custom hook**: saca de los componentes todo lo que tiene que ver con la 
 
 El efecto corre **después** de pintar. Durante ese rato `user` vale `null`… el mismo `null` que cuando no hay sesión. Sin otro dato, `null` significaría dos cosas opuestas:
 
-|                    | Qué significa                            | Qué hay que hacer |
-| ------------------ | ---------------------------------------- | ----------------- |
-| `isChecking: true` | Todavía estamos preguntando              | **Esperar**       |
-| `user: null`       | Ya hemos preguntado: no hay sesión       | Mandar al login   |
+|                    | Qué significa                             | Qué hay que hacer |
+| ------------------ | ----------------------------------------- | ----------------- |
+| `isChecking: true` | Todavía estamos preguntando               | **Esperar**       |
+| `user: null`       | Ya hemos preguntado: no hay sesión        | Mandar al login   |
 | `user: {...}`      | Ya hemos preguntado: hay sesión, de quién | Dejar pasar       |
 
 Esto no es cosa de las cookies: **pasa con todo lo asíncrono**. Cargando, bien y mal. Volverá a salir en el listado.

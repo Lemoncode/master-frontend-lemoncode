@@ -89,6 +89,7 @@ Ahora hay **dos tipos de error** en el formulario:
 +       return;
 +     }
 +
++     setFieldErrors({});
       setIsPending(true);
 
       try {
@@ -104,8 +105,7 @@ Ahora hay **dos tipos de error** en el formulario:
 - **`z.flattenError(...).fieldErrors`** convierte el error de zod en `{ username?: string[], password?: string[] }`, listo para pintar.
 - El `return` corta el envío: **si no es válido, no hay petición**.
 - Se envía **`result.data`**, lo validado, no las variables sueltas.
-
-⚠️ **En este código los errores de campo no se limpian** cuando la validación pasa: no hay ningún `setFieldErrors({})`. Si corriges la contraseña y envías, el mensaje rojo sigue ahí mientras se hace el login. Se corrige en `../05-architecture/03-pods`. Si quieres arreglarlo ya, añade `setFieldErrors({})` justo después del `if`.
+- **`setFieldErrors({})`** limpia los errores de campo cuando la validación pasa. Sin él, si fallas, corriges la contraseña y envías, el mensaje rojo seguiría ahí mientras se hace el login.
 
 ## 4. Pintar el error de cada campo
 

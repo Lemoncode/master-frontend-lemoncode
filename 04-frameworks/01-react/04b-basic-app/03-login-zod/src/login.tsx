@@ -35,6 +35,7 @@ export const LoginPage = (props: Props) => {
       return;
     }
 
+    setFieldErrors({});
     setIsPending(true);
 
     try {

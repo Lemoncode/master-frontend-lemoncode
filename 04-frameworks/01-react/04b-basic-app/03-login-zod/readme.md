@@ -89,6 +89,7 @@ The form now has **two kinds of error**:
 +       return;
 +     }
 +
++     setFieldErrors({});
       setIsPending(true);
 
       try {
@@ -104,8 +105,7 @@ The form now has **two kinds of error**:
 - **`z.flattenError(...).fieldErrors`** turns the zod error into `{ username?: string[], password?: string[] }`, ready to render.
 - The `return` stops the submit: **if it isn't valid, there's no request**.
 - We send **`result.data`**, the validated data, not the loose variables.
-
-⚠️ **In this code field errors are never cleared** when validation passes: there's no `setFieldErrors({})`. If you fix the password and submit, the red message stays there while logging in. It gets fixed in `../05-architecture/03-pods`. If you want to fix it now, add `setFieldErrors({})` right after the `if`.
+- **`setFieldErrors({})`** clears the field errors when validation passes. Without it, if you fail, fix the password and submit, the red message would stay there while logging in.
 
 ## 4. Render each field's error
 

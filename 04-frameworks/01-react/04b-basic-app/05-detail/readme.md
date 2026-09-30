@@ -344,5 +344,5 @@ pnpm start
 
 **Next:**
 
-- What we didn't have time for in class is covered in `05b-architecture`: zod in the list in `04-api`, and actions, live validation and Suspense in its final annexes.
+- What we didn't have time for in class, zod in the list, is covered in `05b-architecture/04-api`.
 - `../../05b-architecture` starts from this code as is.

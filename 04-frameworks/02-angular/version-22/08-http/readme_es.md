@@ -79,7 +79,7 @@ export class Members {
     });
   }
 +
-+ getAllHttp(): Promise<MemberEntity[]> {
++ getAllHttp(): Observable<MemberEntity[]> {
 +   return this.http.get(`https://api.github.com/orgs/lemoncode/members`);
 + } 
 }

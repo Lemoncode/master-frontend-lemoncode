@@ -1,0 +1,70 @@
+@if (movie) {
+  <div class="card">
+    <div class="card-header">
+      {{ pageTitle }}
+    </div>
+  
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-2">Name:</div>
+        <div class="col-md-6">{{ movie?.movieName }}</div>
+        <div class="col-md-3">
+          <button class="btn btn-primary" (click)="addToCart(movie!)">Add to Cart</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">Code:</div>
+        <div class="col-md-6">{{ movie?.movieCode }}</div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">Description:</div>
+        <div class="col-md-6">{{ movie?.description }}</div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">Price:</div>
+        <div class="col-md-6">
+          {{ movie?.price | currency: 'USD' : 'symbol' }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">Likes:</div>
+        <div class="col-md-6">{{ movie?.likes ?? 0 }}</div>
+      </div>
+  
+      <div class="table-responsive">
+        @if (movie?.reviews?.length) {
+          <table class="table mb-0">
+            <thead>
+              <tr>
+                <th>Review</th>
+                <th>Username</th>
+                <th>Text</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (review of movie.reviews; track review.id ?? $index) {
+                <tr>
+                  <td>{{ review?.title }}</td>
+                  <td>{{ review?.userName }}</td>
+                  <td>{{ review?.text }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        } @else {
+          No reviews for this movie
+        }
+      </div>
+    </div>
+  </div>
+  
+  @if (errorMessage) {
+    <div class="card">
+      <div class="card-header">Movie Detail</div>
+    </div>
+    <div class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+  }
+}
+

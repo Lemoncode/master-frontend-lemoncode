@@ -1,4 +1,3 @@
-import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { MovieDetailComponent } from '../movie-detail/movie-detail.component';
 import { Movie } from '../movie';
@@ -6,7 +5,7 @@ import { Movie } from '../movie';
 @Component({
   selector: 'app-movie-list',
   standalone: true,
-  imports: [NgIf, NgClass, NgFor, MovieDetailComponent],
+  imports: [MovieDetailComponent],
   templateUrl: './movie-list.component.html',
   styles: ``,
 })

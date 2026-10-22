@@ -5,23 +5,28 @@
         {{ pageTitle }}
       </div>
 
-      <div class="card-body" *ngIf="movies.length">
-        <div class="list-group">
-          <button
-            type="button"
-            class="list-group-item"
-            *ngFor="let movie of movies"
-            [ngClass]="{ active: movie.id === selectedMovieId }"
-            (click)="onSelected(movie.id)"
-          >
-            {{ movie.movieName }}
-          </button>
+      @if (movies.length) {
+        <div class="card-body">
+          <div class="list-group">
+            @for (movie of movies; track movie.id) {
+              <button
+                type="button"
+                class="list-group-item"
+                [class.active]="movie.id === selectedMovieId"
+                (click)="onSelected(movie.id)"
+              >
+                {{ movie.movieName }}
+              </button>
+            }
+          </div>
         </div>
+      }
+    </div>
+    @if (errorMessage) {
+      <div class="alert alert-danger">
+        {{ errorMessage }}
       </div>
-    </div>
-    <div class="alert alert-danger" *ngIf="errorMessage">
-      {{ errorMessage }}
-    </div>
+    }
   </div>
 
   <div class="col-md-8">

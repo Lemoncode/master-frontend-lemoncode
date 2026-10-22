@@ -1,6 +1,6 @@
 # Multiple Templates
 
-We want to add more functionality to our task-list component. To have a more aintainable code, lets first refactor our render so we get a cleaner solution.
+We want to add more functionality to our task-list component. To have a more maintainable code, lets first refactor our render so we get a cleaner solution.
 
 Update `src/task-list/task-list.ts`
 

@@ -12,9 +12,6 @@ Para poder recibir notificaciones push tenemos que implementar 3 fases
 - Enviar el mensaje
 - Recibir el mensaje y mostrar una notificación
 
-
-
-
 Configurar Push - Paso 1
 
 Nuestro servidor tiene que servir una página con un VAPID key con parte pública y privada

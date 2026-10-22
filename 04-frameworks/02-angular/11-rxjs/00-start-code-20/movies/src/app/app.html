@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand navbar-light bg-light">
+  <a class="navbar-brand">{{ pageTitle }}</a>
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/welcome']" routerLinkActive="active"
+        >Home</a
+      >
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/movies']" routerLinkActive="active"
+        >Movie List</a
+      >
+    </li>
+  </ul>
+</nav>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

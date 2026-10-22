@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        {{ pageTitle }}
+      </div>
+
+      @if (movies.length) {
+        <div class="card-body">
+          <div class="list-group">
+            @for (movie of movies; track movie.id) {
+              <button
+                type="button"
+                class="list-group-item"
+                [class.active]="movie.id === selectedMovieId"
+                (click)="onSelected(movie.id)"
+              >
+                {{ movie.movieName }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+    @if (errorMessage) {
+      <div class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+    }
+  </div>
+
+  <div class="col-md-8">
+    <app-movie-detail [movieId]="selectedMovieId" />
+  </div>
+</div>

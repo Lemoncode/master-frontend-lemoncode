@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        {{ pageTitle }}
+      </div>
+
+      <div class="card-body" *ngIf="movies.length">
+        <div class="list-group">
+          <button
+            type="button"
+            class="list-group-item"
+            *ngFor="let movie of movies"
+            [ngClass]="{ active: movie.id === selectedMovieId }"
+            (click)="onSelected(movie.id)"
+          >
+            {{ movie.movieName }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+  </div>
+
+  <div class="col-md-8">
+    <app-movie-detail [movieId]="selectedMovieId" />
+  </div>
+</div>

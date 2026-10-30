@@ -22,3 +22,10 @@ pnpm dev
 Recomiendo tener instalada la extensión de VS Code de Slidev si queréis tener un Intellisense del archivo `slides.md`:
 
 https://marketplace.visualstudio.com/items?itemName=antfu.slidev
+
+Para exportar a PDF/PPTX hace falta Playwright:
+
+```bash
+pnpm add -D playwright-chromium
+pnpm export
+```

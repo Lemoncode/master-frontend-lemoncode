@@ -51,3 +51,7 @@
     animation: none !important;
   }
 }
+
+button {
+  cursor: pointer;
+}

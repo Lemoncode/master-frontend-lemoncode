@@ -19,7 +19,9 @@ const inputRef = useTemplateRef<HTMLInputElement>('inputRef')
 function startEditing() {
   draft.value = props.item.content
   isEditing.value = true
-  nextTick(() => inputRef.value?.focus())
+  nextTick(() => {
+    inputRef.value?.focus()
+  })
 }
 
 function save() {
@@ -54,13 +56,17 @@ function onKeydown(event: KeyboardEvent) {
       class="cursor-pointer"
       :class="[
         'grid size-5 shrink-0 place-items-center rounded border-2 transition-colors',
-        item.isChecked
-          ? 'border-accent bg-accent text-bg'
-          : 'border-muted hover:border-accent',
+        item.isChecked ? 'border-accent bg-accent text-bg' : 'border-muted hover:border-accent',
       ]"
       @click="toggle"
     >
-      <svg v-if="item.isChecked" class="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <svg
+        v-if="item.isChecked"
+        class="size-3"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+      >
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
       </svg>
     </button>

@@ -61,13 +61,7 @@ async function handleOpen(id: string) {
       </div>
 
       <div v-else class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <button
-          v-for="list in lists"
-          :key="list.id"
-          type="button"
-          class="text-left"
-          @click="handleOpen(list.id)"
-        >
+        <button v-for="list in lists" :key="list.id" type="button" @click="handleOpen(list.id)">
           <ListCard
             :list="list"
             :items="itemsByList.get(list.id) ?? []"

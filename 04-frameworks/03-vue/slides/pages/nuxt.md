@@ -77,13 +77,13 @@ ul li {
 layout: quote
 ---
 
-# Progressive Enhacement
+# Progressive Enhancement
 
 No necesitamos todas las funcionalidades de Nuxt. Podemos usar solo lo que necesitamos y el bundle final será más pequeño.
 
 ---
 layout: two-cols
-title: Progressive Enhacement
+title: Progressive Enhancement
 ---
 
 <style>
@@ -132,7 +132,7 @@ title: Universal rendering
   <p class="absolute top-[calc(50%+.3rem)] left-[140px] text-xl">Document (sin JS)</p>
   <!-- Loading -->
   <ri-arrow-right-line class="absolute top-[calc(50%+1rem)] left-[310px] text-3xl" v-click="1" />
-  <p class="absolute top-[calc(50%+.3rem)] left-[350px] text-2xl" v-click="1">Naveador carga<br />todo el HTML<br /> y ejecuta el JS</p>
+  <p class="absolute top-[calc(50%+.3rem)] left-[350px] text-2xl" v-click="1">Navegador carga<br />todo el HTML<br /> y ejecuta el JS</p>
   <!-- Hidratación -->
   <ri-arrow-right-line class="absolute top-[calc(50%+1rem)] left-[515px] text-3xl" v-click="2" />
   <img src="/js-logo.png" class="absolute top-1/3 right-0 max-w-[140px] h-auto" v-click="2" />

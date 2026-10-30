@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, ref, useTemplateRef } from 'vue'
+import { nextTick, onMounted, ref, useTemplateRef } from 'vue'
 import type { ListItem } from '@/types'
 import IconTrash from './Icons/IconTrash.vue'
 
@@ -10,6 +10,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   update: [patch: Partial<ListItem>]
   delete: []
+  create: []
 }>()
 
 const isEditing = ref(false)
@@ -23,6 +24,10 @@ function startEditing() {
     inputRef.value?.focus()
   })
 }
+
+onMounted(() => {
+  if (!props.item.content) startEditing()
+})
 
 function save() {
   if (!isEditing.value) return
@@ -40,7 +45,12 @@ function toggle() {
 }
 
 function onKeydown(event: KeyboardEvent) {
-  if (event.key === 'Enter') save()
+  if (event.key === 'Enter') {
+    event.preventDefault()
+    const content = draft.value.trim()
+    save()
+    if (content) emit('create')
+  }
   if (event.key === 'Escape') cancel()
 }
 </script>

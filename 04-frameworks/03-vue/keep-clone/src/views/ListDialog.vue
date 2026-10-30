@@ -97,6 +97,7 @@ onMounted(() => {
         :item="item"
         @update="updateListItem(item.id, $event)"
         @delete="deleteListItem(item.id)"
+        @create="createListItem(props.id)"
       />
       <p v-if="items.length === 0" class="py-10 text-center text-sm text-muted">
         Esta lista está vacía. Añade el primer elemento.

@@ -5,7 +5,7 @@
 }
 
 .slidev-layout:not(.custom-top).two-cols-header,
-.slidev-layout:not(.custom-top).two-columns {
+.slidev-layout:not(.custom-top).two-cols {
   .col-left,
   .col-right {
     display: flex;

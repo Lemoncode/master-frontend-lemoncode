@@ -1,0 +1,26 @@
+overrides:
+  'vue': 'rc'
+  '@vue/compiler-core': 'rc'
+  '@vue/compiler-dom': 'rc'
+  '@vue/compiler-sfc': 'rc'
+  '@vue/compiler-ssr': 'rc'
+  '@vue/compiler-vapor': 'rc'
+  '@vue/reactivity': 'rc'
+  '@vue/runtime-core': 'rc'
+  '@vue/runtime-dom': 'rc'
+  '@vue/runtime-vapor': 'rc'
+  '@vue/server-renderer': 'rc'
+  '@vue/shared': 'rc'
+  '@vue/compat': 'rc'
+  'typescript': 'npm:typescript-native-bridge@latest'
+  vite@*: 'catalog:'
+
+peerDependencyRules:
+  allowAny:
+    - 'vue'
+    - vite
+  allowedVersions:
+    vite: '*'
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@1.0.0
+  vite-plus: 1.0.0

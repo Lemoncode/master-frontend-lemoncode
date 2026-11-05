@@ -1874,6 +1874,238 @@ layout: two-cols
 
 
 ---
+layout: hero-image
+image: /teclado.gif
+class: text-center
+---
+
+# ¡A los teclados!
+
+<!-- Fin de la sesión I -->
+
+---
+layout: custom-cover
+background: vue-sticker.jpg
+---
+
+# <logos-vue /> Vue - II
+
+## 🌈 Vuenas tardes a tod@s! 🌈
+
+---
+layout: quote
+---
+
+# Agenda
+
+- Composition API
+- Composables
+- Ejercicio práctico guiado
+- Ejercicio práctico
+
+
+---
+layout: hero-image
+image: /composition-docs.png
+---
+
+## Composition API
+
+
+
+---
+layout: quote
+---
+
+# Docs
+
+<img src="/toggle.png" class="max-h-[20rem]" />
+
+https://vuejs.org/guide/introduction.html
+
+---
+layout: two-cols
+---
+
+# Composition API
+
+![](/comparison.png)
+
+::right::
+
+<v-clicks depth="2">
+
+- Ventajas:
+
+  - Ordenar por features
+  - Incluso módulos/paquetes
+  - Composición de funciones.
+
+- Desventajas:
+
+  - Arquitectura menos definida
+  - Requiere más conocimientos de Vue y JS
+  - Llamadas asíncronas requieren `<Suspense>`
+
+</v-clicks>
+
+
+---
+layout: image
+image: /side-by-side.jpeg
+title: Code Side by Side
+backgroundSize: contain
+---
+
+
+---
+layout: quote
+---
+
+# Composables
+
+- Extraen **lógica reactiva** reutilizable a una función `useX()`.
+- Se llaman en `setup` (o en otro composable) **sincrónicamente**.
+- Se componen entre sí: `useNotes` + `useWordCount` → `useNoteEditor`.
+
+---
+layout: two-cols-header
+---
+
+# De componente a composable
+
+::left::
+
+### Antes · todo en el componente
+
+```vue
+<script setup>
+import { ref, computed } from 'vue'
+
+const note = ref('')
+
+const wordCount = computed(() => {
+  return note.value.trim()
+  ? note.value
+    .trim()
+    .split(/\s+/).length
+  : 0
+})
+</script>
+```
+
+::right::
+
+### Después · `composables/useWordCount.js`
+
+```js
+import { computed } from 'vue'
+
+export function useWordCount(note) {
+  return computed(() =>
+    note.value.trim() ? note.value.trim().split(/\s+/).length : 0
+  )
+}
+```
+
+En el componente: `const wordCount = useWordCount(note)`
+
+---
+layout: two-cols
+---
+
+# Recomendaciones
+
+<v-clicks>
+
+- Devolver objetos con `ref`s (o `toRefs` si devuelves `reactive`) para no perder reactividad al desestructurar.
+- No crear composables para todo: guiarse por la necesidad de reutilizar...
+
+</v-clicks>
+
+::right::
+
+## Ojo con el estado
+
+<v-clicks>
+
+- Cada llamada crea **estado nuevo**: `useNotes()` (instancias) en dos componentes = dos notas.
+- Estado compartido → Storage o **Pinia**.
+- Un composable puede usar otros composables (eso es el Lego).
+
+</v-clicks>
+
+---
+layout: two-cols-header
+---
+
+# Componer composables
+
+::left::
+
+```js
+import { computed } from 'vue'
+import { useNotes } from './useNotes'
+import { useWordCount } from './useWordCount'
+
+export function useNoteEditor(initial = '') {
+  const { note, clear } = useNotes(initial)
+  const wordCount = useWordCount(note)
+  const charCount = computed(() => note.value.length)
+
+  return { note, clear, wordCount, charCount }
+}
+```
+
+::right::
+
+<v-clicks>
+
+- `useNoteEditor` **no pinta nada**: solo expone estado y funciones.
+- La vista solo consume:
+
+```vue
+<script setup>
+const { note, clear, wordCount, charCount } =
+  useNoteEditor('Hoy he aprendido...')
+</script>
+```
+
+</v-clicks>
+
+---
+layout: image
+image: /lego.jpeg
+title: Composables (Lego)
+backgroundSize: contain
+---
+
+---
+layout: two-cols
+---
+
+# Refresco rápido
+
+## Estado y contrato
+
+<v-clicks>
+
+- `ref` / `computed` → estado reactivo y valores derivados.
+- `defineProps` + `defineEmits` + `v-model` → contrato del componente.
+
+</v-clicks>
+
+::right::
+
+## Composición
+
+<v-clicks>
+
+- Slots (con nombre y _scoped_) → UI · `useX()` → lógica.
+
+</v-clicks>
+
+---
 layout: section
 ---
 
@@ -1948,117 +2180,15 @@ layout: two-cols
 
 ::right::
 
-# Recap
+# Lo que acabas de hacer
 
 <v-clicks>
 
-- `<script setup>` → estado y lógica juntos.
-- `props` / `emits` → componentes.
-- `slots` → composición visual.
-- `composables` → composición de lógica.
+- Extraer lógica a `useWordCount` y componer `useNoteEditor`.
+- Conectar componentes con `v-model` y `defineProps`/`defineEmits`.
+- Rellenar slots con y sin nombre desde la app.
 
 </v-clicks>
-
----
-layout: hero-image
-image: /teclado.gif
-class: text-center
----
-
-# ¡A los teclados!
-
-<!-- Fin de la sesión I -->
-
----
-layout: custom-cover
-background: vue-sticker.jpg
----
-
-# <logos-vue /> Vue - II
-
-## 🌈 Vuenas tardes a tod@s! 🌈
-
----
-layout: quote
----
-
-# Agenda
-
-- Composition API
-- Composables
-- Ejercicio práctico
-
-
----
-layout: hero-image
-image: /composition-docs.png
----
-
-## Composition API
-
-
-
----
-layout: quote
----
-
-# Docs
-
-<img src="/toggle.png" class="max-h-[20rem]" />
-
-https://vuejs.org/guide/introduction.html
-
----
-layout: two-cols
----
-
-# Composition API
-
-![](/comparison.png)
-
-::right::
-
-<v-clicks depth="2">
-
-- Ventajas:
-
-  - Ordenar por features
-  - Incluso módulos/paquetes
-  - Composición de funciones.
-
-- Desventajas:
-
-  - Arquitectura menos definida
-  - Requiere más conocimientos de Vue y JS
-  - Llamadas asíncronas requieren `<Suspense>`
-
-</v-clicks>
-
-
----
-layout: image
-image: /side-by-side.jpeg
-title: Code Side by Side
-backgroundSize: contain
----
-
-
----
-layout: quote
----
-
-# Composables
-
-- Extraen lógica reactiva reutilizable.
-- Se componen entre sí: `useNotes` + `useWordCount`.
-- En código nuevo: `<script setup>` + composables.
-
----
-layout: image
-image: /lego.jpeg
-title: Composables (Lego)
-backgroundSize: contain
----
 
 ---
 layout: hero-image

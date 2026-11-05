@@ -9,7 +9,7 @@ Aplicación de listas y notas para la práctica guiada de Vue 3. El objetivo no 
 - Vue Router.
 - Tailwind CSS v4.
 - Vitest.
-- Sin Pinia: el estado vive en composables.
+- Pinia: se añadirá en una próxima sesión. Por ahora el estado vive en composables.
 
 ## Requisitos
 
@@ -42,9 +42,11 @@ pnpm build
 
 ```sh
 vp create vue -- --ts --router --vitest --eslint --oxfmt --bare keep-clone
+# Próximamente (sesión de Pinia):
+# vp create vue -- --ts --router --vitest --eslint --oxfmt --pinia --bare keep-clone
 ```
 
-Opciones: TypeScript, Router, Vitest, ESLint y Oxfmt. Sin Pinia.
+Opciones: TypeScript, Router, Vitest, ESLint y Oxfmt. Pinia se añadirá en una próxima sesión con el argumento `--pinia`.
 
 ### 2. Instalar Tailwind v4
 
@@ -65,8 +67,11 @@ Conceptos: estilos globales y configuración de Vite.
 ### 4. Composables
 
 - `src/composables/useLocalStorage.ts`: sincroniza un `ref` con `localStorage` usando `watch`.
-- `src/composables/useLists.ts`: estado compartido a nivel de módulo + CRUD. Sin Pinia.
+- `src/composables/useLists.ts`: estado compartido a nivel de módulo + CRUD. Sin Pinia por ahora.
 - `src/composables/useViewTransition.ts`: envuelve `document.startViewTransition` y espera a que termine.
+- `src/stores/useLists.ts`: versión Pinia de `useLists` con `defineStore` (setup store) y persistencia en `localStorage` mediante `useLocalStorage` de `@vueuse/core`. El wiring está comentado en `src/main.ts` para una próxima sesión.
+
+> **Próxima sesión:** implementaremos una versión basada en Pinia. La store ya está preparada en `src/stores/useLists.ts`; en la sesión añadiremos `--pinia` al comando de creación y descomentaremos `app.use(pinia)`. Al ser una SPA no necesitamos SSR; si se añade SSR, habría que usar `skipHydrate` de Pinia.
 
 Conceptos: `ref`, `computed`, `watch`, composición de composables y estado compartido.
 
@@ -101,7 +106,7 @@ Conceptos: API nativa del navegador + integración con Vue Router. El callback d
 
 ### 8. Tests
 
-`src/composables/__tests__/useLists.spec.ts` prueba el CRUD. Ejecuta:
+`src/composables/__tests__/useLists.spec.ts` prueba el CRUD del composable. `src/stores/__tests__/useLists.spec.ts` prueba la versión Pinia. Ejecuta:
 
 ```sh
 pnpm test:unit --run
@@ -122,6 +127,7 @@ pnpm build
 | Slots | `DialogShell.vue` |
 | `v-model` / `defineModel` | `ListTitleEditor.vue` |
 | Composables | `useLocalStorage.ts`, `useLists.ts`, `useViewTransition.ts` |
+| Pinia (próximamente) | `src/stores/useLists.ts` |
 | Reactividad (`ref`, `computed`) | `useLists.ts`, `HomeView.vue`, `ListCard.vue` |
 | `watch` | `useLocalStorage.ts` |
 | Lifecycle (`onMounted`) | `ListDialog.vue`, `DialogShell.vue` |
@@ -134,7 +140,8 @@ pnpm build
 - **Diálogo nativo**: `showModal()` gestiona foco, `Esc` y backdrop. No añadas un focus trap manual.
 - **Cierre controlado**: `DialogShell` expone `close()`. `ListDialog` lo llama dentro de la View Transition para que el morph funcione también al cerrar.
 - **Persistencia**: las listas y elementos se guardan en `localStorage`. Si cambias el modelo, versiona la clave.
-- **Sin Pinia**: el estado compartido es un módulo con `ref`s. Es suficiente para esta escala y enseña composición.
+- **Sin Pinia por ahora**: el estado compartido es un módulo con `ref`s. Es suficiente para esta escala y enseña composición. En una próxima sesión veremos la versión Pinia en `src/stores/useLists.ts`.
+- **Pinia y SSR**: la store usa `useLocalStorage` de VueUse. Al ser una SPA no necesitamos SSR; si se añade SSR, habría que usar `skipHydrate` de Pinia.
 - **Tailwind**: se mantiene por ubicuidad, pero la app no depende de una librería de componentes.
 
 ## Retos opcionales

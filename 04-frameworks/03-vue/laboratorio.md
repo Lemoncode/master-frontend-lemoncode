@@ -16,8 +16,8 @@ El laboratorio del módulo de Vue lo hemos dividido en dos secciones:
 En este ejercicio, deberás crear una aplicación web utilizando [Vue 3](https://vuejs.org/) (con [VitePlus](https://viteplus.dev/guide/#install-vp)) que permita planificar las comidas de una semana.
 
 ```bash
-
-vp create vue meal-planner
+# Necesitas tener Vite plus instalado globalmente: (https://viteplus.dev/guide/#install-vp
+vp create vue -- --ts --router --pinia --oxlint --oxfmt --bare meal-planner
 ```
 
 La interfaz de usuario debe tener los siguientes elementos:

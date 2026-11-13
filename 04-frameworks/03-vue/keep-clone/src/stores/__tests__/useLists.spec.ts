@@ -1,15 +1,15 @@
 import { beforeEach, describe, expect, it } from 'vite-plus/test'
 import { createPinia, setActivePinia } from 'pinia'
-import { useListsStore } from '../useLists'
+import { useListStore } from '../useLists'
 
-describe('useListsStore', () => {
+describe('useListStore', () => {
   beforeEach(() => {
     localStorage.clear()
     setActivePinia(createPinia())
   })
 
   it('creates, updates and deletes lists and items', () => {
-    const store = useListsStore()
+    const store = useListStore()
 
     const list = store.createList('Prueba')
     expect(store.lists.some((candidate) => candidate.id === list.id)).toBe(true)

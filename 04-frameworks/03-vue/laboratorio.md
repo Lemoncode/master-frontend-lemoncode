@@ -49,13 +49,14 @@ La interfaz de usuario debe tener los siguientes elementos:
 ## 🌱 Requisitos adicionales (Opcional)
 
 - 💾 **Persistencia del estado**:
-  - Si habéis elegido usar **Pinia**, usar el plugin [`pinia-plugin-persistedstate`](https://codeberg.org/praz/pinia-plugin-persistedstate/) para que el plan semanal no se pierda al recargar la página.
-  - Si habéis elegido usar un `composable`, usar el `localStorage` para guardar el plan semanal.
+  - Si habéis elegido usar **Pinia**, usar el plugin [`pinia-plugin-persistedstate`](https://codeberg.org/praz/pinia-plugin-persistedstate/) para que el plan semanal no se pierda al recargar la página
+  - o usar el [useLocalStorage de VueUse](https://vueuse.org/core/useLocalStorage/).
 - 🔍 **Filtrar o buscar platos** por nombre o por día en la vista principal o en la vista de platos favoritos o en las dos.
 - 🗓️ **Añadir filtro de categorías de comidas** (por ejemplo: "Desayuno", "Comida", "Cena") y permitir mostrar solo los platos de una categoría específica en la semana.
 - 📱 **Diseño responsive**, para que se vea bien en móviles.
 - 🧺 **Funcionalidades extra**:
   - Navegación adicional: "Plan semanal" / "Platos favoritos" / "Configuración" (opcional).
+- Integración con IA para extraer lista de la compra 
 
 ---
 

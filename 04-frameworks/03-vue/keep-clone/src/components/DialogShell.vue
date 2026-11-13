@@ -6,24 +6,25 @@ defineProps<{
   transitionName?: string
 }>()
 
-const emit = defineEmits<{ close: [] }>()
-const dialogRef = useTemplateRef<HTMLDialogElement>('dialogRef')
+const emit = defineEmits(['close'])
+
+const dialog = useTemplateRef('dialogRef')
 
 function requestClose() {
   emit('close')
 }
 
 function close() {
-  dialogRef.value?.close()
+  dialog.value?.close()
 }
 
 onMounted(() => {
-  dialogRef.value?.show()
+  dialog.value?.show()
   document.getElementById('app')?.setAttribute('inert', '')
 })
 
 onBeforeUnmount(() => {
-  dialogRef.value?.close()
+  close()
   document.getElementById('app')?.removeAttribute('inert')
 })
 
@@ -40,9 +41,7 @@ defineExpose({ close })
       :style="transitionName ? { viewTransitionName: transitionName } : undefined"
       @keydown.esc="requestClose"
     >
-      <slot name="header" :close="requestClose" />
-      <slot :close="requestClose" />
-      <slot name="footer" :close="requestClose" />
+      <slot></slot>
     </dialog>
   </Teleport>
 </template>

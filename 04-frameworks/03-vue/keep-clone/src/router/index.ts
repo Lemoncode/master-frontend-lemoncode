@@ -6,12 +6,12 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: HomeView,
       children: [
         {
-          path: 'lists/:id',
-          name: 'list',
+          path: '/lists/:listId',
+          name: 'Dialog',
           component: () => import('@/views/ListDialog.vue'),
           props: true,
         },

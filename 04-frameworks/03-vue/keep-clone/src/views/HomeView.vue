@@ -1,20 +1,22 @@
 <script setup lang="ts">
-import { computed, nextTick } from 'vue'
-import { RouterView, useRoute, useRouter } from 'vue-router'
+import { computed } from 'vue'
+import { useRoute, useRouter, RouterView, RouterLink } from 'vue-router'
+
 import AppHeader from '@/components/AppHeader.vue'
 import ListCard from '@/components/ListCard.vue'
-import { useLists } from '@/composables/useLists'
+import { useListStore } from '@/stores/useLists'
 import { useViewTransition } from '@/composables/useViewTransition'
 import type { ListItem } from '@/types'
 
-const router = useRouter()
+const { lists, items, createList } = useListStore()
+
 const route = useRoute()
-const { lists, items, createList } = useLists()
+const router = useRouter()
 
 const itemsByList = computed(() => {
   const map = new Map<string, ListItem[]>()
 
-  for (const item of items.value) {
+  for (const item of items) {
     const listItems = map.get(item.listId) ?? []
     listItems.push(item)
     map.set(item.listId, listItems)
@@ -28,14 +30,12 @@ async function handleCreate() {
 
   await useViewTransition(async () => {
     await router.push(`/lists/${list.id}`)
-    await nextTick()
   })
 }
 
 async function handleOpen(id: string) {
   await useViewTransition(async () => {
     await router.push(`/lists/${id}`)
-    await nextTick()
   })
 }
 </script>
@@ -61,13 +61,18 @@ async function handleOpen(id: string) {
       </div>
 
       <div v-else class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <button v-for="list in lists" :key="list.id" type="button" @click="handleOpen(list.id)">
+        <RouterLink
+          v-for="list in lists"
+          :key="list.id"
+          :to="`/lists/${list.id}`"
+          @click.prevent="handleOpen(list.id)"
+        >
           <ListCard
             :list="list"
             :items="itemsByList.get(list.id) ?? []"
-            :active="route.name === 'list' && route.params.id === list.id"
+            :active="route.name === 'Dialog' && route.params.listId === list.id"
           />
-        </button>
+        </RouterLink>
       </div>
     </main>
 

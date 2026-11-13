@@ -1,8 +1,9 @@
 import type { List, ListItem } from '@/types'
 import { defineStore } from 'pinia'
-import { useLocalStorage } from '@vueuse/core'
 
-export const useListsStore = defineStore('lists', () => {
+import { useLocalStorage } from '../composables/useLocalStorage'
+
+export const useListStore = defineStore('lists', () => {
   const lists = useLocalStorage<List[]>('keep-clone:lists', [])
   const items = useLocalStorage<ListItem[]>('keep-clone:items', [])
 
@@ -15,6 +16,7 @@ export const useListsStore = defineStore('lists', () => {
     }
 
     lists.value.push(list)
+
     return list
   }
 
@@ -29,7 +31,9 @@ export const useListsStore = defineStore('lists', () => {
   }
 
   function listById(id: string) {
-    return lists.value.find((list) => list.id === id)
+    const list = lists.value.find((list) => list.id === id)
+
+    return list
   }
 
   function itemsForList(listId: string) {

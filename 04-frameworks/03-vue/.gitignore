@@ -9,3 +9,7 @@ package-lock.json
 *.notes.md
 !.vscode
 .nuxt
+
+
+# harness
+.opencode

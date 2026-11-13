@@ -20,7 +20,7 @@ La interfaz de usuario debe tener los siguientes elementos:
 - Un formulario que permita añadir un plato, indicando:
   1. El nombre del plato (campo de texto).
   2. El día de la semana (`select` o menú desplegable).
-  3. Comida o cena (input tipo `radio` o selector o menú desplegable).
+  3. Desayuno, comida o cena (input tipo `radio` o `select` o menú desplegable).
   4. Un botón **"Agregar"** que añada el plato al plan semanal.
 - El formulario puede estar en un modal o en la parte superior de la página principal.
 - En la vista principal se muestren los días de 1 semana con los platos que vamos añadiendo.

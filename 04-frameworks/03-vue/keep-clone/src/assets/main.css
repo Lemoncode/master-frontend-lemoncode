@@ -32,14 +32,7 @@
     outline-offset: 2px;
   }
 
-  dialog:modal {
-    overscroll-behavior: contain;
-  }
-
-  dialog::backdrop {
-    background-color: rgb(0 0 0 / 0.6);
-    backdrop-filter: blur(2px);
-    overflow: hidden;
+  dialog {
     overscroll-behavior: contain;
   }
 }
